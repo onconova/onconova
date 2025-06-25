@@ -15,7 +15,7 @@ import { Divider } from 'primeng/divider';
 import { Users, CalendarClock, ClipboardCheck, Activity, VenusAndMars, Locate } from 'lucide-angular';
 import { LucideAngularModule } from 'lucide-angular';
 
-import { CohortsService, Cohort, CohortCreate, CohortTraitCounts, ProjectsService } from 'pop-api-client';
+import { CohortsService, Cohort, CohortCreate, CohortTraitCounts, ProjectsService, AccessRoles, GetCohortTraitMedianRequestParams } from 'pop-api-client';
 
 import { CohortQueryBuilderComponent } from './components/cohort-query-builder/cohort-query-builder.component';
 import { catchError, map, of, throwError } from 'rxjs';
@@ -128,11 +128,12 @@ export class CohortBuilderComponent {
         loader: ({request}) => this.#cohortsService.getCohortCases(request).pipe(map(response=>response.items))
     })    
 
-    public userCanEdit = computed<boolean>( () => (
-        this.cohort.value()?.isPublic || (!this.cohort.value()?.isPublic && this.cohort.value()?.createdBy == this.user().username)
-        ) && this.user().canManageCohorts 
+    public readonly currentUser = computed(() => this.#authService.user());
+    public userCanEdit = computed(() => 
+        this.project.value()?.status == 'ongoing' && (
+            (this.project.value()?.leader == this.currentUser().username || this.project.value()?.members?.includes(this.currentUser().username)) 
+        )|| [AccessRoles.PlatformManager, AccessRoles.SystemAdministrator].includes(this.currentUser().role)
     )
-
 
     #setCohortDataEffect = effect( () => {
         const cohort = this.cohort.value();
@@ -148,28 +149,28 @@ export class CohortBuilderComponent {
     })
 
     public ageStats = rxResource({
-        request: () => ({cohortId: this.currentCohortId(), trait: 'age'}),
-        loader: ({request}) =>  this.#cohortsService.getCohortTraitMedian(request)
+        request: () => this.cohortNonEmpty() ? {cohortId: this.currentCohortId(), trait: 'age'} : undefined,
+        loader: ({request}: any) =>  this.#cohortsService.getCohortTraitMedian(request)
     }) 
     public topographyStats = rxResource({
-        request: () => ({cohortId: this.currentCohortId(), trait: 'neoplasticEntities.topographyGroup.display'}),
-        loader: ({request}) =>  this.#cohortsService.getCohortTraitCounts(request).pipe(map(
+        request: () => this.cohortNonEmpty() ? {cohortId: this.currentCohortId(), trait: 'neoplasticEntities.topographyGroup.display'} : undefined,
+        loader: ({request}: any) =>  this.cohortNonEmpty() ? this.#cohortsService.getCohortTraitCounts(request).pipe(map(
             (response: CohortTraitCounts[]) => response.sort((a,b) => b.counts - a.counts)[0] 
-        ))
+        )) : of(null)
     }) 
     public genderStats = rxResource({
-        request: () => ({cohortId: this.currentCohortId(), trait: 'gender.display'}),
-        loader: ({request}) =>  this.#cohortsService.getCohortTraitCounts(request).pipe(map(
+        request: () => this.cohortNonEmpty() ? {cohortId: this.currentCohortId(), trait: 'gender.display'} : undefined,
+        loader: ({request}: any) =>  this.cohortNonEmpty() ? this.#cohortsService.getCohortTraitCounts(request).pipe(map(
             (response: CohortTraitCounts[]) => response.sort((a,b) => b.counts - a.counts)[0] 
-        ))
+        )) : of(null)
     }) 
     public overallSurvivalStats = rxResource({
-        request: () => ({cohortId: this.currentCohortId(), trait: 'overallSurvival'}),
-        loader: ({request}) =>  this.#cohortsService.getCohortTraitMedian(request)
+        request: () => this.cohortNonEmpty() ? {cohortId: this.currentCohortId(), trait: 'overallSurvival'} : undefined,
+        loader: ({request}: any) =>  this.cohortNonEmpty() ? this.#cohortsService.getCohortTraitMedian(request) : of(null)
     }) 
     public dataCompletionStats = rxResource({
-        request: () => ({cohortId: this.currentCohortId(), trait: 'dataCompletionRate'}),
-        loader: ({request}) =>  this.#cohortsService.getCohortTraitMedian(request)
+        request: () => this.cohortNonEmpty() ? {cohortId: this.currentCohortId(), trait: 'dataCompletionRate'} : undefined,
+        loader: ({request}: any) =>  this.cohortNonEmpty() ? this.#cohortsService.getCohortTraitMedian(request) : of(null)
     }) 
 
     public cohortPayload = signal<CohortCreate | null>(null)
@@ -200,7 +201,6 @@ export class CohortBuilderComponent {
         try {
             this.cohortControl.setValue({
                 name: old?.name,
-                isPublic: old?.isPublic,
                 includeCriteria: old?.includeCriteria || null,
                 excludeCriteria: old?.excludeCriteria || null
             })

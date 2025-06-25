@@ -76,6 +76,15 @@ SECURE_HSTS_PRELOAD = True
 # Ensure that all subdomains, not just top-level domains, can only be accessed over a secure connection
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 
+# API pagination and throttling settings
+NINJA_PAGINATION_PER_PAGE = 10
+NINJA_PAGINATION_MAX_LIMIT = 50
+NINJA_DEFAULT_THROTTLE_RATES = {
+    "auth": "10000/day",
+    "user": "10000/day",
+    "anon": "1000/day",
+}
+
 
 # ---------------------------------------------------------------
 # INSTALLATIONS
@@ -125,6 +134,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "allauth.usersessions.middleware.UserSessionsMiddleware",
     "pop.core.history.middleware.HistoryMiddleware",
+    "pop.core.history.middleware.APILoggingMiddleware",
 ]
 
 # ---------------------------------------------------------------
@@ -270,7 +280,7 @@ LOGGING = {
     "disable_existing_loggers": False,
     "formatters": {
         "simple": {
-            "format": '[%(levelname)s %(asctime)s]: "%(message)s"',
+            "format": "[%(levelname)s %(asctime)s] %(message)s",
             "datefmt": "%d/%b/%Y %H:%M:%S",
         },
     },
@@ -297,8 +307,13 @@ LOGGING = {
         },
     },
     "loggers": {
-        "django": {
+        "api": {
             "handlers": ["console", "file"],
+            "level": "INFO",
+            "propagate": True,
+        },
+        "django": {
+            "handlers": ["console"],
             "level": "INFO",
             "propagate": True,
         },

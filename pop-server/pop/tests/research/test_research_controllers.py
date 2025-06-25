@@ -9,15 +9,77 @@ from collections import Counter
 
 
 class TestCohortController(ApiControllerTextMixin, TestCase):
-    controller_path = "/api/cohorts"
+    controller_path = "/api/v1/cohorts"
     FACTORY = factories.CohortFactory
     MODEL = models.Cohort
     SCHEMA = schemas.CohortSchema
     CREATE_SCHEMA = schemas.CohortCreateSchema
 
+    @parameterized.expand(
+        [
+            ("member", True, 1, 201),
+            ("non-member member", False, 1, 403),
+            ("member leader", True, 2, 201),
+            ("non-member leader", False, 2, 403),
+            ("member platform manager ", True, 3, 201),
+            ("non-member platform manager", False, 3, 201),
+        ]
+    )
+    def test_project_cohort_create_permissions(
+        self, scenario, is_member, access_level, expected_response
+    ):
+        project = factories.ProjectFactory.create()
+        cohort = factories.CohortFactory(project=project)
+        if is_member:
+            if access_level == 1:
+                project.members.add(self.user)
+            elif access_level == 2:
+                project.leader = self.user
+            project.save()
+        self.call_api_endpoint(
+            "POST",
+            f"",
+            data=schemas.CohortCreateSchema.model_validate(cohort).model_dump(),
+            authenticated=True,
+            expected_responses=(expected_response,),
+            use_https=True,
+            access_level=access_level,
+        )
+
+    @parameterized.expand(
+        [
+            ("member", True, 1, 200),
+            ("non-member member", False, 1, 403),
+            ("member leader", True, 2, 200),
+            ("non-member leader", False, 2, 403),
+            ("member platform manager ", True, 3, 200),
+            ("non-member platform manager", False, 3, 200),
+        ]
+    )
+    def test_project_cohort_update_permissions(
+        self, scenario, is_member, access_level, expected_response
+    ):
+        project = factories.ProjectFactory.create()
+        cohort = factories.CohortFactory(project=project)
+        if is_member:
+            if access_level == 1:
+                project.members.add(self.user)
+            elif access_level == 2:
+                project.leader = self.user
+            project.save()
+        self.call_api_endpoint(
+            "PUT",
+            f"/{cohort.id}",
+            data=schemas.CohortCreateSchema.model_validate(cohort).model_dump(),
+            authenticated=True,
+            expected_responses=(expected_response,),
+            use_https=True,
+            access_level=access_level,
+        )
+
 
 class TestCohortTraitsController(common.ApiControllerTestMixin, TestCase):
-    controller_path = "/api/cohorts"
+    controller_path = "/api/v1/cohorts"
 
     @classmethod
     def setUpTestData(cls):
@@ -90,23 +152,115 @@ class TestCohortTraitsController(common.ApiControllerTestMixin, TestCase):
 
 
 class TestDatasetController(ApiControllerTextMixin, TestCase):
-    controller_path = "/api/datasets"
+    controller_path = "/api/v1/datasets"
     FACTORY = factories.DatasetFactory
     MODEL = models.Dataset
     SCHEMA = schemas.Dataset
     CREATE_SCHEMA = schemas.DatasetCreate
 
+    @parameterized.expand(
+        [
+            ("member", True, 1, 201),
+            ("non-member member", False, 1, 403),
+            ("member leader", True, 2, 201),
+            ("non-member leader", False, 2, 403),
+            ("member platform manager ", True, 3, 201),
+            ("non-member platform manager", False, 3, 201),
+        ]
+    )
+    def test_project_dataset_create_permissions(
+        self, scenario, is_member, access_level, expected_response
+    ):
+        project = factories.ProjectFactory.create()
+        dataset = factories.DatasetFactory(project=project)
+        if is_member:
+            if access_level == 1:
+                project.members.add(self.user)
+            elif access_level == 2:
+                project.leader = self.user
+            project.save()
+        self.call_api_endpoint(
+            "POST",
+            f"",
+            data=schemas.DatasetCreate.model_validate(dataset).model_dump(),
+            authenticated=True,
+            expected_responses=(expected_response,),
+            use_https=True,
+            access_level=access_level,
+        )
+
+    @parameterized.expand(
+        [
+            ("member", True, 1, 200),
+            ("non-member member", False, 1, 403),
+            ("member leader", True, 2, 200),
+            ("non-member leader", False, 2, 403),
+            ("member platform manager ", True, 3, 200),
+            ("non-member platform manager", False, 3, 200),
+        ]
+    )
+    def test_project_dataset_update_permissions(
+        self, scenario, is_member, access_level, expected_response
+    ):
+        project = factories.ProjectFactory.create()
+        dataset = factories.DatasetFactory(project=project)
+        if is_member:
+            if access_level == 1:
+                project.members.add(self.user)
+            elif access_level == 2:
+                project.leader = self.user
+            project.save()
+        self.call_api_endpoint(
+            "PUT",
+            f"/{dataset.id}",
+            data=schemas.DatasetCreate.model_validate(dataset).model_dump(),
+            authenticated=True,
+            expected_responses=(expected_response,),
+            use_https=True,
+            access_level=access_level,
+        )
+
 
 class TestProjectController(ApiControllerTextMixin, TestCase):
-    controller_path = "/api/projects"
+    controller_path = "/api/v1/projects"
     FACTORY = factories.ProjectFactory
     MODEL = models.Project
     SCHEMA = schemas.ProjectSchema
     CREATE_SCHEMA = schemas.ProjectCreateSchema
 
+    @parameterized.expand(
+        [
+            ("member", True, 1, 403),
+            ("non-member member", False, 1, 403),
+            ("member leader", True, 2, 200),
+            ("non-member leader", False, 2, 403),
+            ("member platform manager ", True, 3, 200),
+            ("non-member platform manager", False, 3, 200),
+        ]
+    )
+    def test_project_management_permissions(
+        self, scenario, is_member, access_level, expected_response
+    ):
+        project = factories.ProjectFactory.create()
+        if is_member:
+            if access_level == 1:
+                project.members.add(self.user)
+            elif access_level == 2:
+                project.leader = self.user
+            project.save()
+        self.call_api_endpoint(
+            "PUT",
+            f"/{project.id}",
+            data=schemas.ProjectCreateSchema.model_validate(project).model_dump(),
+            authenticated=True,
+            expected_responses=(expected_response,),
+            use_https=True,
+            access_level=access_level,
+        )
+
 
 class TestProjectDataManagerController(ApiControllerTextMixin, TestCase):
-    controller_path = "/api/projects"
+    controller_path = "/api/v1/projects"
     FACTORY = factories.ProjectDataManagerGrantFactory
     MODEL = models.ProjectDataManagerGrant
     SCHEMA = schemas.ProjectDataManagerGrantSchema
@@ -145,3 +299,70 @@ class TestProjectDataManagerController(ApiControllerTextMixin, TestCase):
                     instance = self.MODEL[i].objects.filter(id=instance.id).first()
                     self.assertIsNotNone(instance)
                     self.assertTrue(instance.revoked)
+
+    @parameterized.expand(
+        [
+            ("member", True, 1, 403),
+            ("non-member member", False, 1, 403),
+            ("member leader", True, 2, 201),
+            ("non-member leader", False, 2, 403),
+            ("member platform manager ", True, 3, 201),
+            ("non-member platform manager", False, 3, 201),
+        ]
+    )
+    def test_project_data_management_grant_permissions(
+        self, scenario, is_member, access_level, expected_response
+    ):
+        project = factories.ProjectFactory.create()
+        grant = factories.ProjectDataManagerGrantFactory(
+            project=project, member=self.user
+        )
+        if is_member:
+            if access_level == 1:
+                project.members.add(self.user)
+            elif access_level == 2:
+                project.leader = self.user
+            project.save()
+        self.call_api_endpoint(
+            "POST",
+            f"/{project.id}/members/{self.user.id}/data-management/grants",
+            data=schemas.ProjectDataManagerGrantCreateSchema.model_validate(
+                grant
+            ).model_dump(),
+            authenticated=True,
+            expected_responses=(expected_response,),
+            use_https=True,
+            access_level=access_level,
+        )
+
+    @parameterized.expand(
+        [
+            ("member", True, 1, 403),
+            ("non-member member", False, 1, 403),
+            ("member leader", True, 2, 201),
+            ("non-member leader", False, 2, 403),
+            ("member platform manager ", True, 3, 201),
+            ("non-member platform manager", False, 3, 201),
+        ]
+    )
+    def test_project_data_management_revoke_permissions(
+        self, scenario, is_member, access_level, expected_response
+    ):
+        project = factories.ProjectFactory.create()
+        grant = factories.ProjectDataManagerGrantFactory(
+            project=project, member=self.user
+        )
+        if is_member:
+            if access_level == 1:
+                project.members.add(self.user)
+            elif access_level == 2:
+                project.leader = self.user
+            project.save()
+        self.call_api_endpoint(
+            "DELETE",
+            f"/{project.id}/members/{self.user.id}/data-management/grants/{grant.id}",
+            authenticated=True,
+            expected_responses=(expected_response,),
+            use_https=True,
+            access_level=access_level,
+        )

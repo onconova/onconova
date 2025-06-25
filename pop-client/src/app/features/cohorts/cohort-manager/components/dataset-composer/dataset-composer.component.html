@@ -1,51 +1,72 @@
 <p-card styleClass="h-[65rem]">
     <div class="flex mb-3">
-        <p-toolbar styleClass="my-auto mr-3">
-            <ng-template #start>
-                @let userDatasets = userDatasets$ | async;
-                @if (userDatasets) {
-                    <p-autocomplete 
-                        [(ngModel)]="selectedDataset" 
-                        [dropdown]="true" 
-                        [suggestions]="userDatasetOptions" 
-                        placeholder="Enter new or existing dataset name"
-                        class="mr-2" 
-                        optionLabel="name"
-                        (completeMethod)="searchUserDatasets($event)"/>
-                }
-                <p-button icon="pi pi-eraser" label='Clear' 
-                    (onClick)="this.selectedRules.set([])"
-                    class="mr-2" severity="secondary"/>
-                <p-button icon="pi pi-sync" label="Load" 
-                    (onClick)="loadUserDataset()"
-                    [disabled]="!selectedDataset || (selectedDataset && selectedDataset | isString)"
-                    class="mr-2" severity="secondary"/>
-                <p-button icon="pi pi-trash" label='Delete'
-                    (onClick)="deleteUserDataset()" 
-                    [disabled]="!selectedDataset || (selectedDataset && selectedDataset | isString)"
-                    class="mr-2" severity="secondary"/>
-                <p-button icon="pi pi-cloud-upload" [label]="(selectedDataset | isString) ? 'Save new dataset' : 'Update existing dataset' "  
-                    (onClick)="createUserDataset()"
-                    [disabled]="!selectedDataset || !datasetRules"
-                    class="mr-2" severity="secondary"/>
-            </ng-template>
-            <ng-template #end>
-            </ng-template>
-        </p-toolbar>
-        <p-menu #downloadMenu [model]="downloadMenuItems" [popup]="true" />
-        <p-button 
-            [icon]="user().canExportData ? 'pi pi-download' : 'pi pi-lock'" 
-            label="Download Dataset" 
-            class="my-auto ml-auto"
-            (onClick)="downloadMenu.toggle($event)"
-            [disabled]="!user().canExportData"/>
+        <p-fieldset legend="Dataset Defintion" styleClass="my-auto mr-3 pb-0" class="w-full">
+            <div class="flex">
+                <div class="flex flex-column mr-3 gap-3">
+                    <div class="flex gap-2">
+                        <p-button icon="pi pi-sync" label="Load Dataset" severity="secondary" (onClick)="datasetSelect.toggle($event);"/>
+                        <p-popover #datasetSelect>
+                            <div class="flex flex-col gap-4">
+                                <div>
+                                    <span class="font-medium block mb-2">Project Datasets</span>
+                                    <p-autocomplete 
+                                        [(ngModel)]="selectedDataset"
+                                        [dropdown]="true" 
+                                        [suggestions]="projectDatasets.value() || []" 
+                                        [forceSelection]="true"
+                                        [completeOnFocus]="true"
+                                        placeholder="Search or select a dataset"
+                                        optionLabel="name"
+                                        (completeMethod)="datasetTitleQuery.set($event.query); projectDatasets.reload()"/>
+                                </div>
+                            </div>
+                        </p-popover>
+
+                        <p-button icon="pi pi-eraser" label="Reset" severity="secondary" (onClick)="resetDataset()"/>
+                    </div>
+                    <p-button 
+                        icon="pi pi-cloud-upload" 
+                        [label]="dataset.value()?.id ? 'Update dataset' : 'Create dataset'" 
+                        [disabled]="form.invalid 
+                            || !datasetChanged()
+                            || dataset.isLoading() 
+                            || processing()" 
+                        styleClass="w-full" 
+                        (onClick)="submitDataset()"/>
+                </div>
+                <form [formGroup]="form">
+                    <div class="field">
+                        <label class="form-label required mr-3">Title</label>
+                        <input type="text" pInputText formControlName="title" />
+                    </div>
+                    <div class="field">
+                            <label class="form-label required mr-3">Description</label>
+                            <input type="text" pInputText class="flex-grow w-30rem" formControlName="summary" />
+                    </div>
+                </form>
+                <div class="ml-auto my-auto">
+                    <p-menu #downloadMenu [model]="downloadMenuItems" [popup]="true" />
+                    <p-button 
+                        [icon]="currentUser().canExportData ? 'pi pi-download' : 'pi pi-lock'" 
+                        label="Download Dataset" 
+                        class="h-4rem flex mb-3"
+                        (onClick)="downloadMenu.toggle($event)"
+                        [disabled]="form.invalid 
+                            || dataset.isLoading() 
+                            || !dataset.value()?.id
+                            || processing() 
+                            || !currentUser().canExportData 
+                            || datasetChanged()"/>
+                </div>
+            </div>
+        </p-fieldset>
     </div>
     <div class="flex gap-4">
 
         <div>
             <div class="flex-auto md:flex md:justify-start md:items-center flex-col">
                 <p-tree 
-                    [value]="resourceItems" 
+                    [value]="datasetTreeItems" 
                     selectionMode="checkbox" 
                     [(selection)]="selectedRules"
                     styleClass="pop-data-selector-tree md:w-[30rem]"
@@ -73,17 +94,17 @@
                 </p-tree>
             </div>
         </div>
-        @if (dataset) {
+        @if (datasetData) {
             <div class="pop-dataset-table">        
                 <p-table 
-                    [value]="dataset.hasValue() ? dataset.value() : [1,2,3,4,5,6,7,8,9,10]" 
+                    [value]="datasetData.hasValue() ? datasetData.value() : emptyDatasetPlaceholder" 
                     [scrollable]="true"
                     [paginator]="true" 
                     [showCurrentPageReport]="true"
                     lazy="true"
                     [rows]="pagination().limit" 
                     [rowsPerPageOptions]="pageSizeChoices"
-                    [totalRecords]="datasetSize()"
+                    [totalRecords]="datasetDataSize()"
                     (onLazyLoad)="(pagination().limit !== $event.rows || pagination().offset !== $event.first) ? pagination.set({limit: $event.rows!, offset: $event.first!}) : ''"
                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                     scrollHeight="flex"
@@ -91,10 +112,10 @@
 
                     <ng-template pTemplate="header">
                         <tr>                   
-                            @if (dataset.isLoading()) {
+                            @if (datasetData.isLoading()) {
                             <th><p-skeleton height="4rem" width="100%"/></th>
                             } @else {
-                                @for (col of datasetColumns(); track $index; let first = $first) {
+                                @for (col of datasetDataColumns(); track $index; let first = $first) {
                                     <th pFrozenColumn [frozen]="first">{{ col | camelCaseToTitleCase }}</th>
                                 }
                             }
@@ -103,12 +124,12 @@
                 
                     <ng-template pTemplate="body" let-rowData>
                         <tr @fadeAnimation> 
-                            @if (dataset.isLoading()) {
+                            @if (datasetData.isLoading()) {
                                 <td>
                                     <p-skeleton height="4rem" width="100%"/>
                                 </td>
                             } @else {
-                                @for (col of datasetColumns(); track $index; let first = $first) {
+                                @for (col of datasetDataColumns(); track $index; let first = $first) {
                                     <td pFrozenColumn [frozen]="first">
                                         @if (isNested(rowData[col])) {
                                             <!-- Check if the value is an object/array (nested structure) -->

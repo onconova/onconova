@@ -115,7 +115,7 @@ class UserFactory(factory.django.DjangoModelFactory):
     )
     password = factory.LazyFunction(lambda: make_password(faker.password()))
     email = factory.LazyAttribute(lambda obj: "%s@outlook.com" % obj.username)
-    access_level = factory.LazyFunction(lambda: random.randint(1, 5))
+    access_level = factory.LazyFunction(lambda: random.randint(0, 3))
 
 
 class PatientCaseFactory(factory.django.DjangoModelFactory):
@@ -696,22 +696,6 @@ class VitalsFactory(factory.django.DjangoModelFactory):
     )
 
 
-class CohortFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = cohorts_models.Cohort
-
-    name = factory.LazyFunction(lambda: f"Cohort #{random.randint(1111,9999)}")
-    is_public = factory.LazyFunction(lambda: random.random() > 0.5)
-
-
-class DatasetFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = cohorts_models.Dataset
-
-    name = factory.LazyFunction(lambda: f"Dataset #{random.randint(1111,9999)}")
-    is_public = factory.LazyFunction(lambda: random.random() > 0.5)
-
-
 class ProjectFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = projects_models.Project
@@ -720,7 +704,7 @@ class ProjectFactory(factory.django.DjangoModelFactory):
         lambda: f"Project #{random.randint(1111,9999)} - {faker.company()}"
     )
     summary = factory.LazyFunction(lambda: faker.text())
-    leader = factory.SubFactory(UserFactory, access_level=5)
+    leader = factory.SubFactory(UserFactory, access_level=2)
     members = factory.post_generation(
         add_m2m_related("members", UserFactory, min=2, max=5, get_related_case=None)
     )
@@ -731,6 +715,22 @@ class ProjectFactory(factory.django.DjangoModelFactory):
     ethics_approval_number = factory.LazyFunction(
         lambda: f"Req-{random.randint(1111,9999)}-{random.randint(1111,9999)}"
     )
+
+
+class CohortFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = cohorts_models.Cohort
+
+    name = factory.LazyFunction(lambda: f"Cohort #{random.randint(1111,9999)}")
+    project = factory.SubFactory(ProjectFactory)
+
+
+class DatasetFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = cohorts_models.Dataset
+
+    name = factory.LazyFunction(lambda: f"Dataset #{random.randint(1111,9999)}")
+    project = factory.SubFactory(ProjectFactory)
 
 
 class ProjectDataManagerGrantFactory(factory.django.DjangoModelFactory):

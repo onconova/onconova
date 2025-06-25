@@ -115,8 +115,8 @@ class PatientCaseModelTest(TestCase):
         self.assertIn("user1", case.contributors)
         self.assertIn("user2", case.contributors)
 
-        self.assertEqual(PatientCase.objects.get(contributors="user1"), case)
-        self.assertEqual(PatientCase.objects.get(contributors="user2"), case)
+        self.assertEqual(PatientCase.objects.get(contributors__overlap=["user1"]), case)
+        self.assertEqual(PatientCase.objects.get(contributors__overlap=["user2"]), case)
 
     def test_contributors_on_update(self):
 
@@ -146,9 +146,9 @@ class PatientCaseModelTest(TestCase):
         self.assertIn("user2", case.contributors)
         self.assertIn("user3", case.contributors)
 
-        self.assertEqual(PatientCase.objects.get(contributors="user1"), case)
-        self.assertEqual(PatientCase.objects.get(contributors="user2"), case)
-        self.assertEqual(PatientCase.objects.get(contributors="user3"), case)
+        self.assertEqual(PatientCase.objects.get(contributors__overlap=["user1"]), case)
+        self.assertEqual(PatientCase.objects.get(contributors__overlap=["user2"]), case)
+        self.assertEqual(PatientCase.objects.get(contributors__overlap=["user3"]), case)
 
 
 class NeoplasticEntityModelTest(TestCase):

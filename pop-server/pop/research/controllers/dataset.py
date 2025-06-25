@@ -3,8 +3,8 @@ from django.shortcuts import get_object_or_404
 
 
 from ninja import Query
+from ninja.errors import HttpError
 from ninja_extra import route, api_controller
-from ninja_jwt.authentication import JWTAuth
 from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
@@ -14,6 +14,7 @@ from pop.core.schemas import ModifiedResource as ModifiedResourceSchema, Paginat
 from pop.core.history.schemas import HistoryEvent
 
 from pop.research.models.dataset import Dataset
+from pop.research.models.project import Project
 from pop.research.schemas.dataset import (
     Dataset as DatasetSchema,
     DatasetCreate as DatasetCreateSchema,
@@ -50,6 +51,13 @@ class DatasetsController(ControllerBase):
         operation_id="createDataset",
     )
     def create_dataset(self, payload: DatasetCreateSchema):  # type: ignore
+        # Check that requesting user is a member of the project
+        project = get_object_or_404(Project, id=payload.projectId)
+        if (
+            not project.is_member(self.context.request.user)
+            and self.context.request.user.access_level < 3
+        ):
+            raise HttpError(403, "User is not a member of the project")
         return 201, payload.model_dump_django()
 
     @route.get(
@@ -74,7 +82,7 @@ class DatasetsController(ControllerBase):
             401: None,
             403: None,
         },
-        permissions=[perms.CanManageDatasets],
+        permissions=[perms.CanDeleteDatasets],
         operation_id="deleteDatasetById",
     )
     def delete_dataset(self, datasetId: str):
@@ -94,7 +102,7 @@ class DatasetsController(ControllerBase):
     )
     def update_dataset(self, datasetId: str, payload: DatasetCreateSchema):  # type: ignore
         return payload.model_dump_django(
-            instance=get_object_or_404(Dataset, id=datasetId)
+            instance=self.get_object_or_exception(Dataset, id=datasetId)
         )
 
     @route.get(

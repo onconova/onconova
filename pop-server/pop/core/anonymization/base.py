@@ -215,7 +215,10 @@ class AnonymizationMixin:
         cls, model_class: Type[BaseModel], config: Optional[AnonymizationConfig] = None
     ):
         if config:
-            model_class.__anonymization_fields__ = tuple(config.fields)
+            model_class.__anonymization_fields__ = (
+                *config.fields,
+                *config.functions.keys(),
+            )
             model_class.__anonymization_key__ = config.key
             model_class.__anonymization_functions__ = config.functions
 

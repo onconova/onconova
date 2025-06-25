@@ -3,7 +3,6 @@ import dataclasses
 from typing import List
 
 from ninja import Query
-from ninja_jwt.authentication import JWTAuth
 from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 

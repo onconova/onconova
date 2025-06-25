@@ -9,7 +9,7 @@ from parameterized import parameterized
 
 
 class TestInteroperabilityController(common.ApiControllerTestMixin, TestCase):
-    controller_path = "/api/interoperability"
+    controller_path = "/api/v1/interoperability"
 
     @classmethod
     def setUpTestData(cls):
@@ -97,7 +97,7 @@ class TestInteroperabilityController(common.ApiControllerTestMixin, TestCase):
             expected_responses=[422],
             authenticated=True,
             use_https=True,
-            access_level=5,
+            access_level=4,
         )
         self.assertEqual(response.status_code, 422)
 
@@ -109,7 +109,7 @@ class TestInteroperabilityController(common.ApiControllerTestMixin, TestCase):
             expected_responses=[201],
             authenticated=True,
             use_https=True,
-            access_level=5,
+            access_level=4,
         )
         self.assertEqual(response.status_code, 201)
         new_case = PatientCase.objects.get(
@@ -129,7 +129,7 @@ class TestInteroperabilityController(common.ApiControllerTestMixin, TestCase):
             expected_responses=[201],
             authenticated=True,
             use_https=True,
-            access_level=5,
+            access_level=4,
         )
         self.assertEqual(response.status_code, 201)
         new_case = PatientCase.objects.get(clinical_identifier="123456789")
@@ -147,6 +147,6 @@ class TestInteroperabilityController(common.ApiControllerTestMixin, TestCase):
             expected_responses=[422],
             authenticated=True,
             use_https=True,
-            access_level=5,
+            access_level=4,
         )
         self.assertEqual(response.status_code, 422)

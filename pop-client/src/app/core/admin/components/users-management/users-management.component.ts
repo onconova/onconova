@@ -49,7 +49,7 @@ export class UsersManagementCompnent {
     })
 
     // Pagination and search settings
-    public readonly pageSizeChoices: number[] = [10, 20, 50, 100];
+    public readonly pageSizeChoices: number[] = [10, 20, 50];
     public pagination = signal({limit: this.pageSizeChoices[0], offset: 0});
     public totalUsers= signal(0);
     public currentOffset: number = 0;

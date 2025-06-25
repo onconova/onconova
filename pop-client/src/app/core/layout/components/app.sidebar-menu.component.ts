@@ -24,9 +24,9 @@ export class AppSidebarMenuComponent {
     readonly #basePath: string = inject(BASE_PATH);
     public el = inject(ElementRef);
 
-    #accessLevel = computed(() => this.#authService.user().accessLevel || 0); 
 
     private readonly currenUser = computed(() => this.#authService.user());
+    #accessLevel = computed(() => this.currenUser()?.accessLevel || 0); 
     public readonly navigationMenuItems = computed<MenuItem[]>(() => {
         let items: MenuItem[] = [
             {
@@ -51,7 +51,7 @@ export class AppSidebarMenuComponent {
                     { 
                         label: 'My Contributions', 
                         icon: 'pi pi-fw pi-bookmark', 
-                        routerLink: ['/cases/search/', this.currenUser().username],
+                        routerLink: ['/cases/search/', this.currenUser()?.username],
                         disabled: this.#accessLevel() == 0,
                     },
                     { 
@@ -75,7 +75,7 @@ export class AppSidebarMenuComponent {
                         label: 'My Projects', 
                         icon: 'pi pi-fw pi-bookmark', 
                         routerLink: ['/projects/search'],
-                        queryParams: { member: this.currenUser().username },
+                        queryParams: { member: this.currenUser()?.username },
                         disabled: this.#accessLevel() == 0,
                     },
                     { 
@@ -87,7 +87,7 @@ export class AppSidebarMenuComponent {
                     { 
                         label: 'My Cohorts', 
                         icon: 'pi pi-fw pi-bookmark', 
-                        routerLink: ['/cohorts/search/', this.currenUser().username],
+                        routerLink: ['/cohorts/search/', this.currenUser()?.username],
                         disabled: this.#accessLevel() == 0,
                     },
                 ]
@@ -98,18 +98,17 @@ export class AppSidebarMenuComponent {
                     { 
                         label: 'User manual', 
                         icon: 'pi pi-fw pi-book', 
-                        url: `/notfound`,
-                        disabled: true
+                        url: `${this.#basePath}/docs/`,
                     },
                     { 
                         label: 'API Specification', 
                         icon: 'pi pi-fw pi-book', 
-                        url: `${this.#basePath}/api/docs#/`,
+                        url: `${this.#basePath}/api/v1/docs#/`,
                     },
                 ]
             }
         ];
-        if (this.currenUser().accessLevel && (this.currenUser().accessLevel || 0)>=5) {
+        if (this.#accessLevel() && this.#accessLevel()>=3) {
             items = [...items, 
                 {
                     label: 'Administration',

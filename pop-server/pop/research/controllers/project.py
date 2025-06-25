@@ -1,7 +1,6 @@
 import pghistory
 from ninja import Query
 from ninja.schema import Schema, Field
-from ninja_jwt.authentication import JWTAuth
 from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
@@ -82,7 +81,7 @@ class ProjectController(ControllerBase):
         operation_id="updateProjectById",
     )
     def update_project(self, projectId: str, payload: ProjectCreateSchema):  # type: ignore
-        instance = get_object_or_404(Project, id=projectId)
+        instance = self.get_object_or_exception(Project, id=projectId)
         return payload.model_dump_django(instance=instance)
 
     @route.delete(
@@ -145,7 +144,7 @@ class ProjectController(ControllerBase):
         operation_id="revertProjectToHistoryEvent",
     )
     def revert_project_to_history_event(self, projectId: str, eventId: str):
-        instance = get_object_or_404(Project, id=projectId)
+        instance = self.get_object_or_exception(Project, id=projectId)
         return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()
 
     @route.get(
@@ -174,7 +173,7 @@ class ProjectController(ControllerBase):
         operation_id="createProjectDataManagerGrant",
     )
     def create_project_data_manager_grant(self, projectId: str, memberId: str, payload: ProjectDataManagerGrantCreateSchema):  # type: ignore
-        project = get_object_or_404(Project, id=projectId)
+        project = self.get_object_or_exception(Project, id=projectId)
         member = get_object_or_404(User, id=memberId)
         instance = ProjectDataManagerGrant(project=project, member=member)
         return 201, payload.model_dump_django(instance=instance)
@@ -214,10 +213,13 @@ class ProjectController(ControllerBase):
     def revoke_project_data_manager_grant(
         self, projectId: str, memberId: str, grantId: str
     ):
+        # Get project and check whether user can manage it
+        project = self.get_object_or_exception(Project, id=projectId)
+        # Get management grant instance
         instance = get_object_or_404(
             ProjectDataManagerGrant,
             id=grantId,
-            project_id=projectId,
+            project_id=project.id,
             member_id=memberId,
         )
         instance.revoked = True
@@ -285,10 +287,12 @@ class ProjectController(ControllerBase):
     def revert_project_data_management_grant_to_history_event(
         self, projectId: str, memberId: str, grantId: str, eventId: str
     ):
+        # Get project and check whether user can manage it
+        project = self.get_object_or_exception(Project, id=projectId)
         instance = get_object_or_404(
             ProjectDataManagerGrant,
             id=grantId,
-            project_id=projectId,
+            project_id=project.id,
             member_id=memberId,
         )
         return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()

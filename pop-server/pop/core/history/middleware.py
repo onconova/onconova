@@ -60,3 +60,41 @@ class HistoryMiddleware(pghistory.middleware.HistoryMiddleware):
                 return self.get_response(request)
         else:
             return self.get_response(request)
+
+
+import logging
+import traceback
+from datetime import datetime
+
+from django.utils.deprecation import MiddlewareMixin
+from django.http import JsonResponse
+
+logger = logging.getLogger("api")
+
+
+class APILoggingMiddleware(MiddlewareMixin):
+
+    def process_response(self, request, response):
+        username = (
+            getattr(request.user, "username", None)
+            if hasattr(request, "user") and request.user.is_authenticated
+            else None
+        )
+
+        logger.info(
+            f"{username} - {request.method} {request.path} {response.status_code}"
+        )
+        return response
+
+    def process_exception(self, request, exception):
+        timestamp = datetime.now().isoformat()
+        username = (
+            getattr(request.user, "username", None)
+            if hasattr(request, "user") and request.user.is_authenticated
+            else None
+        )
+        logger.exception(
+            f"{username} - {request.method} {request.path} 500"
+            f"| Exception: {str(exception)}"
+        )
+        return JsonResponse({"detail": "Internal Server Error"}, status=500)

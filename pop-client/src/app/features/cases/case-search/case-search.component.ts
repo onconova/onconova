@@ -84,7 +84,7 @@ export class CaseSearchComponent {
   public readonly currentUser = computed(() => this.#authService.user());
 
   // Pagination and search settings
-  public readonly pageSizeChoices: number[] = [15, 30, 45, 60];
+  public readonly pageSizeChoices: number[] = [15, 30, 45];
   public pagination = signal({limit: this.pageSizeChoices[0], offset: 0});
   public totalCases= signal(0);
   public searchQuery = signal('');
@@ -103,7 +103,7 @@ export class CaseSearchComponent {
   public cases: Resource<PatientCase[] | undefined> = rxResource({
     request: () => ({
       pseudoidentifierContains: this.searchQuery() || undefined, 
-      contributors: this.manager(), 
+      contributorsOverlaps: this.manager() ? [this.manager() as string] : undefined,
       ageBetween: this.selectedAgeRange(),
       gender: this.selectedGender()?.code || undefined,
       isDeceased: this.selectedVitalStatus()?.value || undefined,

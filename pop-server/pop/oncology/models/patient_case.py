@@ -4,7 +4,9 @@ import pghistory
 
 from django.db import models
 from django.apps import apps
-from django.db.models.functions import Round, Cast, ExtractYear
+from django.db.models.functions import Round, Cast, ExtractYear, Coalesce
+from django.db.models.expressions import RawSQL
+from django.contrib.postgres.fields import ArrayField
 from django.db.models import (
     Q,
     F,
@@ -23,6 +25,7 @@ from django.utils.translation import gettext_lazy as _
 
 from queryable_properties.properties import (
     AnnotationProperty,
+    AnnotationGetterMixin,
     RelatedExistenceCheckProperty,
     AnnotationMixin,
     QueryableProperty,
@@ -58,88 +61,58 @@ class PatientCaseDataCategories(models.TextChoices):
 DATA_CATEGORIES_COUNT = len(list(PatientCaseDataCategories))
 
 
-class UpdatedAtProperty(AnnotationMixin, QueryableProperty):
+def events_common_table_expression():
+    event_tables = [
+        model.pgh_event_model._meta.db_table
+        for model in apps.get_app_config("oncology").get_models()
+        if hasattr(model, "pgh_event_model")
+        and hasattr(model.pgh_event_model, "case_id")
+    ]
+    union_selects = [
+        f"SELECT ({table}.pgh_context->>'username')::varchar as username, {table}.pgh_created_at, {table}.pgh_label FROM {table} WHERE {table}.case_id = {PatientCase._meta.db_table}.id  AND {table}.pgh_context ? 'username'"
+        for table in event_tables
+    ]
+    case_event_table = PatientCase.pgh_event_model._meta.db_table
+    union_selects.append(
+        f"SELECT ({case_event_table}.pgh_context->>'username')::varchar as username, {case_event_table}.pgh_created_at, {case_event_table}.pgh_label FROM {case_event_table} WHERE {case_event_table}.id = {PatientCase._meta.db_table}.id  AND {case_event_table}.pgh_context ? 'username'"
+    )
+    return " UNION ALL ".join(union_selects)
 
-    def get_value(self, obj):
-        """Return the combined version info as a string."""
-        return (
-            pghistory.models.Events.objects.references(obj)
-            .filter(pgh_label="update")
-            .filter(
-                Q(pgh_obj_id=obj.pk) | Q(pgh_data__case_id=str(obj.pk)),
-            )
-            .order_by("-pgh_created_at")
-            .values_list("pgh_created_at", flat=True)
-            .first()
-        )
+
+class UpdatedAtProperty(AnnotationGetterMixin, QueryableProperty):
 
     def get_annotation(self, cls):
-        oncology_app_labels = [
-            f"oncology.{model.__name__}"
-            for model in apps.get_app_config("oncology").get_models()
-        ]
-        return Subquery(
-            pghistory.models.Events.objects.filter(
-                pgh_model__in=oncology_app_labels, pgh_label="update"
+        return RawSQL(
+            f"""
+            (
+                SELECT cte.pgh_created_at
+                FROM (
+                    {events_common_table_expression()}
+                ) AS cte WHERE cte.pgh_label = 'update'
+                ORDER BY cte.pgh_created_at DESC LIMIT 1
             )
-            .filter(
-                Q(
-                    pgh_obj_id__iexact=Cast(
-                        OuterRef("pk"), output_field=models.CharField()
-                    )
-                )
-                | Q(
-                    pgh_data__case_id__iexact=Cast(
-                        OuterRef("pk"), output_field=models.CharField()
-                    )
-                ),
-            )
-            .order_by("-pgh_created_at")
-            .values_list("pgh_created_at", flat=True)[:1]
+        """,
+            [],
+            output_field=models.DateField(),
         )
 
 
-class ContributorsProperty(QueryableProperty):
+class ContributorsProperty(AnnotationGetterMixin, QueryableProperty):
 
-    def get_value(self, obj):
-        """Return the combined version info as a string."""
-        return (
-            pghistory.models.Events.objects.references(obj)
-            .filter(
-                Q(pgh_obj_id=obj.pk) | Q(pgh_data__case_id=str(obj.pk)),
+    def get_annotation(self, cls):
+        return Coalesce(RawSQL(
+            f"""
+            (
+                SELECT ARRAY_AGG(DISTINCT cte.username)
+                FROM (
+                    {events_common_table_expression()}
+                ) AS cte
             )
-            .exclude(pgh_context__username__isnull=True)
-            .alias(contributions_count=Count("pgh_context__username"))
-            .order_by("-contributions_count")
-            .values_list("pgh_context__username", flat=True)
-            .distinct()
-            .order_by()
-        )
-
-    def get_filter(self, cls, lookup, value):
-        related_models = [
-            obj.related_model
-            for obj in PatientCase._meta.related_objects
-            if obj.related_model._meta.app_label == "oncology"
-            and not issubclass(obj.related_model, pghistory.models.Event)
-        ]
-        query = Q(
-            Exists(
-                PatientCase.objects.filter(
-                    pk=OuterRef("pk"),
-                    **{f"events__pgh_context__username__{lookup}": value},
-                )
-            )
-        )
-        for related_model in related_models:
-            if hasattr(related_model.pgh_event_model, "case_id"):
-                query |= Exists(
-                    related_model.pgh_event_model.objects.filter(
-                        case_id=OuterRef("pk"),
-                        **{f"pgh_context__username__{lookup}": value},
-                    )
-                )
-        return query
+        """,
+            [],
+            output_field=ArrayField(models.CharField()),
+        ), Value([])
+    )
 
 
 @pghistory.track()
@@ -313,6 +286,24 @@ class PatientCase(BaseModel):
     @property
     def description(self):
         return f"POP Case {self.pseudoidentifier}"
+
+    @property
+    def events_common_table_expression():
+        event_tables = [
+            model.pgh_event_model._meta.db_table
+            for model in apps.get_app_config("oncology").get_models()
+            if hasattr(model, "pgh_event_model")
+            and hasattr(model.pgh_event_model, "case_id")
+        ]
+        union_selects = [
+            f"SELECT ({table}.pgh_context->>'username')::varchar as username, {table}.pgh_created_at, {table}.pgh_label FROM {table} WHERE {table}.case_id = {PatientCase._meta.db_table}.id  AND {table}.pgh_context ? 'username'"
+            for table in event_tables
+        ]
+        case_event_table = PatientCase.pgh_event_model._meta.db_table
+        union_selects.append(
+            f"SELECT ({case_event_table}.pgh_context->>'username')::varchar as username, {case_event_table}.pgh_created_at, {case_event_table}.pgh_label FROM {case_event_table} WHERE {case_event_table}.id = {PatientCase._meta.db_table}.id  AND {case_event_table}.pgh_context ? 'username'"
+        )
+        return " UNION ALL ".join(union_selects)
 
     def _generate_random_id(self):
         """

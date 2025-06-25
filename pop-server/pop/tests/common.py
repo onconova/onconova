@@ -64,7 +64,7 @@ class ApiControllerTestMixin:
                 expected_responses=(200, 204, 201),
                 authenticated=True,
                 use_https=True,
-                access_level=5,
+                access_level=4,
             ),
         ),
         (
@@ -73,7 +73,7 @@ class ApiControllerTestMixin:
                 expected_responses=(301,),
                 authenticated=True,
                 use_https=False,
-                access_level=5,
+                access_level=4,
             ),
         ),
         (
@@ -82,7 +82,7 @@ class ApiControllerTestMixin:
                 expected_responses=(401,),
                 authenticated=False,
                 use_https=True,
-                access_level=5,
+                access_level=4,
             ),
         ),
         (
@@ -91,7 +91,7 @@ class ApiControllerTestMixin:
                 expected_responses=(301,),
                 authenticated=False,
                 use_https=False,
-                access_level=5,
+                access_level=4,
             ),
         ),
         (
@@ -144,7 +144,7 @@ class ApiControllerTestMixin:
     def _authenticate_user_and_get_authentication_header(username, password):
         auth_client = Client()
         response = auth_client.post(
-            "/api/auth/session",
+            "/api/v1/auth/session",
             data={"username": username, "password": password},
             content_type="application/json",
             secure=True,

@@ -9,6 +9,10 @@ class Username(str):
     pass
 
 
+class Array(list):
+    pass
+
+
 class AgeBin(str, Enum):
     SUB_20 = "<20"
     AGE_20_24 = "20-24"

@@ -1,4 +1,6 @@
-from django.test import TestCase
+from unittest.mock import patch, MagicMock
+from django.test import TestCase, Client
+from faker import Faker
 from pop.tests import common, factories
 from pop.core.auth.models import User
 from pop.core.auth.schemas import (
@@ -13,8 +15,75 @@ from pop.core.measures import measures
 from pop.core.measures.schemas import MeasureConversion
 
 
-class TestUserController(common.ApiControllerTestMixin, TestCase):
+class TestAuthController(common.ApiControllerTestMixin, TestCase):
     controller_path = "/api/users"
+
+    @classmethod
+    def setUpTestData(cls):
+        super().setUpTestData()
+        # Generate user credentials
+        cls.username = f"testuser"
+        cls.password = Faker().password()
+        cls.email = Faker().email()
+        # Create a fake user with known credentials if not exists
+        user = factories.UserFactory.create(username=cls.username, email=cls.email)
+        user.set_password(cls.password)
+        user.save()
+
+    def test_login_user_with_username_password(self):
+        client = Client()
+        response = client.post(
+            "/api/v1/auth/session",
+            data={"username": self.username, "password": self.password},
+            content_type="application/json",
+            secure=True,
+        )
+        self.assertTrue(response.status_code, 200),
+        self.assertIn("sessionToken", response.json())
+
+    def test_login_user_with_email_password(self):
+        client = Client()
+        response = client.post(
+            "/api/v1/auth/session",
+            data={"username": self.email, "password": self.password},
+            content_type="application/json",
+            secure=True,
+        )
+        self.assertTrue(response.status_code, 200),
+        self.assertIn("sessionToken", response.json())
+
+    def test_login_user_with_provider_token(self):
+        client = Client()
+        mock_response = MagicMock()
+        mock_response.status_code = 200
+        mock_response.content = (
+            b'{"meta": {"isAuthenticated": "True", "sessionToken": "12345678"}}'
+        )
+        mock_view_func = MagicMock(return_value=mock_response)
+        with patch(
+            "pop.core.auth.controllers.resolve",
+            return_value=MagicMock(func=mock_view_func),
+        ) as mock_redirect:
+            response = client.post(
+                "/api/v1/auth/provider/session",
+                data={
+                    "provider": "providerId",
+                    "process": "login",
+                    "token": {
+                        "client_id": "clientId",
+                        "id_token": "12345678",
+                    },
+                },
+                content_type="application/json",
+                secure=True,
+            )
+            mock_redirect.assert_called_once()
+            self.assertTrue(response.status_code, 200),
+            self.assertIn("sessionToken", response.json())
+
+
+class TestUserController(common.ApiControllerTestMixin, TestCase):
+    controller_path = "/api/v1/users"
 
     @classmethod
     def setUpTestData(cls):
@@ -71,7 +140,7 @@ class TestUserController(common.ApiControllerTestMixin, TestCase):
     @parameterized.expand(common.ApiControllerTestMixin.scenarios)
     def test_update_user_and_access_level(self, scenario, config):
         update_schema = UserCreateSchema.model_validate(self.instance)
-        update_schema.accessLevel = 5
+        update_schema.accessLevel = 4
         json_data = update_schema.model_dump(mode="json")
         # Call the API endpoint.
         response = self.call_api_endpoint(
@@ -80,7 +149,7 @@ class TestUserController(common.ApiControllerTestMixin, TestCase):
         # Assert response content
         if scenario == "HTTPS Authenticated":
             updated_instance = User.objects.get(id=response.json()["id"])
-            self.assertEqual(updated_instance.access_level, 5)
+            self.assertEqual(updated_instance.access_level, 4)
 
     @parameterized.expand(common.ApiControllerTestMixin.scenarios)
     def test_update_user_profile(self, scenario, config):
@@ -139,7 +208,7 @@ class TestUserController(common.ApiControllerTestMixin, TestCase):
 
 
 class TestMeasuresController(common.ApiControllerTestMixin, TestCase):
-    controller_path = "/api/measures"
+    controller_path = "/api/v1/measures"
 
     @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
     def test_get_measure_units(self, scenario, config):

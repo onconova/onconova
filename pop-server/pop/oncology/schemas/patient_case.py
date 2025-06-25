@@ -1,21 +1,32 @@
-from datetime import datetime
-from typing import Optional, Union
+from datetime import datetime, date
+from typing import Optional, Union, Literal
 from pydantic import Field, AliasChoices, field_validator
 from ninja import Schema
 
 from pop.oncology import models as orm
-from pop.core.types import Age, AgeBin
+from pop.core.types import Age, AgeBin, Array
 from pop.core.serialization.metaclasses import (
     ModelGetSchema,
     ModelCreateSchema,
     SchemaConfig,
 )
-from pop.core.anonymization import AnonymizationConfig, anonymize_personal_date
+from pop.core.anonymization import (
+    REDACTED_STRING,
+    AnonymizationConfig,
+    anonymize_personal_date,
+    anonymize_by_redacting_string,
+)
 
 
 class PatientCaseSchema(ModelGetSchema):
     age: Union[int, Age, AgeBin] = Field(
         title="Age", alias="age", description="Approximate age of the patient in years"
+    )
+    dateOfBirth: Union[date, Literal[REDACTED_STRING]] = Field(  # type: ignore
+        title="Date of birth",
+        alias="date_of_birth",
+        description="Date of birth of the patient",
+        validation_alias=AliasChoices("dateOfBirth", "date_of_birth"),
     )
     overallSurvival: Optional[float] = Field(
         None,
@@ -37,7 +48,7 @@ class PatientCaseSchema(ModelGetSchema):
         alias="data_completion_rate",
         validation_alias=AliasChoices("dataCompletionRate", "data_completion_rate"),
     )
-    contributors: Optional[list[str]] = Field(
+    contributors: Union[list[str], Array[str]] = Field(
         title="Data contributors",
         description="Users that have contributed to the case by adding, updating or deleting data. Sorted by number of contributions in descending order.",
     )
@@ -47,7 +58,7 @@ class PatientCaseSchema(ModelGetSchema):
             fields=["clinicalIdentifier", "clinicalCenter", "age", "ageAtDiagnosis"],
             key="id",
             functions={
-                "dateOfBirth": anonymize_personal_date,
+                "dateOfBirth": anonymize_by_redacting_string,
                 "dateOfDeath": anonymize_personal_date,
             },
         ),

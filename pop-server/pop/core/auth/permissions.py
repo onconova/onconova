@@ -1,7 +1,11 @@
 from ninja_extra import permissions
 from django.http import HttpRequest
+from django.db.models import Q
 from django.contrib.auth.models import AnonymousUser
 from pop.core.auth.models import User
+from pop.research.models.project import Project
+from pop.research.models.cohort import Cohort
+from pop.research.models.dataset import Dataset
 
 
 class BasePermission(permissions.BasePermission):
@@ -28,6 +32,11 @@ class BasePermission(permissions.BasePermission):
         """
         raise NotImplementedError("Subclasses must implement check_user_permission.")
 
+    def check_user_object_permission(self, user: User, controller, obj) -> bool:
+        raise NotImplementedError(
+            "Subclasses must implement check_user_object_permission."
+        )
+
     def has_permission(self, request: HttpRequest, controller) -> bool:
         """
         Evaluate whether a request has permission to proceed.
@@ -43,6 +52,16 @@ class BasePermission(permissions.BasePermission):
         return user.is_superuser or (
             not isinstance(user, AnonymousUser)
             and (user.is_system_admin or self.check_user_permission(user))
+        )
+
+    def has_object_permission(self, request: HttpRequest, controller, obj) -> bool:
+        user = request.user
+        return user.is_superuser or (
+            not isinstance(user, AnonymousUser)
+            and (
+                user.is_system_admin
+                or self.check_user_object_permission(user, controller, obj)
+            )
         )
 
 
@@ -90,18 +109,30 @@ class CanManageCases(BasePermission):
         return user.can_manage_cases
 
 
-class CanManageDatasets(BasePermission):
-    """Permission to manage datasets."""
-
-    def check_user_permission(self, user: User) -> bool:
-        return user.can_manage_datasets
-
-
 class CanManageCohorts(BasePermission):
     """Permission to manage cohorts."""
 
     def check_user_permission(self, user: User) -> bool:
-        return user.can_manage_cohorts
+        return user.access_level > 2 or (
+            user.access_level > 0
+            and Project.objects.filter(Q(members=user) | Q(leader=user)).exists()
+        )
+
+    def check_user_object_permission(self, user, _, cohort: Cohort):
+        # Elevated roles can manage any project
+        if user.role in (
+            User.AccessRoles.PLATFORM_MANAGER,
+            User.AccessRoles.SYSTEM_ADMIN,
+        ):
+            return True
+        elif user.role in (
+            User.AccessRoles.PROJECT_MANAGER,
+            User.AccessRoles.MEMBER,
+        ):
+            # Project managers can only manage their own project
+            return cohort.project.is_member(user)
+        else:
+            return False
 
 
 class CanManageProjects(BasePermission):
@@ -109,6 +140,46 @@ class CanManageProjects(BasePermission):
 
     def check_user_permission(self, user: User) -> bool:
         return user.can_manage_projects
+
+    def check_user_object_permission(self, user, _, project: Project):
+        print("CHECKING PROJECT ROLE: ", user.role)
+        # Elevated roles can manage any project
+        if user.role in (
+            User.AccessRoles.PLATFORM_MANAGER,
+            User.AccessRoles.SYSTEM_ADMIN,
+        ):
+            return True
+        elif user.role == User.AccessRoles.PROJECT_MANAGER:
+            # Project managers can only manage their own project
+            return user == project.leader
+        else:
+            return False
+
+
+class CanManageDatasets(BasePermission):
+    """Permission to manage datasets."""
+
+    def check_user_permission(self, user: User) -> bool:
+        return user.access_level > 2 or (
+            user.access_level > 0
+            and Project.objects.filter(Q(members=user) | Q(leader=user)).exists()
+        )
+
+    def check_user_object_permission(self, user, _, dataset: Dataset):
+        # Elevated roles can manage any project
+        if user.role in (
+            User.AccessRoles.PLATFORM_MANAGER,
+            User.AccessRoles.SYSTEM_ADMIN,
+        ):
+            return True
+        elif user.role in (
+            User.AccessRoles.PROJECT_MANAGER,
+            User.AccessRoles.MEMBER,
+        ):
+            # Project managers can only manage their own project
+            return dataset.project.is_member(user)
+        else:
+            return False
 
 
 class CanManageUsers(BasePermission):
@@ -133,18 +204,18 @@ class CanDeleteProjects(BasePermission):
         return user.can_delete_projects
 
 
-class CanAccessSensitiveData(BasePermission):
-    """Permission to access sensitive data."""
+class CanDeleteCohorts(BasePermission):
+    """Permission to delete cohorts."""
 
     def check_user_permission(self, user: User) -> bool:
-        return user.can_access_sensitive_data
+        return user.can_delete_cohorts
 
 
-class CanAuditLogs(BasePermission):
-    """Permission to view audit logs."""
+class CanDeleteDatasets(BasePermission):
+    """Permission to delete datasets."""
 
     def check_user_permission(self, user: User) -> bool:
-        return user.can_audit_logs
+        return user.can_delete_datasets
 
 
 class IsRequestingUser(permissions.BasePermission):
