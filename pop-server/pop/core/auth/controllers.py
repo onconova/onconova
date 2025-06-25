@@ -76,7 +76,7 @@ class AuthController(ControllerBase):
         openapi_extra=dict(security=[]),
     )
     @paginate
-    def login(self, credentials: UserCredentials | UserProviderToken):
+    def login(self, credentials: UserCredentials):
         view = resolve("/api/allauth/app/v1/auth/login")
         response = view.func(self.context.request)
         if response.status_code != 200:
