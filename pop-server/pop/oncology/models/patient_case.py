@@ -4,7 +4,7 @@ import pghistory
 
 from django.db import models
 from django.apps import apps
-from django.db.models.functions import Round, Cast, ExtractYear
+from django.db.models.functions import Round, Cast, ExtractYear, Coalesce
 from django.db.models.expressions import RawSQL
 from django.contrib.postgres.fields import ArrayField
 from django.db.models import (
@@ -100,7 +100,7 @@ class UpdatedAtProperty(AnnotationGetterMixin, QueryableProperty):
 class ContributorsProperty(AnnotationGetterMixin, QueryableProperty):
 
     def get_annotation(self, cls):
-        return RawSQL(
+        return Coalesce(RawSQL(
             f"""
             (
                 SELECT ARRAY_AGG(DISTINCT cte.username)
@@ -111,7 +111,8 @@ class ContributorsProperty(AnnotationGetterMixin, QueryableProperty):
         """,
             [],
             output_field=ArrayField(models.CharField()),
-        )
+        ), Value([])
+    )
 
 
 @pghistory.track()
