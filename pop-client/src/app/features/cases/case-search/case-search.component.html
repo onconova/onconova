@@ -53,6 +53,42 @@
                 </ng-template>
             </pop-popover-filter-button>
 
+            <pop-popover-filter-button [(ngModel)]="selectedDataCompletionRange" label="Data Completion" [selectionLabelFcn]="showDataCompletionFilter">
+                <ng-template #popoverContent let-filter="formControl">
+                    <div class="p-2">
+                        <div class="text-muted mb-3">Select an completion percentage range:</div>
+                        <p-slider [range]="true" [min]="0" [max]="100" [step]="5" styleClass="w-20rem"
+                            [ngModel]="filter?.value"
+                            (ngModelChange)="filter?.setValue($event)"/>
+                    </div>
+                </ng-template>
+            </pop-popover-filter-button>
+
+            <pop-popover-filter-button [(ngModel)]="selectedPrimarySite" label="Primary site" [selectionLabelFcn]="showSelectedCodedFilter">
+                <ng-template #popoverContent let-filter="formControl">
+                    <div class="p-2">
+                        <div class="text-muted mb-3">Select a primary site:</div>
+                        <pop-concept-selector
+                            terminology="CancerTopographyGroup"
+                            [ngModel]="filter?.value"
+                            (ngModelChange)="filter?.setValue($event)"/>
+                    </div>
+                </ng-template>
+            </pop-popover-filter-button>
+
+            
+            <pop-popover-filter-button [(ngModel)]="selectedMorphology" label="Morphology" [selectionLabelFcn]="showSelectedCodedFilter">
+                <ng-template #popoverContent let-filter="formControl">
+                    <div class="p-2">
+                        <div class="text-muted mb-3">Select a primary site:</div>
+                        <pop-concept-selector
+                            terminology="CancerMorphologyPrimary"
+                            [ngModel]="filter?.value"
+                            (ngModelChange)="filter?.setValue($event)"/>
+                    </div>
+                </ng-template>
+            </pop-popover-filter-button>
+
             <pop-popover-filter-button [(ngModel)]="selectedGender" label="Gender" [selectionLabelFcn]="showSelectedCodedFilter">
                 <ng-template #popoverContent let-filter="formControl">
                     <div class="p-2">

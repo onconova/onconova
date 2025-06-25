@@ -1,10 +1,12 @@
 import pghistory.models
+from typing import Optional 
 
 from ninja import Query
 from ninja_extra.pagination import paginate
 from ninja_extra import api_controller, ControllerBase, route
 
 from django.shortcuts import get_object_or_404
+from django.db.models import Q, Exists, OuterRef
 from django.conf import settings
 
 from pop.core.auth import permissions as perms
@@ -12,14 +14,23 @@ from pop.core.schemas import ModifiedResource as ModifiedResourceSchema, Paginat
 from pop.core.history.schemas import HistoryEvent
 from pop.core.auth.token import XSessionTokenAuth
 from pop.core.anonymization import anonymize
-from pop.oncology.models import PatientCase, PatientCaseDataCompletion
+from pop.oncology.models import PatientCase, PatientCaseDataCompletion, NeoplasticEntity
 from pop.oncology.schemas import (
     PatientCaseSchema,
     PatientCaseCreateSchema,
-    PatientCaseFilters,
+    PatientCaseFilters as PatientCaseFiltersBase,
     PatientCaseDataCompletionStatusSchema,
 )
 
+class PatientCaseFilters(PatientCaseFiltersBase):
+    primarySite: Optional[str] = None
+    morphology: Optional[str] = None
+
+    def filter_primarySite(self, value: bool) -> Q:
+        return Exists(NeoplasticEntity.objects.filter(case_id=OuterRef('pk'), topography_group__code=value, relationship='primary')) if value else Q()
+    
+    def filter_morphology(self, value: bool) -> Q:
+        return  Exists(NeoplasticEntity.objects.filter(case_id=OuterRef('pk'), morphology__code=value, relationship='primary')) if value else Q()
 
 @api_controller(
     "patient-cases",

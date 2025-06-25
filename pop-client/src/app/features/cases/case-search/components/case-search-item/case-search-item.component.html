@@ -84,7 +84,7 @@
                             <pop-user-badge [username]="contributor"/>
                         }
                     }
-                    @if ((case().contributors.length || 0) > 3) {
+                    @if ((case().contributors?.length || 0) > 3) {
                         <p-avatar class="pop-other-users-avatar" [label]="'+' + (case().contributors!.length-3).toString()" shape="circle" size="normal" />
                     }
                 </p-avatar-group>

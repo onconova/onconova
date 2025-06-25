@@ -21,7 +21,7 @@ import { PopoverModule } from 'primeng/popover';
 import { SliderModule } from 'primeng/slider';
 
 // Project dependencies
-import { CodedConcept, GetPatientCasesRequestParams, PatientCase, PatientCasesService} from 'pop-api-client';
+import { CodedConcept, GetPatientCasesRequestParams, NeoplasticEntitiesService, PatientCase, PatientCasesService} from 'pop-api-client';
 import { CaseSearchItemCardComponent } from './components/case-search-item/case-search-item.component';
 import { PatientFormComponent } from 'src/app/features/forms';
 import { AuthService } from 'src/app/core/auth/services/auth.service';
@@ -74,6 +74,7 @@ export class CaseSearchComponent {
   
   // Injected services  
   readonly #patientCasesService = inject(PatientCasesService)
+  readonly #neoplasticEntitiesService = inject(NeoplasticEntitiesService)
   readonly #authService = inject(AuthService)
   readonly #messageService = inject(MessageService) 
   readonly #dialogservice = inject(DialogService)
@@ -90,8 +91,11 @@ export class CaseSearchComponent {
   public searchQuery = signal('');
 
   protected selectedAgeRange = signal<number[] | undefined>(undefined)
+  protected selectedDataCompletionRange = signal<number[] | undefined>(undefined)
   protected selectedGender = signal<CodedConcept | undefined>(undefined)
   protected selectedVitalStatus = signal<any | undefined>(undefined)
+  protected selectedPrimarySite = signal<CodedConcept | undefined>(undefined)
+  protected selectedMorphology = signal<CodedConcept | undefined>(undefined)
 
   protected vitalStatusChoices = [
     {value: false, label: 'Alive'},
@@ -106,6 +110,9 @@ export class CaseSearchComponent {
       contributorsOverlaps: this.manager() ? [this.manager() as string] : undefined,
       ageBetween: this.selectedAgeRange(),
       gender: this.selectedGender()?.code || undefined,
+      dataCompletionRateBetween:this.selectedDataCompletionRange(),
+      primarySite: this.selectedPrimarySite()?.code || undefined, 
+      morphology: this.selectedMorphology()?.code || undefined, 
       isDeceased: this.selectedVitalStatus()?.value || undefined,
       limit: this.pagination().limit, 
       offset: this.pagination().offset
@@ -156,6 +163,9 @@ export class CaseSearchComponent {
   }
   showAgeRangeFilter(range: any[]): string {
     return `${range[0]}-${range[1]} years`
+  }
+  showDataCompletionFilter(range: any[]): string {
+    return `${range[0]}-${range[1]}%`
   }
   showSelectedChoiceFilter(choice: {label: string, value: any}): string {
     return choice.label

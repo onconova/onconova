@@ -67,15 +67,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "anyOf": [
-                  {
-                    "$ref": "#/components/schemas/UserCredentials"
-                  },
-                  {
-                    "$ref": "#/components/schemas/UserProviderToken"
-                  }
-                ],
-                "title": "Credentials"
+                "$ref": "#/components/schemas/UserCredentials"
               }
             }
           },
@@ -5870,6 +5862,38 @@
             },
             "required": false,
             "description": "Cause of death - Filter for all child concepts of a given concepts code"
+          },
+          {
+            "in": "query",
+            "name": "primarySite",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Primarysite"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "morphology",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Morphology"
+            },
+            "required": false
           },
           {
             "in": "query",
@@ -56053,6 +56077,28 @@
             "description": "Cause of death - Filter for all child concepts of a given concepts code",
             "title": "Causeofdeath.Descendantsof",
             "type": "string"
+          },
+          "primarySite": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Primarysite"
+          },
+          "morphology": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Morphology"
           }
         },
         "title": "PatientCaseFilters",
