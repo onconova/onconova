@@ -100,8 +100,9 @@ class UpdatedAtProperty(AnnotationGetterMixin, QueryableProperty):
 class ContributorsProperty(AnnotationGetterMixin, QueryableProperty):
 
     def get_annotation(self, cls):
-        return Coalesce(RawSQL(
-            f"""
+        return Coalesce(
+            RawSQL(
+                f"""
             (
                 SELECT ARRAY_AGG(DISTINCT cte.username)
                 FROM (
@@ -109,10 +110,11 @@ class ContributorsProperty(AnnotationGetterMixin, QueryableProperty):
                 ) AS cte
             )
         """,
-            [],
-            output_field=ArrayField(models.CharField()),
-        ), Value([])
-    )
+                [],
+                output_field=ArrayField(models.CharField()),
+            ),
+            Value([]),
+        )
 
 
 @pghistory.track()
@@ -392,7 +394,7 @@ class PatientCaseDataCompletion(BaseModel):
 
     @property
     def description(self):
-        return f"Category <{self.category}> for case {self.case.id} marked as completed by {self.created_by.username} on {self.created_at}"
+        return f'Category "{self.category}" for case {self.case.pseudoidentifier} marked as completed by {self.created_by} on {self.created_at}'
 
     class Meta:
         constraints = [

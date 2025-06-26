@@ -1,3 +1,4 @@
+import pghistory
 from unittest.mock import patch, MagicMock
 from django.test import TestCase, Client
 from faker import Faker
@@ -9,6 +10,7 @@ from pop.core.auth.schemas import (
     UserProfileSchema,
     UserPasswordReset,
 )
+from pop.core.history.schemas import HistoryEvent
 from parameterized import parameterized
 
 from pop.core.measures import measures
@@ -136,6 +138,21 @@ class TestUserController(common.ApiControllerTestMixin, TestCase):
         if scenario == "HTTPS Authenticated":
             new_user = User.objects.get(id=response.json()["id"])
             self.assertEqual("new_username", new_user.username)
+
+    @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
+    def test_get_user_events(self, scenario, config):
+        with pghistory.context(username=self.user.username):
+            resource = factories.PatientCaseFactory.create()
+        # Call the API endpoint
+        response = self.call_api_endpoint("GET", f"/{self.user.id}/events", **config)
+        # Assert response content
+        if scenario == "HTTPS Authenticated":
+            # Assert resonse status
+            self.assertEqual(response.status_code, 200)
+            events = response.json()["items"]
+            # Assert response content
+            for event in zip(events):
+                self.assertTrue(resource.events.filter(pgh_id=event[0]["id"]).exists())
 
     @parameterized.expand(common.ApiControllerTestMixin.scenarios)
     def test_update_user_and_access_level(self, scenario, config):

@@ -2275,6 +2275,75 @@
         ]
       }
     },
+    "/api/v1/users/{userId}/events": {
+      "get": {
+        "operationId": "getUserEvents",
+        "summary": "Get User Events",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "schema": {
+              "title": "Userid",
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 10,
+              "maximum": 50,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "default": 0,
+              "minimum": 0,
+              "title": "Offset",
+              "type": "integer"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Paginated_HistoryEvent_"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "tags": [
+          "Users"
+        ],
+        "security": [
+          {
+            "XSessionTokenAuth": []
+          }
+        ]
+      }
+    },
     "/api/v1/projects": {
       "get": {
         "operationId": "getProjects",
@@ -45287,6 +45356,126 @@
         "title": "UserPasswordReset",
         "type": "object"
       },
+      "HistoryEvent": {
+        "description": "Represents an audit/history event capturing changes in the system.",
+        "properties": {
+          "id": {
+            "description": "The unique identifier of the history event",
+            "title": "Event ID"
+          },
+          "category": {
+            "$ref": "#/components/schemas/HistoryEventCategory",
+            "description": "The type of history event",
+            "title": "Category"
+          },
+          "timestamp": {
+            "description": "Timestamp of the history event",
+            "format": "date-time",
+            "title": "Timestamp",
+            "type": "string"
+          },
+          "user": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Username of the user that triggered the event, if applicable",
+            "title": "User"
+          },
+          "url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Endpoint URL through which the event was triggered, if applicable",
+            "title": "Endpoint"
+          },
+          "snapshot": {
+            "additionalProperties": true,
+            "description": "Data snapshopt at the time of the event",
+            "title": "Data snapshopt",
+            "type": "object"
+          },
+          "differential": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Data changes introduced by the event, if applicable",
+            "title": "Data differential"
+          },
+          "context": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Context sorrounding the event",
+            "title": "Context"
+          }
+        },
+        "required": [
+          "id",
+          "category",
+          "timestamp",
+          "snapshot",
+          "differential",
+          "context"
+        ],
+        "title": "HistoryEvent",
+        "type": "object"
+      },
+      "HistoryEventCategory": {
+        "description": "Enumeration of possible history event categories.",
+        "enum": [
+          "create",
+          "update",
+          "delete",
+          "export",
+          "import",
+          "download"
+        ],
+        "title": "HistoryEventCategory",
+        "type": "string"
+      },
+      "Paginated_HistoryEvent_": {
+        "properties": {
+          "count": {
+            "title": "Count",
+            "type": "integer"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/HistoryEvent"
+            },
+            "title": "Items",
+            "type": "array"
+          }
+        },
+        "required": [
+          "count",
+          "items"
+        ],
+        "title": "Paginated[HistoryEvent]",
+        "type": "object"
+      },
       "ProjectFilters": {
         "properties": {
           "id": {
@@ -45971,19 +46160,6 @@
         ],
         "title": "ProjectCreate",
         "type": "object"
-      },
-      "HistoryEventCategory": {
-        "description": "Enumeration of possible history event categories.",
-        "enum": [
-          "create",
-          "update",
-          "delete",
-          "export",
-          "import",
-          "download"
-        ],
-        "title": "HistoryEventCategory",
-        "type": "string"
       },
       "HistoryEventWithSchema": {
         "properties": {
@@ -59191,113 +59367,6 @@
           "stage"
         ],
         "title": "WilmsStageCreate",
-        "type": "object"
-      },
-      "HistoryEvent": {
-        "description": "Represents an audit/history event capturing changes in the system.",
-        "properties": {
-          "id": {
-            "description": "The unique identifier of the history event",
-            "title": "Event ID"
-          },
-          "category": {
-            "$ref": "#/components/schemas/HistoryEventCategory",
-            "description": "The type of history event",
-            "title": "Category"
-          },
-          "timestamp": {
-            "description": "Timestamp of the history event",
-            "format": "date-time",
-            "title": "Timestamp",
-            "type": "string"
-          },
-          "user": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "Username of the user that triggered the event, if applicable",
-            "title": "User"
-          },
-          "url": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "Endpoint URL through which the event was triggered, if applicable",
-            "title": "Endpoint"
-          },
-          "snapshot": {
-            "additionalProperties": true,
-            "description": "Data snapshopt at the time of the event",
-            "title": "Data snapshopt",
-            "type": "object"
-          },
-          "differential": {
-            "anyOf": [
-              {
-                "additionalProperties": true,
-                "type": "object"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "Data changes introduced by the event, if applicable",
-            "title": "Data differential"
-          },
-          "context": {
-            "anyOf": [
-              {
-                "additionalProperties": true,
-                "type": "object"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "Context sorrounding the event",
-            "title": "Context"
-          }
-        },
-        "required": [
-          "id",
-          "category",
-          "timestamp",
-          "snapshot",
-          "differential",
-          "context"
-        ],
-        "title": "HistoryEvent",
-        "type": "object"
-      },
-      "Paginated_HistoryEvent_": {
-        "properties": {
-          "count": {
-            "title": "Count",
-            "type": "integer"
-          },
-          "items": {
-            "items": {
-              "$ref": "#/components/schemas/HistoryEvent"
-            },
-            "title": "Items",
-            "type": "array"
-          }
-        },
-        "required": [
-          "count",
-          "items"
-        ],
-        "title": "Paginated[HistoryEvent]",
         "type": "object"
       },
       "RiskAssessmentFilters": {

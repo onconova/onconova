@@ -1,4 +1,6 @@
 from typing import Optional, Literal
+from pghistory.models import Events
+
 from ninja import Query, Schema
 from ninja_extra import route, api_controller, ControllerBase
 from ninja_extra.pagination import paginate
@@ -12,6 +14,7 @@ import json
 from pop.core.auth import permissions as perms
 from pop.core.auth.token import XSessionTokenAuth
 from pop.core.auth.models import User
+from pop.core.history.schemas import HistoryEvent
 from pop.core.schemas import Paginated, ModifiedResource as ModifiedResourceSchema
 from pop.core.auth.schemas import (
     UserFilters,
@@ -216,3 +219,21 @@ class UsersController(ControllerBase):
         user.set_password(password)
         user.save()
         return 201, user
+
+    @route.get(
+        path="/{userId}/events",
+        response={
+            200: Paginated[HistoryEvent],
+            404: None,
+            401: None,
+            403: None,
+        },
+        permissions=[perms.CanViewUsers],
+        operation_id="getUserEvents",
+    )
+    @paginate
+    def get_user_events(self, userId: str):
+        user = get_object_or_404(User, id=userId)
+        return Events.objects.filter(pgh_context__username=user.username).order_by(
+            "-pgh_created_at"
+        )

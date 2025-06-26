@@ -1,9 +1,7 @@
-pop-user-badge {
-    & .user-avatar {
+.user-avatar {
         color: var(--p-primary-500) !important;
         background: color-mix(in srgb, var(--p-primary-500), transparent 80%)  !important;
         white-space: pre !important;
-    }
 }
 
 .user-tooltip-content{

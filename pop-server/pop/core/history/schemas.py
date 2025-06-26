@@ -51,6 +51,11 @@ class HistoryEvent(Schema):
         title="Endpoint",
         description="Endpoint URL through which the event was triggered, if applicable",
     )
+    resource: Optional[str] = Field(
+        default=None,
+        title="Resource",
+        description="Resource involved in the event, if applicable",
+    )
     snapshot: Dict = Field(
         title="Data snapshopt",
         description="Data snapshopt at the time of the event",
@@ -67,6 +72,32 @@ class HistoryEvent(Schema):
     )
 
     @staticmethod
+    def resolve_resource(obj):
+        """
+        Extract the resource from the event's context.
+
+        Args:
+            obj (Any): The history event object.
+
+        Returns:
+            Optional[str]: The resource if present.
+        """
+        return obj.pgh_obj_model.split(".")[-1]
+
+    @staticmethod
+    def resolve_url(obj):
+        """
+        Extract the url from the event's context.
+
+        Args:
+            obj (Any): The history event object.
+
+        Returns:
+            Optional[str]: The resource if present.
+        """
+        return obj.pgh_context.get("url")
+
+    @staticmethod
     def resolve_user(obj):
         """
         Extract the username from the event's context.
@@ -77,7 +108,7 @@ class HistoryEvent(Schema):
         Returns:
             Optional[str]: The username if present.
         """
-        return obj.pgh_context["username"]
+        return obj.pgh_context.get("username")
 
     @staticmethod
     def resolve_category(obj):

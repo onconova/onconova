@@ -9,6 +9,8 @@ import { Tooltip } from 'primeng/tooltip';
 import { map } from 'rxjs';
 import { Skeleton } from 'primeng/skeleton';
 import { rxResource } from '@angular/core/rxjs-interop';
+import { Router } from 'express';
+import { RouterLink } from '@angular/router';
 
 @Component({
     selector: 'pop-user-badge',
@@ -18,7 +20,7 @@ import { rxResource } from '@angular/core/rxjs-interop';
         }
         @if (user.value(); as userInfo) {
             <div class="flex">
-                <p-avatar label="{{ userInfo | acronym }}" styleClass="user-avatar" size="normal" shape="circle" [pTooltip]="userTooltipContent"/>
+                <p-avatar label="{{ userInfo | acronym }}" styleClass="user-avatar cursor-pointer" size="normal" shape="circle" [pTooltip]="userTooltipContent" [routerLink]="'/admin/users/' + userInfo.username"/>
                 @if (showName()) {
                     <div class="my-auto ml-2">{{ userInfo | fullname}}</div>   
                 }
@@ -41,6 +43,7 @@ import { rxResource } from '@angular/core/rxjs-interop';
     imports: [
         GetNameAcronymPipe,
         GetFullNamePipe,
+        RouterLink,
         Avatar,
         Skeleton,
         Tooltip,
