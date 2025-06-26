@@ -22,6 +22,10 @@ import { UserBadgeComponent } from 'src/app/shared/components/user-badge/user-ba
 import { AuthService } from 'src/app/core/auth/services/auth.service';
 import { DownloadService } from 'src/app/shared/services/download.service';
 import { IdenticonComponent } from "../../../../../shared/components/identicon/identicon.component";
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { PatientFormComponent } from 'src/app/features/forms';
+import { ModalFormHeaderComponent } from 'src/app/features/forms/modal-form-header.component';
+import { UserPlus } from 'lucide-angular';
 
 @Component({
     selector: 'pop-case-search-item',
@@ -57,14 +61,20 @@ export class CaseSearchItemCardComponent {
     readonly #neoplasticEntitiesService = inject(NeoplasticEntitiesService);
     readonly #stagingsService = inject(StagingsService);
     readonly #confirmationService = inject(ConfirmationService);
+    readonly #dialogservice = inject(DialogService)
     readonly #router = inject(Router);
     readonly #downloadService = inject(DownloadService);
     readonly #messageService = inject(MessageService);
     readonly #interoperabilityService = inject(InteroperabilityService);
+    #modalFormRef: DynamicDialogRef | undefined;
 
     // Properties
     public readonly case = input.required<PatientCase>();
     public readonly currentUser = computed(() => this.#authService.user());
+    public caseData = rxResource({
+        request: () => ({caseId: this.case().id, anonymized: this.currentUser().canManageCases ? false : true}),
+        loader: ({request}) => this.#caseService.getPatientCaseById(request),
+    });
     public primaryEntity: Resource<NeoplasticEntity | undefined> = rxResource({
         request: () => ({caseId: this.case().id, relationship: 'primary', limit: 1}),
         loader: ({request}) => this.#neoplasticEntitiesService.getNeoplasticEntities(request).pipe(map(data => data.items[0])),
@@ -90,6 +100,12 @@ export class CaseSearchItemCardComponent {
             styleClass: 'delete-action',
             disabled: !this.currentUser().canManageCases,
             command: (event: any) => this.confirmDelete(event),
+        },
+        {
+            label: 'Update',
+            icon: 'pi pi-pencil',
+            disabled: !this.currentUser().canManageCases,
+            command: (event: any) => this.openUpdateCaseForm(),
         },
     ];
 
@@ -131,6 +147,42 @@ export class CaseSearchItemCardComponent {
                 })
             }
         });
+    }
+
+
+    openUpdateCaseForm() {    
+        this.#modalFormRef = this.#dialogservice.open(PatientFormComponent, {
+            inputValues: {
+                    resourceId: this.case().id,
+                    initialData: this.caseData.value(),
+            },
+            data: {
+                title: 'Patient case registration',
+                subtitle: 'Add a new patient case',
+                icon: UserPlus,
+            },
+            templates: {
+                header: ModalFormHeaderComponent,
+            },   
+            modal: true,
+            closable: true,
+            width: '45vw',
+            styleClass: 'pop-modal-form',
+            breakpoints: {
+                '1700px': '50vw',
+                '960px': '75vw',
+                '640px': '90vw'
+            },
+        })
+        this.reloadDataIfClosedAndSaved(this.#modalFormRef)
+    }
+
+    reloadDataIfClosedAndSaved(modalFormRef: DynamicDialogRef) {
+    modalFormRef.onClose.subscribe((data: any) => {
+        if (data?.saved) {
+            this.onDelete.emit();
+        }
+        })    
     }
 
 }
