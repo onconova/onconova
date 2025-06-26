@@ -39,6 +39,12 @@
             <input type="text" pInputText formControlName="department" />
             <pop-form-control-error controlName="department"/>
         </div>
+
+        <div class="field flex">
+            <p-toggleswitch formControlName="isServiceAccount" />
+            <label class="form-label ml-2 my-auto required">Is a service account?</label>
+        </div>
+                                
         <div class="field">
             <label class="form-label required">Access level & Role</label>
             @for (role of roles; track $index;) {

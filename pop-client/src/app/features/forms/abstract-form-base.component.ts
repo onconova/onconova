@@ -84,7 +84,7 @@ export abstract class AbstractFormBase {
     ]).subscribe({
         next: (response: ModifiedResource[]) => {
             // Report the successful creation of the resource
-            this.#messageService.add({ severity: 'success', summary: 'Success', detail: 'Updated ' + response[0].description });
+            this.#messageService.add({ severity: 'success', summary: 'Success', detail: 'Updated ' + (response[0].description || 'resource') });
             this.isSaving.set(false); 
             this.#dynamicDialogRef?.close({saved: true});
           },
@@ -124,7 +124,7 @@ export abstract class AbstractFormBase {
         .subscribe({
           next: (response: ModifiedResource) => {
             // Report the successful creation of the resource
-            this.#messageService.add({ severity: 'success', summary: 'Success', detail: 'Saved ' + response.description });
+            this.#messageService.add({ severity: 'success', summary: 'Success', detail: 'Saved ' + (response.description || 'resource') });
             this.isSaving.set(false); 
             this.#dynamicDialogRef?.close({saved: true});
           },

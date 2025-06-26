@@ -10,6 +10,7 @@ import { PasswordModule } from 'primeng/password';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormControlErrorComponent } from 'src/app/shared/components';
 import { RadioButtonModule } from 'primeng/radiobutton';
+import { ToggleSwitch } from 'primeng/toggleswitch';
 
 
 @Component({
@@ -22,6 +23,7 @@ import { RadioButtonModule } from 'primeng/radiobutton';
         Fluid,
         Button,
         PasswordModule,
+        ToggleSwitch,
         InputTextModule,
         RadioButtonModule,
         FormControlErrorComponent,
@@ -49,6 +51,7 @@ export class UserFormComponent extends AbstractFormBase {
         organization: this.#fb.control<string | null>(null),
         department: this.#fb.control<string | null>(null),
         accessLevel: this.#fb.control<number | null>(1, Validators.required),
+        isServiceAccount: this.#fb.control<boolean>(false, Validators.required),
     });
 
     readonly #onInitialDataChangeEffect = effect((): void => {
@@ -63,6 +66,7 @@ export class UserFormComponent extends AbstractFormBase {
             organization: data.organization ?? null,
             department: data.department ?? null,
             accessLevel: data.accessLevel || 1,
+            isServiceAccount: data.isServiceAccount ?? false,
         });
 
         // Username if non-editable
@@ -75,8 +79,6 @@ export class UserFormComponent extends AbstractFormBase {
                 }
             });
         }
-
-
     });
     provider = computed(() => this.initialData()?.provider);
 
@@ -92,6 +94,7 @@ export class UserFormComponent extends AbstractFormBase {
             organization: data.organization,
             department: data.department,
             accessLevel: data.accessLevel!,
+            isServiceAccount: data.isServiceAccount ?? false,
         };
     }
 
