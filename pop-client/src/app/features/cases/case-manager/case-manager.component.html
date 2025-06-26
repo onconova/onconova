@@ -21,7 +21,7 @@
     </div>
     
     <!-- Case summary -->
-    <div class="case-manager-header card">
+    <div class="case-manager-header card p-3">
         <pop-identicon [value]="pseudoidentifier()" class="m-auto"/>
         <div class="ml-3 my-auto">
             <small class="text-muted">Patient case</small>
@@ -38,7 +38,7 @@
             </div>    
         </div>
         <p-divider layout="vertical"></p-divider>
-        <div class="">
+        <div class="my-auto">
             @if (case$.value(); as case) {
                 <div class="flex">
                     @if (primaryEntity$.value(); as primaryEntity) {
@@ -74,7 +74,7 @@
             } 
         </div>
         <p-divider layout="vertical"></p-divider>
-        <div class="">
+        <div class="my-auto">
             <div class="text-left">
                 <small class="text-muted">Latest staging</small>
                 <div>
@@ -106,7 +106,7 @@
             </div> 
         </div>
         <p-divider layout="vertical"></p-divider>
-        <div class="">
+        <div class="my-auto">
             <div class="text-left">
                 <small class="text-muted">Overall survival</small>
                 <div>
@@ -134,7 +134,7 @@
             </div> 
         </div>
         <p-divider layout="vertical"></p-divider>
-        <div class="">
+        <div class="my-auto">
             <div class="text-left">
                 <small class="text-muted">Clinical center</small>
                 <div>
@@ -162,7 +162,7 @@
             </div> 
         </div>
         <p-divider layout="vertical"></p-divider>
-        <div class="text-center">
+        <div class="my-auto text-center">
             <small class="text-muted">Completion</small>
             @if (case$.value(); as case) {
                 <p-knob [ngModel]="totalCompletion | number:'1.0-0'" 
@@ -175,7 +175,7 @@
             }
         </div>
         <p-divider layout="vertical"></p-divider>
-        <div class="text-left">
+        <div class="my-auto text-left">
             <small class="text-muted">Anonymization</small>
             <div class="">
                 @if (anonymized()) {
@@ -185,7 +185,7 @@
                 }
             </div>
 
-            <div class="flex flex-column mb-3 gap-1">
+            <div class="flex flex-column gap-1">
                 <small class="text-muted">Contributors</small>
                     <p-avatar-group >
                         @if (case$.value(); as case) {
@@ -206,7 +206,7 @@
             </div>    
         </div>
         <p-divider layout="vertical"></p-divider>
-        <div class="">
+        <div class="my-auto">
             <div class=flex>
                 <div class="text-left">
                     <small class="text-muted">Created</small>

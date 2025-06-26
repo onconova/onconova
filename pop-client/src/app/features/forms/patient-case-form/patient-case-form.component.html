@@ -127,17 +127,17 @@
                             <h4>Almost done!</h4>
                             <div class="">
                                 Please check that the patient's information is correct:
-                                <div class="ml-3 mt-3 pl-2" style="border-left: solid 4px var(--p-primary-500);">
-                                    <div><b>Center:</b> {{form.value.identification!.clinicalCenter}}</div>
-                                    <div><b>ID:</b> {{form.value.identification!.clinicalIdentifier}}</div>
+                                <div class="flex flex-column gap-2 ml-3 mt-3 pl-2" style="border-left: solid 4px var(--p-primary-500);">
+                                    <div><b>Clinical Center:</b> {{form.value.identification!.clinicalCenter}}</div>
+                                    <div><b>Clinical Identifier:</b> {{form.value.identification!.clinicalIdentifier}}</div>
                                     <div><b>Gender</b>: {{form.value.general!.gender?.display}}</div>
                                     <div><b>Date of birth</b>: {{form.value.general!.dateOfBirth | date:'MMM, y'}}</div>
-                                    <div><b>Alive</b>: {{form.value.general!.isAlive ? 'Yes' : 'No'}}</div>
+                                    <div><b>Vital status</b>: {{form.value.general!.isAlive ? 'Alive' : 'Deceased'}}</div>
                                     @if (!form.value.general!.isAlive) {
                                         <div><b>Date of death</b>: {{form.value.general!.dateOfDeath | date:'MMM, y'}}</div>
                                         <div><b>Cause of death</b>: {{form.value.general!.causeOfDeath?.display ?? 'N/S'}}</div>
                                     }
-                                    <div><b>Consent</b>: {{form.value.consent!.consentValid ? 'Yes' : 'No'}}</div>
+                                    <div><b>Valid consent</b>: {{form.value.consent!.consentValid ? 'Yes' : 'No'}}</div>
                                 </div>
                             </div>
                             <div class="flex py-3 gap-3">
