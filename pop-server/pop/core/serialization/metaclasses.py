@@ -25,7 +25,7 @@ GET_SCHEMA_FIELDS = (
 METADATA_FIELDS = (
     (
         "createdAt",
-        datetime,
+        Optional[datetime],
         Field(
             description="Date-time when the resource was created",
             alias="created_at",

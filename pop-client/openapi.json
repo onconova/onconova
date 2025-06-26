@@ -67,15 +67,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "anyOf": [
-                  {
-                    "$ref": "#/components/schemas/UserCredentials"
-                  },
-                  {
-                    "$ref": "#/components/schemas/UserProviderToken"
-                  }
-                ],
-                "title": "Credentials"
+                "$ref": "#/components/schemas/UserCredentials"
               }
             }
           },
@@ -45809,10 +45801,17 @@
             "type": "string"
           },
           "createdAt": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "Date-time when the resource was created",
-            "format": "date-time",
-            "title": "Createdat",
-            "type": "string"
+            "title": "Createdat"
           },
           "updatedAt": {
             "anyOf": [
@@ -46219,10 +46218,17 @@
             "type": "string"
           },
           "createdAt": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "Date-time when the resource was created",
-            "format": "date-time",
-            "title": "Createdat",
-            "type": "string"
+            "title": "Createdat"
           },
           "updatedAt": {
             "anyOf": [
@@ -46438,10 +46444,17 @@
             "type": "string"
           },
           "createdAt": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "Date-time when the resource was created",
-            "format": "date-time",
-            "title": "Createdat",
-            "type": "string"
+            "title": "Createdat"
           },
           "updatedAt": {
             "anyOf": [
@@ -46604,10 +46617,17 @@
             "type": "string"
           },
           "createdAt": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "Date-time when the resource was created",
-            "format": "date-time",
-            "title": "Createdat",
-            "type": "string"
+            "title": "Createdat"
           },
           "updatedAt": {
             "anyOf": [
@@ -46792,10 +46812,17 @@
             "type": "string"
           },
           "createdAt": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "Date-time when the resource was created",
-            "format": "date-time",
-            "title": "Createdat",
-            "type": "string"
+            "title": "Createdat"
           },
           "updatedAt": {
             "anyOf": [
@@ -46954,10 +46981,17 @@
             "type": "string"
           },
           "createdAt": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "Date-time when the resource was created",
-            "format": "date-time",
-            "title": "Createdat",
-            "type": "string"
+            "title": "Createdat"
           },
           "updatedAt": {
             "anyOf": [
@@ -47097,10 +47131,17 @@
             "type": "string"
           },
           "createdAt": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "Date-time when the resource was created",
-            "format": "date-time",
-            "title": "Createdat",
-            "type": "string"
+            "title": "Createdat"
           },
           "updatedAt": {
             "anyOf": [
@@ -47255,10 +47296,17 @@
             "type": "string"
           },
           "createdAt": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "Date-time when the resource was created",
-            "format": "date-time",
-            "title": "Createdat",
-            "type": "string"
+            "title": "Createdat"
           },
           "updatedAt": {
             "anyOf": [
@@ -47399,10 +47447,17 @@
             "type": "string"
           },
           "createdAt": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "Date-time when the resource was created",
-            "format": "date-time",
-            "title": "Createdat",
-            "type": "string"
+            "title": "Createdat"
           },
           "updatedAt": {
             "anyOf": [
@@ -47661,10 +47716,17 @@
             "type": "string"
           },
           "createdAt": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "Date-time when the resource was created",
-            "format": "date-time",
-            "title": "Createdat",
-            "type": "string"
+            "title": "Createdat"
           },
           "updatedAt": {
             "anyOf": [
@@ -47846,10 +47908,17 @@
             "type": "string"
           },
           "createdAt": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "Date-time when the resource was created",
-            "format": "date-time",
-            "title": "Createdat",
-            "type": "string"
+            "title": "Createdat"
           },
           "updatedAt": {
             "anyOf": [
@@ -48032,10 +48101,17 @@
             "type": "string"
           },
           "createdAt": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "Date-time when the resource was created",
-            "format": "date-time",
-            "title": "Createdat",
-            "type": "string"
+            "title": "Createdat"
           },
           "updatedAt": {
             "anyOf": [
@@ -48556,10 +48632,17 @@
             "type": "string"
           },
           "createdAt": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "Date-time when the resource was created",
-            "format": "date-time",
-            "title": "Createdat",
-            "type": "string"
+            "title": "Createdat"
           },
           "updatedAt": {
             "anyOf": [
@@ -48729,10 +48812,17 @@
             "type": "string"
           },
           "createdAt": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "Date-time when the resource was created",
-            "format": "date-time",
-            "title": "Createdat",
-            "type": "string"
+            "title": "Createdat"
           },
           "updatedAt": {
             "anyOf": [
@@ -48880,10 +48970,17 @@
             "type": "string"
           },
           "createdAt": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "Date-time when the resource was created",
-            "format": "date-time",
-            "title": "Createdat",
-            "type": "string"
+            "title": "Createdat"
           },
           "updatedAt": {
             "anyOf": [
@@ -49031,10 +49128,17 @@
             "type": "string"
           },
           "createdAt": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "Date-time when the resource was created",
-            "format": "date-time",
-            "title": "Createdat",
-            "type": "string"
+            "title": "Createdat"
           },
           "updatedAt": {
             "anyOf": [
@@ -49174,10 +49278,17 @@
             "type": "string"
           },
           "createdAt": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "Date-time when the resource was created",
-            "format": "date-time",
-            "title": "Createdat",
-            "type": "string"
+            "title": "Createdat"
           },
           "updatedAt": {
             "anyOf": [
@@ -49317,10 +49428,17 @@
             "type": "string"
           },
           "createdAt": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "Date-time when the resource was created",
-            "format": "date-time",
-            "title": "Createdat",
-            "type": "string"
+            "title": "Createdat"
           },
           "updatedAt": {
             "anyOf": [
@@ -49541,10 +49659,17 @@
             "type": "string"
           },
           "createdAt": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "Date-time when the resource was created",
-            "format": "date-time",
-            "title": "Createdat",
-            "type": "string"
+            "title": "Createdat"
           },
           "updatedAt": {
             "anyOf": [
@@ -49671,10 +49796,17 @@
             "type": "string"
           },
           "createdAt": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "Date-time when the resource was created",
-            "format": "date-time",
-            "title": "Createdat",
-            "type": "string"
+            "title": "Createdat"
           },
           "updatedAt": {
             "anyOf": [
@@ -49865,10 +49997,17 @@
             "type": "string"
           },
           "createdAt": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "Date-time when the resource was created",
-            "format": "date-time",
-            "title": "Createdat",
-            "type": "string"
+            "title": "Createdat"
           },
           "updatedAt": {
             "anyOf": [
@@ -50018,10 +50157,17 @@
             "type": "string"
           },
           "createdAt": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "Date-time when the resource was created",
-            "format": "date-time",
-            "title": "Createdat",
-            "type": "string"
+            "title": "Createdat"
           },
           "updatedAt": {
             "anyOf": [
@@ -50239,10 +50385,17 @@
             "type": "string"
           },
           "createdAt": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "Date-time when the resource was created",
-            "format": "date-time",
-            "title": "Createdat",
-            "type": "string"
+            "title": "Createdat"
           },
           "updatedAt": {
             "anyOf": [
@@ -50460,10 +50613,17 @@
             "type": "string"
           },
           "createdAt": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "Date-time when the resource was created",
-            "format": "date-time",
-            "title": "Createdat",
-            "type": "string"
+            "title": "Createdat"
           },
           "updatedAt": {
             "anyOf": [
@@ -50656,10 +50816,17 @@
             "type": "string"
           },
           "createdAt": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "Date-time when the resource was created",
-            "format": "date-time",
-            "title": "Createdat",
-            "type": "string"
+            "title": "Createdat"
           },
           "updatedAt": {
             "anyOf": [
@@ -50956,10 +51123,17 @@
             "type": "string"
           },
           "createdAt": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "Date-time when the resource was created",
-            "format": "date-time",
-            "title": "Createdat",
-            "type": "string"
+            "title": "Createdat"
           },
           "updatedAt": {
             "anyOf": [
@@ -51425,10 +51599,17 @@
             "type": "string"
           },
           "createdAt": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "Date-time when the resource was created",
-            "format": "date-time",
-            "title": "Createdat",
-            "type": "string"
+            "title": "Createdat"
           },
           "updatedAt": {
             "anyOf": [
@@ -51585,10 +51766,17 @@
             "type": "string"
           },
           "createdAt": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "Date-time when the resource was created",
-            "format": "date-time",
-            "title": "Createdat",
-            "type": "string"
+            "title": "Createdat"
           },
           "updatedAt": {
             "anyOf": [
@@ -51785,10 +51973,17 @@
             "type": "string"
           },
           "createdAt": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "Date-time when the resource was created",
-            "format": "date-time",
-            "title": "Createdat",
-            "type": "string"
+            "title": "Createdat"
           },
           "updatedAt": {
             "anyOf": [
@@ -51950,10 +52145,17 @@
             "type": "string"
           },
           "createdAt": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "Date-time when the resource was created",
-            "format": "date-time",
-            "title": "Createdat",
-            "type": "string"
+            "title": "Createdat"
           },
           "updatedAt": {
             "anyOf": [
@@ -52069,10 +52271,17 @@
             "type": "string"
           },
           "createdAt": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "Date-time when the resource was created",
-            "format": "date-time",
-            "title": "Createdat",
-            "type": "string"
+            "title": "Createdat"
           },
           "updatedAt": {
             "anyOf": [
@@ -52225,10 +52434,17 @@
             "type": "string"
           },
           "createdAt": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "Date-time when the resource was created",
-            "format": "date-time",
-            "title": "Createdat",
-            "type": "string"
+            "title": "Createdat"
           },
           "updatedAt": {
             "anyOf": [
@@ -52408,10 +52624,17 @@
             "type": "string"
           },
           "createdAt": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "Date-time when the resource was created",
-            "format": "date-time",
-            "title": "Createdat",
-            "type": "string"
+            "title": "Createdat"
           },
           "updatedAt": {
             "anyOf": [
@@ -52565,10 +52788,17 @@
             "type": "string"
           },
           "createdAt": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "Date-time when the resource was created",
-            "format": "date-time",
-            "title": "Createdat",
-            "type": "string"
+            "title": "Createdat"
           },
           "updatedAt": {
             "anyOf": [
@@ -52780,10 +53010,17 @@
             "type": "string"
           },
           "createdAt": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "Date-time when the resource was created",
-            "format": "date-time",
-            "title": "Createdat",
-            "type": "string"
+            "title": "Createdat"
           },
           "updatedAt": {
             "anyOf": [
@@ -52992,10 +53229,17 @@
             "type": "string"
           },
           "createdAt": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "Date-time when the resource was created",
-            "format": "date-time",
-            "title": "Createdat",
-            "type": "string"
+            "title": "Createdat"
           },
           "updatedAt": {
             "anyOf": [
@@ -53270,10 +53514,17 @@
             "type": "string"
           },
           "createdAt": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "Date-time when the resource was created",
-            "format": "date-time",
-            "title": "Createdat",
-            "type": "string"
+            "title": "Createdat"
           },
           "updatedAt": {
             "anyOf": [
@@ -53564,10 +53815,17 @@
             "type": "string"
           },
           "createdAt": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "Date-time when the resource was created",
-            "format": "date-time",
-            "title": "Createdat",
-            "type": "string"
+            "title": "Createdat"
           },
           "updatedAt": {
             "anyOf": [
@@ -53732,10 +53990,17 @@
             "type": "string"
           },
           "createdAt": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "Date-time when the resource was created",
-            "format": "date-time",
-            "title": "Createdat",
-            "type": "string"
+            "title": "Createdat"
           },
           "updatedAt": {
             "anyOf": [
@@ -53915,10 +54180,17 @@
             "type": "string"
           },
           "createdAt": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "Date-time when the resource was created",
-            "format": "date-time",
-            "title": "Createdat",
-            "type": "string"
+            "title": "Createdat"
           },
           "updatedAt": {
             "anyOf": [
@@ -54213,10 +54485,17 @@
             "type": "string"
           },
           "createdAt": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "Date-time when the resource was created",
-            "format": "date-time",
-            "title": "Createdat",
-            "type": "string"
+            "title": "Createdat"
           },
           "updatedAt": {
             "anyOf": [
@@ -54406,10 +54685,17 @@
             "type": "string"
           },
           "createdAt": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "Date-time when the resource was created",
-            "format": "date-time",
-            "title": "Createdat",
-            "type": "string"
+            "title": "Createdat"
           },
           "updatedAt": {
             "anyOf": [
@@ -54547,10 +54833,17 @@
             "type": "string"
           },
           "createdAt": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "Date-time when the resource was created",
-            "format": "date-time",
-            "title": "Createdat",
-            "type": "string"
+            "title": "Createdat"
           },
           "updatedAt": {
             "anyOf": [
@@ -54700,10 +54993,17 @@
             "type": "string"
           },
           "createdAt": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "Date-time when the resource was created",
-            "format": "date-time",
-            "title": "Createdat",
-            "type": "string"
+            "title": "Createdat"
           },
           "updatedAt": {
             "anyOf": [
@@ -54904,10 +55204,17 @@
             "type": "string"
           },
           "createdAt": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "Date-time when the resource was created",
-            "format": "date-time",
-            "title": "Createdat",
-            "type": "string"
+            "title": "Createdat"
           },
           "updatedAt": {
             "anyOf": [
@@ -55046,10 +55353,17 @@
             "type": "string"
           },
           "createdAt": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "Date-time when the resource was created",
-            "format": "date-time",
-            "title": "Createdat",
-            "type": "string"
+            "title": "Createdat"
           },
           "updatedAt": {
             "anyOf": [
@@ -56308,10 +56622,17 @@
             "type": "string"
           },
           "createdAt": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "Date-time when the resource was created",
-            "format": "date-time",
-            "title": "Createdat",
-            "type": "string"
+            "title": "Createdat"
           },
           "updatedAt": {
             "anyOf": [
@@ -74283,10 +74604,17 @@
             "type": "string"
           },
           "createdAt": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "Date-time when the resource was created",
-            "format": "date-time",
-            "title": "Createdat",
-            "type": "string"
+            "title": "Createdat"
           },
           "updatedAt": {
             "anyOf": [
@@ -82950,10 +83278,17 @@
             "type": "string"
           },
           "createdAt": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "Date-time when the resource was created",
-            "format": "date-time",
-            "title": "Createdat",
-            "type": "string"
+            "title": "Createdat"
           },
           "updatedAt": {
             "anyOf": [
