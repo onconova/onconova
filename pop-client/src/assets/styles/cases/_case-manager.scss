@@ -91,6 +91,9 @@ pop-case-manager-panel {
             }
         }
     }
+
+
+
 }
 
 
@@ -185,5 +188,35 @@ pop-case-manager-panel {
                 display: none !important;
             }
         }
+    }
+}
+
+.p-dialog:has(.confirmdialog-container){
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 10rem;
+
+    .confirmdialog-container {
+        background: var(--p-content-background);
+        box-shadow: var(--card-shadow);
+        border-radius: 12px;
+        padding: 1rem;
+        height: 100%;
+        min-width: 25rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .confirmdialog-icon {
+        color: var(--p-primary-contrast-color);
+        background: var(--p-primary-color) !important;
+        border-radius: 50%;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        height: 7rem;
+        width: 7rem;
+        margin-top: -4rem;
     }
 }

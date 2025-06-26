@@ -22,6 +22,7 @@ import { LucideIconData } from 'lucide-angular/icons/types';
 import { CaseManagerPanelTimelineComponent } from "./components/case-manager-panel-timeline.component";
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ModalFormHeaderComponent } from 'src/app/features/forms/modal-form-header.component';
+import { Button } from 'primeng/button';
 
 
 export interface DataService {
@@ -39,6 +40,7 @@ export interface DataService {
         LucideAngularModule,
         Panel,
         AvatarModule,
+        Button,
         Menu,
         BadgeModule,
         Skeleton,
@@ -186,29 +188,13 @@ export class CaseManagerPanelComponent {
 
     confirmDataComplete(event: any) {
         this.#confirmationService.confirm({
-            target: event.target as EventTarget,
-            header: 'Close data category',
-            icon: 'pi pi-question-circle',
-            message: `Do you confirm that all data entries have been collected? 
-            <div class="flex gap-3 my-2">
-                <div class="">
-                    <small class="text-muted">Total entries</small> 
-                    <div>${this.data.value()?.entries.length}</div>
-                </div>
-                <div class="">
-                    <small class="text-muted">Data category</small> 
-                    <div class="text-monospace">${this.category()}</div>
-                </div>
-            </div>
-            `,
-            rejectButtonProps: {label: 'Cancel', severity: 'secondary', outlined: true},
-            acceptButtonProps: {label: 'Confirm complete', severity: 'primary',},
+            key: 'completeConfirmDialog',
             accept: () => {
                 this.#patienCaseService.createPatientCaseDataCompletion({caseId:this.caseId(), category: this.category()})
                     .pipe(first()).subscribe({
                         complete: () => {
                             this.dataCompletionStatus.reload();
-                            this.#messageService.add({ severity: 'success', summary: 'Success', detail: `Category ${this.category()} marked as complete.`})
+                            this.#messageService.add({ severity: 'success', summary: 'Success', detail: `Category "${this.category()}" marked as complete.`})
                             this.onCompletionChange.emit(true)
                         }
                     })
@@ -218,35 +204,13 @@ export class CaseManagerPanelComponent {
 
     confirmDataIncomplete(event: any) {
         this.#confirmationService.confirm({
-            target: event.target as EventTarget,
-            header: 'Open data category',
-            icon: 'pi pi-question-circle',
-            message: `Do you confirm that there are data entries missing? 
-            <div class="flex gap-3 my-2">
-                <div class="">
-                    <small class="text-muted">Total entries</small> 
-                    <div>${this.data.value()?.entries.length}</div>
-                </div>
-                <div class="">
-                    <small class="text-muted">Data category</small> 
-                    <div class="text-monospace">${this.category()}</div>
-                </div>
-            </div>            
-            <div class="flex gap-3 my-2">
-                <div class="">
-                    <small class="text-muted">Previously completed by</small> 
-                    <div>${this.dataCompletionStatus.value()?.username} (${this.dataCompletionStatus.value()?.timestamp})</div>
-                </div>
-            </div>
-            `,
-            rejectButtonProps: {label: 'Cancel', severity: 'secondary', outlined: true},
-            acceptButtonProps: {label: 'Confirm & Open category', severity: 'primary'},
+            key: 'incompleteConfirmDialog',
             accept: () => {
                 this.#patienCaseService.deletePatientCaseDataCompletion({caseId: this.caseId(), category: this.category()})
                     .pipe(first()).subscribe({
                         complete: () => {
                             this.dataCompletionStatus.reload();
-                            this.#messageService.add({ severity: 'success', summary: 'Success', detail: `Category ${this.category} marked as incomplete.`})
+                            this.#messageService.add({ severity: 'success', summary: 'Success', detail: `Category "${this.category()}" marked as incomplete.`})
                             this.onCompletionChange.emit(false)
                         }
                     })

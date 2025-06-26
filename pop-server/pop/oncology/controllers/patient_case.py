@@ -193,10 +193,8 @@ class PatientCaseController(ControllerBase):
     def create_patient_case_data_completion(
         self, caseId: str, category: PatientCaseDataCompletion.PatientCaseDataCategories
     ):
-        return PatientCaseDataCompletion.objects.create(
-            case=get_object_or_404(PatientCase, id=caseId),
-            category=category,
-            created_by=self.context.request.user,
+        return 201, PatientCaseDataCompletion.objects.create(
+            case=get_object_or_404(PatientCase, id=caseId), category=category
         )
 
     @route.delete(
