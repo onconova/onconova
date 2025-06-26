@@ -49,6 +49,8 @@ export class RandomPaperComponent {
   public paperResource = rxResource({
     request: () => this.constructAPIcall(),  
     loader:  ({request}) => this.#http.get(request).pipe(
+      catchError(() => this.#http.get(this.constructAPIcall()))
+      ).pipe(
       map((response: any) => {
       const papers = response.message.items;
       if (papers && papers.length > 0) {
@@ -56,7 +58,7 @@ export class RandomPaperComponent {
           const index = this.getDateBasedIndex(papers.length);
           return papers[index];
       }
-      })
+      }),
     )
   });
 
@@ -80,10 +82,10 @@ export class RandomPaperComponent {
     return randomDate.toISOString().split('T')[0]; // Format as YYYY-MM-DD
   }
 
-  constructAPIcall() {
+  constructAPIcall(dateFilter: boolean = true) {
     const baseUrl = 'https://api.crossref.org/works';
     const query = 'cancer';
-    const filters = `type:journal-article,from-pub-date:${this.generateDynamicDateFilter()}`;
+    const filters = `type:journal-article` + (dateFilter ? `,from-pub-date:${this.generateDynamicDateFilter()}` : '');
     const rows = 1; // Maximum number of papers to retrieve
 
     // Construct API URL
