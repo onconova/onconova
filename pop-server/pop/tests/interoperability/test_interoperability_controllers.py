@@ -116,9 +116,9 @@ class TestInteroperabilityController(common.ApiControllerTestMixin, TestCase):
             pseudoidentifier=self.bundle.pseudoidentifier
         )
         self.assertEqual(self.case.clinical_identifier, new_case.clinical_identifier)
-        self.assertNotEqual(self.case.id, new_case.id)
+        self.assertEqual(self.case.id, new_case.id)
         imported_case = PatientCase.objects.filter(id=self.case.id).first()
-        self.assertIsNone(imported_case)
+        self.assertIsNotNone(imported_case)
 
     def test_import_conflicting_bundle_reassign(self):
         self.payload["clinicalIdentifier"] = "123456789"

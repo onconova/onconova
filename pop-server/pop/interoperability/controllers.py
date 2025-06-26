@@ -106,7 +106,7 @@ class InteroperabilityController(ControllerBase):
     @route.post(
         path="/bundles",
         response={201: ModifiedResourceSchema, 422: None},
-        permissions=[perms.CanManageCases, perms.CanExportData],
+        permissions=[perms.CanManageCases],
         operation_id="importPatientCaseBundle",
     )
     def import_case_bundle(
@@ -119,14 +119,18 @@ class InteroperabilityController(ControllerBase):
             if not conflict:
                 raise ConflictingCaseException()
             if conflict == ConflictResolution.OVERWRITE:
-                conflicting_case.delete()
+                conflicting_case = conflicting_case
             elif conflict == ConflictResolution.REASSIGN:
                 payload.pseudoidentifier = ""
-        if PatientCase.objects.filter(
-            clinical_identifier=payload.clinicalIdentifier,
-            clinical_center=payload.clinicalCenter,
-        ).exists():
-            raise ConflictingClinicalIdentifierException()
-        imported_case = BundleParser(payload).import_bundle()
+                conflicting_case = None
+        if not conflicting_case:
+            if PatientCase.objects.filter(
+                clinical_identifier=payload.clinicalIdentifier,
+                clinical_center=payload.clinicalCenter,
+            ).exists():
+                raise ConflictingClinicalIdentifierException()
+        print("CHECK PARSER")
+
+        imported_case = BundleParser(payload).import_bundle(case=conflicting_case)
         pghistory.create_event(imported_case, label="import")
         return 201, imported_case

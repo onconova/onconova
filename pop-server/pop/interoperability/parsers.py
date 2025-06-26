@@ -153,12 +153,12 @@ class BundleParser:
         self.update_key_map(orm_instance, schema_instance)
         return orm_instance
 
-    def import_bundle(self) -> models.PatientCase:
+    def import_bundle(self, case=None) -> models.PatientCase:
         # Conduct the import within a transaction to avoid partial imports in case of an error
         with transaction.atomic():
             # Import the core case datas
             case_schema = schemas.PatientCaseSchema.model_validate(self.bundle)
-            imported_case = self.import_resource(case_schema)
+            imported_case = self.import_resource(case_schema, instance=case)
             # Keep the imported pseudoidentifier
             imported_case.pseudoidentifier = self.bundle.pseudoidentifier
             imported_case.save()
