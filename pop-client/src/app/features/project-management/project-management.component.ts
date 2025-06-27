@@ -149,6 +149,7 @@ export class ProjectManagementComponent {
 
     canEditAuthorizations = computed(() => 
         this.project.value() && (this.currentUser()?.accessLevel || 0) > 1 && (
+            (this.currentUser()?.accessLevel || 0) > 2 ||
             this.currentUser().username == this.project.value()?.leader 
             || 
             (this.project.value()?.members || []).includes(this.currentUser().username)
