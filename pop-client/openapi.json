@@ -41896,6 +41896,68 @@
         ]
       }
     },
+    "/api/v1/cohorts/{cohortId}/therapy-responses/{therapyLine}": {
+      "get": {
+        "operationId": "getCohortTherapyLineResponseDistribution",
+        "summary": "Get Cohort Therapy Line Responses Distribution",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "cohortId",
+            "schema": {
+              "title": "Cohortid",
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "therapyLine",
+            "schema": {
+              "title": "Therapyline",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/CohortTraitCounts"
+                  },
+                  "title": "Response",
+                  "type": "array"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "tags": [
+          "Cohorts"
+        ],
+        "security": [
+          {
+            "XSessionTokenAuth": []
+          }
+        ]
+      }
+    },
     "/api/v1/dashboard/stats": {
       "get": {
         "operationId": "getFullCohortStatistics",
@@ -45398,6 +45460,18 @@
             "description": "Endpoint URL through which the event was triggered, if applicable",
             "title": "Endpoint"
           },
+          "resource": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Resource involved in the event, if applicable",
+            "title": "Resource"
+          },
           "snapshot": {
             "additionalProperties": true,
             "description": "Data snapshopt at the time of the event",
@@ -46201,6 +46275,18 @@
             ],
             "description": "Endpoint URL through which the event was triggered, if applicable",
             "title": "Endpoint"
+          },
+          "resource": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Resource involved in the event, if applicable",
+            "title": "Resource"
           },
           "snapshot": {
             "additionalProperties": true,

@@ -3,14 +3,13 @@ import json
 import hashlib
 from enum import Enum
 from datetime import datetime
-from collections import Counter
+from collections import Counter, OrderedDict
 from typing import List, Any
 
 from django.conf import settings
 from django.shortcuts import get_object_or_404
-from django.db.models import Subquery, F, OuterRef, Value
+from django.db.models import Subquery, F, OuterRef, Value, Max, Min
 from django.db.models.functions import Coalesce
-
 
 from ninja import Query
 from ninja.errors import HttpError, ValidationError
@@ -27,7 +26,7 @@ from pop.core.schemas import ModifiedResource as ModifiedResourceSchema, Paginat
 from pop.core.history.schemas import HistoryEvent
 
 from pop.oncology import schemas as oncological_schemas
-from pop.oncology.models import TherapyLine
+from pop.oncology.models import TherapyLine, TreatmentResponse
 from pop.interoperability.schemas import ExportMetadata
 
 from pop.research.compilers import construct_dataset
@@ -49,6 +48,7 @@ from pop.research.analysis import (
     calculate_Kappler_Maier_survival_curve,
     calculate_pfs_by_combination_therapy,
     calculate_pfs_by_therapy_classification,
+    count_treatment_responses_by_therapy_line,
 )
 
 
@@ -562,3 +562,27 @@ class CohortAnalysisController(ControllerBase):
         if not cohort.cases.exists():
             raise EmptyCohortException
         return 200, calculate_pfs_by_therapy_classification(cohort, therapyLine)
+
+    @route.get(
+        path="/{cohortId}/therapy-responses/{therapyLine}",
+        response={
+            200: List[CohortTraitCounts],
+            404: None,
+            422: None,
+            401: None,
+            403: None,
+        },
+        permissions=[perms.CanViewCohorts],
+        operation_id="getCohortTherapyLineResponseDistribution",
+    )
+    def get_cohort_therapy_line_responses_distribution(
+        self, cohortId: str, therapyLine: str
+    ):
+        cohort = get_object_or_404(Cohort, id=cohortId)
+        if not cohort.cases.exists():
+            raise EmptyCohortException
+        counter = count_treatment_responses_by_therapy_line(cohort, therapyLine)
+        return 200, [
+            CohortTraitCounts(category=category, counts=count, percentage=percentage)
+            for category, (count, percentage) in counter.items()
+        ]

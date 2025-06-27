@@ -8,7 +8,7 @@ import { ChartModule } from 'primeng/chart';
 import { SplitterModule } from 'primeng/splitter';
 import { PanelModule } from 'primeng/panel';
 
-import { Cohort, CohortsService } from 'pop-api-client';
+import { Cohort, CohortsService, CohortTraitCounts } from 'pop-api-client';
 import { KapplerMeierCurveComponent } from './components/kappler-meier-curve/kappler-meier-curve.component';
 import { FormsModule } from '@angular/forms';
 import { DoughnutGraphComponent } from './components/doughnut-graph/doughnut-graph.component';
@@ -86,6 +86,18 @@ export class CohortGraphsComponent {
     public therapyLineOptions = computed<string[]>(
         () => this.therapyLinesCount.value()?.map(item=>item.category).filter(label=>label!='None').sort((a, b) => a.localeCompare(b)) || []
     )
+    public therapyLineCohortFractionCount = computed((): CohortTraitCounts[] => {
+        const cohortFractionCount = this.therapyLinesCount.value()?.find(item=>item.category==this.selectedTherapyLine())?.counts || 0
+        return [{
+            category: 'Not included',
+            counts: this.cohort().population - cohortFractionCount,
+            percentage: (this.cohort().population - cohortFractionCount) / this.cohort().population
+        }, {
+            category: 'Included',
+            counts: cohortFractionCount,
+            percentage: cohortFractionCount / this.cohort().population
+        }]
+    })
     public selectedTherapyLine = signal<string>('CLoT1');
     public therapyLineDrugCombinations = rxResource({
         request: () => ({cohortId: this.cohort().id, therapyLine: this.selectedTherapyLine()}),
@@ -98,5 +110,9 @@ export class CohortGraphsComponent {
     public therapyLineSurvivalCurve = rxResource({
         request: () => ({cohortId: this.cohort().id, therapyLine: this.selectedTherapyLine()}),
         loader: ({request}) => this.#cohortService.getCohortProgressionFreeSurvivalCurve(request)
+    })
+    public therapyLineResponsesCount = rxResource({
+        request: () => ({cohortId: this.cohort().id, therapyLine: this.selectedTherapyLine()}),
+        loader: ({request}) => this.#cohortService.getCohortTherapyLineResponseDistribution(request)
     })
 }

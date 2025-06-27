@@ -1,4 +1,6 @@
 import pytest
+from datetime import date
+from collections import Counter
 
 from django.test import TestCase
 from django.db.models import F
@@ -10,6 +12,7 @@ from pop.research.analysis import (
     calculate_Kappler_Maier_survival_curve,
     get_progression_free_survival_for_therapy_line,
     calculate_pfs_by_therapy_classification,
+    count_treatment_responses_by_therapy_line,
 )
 from unittest.mock import MagicMock, patch
 
@@ -231,3 +234,72 @@ class TestCalculatePFSByTherapyClassification(TestCase):
         self.cohort.cases.clear()
         result = calculate_pfs_by_therapy_classification(self.cohort, "CLoT1")
         self.assertEqual([], result["Others"])
+
+
+class TestCountTreatmentResponseByTherapyLine(TestCase):
+
+    @staticmethod
+    def _simulate_case():
+        case = factories.PatientCaseFactory.create()
+        therapy_line_1 = factories.TherapyLineFactory.create(
+            case=case, intent="curative", ordinal=1
+        )
+        therapy1 = factories.SystemicTherapyFactory.create(
+            case=case,
+            therapy_line=therapy_line_1,
+            period=(date(2000, 1, 1), date(2001, 1, 1)),
+        )
+        treatment_response_1 = factories.TreatmentResponseFactory.create(
+            case=case, date=date(2000, 6, 6)
+        )
+        therapy_line_2 = factories.TherapyLineFactory.create(
+            case=case, intent="palliative", ordinal=1
+        )
+        therapy2 = factories.SystemicTherapyFactory.create(
+            case=case,
+            therapy_line=therapy_line_2,
+            period=(date(2002, 1, 1), date(2003, 1, 1)),
+        )
+        treatment_response_2 = factories.TreatmentResponseFactory.create(
+            case=case, date=date(2002, 6, 6)
+        )
+
+        return case
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.cohort = factories.CohortFactory.create()
+        cls.case1 = cls._simulate_case()
+        cls.case2 = cls._simulate_case()
+        cls.case3 = cls._simulate_case()
+        cls.cohort.cases.set([cls.case1, cls.case2, cls.case3])
+
+    def test_count_treatment_responses_incuding_CLoT1_lines(self):
+        result = count_treatment_responses_by_therapy_line(self.cohort, "CLoT1")
+        expected_recists = set(
+            [
+                recist
+                for case in [self.case1, self.case2, self.case3]
+                for recist in case.treatment_responses.filter(
+                    date=date(2000, 6, 6)
+                ).values_list("recist__display", flat=True)
+            ]
+        )
+        for recist in expected_recists:
+            self.assertIn(recist, result.keys())
+
+        for recist, (count, percentage) in result.items():
+            expected_counts = sum(
+                [
+                    case.treatment_responses.filter(
+                        recist__display=recist, date=date(2000, 6, 6)
+                    ).count()
+                    for case in [self.case1, self.case2, self.case3]
+                ]
+            )
+            self.assertEqual(expected_counts, count)
+
+    def test_with_no_cases(self):
+        self.cohort.cases.clear()
+        result = count_treatment_responses_by_therapy_line(self.cohort, "CLoT1")
+        self.assertEqual([], list(result.keys()))

@@ -76,13 +76,21 @@ class Cohort(BaseModel):
     def description(self) -> str:
         return f"{self.name} ({self.cases.count()} cases)"
 
-    def get_cohort_trait_average(self, trait: str) -> Tuple[float, float]:
+    def get_cohort_trait_average(self, trait: str, **filters) -> Tuple[float, float]:
+        cases = self.cases.all()
+        if filters:
+            cases = cases.filter(**filters)
         if not self.cases.exists():
             return None
         queryset = self.cases.aggregate(Avg(trait), StdDev(trait))
         return queryset[f"{trait}__avg"], queryset[f"{trait}__stddev"]
 
-    def get_cohort_trait_median(self, trait: str) -> Tuple[float, Tuple[float, float]]:
+    def get_cohort_trait_median(
+        self, trait: str, **filters
+    ) -> Tuple[float, Tuple[float, float]]:
+        cases = self.cases.all()
+        if filters:
+            cases = cases.filter(**filters)
         if not self.cases.exists():
             return None
         queryset = self.cases.aggregate(
@@ -92,8 +100,11 @@ class Cohort(BaseModel):
         iqr = (queryset[f"{trait}__p25"], queryset[f"{trait}__p75"])
         return median, iqr
 
-    def get_cohort_trait_counts(self, trait: str) -> dict:
-        if not self.cases.exists():
+    def get_cohort_trait_counts(self, trait: str, **filters) -> dict:
+        cases = self.cases.all()
+        if filters:
+            cases = cases.filter(**filters)
+        if not cases:
             return None
         values = self.cases.annotate(trait=F(trait)).values_list("trait", flat=True)
         return OrderedDict(

@@ -119,6 +119,44 @@
                 [allowEmpty]="false"/>
         }
 
+        <div class="flex gap-5">
+            <div class="mr-4">
+                <div class="font-semibold mt-4">Cohort fraction</div>
+                <div class="text-muted mb-2">
+                    A distribution of the proportion of patients in the cohort that have received this therapy line.
+                </div>    
+                @if (therapyLineOptions().length==0) {
+                    <p-message severity="warn" styleClass="mb-5">No therapy lines have been assigned to this cohort's cases.</p-message>
+                } @else {
+                    @if (loading() || therapyLinesCount.isLoading()) {
+                        <p-skeleton height="10rem" width="15rem"/>
+                    } @else {
+                        @if (therapyLineCohortFractionCount(); as data) {
+                            <pop-doughnut-graph [data]="data" legendPosition="right" width="25rem"/>
+                        }
+                    }
+                }
+            </div>
+
+            <div>
+                <div class="font-semibold mt-4">Treatment response (RECIST)</div>
+                <div class="text-muted mb-2">
+                    A distribution of the responses to the therapy line of the patients in the cohort.
+                </div>    
+                @if (therapyLineOptions().length==0) {
+                    <p-message severity="warn" styleClass="mb-5">No therapy lines have been assigned to this cohort's cases.</p-message>
+                } @else {
+                    @if (loading() || therapyLineResponsesCount.isLoading()) {
+                        <p-skeleton height="10rem" width="15rem"/>
+                    } @else {
+                        @if (therapyLineResponsesCount.value(); as data) {
+                            <pop-doughnut-graph [data]="data" legendPosition="right" width="25rem"/>
+                        }
+                    }
+                }
+            </div>
+        </div>
+
         <div class="font-semibold mt-4">Progression-free survival (PFS)</div>
         <div class="text-muted mb-2">
             Kaplan-Meier survival analysis of the progression-free survival of the patients in the cohort during the therapy line. 

@@ -1,12 +1,12 @@
 import math
-from collections import Counter
+from collections import Counter, OrderedDict
 from statistics import NormalDist
 from typing import List, Tuple, Dict, Optional
 
 from django.db.models import F, Subquery, OuterRef
 
 from pop.research.models.cohort import Cohort
-from pop.oncology.models import TherapyLine, SystemicTherapy
+from pop.oncology.models import TherapyLine, SystemicTherapy, TreatmentResponse
 
 
 def calculate_Kappler_Maier_survival_curve(
@@ -238,3 +238,53 @@ def calculate_pfs_by_therapy_classification(cohort: Cohort, therapyLine: str):
         )
     )
     return survival_per_classification
+
+
+def count_treatment_responses_by_therapy_line(cohort: Cohort, therapyLine: str):
+    """
+    Return a dictionary with the count and percentage of treatment responses for the given
+    therapy line in the given cohort.
+
+    The dictionary will have the following keys:
+        * CR (complete response)
+        * PR (partial response)
+        * PD (progressive disease)
+        * SD (stable disease)
+        * Unknown (if no response is found)
+
+    The values will be a tuple of the count and percentage of the total cohort population
+    for each response category.
+
+    :param cohort: The cohort to filter cases from.
+    :param therapyLine: The label of the therapy line to filter by.
+    :return: A dictionary with the count and percentage of treatment responses.
+    """
+    # Filter all therapy lines for current patient and by the queries line-label
+    values = (
+        cohort.cases.filter(therapy_lines__label=therapyLine)
+        .annotate(
+            response=Subquery(
+                TreatmentResponse.objects.annotate(
+                    therapy_line_period=Subquery(
+                        TherapyLine.objects.select_properties("period")
+                        .filter(case_id=OuterRef("case_id"), label=therapyLine)
+                        .values_list("period", flat=True)[:1]
+                    )
+                )
+                .filter(
+                    case_id=OuterRef("id"),
+                    therapy_line_period__contains=F("date"),
+                )
+                .order_by("-date")
+                .values_list("recist__display", flat=True)[:1]
+            )
+        )
+        .values_list("response", flat=True)
+    )
+    # Count the responses
+    return OrderedDict(
+        [
+            (key or "Unknown", (count, round(count / values.count() * 100.0, 4)))
+            for key, count in Counter(values).items()
+        ]
+    )
