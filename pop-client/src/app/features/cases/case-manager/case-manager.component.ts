@@ -69,6 +69,13 @@ import { CancerIconComponent } from 'src/app/shared/components/cancer-icon/cance
 import { UserBadgeComponent } from 'src/app/shared/components/user-badge/user-badge.component';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { AvatarGroup } from 'primeng/avatargroup';
+import Scan from 'src/assets/images/icons/scan';
+import Tumor from 'src/assets/images/icons/tumor';
+import Risk from 'src/assets/images/icons/risk';
+import Comorbidities from 'src/assets/images/icons/comorbidities';
+import GenomicSignature from 'src/assets/images/icons/genomic_signature';
+import AdverseEvent from 'src/assets/images/icons/adverse_event';
+import Board from 'src/assets/images/icons/board';
 
 
 
@@ -232,22 +239,22 @@ export class CaseManagerComponent {
     public readonly PatientCaseDataCategories = PatientCaseDataCategories; 
 
     public icons = {
-        neoplasticEntities: Ribbon,
+        neoplasticEntities: Tumor,
         stagings: Tags,
-        riskAssessments: HeartPulse,
+        riskAssessments: Risk,
         tumorMarkers: TestTubeDiagonal,
         genomicVariants: Dna,
-        genomicSignatures: Fingerprint,
+        genomicSignatures: GenomicSignature,
         systemicTherapies: Tablets,
         surgeries: Slice, 
         radiotherapies: Radiation,
         lifestyle: Cigarette,
         familyHistory: History,
-        comorbidities: DiamondPlus,
+        comorbidities: Comorbidities,
         vitals: Activity,
-        tumorBoards: Presentation,
-        adverseEvents: ShieldAlert,
-        treatmentResponses: Image, 
+        tumorBoards: Board,
+        adverseEvents: AdverseEvent,
+        treatmentResponses: Scan, 
         performanceStatus: CircleGauge,
     }
 
