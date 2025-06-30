@@ -23,6 +23,9 @@ import { AuthService } from 'src/app/core/auth/services/auth.service';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ModalFormHeaderComponent } from '../../forms/modal-form-header.component';
 import { rxResource } from '@angular/core/rxjs-interop';
+import { Toolbar } from 'primeng/toolbar';
+import { PopoverFilterButtonComponent } from 'src/app/shared/components/popover-filter-button/popover-filter-button.component';
+import { NgxCountAnimationDirective } from 'ngx-count-animation';
 
 @Component({
     templateUrl: './cohort-search.component.html',
@@ -37,6 +40,8 @@ import { rxResource } from '@angular/core/rxjs-interop';
         DataViewModule,
         SkeletonModule,
         DividerModule,
+        Toolbar,
+        NgxCountAnimationDirective,
         CohortSearchItemComponent,
     ]
 })

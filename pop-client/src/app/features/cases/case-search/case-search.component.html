@@ -1,7 +1,7 @@
 
 <div class="flex flex-column">
-    <h2 class="mb-0 font-semibold">
-        Data Hub - 
+    <h6 class="mb-0">Data Hub</h6>
+    <h2 class="mb-0 mt-0 font-semibold">
         @if (isUserPage()) {
             My Contributions
         } @else {
@@ -31,7 +31,7 @@
     </ng-template>
 
     <ng-template #end>
-        <div class="flex gap-2">
+        <div class="flex gap-2 align-items-center">
             <p-iconfield>
                 <p-inputicon styleClass="pi pi-search"/>
                 <input type="text" pInputText placeholder="Search" [(ngModel)]="searchQuery"/>

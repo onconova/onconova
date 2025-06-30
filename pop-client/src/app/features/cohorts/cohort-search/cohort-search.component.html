@@ -1,32 +1,54 @@
-<div class="flex">
-    <h1 class="mb-0">{{ isUserPage() ? 'My Cohorts' : 'Cohorts Search'}}</h1>
-</div>
-
-<div class="flex">
-    <div class="my-auto ml-3">
-        @if (cohorts.isLoading()) {
-            <p-skeleton width="4rem" height="2rem"/>
+<div class="flex flex-column">
+    <h6 class="mb-0">Research Management</h6>
+    <h2 class="mb-0 mt-0 font-semibold">
+        {{ isUserPage() ? 'My Cohort Contributions' : 'Cohort Explorer'}}
+    </h2>
+    <div class="text-muted">
+        @if (isUserPage()) {
+            Welcome to your personalized cohorts page. You can find all cohorts to which you have contributed.
         } @else {
-            <span class="font-bold text-2xl mr-2">{{ totalCohorts() }}</span> (Cohorts)
+            Welcome to the cohort explorer. You can find all existing cohorts here.
         }
-    </div>        
-    <div class="flex ml-auto">
-
-        <p-iconfield>
-            <p-inputicon styleClass="pi pi-search" />
-            <input type="text" pInputText placeholder="Search" [(ngModel)]="searchQuery"/>
-        </p-iconfield>
-        <!-- Button to add new cohorts -->
-        <p-button 
-            (onClick)="openNewCohortForm()" 
-            label="New cohort" 
-            class="ml-3"
-            [icon]="'pi pi-plus'"/>
-    </div>
+    </div>    
 </div>
-    
-<p-divider></p-divider>
 
+<p-toolbar styleClass="my-3 border-transparent">
+
+    <ng-template #start>
+        <div class="mt-auto ml-3">
+            <div class="text-muted"><small>Total cohorts</small></div>
+            @if (cohorts.isLoading()) {
+                <p-skeleton width="4rem" height="2rem"/>
+            } @else {
+                <div class="text-center text-3xl font-semibold" [ngxCountAnimation]="totalCohorts()" duration="500"></div>
+            }
+        </div>        
+    </ng-template>
+
+    <ng-template #end>
+        <div class="flex gap-2 align-items-center">
+            <p-iconfield>
+                <p-inputicon styleClass="pi pi-search"/>
+                <input type="text" pInputText placeholder="Search" [(ngModel)]="searchQuery"/>
+            </p-iconfield>
+            <p-button 
+                icon="pi pi-sync"
+                title="Refresh cases"
+                severity="secondary"
+                (onClick)="cohorts.reload()"/>
+
+            <p-divider layout="vertical"></p-divider>
+
+            <!-- Button to add new projects -->
+            <p-button 
+                (onClick)="openNewCohortForm()" 
+                label="Register New Cohort"
+                icon="pi pi-plus"/>
+        </div>
+    </ng-template>
+
+</p-toolbar>
+    
 @if (cohorts.isLoading()) {
     <div class="grid mt-3 gap-3">
         @for (_ of [].constructor(15); track $index; let first = $first;) {
