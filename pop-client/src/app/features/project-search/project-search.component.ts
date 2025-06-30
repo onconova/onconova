@@ -27,6 +27,8 @@ import { Divider } from 'primeng/divider';
 import { AuthService } from 'src/app/core/auth/services/auth.service';
 import { ProjectSearchItemComponent } from './components/project-search-item.component';
 import { ProjectFormComponent } from '../forms/projects-form/projects-form.component';
+import { PopoverFilterButtonComponent } from 'src/app/shared/components/popover-filter-button/popover-filter-button.component';
+import { SelectButton } from 'primeng/selectbutton';
 
 @Component({
     selector: 'pop-project-search',
@@ -34,11 +36,13 @@ import { ProjectFormComponent } from '../forms/projects-form/projects-form.compo
     imports: [
         CommonModule,
         ProjectSearchItemComponent,
+        PopoverFilterButtonComponent,
         NgxCountAnimationDirective,
         FormsModule,
         TableModule,
         ButtonModule,
         IconFieldModule,
+        SelectButton,
         OverlayBadgeModule,
         InputIconModule,
         InputTextModule,
@@ -77,6 +81,7 @@ export class ProjectSearchComponent {
         request: () => ({
             titleContains: this.searchQuery() || undefined, 
             membersUsername: this.member() || undefined,  
+            status: this.selectedStatus()?.value || undefined,
             limit: this.pagination().limit, 
             offset: this.pagination().offset
         } as GetProjectsRequestParams),
@@ -92,6 +97,7 @@ export class ProjectSearchComponent {
 
     // Computed properties
     public searchQuery = signal<string>('');
+    public selectedStatus = signal<any>('');
     public readonly currentUser = computed(() => this.#authService.user());
     public readonly isPersonalPage = computed(() => this.member() !== undefined);
     
@@ -100,6 +106,13 @@ export class ProjectSearchComponent {
     public pagination = signal({limit: this.pageSizeChoices[0], offset: 0});
     public totalProjects= signal(0);
     public currentOffset: number = 0;
+
+    protected projectStatusChoices: any[] = [
+        {label: 'Planned', value: ProjectStatusChoices.Planned},
+        {label: 'Ongoing', value: ProjectStatusChoices.Ongoing},
+        {label: 'Completed', value: ProjectStatusChoices.Completed},
+        {label: 'Aborted', value: ProjectStatusChoices.Aborted},
+    ];
 
     // Modal form config
     #modalFormConfig = computed( () => ({
@@ -141,6 +154,10 @@ export class ProjectSearchComponent {
                 this.projects.reload()
             }
         })    
+    }
+    
+    showSelectedChoiceFilter(choice: {label: string, value: any}): string {
+        return choice.label
     }
 }
 

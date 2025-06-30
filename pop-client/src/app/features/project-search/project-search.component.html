@@ -1,6 +1,7 @@
 
 <div class="flex flex-column">
-    <h2 class="mb-0 font-semibold">
+    <h6 class="mb-0">Research Management</h6>
+    <h2 class="mb-0 mt-0 font-semibold">
         @if (isPersonalPage()) {
             Your Projects
         } @else {
@@ -9,7 +10,7 @@
     </h2>
     <div class="text-muted">
         @if (isPersonalPage()) {
-            Welcome to your personal projects search page. You can find all projects of which you are a member.
+            Welcome to your personalized projects search page. You can find all projects of which you are a member.
         } @else {
             Welcome to the projects search page. You can find all present and past projects here.
         }
@@ -30,7 +31,7 @@
     </ng-template>
 
     <ng-template #end>
-        <div class="flex">
+        <div class="flex gap-2 align-items-center">
             <p-iconfield>
                 <p-inputicon styleClass="pi pi-search"/>
                 <input type="text" pInputText placeholder="Search" [(ngModel)]="searchQuery"/>
@@ -40,7 +41,21 @@
                 title="Refresh cases"
                 severity="secondary"
                 (onClick)="projects.reload()"/>
+
+            <pop-popover-filter-button [(ngModel)]="selectedStatus" label="Status" [selectionLabelFcn]="showSelectedChoiceFilter">
+                <ng-template #popoverContent let-filter="formControl">
+                    <div class="p-2">
+                        <div class="text-muted mb-3">Select a project status:</div>
+                        <p-selectbutton 
+                            [options]="projectStatusChoices" optionLabel="label"  aria-labelledby="basic"
+                            [ngModel]="filter?.value"
+                            (ngModelChange)="filter?.setValue($event)"/>
+                    </div>
+                </ng-template>
+            </pop-popover-filter-button>
+
             <p-divider layout="vertical"></p-divider>
+
             <!-- Button to add new projects -->
             <p-button 
                 (onClick)="openProjectForm()" 

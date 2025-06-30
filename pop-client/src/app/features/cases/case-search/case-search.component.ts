@@ -17,9 +17,11 @@ import { SkeletonModule } from 'primeng/skeleton';
 import { DividerModule } from 'primeng/divider';
 import { ToolbarModule } from 'primeng/toolbar';
 import { OverlayBadgeModule } from 'primeng/overlaybadge';
+import { PopoverModule } from 'primeng/popover';
+import { SliderModule } from 'primeng/slider';
 
 // Project dependencies
-import { PatientCase, PatientCasesService} from 'pop-api-client';
+import { CodedConcept, GetPatientCasesRequestParams, NeoplasticEntitiesService, PatientCase, PatientCasesService} from 'pop-api-client';
 import { CaseSearchItemCardComponent } from './components/case-search-item/case-search-item.component';
 import { PatientFormComponent } from 'src/app/features/forms';
 import { AuthService } from 'src/app/core/auth/services/auth.service';
@@ -27,6 +29,10 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { rxResource } from '@angular/core/rxjs-interop';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ModalFormHeaderComponent } from '../../forms/modal-form-header.component';
+import { ConceptSelectorComponent } from 'src/app/shared/components';
+import { ButtonGroup } from 'primeng/buttongroup';
+import { PopoverFilterButtonComponent } from 'src/app/shared/components/popover-filter-button/popover-filter-button.component';
+import { SelectButton } from 'primeng/selectbutton';
 
 
 @Component({
@@ -38,9 +44,14 @@ import { ModalFormHeaderComponent } from '../../forms/modal-form-header.componen
       FormsModule,
       ReactiveFormsModule,
       IconFieldModule,
+      ConceptSelectorComponent,
       OverlayBadgeModule,
       InputIconModule,
       InputTextModule,
+      SelectButton,
+      PopoverModule,
+      SliderModule,
+      PopoverFilterButtonComponent,
       ButtonModule,
       DataViewModule,
       SkeletonModule,
@@ -63,6 +74,7 @@ export class CaseSearchComponent {
   
   // Injected services  
   readonly #patientCasesService = inject(PatientCasesService)
+  readonly #neoplasticEntitiesService = inject(NeoplasticEntitiesService)
   readonly #authService = inject(AuthService)
   readonly #messageService = inject(MessageService) 
   readonly #dialogservice = inject(DialogService)
@@ -78,9 +90,33 @@ export class CaseSearchComponent {
   public totalCases= signal(0);
   public searchQuery = signal('');
 
+  protected selectedAgeRange = signal<number[] | undefined>(undefined)
+  protected selectedDataCompletionRange = signal<number[] | undefined>(undefined)
+  protected selectedGender = signal<CodedConcept | undefined>(undefined)
+  protected selectedVitalStatus = signal<any | undefined>(undefined)
+  protected selectedPrimarySite = signal<CodedConcept | undefined>(undefined)
+  protected selectedMorphology = signal<CodedConcept | undefined>(undefined)
+
+  protected vitalStatusChoices = [
+    {value: false, label: 'Alive'},
+    {value: true, label: 'Deceased'},
+  ]
+
+
   // Resources
   public cases: Resource<PatientCase[] | undefined> = rxResource({
-    request: () => ({pseudoidentifierContains: this.searchQuery() || undefined, contributorsOverlaps: this.manager() ? [this.manager() as string] : undefined, limit: this.pagination().limit, offset: this.pagination().offset}),
+    request: () => ({
+      pseudoidentifierContains: this.searchQuery() || undefined, 
+      contributorsOverlaps: this.manager() ? [this.manager() as string] : undefined,
+      ageBetween: this.selectedAgeRange(),
+      gender: this.selectedGender()?.code || undefined,
+      dataCompletionRateBetween:this.selectedDataCompletionRange(),
+      primarySite: this.selectedPrimarySite()?.code || undefined, 
+      morphology: this.selectedMorphology()?.code || undefined, 
+      isDeceased: this.selectedVitalStatus()?.value || undefined,
+      limit: this.pagination().limit, 
+      offset: this.pagination().offset
+    } as GetPatientCasesRequestParams),
     loader: ({request}) => this.#patientCasesService.getPatientCases(request).pipe(
       tap(page => this.totalCases.set(page.count)),
       map(page => page.items),
@@ -120,5 +156,18 @@ export class CaseSearchComponent {
             this.cases.reload()
         }
       })    
+  }
+
+  showSelectedCodedFilter(value: CodedConcept): string {
+    return value!.display!
+  }
+  showAgeRangeFilter(range: any[]): string {
+    return `${range[0]}-${range[1]} years`
+  }
+  showDataCompletionFilter(range: any[]): string {
+    return `${range[0]}-${range[1]}%`
+  }
+  showSelectedChoiceFilter(choice: {label: string, value: any}): string {
+    return choice.label
   }
 }
