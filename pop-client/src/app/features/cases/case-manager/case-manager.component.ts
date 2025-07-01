@@ -76,7 +76,7 @@ import Comorbidities from 'src/assets/images/icons/comorbidities';
 import GenomicSignature from 'src/assets/images/icons/genomic_signature';
 import AdverseEvent from 'src/assets/images/icons/adverse_event';
 import Board from 'src/assets/images/icons/board';
-
+import { CaseManagerTourService } from './case-manager.tour.service';
 
 
 @Component({
@@ -129,6 +129,7 @@ export class CaseManagerComponent {
     readonly #adverseEventsService = inject(AdverseEventsService);
     readonly #tumorBoardsService = inject(TumorBoardsService);
     readonly #treatmentResponsesService = inject(TreatmentResponsesService);
+    readonly #tourService = inject(CaseManagerTourService);
 
 
     public neoplasticEntityService: DataService = {
@@ -298,6 +299,10 @@ export class CaseManagerComponent {
 
     updateCompletion(completed: boolean) {
         this.totalCompletion = this.totalCompletion + Math.round(100*(completed ? 1 : -1)/Object.keys(this.icons).length);
+    }
+
+    startTour() {
+        this.#tourService.start();
     }
 
 }

@@ -14,11 +14,14 @@
                 {{ title() }}
             </span>
             <p-badge styleClass="pop-case-manager-counter-badge" 
+                [pTooltip]="data.isLoading() ? '' : `${data.value()?.length || '-'} ${title() || ''} entries for this case`"
                 [value]="data.isLoading() ? '-' : data.value()?.length || '-'" 
                 [severity]="data.value()?.entries?.length ? 'success' : 'secondary'"/>
-            @if (isCompleted()) {
-                <i class="pi pi-star-fill" title="Category tagged as completed by {{ dataCompletionStatus.value()!.username }} on {{ dataCompletionStatus.value()!.timestamp | date }}"></i>                
-            }
+            <div class="pop-case-manager-completion-indicator">
+                @if (isCompleted()) {
+                    <i class="pi pi-star-fill" pTooltip="Category tagged as completed by {{ dataCompletionStatus.value()!.username }} on {{ dataCompletionStatus.value()!.timestamp | date }}"></i>                
+                }
+            </div>
         </div>
         
         @if (!data.isLoading()) {

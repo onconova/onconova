@@ -23,6 +23,7 @@ import { CaseManagerPanelTimelineComponent } from "./components/case-manager-pan
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ModalFormHeaderComponent } from 'src/app/features/forms/modal-form-header.component';
 import { Button } from 'primeng/button';
+import { Tooltip } from 'primeng/tooltip';
 
 
 export interface DataService {
@@ -39,6 +40,7 @@ export interface DataService {
         CommonModule,
         LucideAngularModule,
         Panel,
+        Tooltip,
         AvatarModule,
         Button,
         Menu,

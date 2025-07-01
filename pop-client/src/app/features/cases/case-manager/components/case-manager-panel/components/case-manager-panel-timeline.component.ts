@@ -33,7 +33,7 @@ export interface RadioChoice {
                     </div>
                     <div class="flex flex-column gap-2">
                         @for (event of groupedEvents.events; track event.id) {
-                            <div (click)="onEventClick.emit(event)" class="cursor-pointer">
+                            <div (click)="onEventClick.emit(event)" class="pop-case-manager-panel-timeline-event-entry cursor-pointer">
                                 <i class="pop-case-manager-panel-timeline-event-icon pi pi-box"></i>
                                 {{ event.description }}
                             </div>                        

@@ -10,7 +10,7 @@
     <pop-drawer-properties [data]="data()"/>
 
     <p-divider align="left"><span class="p-divider-text"><i class="pi pi-database"></i> Metadata</span></p-divider>
-
+    <div class="pop-case-manager-drawer-metadata">
     <div class="property mb-2">
         <div class="property-label text-muted text-sm">Anonymization status</div>
         <div class="text-sm">
@@ -35,6 +35,7 @@
             <div class="monospace"><small>{{ data().externalSourceId }}</small></div>
         </div>
     }
+    </div>
 
     <p-divider align="left"><span class="p-divider-text"><i class="pi pi-history"></i> History</span></p-divider>
 
@@ -81,7 +82,7 @@
             <p-button 
                 label="Hide" 
                 icon="pi pi-eye-slash" 
-                class="w-full" 
+                styleClass="pop-case-manager-drawer-hide-button"
                 severity="secondary"
                 (click)="visibleChange.emit(false)"
                 outlined/>
