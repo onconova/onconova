@@ -4,7 +4,7 @@
             <div class="flex">
                 <div class="flex flex-column mr-3 gap-3">
                     <div class="flex gap-2">
-                        <p-button icon="pi pi-sync" label="Load Dataset" severity="secondary" (onClick)="datasetSelect.toggle($event);"/>
+                        <p-button icon="pi pi-sync" label="Load Dataset" styleClass="load-dataset-button" severity="secondary" (onClick)="datasetSelect.toggle($event);"/>
                         <p-popover #datasetSelect>
                             <div class="flex flex-col gap-4">
                                 <div>
@@ -31,10 +31,10 @@
                             || !datasetChanged()
                             || dataset.isLoading() 
                             || processing()" 
-                        styleClass="w-full" 
+                        styleClass="dataset-save-button w-full" 
                         (onClick)="submitDataset()"/>
                 </div>
-                <form [formGroup]="form">
+                <form [formGroup]="form" class="dataset-metadata-form">
                     <div class="field">
                         <label class="form-label required mr-3">Title</label>
                         <input type="text" pInputText formControlName="title" />
@@ -49,6 +49,7 @@
                     <p-button 
                         [icon]="currentUser().canExportData ? 'pi pi-download' : 'pi pi-lock'" 
                         label="Download Dataset" 
+                        styleClass="dataset-download-button"
                         class="h-4rem flex mb-3"
                         (onClick)="downloadMenu.toggle($event)"
                         [disabled]="form.invalid 

@@ -66,6 +66,11 @@ const TourDriverConfig: Config = {
             title: 'Pagination',
             description: 'You can browse through the different result pages using this toolbar.', 
         }},
+        {popover: { 
+            side: "left", align: 'center', 
+            title: 'Finished',
+            description: `Congratulations! This is the end of the tour for the case explorer page.`, 
+        }},
     ]
 };
 export default TourDriverConfig;
