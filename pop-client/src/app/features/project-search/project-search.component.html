@@ -1,26 +1,34 @@
 
-<div class="flex flex-column">
-    <h6 class="mb-0">Research Management</h6>
-    <h2 class="mb-0 mt-0 font-semibold">
-        @if (isPersonalPage()) {
-            Your Projects
-        } @else {
-            Projects
-        }
-    </h2>
-    <div class="text-muted">
-        @if (isPersonalPage()) {
-            Welcome to your personalized projects search page. You can find all projects of which you are a member.
-        } @else {
-            Welcome to the projects search page. You can find all present and past projects here.
-        }
+<div class="flex">
+    <div>
+        <h6 class="mb-0">Research Management</h6>
+        <h2 class="mb-0 mt-0 font-semibold">
+            @if (isPersonalPage()) {
+                Your Projects
+            } @else {
+                Projects
+            }
+        </h2>
+        <div class="text-muted">
+            @if (isPersonalPage()) {
+                Welcome to your personalized projects search page. You can find all projects of which you are a member.
+            } @else {
+                Welcome to the projects search page. You can find all present and past projects here.
+            }
+        </div>    
     </div>    
+    <p-button
+        icon="pi pi-question-circle"
+        label="Tutorial" 
+        [outlined]="true"
+        class="ml-auto"
+        (onClick)="startTour()"/>
 </div>
 
 <p-toolbar styleClass="my-3 border-transparent">
 
     <ng-template #start>
-        <div class="mt-auto ml-3">
+        <div class="project-search-results-count mt-auto ml-3">
             <div class="text-muted"><small>Total projects</small></div>
             @if (projects.isLoading()) {
                 <p-skeleton width="4rem" height="2rem"/>
@@ -32,32 +40,38 @@
 
     <ng-template #end>
         <div class="flex gap-2 align-items-center">
-            <p-iconfield>
-                <p-inputicon styleClass="pi pi-search"/>
-                <input type="text" pInputText placeholder="Search" [(ngModel)]="searchQuery"/>
-            </p-iconfield>
+            <div class="project-search-filters flex gap-2 ">
+                <p-iconfield>
+                    <p-inputicon styleClass="pi pi-search"/>
+                    <input type="text" pInputText placeholder="Search by Title" [(ngModel)]="searchQuery"/>
+                </p-iconfield>
+
+                <pop-popover-filter-button [(ngModel)]="selectedStatus" label="Status" [selectionLabelFcn]="showSelectedChoiceFilter">
+                    <ng-template #popoverContent let-filter="formControl">
+                        <div class="p-2">
+                            <div class="text-muted mb-3">Select a project status:</div>
+                            <p-selectbutton 
+                                [options]="projectStatusChoices" optionLabel="label"  aria-labelledby="basic"
+                                [ngModel]="filter?.value"
+                                (ngModelChange)="filter?.setValue($event)"/>
+                        </div>
+                    </ng-template>
+                </pop-popover-filter-button>
+            </div>
+
+            <p-divider layout="vertical"/>
+
+            <!-- Button to refresh projects -->
             <p-button 
+                id="project-search-refresh-projects-button"
                 icon="pi pi-sync"
                 title="Refresh cases"
                 severity="secondary"
                 (onClick)="projects.reload()"/>
-
-            <pop-popover-filter-button [(ngModel)]="selectedStatus" label="Status" [selectionLabelFcn]="showSelectedChoiceFilter">
-                <ng-template #popoverContent let-filter="formControl">
-                    <div class="p-2">
-                        <div class="text-muted mb-3">Select a project status:</div>
-                        <p-selectbutton 
-                            [options]="projectStatusChoices" optionLabel="label"  aria-labelledby="basic"
-                            [ngModel]="filter?.value"
-                            (ngModelChange)="filter?.setValue($event)"/>
-                    </div>
-                </ng-template>
-            </pop-popover-filter-button>
-
-            <p-divider layout="vertical"></p-divider>
-
+                
             <!-- Button to add new projects -->
             <p-button 
+                id="project-search-new-project-button"
                 (onClick)="openProjectForm()" 
                 [disabled]="!currentUser().canManageProjects"
                 label="Register New Project"

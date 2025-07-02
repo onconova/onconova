@@ -1,0 +1,65 @@
+.driver-popover-prev-btn,
+.driver-popover-next-btn {
+    display: inline-flex !important;
+    cursor: pointer !important;
+    user-select: none !important;
+    align-items: center !important;
+    justify-content: center !important;
+    overflow: hidden !important;
+    position: relative !important;
+    color: var(--p-button-primary-color) !important;
+    background: var(--p-button-primary-background) !important;
+    border: 1px solid var(--p-button-primary-border-color) !important;
+    padding-block: var(--p-button-padding-y) !important;
+    padding-inline: var(--p-button-padding-x) !important;
+    font-size: 1rem !important;
+    font-family: inherit !important;
+    font-feature-settings: inherit !important;
+    transition: background var(--p-button-transition-duration), color var(--p-button-transition-duration), border-color var(--p-button-transition-duration), outline-color var(--p-button-transition-duration), box-shadow var(--p-button-transition-duration) !important;
+    border-radius: var(--p-button-border-radius) !important;
+    outline-color: transparent !important;
+    gap: var(--p-button-gap) !important;
+    text-shadow: none !important;
+}
+
+.driver-popover-prev-btn{
+    background: transparent  !important;
+    border-color: var(--p-button-outlined-primary-border-color) !important;
+    color: var(--p-button-outlined-primary-color) !important;
+}
+
+.driver-popove {
+  box-shadow: var(--p-tooltip-shadow) !important;
+}
+#driver-popover-content {
+    background: light-dark(var(--p-surface-50), var(--p-surface-700)) !important;
+    color: var(--p-text-color);
+}
+
+.driver-popover-arrow {
+    border-color: var(--p-tooltip-background);
+}
+.driver-popover-arrow-side-bottom {
+    bottom: 100%;
+    border-left-color: transparent;
+    border-top-color: transparent;
+    border-right-color: transparent;
+}
+.driver-popover-arrow-side-top {
+    bottom: 100%;
+    border-left-color: transparent;
+    border-bottom-color: transparent;
+    border-right-color: transparent;
+}
+.driver-popover-arrow-side-left {
+    bottom: 100%;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    border-top-color: transparent;
+}
+.driver-popover-arrow-side-right {
+    bottom: 100%;
+    border-left-color: transparent;
+    border-bottom-color: transparent;
+    border-top-color: transparent;
+}

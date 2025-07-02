@@ -33,6 +33,8 @@ import { TimelineModule } from 'primeng/timeline';
 import { Card } from 'primeng/card';
 import { Fieldset } from 'primeng/fieldset';
 import { rxResource } from '@angular/core/rxjs-interop';
+import { driver } from 'driver.js';
+import TourDriverConfig from './cohort-manager.tour';
 
 
 @Component({
@@ -91,6 +93,7 @@ export class CohortBuilderComponent {
         population: Users,
         completion: ClipboardCheck
     };
+    private readonly tour = TourDriverConfig
     public loading = computed(() => this.cohort.isLoading() || this.submittedCohort.isLoading())
     public editCohortName: boolean = false;
     public pagination = signal({limit: 15, offset: 0});
@@ -271,5 +274,9 @@ export class CohortBuilderComponent {
         return changes;
     }
     
+    
+    startTour() {
+        driver(this.tour).drive()    
+    }
     
 }

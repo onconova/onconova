@@ -26,6 +26,8 @@ import { rxResource } from '@angular/core/rxjs-interop';
 import { Toolbar } from 'primeng/toolbar';
 import { PopoverFilterButtonComponent } from 'src/app/shared/components/popover-filter-button/popover-filter-button.component';
 import { NgxCountAnimationDirective } from 'ngx-count-animation';
+import { driver } from 'driver.js';
+import TourDriverConfig from './cohort-search.tour';
 
 @Component({
     templateUrl: './cohort-search.component.html',
@@ -78,6 +80,7 @@ export class CohortSearchComponent {
       })
     )
   })
+  protected tour = TourDriverConfig;
 
   openNewCohortForm() {    
       this.#modalFormRef = this.#dialogservice.open(CohortFormComponent, {
@@ -109,6 +112,10 @@ export class CohortSearchComponent {
             this.cohorts.reload()
         }
       })    
+  }
+  
+  startTour() {
+      driver(this.tour).drive()    
   }
 
 }

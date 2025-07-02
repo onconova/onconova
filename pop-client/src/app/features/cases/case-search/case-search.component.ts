@@ -30,9 +30,10 @@ import { rxResource } from '@angular/core/rxjs-interop';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ModalFormHeaderComponent } from '../../forms/modal-form-header.component';
 import { ConceptSelectorComponent } from 'src/app/shared/components';
-import { ButtonGroup } from 'primeng/buttongroup';
 import { PopoverFilterButtonComponent } from 'src/app/shared/components/popover-filter-button/popover-filter-button.component';
 import { SelectButton } from 'primeng/selectbutton';
+import TourDriverConfig from './case-search.tour';
+import { driver } from 'driver.js';
 
 
 @Component({
@@ -73,11 +74,10 @@ export class CaseSearchComponent {
   public readonly manager = input<string>();
   
   // Injected services  
-  readonly #patientCasesService = inject(PatientCasesService)
-  readonly #neoplasticEntitiesService = inject(NeoplasticEntitiesService)
-  readonly #authService = inject(AuthService)
-  readonly #messageService = inject(MessageService) 
-  readonly #dialogservice = inject(DialogService)
+  readonly #patientCasesService = inject(PatientCasesService);
+  readonly #authService = inject(AuthService);
+  readonly #messageService = inject(MessageService) ;
+  readonly #dialogservice = inject(DialogService);
   #modalFormRef: DynamicDialogRef | undefined;
 
   // Computed properties
@@ -97,6 +97,7 @@ export class CaseSearchComponent {
   protected selectedPrimarySite = signal<CodedConcept | undefined>(undefined)
   protected selectedMorphology = signal<CodedConcept | undefined>(undefined)
 
+  protected readonly tour = TourDriverConfig;
   protected vitalStatusChoices = [
     {value: false, label: 'Alive'},
     {value: true, label: 'Deceased'},
@@ -170,4 +171,9 @@ export class CaseSearchComponent {
   showSelectedChoiceFilter(choice: {label: string, value: any}): string {
     return choice.label
   }
+
+  startTour() {
+      driver(this.tour).drive()    
+  }
+  
 }

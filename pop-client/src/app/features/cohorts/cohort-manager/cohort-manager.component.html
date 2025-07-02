@@ -1,7 +1,13 @@
 
 
-<div class="mb-3">
+<div class="flex mb-3 w-12">
     <p-button label="Return" severity="secondary" icon="pi pi-chevron-left" (click)="goBack()"/>
+    <p-button
+        icon="pi pi-question-circle"
+        label="Tutorial" 
+        [outlined]="true"
+        class="ml-auto"
+        (onClick)="startTour()"/>
 </div>
 
 <form [formGroup]="cohortControl" (ngSubmit)="submitCohort()" class="cohort-manager">
@@ -9,15 +15,22 @@
     <div class="mb-1 text-muted">Cohort</div>
     @if (cohort.value(); as cohort) {
         <div>
-            <div class="text-4xl">
+            <div class="text-4xl flex align-items-center">
                 @if (editCohortName) { 
                     <input type="text" pInputText formControlName="name" class="mr-2"/>
-                    <i class="pi pi-check" (click)="editCohortName = false"></i>
+                    <p-button 
+                        icon="pi pi-check"
+                        variant="text"
+                        [disabled]="!userCanEdit()"
+                        (onClick)="editCohortName = false"/>
                 } @else {
                     {{ cohortControl.value.name }}
-                    @if (userCanEdit()) {
-                        <i class="pi pi-pencil mb-1" (click)="editCohortName = true"></i>   
-                    }
+                    <p-button 
+                        id="cohort-manager-edit-name-button"
+                        icon="pi pi-pencil"
+                        variant="text"
+                        [disabled]="!userCanEdit()"
+                        (onClick)="editCohortName = true"/>
                 }
             </div>
         </div>
@@ -28,17 +41,19 @@
                     <pop-user-badge [username]="cohort.createdBy" [showName]="true"/>
                 </div>
             }     
-        </div>
-        <div class="flex mt-2 gap-3">
-            @if (cohort.createdBy) {
+            @if (project.hasValue()) {
                 <div>
-                    <div class="text-muted text-sm">Project</div>
-                    <div>{{project.value()?.title || '-' }}</div>
+                    <div class="text-muted text-sm">Research Project</div>
+                    <div class="mt-2">{{project.value()?.title || '-' }}</div>
                 </div>
             }
             <div>
+                <div class="text-muted text-sm">Created</div> 
+                <div class="mt-2">{{cohort.createdAt | date }}</div>
+            </div>       
+            <div>
                 <div class="text-muted text-sm">Last updated</div> 
-                <div>{{cohort.updatedAt | date }}</div>
+                <div class="mt-2">{{cohort.updatedAt | date }}</div>
             </div>            
         </div>
     } @else if (cohort.isLoading()) {
@@ -46,7 +61,7 @@
     }
 </div>
 
-<div class="flex flex-wrap gap-4 mb-3">
+<div class="cohort-manager-stats flex flex-wrap gap-4 mb-3">
 
     <pop-cohort-trait-panel  title="Population" [icon]="icons.population" [loading]="loading()">
         @if (cohort) {
@@ -100,7 +115,7 @@
     </pop-cohort-trait-panel>
 </div>
 
-<div class="flex flex-column gap-3 mt-4">
+<div class="cohort-manager-cohort-definition flex flex-column gap-3 mt-4">
     @if (cohortControl && cohort.hasValue()) {
         <p-panel class="pop-cohort-criteria-panel" [toggleable]="true">    
             <ng-template #header>
@@ -131,7 +146,7 @@
     type="submit" 
     [icon]="userCanEdit() ? 'pi pi-sync' : 'pi pi-lock'"
     label="Save & Update Cohort" 
-    styleClass="w-15rem p-3"  
+    styleClass="cohort-manager-save-button w-15rem p-3"  
     [loading]="loading()"
     [disabled]="!userCanEdit() || !cohortControl || cohortControl.invalid" />
 </div>

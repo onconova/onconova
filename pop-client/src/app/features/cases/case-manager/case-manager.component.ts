@@ -76,7 +76,8 @@ import Comorbidities from 'src/assets/images/icons/comorbidities';
 import GenomicSignature from 'src/assets/images/icons/genomic_signature';
 import AdverseEvent from 'src/assets/images/icons/adverse_event';
 import Board from 'src/assets/images/icons/board';
-
+import TourDriverConfig from './case-manager.tour';
+import { driver } from 'driver.js';
 
 
 @Component({
@@ -129,7 +130,6 @@ export class CaseManagerComponent {
     readonly #adverseEventsService = inject(AdverseEventsService);
     readonly #tumorBoardsService = inject(TumorBoardsService);
     readonly #treatmentResponsesService = inject(TreatmentResponsesService);
-
 
     public neoplasticEntityService: DataService = {
         get: (request) => this.#neoplasticEntitiesService.getNeoplasticEntities(request),
@@ -258,6 +258,7 @@ export class CaseManagerComponent {
         performanceStatus: CircleGauge,
     }
 
+    protected readonly tour = TourDriverConfig;
     public exportLoading: boolean = false;
     public totalCompletion!: number; 
     readonly currentUser = computed(() => this.#authService.user());
@@ -298,6 +299,10 @@ export class CaseManagerComponent {
 
     updateCompletion(completed: boolean) {
         this.totalCompletion = this.totalCompletion + Math.round(100*(completed ? 1 : -1)/Object.keys(this.icons).length);
+    }
+
+    startTour() {
+        driver(this.tour).drive()    
     }
 
 }
