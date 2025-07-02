@@ -41,19 +41,6 @@ Cohort creation is limited to the scope of research projects. If you are not a m
 --- 
 
 
-#### Why is it necessary for users to accept a EULA related to data protection and usage?
-To ensure legal compliance and responsible data stewardship, all users must agree to a End-User License Agreement (EULA) that outlines the permitted use of the POP platform and the handling of sensitive clinical data. This is especially important in healthcare environments where data may be pseudonymized but still subject to regulations like GDPR, HIPAA, or institutional review board (IRB) policies.
-
-The EULA helps ensure that:
-
-- Users understand their responsibilities regarding data privacy and ethical usage.
-- Access to pseudonymized or anonymized patient data is governed by institutional and legal safeguards.
-- The platform's developers and host institutions are protected against misuse or unauthorized redistribution of data.
-- Signing the EULA is a prerequisite for accessing any level of sensitive data in POP, and may be required again if the terms change in the future.
-
---- 
-
-
 #### Do I need an ethics approval to use this platform for a research project?
 Yes — if your use of the Precision Oncology Platform (POP) involves handling clinical data, even in anonymized or pseudonymized form, you are typically required to obtain approval from your institution’s ethics committee or institutional review board (IRB) before starting your research project.
 
