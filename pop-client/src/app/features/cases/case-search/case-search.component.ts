@@ -171,9 +171,9 @@ export class CaseSearchComponent {
   showSelectedChoiceFilter(choice: {label: string, value: any}): string {
     return choice.label
   }
-  
-    startTour() {
-        driver(this.tour).drive()    
-    }
+
+  startTour() {
+      driver(this.tour).drive()    
+  }
   
 }

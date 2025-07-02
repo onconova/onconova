@@ -29,6 +29,8 @@ import { ProjectSearchItemComponent } from './components/project-search-item.com
 import { ProjectFormComponent } from '../forms/projects-form/projects-form.component';
 import { PopoverFilterButtonComponent } from 'src/app/shared/components/popover-filter-button/popover-filter-button.component';
 import { SelectButton } from 'primeng/selectbutton';
+import { driver } from 'driver.js';
+import TourDriverConfig from './project-search.tour';
 
 @Component({
     selector: 'pop-project-search',
@@ -59,7 +61,7 @@ import { SelectButton } from 'primeng/selectbutton';
         trigger('fadeAnimation', [
             state('void', style({ opacity: 0 })), // Initial state (not visible)
             transition(':enter', [animate('500ms ease-in')]), // Fade-in effect
-            transition(':leave', [animate('500ms ease-out')]) // Fade-out effect
+            transition(':leave', [animate('200ms ease-out')]) // Fade-out effect
         ])
     ]
 })
@@ -113,6 +115,7 @@ export class ProjectSearchComponent {
         {label: 'Completed', value: ProjectStatusChoices.Completed},
         {label: 'Aborted', value: ProjectStatusChoices.Aborted},
     ];
+    protected tour = TourDriverConfig;
 
     // Modal form config
     #modalFormConfig = computed( () => ({
@@ -158,6 +161,10 @@ export class ProjectSearchComponent {
     
     showSelectedChoiceFilter(choice: {label: string, value: any}): string {
         return choice.label
+    }
+
+    startTour() {
+        driver(this.tour).drive()    
     }
 }
 

@@ -96,22 +96,22 @@ export class CohortSearchItemComponent {
     )
     public readonly populationIcon = Users;
     public readonly actionItems = [
-        // {
-        //     label: 'Export',
-        //     icon: 'pi pi-file-export',
-        //     disabled: !this.currentUser().canExportData,
-        //     command: (event: any) => {
-        //         console.log('export', this.cohort().id)
-        //     },
-        // },
+        {
+            label: 'Export',
+            icon: 'pi pi-file-export',
+            styleClass: 'export-action',
+            disabled: !this.currentUser().canViewCohorts,
+            command: (event: any) => {
+                console.log('export', this.cohort().id)
+            },
+        },
         {
             label: 'Delete',
             icon: 'pi pi-trash',
             styleClass: 'delete-action',
-            disabled: !this.currentUser().canManageCases,
+            disabled: !(this.currentUser().role == AccessRoles.SystemAdministrator || this.currentUser().role == AccessRoles.PlatformManager),
             command: (event: any) => {
-                console.log('delete', this.cohort().id)
-                // this.confirmDelete(event);
+                this.confirmDelete(event);
             },
         },
     ];
