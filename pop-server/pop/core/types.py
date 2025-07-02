@@ -30,3 +30,6 @@ class AgeBin(str, Enum):
     AGE_80_84 = "80-84"
     AGE_85_89 = "85-89"
     OVER_90 = "90+"
+
+    def __str__(self):
+        return self.value

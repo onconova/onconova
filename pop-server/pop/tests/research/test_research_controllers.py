@@ -89,52 +89,25 @@ class TestCohortTraitsController(common.ApiControllerTestMixin, TestCase):
         cls.cohort.cases.set([factories.PatientCaseFactory.create() for _ in range(10)])
 
     @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
-    def test_get_cohort_trait_average(self, scenario, config):
+    def test_get_cohort_traits_statistics(self, scenario, config):
         # Call the API endpoint
-        response = self.call_api_endpoint(
-            "GET", f"/{self.cohort.id}/traits/{self.trait}/average", **config
-        )
+        response = self.call_api_endpoint("GET", f"/{self.cohort.id}/traits", **config)
         # Assert response content
         if scenario == "HTTPS Authenticated":
             self.assertEqual(response.status_code, 200)
-            values = [getattr(case, self.trait) for case in self.cohort.cases.all()]
-            expected = schemas.cohort.CohortTraitAverage(
-                average=average(values), standardDeviation=std(values)
-            ).model_dump()
-            result = schemas.cohort.CohortTraitAverage.model_validate(
-                response.json()
-            ).model_dump()
-            self.assertDictEqual(result, expected)
 
-    @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
-    def test_get_cohort_trait_median(self, scenario, config):
-        # Call the API endpoint
-        response = self.call_api_endpoint(
-            "GET", f"/{self.cohort.id}/traits/{self.trait}/median", **config
-        )
-        # Assert response content
-        if scenario == "HTTPS Authenticated":
-            self.assertEqual(response.status_code, 200)
-            values = [getattr(case, self.trait) for case in self.cohort.cases.all()]
+            # Assert median age in response
+            values = [getattr(case, "age") for case in self.cohort.cases.all()]
             expected = schemas.cohort.CohortTraitMedian(
                 median=percentile(values, 50),
                 interQuartalRange=(percentile(values, 25), percentile(values, 75)),
             ).model_dump()
-            result = schemas.cohort.CohortTraitMedian.model_validate(
+            result = schemas.cohort.CohortTraits.model_validate(
                 response.json()
-            ).model_dump()
+            ).age.model_dump()
             self.assertDictEqual(result, expected)
 
-    @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
-    def test_get_cohort_trait_counts(self, scenario, config):
-        self.trait = "gender.display"
-        # Call the API endpoint
-        response = self.call_api_endpoint(
-            "GET", f"/{self.cohort.id}/traits/{self.trait}/counts", **config
-        )
-        # Assert response content
-        if scenario == "HTTPS Authenticated":
-            self.assertEqual(response.status_code, 200)
+            # Assert gender counts in response
             counter = Counter([case.gender.display for case in self.cohort.cases.all()])
             expected = [
                 schemas.cohort.CohortTraitCounts(
@@ -145,8 +118,10 @@ class TestCohortTraitsController(common.ApiControllerTestMixin, TestCase):
                 for category, count in counter.items()
             ]
             result = [
-                schemas.cohort.CohortTraitCounts.model_validate(item).model_dump()
-                for item in response.json()
+                count.model_dump()
+                for count in schemas.cohort.CohortTraits.model_validate(
+                    response.json()
+                ).genders
             ]
             self.assertEqual(result, expected)
 

@@ -70,7 +70,7 @@
     </pop-cohort-trait-panel>
 
     <pop-cohort-trait-panel  title="Median age" [icon]="icons.age" [loading]="loading()" [valid]="cohort && cohortNonEmpty()">
-        @if (ageStats.value(); as age) {
+        @if (cohortTraits.value()?.age; as age) {
             <span class="font-bold text-lg">{{ age.median }} </span> 
             @if (age.interQuartalRange !== null) {
                 ({{ age.interQuartalRange[0] }}, {{ age.interQuartalRange[1] }})
@@ -79,25 +79,27 @@
     </pop-cohort-trait-panel>
 
     <pop-cohort-trait-panel  title="Predominant gender" [icon]="icons.gender" [loading]="loading()" [valid]="cohort && cohortNonEmpty()">
-        @if (genderStats.value(); as gender) {
-            <span class="font-bold text-lg">{{ gender.category }}</span> 
-            @if (gender.percentage !== null) {
-                {{ gender.percentage | number:'1.0-1' }}
+        @if (cohortTraits.value()?.genders; as genders) {
+            @let predominantGender = getPredominantCount(genders);
+            <span class="font-bold text-lg">{{ predominantGender.category }}</span> 
+            @if (predominantGender.percentage !== null) {
+                {{ predominantGender.percentage | number:'1.0-1' }}
             }%
         }
     </pop-cohort-trait-panel>
 
     <pop-cohort-trait-panel  title="Predominant site" [icon]="icons.site" [loading]="loading()" [valid]="cohort && cohortNonEmpty()">
-        @if (topographyStats.value(); as topography) {
-            <span class="font-bold text-lg">{{ topography.category }}</span> 
-            @if (topography.percentage !== null) {
-                {{ topography.percentage | number:'1.0-1' }}
+        @if (cohortTraits.value()?.neoplasticSites; as neoplasticSites) {
+            @let predominantSite = getPredominantCount(neoplasticSites);
+            <span class="font-bold text-lg">{{ predominantSite.category }}</span> 
+            @if (predominantSite.percentage !== null) {
+                {{ predominantSite.percentage | number:'1.0-1' }}
             }%
         }
     </pop-cohort-trait-panel>
 
     <pop-cohort-trait-panel  title="Median overall survival" [icon]="icons.survival" [loading]="loading()" [valid]="cohort && cohortNonEmpty()">
-        @if (overallSurvivalStats.value(); as os) {
+        @if (cohortTraits.value()?.overallSurvival; as os) {
             <span class="font-bold text-lg">{{ os.median | number:'1.0-0' }}</span> 
             @if (os.interQuartalRange !== null) {
                     ({{ os.interQuartalRange[0] | number:'1.0-0' }}, {{ os.interQuartalRange[1] | number:'1.0-0' }})
@@ -106,7 +108,7 @@
     </pop-cohort-trait-panel>
 
     <pop-cohort-trait-panel  title="Median data completion" [icon]="icons.completion" [loading]="loading()" [valid]="cohort && cohortNonEmpty()">
-        @if (dataCompletionStats.value(); as completion) {
+        @if (cohortTraits.value()?.dataCompletion; as completion) {
             <span class="font-bold text-lg">{{ completion.median}}%</span>
             @if (completion.interQuartalRange !== null) {
                 ({{ completion.interQuartalRange[0] }}, {{ completion.interQuartalRange[1] }})
@@ -215,7 +217,7 @@
                             </p-dataView>
                     </p-tabpanel>
                     <p-tabpanel value="1">
-                        <pop-cohort-graphs [cohort]="cohort.value()!" [loading]="loading()"/>
+                        <pop-cohort-graphs [cohort]="cohort.value()!" [traits]="cohortTraits" [loading]="loading()"/>
                     </p-tabpanel>
                     <p-tabpanel value="2">
                         <pop-dataset-composer [cohort]="cohort.value()!" [loading]="loading()"/>

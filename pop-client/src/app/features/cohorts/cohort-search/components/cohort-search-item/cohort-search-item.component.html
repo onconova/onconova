@@ -27,9 +27,10 @@
         <div class="flex flex-column">
             <small class="text-muted mb-1">Predominant neoplastic topography</small>
             <div class="flex my-auto gap-1">
-                @if (predominantSite.isLoading()) {
+                @if (cohortTraits.isLoading()) {
                     <p-skeleton width="4rem" height="1rem"/>      
-                } @if (predominantSite.value(); as predominantSite) {
+                } @if (cohortTraits.value()?.neoplasticSites; as neoplasticSites) {
+                    @let predominantSite = getPredominantCount(neoplasticSites);
                     <div class="my-auto">
                         <span class="text-xl">{{ (predominantSite.percentage | number:'1.0-0') || '-' }}% <small>{{ predominantSite.category }}</small></span>               
                     </div>    
@@ -43,9 +44,9 @@
         <div class="flex flex-column">
             <small class="text-muted mb-1">Median age</small>
             <div class="flex my-auto gap-1">
-                @if (ageStats.isLoading()) {
+                @if (cohortTraits.isLoading()) {
                     <p-skeleton width="6rem" height="1rem"/>     
-                } @if (ageStats.value(); as age) {
+                } @if (cohortTraits.value()?.age; as age) {
                     <div class="my-auto">
                         <span class="text-xl">{{ age.median || '-' }} <small>years</small></span>               
                     </div>    
@@ -59,9 +60,9 @@
         <div class="flex flex-column">
             <small class="text-muted mb-1">Median completion</small>
             <div class="flex my-auto gap-1">
-                @if (dataCompletionStats.isLoading()) {
+                @if (cohortTraits.isLoading()) {
                     <p-skeleton width="6rem" height="1rem"/>       
-                } @if (dataCompletionStats.value(); as dataCompletion) {
+                } @if (cohortTraits.value()?.dataCompletion; as dataCompletion) {
                     <div class="my-auto">
                         <span class="text-xl">{{ dataCompletion.median || '-' }}% <small>complete</small></span>               
                     </div>    

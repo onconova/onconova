@@ -15,7 +15,7 @@ import { Divider } from 'primeng/divider';
 import { Users, CalendarClock, ClipboardCheck, Activity, VenusAndMars, Locate } from 'lucide-angular';
 import { LucideAngularModule } from 'lucide-angular';
 
-import { CohortsService, Cohort, CohortCreate, CohortTraitCounts, ProjectsService, AccessRoles, GetCohortTraitMedianRequestParams } from 'pop-api-client';
+import { CohortsService, Cohort, CohortCreate, ProjectsService, AccessRoles, CohortTraitCounts } from 'pop-api-client';
 
 import { CohortQueryBuilderComponent } from './components/cohort-query-builder/cohort-query-builder.component';
 import { catchError, map, of, throwError } from 'rxjs';
@@ -151,31 +151,10 @@ export class CohortBuilderComponent {
         }
     })
 
-    public ageStats = rxResource({
-        request: () => this.cohortNonEmpty() ? {cohortId: this.currentCohortId(), trait: 'age'} : undefined,
-        loader: ({request}: any) =>  this.#cohortsService.getCohortTraitMedian(request)
+    public cohortTraits = rxResource({
+        request: () => this.cohortNonEmpty() ? {cohortId: this.currentCohortId()} : undefined,
+        loader: ({request}: any) =>  this.#cohortsService.getCohortTraitsStatistics(request)
     }) 
-    public topographyStats = rxResource({
-        request: () => this.cohortNonEmpty() ? {cohortId: this.currentCohortId(), trait: 'neoplasticEntities.topographyGroup.display'} : undefined,
-        loader: ({request}: any) =>  this.cohortNonEmpty() ? this.#cohortsService.getCohortTraitCounts(request).pipe(map(
-            (response: CohortTraitCounts[]) => response.sort((a,b) => b.counts - a.counts)[0] 
-        )) : of(null)
-    }) 
-    public genderStats = rxResource({
-        request: () => this.cohortNonEmpty() ? {cohortId: this.currentCohortId(), trait: 'gender.display'} : undefined,
-        loader: ({request}: any) =>  this.cohortNonEmpty() ? this.#cohortsService.getCohortTraitCounts(request).pipe(map(
-            (response: CohortTraitCounts[]) => response.sort((a,b) => b.counts - a.counts)[0] 
-        )) : of(null)
-    }) 
-    public overallSurvivalStats = rxResource({
-        request: () => this.cohortNonEmpty() ? {cohortId: this.currentCohortId(), trait: 'overallSurvival'} : undefined,
-        loader: ({request}: any) =>  this.cohortNonEmpty() ? this.#cohortsService.getCohortTraitMedian(request) : of(null)
-    }) 
-    public dataCompletionStats = rxResource({
-        request: () => this.cohortNonEmpty() ? {cohortId: this.currentCohortId(), trait: 'dataCompletionRate'} : undefined,
-        loader: ({request}: any) =>  this.cohortNonEmpty() ? this.#cohortsService.getCohortTraitMedian(request) : of(null)
-    }) 
-
     public cohortPayload = signal<CohortCreate | null>(null)
     public submittedCohort = rxResource({
         request: () => ({cohortId: this.cohortId(), cohortCreate: this.cohortPayload()}),
@@ -226,6 +205,7 @@ export class CohortBuilderComponent {
         };
         this.cohortPayload.set(payload);
         this.cohort.reload()
+        this.cohortTraits.reload()
     }
     
     public getAllChanges(differential: any): any[] {
@@ -274,6 +254,9 @@ export class CohortBuilderComponent {
         return changes;
     }
     
+    getPredominantCount(counts: CohortTraitCounts[]) {
+        return counts.sort((a,b) => b.counts - a.counts)[0]
+    }
     
     startTour() {
         driver(this.tour).drive()    

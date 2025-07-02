@@ -41472,25 +41472,16 @@
         ]
       }
     },
-    "/api/v1/cohorts/{cohortId}/traits/{trait}/average": {
+    "/api/v1/cohorts/{cohortId}/traits": {
       "get": {
-        "operationId": "getCohortTraitAverage",
-        "summary": "Get Cohort Trait Average",
+        "operationId": "getCohortTraitsStatistics",
+        "summary": "Get Cohort Traits Statistics",
         "parameters": [
           {
             "in": "path",
             "name": "cohortId",
             "schema": {
               "title": "Cohortid",
-              "type": "string"
-            },
-            "required": true
-          },
-          {
-            "in": "path",
-            "name": "trait",
-            "schema": {
-              "title": "Trait",
               "type": "string"
             },
             "required": true
@@ -41502,127 +41493,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CohortTraitAverage"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "422": {
-            "description": "Unprocessable Entity"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          }
-        },
-        "tags": [
-          "Cohorts"
-        ],
-        "security": [
-          {
-            "XSessionTokenAuth": []
-          }
-        ]
-      }
-    },
-    "/api/v1/cohorts/{cohortId}/traits/{trait}/median": {
-      "get": {
-        "operationId": "getCohortTraitMedian",
-        "summary": "Get Cohort Trait Median",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "cohortId",
-            "schema": {
-              "title": "Cohortid",
-              "type": "string"
-            },
-            "required": true
-          },
-          {
-            "in": "path",
-            "name": "trait",
-            "schema": {
-              "title": "Trait",
-              "type": "string"
-            },
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CohortTraitMedian"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "422": {
-            "description": "Unprocessable Entity"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          }
-        },
-        "tags": [
-          "Cohorts"
-        ],
-        "security": [
-          {
-            "XSessionTokenAuth": []
-          }
-        ]
-      }
-    },
-    "/api/v1/cohorts/{cohortId}/traits/{trait}/counts": {
-      "get": {
-        "operationId": "getCohortTraitCounts",
-        "summary": "Get Cohort Trait Counts",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "cohortId",
-            "schema": {
-              "title": "Cohortid",
-              "type": "string"
-            },
-            "required": true
-          },
-          {
-            "in": "path",
-            "name": "trait",
-            "schema": {
-              "title": "Trait",
-              "type": "string"
-            },
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "items": {
-                    "$ref": "#/components/schemas/CohortTraitCounts"
-                  },
-                  "title": "Response",
-                  "type": "array"
+                  "$ref": "#/components/schemas/CohortTraits"
                 }
               }
             }
@@ -82398,31 +82269,31 @@
         "title": "DatasetRule",
         "type": "object"
       },
-      "CohortTraitAverage": {
-        "description": "Descriptive statistics schema representing the average and optional standard deviation\nfor a numeric cohort trait.",
+      "CohortTraitCounts": {
+        "description": "Frequency distribution schema for categorical cohort traits.",
         "properties": {
-          "average": {
-            "description": "The mean value for the cohort trait.",
-            "title": "Average",
-            "type": "number"
+          "category": {
+            "description": "The category or group label for the cohort trait value.",
+            "title": "Category",
+            "type": "string"
           },
-          "standardDeviation": {
-            "anyOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "The standard deviation for the cohort trait, if applicable.",
-            "title": "Standard Deviation"
+          "counts": {
+            "description": "The number of records in this category.",
+            "title": "Counts",
+            "type": "integer"
+          },
+          "percentage": {
+            "description": "The percentage of the total cohort population in this category.",
+            "title": "Percentage",
+            "type": "number"
           }
         },
         "required": [
-          "average"
+          "category",
+          "counts",
+          "percentage"
         ],
-        "title": "CohortTraitAverage",
+        "title": "CohortTraitCounts",
         "type": "object"
       },
       "CohortTraitMedian": {
@@ -82456,31 +82327,79 @@
         "title": "CohortTraitMedian",
         "type": "object"
       },
-      "CohortTraitCounts": {
-        "description": "Frequency distribution schema for categorical cohort traits.",
+      "CohortTraits": {
         "properties": {
-          "category": {
-            "description": "The category or group label for the cohort trait value.",
-            "title": "Category",
-            "type": "string"
+          "age": {
+            "$ref": "#/components/schemas/CohortTraitMedian"
           },
-          "counts": {
-            "description": "The number of records in this category.",
-            "title": "Counts",
-            "type": "integer"
+          "dataCompletion": {
+            "$ref": "#/components/schemas/CohortTraitMedian"
           },
-          "percentage": {
-            "description": "The percentage of the total cohort population in this category.",
-            "title": "Percentage",
-            "type": "number"
+          "overallSurvival": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CohortTraitMedian"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "ages": {
+            "items": {
+              "$ref": "#/components/schemas/CohortTraitCounts"
+            },
+            "title": "Ages",
+            "type": "array"
+          },
+          "agesAtDiagnosis": {
+            "items": {
+              "$ref": "#/components/schemas/CohortTraitCounts"
+            },
+            "title": "Agesatdiagnosis",
+            "type": "array"
+          },
+          "genders": {
+            "items": {
+              "$ref": "#/components/schemas/CohortTraitCounts"
+            },
+            "title": "Genders",
+            "type": "array"
+          },
+          "neoplasticSites": {
+            "items": {
+              "$ref": "#/components/schemas/CohortTraitCounts"
+            },
+            "title": "Neoplasticsites",
+            "type": "array"
+          },
+          "therapyLines": {
+            "items": {
+              "$ref": "#/components/schemas/CohortTraitCounts"
+            },
+            "title": "Therapylines",
+            "type": "array"
+          },
+          "vitalStatus": {
+            "items": {
+              "$ref": "#/components/schemas/CohortTraitCounts"
+            },
+            "title": "Vitalstatus",
+            "type": "array"
           }
         },
         "required": [
-          "category",
-          "counts",
-          "percentage"
+          "age",
+          "dataCompletion",
+          "overallSurvival",
+          "ages",
+          "agesAtDiagnosis",
+          "genders",
+          "neoplasticSites",
+          "therapyLines",
+          "vitalStatus"
         ],
-        "title": "CohortTraitCounts",
+        "title": "CohortTraits",
         "type": "object"
       },
       "KapplerMeierCurve": {

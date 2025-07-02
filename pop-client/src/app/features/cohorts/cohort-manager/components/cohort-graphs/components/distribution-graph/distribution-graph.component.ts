@@ -43,8 +43,8 @@ export class DistributionGraphComponent {
 
         // Convert keys to numbers for proper numeric sorting
         const entries = this.data()
-            .map((entry) => [Number(entry.category), entry.counts]) // Convert keys to numbers
-            .sort((a: any, b: any) => a[0] - b[0]); // Sort by numeric value of key
+            .map((entry) => [entry.category, entry.counts]) // Convert keys to numbers
+            .sort(); // Sort by numeric value of key
 
         // Extract sorted categories and values
         const categories: string[] = entries.map(entry => String(entry[0])); // Convert back to string

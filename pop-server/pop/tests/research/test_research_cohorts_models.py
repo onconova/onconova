@@ -96,7 +96,7 @@ class TestGetCohortTraitCounts(TestCase):
     def test_no_cases(self):
         self.cohort.cases.set([])
         result = self.cohort.get_cohort_trait_counts("clinical_center")
-        self.assertIsNone(result)
+        self.assertEqual(result, OrderedDict())
 
     def test_trait_counts(self):
         counter = dict(Counter([c.clinical_center for c in self.cohort.cases.all()]))

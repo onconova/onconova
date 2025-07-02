@@ -100,16 +100,20 @@ class Cohort(BaseModel):
         iqr = (queryset[f"{trait}__p25"], queryset[f"{trait}__p75"])
         return median, iqr
 
-    def get_cohort_trait_counts(self, trait: str, **filters) -> dict:
+    def get_cohort_trait_counts(
+        self, trait: str, anonymization=None, **filters
+    ) -> dict:
         cases = self.cases.all()
         if filters:
             cases = cases.filter(**filters)
         if not cases:
-            return None
+            return OrderedDict()
         values = self.cases.annotate(trait=F(trait)).values_list("trait", flat=True)
+        if anonymization:
+            values = [anonymization(value) if value else value for value in values]
         return OrderedDict(
             [
-                (str(key), (count, round(count / values.count() * 100.0, 4)))
+                (str(key), (count, round(count / len(values) * 100.0, 4)))
                 for key, count in Counter(values).items()
             ]
         )

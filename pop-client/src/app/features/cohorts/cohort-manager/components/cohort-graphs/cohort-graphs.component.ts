@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, input, signal } from '@angular/core';
+import { Component, computed, inject, input, Resource, ResourceRef, signal } from '@angular/core';
 import { Card } from 'primeng/card';
 import { SelectButtonModule } from 'primeng/selectbutton';
 
@@ -8,7 +8,7 @@ import { ChartModule } from 'primeng/chart';
 import { SplitterModule } from 'primeng/splitter';
 import { PanelModule } from 'primeng/panel';
 
-import { Cohort, CohortsService, CohortTraitCounts } from 'pop-api-client';
+import { Cohort, CohortsService, CohortTraitCounts, CohortTraits } from 'pop-api-client';
 import { KapplerMeierCurveComponent } from './components/kappler-meier-curve/kappler-meier-curve.component';
 import { FormsModule } from '@angular/forms';
 import { DoughnutGraphComponent } from './components/doughnut-graph/doughnut-graph.component';
@@ -43,6 +43,7 @@ export class CohortGraphsComponent {
 
     // Component input signals
     public cohort = input.required<Cohort>();
+    public traits = input.required<ResourceRef<CohortTraits | undefined>>();
     public loading = input<boolean>(false);
 
     // Injected services
@@ -57,37 +58,17 @@ export class CohortGraphsComponent {
         request: () => ({cohortId: this.cohort().id}),
         loader: ({request}) => this.#cohortService.getCohortGenomics(request)
     })    
-    public ageCount = rxResource({
-        request: () => ({cohortId: this.cohort().id, trait: 'age'}),
-        loader: ({request}) => this.#cohortService.getCohortTraitCounts(request)
-    })
-    public ageAtDiagnosisCount = rxResource({
-        request: () => ({cohortId: this.cohort().id, trait: 'ageAtDiagnosis'}),
-        loader: ({request}) => this.#cohortService.getCohortTraitCounts(request)
-    })
-    public genderCount = rxResource({
-        request: () => ({cohortId: this.cohort().id, trait: 'gender.display'}),
-        loader: ({request}) => this.#cohortService.getCohortTraitCounts(request)
-    })
-    public neoplasticSitesCount = rxResource({
-        request: () => ({cohortId: this.cohort().id, trait: 'neoplasticEntities.topographyGroup.display'}),
-        loader: ({request}) => this.#cohortService.getCohortTraitCounts(request)
-    })
-    public vitalStatusCount = rxResource({
-        request: () => ({cohortId: this.cohort().id, trait: 'isDeceased'}),
-        loader: ({request}) => this.#cohortService.getCohortTraitCounts(request).pipe(map(
-            response => response.map(item => ({...item, category: item.category === 'true' ? 'Alive' : 'Dead'}))
-        ))
-    })
-    public therapyLinesCount = rxResource({
-        request: () => ({cohortId: this.cohort().id, trait: 'therapyLines.label'}),
-        loader: ({request}) => this.#cohortService.getCohortTraitCounts(request)
-    })
+    public ageCount = computed(() => this.traits().value()?.ages)
+    public ageAtDiagnosisCount = computed(() => this.traits().value()?.agesAtDiagnosis)
+    public genderCount = computed(() => this.traits().value()?.genders)
+    public neoplasticSitesCount = computed(() => this.traits().value()?.neoplasticSites)
+    public vitalStatusCount = computed(() => this.traits().value()?.vitalStatus.map(item => ({...item, category: item.category === 'true' ? 'Alive' : 'Dead'})))
+    public therapyLinesCount = computed(() => this.traits().value()?.therapyLines)
     public therapyLineOptions = computed<string[]>(
-        () => this.therapyLinesCount.value()?.map(item=>item.category).filter(label=>label!='None').sort((a, b) => a.localeCompare(b)) || []
+        () => this.therapyLinesCount()?.map(item=>item.category).filter(label=>label!='None').sort((a, b) => a.localeCompare(b)) || []
     )
     public therapyLineCohortFractionCount = computed((): CohortTraitCounts[] => {
-        const cohortFractionCount = this.therapyLinesCount.value()?.find(item=>item.category==this.selectedTherapyLine())?.counts || 0
+        const cohortFractionCount = this.therapyLinesCount()?.find(item=>item.category==this.selectedTherapyLine())?.counts || 0
         return [{
             category: 'Not included',
             counts: this.cohort().population - cohortFractionCount,

@@ -21,7 +21,7 @@ from ninja_extra.exceptions import APIException
 from pop.core.auth import permissions as perms
 from pop.core.utils import camel_to_snake
 from pop.core.auth.token import XSessionTokenAuth
-from pop.core.anonymization import anonymize
+from pop.core.anonymization import anonymize, anonymize_age
 from pop.core.schemas import ModifiedResource as ModifiedResourceSchema, Paginated
 from pop.core.history.schemas import HistoryEvent
 
@@ -38,6 +38,7 @@ from pop.research.schemas.cohort import (
     CohortSchema,
     CohortCreateSchema,
     CohortFilters,
+    CohortTraits,
     CohortTraitAverage,
     CohortTraitMedian,
     CohortTraitCounts,
@@ -323,80 +324,92 @@ class CohortsController(ControllerBase):
         )
 
     @route.get(
-        path="/{cohortId}/traits/{trait}/average",
+        path="/{cohortId}/traits",
         response={
-            200: CohortTraitAverage,
+            200: CohortTraits,
             404: None,
             422: None,
             401: None,
             403: None,
         },
         permissions=[perms.CanViewCohorts],
-        operation_id="getCohortTraitAverage",
+        operation_id="getCohortTraitsStatistics",
     )
-    def get_cohort_trait_average(self, cohortId: str, trait: str):
+    def get_cohort_traits_statistics(self, cohortId: str):
         cohort = get_object_or_404(Cohort, id=cohortId)
         if not cohort.cases.exists():
             raise EmptyCohortException
-        average, standard_deviation = cohort.get_cohort_trait_average(
-            convert_api_path_to_snake_case_path(trait)
+
+        age_median, age_iqr = cohort.get_cohort_trait_median("age")
+        data_completion_median, data_completion_iqr = cohort.get_cohort_trait_median(
+            "data_completion_rate"
         )
-        return 200, CohortTraitAverage(
-            average=average, standardDeviation=standard_deviation
+        overall_survival_median, overall_survival_iqr = cohort.get_cohort_trait_median(
+            "overall_survival"
         )
 
-    @route.get(
-        path="/{cohortId}/traits/{trait}/median",
-        response={
-            200: CohortTraitMedian,
-            404: None,
-            422: None,
-            401: None,
-            403: None,
-        },
-        permissions=[perms.CanViewCohorts],
-        operation_id="getCohortTraitMedian",
-    )
-    def get_cohort_trait_median(self, cohortId: str, trait: str):
-        cohort = get_object_or_404(Cohort, id=cohortId)
-        if not cohort.cases.exists():
-            raise EmptyCohortException
-        median, iqr = cohort.get_cohort_trait_median(
-            convert_api_path_to_snake_case_path(trait)
+        return 200, CohortTraits(
+            age=CohortTraitMedian(median=age_median, interQuartalRange=age_iqr),
+            dataCompletion=CohortTraitMedian(
+                median=data_completion_median, interQuartalRange=data_completion_iqr
+            ),
+            overallSurvival=(
+                CohortTraitMedian(
+                    median=overall_survival_median,
+                    interQuartalRange=overall_survival_iqr,
+                )
+                if overall_survival_median
+                else None
+            ),
+            ages=[
+                CohortTraitCounts(
+                    category=category, counts=count, percentage=percentage
+                )
+                for category, (count, percentage) in cohort.get_cohort_trait_counts(
+                    "age", anonymization=anonymize_age
+                ).items()
+            ],
+            agesAtDiagnosis=[
+                CohortTraitCounts(
+                    category=category, counts=count, percentage=percentage
+                )
+                for category, (count, percentage) in cohort.get_cohort_trait_counts(
+                    "age_at_diagnosis", anonymization=anonymize_age
+                ).items()
+            ],
+            genders=[
+                CohortTraitCounts(
+                    category=category, counts=count, percentage=percentage
+                )
+                for category, (count, percentage) in cohort.get_cohort_trait_counts(
+                    "gender__display"
+                ).items()
+            ],
+            neoplasticSites=[
+                CohortTraitCounts(
+                    category=category, counts=count, percentage=percentage
+                )
+                for category, (count, percentage) in cohort.get_cohort_trait_counts(
+                    "neoplastic_entities__topography_group__display",
+                ).items()
+            ],
+            therapyLines=[
+                CohortTraitCounts(
+                    category=category, counts=count, percentage=percentage
+                )
+                for category, (count, percentage) in cohort.get_cohort_trait_counts(
+                    "therapy_lines__label"
+                ).items()
+            ],
+            vitalStatus=[
+                CohortTraitCounts(
+                    category=category, counts=count, percentage=percentage
+                )
+                for category, (count, percentage) in cohort.get_cohort_trait_counts(
+                    "is_deceased"
+                ).items()
+            ],
         )
-        return 200, CohortTraitMedian(median=median, interQuartalRange=iqr)
-
-    @route.get(
-        path="/{cohortId}/traits/{trait}/counts",
-        response={
-            200: List[CohortTraitCounts],
-            404: None,
-            422: None,
-            401: None,
-            403: None,
-        },
-        permissions=[perms.CanViewCohorts],
-        operation_id="getCohortTraitCounts",
-    )
-    def get_cohort_trait_counts(self, cohortId: str, trait: str):
-        cohort = get_object_or_404(Cohort, id=cohortId)
-        if not cohort.cases.exists():
-            raise EmptyCohortException
-        counter = cohort.get_cohort_trait_counts(
-            convert_api_path_to_snake_case_path(trait)
-        )
-        return 200, [
-            CohortTraitCounts(category=category, counts=count, percentage=percentage)
-            for category, (count, percentage) in counter.items()
-        ]
-
-
-class FeaturesCounters(str, Enum):
-    gender = "gender"
-    age = "age"
-    age_at_diagnosis = "age_at_diagnosis"
-    vital_status = "vital_status"
-    therapy_line = "therapy_line"
 
 
 @api_controller("/cohorts", auth=[XSessionTokenAuth()], tags=["Cohorts"])

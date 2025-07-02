@@ -62,28 +62,10 @@ export class CohortSearchItemComponent {
     readonly #cohortsService = inject(CohortsService);
 
     // Resources
-    public ageStats = rxResource({
-        request: () => ({cohortId: this.cohort().id, trait: 'age'}),
-        loader: ({request}) =>  this.cohort().population ? this.#cohortsService.getCohortTraitMedian(request) : of(null)
-    })
-    public dataCompletionStats = rxResource({
-        request: () => ({cohortId: this.cohort().id, trait: 'dataCompletionRate'}),
-        loader: ({request}) => this.cohort().population ? this.#cohortsService.getCohortTraitMedian(request) : of(null)
-    })
-    public predominantSite = rxResource({
-        request: () => ({cohortId: this.cohort().id, trait: 'neoplasticEntities.topographyGroup.display'}),
-        loader: ({request}) => this.cohort().population ? this.#cohortsService.getCohortTraitCounts(request).pipe(map(
-            (response) => response.sort((a,b) => b.counts - a.counts)[0]
-        )) : of(null)
-    })
-    public predominantGender = rxResource({
-        request: () => ({cohortId: this.cohort().id, trait: 'gender'}),
-        loader: ({request}) => this.cohort().population ? this.#cohortsService.getCohortTraitCounts(request).pipe(map(
-            (response) => response.sort((a,b) => b.counts - a.counts)[0]
-        )) : of(null)
-    })
-
-
+    public cohortTraits = rxResource({
+        request: () => this.cohort().population ? {cohortId: this.cohort().id} : undefined,
+        loader: ({request}: any) =>  this.#cohortsService.getCohortTraitsStatistics(request)
+    }) 
     // Other properties
     public readonly currentUser = computed(() => this.#authService.user());
     private project = rxResource({
@@ -143,6 +125,10 @@ export class CohortSearchItemComponent {
                 })
             }
         });
+    }
+
+    getPredominantCount(counts: CohortTraitCounts[]) {
+        return counts.sort((a,b) => b.counts - a.counts)[0]
     }
 
 }

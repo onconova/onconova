@@ -229,6 +229,19 @@ class CohortTraitCounts(Schema):
     )
 
 
+class CohortTraits(Schema):
+
+    age: CohortTraitMedian
+    dataCompletion: CohortTraitMedian
+    overallSurvival: Optional[CohortTraitMedian]
+    ages: List[CohortTraitCounts]
+    agesAtDiagnosis: List[CohortTraitCounts]
+    genders: List[CohortTraitCounts]
+    neoplasticSites: List[CohortTraitCounts]
+    therapyLines: List[CohortTraitCounts]
+    vitalStatus: List[CohortTraitCounts]
+
+
 class CohortContribution(Schema):
     """
     Cohort contribution summary per contributor.
