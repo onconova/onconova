@@ -3,6 +3,7 @@ import pghistory
 from ninja import Query
 from ninja.schema import Schema, Field
 from ninja_extra.pagination import paginate
+from ninja_extra.ordering import ordering
 from ninja_extra import api_controller, ControllerBase, route
 
 from pop.core.auth import permissions as perms
@@ -37,6 +38,7 @@ class RiskAssessmentController(ControllerBase):
         operation_id="getRiskAssessments",
     )
     @paginate()
+    @ordering()
     @anonymize()
     def get_all_risk_assessments_matching_the_query(self, query: Query[RiskAssessmentFilters], anonymized: bool = True):  # type: ignore
         queryset = RiskAssessment.objects.all().order_by("-date")
@@ -112,6 +114,7 @@ class RiskAssessmentController(ControllerBase):
         operation_id="getAllRiskAssessmentHistoryEvents",
     )
     @paginate()
+    @ordering()
     def get_all_risk_assessment_history_events(self, riskAssessmentId: str):
         instance = get_object_or_404(RiskAssessment, id=riskAssessmentId)
         return pghistory.models.Events.objects.tracks(instance).all()

@@ -2,6 +2,7 @@ import pghistory
 
 from ninja import Query
 from ninja_extra.pagination import paginate
+from ninja_extra.ordering import ordering
 from ninja_extra import api_controller, ControllerBase, route
 
 from django.core.exceptions import ObjectDoesNotExist
@@ -83,6 +84,7 @@ class GenomicSignatureController(ControllerBase):
         operation_id="getGenomicSignatures",
     )
     @paginate()
+    @ordering()
     @anonymize()
     def get_all_genomic_signatures_matching_the_query(self, query: Query[GenomicSignatureFilters], anonymized: bool = True):  # type: ignore
         queryset = GenomicSignature.objects.all().order_by("-date")
@@ -168,6 +170,7 @@ class GenomicSignatureController(ControllerBase):
         operation_id="getAllGenomicSignatureHistoryEvents",
     )
     @paginate()
+    @ordering()
     def get_all_genomic_signature_history_events(self, genomicSignatureId: str):
         instance = get_object_or_404(GenomicSignature, id=genomicSignatureId)
         return pghistory.models.Events.objects.tracks(instance).all()

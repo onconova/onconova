@@ -2,6 +2,7 @@ import pghistory
 
 from ninja import Query
 from ninja_extra.pagination import paginate
+from ninja_extra.ordering import ordering
 from ninja_extra import api_controller, ControllerBase, route
 
 from pop.core.auth import permissions as perms
@@ -32,6 +33,7 @@ class SurgeryController(ControllerBase):
         operation_id="getSurgeries",
     )
     @paginate()
+    @ordering()
     @anonymize()
     def get_all_surgeries_matching_the_query(self, query: Query[SurgeryFilters], anonymized: bool = True):  # type: ignore
         queryset = Surgery.objects.all().order_by("-date")
@@ -110,6 +112,7 @@ class SurgeryController(ControllerBase):
         operation_id="getAllSurgeryHistoryEvents",
     )
     @paginate()
+    @ordering()
     def get_all_surgery_history_events(self, surgeryId: str):
         instance = get_object_or_404(Surgery, id=surgeryId)
         return pghistory.models.Events.objects.tracks(instance).all()

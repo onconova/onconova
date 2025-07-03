@@ -3,6 +3,7 @@ from typing import List
 
 from ninja import Query
 from ninja_extra.pagination import paginate
+from ninja_extra.ordering import ordering
 from ninja_extra import api_controller, ControllerBase, route
 
 from pop.core.auth import permissions as perms
@@ -47,6 +48,7 @@ class RadiotherapyController(ControllerBase):
         operation_id="getRadiotherapies",
     )
     @paginate()
+    @ordering()
     @anonymize()
     def get_all_radiotherapies_matching_the_query(self, query: Query[RadiotherapyFilters], anonymized: bool = True):  # type: ignore
         queryset = Radiotherapy.objects.all().order_by("-period")
@@ -125,6 +127,7 @@ class RadiotherapyController(ControllerBase):
         operation_id="getAllRadiotherapyHistoryEvents",
     )
     @paginate()
+    @ordering()
     def get_all_radiotherapy_history_events(self, radiotherapyId: str):
         instance = get_object_or_404(Radiotherapy, id=radiotherapyId)
         return pghistory.models.Events.objects.tracks(instance).all()
@@ -253,6 +256,7 @@ class RadiotherapyController(ControllerBase):
         operation_id="getAllRadiotherapyDosageHistoryEvents",
     )
     @paginate()
+    @ordering()
     def get_all_radiotherapy_dosage_history_events(
         self, radiotherapyId: str, dosageId: str
     ):
@@ -393,6 +397,7 @@ class RadiotherapyController(ControllerBase):
         operation_id="getAllRadiotherapySettingHistoryEvents",
     )
     @paginate()
+    @ordering()
     def get_all_radiotherapy_setting_history_events(
         self, radiotherapyId: str, settingId: str
     ):

@@ -2,6 +2,7 @@ import pghistory
 from ninja import Query
 from ninja.schema import Schema, Field
 from ninja_extra.pagination import paginate
+from ninja_extra.ordering import ordering
 from ninja_extra import api_controller, ControllerBase, route
 
 from pop.core.auth import permissions as perms
@@ -36,6 +37,7 @@ class LifestyleController(ControllerBase):
         operation_id="getLifestyles",
     )
     @paginate()
+    @ordering()
     @anonymize()
     def get_all_lifestyles_matching_the_query(self, query: Query[LifestyleFilters], anonymized: bool = True):  # type: ignore
         queryset = Lifestyle.objects.all().order_by("-date")
@@ -111,6 +113,7 @@ class LifestyleController(ControllerBase):
         operation_id="getAllLifestyleHistoryEvents",
     )
     @paginate()
+    @ordering()
     def get_all_lifestyle_history_events(self, lifestyleId: str):
         instance = get_object_or_404(Lifestyle, id=lifestyleId)
         return pghistory.models.Events.objects.tracks(instance).all()

@@ -2,6 +2,7 @@ import pghistory
 from ninja import Query
 from ninja.schema import Schema, Field
 from ninja_extra.pagination import paginate
+from ninja_extra.ordering import ordering
 from ninja_extra import api_controller, ControllerBase, route
 from typing import List
 
@@ -37,6 +38,7 @@ class TherapyLineController(ControllerBase):
         operation_id="getTherapyLines",
     )
     @paginate()
+    @ordering()
     @anonymize()
     def get_all_therapy_lines_matching_the_query(self, query: Query[TherapyLineFilters], anonymized: bool = True):  # type: ignore
         queryset = TherapyLine.objects.all().order_by("-period")
@@ -112,6 +114,7 @@ class TherapyLineController(ControllerBase):
         operation_id="getAllTherapyLineHistoryEvents",
     )
     @paginate()
+    @ordering()
     def get_all_therapy_line_history_events(self, therapyLineId: str):
         instance = get_object_or_404(TherapyLine, id=therapyLineId)
         return pghistory.models.Events.objects.tracks(instance).all()

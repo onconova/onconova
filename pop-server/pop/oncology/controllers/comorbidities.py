@@ -4,6 +4,7 @@ from typing import List
 
 from ninja import Query
 from ninja_extra.pagination import paginate
+from ninja_extra.ordering import ordering
 from ninja_extra import api_controller, ControllerBase, route
 
 from pop.core.auth import permissions as perms
@@ -45,6 +46,7 @@ class ComorbiditiesAssessmentController(ControllerBase):
         operation_id="getComorbiditiesAssessments",
     )
     @paginate()
+    @ordering()
     @anonymize()
     def get_all_comorbidities_assessments_matching_the_query(self, query: Query[ComorbiditiesAssessmentFilters], anonymized: bool = True):  # type: ignore
         queryset = ComorbiditiesAssessment.objects.all().order_by("-date")
@@ -132,6 +134,7 @@ class ComorbiditiesAssessmentController(ControllerBase):
         operation_id="getAllComorbiditiesAssessmentHistoryEvents",
     )
     @paginate()
+    @ordering()
     def get_all_comorbidities_assessment_history_events(
         self, comorbiditiesAssessmentId: str
     ):

@@ -4,6 +4,7 @@ import pghistory
 from ninja import Query
 from ninja.schema import Schema, Field
 from ninja_extra.pagination import paginate
+from ninja_extra.ordering import ordering
 from ninja_extra import api_controller, ControllerBase, route
 
 from pop.core.auth import permissions as perms
@@ -39,6 +40,7 @@ class NeoplasticEntityController(ControllerBase):
         operation_id="getNeoplasticEntities",
     )
     @paginate()
+    @ordering()
     @anonymize()
     def get_all_neoplastic_entities_matching_the_query(self, query: Query[NeoplasticEntityFilters], anonymized: bool = True):  # type: ignore
         queryset = NeoplasticEntity.objects.all().order_by("-assertion_date")
@@ -114,6 +116,7 @@ class NeoplasticEntityController(ControllerBase):
         operation_id="getAllNeoplasticEntityHistoryEvents",
     )
     @paginate()
+    @ordering()
     def get_all_neoplastic_entity_history_events(self, entityId: str):
         instance = get_object_or_404(NeoplasticEntity, id=entityId)
         return pghistory.models.Events.objects.tracks(instance).all()

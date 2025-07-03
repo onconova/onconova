@@ -2,6 +2,7 @@ import pghistory
 from ninja import Query
 from ninja.schema import Schema, Field
 from ninja_extra.pagination import paginate
+from ninja_extra.ordering import ordering
 from ninja_extra import api_controller, ControllerBase, route
 
 from pop.core.auth import permissions as perms
@@ -38,6 +39,7 @@ class ProjectController(ControllerBase):
         operation_id="getProjects",
     )
     @paginate()
+    @ordering()
     def get_all_projects_matching_the_query(self, query: Query[ProjectFilters]):  # type: ignore
         queryset = Project.objects.all().order_by("-created_at")
         return query.filter(queryset)
@@ -111,6 +113,7 @@ class ProjectController(ControllerBase):
         operation_id="getAllProjectHistoryEvents",
     )
     @paginate()
+    @ordering()
     def get_all_project_history_events(self, projectId: str):
         instance = get_object_or_404(Project, id=projectId)
         return pghistory.models.Events.objects.tracks(instance).all()
@@ -156,6 +159,7 @@ class ProjectController(ControllerBase):
         operation_id="getProjectDataManagerGrant",
     )
     @paginate()
+    @ordering()
     def get_all_project_data_manager_grant(self, projectId: str, memberId: str):  # type: ignore
         return ProjectDataManagerGrant.objects.filter(
             project=get_object_or_404(Project, id=projectId),
@@ -238,6 +242,7 @@ class ProjectController(ControllerBase):
         operation_id="getAllProjectDataManagementGrantHistoryEvents",
     )
     @paginate()
+    @ordering()
     def get_all_project_data_management_grant_history_events(
         self, projectId: str, memberId: str, grantId: str
     ):

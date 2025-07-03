@@ -2,6 +2,7 @@ import pghistory
 from ninja import Query
 from ninja.schema import Schema, Field
 from ninja_extra.pagination import paginate
+from ninja_extra.ordering import ordering
 from ninja_extra import api_controller, ControllerBase, route
 
 from pop.core.auth import permissions as perms
@@ -36,6 +37,7 @@ class GenomicVariantController(ControllerBase):
         operation_id="getGenomicVariants",
     )
     @paginate()
+    @ordering()
     @anonymize()
     def get_all_genomic_variants_matching_the_query(self, query: Query[GenomicVariantFilters], anonymized: bool = True):  # type: ignore
         queryset = GenomicVariant.objects.all().order_by("-date")
@@ -111,6 +113,7 @@ class GenomicVariantController(ControllerBase):
         operation_id="getAllGenomicVariantHistoryEvents",
     )
     @paginate()
+    @ordering()
     def get_all_genomic_variant_history_events(self, genomicVariantId: str):
         instance = get_object_or_404(GenomicVariant, id=genomicVariantId)
         return pghistory.models.Events.objects.tracks(instance).all()

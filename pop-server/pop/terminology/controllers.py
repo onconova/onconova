@@ -7,6 +7,7 @@ from django.db.models.expressions import RawSQL
 from ninja import Field, Schema, Query
 from ninja_extra import route, api_controller
 from ninja_extra.pagination import paginate
+from ninja_extra.ordering import ordering
 from ninja_extra import api_controller, ControllerBase, route
 
 from pop.core.schemas import Paginated, CodedConcept as CodedConceptSchema

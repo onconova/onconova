@@ -3,6 +3,7 @@ from typing import List
 
 from ninja import Query
 from ninja_extra.pagination import paginate
+from ninja_extra.ordering import ordering
 from ninja_extra import api_controller, ControllerBase, route
 
 from pop.core.auth import permissions as perms
@@ -40,6 +41,7 @@ class SystemicTherapyController(ControllerBase):
         operation_id="getSystemicTherapies",
     )
     @paginate()
+    @ordering()
     @anonymize()
     def get_all_systemic_therapies_matching_the_query(self, query: Query[SystemicTherapyFilters], anonymized: bool = True):  # type: ignore
         queryset = SystemicTherapy.objects.all().order_by("-period")
@@ -120,6 +122,7 @@ class SystemicTherapyController(ControllerBase):
         operation_id="getAllSystemicTherapyHistoryEvents",
     )
     @paginate()
+    @ordering()
     def get_all_systemic_therapy_history_events(self, systemicTherapyId: str):
         instance = get_object_or_404(SystemicTherapy, id=systemicTherapyId)
         return pghistory.models.Events.objects.tracks(instance).all()
@@ -267,6 +270,7 @@ class SystemicTherapyController(ControllerBase):
         operation_id="getAllSystemicTherapyMedicationHistoryEvents",
     )
     @paginate()
+    @ordering()
     def get_all_systemic_therapy_medication_history_events(
         self, systemicTherapyId: str, medicationId: str
     ):

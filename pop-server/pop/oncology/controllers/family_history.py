@@ -2,6 +2,7 @@ import pghistory
 
 from ninja import Query
 from ninja_extra.pagination import paginate
+from ninja_extra.ordering import ordering
 from ninja_extra import api_controller, ControllerBase, route
 
 from pop.core.auth import permissions as perms
@@ -35,6 +36,7 @@ class FamilyHistoryController(ControllerBase):
         operation_id="getFamilyHistories",
     )
     @paginate()
+    @ordering()
     @anonymize()
     def get_all_family_member_histories_matching_the_query(self, query: Query[FamilyHistoryFilters], anonymized: bool = True):  # type: ignore
         queryset = FamilyHistory.objects.all().order_by("-date")
@@ -110,6 +112,7 @@ class FamilyHistoryController(ControllerBase):
         operation_id="getAllFamilyHistoryHistoryEvents",
     )
     @paginate()
+    @ordering()
     def get_all_family_history_history_events(self, familyHistoryId: str):
         instance = get_object_or_404(FamilyHistory, id=familyHistoryId)
         return pghistory.models.Events.objects.tracks(instance).all()

@@ -2,6 +2,7 @@ import pghistory
 
 from ninja import Query
 from ninja_extra.pagination import paginate
+from ninja_extra.ordering import ordering
 from ninja_extra import api_controller, ControllerBase, route
 
 from pop.core.auth import permissions as perms
@@ -32,6 +33,7 @@ class VitalsController(ControllerBase):
         operation_id="getVitals",
     )
     @paginate()
+    @ordering()
     @anonymize()
     def get_all_vitals_matching_the_query(self, query: Query[VitalsFilters], anonymized: bool = True):  # type: ignore
         queryset = Vitals.objects.all().order_by("-date")
@@ -107,6 +109,7 @@ class VitalsController(ControllerBase):
         operation_id="getAllVitalsHistoryEvents",
     )
     @paginate()
+    @ordering()
     def get_all_vitals_history_events(self, vitalsId: str):
         instance = get_object_or_404(Vitals, id=vitalsId)
         return pghistory.models.Events.objects.tracks(instance).all()

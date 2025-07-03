@@ -4,6 +4,7 @@ from pghistory.models import Events
 from ninja import Query, Schema
 from ninja_extra import route, api_controller, ControllerBase
 from ninja_extra.pagination import paginate
+from ninja_extra.ordering import ordering
 
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
@@ -123,6 +124,7 @@ class UsersController(ControllerBase):
         operation_id="getUsers",
     )
     @paginate
+    @ordering
     def get_all_users_matching_the_query(self, query: Query[UserFilters]):  # type: ignore
         queryset = get_user_model().objects.all()
         return query.filter(queryset)

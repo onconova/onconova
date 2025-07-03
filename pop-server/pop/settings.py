@@ -84,6 +84,7 @@ NINJA_DEFAULT_THROTTLE_RATES = {
     "user": "10000/day",
     "anon": "1000/day",
 }
+NINJA_EXTRA = {"ORDERING_CLASS": "pop.core.serialization.ordering.Ordering"}
 
 
 # ---------------------------------------------------------------
