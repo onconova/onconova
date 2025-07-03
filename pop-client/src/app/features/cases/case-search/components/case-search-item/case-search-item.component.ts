@@ -28,7 +28,7 @@ import { ModalFormHeaderComponent } from 'src/app/features/forms/modal-form-head
 import { UserPlus } from 'lucide-angular';
 
 @Component({
-    selector: 'pop-case-search-item',
+    selector: 'pop-case-search-item,[pop-case-search-item]',
     templateUrl: './case-search-item.component.html',
     providers: [
         ConfirmationService,
@@ -70,6 +70,7 @@ export class CaseSearchItemCardComponent {
 
     // Properties
     public readonly case = input.required<PatientCase>();
+    public readonly layout = input<'card' | 'row'>('card');
     public readonly currentUser = computed(() => this.#authService.user());
     public caseData = rxResource({
         request: () => ({caseId: this.case().id, anonymized: this.currentUser().canManageCases ? false : true}),

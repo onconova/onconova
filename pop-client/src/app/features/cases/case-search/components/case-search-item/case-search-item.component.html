@@ -1,148 +1,210 @@
 
-<div class="pop-case-search-item-card">
-    
-    <!-- Cartd header -->
-    <div class="flex gap-3">
-        <!-- Identicon -->
-         <pop-identicon [value]="case().pseudoidentifier" width="4rem" height="4rem"/>
+@if (layout() === 'card') {
 
-        <!-- Case info -->
-        <div class="flex flex-column my-auto mr-auto" >
-            <div class="text-xl font-bold monospace">{{case().pseudoidentifier}}</div>
-            <div class="text-muted font-medium">
-                {{ case().gender.display }}, {{case().age}} years@if(case().isDeceased){, †}
+    <div class="pop-case-search-item-card">
+        
+        <!-- Cartd header -->
+        <div class="flex gap-3">
+            <!-- Identicon -->
+            <pop-identicon [value]="case().pseudoidentifier" width="4rem" height="4rem"/>
+
+            <!-- Case info -->
+            <div class="flex flex-column my-auto mr-auto" >
+                <div class="text-xl font-bold monospace">{{case().pseudoidentifier}}</div>
+                <div class="text-muted font-medium">
+                    {{ case().gender.display }}, {{case().age}} years@if(case().isDeceased){, †}
+                </div>
             </div>
+
+            <!-- Case data collection progress -->
+            <p-knob 
+                [ngModel]="case().dataCompletionRate" 
+                [readonly]="true" 
+                valueTemplate="{value}%"
+                [size]="55"/>
         </div>
 
-        <!-- Case data collection progress -->
-        <p-knob 
-            [ngModel]="case().dataCompletionRate" 
-            [readonly]="true" 
-            valueTemplate="{value}%"
-            [size]="55"/>
-    </div>
+        <p-divider layout="horizontal" />
 
-    <p-divider layout="horizontal" />
+        <!-- Diagnosis information -->
+        <div class="flex flex-column mb-3 ">
+            <small class="text-muted mb-1">Diagnosis</small>
+            @if (primaryEntity.isLoading()) {
+                <p-skeleton width="20rem" height="2rem"></p-skeleton>      
+            } @else {
+                <div class="flex gap-2">
+                    @if (primaryEntity.value(); as entity) {
+                        <pop-cancer-icon class="my-auto" [topography]="entity.topography.code"></pop-cancer-icon>
+                        <div class="my-auto">{{ entity.description }}</div>
+                    } @else {
+                        <div>-</div>
+                    }
+                </div>
+            }
+        </div>
 
-    <!-- Diagnosis information -->
-    <div class="flex flex-column mb-3 ">
-        <small class="text-muted mb-1">Diagnosis</small>
-        @if (primaryEntity.isLoading()) {
-            <p-skeleton width="20rem" height="2rem"></p-skeleton>      
-        } @else {
-            <div class="flex gap-2">
-                @if (primaryEntity.value(); as entity) {
-                    <pop-cancer-icon class="my-auto" [topography]="entity.topography.code"></pop-cancer-icon>
-                    <div class="my-auto">{{ entity.description }}</div>
+        <!-- Staging information -->
+        <div class="flex gap-4">
+            <div class="flex flex-column mb-3 ">
+                <small class="text-muted mb-1">Staging</small>
+                @if (latestStaging.isLoading()) {
+                    <p-skeleton width="10rem" height="1rem"></p-skeleton>    
                 } @else {
-                    <div>-</div>
-                }
-            </div>
-        }
-    </div>
-
-    <!-- Staging information -->
-    <div class="flex gap-4">
-        <div class="flex flex-column mb-3 ">
-            <small class="text-muted mb-1">Staging</small>
-            @if (latestStaging.isLoading()) {
-                <p-skeleton width="10rem" height="1rem"></p-skeleton>    
-            } @else {
-                <div class="my-auto">
-                    @if (latestStaging.value(); as staging) {
-                        {{ staging.description }}
-                    } @else {
-                        -
-                    }
-                </div>
-            }
-        </div>
-
-    <!-- Therapy line information -->
-        <div class="flex flex-column mb-3 ">
-            <small class="text-muted mb-1">Therapy Line</small>
-            @if (latestTherapyLine.isLoading()) {
-                <p-skeleton width="10rem" height="1rem"></p-skeleton>    
-            } @else {
-                <div class="my-auto">
-                    @if (latestTherapyLine.value(); as line) {
-                        {{ line.label }}
-                    } @else {
-                        -
-                    }
-                </div>
-            }
-        </div>
-    </div>
-
-    <div class="flex gap-5">        
-        <div class="flex flex-column mb-3 gap-1">
-            <small class="text-muted">Contributors</small>
-                <p-avatar-group >
-                    @for (contributor of case().contributors; track $index; let index = $index;) {
-                        @if (index<3) {
-                            <pop-user-badge [username]="contributor"/>
-                        }
-                    }
-                    @if ((case().contributors.length || 0) > 3) {
-                        <p-avatar class="pop-other-users-avatar" [label]="'+' + (case().contributors!.length-3).toString()" shape="circle" size="normal" />
-                    }
-                </p-avatar-group>
-        </div>    
-    </div>
-
-    <div class="flex gap-5">   
-
-        <!-- Metadata -->
-        @if (this.case().createdBy) {
-        }
-        <div class="flex-column align-items-center  mb-auto">
-            <div class="text-muted">
-                <small>Created</small>
-            </div>
-            <div class="text-center">
-                <small>{{ case().createdAt | date }}</small>
-            </div> 
-        </div>
-        <div class="flex-column align-items-center  mb-auto">
-            <div class="text-muted">
-                <small>Last updated</small>
-            </div>
-            @if (case().updatedAt ) {
-                <div class="text-center">
-                    <small>{{ case().updatedAt | date }}</small>
-                </div> 
-            } @else {
-                <div class="text-center">
-                    <small>-</small>
-                </div> 
-            }
-        </div>
-        <div class="flex x flex-column ">
-            <small class="text-muted mb-1">Consent</small>
-                <div class="text-sm">
-                    @switch (case().consentStatus) {
-                        @case ('valid') {
-                            Valid
-                        }
-                        @case ('revoked') {
-                            Revoked
-                        }
-                        @default {
+                    <div class="my-auto">
+                        @if (latestStaging.value(); as staging) {
+                            {{ staging.description }}
+                        } @else {
                             -
                         }
-                    }
-                </div>
+                    </div>
+                }
+            </div>
+
+        <!-- Therapy line information -->
+            <div class="flex flex-column mb-3 ">
+                <small class="text-muted mb-1">Therapy Line</small>
+                @if (latestTherapyLine.isLoading()) {
+                    <p-skeleton width="10rem" height="1rem"></p-skeleton>    
+                } @else {
+                    <div class="my-auto">
+                        @if (latestTherapyLine.value(); as line) {
+                            {{ line.label }}
+                        } @else {
+                            -
+                        }
+                    </div>
+                }
+            </div>
         </div>
 
-        <!-- Action buttons -->
-        <p-confirmdialog />
-        <p-splitbutton
-            label="Open case"
-            class="my-auto ml-auto"
-            [menuButtonDisabled]="!currentUser().canManageCases"
-            [dropdownIcon]="currentUser().canManageCases ? 'pi pi-cog' : 'pi pi-lock'" 
-            [model]="actionItems"
-            (onClick)="openCaseManagement()" />
+        <div class="flex gap-5">        
+            <div class="flex flex-column mb-3 gap-1">
+                <small class="text-muted">Contributors</small>
+                    <p-avatar-group >
+                        @for (contributor of case().contributors; track $index; let index = $index;) {
+                            @if (index<3) {
+                                <pop-user-badge [username]="contributor"/>
+                            }
+                        }
+                        @if ((case().contributors.length || 0) > 3) {
+                            <p-avatar class="pop-other-users-avatar" [label]="'+' + (case().contributors!.length-3).toString()" shape="circle" size="normal" />
+                        }
+                    </p-avatar-group>
+            </div>    
+        </div>
+
+        <div class="flex gap-5">   
+
+            <!-- Metadata -->
+            @if (this.case().createdBy) {
+            }
+            <div class="flex-column align-items-center  mb-auto">
+                <div class="text-muted">
+                    <small>Created</small>
+                </div>
+                <div class="text-center">
+                    <small>{{ case().createdAt | date }}</small>
+                </div> 
+            </div>
+            <div class="flex-column align-items-center  mb-auto">
+                <div class="text-muted">
+                    <small>Last updated</small>
+                </div>
+                @if (case().updatedAt ) {
+                    <div class="text-center">
+                        <small>{{ case().updatedAt | date }}</small>
+                    </div> 
+                } @else {
+                    <div class="text-center">
+                        <small>-</small>
+                    </div> 
+                }
+            </div>
+            <div class="flex x flex-column ">
+                <small class="text-muted mb-1">Consent</small>
+                    <div class="text-sm">
+                        @switch (case().consentStatus) {
+                            @case ('valid') {
+                                Valid
+                            }
+                            @case ('revoked') {
+                                Revoked
+                            }
+                            @default {
+                                -
+                            }
+                        }
+                    </div>
+            </div>
+
+            <!-- Action buttons -->
+            <p-splitbutton
+                label="Open case"
+                class="my-auto ml-auto"
+                [menuButtonDisabled]="!currentUser().canManageCases"
+                [dropdownIcon]="currentUser().canManageCases ? 'pi pi-cog' : 'pi pi-lock'" 
+                [model]="actionItems"
+                (onClick)="openCaseManagement()" />
+        </div>
     </div>
-</div>
+
+} @else {
+        <td>
+            <div class="flex gap-3">
+                <!-- Identicon -->
+                <pop-identicon [value]="case().pseudoidentifier" width="3rem" height="3rem"/>
+
+                <!-- Case info -->
+                <div class="flex flex-column my-auto mr-auto" >
+                    <div class="text-xl font-bold monospace">{{case().pseudoidentifier}}</div>
+                    <div class="text-muted font-medium white-space-nowrap">
+                        {{ case().gender.display }}, {{case().age}} years@if(case().isDeceased){, †}
+                    </div>
+                </div>
+            </div>
+        </td>
+        <td>
+            <div class="flex flex-column mb-3 ">
+                @if (primaryEntity.isLoading()) {
+                    <p-skeleton width="20rem" height="2rem"></p-skeleton>      
+                } @else {
+                    <div class="flex gap-2">
+                        @if (primaryEntity.value(); as entity) {
+                            <pop-cancer-icon class="my-auto" [topography]="entity.topography.code"></pop-cancer-icon>
+                            <div class="my-auto">{{ entity.description }}</div>
+                        } @else {
+                            <div>-</div>
+                        }
+                    </div>
+                }
+            </div>
+        </td>
+        <td class="mx-auto">
+            <p-avatar-group >
+                @for (contributor of case().contributors; track $index; let index = $index;) {
+                    @if (index<3) {
+                        <pop-user-badge [username]="contributor"/>
+                    }
+                }
+                @if ((case().contributors.length || 0) > 3) {
+                    <p-avatar class="pop-other-users-avatar" [label]="'+' + (case().contributors!.length-3).toString()" shape="circle" size="normal" />
+                }
+            </p-avatar-group>
+        </td>
+        <td class="text-center">{{case().createdAt | date}}</td>
+        <td class="text-center">{{case().updatedAt | date}}</td>
+        <td class="text-center">{{case().dataCompletionRate}}%</td>
+        <td class="text-center">{{case().consentStatus}}</td>
+        <td>
+            <p-splitbutton
+                label="Open"
+                class="my-auto ml-auto"
+                [menuButtonDisabled]="!currentUser().canManageCases"
+                [dropdownIcon]="currentUser().canManageCases ? 'pi pi-cog' : 'pi pi-lock'" 
+                [model]="actionItems"
+                (onClick)="openCaseManagement()" />
+        </td>
+}
+
+
+<p-confirmdialog />
