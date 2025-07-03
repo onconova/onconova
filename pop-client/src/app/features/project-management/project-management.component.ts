@@ -13,12 +13,14 @@ import { Skeleton } from "primeng/skeleton";
 import { TableModule } from "primeng/table";
 import { TagModule } from "primeng/tag";
 import { ToggleSwitch } from "primeng/toggleswitch";
-import { forkJoin, from, map, mergeMap, Observable, toArray } from "rxjs";
+import { BehaviorSubject, forkJoin, from, map, mergeMap, Observable, toArray } from "rxjs";
 import { UserBadgeComponent } from "src/app/shared/components/user-badge/user-badge.component";
-import { AccessRoles, Cohort, CohortsService, DatasetsService, Period, ProjectDataManagerGrant, ProjectsService, ProjectStatusChoices, User, UsersService } from "pop-api-client";
+import { AccessRoles, Cohort, CohortsService, DatasetsService, Period, ProjectCreate, ProjectDataManagerGrant, ProjectsService, ProjectStatusChoices, User, UsersService } from "pop-api-client";
 import { CohortSearchItemComponent } from "../cohorts/cohort-search/components/cohort-search-item/cohort-search-item.component";
 import { AuthService } from "src/app/core/auth/services/auth.service";
 import { ResolveResourcePipe } from "src/app/shared/pipes/resolve-resource.pipe";
+import { Popover } from "primeng/popover";
+import { UserSelectorComponent } from "src/app/shared/components/user-selector/user-selector.component";
 
 interface ProjectMember extends User {
     authorization: ProjectDataManagerGrant
@@ -36,6 +38,7 @@ interface ProjectMember extends User {
         CommonModule,
         Skeleton,
         UserBadgeComponent,
+        Popover,
         ConfirmDialog,
         ToggleSwitch,
         TagModule,
@@ -44,6 +47,7 @@ interface ProjectMember extends User {
         DatePicker,
         Menu,
         Button,
+        UserSelectorComponent,
         CohortSearchItemComponent,
     ]
 })
@@ -122,6 +126,8 @@ export class ProjectManagementComponent {
     public datasetsPagination = signal({limit: this.cohortsPageSizeChoices[0], offset: 0});
     public totalDatasets= signal(0);
 
+    public selectedUser = signal<string>('')
+
 
     getValidityPeriodAnnotation(period: Period) {
         const today = new Date()
@@ -159,29 +165,38 @@ export class ProjectManagementComponent {
         ) 
     )
 
-    getMemberMenuItems(member: ProjectMember): MenuItem[] {
-        return [{
+    public dynamicMenuItems$: BehaviorSubject<MenuItem[]> = new BehaviorSubject(
+        [] as MenuItem[]
+    );
+    getMemberMenuItems(member: ProjectMember) {
+        this.dynamicMenuItems$.next([{
             label: 'Actions for ' + member.fullName,
             items: [
                 {
                     label: 'Grant data management authorization',
                     icon: 'pi pi-plus',
                     disabled: !this.canEditAuthorizations() 
-                            || (member?.accessLevel || 0) >= 4 
+                            || (member?.accessLevel || 0) >= 2 
                             || !!member.authorization,
-                    command: (event: any) => {this.grantNewAuthorization(event, member)}
+                    command: (event: any) => this.grantNewAuthorization(event, member)
                 },
                 {
                     label: 'Revoke data management authorization',
                     disabled: !this.canEditAuthorizations() 
-                            || (member?.accessLevel || 0) >= 4 
+                            || (member?.accessLevel || 0) >= 2 
                             || !member.authorization 
                             || (new Date(member.authorization.validityPeriod.end as string) < new Date()),
                     icon: 'pi pi-times',
-                    command: (event: any) => {this.revokeAuthorization(event, member)}
+                    command: (event: any) => this.revokeAuthorization(event, member)
+                },
+                {
+                    label: 'Remove member',
+                    disabled: !this.canEditAuthorizations() || this.currentUser().username == member.username || this.project.value()?.leader == member.username,
+                    icon: 'pi pi-trash',
+                    command: (event: any) => this.confirmMemberRemoval(event, member)
                 },
             ]
-        }]
+        }])
     };
 
     parseStatus(status: ProjectStatusChoices): {value: string, icon: string, severity: string} {
@@ -261,5 +276,53 @@ export class ProjectManagementComponent {
         });
     }
     
+
+    confirmMemberRemoval(event: Event, member: ProjectMember) {
+        this.#confirmationService.confirm({
+            key: 'remove',
+            header: 'Danger Zone',
+            message: 'Do you want to remove ' + member.fullName + ' from the project?',
+            icon: 'pi pi-info-circle',
+            rejectButtonProps: {
+                label: 'Cancel',
+                severity: 'secondary',
+                outlined: true
+            },
+            acceptButtonProps: {
+                label: 'Delete',
+                severity: 'danger'
+            },
+            accept: () => {
+                const members = this.project.value()?.members?.filter(m => m !== member.username) || []
+                this.updateProjectMembers(members)
+            },
+        });
+    }
+
+    addMember(member: string) {
+        this.updateProjectMembers([...(this.project.value()?.members || []), member])
+    }
+
+    private updateProjectMembers(members: string[]) {
+        const payload = {
+                leader: this.project.value()?.leader,
+                status: this.project.value()?.status,
+                title: this.project.value()?.title,
+                summary: this.project.value()?.description,
+                clinicalCenters: this.project.value()?.clinicalCenters,
+                ethicsApprovalNumber: this.project.value()?.ethicsApprovalNumber,
+                members: members
+            } as ProjectCreate
+        console.log(payload)
+            this.#projectsService.updateProjectById({
+            projectId: this.projectId(),
+            projectCreate: payload
+        }).subscribe({
+            complete: () => {
+                this.#messageService.add({ severity: 'success', summary: 'Project update', detail: 'Successfully updated project members.' })
+                this.project.reload()
+            }
+        })
+    }
 
 }

@@ -67,7 +67,26 @@
 </div>
 
 
-<h6 class="font-semibold">Project members</h6>
+<h6 class="font-semibold mb-0">Project members</h6>
+<div class="flex align-items-center">
+    <div class="text-muted">
+        A list of all users that are part of this project (including the project leader).
+    </div>
+    <p-button icon="pi pi-plus" label="Add member" id="add-member-button" class="ml-auto" severity="primary" (onClick)="addMemberSelect.toggle($event);"/>
+</div>
+<p-popover #addMemberSelect>
+    <div class="flex flex-col gap-4">
+        <div>
+            <span class="font-medium block mb-2">Select a user to add as a member:</span>
+            <pop-user-selector [(ngModel)]="selectedUser"/>
+            <div class="w-12 mt-3">
+                <p-button label="Confirm" (onClick)="addMember(selectedUser()!); addMemberSelect.toggle($event)" styleClass="w-7 mr-2" [disabled]="!selectedUser()"/>
+                <p-button label="Cancel" (onClick)="selectedUser.set(''); addMemberSelect.toggle($event)" styleClass="w-4" severity="secondary" [outlined]="true"/>
+            </div>
+        </div>
+    </div>
+</p-popover>
+
 <p-table 
     [value]="members.value() ?? []"
     sortField="fullName"
@@ -138,7 +157,7 @@
                 }
             </td>
             <td>
-                <p-menu #menu [model]="getMemberMenuItems(member)" [popup]="true" appendTo="body" />
+                <p-menu #menu [model]="(dynamicMenuItems$ | async)!" (onShow)="getMemberMenuItems(member)" [popup]="true" appendTo="body" [tabindex]="undefined"/>
                 <p-button (click)="menu.toggle($event)" icon="pi pi-ellipsis-v" [disabled]="!canEditAuthorizations() "/>
             </td>
         </tr>
@@ -385,3 +404,6 @@
         </div>
     </ng-template>
 </p-confirmdialog>
+
+
+<p-confirmdialog key="remove"/>

@@ -1,4 +1,4 @@
-import { Component, forwardRef, inject, input, signal } from '@angular/core';
+import { Component, forwardRef, inject, input, output, signal } from '@angular/core';
 import { ControlValueAccessor, FormControl, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { map } from 'rxjs';
 
@@ -28,6 +28,7 @@ import { rxResource } from '@angular/core/rxjs-interop';
     template: `
     <p-autoComplete
         [formControl]="formControl"
+        (onSelect)="onChange.emit($event.value)"
         [dropdown]="true"
         [showClear]="true"
         [attr.disabled]="disabled()"
@@ -48,6 +49,7 @@ export class UserSelectorComponent implements ControlValueAccessor {
     readonly disabled = input<boolean>(false);
     readonly placeholder = input<string>('Select or search an option');
     readonly returnUsername = input<boolean>(true);
+    readonly onChange = output<User>();
 
     readonly #usersService = inject(UsersService);
 
