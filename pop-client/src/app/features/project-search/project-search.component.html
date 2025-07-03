@@ -28,18 +28,6 @@
 <p-toolbar styleClass="my-3 border-transparent">
 
     <ng-template #start>
-        <div class="project-search-results-count mt-auto ml-3">
-            <div class="text-muted"><small>Total projects</small></div>
-            @if (projects.isLoading()) {
-                <p-skeleton width="4rem" height="2rem"/>
-            } @else {
-                <div class="text-center text-3xl font-semibold" [ngxCountAnimation]="totalProjects()" duration="500"></div>
-            }
-        </div>        
-    </ng-template>
-
-    <ng-template #end>
-        <div class="flex gap-2 align-items-center">
             <div class="project-search-filters flex gap-2 ">
                 <p-iconfield>
                     <p-inputicon styleClass="pi pi-search"/>
@@ -57,19 +45,17 @@
                         </div>
                     </ng-template>
                 </pop-popover-filter-button>
-            </div>
+            </div>  
+    </ng-template>
 
-            <p-divider layout="vertical"/>
-
-            <!-- Button to refresh projects -->
+    <ng-template #end>
+        <div class="flex gap-2 align-items-center">
             <p-button 
                 id="project-search-refresh-projects-button"
                 icon="pi pi-sync"
                 title="Refresh cases"
                 severity="secondary"
                 (onClick)="projects.reload()"/>
-                
-            <!-- Button to add new projects -->
             <p-button 
                 id="project-search-new-project-button"
                 (onClick)="openProjectForm()" 
@@ -81,6 +67,26 @@
 
 </p-toolbar>
     
+
+<p-toolbar styleClass="border-transparent pb-1" [style]="{'background': 'none'}">
+
+    <ng-template #start>
+        <div class="case-search-results-count flex align-items-center">
+            <div class="text-muted mr-2">Results: </div>
+            @if (projects.isLoading()) {
+                <p-skeleton width="4rem" height="2rem"/>
+            } @else {
+                <div class="text-center text-xl font-semibold" [ngxCountAnimation]="totalProjects()" duration="500"></div>
+            }
+        </div>        
+        <div class="case-search-sorting flex flex align-items-center text-muted ml-4">
+            <span class="text-muted mr-2">Sort by </span>
+            <p-select [(ngModel)]="orderingField" [options]="orderingFields" size="small" optionLabel="label" optionValue="value"></p-select>
+            <p-select [(ngModel)]="orderingDirection" [options]="orederingDirections" size="small" optionLabel="label" optionValue="value"></p-select>
+        </div>
+    </ng-template>
+
+</p-toolbar>
 
 
 

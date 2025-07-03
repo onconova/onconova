@@ -28,6 +28,7 @@ import { PopoverFilterButtonComponent } from 'src/app/shared/components/popover-
 import { NgxCountAnimationDirective } from 'ngx-count-animation';
 import { driver } from 'driver.js';
 import TourDriverConfig from './cohort-search.tour';
+import { Select } from 'primeng/select';
 
 @Component({
     templateUrl: './cohort-search.component.html',
@@ -41,7 +42,7 @@ import TourDriverConfig from './cohort-search.tour';
         ButtonModule,
         DataViewModule,
         SkeletonModule,
-        DividerModule,
+        Select,
         Toolbar,
         NgxCountAnimationDirective,
         CohortSearchItemComponent,
@@ -67,10 +68,29 @@ export class CohortSearchComponent {
   public pagination = signal({limit: this.pageSizeChoices[0], offset: 0});
   public totalCohorts= signal(0);
   public searchQuery = signal('');
+    protected orderingFields = [
+        {label: 'Creation date', value: 'createdAt'},
+        {label: 'Last Updated', value: 'updatedAt'},
+        {label: 'Title', value: 'name'},
+        {label: 'Population', value: 'population'},
+    ]
+    protected orederingDirections = [
+        {label: 'Descending', value: '-'},
+        {label: 'Ascending', value: ''},
+    ]
+    protected orderingField = signal<string>(this.orderingFields[0].value)
+    protected orderingDirection = signal<string>(this.orederingDirections[0].value)
+    protected ordering = computed(() => this.orderingDirection() + this.orderingField()) 
 
   // Resources
   public cohorts: Resource<Cohort[] | undefined> = rxResource({
-    request: () => ({createdBy: this.author(), limit: this.pagination().limit, offset: this.pagination().offset, nameContains: this.searchQuery() || undefined}),
+    request: () => ({
+      createdBy: this.author(), 
+      limit: this.pagination().limit, 
+      offset: this.pagination().offset, 
+      nameContains: this.searchQuery() || undefined,
+      ordering: this.ordering() || '-createdAt',
+    }),
     loader: ({request}) => this.#cohortsService.getCohorts(request).pipe(
       tap(page => this.totalCohorts.set(page.count)),
       map(page => page.items),
