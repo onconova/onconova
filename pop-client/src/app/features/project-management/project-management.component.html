@@ -68,11 +68,18 @@
 
 
 <h6 class="font-semibold mb-0">Project members</h6>
-<div class="flex align-items-center">
+<div class="flex align-items-center mb-2">
     <div class="text-muted">
         A list of all users that are part of this project (including the project leader).
     </div>
-    <p-button icon="pi pi-plus" label="Add member" id="add-member-button" class="ml-auto" severity="primary" (onClick)="addMemberSelect.toggle($event);"/>
+    <p-button 
+        icon="pi pi-plus" 
+        label="Add member" 
+        id="add-member-button" 
+        class="ml-auto" 
+        severity="primary" 
+        (onClick)="addMemberSelect.toggle($event);" 
+        [disabled]="!canEditAuthorizations()"/>
 </div>
 <p-popover #addMemberSelect>
     <div class="flex flex-col gap-4">
