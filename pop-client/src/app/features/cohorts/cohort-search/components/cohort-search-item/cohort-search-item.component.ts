@@ -26,7 +26,7 @@ import { rxResource } from '@angular/core/rxjs-interop';
 import { ResolveResourcePipe } from 'src/app/shared/pipes/resolve-resource.pipe';
 
 @Component({
-    selector: 'pop-cohort-search-item',
+    selector: 'pop-cohort-search-item, [pop-cohort-search-item]',
     templateUrl: './cohort-search-item.component.html',
     providers: [
         ConfirmationService,
@@ -50,7 +50,8 @@ import { ResolveResourcePipe } from 'src/app/shared/pipes/resolve-resource.pipe'
 export class CohortSearchItemComponent {
 
     // Component input/output signals
-    public cohort = input.required<Cohort>();    
+    public cohort = input.required<Cohort>();
+    public layout = input<'card' | 'row'>('card');    
     public onDelete = output<void>();
 
     // Injected services

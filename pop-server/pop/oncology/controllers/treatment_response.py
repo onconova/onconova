@@ -2,6 +2,7 @@ import pghistory
 
 from ninja import Query
 from ninja_extra.pagination import paginate
+from ninja_extra.ordering import ordering
 from ninja_extra import api_controller, ControllerBase, route
 
 from pop.core.auth import permissions as perms
@@ -36,6 +37,7 @@ class TreatmentResponseController(ControllerBase):
         operation_id="getTreatmentResponses",
     )
     @paginate()
+    @ordering()
     @anonymize()
     def get_all_treatment_responses_matching_the_query(self, query: Query[TreatmentResponseFilters], anonymized: bool = True):  # type: ignore
         queryset = TreatmentResponse.objects.all().order_by("-date")
@@ -116,6 +118,7 @@ class TreatmentResponseController(ControllerBase):
         operation_id="getAllTreatmentResponseHistoryEvents",
     )
     @paginate()
+    @ordering()
     def get_all_treatment_response_history_events(self, treatmentRresponseId: str):
         instance = get_object_or_404(TreatmentResponse, id=treatmentRresponseId)
         return pghistory.models.Events.objects.tracks(instance).all()

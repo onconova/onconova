@@ -1,4 +1,4 @@
-import { Component, inject, input, computed, signal, Resource  } from '@angular/core';
+import { Component, inject, input, computed, signal, Resource, Signal  } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { map, first, of, catchError, tap } from 'rxjs';
@@ -34,6 +34,8 @@ import { PopoverFilterButtonComponent } from 'src/app/shared/components/popover-
 import { SelectButton } from 'primeng/selectbutton';
 import TourDriverConfig from './case-search.tour';
 import { driver } from 'driver.js';
+import { TableModule } from 'primeng/table';
+import { SelectModule } from 'primeng/select';
 
 
 @Component({
@@ -47,10 +49,12 @@ import { driver } from 'driver.js';
       IconFieldModule,
       ConceptSelectorComponent,
       OverlayBadgeModule,
+      TableModule,
       InputIconModule,
       InputTextModule,
       SelectButton,
       PopoverModule,
+      SelectModule,
       SliderModule,
       PopoverFilterButtonComponent,
       ButtonModule,
@@ -87,6 +91,7 @@ export class CaseSearchComponent {
   // Pagination and search settings
   public readonly pageSizeChoices: number[] = [15, 30, 45];
   public pagination = signal({limit: this.pageSizeChoices[0], offset: 0});
+  public layout: Signal<'grid' | 'list'> = signal('grid');
   public totalCases= signal(0);
   public searchQuery = signal('');
 
@@ -96,7 +101,23 @@ export class CaseSearchComponent {
   protected selectedVitalStatus = signal<any | undefined>(undefined)
   protected selectedPrimarySite = signal<CodedConcept | undefined>(undefined)
   protected selectedMorphology = signal<CodedConcept | undefined>(undefined)
-
+  protected orderingFields = [
+    {label: 'Creation date', value: 'createdAt'},
+    {label: 'Last Updated', value: 'updatedAt'},
+    {label: 'Case ID', value: 'pseudoidentifier'},
+    {label: 'Age', value: 'age'},
+    {label: 'Age at Diagnosis', value: 'ageAtDiagnosis'},
+    {label: 'Vital status', value: 'isDeceased'},
+    {label: 'Date of death', value: 'dateOfDeath'},
+    {label: 'Completion rate', value: 'dataCompletionRate'},
+  ]
+  protected orederingDirections = [
+    {label: 'Descending', value: '-'},
+    {label: 'Ascending', value: ''},
+  ]
+  protected orderingField = signal<string>(this.orderingFields[0].value)
+  protected orderingDirection = signal<string>(this.orederingDirections[0].value)
+  protected ordering = computed(() => this.orderingDirection() + this.orderingField()) 
   protected readonly tour = TourDriverConfig;
   protected vitalStatusChoices = [
     {value: false, label: 'Alive'},
@@ -116,7 +137,8 @@ export class CaseSearchComponent {
       morphology: this.selectedMorphology()?.code || undefined, 
       isDeceased: this.selectedVitalStatus()?.value || undefined,
       limit: this.pagination().limit, 
-      offset: this.pagination().offset
+      offset: this.pagination().offset,
+      ordering: this.ordering() || '-createdAt',
     } as GetPatientCasesRequestParams),
     loader: ({request}) => this.#patientCasesService.getPatientCases(request).pipe(
       tap(page => this.totalCases.set(page.count)),

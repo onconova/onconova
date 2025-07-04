@@ -2,6 +2,7 @@ import pghistory
 
 from ninja import Query
 from ninja_extra.pagination import paginate
+from ninja_extra.ordering import ordering
 from ninja_extra import api_controller, ControllerBase, route
 
 from django.core.exceptions import ObjectDoesNotExist
@@ -75,6 +76,7 @@ class TumorBoardController(ControllerBase):
         operation_id="getTumorBoards",
     )
     @paginate()
+    @ordering()
     @anonymize()
     def get_all_tumor_boards_matching_the_query(self, query: Query[TumorBoardFilters], anonymized: bool = True):  # type: ignore
         queryset = TumorBoard.objects.all().order_by("-date")
@@ -153,6 +155,7 @@ class TumorBoardController(ControllerBase):
         operation_id="getAllTumorBoardHistoryEvents",
     )
     @paginate()
+    @ordering()
     def get_all_tumor_board_history_events(self, tumorBoardId: str):
         instance = get_object_or_404(TumorBoard, id=tumorBoardId)
         return pghistory.models.Events.objects.tracks(instance).all()
@@ -309,6 +312,7 @@ class MolecularTherapeuticRecommendationController(ControllerBase):
         operation_id="getAllMolecularTherapeuticRecommendationHistoryEvents",
     )
     @paginate()
+    @ordering()
     def get_all_molecular_tumor_board_therapeutic_history_events(
         self, tumorBoardId: str, recommendationId: str
     ):

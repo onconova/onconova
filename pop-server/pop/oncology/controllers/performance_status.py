@@ -3,6 +3,7 @@ import pghistory
 from ninja import Query
 from ninja.schema import Schema, Field
 from ninja_extra.pagination import paginate
+from ninja_extra.ordering import ordering
 from ninja_extra import api_controller, ControllerBase, route
 
 from pop.core.auth import permissions as perms
@@ -36,6 +37,7 @@ class PerformanceStatusController(ControllerBase):
         operation_id="getPerformanceStatus",
     )
     @paginate()
+    @ordering()
     @anonymize()
     def get_all_performance_status_matching_the_query(self, query: Query[PerformanceStatusFilters], anonymized: bool = True):  # type: ignore
         queryset = PerformanceStatus.objects.all().order_by("-date")
@@ -113,6 +115,7 @@ class PerformanceStatusController(ControllerBase):
         operation_id="getAllPerformanceStatusHistoryEvents",
     )
     @paginate()
+    @ordering()
     def get_all_performance_status_history_events(self, performanceStatusId: str):
         instance = get_object_or_404(PerformanceStatus, id=performanceStatusId)
         return pghistory.models.Events.objects.tracks(instance).all()

@@ -6,6 +6,7 @@ from ninja import Query
 from ninja.errors import HttpError
 from ninja_extra import route, api_controller
 from ninja_extra.pagination import paginate
+from ninja_extra.ordering import ordering
 from ninja_extra import api_controller, ControllerBase, route
 
 from pop.core.auth import permissions as perms
@@ -36,6 +37,7 @@ class DatasetsController(ControllerBase):
         operation_id="getDatasets",
     )
     @paginate()
+    @ordering()
     def get_all_datasets_matching_the_query(self, query: Query[DatasetFilters]):  # type: ignore
         queryset = Dataset.objects.all().order_by("-created_at")
         return query.filter(queryset)
@@ -117,6 +119,7 @@ class DatasetsController(ControllerBase):
         operation_id="getAllDatasetHistoryEvents",
     )
     @paginate()
+    @ordering()
     def get_all_dataset_history_events(self, datasetId: str):
         instance = get_object_or_404(Dataset, id=datasetId)
         return pghistory.models.Events.objects.tracks(instance).all()

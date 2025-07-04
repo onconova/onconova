@@ -27,117 +27,142 @@
 
 </div>
 
-<p-toolbar styleClass="my-3 border-transparent">
+<p-toolbar styleClass="mt-3 mb-0 border-transparent">
 
     <ng-template #start>
-        <div class="case-search-results-count mt-auto ml-3">
-            <div class="text-muted"><small>Total cases</small></div>
-            @if (cases.isLoading()) {
-                <p-skeleton width="4rem" height="2rem"/>
-            } @else {
-                <div class="text-center text-3xl font-semibold" [ngxCountAnimation]="totalCases()" duration="500"></div>
-            }
-        </div>        
+
+            <div class="case-search-filters">
+                <div class="flex gap-2 align-items-center">
+                    <p-iconfield class="">
+                        <p-inputicon styleClass="pi pi-search"/>
+                        <input type="text" pInputText placeholder="Search by ID" [(ngModel)]="searchQuery"/>
+                    </p-iconfield>
+                    <pop-popover-filter-button [(ngModel)]="selectedAgeRange" label="Age" [selectionLabelFcn]="showAgeRangeFilter">
+                        <ng-template #popoverContent let-filter="formControl">
+                            <div class="p-2">
+                                <div class="text-muted mb-3">Select an age range:</div>
+                                <p-slider [range]="true" [min]="0" [max]="100" [step]="5" styleClass="w-20rem"
+                                    [ngModel]="filter?.value"
+                                    (ngModelChange)="filter?.setValue($event)"/>
+                            </div>
+                        </ng-template>
+                    </pop-popover-filter-button>
+
+                    <pop-popover-filter-button [(ngModel)]="selectedDataCompletionRange" label="Data Completion" [selectionLabelFcn]="showDataCompletionFilter">
+                        <ng-template #popoverContent let-filter="formControl">
+                            <div class="p-2">
+                                <div class="text-muted mb-3">Select an completion percentage range:</div>
+                                <p-slider [range]="true" [min]="0" [max]="100" [step]="5" styleClass="w-20rem"
+                                    [ngModel]="filter?.value"
+                                    (ngModelChange)="filter?.setValue($event)"/>
+                            </div>
+                        </ng-template>
+                    </pop-popover-filter-button>
+
+                    <pop-popover-filter-button [(ngModel)]="selectedPrimarySite" label="Primary site" [selectionLabelFcn]="showSelectedCodedFilter">
+                        <ng-template #popoverContent let-filter="formControl">
+                            <div class="p-2">
+                                <div class="text-muted mb-3">Select a primary site:</div>
+                                <pop-concept-selector
+                                    terminology="CancerTopographyGroup"
+                                    [ngModel]="filter?.value"
+                                    (ngModelChange)="filter?.setValue($event)"/>
+                            </div>
+                        </ng-template>
+                    </pop-popover-filter-button>
+
+                    
+                    <pop-popover-filter-button [(ngModel)]="selectedMorphology" label="Morphology" [selectionLabelFcn]="showSelectedCodedFilter">
+                        <ng-template #popoverContent let-filter="formControl">
+                            <div class="p-2">
+                                <div class="text-muted mb-3">Select a primary site:</div>
+                                <pop-concept-selector
+                                    terminology="CancerMorphologyPrimary"
+                                    [ngModel]="filter?.value"
+                                    (ngModelChange)="filter?.setValue($event)"/>
+                            </div>
+                        </ng-template>
+                    </pop-popover-filter-button>
+
+                    <pop-popover-filter-button [(ngModel)]="selectedGender" label="Gender" [selectionLabelFcn]="showSelectedCodedFilter">
+                        <ng-template #popoverContent let-filter="formControl">
+                            <div class="p-2">
+                                <div class="text-muted mb-3">Select a gender:</div>
+                                <pop-concept-selector
+                                    terminology="AdministrativeGender"
+                                    [ngModel]="filter?.value"
+                                    (ngModelChange)="filter?.setValue($event)"/>
+                            </div>
+                        </ng-template>
+                    </pop-popover-filter-button>
+
+                    <pop-popover-filter-button [(ngModel)]="selectedVitalStatus" label="Vital status" [selectionLabelFcn]="showSelectedChoiceFilter">
+                        <ng-template #popoverContent let-filter="formControl">
+                            <div class="p-2">
+                                <div class="text-muted mb-3">Select a vital status:</div>
+                                <p-selectbutton 
+                                    [options]="vitalStatusChoices" optionLabel="label" aria-labelledby="basic"
+                                    [ngModel]="filter?.value"
+                                    (ngModelChange)="filter?.setValue($event)"/>
+                            </div>
+                        </ng-template>
+                    </pop-popover-filter-button>
+                </div>
+            </div>
     </ng-template>
 
     <ng-template #end>
         <div class="flex gap-2 align-items-center">
-            <div class="case-search-filters flex gap-2 align-items-center">
-                <p-iconfield class="">
-                    <p-inputicon styleClass="pi pi-search"/>
-                    <input type="text" pInputText placeholder="Search by ID" [(ngModel)]="searchQuery"/>
-                </p-iconfield>
-                <pop-popover-filter-button [(ngModel)]="selectedAgeRange" label="Age" [selectionLabelFcn]="showAgeRangeFilter">
-                    <ng-template #popoverContent let-filter="formControl">
-                        <div class="p-2">
-                            <div class="text-muted mb-3">Select an age range:</div>
-                            <p-slider [range]="true" [min]="0" [max]="100" [step]="5" styleClass="w-20rem"
-                                [ngModel]="filter?.value"
-                                (ngModelChange)="filter?.setValue($event)"/>
-                        </div>
-                    </ng-template>
-                </pop-popover-filter-button>
-
-                <pop-popover-filter-button [(ngModel)]="selectedDataCompletionRange" label="Data Completion" [selectionLabelFcn]="showDataCompletionFilter">
-                    <ng-template #popoverContent let-filter="formControl">
-                        <div class="p-2">
-                            <div class="text-muted mb-3">Select an completion percentage range:</div>
-                            <p-slider [range]="true" [min]="0" [max]="100" [step]="5" styleClass="w-20rem"
-                                [ngModel]="filter?.value"
-                                (ngModelChange)="filter?.setValue($event)"/>
-                        </div>
-                    </ng-template>
-                </pop-popover-filter-button>
-
-                <pop-popover-filter-button [(ngModel)]="selectedPrimarySite" label="Primary site" [selectionLabelFcn]="showSelectedCodedFilter">
-                    <ng-template #popoverContent let-filter="formControl">
-                        <div class="p-2">
-                            <div class="text-muted mb-3">Select a primary site:</div>
-                            <pop-concept-selector
-                                terminology="CancerTopographyGroup"
-                                [ngModel]="filter?.value"
-                                (ngModelChange)="filter?.setValue($event)"/>
-                        </div>
-                    </ng-template>
-                </pop-popover-filter-button>
-
-                
-                <pop-popover-filter-button [(ngModel)]="selectedMorphology" label="Morphology" [selectionLabelFcn]="showSelectedCodedFilter">
-                    <ng-template #popoverContent let-filter="formControl">
-                        <div class="p-2">
-                            <div class="text-muted mb-3">Select a primary site:</div>
-                            <pop-concept-selector
-                                terminology="CancerMorphologyPrimary"
-                                [ngModel]="filter?.value"
-                                (ngModelChange)="filter?.setValue($event)"/>
-                        </div>
-                    </ng-template>
-                </pop-popover-filter-button>
-
-                <pop-popover-filter-button [(ngModel)]="selectedGender" label="Gender" [selectionLabelFcn]="showSelectedCodedFilter">
-                    <ng-template #popoverContent let-filter="formControl">
-                        <div class="p-2">
-                            <div class="text-muted mb-3">Select a gender:</div>
-                            <pop-concept-selector
-                                terminology="AdministrativeGender"
-                                [ngModel]="filter?.value"
-                                (ngModelChange)="filter?.setValue($event)"/>
-                        </div>
-                    </ng-template>
-                </pop-popover-filter-button>
-
-                <pop-popover-filter-button [(ngModel)]="selectedVitalStatus" label="Vital status" [selectionLabelFcn]="showSelectedChoiceFilter">
-                    <ng-template #popoverContent let-filter="formControl">
-                        <div class="p-2">
-                            <div class="text-muted mb-3">Select a vital status:</div>
-                            <p-selectbutton 
-                                [options]="vitalStatusChoices" optionLabel="label" aria-labelledby="basic"
-                                [ngModel]="filter?.value"
-                                (ngModelChange)="filter?.setValue($event)"/>
-                        </div>
-                    </ng-template>
-                </pop-popover-filter-button>
+            <div>
+                <p-button 
+                    id="case-manager-refresh-cases-button"
+                    icon="pi pi-sync"
+                    title="Refresh cases"
+                    severity="secondary"
+                    styleClass="mr-2"
+                    (onClick)="cases.reload()"/>
+                <!-- Button to add new cases -->
+                <p-button 
+                    id="case-manager-new-case-button"
+                    (onClick)="openNewCaseForm()" 
+                    [disabled]="!currentUser().canManageCases"
+                    label="Register Case"
+                    [icon]="currentUser().canManageCases ? 'pi pi-plus' : 'pi pi-lock'"/>
             </div>
-            <p-divider layout="vertical"></p-divider>
-            <p-button 
-                id="case-manager-refresh-cases-button"
-                icon="pi pi-sync"
-                title="Refresh cases"
-                severity="secondary"
-                (onClick)="cases.reload()"/>
-            <!-- Button to add new cases -->
-            <p-button 
-                id="case-manager-new-case-button"
-                (onClick)="openNewCaseForm()" 
-                [disabled]="!currentUser().canManageCases"
-                label="Register Case"
-                [icon]="currentUser().canManageCases ? 'pi pi-plus' : 'pi pi-lock'"/>
         </div>
     </ng-template>
 
 </p-toolbar>
     
 
+<p-toolbar styleClass="border-transparent pb-1" [style]="{'background': 'none'}">
+
+    <ng-template #start>
+        <div class="case-search-results-count flex align-items-center">
+            <div class="text-muted mr-2">Results: </div>
+            @if (cases.isLoading()) {
+                <p-skeleton width="4rem" height="2rem"/>
+            } @else {
+                <div class="text-center text-xl font-semibold" [ngxCountAnimation]="totalCases()" duration="500"></div>
+            }
+        </div>        
+        <div class="case-search-sorting flex flex align-items-center text-muted ml-4">
+            <span class="text-muted mr-2">Sort by </span>
+            <p-select [(ngModel)]="orderingField" [options]="orderingFields" size="small" optionLabel="label" optionValue="value"></p-select>
+            <p-select [(ngModel)]="orderingDirection" [options]="orederingDirections" size="small" optionLabel="label" optionValue="value"></p-select>
+        </div>
+    </ng-template>
+    
+    <ng-template #end>
+        <div class="layout-buttons">
+            <p-selectbutton [(ngModel)]="layout" [options]="['list', 'grid']" [allowEmpty]="false">
+                <ng-template #item let-item>
+                    <i class="pi " [ngClass]="{ 'pi-bars': item === 'list', 'pi-table': item === 'grid' }"></i>
+                </ng-template>
+            </p-selectbutton>
+        </div>
+    </ng-template>
+</p-toolbar>
 
 
 <p-dataView
@@ -145,7 +170,7 @@
     [value]="cases.value() || [1,2,3]"
     [paginator]="true" 
     [rows]="pagination().limit" 
-    layout="grid"
+    [layout]="layout()"
     sortField="createdAt"
     lazy="true"
     [rowsPerPageOptions]="pageSizeChoices"
@@ -153,6 +178,30 @@
     (onLazyLoad)="pagination.set({limit: $event.rows, offset: $event.first})"
     class="no-background">
 
+    <ng-template #list let-data>
+        <p-table [value]="data" styleClass="mt-3">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Case</th>
+                    <th class="text-center">Diagnosis</th>
+                    <th class="text-center">Contributors</th>
+                    <th class="text-center">Created</th>
+                    <th class="text-center">Last Updated</th>
+                    <th class="text-center">Completion</th>
+                    <th class="text-center">Consent</th>
+                    <th></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-case>
+                <tr pop-case-search-item 
+                    @fadeAnimation
+                    layout="row"
+                    [case]="case"
+                    (onDelete)="cases.reload()"
+                    ></tr>
+            </ng-template>
+        </p-table>
+    </ng-template>    
     <ng-template #grid let-data>
         <div class="grid mt-3" >
             @if (cases.hasValue()) {

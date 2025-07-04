@@ -3,6 +3,7 @@ from typing import List
 
 from ninja import Query
 from ninja_extra.pagination import paginate
+from ninja_extra.ordering import ordering
 from ninja_extra import api_controller, ControllerBase, route
 
 from pop.core.auth import permissions as perms
@@ -49,9 +50,10 @@ class AdverseEventController(ControllerBase):
         operation_id="getAdverseEvents",
     )
     @paginate()
+    @ordering()
     @anonymize()
     def get_all_adverse_events_matching_the_query(self, query: Query[AdverseEventFilters], anonymized: bool = True):  # type: ignore
-        queryset = AdverseEvent.objects.all().order_by("-date")
+        queryset = AdverseEvent.objects.all()
         return query.filter(queryset)
 
     @route.post(
@@ -124,6 +126,7 @@ class AdverseEventController(ControllerBase):
         operation_id="getAllAdverseEventHistoryEvents",
     )
     @paginate()
+    @ordering()
     def get_all_adverse_event_history_events(self, adverseEventId: str):
         instance = get_object_or_404(AdverseEvent, id=adverseEventId)
         return pghistory.models.Events.objects.tracks(instance).all()
@@ -254,6 +257,7 @@ class AdverseEventController(ControllerBase):
         operation_id="getAllAdverseEventSuspectedCauseHistoryEvents",
     )
     @paginate()
+    @ordering()
     def get_all_adverse_event_suspected_cause_history_events(
         self, adverseEventId: str, causeId: str
     ):
@@ -396,6 +400,7 @@ class AdverseEventController(ControllerBase):
         operation_id="getAllAdverseEventMitigationHistoryEvents",
     )
     @paginate()
+    @ordering()
     def get_all_adverse_event_mitigation_history_events(
         self, adverseEventId: str, mitigationId: str
     ):

@@ -28,7 +28,7 @@ import { TagModule } from 'primeng/tag';
 import { OverlayBadgeModule } from 'primeng/overlaybadge';
 
 @Component({
-    selector: 'pop-project-search-item',
+    selector: 'pop-project-search-item, [pop-project-search-item]',
     templateUrl: './project-search-item.component.html',
     providers: [
         ConfirmationService,
@@ -55,6 +55,7 @@ export class ProjectSearchItemComponent {
 
     // Component input/output signals
     public project = input.required<Project>();    
+    public layout = input<'card' | 'row'>('card');
     public onDelete = output<void>();
     public onEdit = output<Project>();
 

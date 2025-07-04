@@ -1,8 +1,9 @@
 import pghistory.models
-from typing import Optional 
+from typing import Optional
 
 from ninja import Query
 from ninja_extra.pagination import paginate
+from ninja_extra.ordering import ordering
 from ninja_extra import api_controller, ControllerBase, route
 
 from django.shortcuts import get_object_or_404
@@ -22,15 +23,37 @@ from pop.oncology.schemas import (
     PatientCaseDataCompletionStatusSchema,
 )
 
+
 class PatientCaseFilters(PatientCaseFiltersBase):
     primarySite: Optional[str] = None
     morphology: Optional[str] = None
 
     def filter_primarySite(self, value: bool) -> Q:
-        return Exists(NeoplasticEntity.objects.filter(case_id=OuterRef('pk'), topography_group__code=value, relationship='primary')) if value else Q()
-    
+        return (
+            Exists(
+                NeoplasticEntity.objects.filter(
+                    case_id=OuterRef("pk"),
+                    topography_group__code=value,
+                    relationship="primary",
+                )
+            )
+            if value
+            else Q()
+        )
+
     def filter_morphology(self, value: bool) -> Q:
-        return  Exists(NeoplasticEntity.objects.filter(case_id=OuterRef('pk'), morphology__code=value, relationship='primary')) if value else Q()
+        return (
+            Exists(
+                NeoplasticEntity.objects.filter(
+                    case_id=OuterRef("pk"),
+                    morphology__code=value,
+                    relationship="primary",
+                )
+            )
+            if value
+            else Q()
+        )
+
 
 @api_controller(
     "patient-cases",
@@ -46,9 +69,10 @@ class PatientCaseController(ControllerBase):
         operation_id="getPatientCases",
     )
     @paginate()
+    @ordering()
     @anonymize()
     def get_all_patient_cases_matching_the_query(self, query: Query[PatientCaseFilters], anonymized: bool = True):  # type: ignore
-        queryset = PatientCase.objects.all().order_by("-created_at")
+        queryset = PatientCase.objects.all()
         return query.filter(queryset)
 
     @route.post(
@@ -131,6 +155,7 @@ class PatientCaseController(ControllerBase):
         operation_id="getAllPatientCaseHistoryEvents",
     )
     @paginate()
+    @ordering()
     def get_all_patient_case_history_events(self, caseId: str):
         instance = get_object_or_404(PatientCase, id=caseId)
         return pghistory.models.Events.objects.tracks(instance).all()

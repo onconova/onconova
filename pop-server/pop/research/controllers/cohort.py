@@ -15,6 +15,7 @@ from ninja import Query
 from ninja.errors import HttpError, ValidationError
 from ninja_extra import route, api_controller
 from ninja_extra.pagination import paginate
+from ninja_extra.ordering import ordering
 from ninja_extra import route, api_controller, status, ControllerBase
 from ninja_extra.exceptions import APIException
 
@@ -78,6 +79,7 @@ class CohortsController(ControllerBase):
         operation_id="getCohorts",
     )
     @paginate()
+    @ordering()
     def get_all_cohorts_matching_the_query(self, query: Query[CohortFilters]):
         queryset = Cohort.objects.all().order_by("-created_at")
         return query.filter(queryset)
@@ -207,6 +209,7 @@ class CohortsController(ControllerBase):
         operation_id="getAllCohortHistoryEvents",
     )
     @paginate()
+    @ordering()
     def get_all_cohort_history_events(self, cohortId: str):
         instance = get_object_or_404(Cohort, id=cohortId)
         return pghistory.models.Events.objects.tracks(instance).all()

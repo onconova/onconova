@@ -5,6 +5,7 @@ from enum import Enum
 from typing import Any
 from datetime import datetime
 from ninja_extra.pagination import paginate
+from ninja_extra.ordering import ordering
 from ninja_extra import api_controller, ControllerBase, route, status
 from ninja_extra.exceptions import APIException
 

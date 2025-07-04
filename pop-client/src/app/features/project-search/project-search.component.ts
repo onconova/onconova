@@ -1,4 +1,4 @@
-import { Component, computed, inject, input, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, input, OnInit, Signal, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TableLazyLoadEvent, TableModule } from 'primeng/table';
@@ -31,6 +31,7 @@ import { PopoverFilterButtonComponent } from 'src/app/shared/components/popover-
 import { SelectButton } from 'primeng/selectbutton';
 import { driver } from 'driver.js';
 import TourDriverConfig from './project-search.tour';
+import { Select } from 'primeng/select';
 
 @Component({
     selector: 'pop-project-search',
@@ -51,11 +52,11 @@ import TourDriverConfig from './project-search.tour';
         ButtonModule,
         DataViewModule,
         Skeleton,
+        Select,
         CardModule,
         TagModule,
         Toolbar,
         IconField,
-        Divider,
     ],
     animations: [
         trigger('fadeAnimation', [
@@ -85,7 +86,8 @@ export class ProjectSearchComponent {
             membersUsername: this.member() || undefined,  
             status: this.selectedStatus()?.value || undefined,
             limit: this.pagination().limit, 
-            offset: this.pagination().offset
+            offset: this.pagination().offset,
+            ordering: this.ordering() || '-createdAt',
         } as GetProjectsRequestParams),
         loader: ({request}) => this.#projectsService.getProjects(request).pipe(
             tap(page => this.totalProjects.set(page.count)),
@@ -106,6 +108,7 @@ export class ProjectSearchComponent {
     // Pagination and search settings
     public readonly pageSizeChoices: number[] = [12, 24, 36, 48];
     public pagination = signal({limit: this.pageSizeChoices[0], offset: 0});
+    public layout: Signal<'grid' | 'list'> = signal('grid');
     public totalProjects= signal(0);
     public currentOffset: number = 0;
 
@@ -115,6 +118,19 @@ export class ProjectSearchComponent {
         {label: 'Completed', value: ProjectStatusChoices.Completed},
         {label: 'Aborted', value: ProjectStatusChoices.Aborted},
     ];
+    protected orderingFields = [
+        {label: 'Creation date', value: 'createdAt'},
+        {label: 'Last Updated', value: 'updatedAt'},
+        {label: 'Title', value: 'title'},
+        {label: 'Status', value: 'status'},
+    ]
+    protected orederingDirections = [
+        {label: 'Descending', value: '-'},
+        {label: 'Ascending', value: ''},
+    ]
+    protected orderingField = signal<string>(this.orderingFields[0].value)
+    protected orderingDirection = signal<string>(this.orederingDirections[0].value)
+    protected ordering = computed(() => this.orderingDirection() + this.orderingField()) 
     protected tour = TourDriverConfig;
 
     // Modal form config
