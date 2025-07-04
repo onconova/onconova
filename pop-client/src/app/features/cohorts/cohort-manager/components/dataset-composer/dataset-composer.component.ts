@@ -2,7 +2,7 @@ import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, computed, effect, inject, input, linkedSignal, signal } from "@angular/core";
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
 import { trigger, state, style, transition, animate } from '@angular/animations';
-import { catchError, first, map, Observable, of, take, tap } from "rxjs";
+import { catchError, debounceTime, first, map, Observable, of, take, tap } from "rxjs";
 
 import { Menu } from "primeng/menu";
 import { MenuItem } from "primeng/api";
@@ -131,6 +131,7 @@ export class DatasetComposerComponent {
     protected datasetData = rxResource({
         request: () => ({cohortId: this.cohort().id, datasetRule: this.datasetRules(), limit: this.pagination().limit, offset: this.pagination().offset}),
         loader: ({request}) => this.#cohortService.getCohortDatasetDynamically(request).pipe(
+            debounceTime(50),
             tap(response => this.datasetDataSize.set(response.count)),
             map(response => response.items)
         )

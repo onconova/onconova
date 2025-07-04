@@ -73,6 +73,14 @@ pop-cohort-trait-panel {
             }
         }
         
+        & .p-table-frozen-column {
+            position: sticky;
+            left: 0;
+            z-index: 13;
+            background: var(--p-content-background);
+            border-right: solid 1.5px var(--p-divider-border-color) !important;
+        }
+
         & .pop-data-selector-tree {
             width: 100%;
             padding-top: 0 !important;
