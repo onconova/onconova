@@ -3,11 +3,6 @@ import { Config } from "driver.js";
 const TourDriverConfig: Config = {
     showProgress: true,
     steps: [
-        { element: '.cohort-search-results-count', popover: { 
-            side: "bottom", align: 'center', 
-            title: 'Result Count',
-            description: 'Shows the total number of cases that match the search criteria.', 
-        }},
         { element: '.cohort-search-filters', popover: { 
             side: "bottom", align: 'center', 
             title: 'Filters',
@@ -22,6 +17,21 @@ const TourDriverConfig: Config = {
             side: "bottom", align: 'center', 
             title: 'Adding New Cohorts',
             description: 'If you have the appropriate permissions, clicking this button will open a form to register a new cohort.', 
+        }},
+        { element: '.cohort-search-results-count', popover: { 
+            side: "bottom", align: 'center', 
+            title: 'Result Count',
+            description: 'Shows the total number of cohorts that match the search criteria.', 
+        }},
+        { element: '.cohort-search-sorting', popover: { 
+            side: "bottom", align: 'center', 
+            title: 'Result Ordering',
+            description: 'You can change the order of the results using these widgets.', 
+        }},
+        { element: '.layout-buttons', popover: { 
+            side: "bottom", align: 'center', 
+            title: 'Layout',
+            description: 'You can change the layout of the results between a list and a grid using these widgets.', 
         }},
         { element: 'pop-cohort-search-item:nth-of-type(1)', popover: { 
             side: "right", align: 'center', 

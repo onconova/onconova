@@ -1,4 +1,4 @@
-import { Component, inject, input, computed, signal, Resource  } from '@angular/core';
+import { Component, inject, input, computed, signal, Resource, Signal  } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { map, first, of, catchError, tap } from 'rxjs';
@@ -29,6 +29,8 @@ import { NgxCountAnimationDirective } from 'ngx-count-animation';
 import { driver } from 'driver.js';
 import TourDriverConfig from './cohort-search.tour';
 import { Select } from 'primeng/select';
+import { TableModule } from 'primeng/table';
+import { SelectButton } from 'primeng/selectbutton';
 
 @Component({
     templateUrl: './cohort-search.component.html',
@@ -36,9 +38,11 @@ import { Select } from 'primeng/select';
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
+        TableModule,
         IconFieldModule,
         InputIconModule,
         InputTextModule,
+        SelectButton,
         ButtonModule,
         DataViewModule,
         SkeletonModule,
@@ -66,21 +70,22 @@ export class CohortSearchComponent {
   // Pagination settings
   public readonly pageSizeChoices: number[] = [15, 30, 45];
   public pagination = signal({limit: this.pageSizeChoices[0], offset: 0});
+  public layout: Signal<'grid' | 'list'> = signal('grid');
   public totalCohorts= signal(0);
   public searchQuery = signal('');
-    protected orderingFields = [
-        {label: 'Creation date', value: 'createdAt'},
-        {label: 'Last Updated', value: 'updatedAt'},
-        {label: 'Title', value: 'name'},
-        {label: 'Population', value: 'population'},
-    ]
-    protected orederingDirections = [
-        {label: 'Descending', value: '-'},
-        {label: 'Ascending', value: ''},
-    ]
-    protected orderingField = signal<string>(this.orderingFields[0].value)
-    protected orderingDirection = signal<string>(this.orederingDirections[0].value)
-    protected ordering = computed(() => this.orderingDirection() + this.orderingField()) 
+  protected orderingFields = [
+      {label: 'Creation date', value: 'createdAt'},
+      {label: 'Last Updated', value: 'updatedAt'},
+      {label: 'Title', value: 'name'},
+      {label: 'Population', value: 'population'},
+  ]
+  protected orederingDirections = [
+      {label: 'Descending', value: '-'},
+      {label: 'Ascending', value: ''},
+  ]
+  protected orderingField = signal<string>(this.orderingFields[0].value)
+  protected orderingDirection = signal<string>(this.orederingDirections[0].value)
+  protected ordering = computed(() => this.orderingDirection() + this.orderingField()) 
 
   // Resources
   public cohorts: Resource<Cohort[] | undefined> = rxResource({

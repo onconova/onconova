@@ -1,4 +1,4 @@
-import { Component, computed, inject, input, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, input, OnInit, Signal, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TableLazyLoadEvent, TableModule } from 'primeng/table';
@@ -108,6 +108,7 @@ export class ProjectSearchComponent {
     // Pagination and search settings
     public readonly pageSizeChoices: number[] = [12, 24, 36, 48];
     public pagination = signal({limit: this.pageSizeChoices[0], offset: 0});
+    public layout: Signal<'grid' | 'list'> = signal('grid');
     public totalProjects= signal(0);
     public currentOffset: number = 0;
 

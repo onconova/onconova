@@ -11,147 +11,148 @@
 </div>
 
 <form [formGroup]="cohortControl" (ngSubmit)="submitCohort()" class="cohort-manager">
-<div class="pop-cohort-manager-header">
-    <div class="mb-1 text-muted">Cohort</div>
-    @if (cohort.value(); as cohort) {
-        <div>
-            <div class="text-4xl flex align-items-center">
-                @if (editCohortName) { 
-                    <input type="text" pInputText formControlName="name" class="mr-2"/>
-                    <p-button 
-                        icon="pi pi-check"
-                        variant="text"
-                        [disabled]="!userCanEdit()"
-                        (onClick)="editCohortName = false"/>
-                } @else {
-                    {{ cohortControl.value.name }}
-                    <p-button 
-                        id="cohort-manager-edit-name-button"
-                        icon="pi pi-pencil"
-                        variant="text"
-                        [disabled]="!userCanEdit()"
-                        (onClick)="editCohortName = true"/>
-                }
+    <div class="pop-cohort-manager-header">
+        <div class="mb-1 text-muted">Cohort</div>
+        @if (cohort.value(); as cohort) {
+            <div>
+                <div class="text-4xl flex align-items-center">
+                    @if (editCohortName) { 
+                        <input type="text" pInputText formControlName="name" class="mr-2"/>
+                        <p-button 
+                            icon="pi pi-check"
+                            variant="text"
+                            [disabled]="!userCanEdit()"
+                            (onClick)="editCohortName = false"/>
+                    } @else {
+                        {{ cohortControl.value.name }}
+                        <p-button 
+                            id="cohort-manager-edit-name-button"
+                            icon="pi pi-pencil"
+                            variant="text"
+                            [disabled]="!userCanEdit()"
+                            (onClick)="editCohortName = true"/>
+                    }
+                </div>
             </div>
-        </div>
-        <div class="flex mt-2 gap-3">
-            @if (cohort.createdBy) {
+            <div class="flex mt-2 gap-3">
+                @if (cohort.createdBy) {
+                    <div>
+                        <div class="text-muted text-sm">Author</div>
+                        <pop-user-badge [username]="cohort.createdBy" [showName]="true"/>
+                    </div>
+                }     
+                @if (project.hasValue()) {
+                    <div>
+                        <div class="text-muted text-sm">Research Project</div>
+                        <div class="mt-2">{{project.value()?.title || '-' }}</div>
+                    </div>
+                }
                 <div>
-                    <div class="text-muted text-sm">Author</div>
-                    <pop-user-badge [username]="cohort.createdBy" [showName]="true"/>
-                </div>
-            }     
-            @if (project.hasValue()) {
+                    <div class="text-muted text-sm">Created</div> 
+                    <div class="mt-2">{{cohort.createdAt | date }}</div>
+                </div>       
                 <div>
-                    <div class="text-muted text-sm">Research Project</div>
-                    <div class="mt-2">{{project.value()?.title || '-' }}</div>
-                </div>
+                    <div class="text-muted text-sm">Last updated</div> 
+                    <div class="mt-2">{{cohort.updatedAt | date }}</div>
+                </div>            
+            </div>
+        } @else if (cohort.isLoading()) {
+            <p-skeleton width="40rem" height="5rem"/>
+        }
+    </div>
+
+    <div class="cohort-manager-stats flex flex-wrap gap-4 mb-3">
+
+        <pop-cohort-trait-panel  title="Population" [icon]="icons.population" [loading]="loading()">
+            @if (cohort) {
+                <span class="font-bold text-lg">{{ cohortPopulation() }}</span> cases
             }
-            <div>
-                <div class="text-muted text-sm">Created</div> 
-                <div class="mt-2">{{cohort.createdAt | date }}</div>
-            </div>       
-            <div>
-                <div class="text-muted text-sm">Last updated</div> 
-                <div class="mt-2">{{cohort.updatedAt | date }}</div>
-            </div>            
-        </div>
-    } @else if (cohort.isLoading()) {
-        <p-skeleton width="40rem" height="5rem"/>
-    }
-</div>
+        </pop-cohort-trait-panel>
 
-<div class="cohort-manager-stats flex flex-wrap gap-4 mb-3">
+        <pop-cohort-trait-panel  title="Median age" [icon]="icons.age" [loading]="loading()" [valid]="cohort && cohortNonEmpty()">
+            @if (cohortTraits.value()?.age; as age) {
+                <span class="font-bold text-lg">{{ age.median }} </span> 
+                @if (age.interQuartalRange !== null) {
+                    ({{ age.interQuartalRange[0] }}, {{ age.interQuartalRange[1] }})
+                } years
+            }
+        </pop-cohort-trait-panel>
 
-    <pop-cohort-trait-panel  title="Population" [icon]="icons.population" [loading]="loading()">
-        @if (cohort) {
-            <span class="font-bold text-lg">{{ cohortPopulation() }}</span> cases
+        <pop-cohort-trait-panel  title="Predominant gender" [icon]="icons.gender" [loading]="loading()" [valid]="cohort && cohortNonEmpty()">
+            @if (cohortTraits.value()?.genders; as genders) {
+                @let predominantGender = getPredominantCount(genders);
+                <span class="font-bold text-lg">{{ predominantGender.category }}</span> 
+                @if (predominantGender.percentage !== null) {
+                    {{ predominantGender.percentage | number:'1.0-1' }}
+                }%
+            }
+        </pop-cohort-trait-panel>
+
+        <pop-cohort-trait-panel  title="Predominant site" [icon]="icons.site" [loading]="loading()" [valid]="cohort && cohortNonEmpty()">
+            @if (cohortTraits.value()?.neoplasticSites; as neoplasticSites) {
+                @let predominantSite = getPredominantCount(neoplasticSites);
+                <span class="font-bold text-lg">{{ predominantSite.category }}</span> 
+                @if (predominantSite.percentage !== null) {
+                    {{ predominantSite.percentage | number:'1.0-1' }}
+                }%
+            }
+        </pop-cohort-trait-panel>
+
+        <pop-cohort-trait-panel  title="Median overall survival" [icon]="icons.survival" [loading]="loading()" [valid]="cohort && cohortNonEmpty()">
+            @if (cohortTraits.value()?.overallSurvival; as os) {
+                <span class="font-bold text-lg">{{ os.median | number:'1.0-0' }}</span> 
+                @if (os.interQuartalRange !== null) {
+                        ({{ os.interQuartalRange[0] | number:'1.0-0' }}, {{ os.interQuartalRange[1] | number:'1.0-0' }})
+                } months
+            }
+        </pop-cohort-trait-panel>
+
+        <pop-cohort-trait-panel  title="Median data completion" [icon]="icons.completion" [loading]="loading()" [valid]="cohort && cohortNonEmpty()">
+            @if (cohortTraits.value()?.dataCompletion; as completion) {
+                <span class="font-bold text-lg">{{ completion.median}}%</span>
+                @if (completion.interQuartalRange !== null) {
+                    ({{ completion.interQuartalRange[0] }}, {{ completion.interQuartalRange[1] }})
+                } categories
+            }
+        </pop-cohort-trait-panel>
+    </div>
+
+    <div class="cohort-manager-cohort-definition flex flex-column gap-3 mt-4">
+        @if (cohortControl && cohort.hasValue()) {
+            <p-panel class="pop-cohort-criteria-panel" [toggleable]="true">    
+                <ng-template #header>
+                    <div class="flex gap-2 align-items-center">
+                        <i class="pi pi-thumbs-up"></i>
+                        <div class="font-semibold">Inclusion criteria</div>
+                        <p-chip label="{{ cohortControl.value.includeCriteria ? cohortControl.value.includeCriteria.rules.length : 0 }} rules" class="py-1 px-2"/>
+                    </div>
+                </ng-template>
+                <pop-cohort-query-builder formControlName="includeCriteria" [allowEmptyDefault]="true" [attr.disabled]="!userCanEdit()" [disabled]="!userCanEdit()"/>
+            </p-panel>
+        
+            <p-panel class="pop-cohort-criteria-panel" [toggleable]="true" [collapsed]="cohortControl.value.excludeCriteria === null">    
+                <ng-template #header>
+                    <div class="flex gap-2 align-items-center">
+                        <i class="pi pi-thumbs-down"></i>
+                        <div class="font-semibold">Exclusion criteria</div>
+                        <p-chip label="{{ cohortControl.value.excludeCriteria ? cohortControl.value.excludeCriteria.rules.length : 0 }} rules" class="py-1 px-2"/>
+                    </div>
+                </ng-template>
+                <pop-cohort-query-builder formControlName="excludeCriteria" [attr.disabled]="!userCanEdit()" [disabled]="!userCanEdit()"/>
+            </p-panel>  
         }
-    </pop-cohort-trait-panel>
+    </div>
 
-    <pop-cohort-trait-panel  title="Median age" [icon]="icons.age" [loading]="loading()" [valid]="cohort && cohortNonEmpty()">
-        @if (cohortTraits.value()?.age; as age) {
-            <span class="font-bold text-lg">{{ age.median }} </span> 
-            @if (age.interQuartalRange !== null) {
-                ({{ age.interQuartalRange[0] }}, {{ age.interQuartalRange[1] }})
-            } years
-        }
-    </pop-cohort-trait-panel>
-
-    <pop-cohort-trait-panel  title="Predominant gender" [icon]="icons.gender" [loading]="loading()" [valid]="cohort && cohortNonEmpty()">
-        @if (cohortTraits.value()?.genders; as genders) {
-            @let predominantGender = getPredominantCount(genders);
-            <span class="font-bold text-lg">{{ predominantGender.category }}</span> 
-            @if (predominantGender.percentage !== null) {
-                {{ predominantGender.percentage | number:'1.0-1' }}
-            }%
-        }
-    </pop-cohort-trait-panel>
-
-    <pop-cohort-trait-panel  title="Predominant site" [icon]="icons.site" [loading]="loading()" [valid]="cohort && cohortNonEmpty()">
-        @if (cohortTraits.value()?.neoplasticSites; as neoplasticSites) {
-            @let predominantSite = getPredominantCount(neoplasticSites);
-            <span class="font-bold text-lg">{{ predominantSite.category }}</span> 
-            @if (predominantSite.percentage !== null) {
-                {{ predominantSite.percentage | number:'1.0-1' }}
-            }%
-        }
-    </pop-cohort-trait-panel>
-
-    <pop-cohort-trait-panel  title="Median overall survival" [icon]="icons.survival" [loading]="loading()" [valid]="cohort && cohortNonEmpty()">
-        @if (cohortTraits.value()?.overallSurvival; as os) {
-            <span class="font-bold text-lg">{{ os.median | number:'1.0-0' }}</span> 
-            @if (os.interQuartalRange !== null) {
-                    ({{ os.interQuartalRange[0] | number:'1.0-0' }}, {{ os.interQuartalRange[1] | number:'1.0-0' }})
-            } months
-        }
-    </pop-cohort-trait-panel>
-
-    <pop-cohort-trait-panel  title="Median data completion" [icon]="icons.completion" [loading]="loading()" [valid]="cohort && cohortNonEmpty()">
-        @if (cohortTraits.value()?.dataCompletion; as completion) {
-            <span class="font-bold text-lg">{{ completion.median}}%</span>
-            @if (completion.interQuartalRange !== null) {
-                ({{ completion.interQuartalRange[0] }}, {{ completion.interQuartalRange[1] }})
-             } categories
-        }
-    </pop-cohort-trait-panel>
-</div>
-
-<div class="cohort-manager-cohort-definition flex flex-column gap-3 mt-4">
-    @if (cohortControl && cohort.hasValue()) {
-        <p-panel class="pop-cohort-criteria-panel" [toggleable]="true">    
-            <ng-template #header>
-                <div class="flex gap-2 align-items-center">
-                    <i class="pi pi-thumbs-up"></i>
-                    <div class="font-semibold">Inclusion criteria</div>
-                    <p-chip label="{{ cohortControl.value.includeCriteria ? cohortControl.value.includeCriteria.rules.length : 0 }} rules" class="py-1 px-2"/>
-                </div>
-            </ng-template>
-            <pop-cohort-query-builder formControlName="includeCriteria" [allowEmptyDefault]="true" [attr.disabled]="!userCanEdit()" [disabled]="!userCanEdit()"/>
-        </p-panel>
-    
-        <p-panel class="pop-cohort-criteria-panel" [toggleable]="true" [collapsed]="cohortControl.value.excludeCriteria === null">    
-            <ng-template #header>
-                <div class="flex gap-2 align-items-center">
-                    <i class="pi pi-thumbs-down"></i>
-                    <div class="font-semibold">Exclusion criteria</div>
-                    <p-chip label="{{ cohortControl.value.excludeCriteria ? cohortControl.value.excludeCriteria.rules.length : 0 }} rules" class="py-1 px-2"/>
-                </div>
-            </ng-template>
-            <pop-cohort-query-builder formControlName="excludeCriteria" [attr.disabled]="!userCanEdit()" [disabled]="!userCanEdit()"/>
-        </p-panel>  
-    }
-</div>
-
-<div class="flex gap-3 mt-4">
-    <p-button 
-    type="submit" 
-    [icon]="userCanEdit() ? 'pi pi-sync' : 'pi pi-lock'"
-    label="Save & Update Cohort" 
-    styleClass="cohort-manager-save-button w-15rem p-3"  
-    [loading]="loading()"
-    [disabled]="!userCanEdit() || !cohortControl || cohortControl.invalid" />
-</div>
+    <div class="flex gap-3 mt-4">
+        <p-button 
+        type="submit" 
+        [icon]="userCanEdit() ? 'pi pi-sync' : 'pi pi-lock'"
+        label="Save & Update Cohort" 
+        styleClass="cohort-manager-save-button w-15rem p-3"  
+        [loading]="loading()"
+        [disabled]="!userCanEdit() || !cohortControl || cohortControl.invalid" />
+    </div>
+</form>
 
 <p-tabs value="0"  class="pop-cohort-manager-tabs">
     <p-tablist>
@@ -168,17 +169,63 @@
             @if (cohort) {
                 @if (cohortNonEmpty()) {
                     <p-tabpanel value="0">
+
+                            <p-toolbar styleClass="border-transparent pb-1" [style]="{'background': 'none'}">
+                                <ng-template #start>  
+                                    <div class="flex flex align-items-center text-muted gap-2">
+                                        <span class="text-muted">Sort by </span>
+                                        <p-select [(ngModel)]="casesOrderingField" [options]="casesOrderingFields" size="small" optionLabel="label" optionValue="value"></p-select>
+                                        <p-select [(ngModel)]="casesOrderingDirection" [options]="casesOrderingDirections" size="small" optionLabel="label" optionValue="value"></p-select>
+                                    </div>
+                                </ng-template>                                
+                                <ng-template #end>
+                                    <div class="layout-buttons">
+                                        <p-selectbutton [(ngModel)]="casesLayout" [options]="['list', 'grid']" [allowEmpty]="false">
+                                            <ng-template #item let-item>
+                                                <i class="pi " [ngClass]="{ 'pi-bars': item === 'list', 'pi-table': item === 'grid' }"></i>
+                                            </ng-template>
+                                        </p-selectbutton>
+                                    </div>
+                                </ng-template>
+                            </p-toolbar>
+
                             <p-dataView 
                                 styleClass="pop-case-search-dataview"
                                 [value]="cohortCases.value() || []"
                                 [paginator]="true" 
                                 [rows]="pagination().limit" 
-                                layout="grid"
-                                sortField="createdAt"
+                                [layout]="casesLayout()"
                                 lazy="true"
                                 [totalRecords]="cohortPopulation()"
                                 (onLazyLoad)="pagination.set({limit: $event.rows, offset: $event.first})"
                                 class="no-background">
+
+
+                                <ng-template #list let-data>
+                                    <p-table [value]="data" styleClass="mt-3">
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th>Case</th>
+                                                <th class="text-center">Diagnosis</th>
+                                                <th class="text-center">Contributors</th>
+                                                <th class="text-center">Created</th>
+                                                <th class="text-center">Last Updated</th>
+                                                <th class="text-center">Completion</th>
+                                                <th class="text-center">Consent</th>
+                                                <th></th>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-case>
+                                            <tr pop-case-search-item 
+                                                @fadeAnimation
+                                                layout="row"
+                                                [case]="case"
+                                                (onDelete)="cohortCases.reload()"
+                                                ></tr>
+                                        </ng-template>
+                                    </p-table>
+                                </ng-template>    
+
                                 <ng-template #grid let-cases>
                                     @if (cohortCases.isLoading()) {
                                         <!-- Skeleton loader -->

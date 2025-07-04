@@ -70,6 +70,16 @@
         </div>
     </ng-template>
 
+    <ng-template #end>
+        <div class="layout-buttons">
+            <p-selectbutton [(ngModel)]="layout" [options]="['list', 'grid']" [allowEmpty]="false">
+                <ng-template #item let-item>
+                    <i class="pi " [ngClass]="{ 'pi-bars': item === 'list', 'pi-table': item === 'grid' }"></i>
+                </ng-template>
+            </p-selectbutton>
+        </div>
+    </ng-template>
+
 </p-toolbar>
     
 @if (cohorts.isLoading()) {
@@ -98,13 +108,40 @@
     [value]="cohorts.value() || undefined"
     [paginator]="true" 
     [rows]="pagination().limit" 
-    layout="grid"
+    [layout]="layout()"
     sortField="createdAt"
     lazy="true"
     [rowsPerPageOptions]="pageSizeChoices"
     [totalRecords]="totalCohorts()"
     (onLazyLoad)="pagination.set({limit: $event.rows, offset: $event.first})"
     class="no-background">
+
+
+    <ng-template #list let-data>
+        <p-table [value]="data" styleClass="mt-3">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Title</th>
+                    <th>Population</th>
+                    <th>Project</th>
+                    <th>Predominant Topography</th>
+                    <th>Median Age</th>
+                    <th>Median Completion</th>
+                    <th class="text-center">Created</th>
+                    <th class="text-center">Last Updated</th>
+                    <th></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-cohort>
+                <tr pop-cohort-search-item 
+                    @fadeAnimation
+                    layout="row"
+                    [cohort]="cohort"
+                    (onDelete)="cohorts.reload()"
+                    ></tr>
+            </ng-template>
+        </p-table>
+    </ng-template>    
 
     <ng-template #grid let-cohorts>
         <div class="grid mt-3">

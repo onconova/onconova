@@ -1,5 +1,5 @@
 import { CommonModule, Location } from '@angular/common';
-import { Component, inject, computed, input, effect, signal } from '@angular/core';
+import { Component, inject, computed, input, effect, signal, Signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, FormGroup, FormsModule, Validators } from '@angular/forms';
 
 import { Panel } from 'primeng/panel';
@@ -35,6 +35,10 @@ import { Fieldset } from 'primeng/fieldset';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { driver } from 'driver.js';
 import TourDriverConfig from './cohort-manager.tour';
+import { ToolbarModule } from 'primeng/toolbar';
+import { Select, SelectModule } from 'primeng/select';
+import { SelectButton } from 'primeng/selectbutton';
+import { TableModule } from 'primeng/table';
 
 
 @Component({
@@ -42,8 +46,8 @@ import TourDriverConfig from './cohort-manager.tour';
     templateUrl: './cohort-manager.component.html',
     imports: [
         CommonModule,
-        ReactiveFormsModule,
         FormsModule,
+        ReactiveFormsModule,
         LucideAngularModule,
         CohortGraphsComponent,
         CohortContributorsComponent,
@@ -57,8 +61,12 @@ import TourDriverConfig from './cohort-manager.tour';
         Skeleton,
         InputText,
         UserBadgeComponent,
+        SelectModule,
+        SelectButton,
+        TableModule,
         TimelineModule,
         Divider,
+        ToolbarModule,
         TabsModule,
         DataView,
         Button,
@@ -126,8 +134,29 @@ export class CohortBuilderComponent {
     
     public currentCohortId = computed<string>(() => this.cohort.hasValue() ? this.cohort.value()!.id : this.cohortId())
 
+
+    public casesLayout: Signal<'grid' | 'list'> = signal('grid');
+    protected casesOrderingFields = [
+        {label: 'Creation date', value: 'createdAt'},
+        {label: 'Last Updated', value: 'updatedAt'},
+        {label: 'Title', value: 'name'},
+        {label: 'Population', value: 'population'},
+    ]
+    protected casesOrderingDirections = [
+        {label: 'Descending', value: '-'},
+        {label: 'Ascending', value: ''},
+    ]
+    protected casesOrderingField = signal<string>(this.casesOrderingFields[0].value)
+    protected casesOrderingDirection = signal<string>(this.casesOrderingDirections[0].value)
+    protected casesOrdering = computed(() => this.casesOrderingDirection() + this.casesOrderingField()) 
+
     public cohortCases = rxResource({
-        request: () => ({cohortId: this.currentCohortId(), limit: this.pagination().limit, offset: this.pagination().offset}),
+        request: () => ({
+            cohortId: this.currentCohortId(), 
+            limit: this.pagination().limit, 
+            offset: this.pagination().offset, 
+            ordering: this.casesOrdering() || '-createdAt',
+        }),
         loader: ({request}) => this.#cohortsService.getCohortCases(request).pipe(map(response=>response.items))
     })    
 
