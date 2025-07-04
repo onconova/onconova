@@ -16,11 +16,11 @@ import { Skeleton } from 'primeng/skeleton';
             @case ('boolean') {
                 <div>{{ data() ? 'Yes' : 'No' }}</div> 
             }
-            @case ('Period') {
-                <div>{{ data().start | date }} - {{ (data().end | date) ?? 'ongoing' }}</div> 
-            }
             @case ('Range') {
                 <div>{{ data().start || 'Unknown' }} - {{ data().end || 'Unknown' }}</div> 
+            }
+            @case ('Period') {
+                <div>{{ data().start | date }} - {{ (data().end | date) ?? 'ongoing' }}</div> 
             }
             @case ('Measure') {
                 <div>{{ data().value | number: '1.0-4' }} {{ data().unit | replace:'__':'/' }}</div> 
@@ -104,12 +104,12 @@ export class DrawerDataPropertiesComponent {
                 return 'CodedConcept';
             } else if (this.#typeCheckService.isBoolean(this.data())) {
                 return 'boolean';                
-            } else if (this.#typeCheckService.isPeriod(this.data())) {
-                return 'Period';                
-            } else if (this.#typeCheckService.isMeasure(this.data())) {
+            }else if (this.#typeCheckService.isMeasure(this.data())) {
                 return 'Measure';                
             } else if (this.#typeCheckService.isRange(this.data())) {
-                return 'Range';                                   
+                return 'Range';  
+            } else if (this.#typeCheckService.isPeriod(this.data())) {
+                return 'Period';               
             } else {
                 return 'object';             
             }                    
