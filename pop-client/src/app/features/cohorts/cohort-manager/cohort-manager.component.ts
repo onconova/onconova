@@ -102,7 +102,8 @@ export class CohortBuilderComponent {
         completion: ClipboardCheck
     };
     private readonly tour = TourDriverConfig
-    public loading = computed(() => this.cohort.isLoading() || this.submittedCohort.isLoading())
+    private submittingCohort = signal(false)
+    public loading = computed(() => this.cohort.isLoading() || this.submittingCohort())
     public editCohortName: boolean = false;
     public pagination = signal({limit: 15, offset: 0});
     public goBack = () => this.#location.back()
@@ -184,28 +185,6 @@ export class CohortBuilderComponent {
         request: () => this.cohortNonEmpty() ? {cohortId: this.currentCohortId()} : undefined,
         loader: ({request}: any) =>  this.#cohortsService.getCohortTraitsStatistics(request)
     }) 
-    public cohortPayload = signal<CohortCreate | null>(null)
-    public submittedCohort = rxResource({
-        request: () => ({cohortId: this.cohortId(), cohortCreate: this.cohortPayload()}),
-        loader: ({request}) => {
-            const payload = request.cohortCreate;
-            if (payload) {
-                return this.#cohortsService.updateCohort({cohortId: request.cohortId, cohortCreate: payload}).pipe(
-                    catchError(
-                        (error: any, caught: any) => {
-                            this.#messageService.add({ severity: 'success', summary: 'Success', detail: `Updated "${error.error.detail}"` });
-                            return throwError(() => new Error(error));
-                        }
-                    ),
-                )
-            } 
-            return of(null)
-        } 
-    })
-    refreshEffect = effect( () => {
-        this.submittedCohort.value();
-        this.cohort.reload();
-    })
 
     
     revertCohortDefinition(old: Cohort, timestamp: string) {
@@ -223,7 +202,8 @@ export class CohortBuilderComponent {
         this.cohortControl.updateValueAndValidity();
     }    
     
-    submitCohort() {
+    public submitCohort() {
+        this.submittingCohort.set(true);
         this.editCohortName = false;
         const cohortData = this.cohortControl.value;
         const payload: CohortCreate = {
@@ -232,9 +212,22 @@ export class CohortBuilderComponent {
             includeCriteria: cohortData.includeCriteria,
             excludeCriteria: cohortData.excludeCriteria,
         };
-        this.cohortPayload.set(payload);
-        this.cohort.reload()
-        this.cohortTraits.reload()
+        {
+        this.#cohortsService.updateCohort({cohortId: this.cohortId(), cohortCreate: payload}).subscribe({
+            next: (response) => {
+                this.#messageService.add({ severity: 'success', summary: 'Success', detail: `Updated "${response.description}"` });
+                this.submittingCohort.set(false);
+                this.cohort.reload()
+                this.cohortTraits.reload()                
+            },
+            error: (error) => {
+                this.#messageService.add({ severity: 'error', summary: 'Error while updating', detail: error.error.detail });
+                this.submittingCohort.set(false);
+                return throwError(() => new Error(error));
+                
+            }                
+        });
+        } 
     }
     
     public getAllChanges(differential: any): any[] {

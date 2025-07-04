@@ -19,11 +19,10 @@ import { TableModule } from 'primeng/table';
     selector: 'pop-cohort-trait-panel',
     template: `
     <p-card class="flex" styleClass="border border-surface shadow-none">
-        <div class="flex justify-between gap-8">
             <div class="flex flex gap-2">
 
                 <div class="mr-1 my-auto">
-                    <p-avatar class="cohort-statistics-avatar mr-2" size="large" shape="circle" [style]="{ 'background-color': 'var(--p-primary-color)', color: '#ffffff'}">
+                    <p-avatar class="cohort-statistics-avatar mr-0" size="large" shape="circle" [style]="{ 'background-color': 'var(--p-primary-color)', color: '#ffffff', scale: '.9'}">
                         <lucide-angular class="cohort-search-item-icon" [img]="icon()"></lucide-angular>
                     </p-avatar>
                 </div>
@@ -42,7 +41,6 @@ import { TableModule } from 'primeng/table';
                         </div>                 
                     </div>
                 </div>
-            </div>
         </div>
     </p-card>
     `
