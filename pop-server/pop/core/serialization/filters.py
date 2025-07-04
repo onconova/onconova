@@ -618,8 +618,8 @@ class AllOfConceptFilter(DjangoFilter):
     value_type = List[str]
 
     @staticmethod
-    def query_expression(model, values, field, lookup, negative):
-        if values is None:
+    def query_expression(model, value, field, lookup, negative):
+        if value is None:
             return Q()
         if not model:
             raise ValueError("The allOf filter requires a model to be specified")
@@ -627,11 +627,11 @@ class AllOfConceptFilter(DjangoFilter):
             model = model._queryset_model
         # Annotate the queryset with the count of related objects in the Many-to-Many field
         subquery = model.objects.annotate(m2m_entries_count=Count(field)).filter(
-            m2m_entries_count=len(values)
+            m2m_entries_count=len(value)
         )
         # Filter the queryset further to include instances related to each value in the values list
-        for value in values:
-            subquery = subquery.filter(**{f"{field}__code": value})
+        for entry in value:
+            subquery = subquery.filter(**{f"{field}__code": entry})
         # Get the correct database table name
         query = Q(pk__in=subquery.values_list("pk", flat=True))
         return ~query if negative else query
@@ -735,8 +735,8 @@ class AllOfReferencesFilter(DjangoFilter):
     value_type = List[str]
 
     @staticmethod
-    def query_expression(model, values, field, lookup, negative):
-        if values is None:
+    def query_expression(model, value, field, lookup, negative):
+        if value is None:
             return Q()
         if not model:
             raise ValueError("The allOf filter requires a model to be specified")
@@ -744,11 +744,11 @@ class AllOfReferencesFilter(DjangoFilter):
             model = model._queryset_model
         # Annotate the queryset with the count of related objects in the Many-to-Many field
         subquery = model.objects.annotate(m2m_entries_count=Count(field)).filter(
-            m2m_entries_count=len(values)
+            m2m_entries_count=len(value)
         )
         # Filter the queryset further to include instances related to each value in the values list
-        for value in values:
-            subquery = subquery.filter(**{f"{field}": value})
+        for entry in value:
+            subquery = subquery.filter(**{f"{field}": entry})
         # Get the correct database table name
         query = Q(pk__in=subquery.values_list("pk", flat=True))
         return ~query if negative else query
