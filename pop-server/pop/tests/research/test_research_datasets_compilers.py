@@ -62,6 +62,30 @@ class TestConstructDataset(TestCase):
         self.assertEqual(len(dataset), 1)
         self.assertEqual(self.case.contributors, dataset[0].get("contributors"))
 
+    def test_query_range(self):
+        variant = factories.GenomicVariantFactory.create(
+            case=self.case, dna_hgvs="NM_000467.4:c.219_764insGC"
+        )
+        rule = DatasetRule(resource="GenomicVariant", field="dnaChangePositionRange")
+        dataset = construct_dataset(self.cohort, [rule])
+        self.assertEqual(len(dataset), 1)
+        self.assertEqual(
+            str(variant.dna_change_position_range).replace(" ", ""),
+            dataset[0].get("genomic_variants_resources")[0][
+                "dna_change_position_range"
+            ],
+        )
+
+    def test_query_period(self):
+        therapy = factories.SystemicTherapyFactory.create(case=self.case)
+        rule = DatasetRule(resource="SystemicTherapy", field="period")
+        dataset = construct_dataset(self.cohort, [rule])
+        self.assertEqual(len(dataset), 1)
+        self.assertEqual(
+            str(therapy.period).replace(" ", ""),
+            dataset[0].get("systemic_therapies_resources")[0]["period"],
+        )
+
     def test_query_coded_concept_text(self):
         rule = DatasetRule(
             resource="PatientCase", field="gender", transform="GetCodedConceptDisplay"

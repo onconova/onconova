@@ -34,6 +34,9 @@
                                <li class="mb-2">🞄 {{ value || '-' }}</li>
                            }
                        </ul>
+                    } @else if (rowData[column] && isRange(rowData[column])) {
+                        @let range = rowData[column];
+                       {{ range.start || '?' }} - {{ range.end || '?' }}
                     } @else {
                        {{ rowData[column] || '-' }}
                     }

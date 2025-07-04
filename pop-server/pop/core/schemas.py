@@ -73,7 +73,10 @@ class Range(Schema):
         Accepts either a tuple, PostgresRange, or dict-like object.
         """
         range_obj = obj._obj
-        if isinstance(range_obj, tuple):
+        if isinstance(range_obj, str):
+            start, end = range_obj.strip("()[]").split(",")
+            return {"start": start, "end": end}
+        elif isinstance(range_obj, tuple):
             return {"start": range_obj[0], "end": range_obj[1]}
         elif isinstance(range_obj, PostgresRange):
             return {"start": range_obj.lower, "end": range_obj.upper}
@@ -102,7 +105,10 @@ class Period(Schema):
         Accepts either a tuple, PostgresRange, or dict-like object.
         """
         period_obj = obj._obj
-        if isinstance(period_obj, tuple):
+        if isinstance(period_obj, str):
+            start, end = period_obj.strip("()[]").split(",")
+            return {"start": start, "end": end}
+        elif isinstance(period_obj, tuple):
             return {"start": period_obj[0], "end": period_obj[1]}
         elif isinstance(period_obj, PostgresRange):
             return {"start": period_obj.lower, "end": period_obj.upper}
