@@ -1,4 +1,4 @@
-import { computed, effect, inject, Injectable, linkedSignal, signal } from '@angular/core';
+import { computed, effect, inject, Injectable, linkedSignal, Signal, signal } from '@angular/core';
 import { iif, map, Observable, of, switchMap, throwError } from 'rxjs'
 import { UsersService, User} from 'pop-api-client';
 import { rxResource } from '@angular/core/rxjs-interop';
@@ -63,7 +63,9 @@ export class AuthService {
     });
   }
 
-  public login(credentials: {username: string, password: string}, nextUrl?: string): void {
+  public login(credentials: {username: string, password: string}, nextUrl?: string, loading?: Signal<boolean>): void {
+    // @ts-ignore
+    if (loading) loading.set(true)
     this.#allAuthApiService.login(credentials)
       .pipe(
         // Set the session token and user ID signals after a successful login
@@ -78,14 +80,14 @@ export class AuthService {
             )
         },
         error: (response) => {
-            if (response.status == 401) {
-                this.#messageService.add({ severity: 'error', summary: 'Login failed', detail: 'Invalid credentials' });
-            } else 
-            if (response.status == 400 ){
-                this.#messageService.add({ severity: 'error', summary: 'Login failed', detail: response.errors[0].message });
+            if ([400, 410,].includes(response.status)) {
+                const errors = response.error.errors
+                this.#messageService.add({ severity: 'error', summary: 'Login failed', detail: errors[0].message });
             } else {
-                this.#messageService.add({ severity: 'error', summary: 'Network error', detail: response.error.detail });
+                this.#messageService.add({ severity: 'error', summary: 'Network error', detail: response.error.message });
             }
+            // @ts-ignore
+            if (loading) loading.set(false)
         }
     });
   }

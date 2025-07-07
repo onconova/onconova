@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnInit } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
@@ -59,8 +59,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
                             <input type="password" pInputText placeholder="Password" formControlName="password" class="py-3 px-5" autocomplete="current-password"/>
                         </p-iconfield>
                     </div>
-
-                    <p-button type="submit" label="Sign In" styleClass="w-full p-3 text-xl mt-3"  [loading]="loading"></p-button>
+                    <p-button type="submit" label="Sign In" styleClass="w-full p-3 text-xl mt-3" [disabled]="credentials.invalid" [loading]="loading()"></p-button>
                 </p-fluid>
             </form>
         </ng-template>
@@ -101,13 +100,14 @@ export class LoginComponent {
     // Computed signal to get the next url from the query params
     #queryParams = toSignal(this.#route.queryParamMap, { initialValue: this.#route.snapshot.queryParamMap });
     #nextUrl = computed(() => this.#queryParams().get('next') || '/');
-      
+
+    protected loading = signal<boolean>(false);
+
     // Login form
     protected credentials: FormGroup = this.#fb.group({
         username: this.#fb.nonNullable.control<string>('', Validators.required),
         password: this.#fb.nonNullable.control<string>('', Validators.required),
     })
-    public loading: boolean = false;
 
     // Computed reactive properties
     protected loginMethods = computed(() => {
@@ -118,7 +118,7 @@ export class LoginComponent {
     })
 
     login(): void {
-        this.#authService.login(this.credentials.value, this.#nextUrl());
+        this.#authService.login(this.credentials.value, this.#nextUrl(), this.loading);
     }
     
 
