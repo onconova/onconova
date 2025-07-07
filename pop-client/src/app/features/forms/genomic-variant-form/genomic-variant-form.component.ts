@@ -68,6 +68,7 @@ export class GenomicVariantFormComponent extends AbstractFormBase {
     // Define the form
     public form = this.#fb.group({
       date: this.#fb.control<string | null>(null, Validators.required),
+      assessmentDate: this.#fb.control<string | null>(null),
       genePanel: this.#fb.control<string | null>(null),
       assessment: this.#fb.control<GenomicVariantAssessmentChoices | null>(null),
       confidence: this.#fb.control<GenomicVariantConfidenceChoices | null>(null),
@@ -92,6 +93,7 @@ export class GenomicVariantFormComponent extends AbstractFormBase {
         return {
             caseId: this.caseId(),
             date: data.date!,
+            assessmentDate: data.assessmentDate!,
             genes: data.genes!,
             genePanel: data.genePanel!,            
             assessment: data.assessment,            
@@ -117,6 +119,7 @@ export class GenomicVariantFormComponent extends AbstractFormBase {
     
       this.form.patchValue({
         date: data.date ?? null,
+        assessmentDate: data.assessmentDate ?? null,
         genePanel: data.genePanel ?? null,
         assessment: data.assessment ?? null,
         confidence: data.confidence ?? null,

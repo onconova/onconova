@@ -239,10 +239,17 @@ class GenomicVariant(BaseModel):
         on_delete=models.CASCADE,
     )
     date = models.DateField(
+        verbose_name=_("Date"),
+        help_text=_(
+            "Clinically-relevant date of the genomic variant (e.g. the specimen collection date)."
+        ),
+    )
+    assessment_date = models.DateField(
         verbose_name=_("Assessment date"),
         help_text=_(
-            "Clinically-relevant date at which the genomic variant was detected and/or reported."
+            "Date at which the genomic variant was assessed and/or reported."
         ),
+        null=True, blank=True,
     )
     gene_panel = models.CharField(
         verbose_name=_("Gene panel"),

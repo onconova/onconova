@@ -21986,6 +21986,22 @@
           },
           {
             "in": "query",
+            "name": "ordering",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Ordering"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
             "name": "limit",
             "schema": {
               "default": 10,
@@ -31601,79 +31617,79 @@
             "in": "query",
             "name": "date.before",
             "schema": {
-              "description": "Assessment date - Filter for entries with dates before the specified value",
+              "description": "Date - Filter for entries with dates before the specified value",
               "format": "date",
               "title": "Date.Before",
               "type": "string"
             },
             "required": false,
-            "description": "Assessment date - Filter for entries with dates before the specified value"
+            "description": "Date - Filter for entries with dates before the specified value"
           },
           {
             "in": "query",
             "name": "date.after",
             "schema": {
-              "description": "Assessment date - Filter for entries with dates after the specified value",
+              "description": "Date - Filter for entries with dates after the specified value",
               "format": "date",
               "title": "Date.After",
               "type": "string"
             },
             "required": false,
-            "description": "Assessment date - Filter for entries with dates after the specified value"
+            "description": "Date - Filter for entries with dates after the specified value"
           },
           {
             "in": "query",
             "name": "date.onOrBefore",
             "schema": {
-              "description": "Assessment date - Filter for entries with dates on or before the specified value",
+              "description": "Date - Filter for entries with dates on or before the specified value",
               "format": "date",
               "title": "Date.Onorbefore",
               "type": "string"
             },
             "required": false,
-            "description": "Assessment date - Filter for entries with dates on or before the specified value"
+            "description": "Date - Filter for entries with dates on or before the specified value"
           },
           {
             "in": "query",
             "name": "date.onOrAfter",
             "schema": {
-              "description": "Assessment date - Filter for entries with dates on or after the specified value",
+              "description": "Date - Filter for entries with dates on or after the specified value",
               "format": "date",
               "title": "Date.Onorafter",
               "type": "string"
             },
             "required": false,
-            "description": "Assessment date - Filter for entries with dates on or after the specified value"
+            "description": "Date - Filter for entries with dates on or after the specified value"
           },
           {
             "in": "query",
             "name": "date.on",
             "schema": {
-              "description": "Assessment date - Filter for entries with dates exactly matching the specified value",
+              "description": "Date - Filter for entries with dates exactly matching the specified value",
               "format": "date",
               "title": "Date.On",
               "type": "string"
             },
             "required": false,
-            "description": "Assessment date - Filter for entries with dates exactly matching the specified value"
+            "description": "Date - Filter for entries with dates exactly matching the specified value"
           },
           {
             "in": "query",
             "name": "date.not.on",
             "schema": {
-              "description": "Assessment date - Filter for entries with dates not matching the specified value",
+              "description": "Date - Filter for entries with dates not matching the specified value",
               "format": "date",
               "title": "Date.Not.On",
               "type": "string"
             },
             "required": false,
-            "description": "Assessment date - Filter for entries with dates not matching the specified value"
+            "description": "Date - Filter for entries with dates not matching the specified value"
           },
           {
             "in": "query",
             "name": "date.between",
             "schema": {
-              "description": "Assessment date - Filter for entries with dates between two specified values (inclusive)",
+              "description": "Date - Filter for entries with dates between two specified values (inclusive)",
               "maxItems": 2,
               "minItems": 2,
               "prefixItems": [
@@ -31690,11 +31706,151 @@
               "type": "array"
             },
             "required": false,
-            "description": "Assessment date - Filter for entries with dates between two specified values (inclusive)"
+            "description": "Date - Filter for entries with dates between two specified values (inclusive)"
           },
           {
             "in": "query",
             "name": "date.not.between",
+            "schema": {
+              "description": "Date - Filter for entries with dates not between two specified values (inclusive)",
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "format": "date",
+                  "type": "string"
+                },
+                {
+                  "format": "date",
+                  "type": "string"
+                }
+              ],
+              "title": "Date.Not.Between",
+              "type": "array"
+            },
+            "required": false,
+            "description": "Date - Filter for entries with dates not between two specified values (inclusive)"
+          },
+          {
+            "in": "query",
+            "name": "assessmentDate.not.exists",
+            "schema": {
+              "description": "Assessment date - Filter for entries without a value",
+              "title": "Assessmentdate.Not.Exists",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "Assessment date - Filter for entries without a value"
+          },
+          {
+            "in": "query",
+            "name": "assessmentDate.exists",
+            "schema": {
+              "description": "Assessment date - Filter for entries with a value",
+              "title": "Assessmentdate.Exists",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "Assessment date - Filter for entries with a value"
+          },
+          {
+            "in": "query",
+            "name": "assessmentDate.before",
+            "schema": {
+              "description": "Assessment date - Filter for entries with dates before the specified value",
+              "format": "date",
+              "title": "Assessmentdate.Before",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Assessment date - Filter for entries with dates before the specified value"
+          },
+          {
+            "in": "query",
+            "name": "assessmentDate.after",
+            "schema": {
+              "description": "Assessment date - Filter for entries with dates after the specified value",
+              "format": "date",
+              "title": "Assessmentdate.After",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Assessment date - Filter for entries with dates after the specified value"
+          },
+          {
+            "in": "query",
+            "name": "assessmentDate.onOrBefore",
+            "schema": {
+              "description": "Assessment date - Filter for entries with dates on or before the specified value",
+              "format": "date",
+              "title": "Assessmentdate.Onorbefore",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Assessment date - Filter for entries with dates on or before the specified value"
+          },
+          {
+            "in": "query",
+            "name": "assessmentDate.onOrAfter",
+            "schema": {
+              "description": "Assessment date - Filter for entries with dates on or after the specified value",
+              "format": "date",
+              "title": "Assessmentdate.Onorafter",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Assessment date - Filter for entries with dates on or after the specified value"
+          },
+          {
+            "in": "query",
+            "name": "assessmentDate.on",
+            "schema": {
+              "description": "Assessment date - Filter for entries with dates exactly matching the specified value",
+              "format": "date",
+              "title": "Assessmentdate.On",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Assessment date - Filter for entries with dates exactly matching the specified value"
+          },
+          {
+            "in": "query",
+            "name": "assessmentDate.not.on",
+            "schema": {
+              "description": "Assessment date - Filter for entries with dates not matching the specified value",
+              "format": "date",
+              "title": "Assessmentdate.Not.On",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Assessment date - Filter for entries with dates not matching the specified value"
+          },
+          {
+            "in": "query",
+            "name": "assessmentDate.between",
+            "schema": {
+              "description": "Assessment date - Filter for entries with dates between two specified values (inclusive)",
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "format": "date",
+                  "type": "string"
+                },
+                {
+                  "format": "date",
+                  "type": "string"
+                }
+              ],
+              "title": "Assessmentdate.Between",
+              "type": "array"
+            },
+            "required": false,
+            "description": "Assessment date - Filter for entries with dates between two specified values (inclusive)"
+          },
+          {
+            "in": "query",
+            "name": "assessmentDate.not.between",
             "schema": {
               "description": "Assessment date - Filter for entries with dates not between two specified values (inclusive)",
               "maxItems": 2,
@@ -31709,7 +31865,7 @@
                   "type": "string"
                 }
               ],
-              "title": "Date.Not.Between",
+              "title": "Assessmentdate.Not.Between",
               "type": "array"
             },
             "required": false,
@@ -49451,10 +49607,24 @@
             "x-expanded": false
           },
           "date": {
-            "description": "Clinically-relevant date at which the genomic variant was detected and/or reported.",
+            "description": "Clinically-relevant date of the genomic variant (e.g. the specimen collection date).",
             "format": "date",
-            "title": "Assessment date",
+            "title": "Date",
             "type": "string",
+            "x-expanded": false
+          },
+          "assessmentDate": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Date at which the genomic variant was assessed and/or reported.",
+            "title": "Assessment date",
             "x-expanded": false
           },
           "genePanel": {
@@ -70304,43 +70474,43 @@
             "type": "array"
           },
           "date.before": {
-            "description": "Assessment date - Filter for entries with dates before the specified value",
+            "description": "Date - Filter for entries with dates before the specified value",
             "format": "date",
             "title": "Date.Before",
             "type": "string"
           },
           "date.after": {
-            "description": "Assessment date - Filter for entries with dates after the specified value",
+            "description": "Date - Filter for entries with dates after the specified value",
             "format": "date",
             "title": "Date.After",
             "type": "string"
           },
           "date.onOrBefore": {
-            "description": "Assessment date - Filter for entries with dates on or before the specified value",
+            "description": "Date - Filter for entries with dates on or before the specified value",
             "format": "date",
             "title": "Date.Onorbefore",
             "type": "string"
           },
           "date.onOrAfter": {
-            "description": "Assessment date - Filter for entries with dates on or after the specified value",
+            "description": "Date - Filter for entries with dates on or after the specified value",
             "format": "date",
             "title": "Date.Onorafter",
             "type": "string"
           },
           "date.on": {
-            "description": "Assessment date - Filter for entries with dates exactly matching the specified value",
+            "description": "Date - Filter for entries with dates exactly matching the specified value",
             "format": "date",
             "title": "Date.On",
             "type": "string"
           },
           "date.not.on": {
-            "description": "Assessment date - Filter for entries with dates not matching the specified value",
+            "description": "Date - Filter for entries with dates not matching the specified value",
             "format": "date",
             "title": "Date.Not.On",
             "type": "string"
           },
           "date.between": {
-            "description": "Assessment date - Filter for entries with dates between two specified values (inclusive)",
+            "description": "Date - Filter for entries with dates between two specified values (inclusive)",
             "maxItems": 2,
             "minItems": 2,
             "prefixItems": [
@@ -70357,7 +70527,7 @@
             "type": "array"
           },
           "date.not.between": {
-            "description": "Assessment date - Filter for entries with dates not between two specified values (inclusive)",
+            "description": "Date - Filter for entries with dates not between two specified values (inclusive)",
             "maxItems": 2,
             "minItems": 2,
             "prefixItems": [
@@ -70371,6 +70541,86 @@
               }
             ],
             "title": "Date.Not.Between",
+            "type": "array"
+          },
+          "assessmentDate.not.exists": {
+            "description": "Assessment date - Filter for entries without a value",
+            "title": "Assessmentdate.Not.Exists",
+            "type": "boolean"
+          },
+          "assessmentDate.exists": {
+            "description": "Assessment date - Filter for entries with a value",
+            "title": "Assessmentdate.Exists",
+            "type": "boolean"
+          },
+          "assessmentDate.before": {
+            "description": "Assessment date - Filter for entries with dates before the specified value",
+            "format": "date",
+            "title": "Assessmentdate.Before",
+            "type": "string"
+          },
+          "assessmentDate.after": {
+            "description": "Assessment date - Filter for entries with dates after the specified value",
+            "format": "date",
+            "title": "Assessmentdate.After",
+            "type": "string"
+          },
+          "assessmentDate.onOrBefore": {
+            "description": "Assessment date - Filter for entries with dates on or before the specified value",
+            "format": "date",
+            "title": "Assessmentdate.Onorbefore",
+            "type": "string"
+          },
+          "assessmentDate.onOrAfter": {
+            "description": "Assessment date - Filter for entries with dates on or after the specified value",
+            "format": "date",
+            "title": "Assessmentdate.Onorafter",
+            "type": "string"
+          },
+          "assessmentDate.on": {
+            "description": "Assessment date - Filter for entries with dates exactly matching the specified value",
+            "format": "date",
+            "title": "Assessmentdate.On",
+            "type": "string"
+          },
+          "assessmentDate.not.on": {
+            "description": "Assessment date - Filter for entries with dates not matching the specified value",
+            "format": "date",
+            "title": "Assessmentdate.Not.On",
+            "type": "string"
+          },
+          "assessmentDate.between": {
+            "description": "Assessment date - Filter for entries with dates between two specified values (inclusive)",
+            "maxItems": 2,
+            "minItems": 2,
+            "prefixItems": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "format": "date",
+                "type": "string"
+              }
+            ],
+            "title": "Assessmentdate.Between",
+            "type": "array"
+          },
+          "assessmentDate.not.between": {
+            "description": "Assessment date - Filter for entries with dates not between two specified values (inclusive)",
+            "maxItems": 2,
+            "minItems": 2,
+            "prefixItems": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "format": "date",
+                "type": "string"
+              }
+            ],
+            "title": "Assessmentdate.Not.Between",
             "type": "array"
           },
           "genePanel.not.exists": {
@@ -71276,10 +71526,24 @@
             "x-expanded": false
           },
           "date": {
-            "description": "Clinically-relevant date at which the genomic variant was detected and/or reported.",
+            "description": "Clinically-relevant date of the genomic variant (e.g. the specimen collection date).",
             "format": "date",
-            "title": "Assessment date",
+            "title": "Date",
             "type": "string",
+            "x-expanded": false
+          },
+          "assessmentDate": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Date at which the genomic variant was assessed and/or reported.",
+            "title": "Assessment date",
             "x-expanded": false
           },
           "genePanel": {
@@ -77419,6 +77683,18 @@
               }
             ],
             "title": "Date"
+          },
+          "assessmentDate": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Assessmentdate"
           },
           "genePanel": {
             "anyOf": [
