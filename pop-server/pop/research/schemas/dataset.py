@@ -254,6 +254,54 @@ class PatientCaseDataset(partial_schemas["PatientCase"]):
         default=None,
         validation_alias=AliasChoices("figoStagings", "figo_stagings_resources"),
     )
+    binetStagings: Optional[List[partial_schemas["BinetStaging"]]] = Field(  # type: ignore
+        default=None,
+        validation_alias=AliasChoices("binetStagings", "binet_stagings_resources"),
+    )
+    raiStagings: Optional[List[partial_schemas["RaiStaging"]]] = Field(  # type: ignore
+        default=None,
+        validation_alias=AliasChoices("raiStagings", "rai_stagings_resources"),
+    )
+    breslowStagings: Optional[List[partial_schemas["BreslowDepth"]]] = Field(  # type: ignore
+        default=None,
+        validation_alias=AliasChoices("breslowStagings", "breslow_depths_resources"),
+    )
+    clarkStagings: Optional[List[partial_schemas["ClarkStaging"]]] = Field(  # type: ignore
+        default=None,
+        validation_alias=AliasChoices("clarkStagings", "clark_stagings_resources"),
+    )
+    issStagings: Optional[List[partial_schemas["ISSStaging"]]] = Field(  # type: ignore
+        default=None,
+        validation_alias=AliasChoices("issStagings", "iss_stagings_resources"),
+    )
+    rissStagings: Optional[List[partial_schemas["RISSStaging"]]] = Field(  # type: ignore
+        default=None,
+        validation_alias=AliasChoices("rissStagings", "riss_stagings_resources"),
+    )
+    inssStagings: Optional[List[partial_schemas["INSSStage"]]] = Field(  # type: ignore
+        default=None,
+        validation_alias=AliasChoices("inssStagings", "inss_stagings_resources"),
+    )
+    inrgssStagings: Optional[List[partial_schemas["INRGSSStage"]]] = Field(  # type: ignore
+        default=None,
+        validation_alias=AliasChoices("inrgssStagings", "inrgss_stagings_resources"),
+    )
+    gleasonStagings: Optional[List[partial_schemas["GleasonGrade"]]] = Field(  # type: ignore
+        default=None,
+        validation_alias=AliasChoices("gleasonStagings", "gleason_grades_resources"),
+    )
+    rhabdomyosarcomaGroups: Optional[List[partial_schemas["RhabdomyosarcomaClinicalGroup"]]] = Field(  # type: ignore
+        default=None,
+        validation_alias=AliasChoices("rhabdomyosarcomaGroups", "rhabdomyosarcoma_clinical_groups_resources"),
+    )
+    wilmsStagings: Optional[List[partial_schemas["WilmsStage"]]] = Field(  # type: ignore
+        default=None,
+        validation_alias=AliasChoices("wilmsStagings", "wilms_stagings_resources"),
+    )
+    lymphomaStagings: Optional[List[partial_schemas["LymphomaStaging"]]] = Field(  # type: ignore
+        default=None,
+        validation_alias=AliasChoices("lymphomaStagings", "lymphoma_stagings_resources"),
+    )
     tumorMarkers: Optional[List[partial_schemas["TumorMarker"]]] = Field(  # type: ignore
         default=None,
         validation_alias=AliasChoices("tumorMarkers", "tumor_markers_resources"),

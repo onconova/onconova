@@ -2,6 +2,7 @@ import re
 import pghistory
 
 from django.db import models
+from django.db.models import When, Case, OuterRef, Value
 from django.utils.translation import gettext_lazy as _
 
 from pop.core.models import BaseModel
@@ -9,6 +10,7 @@ from pop.oncology.models import PatientCase, NeoplasticEntity
 import pop.terminology.fields as termfields
 import pop.terminology.models as terminologies
 
+from queryable_properties.properties import SubqueryObjectProperty, AnnotationProperty
 
 class StagingDomain(models.TextChoices):
     TNM = "tnm"
@@ -288,20 +290,18 @@ class BreslowDepth(Staging):
         null=True,
         blank=True,
     )
-
-    @property
-    def stage(self):
-        if self.depth < 0.76:
-            # Breslow measurement - depth less than 0.76 mm
-            stage_code = "86069005"
-        elif self.depth > 1.75:
-            # Breslow measurement - greater than 1.75 mm
-            stage_code = "44815009"
-        else:
-            # Breslow measurement - depth  from 0.76 to 1.75 mm
-            stage_code = "17456000"
-        return terminologies.BreslowDepthStage.objects.get(code=stage_code)
-
+    _stage_code = AnnotationProperty(
+        annotation=Case(
+            When(depth__lt=0.76, then=Value("86069005")),
+            When(depth__gte=1.75, then=Value("44815009")),
+            default=Value("17456000")    
+        )
+    )
+    stage = SubqueryObjectProperty(
+        model=terminologies.BreslowDepthStage,
+        queryset=lambda: terminologies.BreslowDepthStage.objects.filter(code=OuterRef('_stage_code')),
+        cached=True,
+    )
 
 @pghistory.track()
 class ClarkStaging(Staging):

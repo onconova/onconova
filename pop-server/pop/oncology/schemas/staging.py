@@ -53,6 +53,9 @@ class FIGOStagingCreateSchema(ModelCreateSchema):
 
 class BinetStagingSchema(ModelGetSchema):
     stagingDomain: Literal[StagingDomain.BINET] = StagingDomain.BINET  # type: ignore
+    stage: CodedConceptSchema = Field(
+        description="The value of the Binet stage"
+    )
     config = SchemaConfig(
         model=orm.BinetStaging,
         exclude=["staging"],
