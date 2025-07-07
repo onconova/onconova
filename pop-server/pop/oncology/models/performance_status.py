@@ -127,9 +127,9 @@ class PerformanceStatus(BaseModel):
     @property
     def description(self):
         if self.ecog_score is not None:
-            return f"ECOG: ({self.ecog_score})"
+            return f"ECOG: {self.ecog_score}"
         elif self.karnofsky_score is not None:
-            return f"Karnofsky ({self.karnofsky_score})"
+            return f"Karnofsky: {self.karnofsky_score}"
 
     def convert_karnofsky_to_ecog(self):
         """
