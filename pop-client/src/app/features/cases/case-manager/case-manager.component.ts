@@ -78,6 +78,9 @@ import AdverseEvent from 'src/assets/images/icons/adverse_event';
 import Board from 'src/assets/images/icons/board';
 import TourDriverConfig from './case-manager.tour';
 import { driver } from 'driver.js';
+import { ExportConfirmDialogComponent } from "../../../shared/components/export-confirm-dialog/export-confirm-dialog.component";
+import { ConfirmDialog } from 'primeng/confirmdialog';
+import { ConfirmationService, MessageService } from 'primeng/api';
 
 
 @Component({
@@ -94,11 +97,16 @@ import { driver } from 'driver.js';
         Fieldset,
         UserBadgeComponent,
         CancerIconComponent,
+        ConfirmDialog,
         KnobModule,
         Divider,
         Knob,
         SkeletonModule,
-        IdenticonComponent
+        IdenticonComponent,
+        ExportConfirmDialogComponent
+    ],
+    providers: [
+        ConfirmationService,
     ]
 })
 export class CaseManagerComponent {
@@ -106,9 +114,11 @@ export class CaseManagerComponent {
     public additionalCaseActionButtons = contentChild<TemplateRef<any> >('additionalCaseActionButtons', { descendants: false });
   
     // Injected dependencies
-    public location: Location = inject(Location);
-    readonly #authService: AuthService = inject(AuthService);
-    readonly #downloadService: DownloadService = inject(DownloadService);
+    public location = inject(Location);
+    readonly #authService = inject(AuthService);
+    readonly #downloadService = inject(DownloadService);
+    readonly #messageService = inject(MessageService);
+    readonly #confirmationService = inject(ConfirmationService);
 
     // Domain-specific dependencies
     readonly #interoperabilityService = inject(InteroperabilityService);
@@ -286,15 +296,26 @@ export class CaseManagerComponent {
     })
     
     downloadCaseBundle(caseId: string) {
-        this.exportLoading = true;
-        this.#interoperabilityService.exportPatientCaseBundle({caseId:caseId}).subscribe({
-            next: (response) => {
-                this.#downloadService.downloadAsJson(response, `case-bundle-${this.pseudoidentifier()}.json`)
-            },
-            complete: () => {
-                this.exportLoading = false;
+        this.#confirmationService.confirm({
+            accept: () => {
+                this.exportLoading = true;
+                this.#messageService.add({severity: 'info', summary: 'Export in progress', detail:'Preparing data for download. Please wait.'})
+                this.#interoperabilityService.exportPatientCaseBundle({caseId:caseId}).subscribe({
+                    next: (response) => {
+                        this.#downloadService.downloadAsJson(response, `case-bundle-${this.pseudoidentifier()}.json`)
+                    },
+                    complete: () => {
+                        this.#messageService.add({ severity: 'success', summary: 'Successfully exported'})
+                        this.exportLoading = false;
+                    },
+                    error: (error: any) => {
+                        this.#messageService.add({ severity: 'error', summary: 'Error exporting case', detail: error?.error?.detail })
+                        this.exportLoading = false;
+                    },
+                })
             }
         })
+
     }
 
     updateCompletion(completed: boolean) {

@@ -5,7 +5,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 import { catchError, debounceTime, first, map, Observable, of, take, tap } from "rxjs";
 
 import { Menu } from "primeng/menu";
-import { MenuItem } from "primeng/api";
+import { ConfirmationService, MenuItem } from "primeng/api";
 import { ContextMenuModule } from 'primeng/contextmenu';
 import { Card } from "primeng/card";
 import { TableModule } from 'primeng/table';
@@ -32,6 +32,8 @@ import { InputText } from "primeng/inputtext";
 import { Fluid } from "primeng/fluid";
 import { DatasetComposeService } from "./dataset-composer.service";
 import { PopoverModule } from 'primeng/popover';
+import { ConfirmDialog } from "primeng/confirmdialog";
+import { ExportConfirmDialogComponent } from "../../../../../shared/components/export-confirm-dialog/export-confirm-dialog.component";
 
 @Pipe({ standalone: true, name: 'isString' })
 export class IsStringPipe implements PipeTransform {
@@ -56,27 +58,29 @@ function getColumns(data: any[]): string[] {
 @Component({
     selector: 'pop-dataset-composer',
     templateUrl: './dataset-composer.component.html',
-    providers: [],
+    providers: [ConfirmationService],
     imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        CommonModule,
-        Avatar,
-        Button,
-        Fieldset,
-        InputText,
-        Card,
-        Menu,
-        ContextMenuModule,
-        Skeleton,
-        PopoverModule,
-        AutoComplete,
-        TreeModule,
-        TableModule,
-        NgxJdenticonModule,
-        NestedTableComponent,
-        CamelCaseToTitleCasePipe,
-    ],
+    FormsModule,
+    ReactiveFormsModule,
+    CommonModule,
+    Avatar,
+    Button,
+    Fieldset,
+    InputText,
+    Card,
+    Menu,
+    ContextMenuModule,
+    Skeleton,
+    PopoverModule,
+    AutoComplete,
+    TreeModule,
+    TableModule,
+    NgxJdenticonModule,
+    NestedTableComponent,
+    CamelCaseToTitleCasePipe,
+    ConfirmDialog,
+    ExportConfirmDialogComponent
+],
     animations: [
         trigger('fadeAnimation', [
             state('void', style({ opacity: 0 })), // Initial state (not visible)
@@ -101,6 +105,7 @@ export class DatasetComposerComponent {
     readonly #messageService = inject(MessageService);
     readonly #typeCheckService = inject(TypeCheckService); 
     readonly #datasetComposerService = inject(DatasetComposeService); 
+    readonly #confirmationService = inject(ConfirmationService); 
 
     public isArray = this.#typeCheckService.isArray;
     public isNested = (value: any): boolean => value !== null && typeof value === 'object' && typeof value[0] === 'object';
@@ -282,34 +287,38 @@ export class DatasetComposerComponent {
     }
 
     downloadDataset(mode: 'tree' | 'split' | 'flat') {
-        this.processing.set(true);
-        this.#messageService.add({ severity: 'info', summary: 'Downloading', detail: 'Please wait for the download to begin...' })
-        this.#cohortService.exportCohortDataset({
-            cohortId: this.cohort().id,
-            datasetId: this.form.value.datasetId!,
-          }).pipe(first()).subscribe({
-            next: (data: any) => {
-                switch (mode) {
-                    case 'tree':
-                        this.#downloadService.downloadAsJson(data);
-                        break;
-                    case 'split':
-                        this.#downloadService.downloadAsZip(data.dataset);
-                        break;
-                    case 'flat':
-                        this.#downloadService.downloadAsFlatCsv(data.dataset);
-                        break;
-                }
-            },
-            complete: () => {
-                this.#messageService.add({ severity: 'success', summary: 'Success', detail: 'Dataset downloaded successfully' })
-                this.processing.set(false)
-            },
-            error: (error) => {
-                this.#messageService.add({ severity: 'error', summary: 'Dataset download failed', detail: error.error.detail })
-                this.processing.set(false)
-            },
-        });
+        this.#confirmationService.confirm({
+            accept: () => {
+                this.processing.set(true);
+                this.#messageService.add({ severity: 'info', summary: 'Downloading', detail: 'Please wait for the download to begin...' })
+                this.#cohortService.exportCohortDataset({
+                    cohortId: this.cohort().id,
+                    datasetId: this.form.value.datasetId!,
+                }).pipe(first()).subscribe({
+                    next: (data: any) => {
+                        switch (mode) {
+                            case 'tree':
+                                this.#downloadService.downloadAsJson(data);
+                                break;
+                            case 'split':
+                                this.#downloadService.downloadAsZip(data.dataset);
+                                break;
+                            case 'flat':
+                                this.#downloadService.downloadAsFlatCsv(data.dataset);
+                                break;
+                        }
+                    },
+                    complete: () => {
+                        this.#messageService.add({ severity: 'success', summary: 'Success', detail: 'Dataset downloaded successfully' })
+                        this.processing.set(false)
+                    },
+                    error: (error) => {
+                        this.#messageService.add({ severity: 'error', summary: 'Dataset download failed', detail: error.error.detail })
+                        this.processing.set(false)
+                    },
+                });
+            }
+        })
     }
 
 }   

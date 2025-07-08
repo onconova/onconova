@@ -186,3 +186,10 @@
         }
     </div>
 </p-card>
+
+
+<p-confirmdialog maskStyleClass="confirmdialog">     
+    <ng-template #headless let-onAccept="onAccept" let-onReject="onReject">
+        <pop-export-confirm-dialog [onAccept]="onAccept" [onReject]="onReject"></pop-export-confirm-dialog>     
+    </ng-template>
+</p-confirmdialog>

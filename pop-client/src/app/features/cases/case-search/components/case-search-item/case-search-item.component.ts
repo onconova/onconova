@@ -26,6 +26,7 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { PatientFormComponent } from 'src/app/features/forms';
 import { ModalFormHeaderComponent } from 'src/app/features/forms/modal-form-header.component';
 import { UserPlus } from 'lucide-angular';
+import { ExportConfirmDialogComponent } from "../../../../../shared/components/export-confirm-dialog/export-confirm-dialog.component";
 
 @Component({
     selector: 'pop-case-search-item,[pop-case-search-item]',
@@ -34,21 +35,22 @@ import { UserPlus } from 'lucide-angular';
         ConfirmationService,
     ],
     imports: [
-        CommonModule,
-        FormsModule,
-        RouterModule,
-        AvatarModule,
-        AvatarGroupModule,
-        DividerModule,
-        SplitButtonModule,
-        ConfirmDialogModule,
-        ChipModule,
-        Knob,
-        SkeletonModule,
-        CancerIconComponent,
-        UserBadgeComponent,
-        IdenticonComponent
-    ]
+    CommonModule,
+    FormsModule,
+    RouterModule,
+    AvatarModule,
+    AvatarGroupModule,
+    DividerModule,
+    SplitButtonModule,
+    ConfirmDialogModule,
+    ChipModule,
+    Knob,
+    SkeletonModule,
+    CancerIconComponent,
+    UserBadgeComponent,
+    IdenticonComponent,
+    ExportConfirmDialogComponent
+]
 })
 export class CaseSearchItemCardComponent {
 
@@ -93,7 +95,7 @@ export class CaseSearchItemCardComponent {
             label: 'Export',
             disabled: !this.currentUser().canExportData,
             icon: 'pi pi-file-export',
-            command: () => this.exportCaseBundle,
+            command: () => this.exportCaseBundle(),
         },
         {
             label: 'Delete',
@@ -115,12 +117,17 @@ export class CaseSearchItemCardComponent {
     }
 
     exportCaseBundle() {
-        const filename = `POP-case-${this.case().pseudoidentifier}-bundle.json`;
-        this.#messageService.add({severity: 'info', summary: 'Export in progress', detail:'Preparing data for download. Please wait.'})
-        this.#interoperabilityService.exportPatientCaseBundle({caseId: this.case().id}).pipe(first()).subscribe({
-            next: response => this.#downloadService.downloadAsJson(response, filename),
-            complete: () => this.#messageService.add({ severity: 'success', summary: 'Successfully exported', detail: filename }),
-            error: (error: any) => this.#messageService.add({ severity: 'error', summary: 'Error exporting case', detail: error?.error?.detail })
+        this.#confirmationService.confirm({
+            key: 'exportConfirmation',
+            accept: () => {
+                const filename = `POP-case-${this.case().pseudoidentifier}-bundle.json`;
+                this.#messageService.add({severity: 'info', summary: 'Export in progress', detail:'Preparing data for download. Please wait.'})
+                this.#interoperabilityService.exportPatientCaseBundle({caseId: this.case().id}).pipe(first()).subscribe({
+                    next: response => this.#downloadService.downloadAsJson(response, filename),
+                    complete: () => this.#messageService.add({ severity: 'success', summary: 'Successfully exported', detail: filename }),
+                    error: (error: any) => this.#messageService.add({ severity: 'error', summary: 'Error exporting case', detail: error?.error?.detail })
+                })
+            }
         })
     }
 
