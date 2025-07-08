@@ -203,11 +203,10 @@
                 <ng-container formGroupName="breslow">
                     <div class="field">
                         <label for="depth" class="form-label required">Breslow depth (mm)</label>
-                        <p-inputnumber 
+                        <pop-measure-input 
                             formControlName="depth"
-                            placeholder="Enter value" 
-                            inputId="milimiters" 
-                            suffix=" mm"/>  
+                            measure="Distance"
+                            defaultUnit="mm"/>
                         <pop-form-control-error controlName="depth"></pop-form-control-error>
                     </div>
                     <div class="field">

@@ -6,11 +6,13 @@ from django.db.models import When, Case, OuterRef, Value
 from django.utils.translation import gettext_lazy as _
 
 from pop.core.models import BaseModel
+from pop.core.measures import MeasurementField, measures
 from pop.oncology.models import PatientCase, NeoplasticEntity
 import pop.terminology.fields as termfields
 import pop.terminology.models as terminologies
 
 from queryable_properties.properties import SubqueryObjectProperty, AnnotationProperty
+
 
 class StagingDomain(models.TextChoices):
     TNM = "tnm"
@@ -280,9 +282,11 @@ class BreslowDepth(Staging):
         parent_link=True,
         primary_key=True,
     )
-    depth = models.FloatField(
+    depth = MeasurementField(
         verbose_name=_("Breslow depth"),
-        help_text=_("Breslow depth given in milimeters"),
+        help_text=_("Breslow depth"),
+        measurement=measures.Distance,
+        default_unit="mm",
     )
     is_ulcered = models.BooleanField(
         verbose_name="Ulcered",
@@ -292,16 +296,19 @@ class BreslowDepth(Staging):
     )
     _stage_code = AnnotationProperty(
         annotation=Case(
-            When(depth__lt=0.76, then=Value("86069005")),
-            When(depth__gte=1.75, then=Value("44815009")),
-            default=Value("17456000")    
+            When(depth__lt=0.76 / 1000, then=Value("86069005")),
+            When(depth__gte=1.75 / 1000, then=Value("44815009")),
+            default=Value("17456000"),
         )
     )
     stage = SubqueryObjectProperty(
         model=terminologies.BreslowDepthStage,
-        queryset=lambda: terminologies.BreslowDepthStage.objects.filter(code=OuterRef('_stage_code')),
+        queryset=lambda: terminologies.BreslowDepthStage.objects.filter(
+            code=OuterRef("_stage_code")
+        ),
         cached=True,
     )
+
 
 @pghistory.track()
 class ClarkStaging(Staging):

@@ -48458,10 +48458,12 @@
             "x-expanded": false
           },
           "depth": {
-            "description": "Breslow depth given in milimeters",
+            "$ref": "#/components/schemas/Measure",
+            "description": "Breslow depth",
             "title": "Breslow depth",
-            "type": "number",
-            "x-expanded": false
+            "x-default-unit": "mm",
+            "x-expanded": false,
+            "x-measure": "Distance"
           },
           "isUlcered": {
             "anyOf": [
@@ -59256,10 +59258,12 @@
             "x-expanded": false
           },
           "depth": {
-            "description": "Breslow depth given in milimeters",
+            "$ref": "#/components/schemas/Measure",
+            "description": "Breslow depth",
             "title": "Breslow depth",
-            "type": "number",
-            "x-expanded": false
+            "x-default-unit": "mm",
+            "x-expanded": false,
+            "x-measure": "Distance"
           },
           "isUlcered": {
             "anyOf": [

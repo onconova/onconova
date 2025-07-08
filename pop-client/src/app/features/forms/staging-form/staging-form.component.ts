@@ -22,6 +22,7 @@ import {
   NeoplasticEntitiesService,
   AnyStaging,
   CodedConcept,
+  Measure,
 } from 'pop-api-client'
 
 import { ButtonModule } from 'primeng/button';
@@ -39,6 +40,7 @@ import {
 
 import { AbstractFormBase } from '../abstract-form-base.component';
 import { map } from 'rxjs';
+import { MeasureInputComponent } from "../../../shared/components/measure-input/measure-input.component";
 
 type StagingCreate = TNMStagingCreate
             | FIGOStagingCreate
@@ -60,19 +62,20 @@ type StagingCreate = TNMStagingCreate
     selector: 'staging-form',
     templateUrl: './staging-form.component.html',
     imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        FormsModule,
-        DatePickerComponent,
-        Fluid,
-        Select,
-        InputNumber,
-        RadioButton,
-        MultiReferenceSelectComponent,
-        ButtonModule,
-        ConceptSelectorComponent,
-        FormControlErrorComponent,
-    ]
+    CommonModule,
+    ReactiveFormsModule,
+    FormsModule,
+    DatePickerComponent,
+    Fluid,
+    Select,
+    InputNumber,
+    RadioButton,
+    MultiReferenceSelectComponent,
+    ButtonModule,
+    ConceptSelectorComponent,
+    FormControlErrorComponent,
+    MeasureInputComponent
+]
 })
 export class StagingFormComponent extends AbstractFormBase{
 
@@ -114,7 +117,7 @@ export class StagingFormComponent extends AbstractFormBase{
             methodology: this.#fb.control<CodedConcept | null>(null),
         }),
         breslow: this.#fb.group({
-            depth: this.#fb.control<number | null>(null, Validators.required),
+            depth: this.#fb.control<Measure | null>(null, Validators.required),
             isUlcered: this.#fb.control<boolean | null>(null),
         }),
         lymphoma: this.#fb.group({
