@@ -48,6 +48,7 @@
             @if (events.length) {
                 <pop-case-manager-panel-timeline 
                     [events]="events" 
+                    [icon]="icon()"
                     (onEventClick)="showDrawer($event)"/>
             } @else {
                 <div class="text-muted">

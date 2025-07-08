@@ -83,11 +83,26 @@ pop-case-manager-panel {
         & .p-timeline-event-content {
             padding-bottom: .75rem !important;
 
+            & .pop-case-manager-panel-timeline-event-entry {
+                display: flex;
+                align-items: flex-start;
+                &:hover {
+                    color: var(--p-primary-color) !important;
+                    & .pop-case-manager-panel-timeline-event-icon{
+                        color: var(--p-primary-color) !important;
+                    }
+                }
+            }
             & .pop-case-manager-panel-timeline-event-date {
                 color: var(--p-primary-faded-color) !important;
             }
             & .pop-case-manager-panel-timeline-event-icon {
                 color: var(--p-divider-text-color) !important;
+                margin-right: .15rem;
+            }
+            & lucide-angular.pop-case-manager-panel-timeline-event-icon svg {
+                height: 1rem;
+                width: 1rem;
             }
         }
     }

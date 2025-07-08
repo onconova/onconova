@@ -4,6 +4,8 @@ import { CommonModule} from '@angular/common';
 import { TimelineModule } from 'primeng/timeline';
 import { TypeCheckService } from '../../../../../../shared/services/type-check.service';
 import { Period } from 'pop-api-client';
+import { LucideAngularModule } from 'lucide-angular';
+import { LucideIconData } from 'lucide-angular/icons/types';
 
 export interface RadioChoice {
     name: string 
@@ -34,7 +36,11 @@ export interface RadioChoice {
                     <div class="flex flex-column gap-2">
                         @for (event of groupedEvents.events; track event.id) {
                             <div (click)="onEventClick.emit(event)" class="pop-case-manager-panel-timeline-event-entry cursor-pointer">
-                                <i class="pop-case-manager-panel-timeline-event-icon pi pi-box"></i>
+                                @if (icon()) {
+                                    <lucide-angular class="pop-case-manager-panel-timeline-event-icon" [img]="icon()"/>
+                                } @else {
+                                    <i class="pop-case-manager-panel-timeline-event-icon pi pi-box"></i>
+                                }
                                 {{ event.description }}
                             </div>                        
                         }
@@ -46,6 +52,7 @@ export interface RadioChoice {
     imports: [
         CommonModule,
         TimelineModule,
+        LucideAngularModule,
     ]
 })
 export class CaseManagerPanelTimelineComponent {
@@ -54,6 +61,7 @@ export class CaseManagerPanelTimelineComponent {
 
     @Output() public onEventClick = new EventEmitter<any>();
     public events = input.required<any[]>()
+    public icon = input<LucideIconData>()
     public groupedEvents: Signal<{timestamp: Date | Period, events: any[]}[]> = computed(
         () => {
             let eventMap = this.events().map((event) => {
