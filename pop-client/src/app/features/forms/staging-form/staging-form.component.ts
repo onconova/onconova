@@ -68,7 +68,6 @@ type StagingCreate = TNMStagingCreate
     DatePickerComponent,
     Fluid,
     Select,
-    InputNumber,
     RadioButton,
     MultiReferenceSelectComponent,
     ButtonModule,

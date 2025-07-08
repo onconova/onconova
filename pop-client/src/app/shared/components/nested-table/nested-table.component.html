@@ -28,6 +28,8 @@
                                 }
                             </div>
                         </div>  
+                    } @else if (isMeasure(rowData[column])){
+                        {{ rowData[column].value || '-' }} {{ rowData[column].unit || '' }}
                     } @else if (isArray(rowData[column])) {
                        <ul class="list-none	pl-0 overflow-y-auto max-h-15rem">
                            @for (value of rowData[column]; track $index;) {

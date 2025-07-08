@@ -8,9 +8,14 @@ from pop.core.measures.fields import MeasurementField
 from pop.oncology.models import PatientCase
 import pop.core.measures as measures
 
+from queryable_properties.properties import AnnotationProperty
+from queryable_properties.managers import QueryablePropertiesManager
+
 
 @pghistory.track()
 class Vitals(BaseModel):
+
+    objects = QueryablePropertiesManager()
 
     case = models.ForeignKey(
         verbose_name=_("Patient case"),
@@ -39,15 +44,15 @@ class Vitals(BaseModel):
         null=True,
         blank=True,
     )
-    body_mass_index = models.GeneratedField(
+    body_mass_index = AnnotationProperty(
         verbose_name=_("Bodymass"),
-        help_text=_("Bodymass index of the patient"),
-        expression=models.F("weight") / (models.F("height") * models.F("height")),
-        output_field=MeasurementField(
-            measurement=measures.MassPerArea,
-            default_unit="kg__square_meter",
+        annotation=models.ExpressionWrapper(
+            models.F("weight") / (models.F("height") * models.F("height")),
+            output_field=MeasurementField(
+                measurement=measures.MassPerArea,
+                default_unit="kg__square_meter",
+            ),
         ),
-        db_persist=True,
     )
     blood_pressure_systolic = MeasurementField(
         verbose_name=_("Systolic blood pressure"),

@@ -3,6 +3,7 @@ from datetime import date, datetime, timedelta
 from django.test import TestCase
 from django.db.utils import IntegrityError
 from psycopg.types.range import Range as PostgresRange
+from pop.core.measures import measures
 from pop.oncology.models.patient_case import PatientCaseDataCompletion, PatientCase
 from pop.oncology.models.neoplastic_entity import NeoplasticEntity
 from pop.oncology.models.therapy_line import TherapyLine
@@ -195,7 +196,9 @@ class SystemicTherapyModelTest(TestCase):
 
     def test_therapy_duration_is_correctly_annotated(self):
         expected_duration = self.therapy.period.upper - self.therapy.period.lower
-        self.assertEqual(self.therapy.duration, expected_duration.days)
+        self.assertEqual(
+            self.therapy.duration, measures.Time(day=expected_duration.days)
+        )
 
     def test_therapy_drugs_combination_is_correctly_annotated(self):
         self.med1 = factories.SystemicTherapyMedicationFactory.create(
@@ -216,7 +219,9 @@ class RadiotherapyModelTest(TestCase):
 
     def test_radiotherapy_duration_is_correctly_annotated(self):
         expected_duration = self.therapy.period.upper - self.therapy.period.lower
-        self.assertEqual(self.therapy.duration, expected_duration.days)
+        self.assertEqual(
+            self.therapy.duration, measures.Time(day=expected_duration.days)
+        )
 
 
 class TherapyLineModelTest(TestCase):

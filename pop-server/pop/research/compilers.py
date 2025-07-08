@@ -7,6 +7,8 @@ from django.contrib.postgres.aggregates import ArrayAgg
 from django.db.models import (
     Expression,
     F,
+    Case,
+    When,
     Subquery,
     OuterRef,
     QuerySet,
@@ -16,6 +18,7 @@ from django.db.models import (
 )
 
 from pop.core.models import BaseModel
+from pop.core.measures import MeasurementField
 from pop.oncology.models import PatientCase
 from pop.research.schemas.dataset import DatasetRule
 
@@ -104,6 +107,25 @@ class DatasetRuleProcessor:
             )
         return transform_class
 
+    def _get_measure(self):
+
+        if isinstance(self.model_field, MeasurementField):
+            return self.model_field
+        try:
+            field = (
+                getattr(self.resource_model, self.model_field_name)
+                .prop.get_annotation(self.resource_model)
+                .output_field
+            )
+            if isinstance(
+                field,
+                MeasurementField,
+            ):
+                return field
+        except:
+            pass
+        return None
+
     @property
     def annotation_key(self) -> str:
         """Returns a unique key used in dataset query annotations."""
@@ -152,6 +174,15 @@ class DatasetRuleProcessor:
         """Returns the Django ORM annotation for this dataset field."""
         if self.model_field_name == "clinical_identifier":
             query_expression = Value("***********")
+
+        elif self._get_measure():
+            return Case(
+                When(**{self.query_lookup_path + "__isnull": True}, then=Value(None)),
+                default=JSONObject(
+                    value=F(self.query_lookup_path),
+                    unit=Value(self._get_measure().measurement.STANDARD_UNIT),
+                ),
+            )
         elif self.value_transformer:
             query_expression = self.value_transformer.generate_annotation_expression(
                 self.query_lookup_path

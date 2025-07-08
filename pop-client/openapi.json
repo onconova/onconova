@@ -14089,73 +14089,73 @@
             "in": "query",
             "name": "duration.lessThan",
             "schema": {
-              "description": "None - Filter for entries with values less than the specified value",
+              "description": "Duration - Filter for entries with values less than the specified value",
               "title": "Duration.Lessthan",
               "type": "number"
             },
             "required": false,
-            "description": "None - Filter for entries with values less than the specified value"
+            "description": "Duration - Filter for entries with values less than the specified value"
           },
           {
             "in": "query",
             "name": "duration.lessThanOrEqual",
             "schema": {
-              "description": "None - Filter for entries with values less than or equal to the specified value",
+              "description": "Duration - Filter for entries with values less than or equal to the specified value",
               "title": "Duration.Lessthanorequal",
               "type": "number"
             },
             "required": false,
-            "description": "None - Filter for entries with values less than or equal to the specified value"
+            "description": "Duration - Filter for entries with values less than or equal to the specified value"
           },
           {
             "in": "query",
             "name": "duration.greaterThan",
             "schema": {
-              "description": "None - Filter for entries with values greater than the specified value",
+              "description": "Duration - Filter for entries with values greater than the specified value",
               "title": "Duration.Greaterthan",
               "type": "number"
             },
             "required": false,
-            "description": "None - Filter for entries with values greater than the specified value"
+            "description": "Duration - Filter for entries with values greater than the specified value"
           },
           {
             "in": "query",
             "name": "duration.greaterThanOrEqual",
             "schema": {
-              "description": "None - Filter for entries with values greater than or equal to the specified value",
+              "description": "Duration - Filter for entries with values greater than or equal to the specified value",
               "title": "Duration.Greaterthanorequal",
               "type": "number"
             },
             "required": false,
-            "description": "None - Filter for entries with values greater than or equal to the specified value"
+            "description": "Duration - Filter for entries with values greater than or equal to the specified value"
           },
           {
             "in": "query",
             "name": "duration.equal",
             "schema": {
-              "description": "None - Filter for entries with values exactly equal to the specified value",
+              "description": "Duration - Filter for entries with values exactly equal to the specified value",
               "title": "Duration.Equal",
               "type": "number"
             },
             "required": false,
-            "description": "None - Filter for entries with values exactly equal to the specified value"
+            "description": "Duration - Filter for entries with values exactly equal to the specified value"
           },
           {
             "in": "query",
             "name": "duration.not.equal",
             "schema": {
-              "description": "None - Filter for entries with values not equal to the specified value",
+              "description": "Duration - Filter for entries with values not equal to the specified value",
               "title": "Duration.Not.Equal",
               "type": "number"
             },
             "required": false,
-            "description": "None - Filter for entries with values not equal to the specified value"
+            "description": "Duration - Filter for entries with values not equal to the specified value"
           },
           {
             "in": "query",
             "name": "duration.between",
             "schema": {
-              "description": "None - Filter for entries with values between two specified values (inclusive)",
+              "description": "Duration - Filter for entries with values between two specified values (inclusive)",
               "maxItems": 2,
               "minItems": 2,
               "prefixItems": [
@@ -14170,13 +14170,13 @@
               "type": "array"
             },
             "required": false,
-            "description": "None - Filter for entries with values between two specified values (inclusive)"
+            "description": "Duration - Filter for entries with values between two specified values (inclusive)"
           },
           {
             "in": "query",
             "name": "duration.not.between",
             "schema": {
-              "description": "None - Filter for entries with values between two specified values (inclusive)",
+              "description": "Duration - Filter for entries with values between two specified values (inclusive)",
               "maxItems": 2,
               "minItems": 2,
               "prefixItems": [
@@ -14191,7 +14191,7 @@
               "type": "array"
             },
             "required": false,
-            "description": "None - Filter for entries with values between two specified values (inclusive)"
+            "description": "Duration - Filter for entries with values between two specified values (inclusive)"
           },
           {
             "in": "query",
@@ -17624,73 +17624,73 @@
             "in": "query",
             "name": "duration.lessThan",
             "schema": {
-              "description": "None - Filter for entries with values less than the specified value",
+              "description": "Duration - Filter for entries with values less than the specified value",
               "title": "Duration.Lessthan",
               "type": "number"
             },
             "required": false,
-            "description": "None - Filter for entries with values less than the specified value"
+            "description": "Duration - Filter for entries with values less than the specified value"
           },
           {
             "in": "query",
             "name": "duration.lessThanOrEqual",
             "schema": {
-              "description": "None - Filter for entries with values less than or equal to the specified value",
+              "description": "Duration - Filter for entries with values less than or equal to the specified value",
               "title": "Duration.Lessthanorequal",
               "type": "number"
             },
             "required": false,
-            "description": "None - Filter for entries with values less than or equal to the specified value"
+            "description": "Duration - Filter for entries with values less than or equal to the specified value"
           },
           {
             "in": "query",
             "name": "duration.greaterThan",
             "schema": {
-              "description": "None - Filter for entries with values greater than the specified value",
+              "description": "Duration - Filter for entries with values greater than the specified value",
               "title": "Duration.Greaterthan",
               "type": "number"
             },
             "required": false,
-            "description": "None - Filter for entries with values greater than the specified value"
+            "description": "Duration - Filter for entries with values greater than the specified value"
           },
           {
             "in": "query",
             "name": "duration.greaterThanOrEqual",
             "schema": {
-              "description": "None - Filter for entries with values greater than or equal to the specified value",
+              "description": "Duration - Filter for entries with values greater than or equal to the specified value",
               "title": "Duration.Greaterthanorequal",
               "type": "number"
             },
             "required": false,
-            "description": "None - Filter for entries with values greater than or equal to the specified value"
+            "description": "Duration - Filter for entries with values greater than or equal to the specified value"
           },
           {
             "in": "query",
             "name": "duration.equal",
             "schema": {
-              "description": "None - Filter for entries with values exactly equal to the specified value",
+              "description": "Duration - Filter for entries with values exactly equal to the specified value",
               "title": "Duration.Equal",
               "type": "number"
             },
             "required": false,
-            "description": "None - Filter for entries with values exactly equal to the specified value"
+            "description": "Duration - Filter for entries with values exactly equal to the specified value"
           },
           {
             "in": "query",
             "name": "duration.not.equal",
             "schema": {
-              "description": "None - Filter for entries with values not equal to the specified value",
+              "description": "Duration - Filter for entries with values not equal to the specified value",
               "title": "Duration.Not.Equal",
               "type": "number"
             },
             "required": false,
-            "description": "None - Filter for entries with values not equal to the specified value"
+            "description": "Duration - Filter for entries with values not equal to the specified value"
           },
           {
             "in": "query",
             "name": "duration.between",
             "schema": {
-              "description": "None - Filter for entries with values between two specified values (inclusive)",
+              "description": "Duration - Filter for entries with values between two specified values (inclusive)",
               "maxItems": 2,
               "minItems": 2,
               "prefixItems": [
@@ -17705,13 +17705,13 @@
               "type": "array"
             },
             "required": false,
-            "description": "None - Filter for entries with values between two specified values (inclusive)"
+            "description": "Duration - Filter for entries with values between two specified values (inclusive)"
           },
           {
             "in": "query",
             "name": "duration.not.between",
             "schema": {
-              "description": "None - Filter for entries with values between two specified values (inclusive)",
+              "description": "Duration - Filter for entries with values between two specified values (inclusive)",
               "maxItems": 2,
               "minItems": 2,
               "prefixItems": [
@@ -17726,7 +17726,7 @@
               "type": "array"
             },
             "required": false,
-            "description": "None - Filter for entries with values between two specified values (inclusive)"
+            "description": "Duration - Filter for entries with values between two specified values (inclusive)"
           },
           {
             "in": "query",
@@ -39107,97 +39107,97 @@
         "parameters": [
           {
             "in": "query",
-            "name": "body_mass_index.not.exists",
+            "name": "bodyMassIndex.not.exists",
             "schema": {
-              "description": "None - Filter for entries without a value",
-              "title": "Body Mass Index.Not.Exists",
+              "description": "Body mass index - Filter for entries without a value",
+              "title": "Bodymassindex.Not.Exists",
               "type": "boolean"
             },
             "required": false,
-            "description": "None - Filter for entries without a value"
+            "description": "Body mass index - Filter for entries without a value"
           },
           {
             "in": "query",
-            "name": "body_mass_index.exists",
+            "name": "bodyMassIndex.exists",
             "schema": {
-              "description": "None - Filter for entries with a value",
-              "title": "Body Mass Index.Exists",
+              "description": "Body mass index - Filter for entries with a value",
+              "title": "Bodymassindex.Exists",
               "type": "boolean"
             },
             "required": false,
-            "description": "None - Filter for entries with a value"
+            "description": "Body mass index - Filter for entries with a value"
           },
           {
             "in": "query",
-            "name": "body_mass_index.lessThan",
+            "name": "bodyMassIndex.lessThan",
             "schema": {
-              "description": "None - Filter for entries with values less than the specified value",
-              "title": "Body Mass Index.Lessthan",
+              "description": "Body mass index - Filter for entries with values less than the specified value",
+              "title": "Bodymassindex.Lessthan",
               "type": "number"
             },
             "required": false,
-            "description": "None - Filter for entries with values less than the specified value"
+            "description": "Body mass index - Filter for entries with values less than the specified value"
           },
           {
             "in": "query",
-            "name": "body_mass_index.lessThanOrEqual",
+            "name": "bodyMassIndex.lessThanOrEqual",
             "schema": {
-              "description": "None - Filter for entries with values less than or equal to the specified value",
-              "title": "Body Mass Index.Lessthanorequal",
+              "description": "Body mass index - Filter for entries with values less than or equal to the specified value",
+              "title": "Bodymassindex.Lessthanorequal",
               "type": "number"
             },
             "required": false,
-            "description": "None - Filter for entries with values less than or equal to the specified value"
+            "description": "Body mass index - Filter for entries with values less than or equal to the specified value"
           },
           {
             "in": "query",
-            "name": "body_mass_index.greaterThan",
+            "name": "bodyMassIndex.greaterThan",
             "schema": {
-              "description": "None - Filter for entries with values greater than the specified value",
-              "title": "Body Mass Index.Greaterthan",
+              "description": "Body mass index - Filter for entries with values greater than the specified value",
+              "title": "Bodymassindex.Greaterthan",
               "type": "number"
             },
             "required": false,
-            "description": "None - Filter for entries with values greater than the specified value"
+            "description": "Body mass index - Filter for entries with values greater than the specified value"
           },
           {
             "in": "query",
-            "name": "body_mass_index.greaterThanOrEqual",
+            "name": "bodyMassIndex.greaterThanOrEqual",
             "schema": {
-              "description": "None - Filter for entries with values greater than or equal to the specified value",
-              "title": "Body Mass Index.Greaterthanorequal",
+              "description": "Body mass index - Filter for entries with values greater than or equal to the specified value",
+              "title": "Bodymassindex.Greaterthanorequal",
               "type": "number"
             },
             "required": false,
-            "description": "None - Filter for entries with values greater than or equal to the specified value"
+            "description": "Body mass index - Filter for entries with values greater than or equal to the specified value"
           },
           {
             "in": "query",
-            "name": "body_mass_index.equal",
+            "name": "bodyMassIndex.equal",
             "schema": {
-              "description": "None - Filter for entries with values exactly equal to the specified value",
-              "title": "Body Mass Index.Equal",
+              "description": "Body mass index - Filter for entries with values exactly equal to the specified value",
+              "title": "Bodymassindex.Equal",
               "type": "number"
             },
             "required": false,
-            "description": "None - Filter for entries with values exactly equal to the specified value"
+            "description": "Body mass index - Filter for entries with values exactly equal to the specified value"
           },
           {
             "in": "query",
-            "name": "body_mass_index.not.equal",
+            "name": "bodyMassIndex.not.equal",
             "schema": {
-              "description": "None - Filter for entries with values not equal to the specified value",
-              "title": "Body Mass Index.Not.Equal",
+              "description": "Body mass index - Filter for entries with values not equal to the specified value",
+              "title": "Bodymassindex.Not.Equal",
               "type": "number"
             },
             "required": false,
-            "description": "None - Filter for entries with values not equal to the specified value"
+            "description": "Body mass index - Filter for entries with values not equal to the specified value"
           },
           {
             "in": "query",
-            "name": "body_mass_index.between",
+            "name": "bodyMassIndex.between",
             "schema": {
-              "description": "None - Filter for entries with values between two specified values (inclusive)",
+              "description": "Body mass index - Filter for entries with values between two specified values (inclusive)",
               "maxItems": 2,
               "minItems": 2,
               "prefixItems": [
@@ -39208,17 +39208,17 @@
                   "type": "number"
                 }
               ],
-              "title": "Body Mass Index.Between",
+              "title": "Bodymassindex.Between",
               "type": "array"
             },
             "required": false,
-            "description": "None - Filter for entries with values between two specified values (inclusive)"
+            "description": "Body mass index - Filter for entries with values between two specified values (inclusive)"
           },
           {
             "in": "query",
-            "name": "body_mass_index.not.between",
+            "name": "bodyMassIndex.not.between",
             "schema": {
-              "description": "None - Filter for entries with values between two specified values (inclusive)",
+              "description": "Body mass index - Filter for entries with values between two specified values (inclusive)",
               "maxItems": 2,
               "minItems": 2,
               "prefixItems": [
@@ -39229,11 +39229,11 @@
                   "type": "number"
                 }
               ],
-              "title": "Body Mass Index.Not.Between",
+              "title": "Bodymassindex.Not.Between",
               "type": "array"
             },
             "required": false,
-            "description": "None - Filter for entries with values between two specified values (inclusive)"
+            "description": "Body mass index - Filter for entries with values between two specified values (inclusive)"
           },
           {
             "in": "query",
@@ -53165,7 +53165,8 @@
           },
           "duration": {
             "$ref": "#/components/schemas/Measure",
-            "description": "Duration of treatment"
+            "description": "Duration of treatment",
+            "title": "Duration"
           },
           "dosages": {
             "description": "Radiation doses administered during the radiotherapy",
@@ -54417,7 +54418,8 @@
           },
           "duration": {
             "$ref": "#/components/schemas/Measure",
-            "description": "Duration of treatment"
+            "description": "Duration of treatment",
+            "title": "Duration"
           },
           "id": {
             "description": "",
@@ -56379,7 +56381,7 @@
             "title": "Is anonymized",
             "type": "boolean"
           },
-          "body_mass_index": {
+          "bodyMassIndex": {
             "anyOf": [
               {
                 "$ref": "#/components/schemas/Measure"
@@ -56388,7 +56390,8 @@
                 "type": "null"
               }
             ],
-            "description": "Bodymass index of the patient"
+            "description": "Bodymass index of the patient",
+            "title": "Body mass index"
           },
           "id": {
             "description": "",
@@ -62999,37 +63002,37 @@
             "type": "array"
           },
           "duration.lessThan": {
-            "description": "None - Filter for entries with values less than the specified value",
+            "description": "Duration - Filter for entries with values less than the specified value",
             "title": "Duration.Lessthan",
             "type": "number"
           },
           "duration.lessThanOrEqual": {
-            "description": "None - Filter for entries with values less than or equal to the specified value",
+            "description": "Duration - Filter for entries with values less than or equal to the specified value",
             "title": "Duration.Lessthanorequal",
             "type": "number"
           },
           "duration.greaterThan": {
-            "description": "None - Filter for entries with values greater than the specified value",
+            "description": "Duration - Filter for entries with values greater than the specified value",
             "title": "Duration.Greaterthan",
             "type": "number"
           },
           "duration.greaterThanOrEqual": {
-            "description": "None - Filter for entries with values greater than or equal to the specified value",
+            "description": "Duration - Filter for entries with values greater than or equal to the specified value",
             "title": "Duration.Greaterthanorequal",
             "type": "number"
           },
           "duration.equal": {
-            "description": "None - Filter for entries with values exactly equal to the specified value",
+            "description": "Duration - Filter for entries with values exactly equal to the specified value",
             "title": "Duration.Equal",
             "type": "number"
           },
           "duration.not.equal": {
-            "description": "None - Filter for entries with values not equal to the specified value",
+            "description": "Duration - Filter for entries with values not equal to the specified value",
             "title": "Duration.Not.Equal",
             "type": "number"
           },
           "duration.between": {
-            "description": "None - Filter for entries with values between two specified values (inclusive)",
+            "description": "Duration - Filter for entries with values between two specified values (inclusive)",
             "maxItems": 2,
             "minItems": 2,
             "prefixItems": [
@@ -63044,7 +63047,7 @@
             "type": "array"
           },
           "duration.not.between": {
-            "description": "None - Filter for entries with values between two specified values (inclusive)",
+            "description": "Duration - Filter for entries with values between two specified values (inclusive)",
             "maxItems": 2,
             "minItems": 2,
             "prefixItems": [
@@ -64639,37 +64642,37 @@
       "RadiotherapyFilters": {
         "properties": {
           "duration.lessThan": {
-            "description": "None - Filter for entries with values less than the specified value",
+            "description": "Duration - Filter for entries with values less than the specified value",
             "title": "Duration.Lessthan",
             "type": "number"
           },
           "duration.lessThanOrEqual": {
-            "description": "None - Filter for entries with values less than or equal to the specified value",
+            "description": "Duration - Filter for entries with values less than or equal to the specified value",
             "title": "Duration.Lessthanorequal",
             "type": "number"
           },
           "duration.greaterThan": {
-            "description": "None - Filter for entries with values greater than the specified value",
+            "description": "Duration - Filter for entries with values greater than the specified value",
             "title": "Duration.Greaterthan",
             "type": "number"
           },
           "duration.greaterThanOrEqual": {
-            "description": "None - Filter for entries with values greater than or equal to the specified value",
+            "description": "Duration - Filter for entries with values greater than or equal to the specified value",
             "title": "Duration.Greaterthanorequal",
             "type": "number"
           },
           "duration.equal": {
-            "description": "None - Filter for entries with values exactly equal to the specified value",
+            "description": "Duration - Filter for entries with values exactly equal to the specified value",
             "title": "Duration.Equal",
             "type": "number"
           },
           "duration.not.equal": {
-            "description": "None - Filter for entries with values not equal to the specified value",
+            "description": "Duration - Filter for entries with values not equal to the specified value",
             "title": "Duration.Not.Equal",
             "type": "number"
           },
           "duration.between": {
-            "description": "None - Filter for entries with values between two specified values (inclusive)",
+            "description": "Duration - Filter for entries with values between two specified values (inclusive)",
             "maxItems": 2,
             "minItems": 2,
             "prefixItems": [
@@ -64684,7 +64687,7 @@
             "type": "array"
           },
           "duration.not.between": {
-            "description": "None - Filter for entries with values between two specified values (inclusive)",
+            "description": "Duration - Filter for entries with values between two specified values (inclusive)",
             "maxItems": 2,
             "minItems": 2,
             "prefixItems": [
@@ -74600,48 +74603,48 @@
       },
       "VitalsFilters": {
         "properties": {
-          "body_mass_index.not.exists": {
-            "description": "None - Filter for entries without a value",
-            "title": "Body Mass Index.Not.Exists",
+          "bodyMassIndex.not.exists": {
+            "description": "Body mass index - Filter for entries without a value",
+            "title": "Bodymassindex.Not.Exists",
             "type": "boolean"
           },
-          "body_mass_index.exists": {
-            "description": "None - Filter for entries with a value",
-            "title": "Body Mass Index.Exists",
+          "bodyMassIndex.exists": {
+            "description": "Body mass index - Filter for entries with a value",
+            "title": "Bodymassindex.Exists",
             "type": "boolean"
           },
-          "body_mass_index.lessThan": {
-            "description": "None - Filter for entries with values less than the specified value",
-            "title": "Body Mass Index.Lessthan",
+          "bodyMassIndex.lessThan": {
+            "description": "Body mass index - Filter for entries with values less than the specified value",
+            "title": "Bodymassindex.Lessthan",
             "type": "number"
           },
-          "body_mass_index.lessThanOrEqual": {
-            "description": "None - Filter for entries with values less than or equal to the specified value",
-            "title": "Body Mass Index.Lessthanorequal",
+          "bodyMassIndex.lessThanOrEqual": {
+            "description": "Body mass index - Filter for entries with values less than or equal to the specified value",
+            "title": "Bodymassindex.Lessthanorequal",
             "type": "number"
           },
-          "body_mass_index.greaterThan": {
-            "description": "None - Filter for entries with values greater than the specified value",
-            "title": "Body Mass Index.Greaterthan",
+          "bodyMassIndex.greaterThan": {
+            "description": "Body mass index - Filter for entries with values greater than the specified value",
+            "title": "Bodymassindex.Greaterthan",
             "type": "number"
           },
-          "body_mass_index.greaterThanOrEqual": {
-            "description": "None - Filter for entries with values greater than or equal to the specified value",
-            "title": "Body Mass Index.Greaterthanorequal",
+          "bodyMassIndex.greaterThanOrEqual": {
+            "description": "Body mass index - Filter for entries with values greater than or equal to the specified value",
+            "title": "Bodymassindex.Greaterthanorequal",
             "type": "number"
           },
-          "body_mass_index.equal": {
-            "description": "None - Filter for entries with values exactly equal to the specified value",
-            "title": "Body Mass Index.Equal",
+          "bodyMassIndex.equal": {
+            "description": "Body mass index - Filter for entries with values exactly equal to the specified value",
+            "title": "Bodymassindex.Equal",
             "type": "number"
           },
-          "body_mass_index.not.equal": {
-            "description": "None - Filter for entries with values not equal to the specified value",
-            "title": "Body Mass Index.Not.Equal",
+          "bodyMassIndex.not.equal": {
+            "description": "Body mass index - Filter for entries with values not equal to the specified value",
+            "title": "Bodymassindex.Not.Equal",
             "type": "number"
           },
-          "body_mass_index.between": {
-            "description": "None - Filter for entries with values between two specified values (inclusive)",
+          "bodyMassIndex.between": {
+            "description": "Body mass index - Filter for entries with values between two specified values (inclusive)",
             "maxItems": 2,
             "minItems": 2,
             "prefixItems": [
@@ -74652,11 +74655,11 @@
                 "type": "number"
               }
             ],
-            "title": "Body Mass Index.Between",
+            "title": "Bodymassindex.Between",
             "type": "array"
           },
-          "body_mass_index.not.between": {
-            "description": "None - Filter for entries with values between two specified values (inclusive)",
+          "bodyMassIndex.not.between": {
+            "description": "Body mass index - Filter for entries with values between two specified values (inclusive)",
             "maxItems": 2,
             "minItems": 2,
             "prefixItems": [
@@ -74667,7 +74670,7 @@
                 "type": "number"
               }
             ],
-            "title": "Body Mass Index.Not.Between",
+            "title": "Bodymassindex.Not.Between",
             "type": "array"
           },
           "id": {
@@ -77468,13 +77471,12 @@
           "depth": {
             "anyOf": [
               {
-                "type": "number"
+                "$ref": "#/components/schemas/Measure"
               },
               {
                 "type": "null"
               }
-            ],
-            "title": "Depth"
+            ]
           },
           "isUlcered": {
             "anyOf": [
@@ -79742,13 +79744,12 @@
           "smokingQuited": {
             "anyOf": [
               {
-                "type": "number"
+                "$ref": "#/components/schemas/Measure"
               },
               {
                 "type": "null"
               }
-            ],
-            "title": "Smokingquited"
+            ]
           },
           "alcoholConsumption": {
             "anyOf": [
@@ -79777,13 +79778,12 @@
           "nightSleep": {
             "anyOf": [
               {
-                "type": "number"
+                "$ref": "#/components/schemas/Measure"
               },
               {
                 "type": "null"
               }
-            ],
-            "title": "Nightsleep"
+            ]
           },
           "recreationalDrugs": {
             "anyOf": [
@@ -82026,13 +82026,12 @@
           "dose": {
             "anyOf": [
               {
-                "type": "number"
+                "$ref": "#/components/schemas/Measure"
               },
               {
                 "type": "null"
               }
-            ],
-            "title": "Dose"
+            ]
           },
           "irradiatedVolume": {
             "anyOf": [
@@ -82181,13 +82180,12 @@
           "duration": {
             "anyOf": [
               {
-                "type": "number"
+                "$ref": "#/components/schemas/Measure"
               },
               {
                 "type": "null"
               }
-            ],
-            "title": "Duration"
+            ]
           },
           "dosages": {
             "anyOf": [
@@ -83544,90 +83542,82 @@
           "dosageMassConcentration": {
             "anyOf": [
               {
-                "type": "number"
+                "$ref": "#/components/schemas/Measure"
               },
               {
                 "type": "null"
               }
-            ],
-            "title": "Dosagemassconcentration"
+            ]
           },
           "dosageMass": {
             "anyOf": [
               {
-                "type": "number"
+                "$ref": "#/components/schemas/Measure"
               },
               {
                 "type": "null"
               }
-            ],
-            "title": "Dosagemass"
+            ]
           },
           "dosageVolume": {
             "anyOf": [
               {
-                "type": "number"
+                "$ref": "#/components/schemas/Measure"
               },
               {
                 "type": "null"
               }
-            ],
-            "title": "Dosagevolume"
+            ]
           },
           "dosageMassSurface": {
             "anyOf": [
               {
-                "type": "number"
+                "$ref": "#/components/schemas/Measure"
               },
               {
                 "type": "null"
               }
-            ],
-            "title": "Dosagemasssurface"
+            ]
           },
           "dosageRateMassConcentration": {
             "anyOf": [
               {
-                "type": "number"
+                "$ref": "#/components/schemas/Measure"
               },
               {
                 "type": "null"
               }
-            ],
-            "title": "Dosageratemassconcentration"
+            ]
           },
           "dosageRateMass": {
             "anyOf": [
               {
-                "type": "number"
+                "$ref": "#/components/schemas/Measure"
               },
               {
                 "type": "null"
               }
-            ],
-            "title": "Dosageratemass"
+            ]
           },
           "dosageRateVolume": {
             "anyOf": [
               {
-                "type": "number"
+                "$ref": "#/components/schemas/Measure"
               },
               {
                 "type": "null"
               }
-            ],
-            "title": "Dosageratevolume"
+            ]
           },
           "dosageRateMassSurface": {
             "anyOf": [
               {
-                "type": "number"
+                "$ref": "#/components/schemas/Measure"
               },
               {
                 "type": "null"
               }
-            ],
-            "title": "Dosageratemasssurface"
+            ]
           },
           "description": {
             "anyOf": [
@@ -83718,13 +83708,12 @@
           "duration": {
             "anyOf": [
               {
-                "type": "number"
+                "$ref": "#/components/schemas/Measure"
               },
               {
                 "type": "null"
               }
-            ],
-            "title": "Duration"
+            ]
           },
           "id": {
             "anyOf": [
@@ -84891,57 +84880,52 @@
           "massConcentration": {
             "anyOf": [
               {
-                "type": "number"
+                "$ref": "#/components/schemas/Measure"
               },
               {
                 "type": "null"
               }
-            ],
-            "title": "Massconcentration"
+            ]
           },
           "arbitraryConcentration": {
             "anyOf": [
               {
-                "type": "number"
+                "$ref": "#/components/schemas/Measure"
               },
               {
                 "type": "null"
               }
-            ],
-            "title": "Arbitraryconcentration"
+            ]
           },
           "substanceConcentration": {
             "anyOf": [
               {
-                "type": "number"
+                "$ref": "#/components/schemas/Measure"
               },
               {
                 "type": "null"
               }
-            ],
-            "title": "Substanceconcentration"
+            ]
           },
           "fraction": {
             "anyOf": [
               {
-                "type": "number"
+                "$ref": "#/components/schemas/Measure"
               },
               {
                 "type": "null"
               }
-            ],
-            "title": "Fraction"
+            ]
           },
           "multipleOfMedian": {
             "anyOf": [
               {
-                "type": "number"
+                "$ref": "#/components/schemas/Measure"
               },
               {
                 "type": "null"
               }
-            ],
-            "title": "Multipleofmedian"
+            ]
           },
           "tumorProportionScore": {
             "anyOf": [
@@ -84966,13 +84950,12 @@
           "combinedPositiveScore": {
             "anyOf": [
               {
-                "type": "number"
+                "$ref": "#/components/schemas/Measure"
               },
               {
                 "type": "null"
               }
-            ],
-            "title": "Combinedpositivescore"
+            ]
           },
           "immunohistochemicalScore": {
             "anyOf": [
@@ -85588,16 +85571,15 @@
             "title": "Is anonymized",
             "type": "boolean"
           },
-          "body_mass_index": {
+          "bodyMassIndex": {
             "anyOf": [
               {
-                "type": "number"
+                "$ref": "#/components/schemas/Measure"
               },
               {
                 "type": "null"
               }
-            ],
-            "title": "Body Mass Index"
+            ]
           },
           "id": {
             "anyOf": [
@@ -85660,57 +85642,52 @@
           "height": {
             "anyOf": [
               {
-                "type": "number"
+                "$ref": "#/components/schemas/Measure"
               },
               {
                 "type": "null"
               }
-            ],
-            "title": "Height"
+            ]
           },
           "weight": {
             "anyOf": [
               {
-                "type": "number"
+                "$ref": "#/components/schemas/Measure"
               },
               {
                 "type": "null"
               }
-            ],
-            "title": "Weight"
+            ]
           },
           "bloodPressureSystolic": {
             "anyOf": [
               {
-                "type": "number"
+                "$ref": "#/components/schemas/Measure"
               },
               {
                 "type": "null"
               }
-            ],
-            "title": "Bloodpressuresystolic"
+            ]
           },
           "bloodPressureDiastolic": {
             "anyOf": [
               {
-                "type": "number"
+                "$ref": "#/components/schemas/Measure"
               },
               {
                 "type": "null"
               }
-            ],
-            "title": "Bloodpressurediastolic"
+            ]
           },
           "temperature": {
             "anyOf": [
               {
-                "type": "number"
+                "$ref": "#/components/schemas/Measure"
               },
               {
                 "type": "null"
               }
-            ],
-            "title": "Temperature"
+            ]
           },
           "description": {
             "anyOf": [

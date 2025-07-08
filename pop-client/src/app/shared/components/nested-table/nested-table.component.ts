@@ -18,6 +18,7 @@ export class NestedTableComponent {
   readonly #typeCheckService = inject(TypeCheckService); 
   public isArray = this.#typeCheckService.isArray;
   public isRange = this.#typeCheckService.isRange;
+  public isMeasure = this.#typeCheckService.isMeasure;
   public nestedData = input.required<any[]>();
   public nestedDataColumn = computed(() => this.getColumns(this.nestedData()));
 

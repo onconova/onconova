@@ -1,5 +1,6 @@
 from typing import Optional
 from ninja import Field
+from pydantic import AliasChoices
 
 from pop.oncology import models as orm
 from pop.core.measures import Measure
@@ -12,15 +13,18 @@ from pop.core.anonymization import AnonymizationConfig
 
 
 class VitalsSchema(ModelGetSchema):
-    body_mass_index: Optional[Measure] = Field(
-        None, description="Bodymass index of the patient"
+    bodyMassIndex: Optional[Measure] = Field(
+        None,
+        title="Body mass index",
+        description="Bodymass index of the patient",
+        alias="body_mass_index",
+        validation_alias=AliasChoices("bodyMassIndex", "body_mass_index"),
     )
     config = SchemaConfig(
         model=orm.Vitals,
-        exclude=("body_mass_index",),
         anonymization=AnonymizationConfig(fields=["date"], key="caseId"),
     )
 
 
 class VitalsCreateSchema(ModelCreateSchema):
-    config = SchemaConfig(model=orm.Vitals, exclude=("body_mass_index",))
+    config = SchemaConfig(model=orm.Vitals)

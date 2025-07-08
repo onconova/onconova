@@ -15,6 +15,7 @@ from pydantic import (
 )
 
 from pop.core.utils import is_optional, is_list
+from pop.core.measures import Measure
 from pop.core.schemas import CodedConcept as CodedConceptSchema
 from pop.core.serialization import transforms as tfs
 from pop.core.serialization.factory import create_filters_schema
@@ -193,7 +194,7 @@ def _create_partial_schema(schema: Type[Schema]) -> Type[Schema]:
             )
         elif "Measure" in str(annotation):
             new_fields[field_name] = (
-                Optional[float],
+                Optional[Measure],
                 Field(default=None, validation_alias=model_field.validation_alias),
             )
         elif "Period" in str(annotation):
@@ -292,7 +293,9 @@ class PatientCaseDataset(partial_schemas["PatientCase"]):
     )
     rhabdomyosarcomaGroups: Optional[List[partial_schemas["RhabdomyosarcomaClinicalGroup"]]] = Field(  # type: ignore
         default=None,
-        validation_alias=AliasChoices("rhabdomyosarcomaGroups", "rhabdomyosarcoma_clinical_groups_resources"),
+        validation_alias=AliasChoices(
+            "rhabdomyosarcomaGroups", "rhabdomyosarcoma_clinical_groups_resources"
+        ),
     )
     wilmsStagings: Optional[List[partial_schemas["WilmsStage"]]] = Field(  # type: ignore
         default=None,
@@ -300,7 +303,9 @@ class PatientCaseDataset(partial_schemas["PatientCase"]):
     )
     lymphomaStagings: Optional[List[partial_schemas["LymphomaStaging"]]] = Field(  # type: ignore
         default=None,
-        validation_alias=AliasChoices("lymphomaStagings", "lymphoma_stagings_resources"),
+        validation_alias=AliasChoices(
+            "lymphomaStagings", "lymphoma_stagings_resources"
+        ),
     )
     tumorMarkers: Optional[List[partial_schemas["TumorMarker"]]] = Field(  # type: ignore
         default=None,

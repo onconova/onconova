@@ -52,6 +52,7 @@ class MeasurementField(FloatField):
             )
 
         self.measurement = measurement
+        self.default_unit = default_unit
         self.widget_args = {
             "measurement": measurement,
             "unit_choices": unit_choices,
@@ -63,6 +64,7 @@ class MeasurementField(FloatField):
     def deconstruct(self):
         name, path, args, kwargs = super(MeasurementField, self).deconstruct()
         kwargs["measurement"] = self.measurement
+        kwargs["default_unit"] = self.default_unit
         return name, path, args, kwargs
 
     def get_prep_value(self, value):
