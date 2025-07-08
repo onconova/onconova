@@ -310,11 +310,11 @@ class Time(Measure):
         "second": "s",
         "sec": "s",
         "minute": "min",
-        "hour": "hour",
-        "day": "day",
-        "week": "week",
-        "month": "month",
-        "year": "year",
+        "hour": "hours",
+        "day": "days",
+        "week": "weeks",
+        "month": "months",
+        "year": "years",
     }
     SI_UNITS = ["s"]
 

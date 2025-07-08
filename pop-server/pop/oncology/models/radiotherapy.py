@@ -40,7 +40,7 @@ class Radiotherapy(BaseModel):
         ),
     )
     duration = AnnotationProperty(
-        verbose_name=_("Duration of treatment in days"),
+        verbose_name=_("Duration of treatment"),
         annotation=ExpressionWrapper(
             Func(
                 Func(F("period"), function="upper", output_field=models.DateField())
@@ -48,9 +48,11 @@ class Radiotherapy(BaseModel):
                 function="EXTRACT",
                 template="EXTRACT(EPOCH FROM %(expressions)s)",
                 output_field=models.IntegerField(),
-            )
-            / Value(3600 * 24),
-            output_field=models.IntegerField(),
+            ),
+            output_field=measures.MeasurementField(
+                measurement=measures.Time,
+                default_unit="day",
+            ),
         ),
     )
     targeted_entities = models.ManyToManyField(

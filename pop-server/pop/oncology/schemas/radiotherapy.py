@@ -2,6 +2,7 @@ from pydantic import Field
 from typing import List
 
 from pop.oncology import models as orm
+from pop.core.measures import Measure
 from pop.core.serialization.metaclasses import (
     ModelGetSchema,
     ModelCreateSchema,
@@ -27,6 +28,7 @@ class RadiotherapySettingCreateSchema(ModelCreateSchema):
 
 
 class RadiotherapySchema(ModelGetSchema):
+    duration: Measure = Field(description="Duration of treatment")
     dosages: List[RadiotherapyDosageSchema] = Field(
         description="Radiation doses administered during the radiotherapy"
     )

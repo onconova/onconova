@@ -17622,6 +17622,114 @@
         "parameters": [
           {
             "in": "query",
+            "name": "duration.lessThan",
+            "schema": {
+              "description": "None - Filter for entries with values less than the specified value",
+              "title": "Duration.Lessthan",
+              "type": "number"
+            },
+            "required": false,
+            "description": "None - Filter for entries with values less than the specified value"
+          },
+          {
+            "in": "query",
+            "name": "duration.lessThanOrEqual",
+            "schema": {
+              "description": "None - Filter for entries with values less than or equal to the specified value",
+              "title": "Duration.Lessthanorequal",
+              "type": "number"
+            },
+            "required": false,
+            "description": "None - Filter for entries with values less than or equal to the specified value"
+          },
+          {
+            "in": "query",
+            "name": "duration.greaterThan",
+            "schema": {
+              "description": "None - Filter for entries with values greater than the specified value",
+              "title": "Duration.Greaterthan",
+              "type": "number"
+            },
+            "required": false,
+            "description": "None - Filter for entries with values greater than the specified value"
+          },
+          {
+            "in": "query",
+            "name": "duration.greaterThanOrEqual",
+            "schema": {
+              "description": "None - Filter for entries with values greater than or equal to the specified value",
+              "title": "Duration.Greaterthanorequal",
+              "type": "number"
+            },
+            "required": false,
+            "description": "None - Filter for entries with values greater than or equal to the specified value"
+          },
+          {
+            "in": "query",
+            "name": "duration.equal",
+            "schema": {
+              "description": "None - Filter for entries with values exactly equal to the specified value",
+              "title": "Duration.Equal",
+              "type": "number"
+            },
+            "required": false,
+            "description": "None - Filter for entries with values exactly equal to the specified value"
+          },
+          {
+            "in": "query",
+            "name": "duration.not.equal",
+            "schema": {
+              "description": "None - Filter for entries with values not equal to the specified value",
+              "title": "Duration.Not.Equal",
+              "type": "number"
+            },
+            "required": false,
+            "description": "None - Filter for entries with values not equal to the specified value"
+          },
+          {
+            "in": "query",
+            "name": "duration.between",
+            "schema": {
+              "description": "None - Filter for entries with values between two specified values (inclusive)",
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                }
+              ],
+              "title": "Duration.Between",
+              "type": "array"
+            },
+            "required": false,
+            "description": "None - Filter for entries with values between two specified values (inclusive)"
+          },
+          {
+            "in": "query",
+            "name": "duration.not.between",
+            "schema": {
+              "description": "None - Filter for entries with values between two specified values (inclusive)",
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                }
+              ],
+              "title": "Duration.Not.Between",
+              "type": "array"
+            },
+            "required": false,
+            "description": "None - Filter for entries with values between two specified values (inclusive)"
+          },
+          {
+            "in": "query",
             "name": "dosages.id",
             "schema": {
               "description": "Id - Filter for full text matches",
@@ -53055,6 +53163,10 @@
             "title": "Is anonymized",
             "type": "boolean"
           },
+          "duration": {
+            "$ref": "#/components/schemas/Measure",
+            "description": "Duration of treatment"
+          },
           "dosages": {
             "description": "Radiation doses administered during the radiotherapy",
             "items": {
@@ -53229,6 +53341,7 @@
           }
         },
         "required": [
+          "duration",
           "dosages",
           "settings",
           "id",
@@ -54303,9 +54416,8 @@
             "type": "array"
           },
           "duration": {
-            "description": "Duration of treatment in days",
-            "title": "Duration",
-            "type": "number"
+            "$ref": "#/components/schemas/Measure",
+            "description": "Duration of treatment"
           },
           "id": {
             "description": "",
@@ -64526,6 +64638,66 @@
       },
       "RadiotherapyFilters": {
         "properties": {
+          "duration.lessThan": {
+            "description": "None - Filter for entries with values less than the specified value",
+            "title": "Duration.Lessthan",
+            "type": "number"
+          },
+          "duration.lessThanOrEqual": {
+            "description": "None - Filter for entries with values less than or equal to the specified value",
+            "title": "Duration.Lessthanorequal",
+            "type": "number"
+          },
+          "duration.greaterThan": {
+            "description": "None - Filter for entries with values greater than the specified value",
+            "title": "Duration.Greaterthan",
+            "type": "number"
+          },
+          "duration.greaterThanOrEqual": {
+            "description": "None - Filter for entries with values greater than or equal to the specified value",
+            "title": "Duration.Greaterthanorequal",
+            "type": "number"
+          },
+          "duration.equal": {
+            "description": "None - Filter for entries with values exactly equal to the specified value",
+            "title": "Duration.Equal",
+            "type": "number"
+          },
+          "duration.not.equal": {
+            "description": "None - Filter for entries with values not equal to the specified value",
+            "title": "Duration.Not.Equal",
+            "type": "number"
+          },
+          "duration.between": {
+            "description": "None - Filter for entries with values between two specified values (inclusive)",
+            "maxItems": 2,
+            "minItems": 2,
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "title": "Duration.Between",
+            "type": "array"
+          },
+          "duration.not.between": {
+            "description": "None - Filter for entries with values between two specified values (inclusive)",
+            "maxItems": 2,
+            "minItems": 2,
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "title": "Duration.Not.Between",
+            "type": "array"
+          },
           "dosages.id": {
             "description": "Id - Filter for full text matches",
             "title": "Dosages.Id",
@@ -82005,6 +82177,17 @@
             "description": "Whether the data has been anonymized",
             "title": "Is anonymized",
             "type": "boolean"
+          },
+          "duration": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Duration"
           },
           "dosages": {
             "anyOf": [
