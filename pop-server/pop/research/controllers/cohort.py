@@ -4,7 +4,7 @@ import hashlib
 from enum import Enum
 from datetime import datetime
 from collections import Counter, OrderedDict
-from typing import List, Any
+from typing import List
 
 from django.conf import settings
 from django.shortcuts import get_object_or_404
@@ -34,13 +34,17 @@ from pop.research.compilers import construct_dataset
 from pop.research.models.dataset import Dataset
 from pop.research.models.cohort import Cohort
 from pop.research.models.project import Project
-from pop.research.schemas.dataset import DatasetRule, PatientCaseDataset
+from pop.research.schemas.dataset import (
+    DatasetRule,
+    PatientCaseDataset,
+    ExportedPatientCaseDataset,
+)
 from pop.research.schemas.cohort import (
     CohortSchema,
     CohortCreateSchema,
     CohortFilters,
     CohortTraits,
-    CohortTraitAverage,
+    ExportedCohortDefinition,
     CohortTraitMedian,
     CohortTraitCounts,
     CohortContribution,
@@ -197,6 +201,45 @@ class CohortsController(ControllerBase):
             if contributor
         ]
 
+    @route.post(
+        path="/{cohortId}/export",
+        response={
+            200: ExportedCohortDefinition,
+            404: None,
+            401: None,
+            403: None,
+        },
+        permissions=[perms.CanExportData],
+        operation_id="exportCohortDefinition",
+    )
+    def export_cohort_definition(self, cohortId: str):
+        cohort = get_object_or_404(Cohort, id=cohortId)
+
+        if not perms.CanManageCohorts().check_user_object_permission(
+            self.context.request.user, None, cohort
+        ):
+            raise HttpError(403, "User is not a member of the project")
+
+        data = CohortCreateSchema.model_validate(cohort).model_dump(mode="json")
+
+        checksum = hashlib.md5(
+            json.dumps(
+                data,
+                sort_keys=True,
+                default=str,
+            ).encode("utf-8")
+        ).hexdigest()
+
+        return 200, {
+            **ExportMetadata(
+                exportedAt=datetime.now(),
+                exportedBy=self.context.request.user.username,
+                exportVersion=settings.VERSION,
+                checksum=checksum,
+            ).model_dump(mode="json", exclude_unset=True),
+            "definition": data,
+        }
+
     @route.get(
         path="/{cohortId}/history/events",
         response={
@@ -249,7 +292,7 @@ class CohortsController(ControllerBase):
     @route.post(
         path="/{cohortId}/dataset/{datasetId}/export",
         response={
-            200: Any,
+            200: ExportedPatientCaseDataset,
             404: None,
             401: None,
             403: None,
@@ -278,9 +321,7 @@ class CohortsController(ControllerBase):
             for subset in construct_dataset(cohort=cohort, rules=rules)
         ]
 
-        data = (
-            [subset.model_dump(mode="json", exclude_unset=True) for subset in data],
-        )
+        data = [subset.model_dump(mode="json", exclude_unset=True) for subset in data]
         checksum = hashlib.md5(
             json.dumps(
                 data,
@@ -288,6 +329,7 @@ class CohortsController(ControllerBase):
                 default=str,
             ).encode("utf-8")
         ).hexdigest()
+        print(data)
         export = {
             **ExportMetadata(
                 exportedAt=datetime.now(),

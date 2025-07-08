@@ -17,6 +17,7 @@ from pydantic import (
 from pop.core.utils import is_optional, is_list
 from pop.core.measures import Measure
 from pop.core.schemas import CodedConcept as CodedConceptSchema
+from pop.interoperability.schemas import ExportMetadata
 from pop.core.serialization import transforms as tfs
 from pop.core.serialization.factory import create_filters_schema
 from pop.core.serialization.metaclasses import (
@@ -395,4 +396,11 @@ class PatientCaseDataset(partial_schemas["PatientCase"]):
         validation_alias=AliasChoices(
             "molecularTumorBoards", "molecular_tumor_boards_resources"
         ),
+    )
+
+
+class ExportedPatientCaseDataset(ExportMetadata):
+    dataset: List[PatientCaseDataset] = Field(
+        title="Dataset",
+        description="The dataset that was exported",
     )

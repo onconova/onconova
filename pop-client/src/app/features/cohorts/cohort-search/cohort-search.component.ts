@@ -6,7 +6,7 @@ import { map, first, of, catchError, tap } from 'rxjs';
 import { Users } from 'lucide-angular';
 
 // PrimeNG dependencies
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
@@ -31,6 +31,8 @@ import TourDriverConfig from './cohort-search.tour';
 import { Select } from 'primeng/select';
 import { TableModule } from 'primeng/table';
 import { SelectButton } from 'primeng/selectbutton';
+import { ConfirmDialog } from 'primeng/confirmdialog';
+import { ExportConfirmDialogComponent } from 'src/app/shared/components/export-confirm-dialog/export-confirm-dialog.component';
 
 @Component({
     templateUrl: './cohort-search.component.html',
@@ -142,5 +144,7 @@ export class CohortSearchComponent {
   startTour() {
       driver(this.tour).drive()    
   }
+
+
 
 }

@@ -7,6 +7,7 @@ from ninja import Schema, Field
 
 from pop.research.models import cohort as orm
 from pop.oncology import models as oncology_models
+from pop.interoperability.schemas import ExportMetadata
 from pop.core.serialization import filters as filters_module
 from pop.core.utils import camel_to_snake
 from pop.core.serialization.factory import create_filters_schema
@@ -276,4 +277,11 @@ class KapplerMeierCurve(Schema):
     upperConfidenceBand: List[float] = Field(
         title="Upper Confidence Band",
         description="Upper bound of the survival probability confidence interval at each time point.",
+    )
+
+
+class ExportedCohortDefinition(ExportMetadata):
+    definition: CohortCreateSchema = Field(
+        title="Cohort Definition",
+        description="The cohort definition",
     )

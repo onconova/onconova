@@ -24,6 +24,7 @@ import { AuthService } from 'src/app/core/auth/services/auth.service';
 import { DownloadService } from 'src/app/shared/services/download.service';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { ResolveResourcePipe } from 'src/app/shared/pipes/resolve-resource.pipe';
+import { ExportConfirmDialogComponent } from "../../../../../shared/components/export-confirm-dialog/export-confirm-dialog.component";
 
 @Component({
     selector: 'pop-cohort-search-item, [pop-cohort-search-item]',
@@ -32,20 +33,21 @@ import { ResolveResourcePipe } from 'src/app/shared/pipes/resolve-resource.pipe'
         ConfirmationService,
     ],
     imports: [
-        CommonModule,
-        FormsModule,
-        RouterModule,
-        NgxJdenticonModule,
-        LucideAngularModule,
-        AvatarModule,
-        ResolveResourcePipe,
-        AvatarGroupModule,
-        DividerModule,
-        SplitButtonModule,
-        ConfirmDialogModule,
-        ChipModule,
-        SkeletonModule,
-    ]
+    CommonModule,
+    FormsModule,
+    RouterModule,
+    NgxJdenticonModule,
+    LucideAngularModule,
+    AvatarModule,
+    ResolveResourcePipe,
+    AvatarGroupModule,
+    DividerModule,
+    SplitButtonModule,
+    ConfirmDialogModule,
+    ChipModule,
+    SkeletonModule,
+    ExportConfirmDialogComponent
+]
 })
 export class CohortSearchItemComponent {
 
@@ -61,6 +63,7 @@ export class CohortSearchItemComponent {
     readonly #projectsService = inject(ProjectsService);
     readonly #messageService = inject(MessageService);
     readonly #cohortsService = inject(CohortsService);
+    readonly #downloadService = inject(DownloadService);
 
     // Resources
     public cohortTraits = rxResource({
@@ -83,10 +86,8 @@ export class CohortSearchItemComponent {
             label: 'Export',
             icon: 'pi pi-file-export',
             styleClass: 'export-action',
-            disabled: !this.currentUser().canViewCohorts,
-            command: (event: any) => {
-                console.log('export', this.cohort().id)
-            },
+            disabled: !this.currentUser().canExportData,
+            command: () => this.exportCohortDefinition(),
         },
         {
             label: 'Delete',
@@ -130,6 +131,22 @@ export class CohortSearchItemComponent {
 
     getPredominantCount(counts: CohortTraitCounts[]) {
         return counts.sort((a,b) => b.counts - a.counts)[0]
+    }
+
+
+    exportCohortDefinition() {
+        this.#confirmationService.confirm({
+            key: 'exportConfirmation',
+            accept: () => {
+                const filename = `POP-cohort-${this.cohort().id}-bundle.json`;
+                this.#messageService.add({severity: 'info', summary: 'Export in progress', detail:'Preparing data for download. Please wait.'})
+                this.#cohortsService.exportCohortDefinition({cohortId: this.cohort().id}).pipe(first()).subscribe({
+                    next: response => this.#downloadService.downloadAsJson(response, filename),
+                    complete: () => this.#messageService.add({ severity: 'success', summary: 'Successfully exported', detail: filename }),
+                    error: (error: any) => this.#messageService.add({ severity: 'error', summary: 'Error exporting cohort definition', detail: error?.error?.detail })
+                })
+            }
+        })
     }
 
 }
