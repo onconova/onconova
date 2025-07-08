@@ -23,6 +23,7 @@ import { HistoryEvent, InteroperabilityService, PaginatedHistoryEvent, User } fr
 import { Timeline } from 'primeng/timeline';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { Skeleton } from 'primeng/skeleton';
+import { ExportConfirmDialogComponent } from "../../../../../shared/components/export-confirm-dialog/export-confirm-dialog.component";
 
 @Component({
     selector: 'pop-case-manager-drawer',
@@ -32,19 +33,20 @@ import { Skeleton } from 'primeng/skeleton';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [
-        CommonModule,
-        LucideAngularModule,
-        DrawerModule,
-        AvatarModule,
-        DividerModule,
-        Button,
-        Skeleton,
-        SplitButton,
-        ConfirmDialog,
-        DrawerDataPropertiesComponent,
-        UserBadgeComponent,
-        Timeline,
-    ]
+    CommonModule,
+    LucideAngularModule,
+    DrawerModule,
+    AvatarModule,
+    DividerModule,
+    Button,
+    Skeleton,
+    SplitButton,
+    ConfirmDialog,
+    DrawerDataPropertiesComponent,
+    UserBadgeComponent,
+    Timeline,
+    ExportConfirmDialogComponent
+]
 })
 export class CaseManagerDrawerComponent {
     // Component inputs
@@ -88,15 +90,23 @@ export class CaseManagerDrawerComponent {
             label: 'Export',
             disabled: !this.currentUser().canExportData,
             icon: 'pi pi-file-export',
-            command: () => {
+            command: () => this.exportResource(),
+        },
+    ]);
+
+    exportResource() {
+        this.#confirmationService.confirm({
+            key: 'exportConfirmation',
+            accept: () => {
+                this.#messageService.add({severity: 'info', summary: 'Export in progress', detail:'Preparing data for download. Please wait...'})
                 this.#interoperabilityService.exportResource({resourceId: this.data().id}).pipe(first()).subscribe({
                     next: (response) => this.#downloadService.downloadAsJson(response, 'pop-resource-' + response.id),
                     complete: () => this.#messageService.add({ severity: 'success', summary: 'Successfully exported', detail: this.data().description }),
                     error: (error: any) => this.#messageService.add({ severity: 'error', summary: 'Error exporting resource', detail: error.error.detail })
                 })
             }
-        },
-    ]);
+        })        
+    }
 
     confirmDelete(event: any) {
         this.#confirmationService.confirm({
