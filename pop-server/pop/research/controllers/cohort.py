@@ -172,7 +172,7 @@ class CohortsController(ControllerBase):
     @paginate()
     @anonymize()
     def get_cohort_cases(self, cohortId: str, anonymized: bool = True):
-        return get_object_or_404(Cohort, id=cohortId).valid_cases.all()
+        return get_object_or_404(Cohort, id=cohortId).cases.all()
 
     @route.get(
         path="/{cohortId}/contributors",

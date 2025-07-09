@@ -65,7 +65,12 @@
 
         <pop-cohort-trait-panel  title="Population" [icon]="icons.population" [loading]="loading()">
             @if (cohort) {
-                <span class="font-bold text-lg">{{ cohortPopulation() }}</span> cases
+                <span class="font-bold text-lg">
+                    {{ cohortPopulation() }}
+                </span> 
+                @if (totalInvalidCases() > 0) {
+                     ({{ (cohortPopulation() || 0) - totalInvalidCases()}})
+                } cases
             }
         </pop-cohort-trait-panel>
 
@@ -116,6 +121,13 @@
             }
         </pop-cohort-trait-panel>
     </div>
+
+    @if (totalInvalidCases() > 0) {
+        <p-message styleClass="mt-3" icon="pi pi-exclamation-triangle" severity="warn">
+            The cohort includes {{totalInvalidCases()}} cases with revoked or unknown consent. 
+            These cases remain visible in the cohort view but are excluded from all analyses and exported datasets.
+        </p-message>
+    }
 
     <div class="cohort-manager-cohort-definition flex flex-column gap-3 mt-4">
         @if (cohortControl && cohort.hasValue()) {
@@ -219,6 +231,7 @@
                                             <tr pop-case-search-item 
                                                 @fadeAnimation
                                                 layout="row"
+                                                [ngClass]="case.consentStatus !== 'valid' ? 'pop-cohort-invalid-case' : ''"
                                                 [case]="case"
                                                 (onDelete)="cohortCases.reload()"
                                                 ></tr>
@@ -254,7 +267,7 @@
                                     } @else {
                                         <div class="grid mt-3">
                                             @for (case of cases; track case.id; let first = $first;) { 
-                                                <div class="col p-2">
+                                                <div class="col p-2" [ngClass]="case.consentStatus !== 'valid' ? 'pop-cohort-invalid-case' : ''">
                                                     <pop-case-search-item [case]="case"/>
                                                 </div>    
                                             }

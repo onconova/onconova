@@ -97,7 +97,7 @@ const TourDriverConfig: Config = {
         { element: '.pop-cohort-manager-tabs .p-tab:nth-of-type(1)', popover: { 
             side: "top", align: 'center', 
             title: "Cohort Composition",
-            description: 'A list of all cases included in the cohort. ',
+            description: 'A list of all cases included in the cohort (including cases with revoked or unknown consents). ',
             onNextClick: (el, step, {config, state, driver}) => {
                 const element = document.querySelector('.pop-cohort-manager-tabs .p-tab:nth-of-type(1)') as HTMLElement;
                 if (element) {
@@ -109,7 +109,7 @@ const TourDriverConfig: Config = {
         { element: '.p-tabpanels', popover: { 
             side: "top", align: 'start', 
             title: "Cohort Composition",
-            description: 'The list of cohort cases behaves exactly as the case explorer entries.',  
+            description: 'If a case has an unknown or revoked consent status, the case will be still shown, but will be dimmed to indicate that it will not be used for any further analyses.',  
             onNextClick: (el, step, {config, state, driver}) => {
                 const element = document.querySelector('.pop-cohort-manager-tabs .p-tab:nth-of-type(2)') as HTMLElement;
                 if (element) {

@@ -26,6 +26,10 @@ pop-cohort-trait-panel {
     }
 }
 
+.pop-cohort-invalid-case {
+    opacity: .5;
+}
+
 .pop-cohort-manager-tabs {
     margin-top: 2.5rem;
     & .p-tabpanels, .p-tablist-tab-list {
