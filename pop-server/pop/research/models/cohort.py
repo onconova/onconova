@@ -80,39 +80,39 @@ class Cohort(BaseModel):
     def valid_cases(self):
         return self.cases.filter(consent_status=PatientCase.ConsentStatus.VALID)
 
-    def get_cohort_trait_average(self, trait: str, **filters) -> Tuple[float, float]:
-        cases = self.cases.all()
+    @staticmethod
+    def get_cohort_trait_average(cases, trait: str, **filters) -> Tuple[float, float]:
         if filters:
             cases = cases.filter(**filters)
-        if not self.cases.exists():
+        if not cases.exists():
             return None
-        queryset = self.cases.aggregate(Avg(trait), StdDev(trait))
+        queryset = cases.aggregate(Avg(trait), StdDev(trait))
         return queryset[f"{trait}__avg"], queryset[f"{trait}__stddev"]
 
+    @staticmethod
     def get_cohort_trait_median(
-        self, trait: str, **filters
+        cases, trait: str, **filters
     ) -> Tuple[float, Tuple[float, float]]:
-        cases = self.cases.all()
         if filters:
             cases = cases.filter(**filters)
-        if not self.cases.exists():
+        if not cases.exists():
             return None
-        queryset = self.cases.aggregate(
+        queryset = cases.aggregate(
             Median(trait), Percentile25(trait), Percentile75(trait)
         )
         median = queryset[f"{trait}__median"]
         iqr = (queryset[f"{trait}__p25"], queryset[f"{trait}__p75"])
         return median, iqr
 
+    @staticmethod
     def get_cohort_trait_counts(
-        self, trait: str, anonymization=None, **filters
+        cases, trait: str, anonymization=None, **filters
     ) -> dict:
-        cases = self.cases.all()
         if filters:
             cases = cases.filter(**filters)
         if not cases:
             return OrderedDict()
-        values = self.cases.annotate(trait=F(trait)).values_list("trait", flat=True)
+        values = cases.annotate(trait=F(trait)).values_list("trait", flat=True)
         if anonymization:
             values = [anonymization(value) if value else value for value in values]
         return OrderedDict(

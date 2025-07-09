@@ -98,7 +98,7 @@ class TestGetProgressionFreeSurvivalForTherapyLine(TestCase):
     @staticmethod
     def _simulate_case():
         user = factories.UserFactory.create()
-        case = factories.PatientCaseFactory.create()
+        case = factories.PatientCaseFactory.create(consent_status='valid')
         therapy_line_1 = factories.TherapyLineFactory.create(
             case=case, intent="curative", ordinal=1
         )
@@ -169,7 +169,7 @@ class TestCalculatePFSByTherapyClassification(TestCase):
     @staticmethod
     def _simulate_case():
         user = factories.UserFactory.create()
-        case = factories.PatientCaseFactory.create()
+        case = factories.PatientCaseFactory.create(consent_status='valid')
         therapy_line_1 = factories.TherapyLineFactory.create(
             case=case, intent="curative", ordinal=1
         )
@@ -240,7 +240,7 @@ class TestCountTreatmentResponseByTherapyLine(TestCase):
 
     @staticmethod
     def _simulate_case():
-        case = factories.PatientCaseFactory.create()
+        case = factories.PatientCaseFactory.create(consent_status='valid')
         therapy_line_1 = factories.TherapyLineFactory.create(
             case=case, intent="curative", ordinal=1
         )

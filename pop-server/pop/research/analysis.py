@@ -125,7 +125,7 @@ def get_progression_free_survival_for_therapy_line(
     )
 
 
-def calculate_pfs_by_combination_therapy(cohort: Cohort, therapyLine: str):
+def calculate_pfs_by_combination_therapy(cohort: Cohort, therapyLine: str) -> Dict[str, List[float]]:
     drug_combinations = (
         cohort.valid_cases.annotate(
             drug_combination=Subquery(
@@ -163,7 +163,7 @@ def calculate_pfs_by_combination_therapy(cohort: Cohort, therapyLine: str):
     return survival_per_combination
 
 
-def calculate_pfs_by_therapy_classification(cohort: Cohort, therapyLine: str):
+def calculate_pfs_by_therapy_classification(cohort: Cohort, therapyLine: str) -> Dict[str, List[float]]:
     """
     Calculate progression free survival per therapy classification
 
