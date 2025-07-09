@@ -382,7 +382,7 @@ class CohortsController(ControllerBase):
     )
     def get_cohort_traits_statistics(self, cohortId: str):
         cohort = get_object_or_404(Cohort, id=cohortId)
-        if not cohort.valid_cases.exists():
+        if not cohort.cases.exists():
             raise EmptyCohortException
 
         age_median, age_iqr = cohort.get_cohort_trait_median("age")

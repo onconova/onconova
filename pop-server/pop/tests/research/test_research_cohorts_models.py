@@ -88,7 +88,6 @@ class TestGetCohortTraitCounts(TestCase):
                     clinical_center=(
                         "centerA" if not seed(n) and random() > 0.25 else "centerB"
                     ),
-                    consent_status='valid',
                 )
                 for n in range(10)
             ]
@@ -99,8 +98,14 @@ class TestGetCohortTraitCounts(TestCase):
         result = self.cohort.get_cohort_trait_counts("clinical_center")
         self.assertEqual(result, OrderedDict())
 
+    def test_valid_cases(self):
+        self.assertEqual(
+            list(self.cohort.valid_cases.all()), 
+            list(self.cohort.cases.filter(consent_status='valid'))
+        )
+        
     def test_trait_counts(self):
-        counter = dict(Counter([c.clinical_center for c in self.cohort.valid_cases.all()]))
+        counter = dict(Counter([c.clinical_center for c in self.cohort.cases.all()]))
         result = self.cohort.get_cohort_trait_counts("clinical_center")
         expected = dict(
             OrderedDict(
