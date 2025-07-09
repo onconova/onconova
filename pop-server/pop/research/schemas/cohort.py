@@ -241,6 +241,7 @@ class CohortTraits(Schema):
     neoplasticSites: List[CohortTraitCounts]
     therapyLines: List[CohortTraitCounts]
     vitalStatus: List[CohortTraitCounts]
+    consentStatus: List[CohortTraitCounts]
 
 
 class CohortContribution(Schema):

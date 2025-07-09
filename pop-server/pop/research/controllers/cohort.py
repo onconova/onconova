@@ -454,6 +454,14 @@ class CohortsController(ControllerBase):
                     "is_deceased"
                 ).items()
             ],
+            consentStatus=[
+                CohortTraitCounts(
+                    category=category, counts=count, percentage=percentage
+                )
+                for category, (count, percentage) in cohort.get_cohort_trait_counts(
+                    "consent_status"
+                ).items()
+            ],
         )
 
 

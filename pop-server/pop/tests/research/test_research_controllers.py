@@ -86,7 +86,7 @@ class TestCohortTraitsController(common.ApiControllerTestMixin, TestCase):
         super().setUpTestData()
         cls.trait = "age"
         cls.cohort = factories.CohortFactory.create()
-        cls.cohort.cases.set([factories.PatientCaseFactory.create() for _ in range(10)])
+        cls.cohort.cases.set([factories.PatientCaseFactory.create(consent_status='valid') for _ in range(10)])
 
     @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
     def test_get_cohort_traits_statistics(self, scenario, config):
