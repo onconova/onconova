@@ -42631,7 +42631,7 @@
         ]
       }
     },
-    "/api/v1/cohorts/{cohortId}/overall-survival-curve": {
+    "/api/v1/cohorts/{cohortId}/analysis/overall-survical/kaplan-meier": {
       "get": {
         "operationId": "getCohortOverallSurvivalCurve",
         "summary": "Get Cohort Overall Survival Curve",
@@ -42644,6 +42644,16 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "in": "query",
+            "name": "confidence",
+            "schema": {
+              "default": 0.95,
+              "title": "Confidence",
+              "type": "number"
+            },
+            "required": false
           }
         ],
         "responses": {
@@ -42652,26 +42662,29 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/KapplerMeierCurve"
+                  "$ref": "#/components/schemas/KaplanMeierCurve"
                 }
               }
             }
           },
-          "404": {
-            "description": "Not Found"
-          },
           "422": {
             "description": "Unprocessable Entity"
+          },
+          "404": {
+            "description": "Not Found"
           },
           "401": {
             "description": "Unauthorized"
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
-          "Cohorts"
+          "Data Analysis"
         ],
         "security": [
           {
@@ -42680,10 +42693,10 @@
         ]
       }
     },
-    "/api/v1/cohorts/{cohortId}/genomics": {
+    "/api/v1/cohorts/{cohortId}/analysis/oncoplot": {
       "get": {
-        "operationId": "getCohortGenomics",
-        "summary": "Get Cohort Genomics",
+        "operationId": "getCohortOncoplot",
+        "summary": "Get Cohort Oncoplot Dataset",
         "parameters": [
           {
             "in": "path",
@@ -42701,28 +42714,29 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "additionalProperties": true,
-                  "title": "Response",
-                  "type": "object"
+                  "$ref": "#/components/schemas/OncoplotDataset"
                 }
               }
             }
           },
-          "404": {
-            "description": "Not Found"
-          },
           "422": {
             "description": "Unprocessable Entity"
+          },
+          "404": {
+            "description": "Not Found"
           },
           "401": {
             "description": "Unauthorized"
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
-          "Cohorts"
+          "Data Analysis"
         ],
         "security": [
           {
@@ -42731,10 +42745,160 @@
         ]
       }
     },
-    "/api/v1/cohorts/{cohortId}/progression-free-survival-curve/{therapyLine}": {
+    "/api/v1/cohorts/{cohortId}/analysis/{therapyLine}/progression-free-survival/kaplan-meier": {
       "get": {
-        "operationId": "getCohortProgressionFreeSurvivalCurve",
-        "summary": "Get Cohort Progression Free Survival Curve",
+        "operationId": "getCohortLineProgressionFreeSurvivalCurve",
+        "summary": "Get Cohort Line Progression Free Survival Curve",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "cohortId",
+            "schema": {
+              "title": "Cohortid",
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "therapyLine",
+            "schema": {
+              "title": "Therapyline",
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "confidence",
+            "schema": {
+              "default": 0.95,
+              "title": "Confidence",
+              "type": "number"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/KaplanMeierCurve"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "tags": [
+          "Data Analysis"
+        ],
+        "security": [
+          {
+            "XSessionTokenAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/cohorts/{cohortId}/analysis/{therapyLine}/progression-free-survivals/categories": {
+      "get": {
+        "operationId": "getCohortLineProgressionFreeSurvivalsByCategories",
+        "summary": "Get Cohort Line Progression Free Survival By Categories",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "cohortId",
+            "schema": {
+              "title": "Cohortid",
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "therapyLine",
+            "schema": {
+              "title": "Therapyline",
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "categorization",
+            "schema": {
+              "anyOf": [
+                {
+                  "const": "therapies",
+                  "type": "string"
+                },
+                {
+                  "const": "drugs",
+                  "type": "string"
+                }
+              ],
+              "title": "Categorization"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CategorizedSurvivals"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "tags": [
+          "Data Analysis"
+        ],
+        "security": [
+          {
+            "XSessionTokenAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/cohorts/{cohortId}/analysis/{therapyLine}/counts/therapy-response": {
+      "get": {
+        "operationId": "getCohortTherapyLineResponsesCounts",
+        "summary": "Get Cohort Therapy Line Response Counts",
         "parameters": [
           {
             "in": "path",
@@ -42761,208 +42925,29 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/KapplerMeierCurve"
+                  "$ref": "#/components/schemas/TherapyLineResponseCounts"
                 }
               }
             }
           },
-          "404": {
-            "description": "Not Found"
-          },
           "422": {
             "description": "Unprocessable Entity"
+          },
+          "404": {
+            "description": "Not Found"
           },
           "401": {
             "description": "Unauthorized"
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
-          "Cohorts"
-        ],
-        "security": [
-          {
-            "XSessionTokenAuth": []
-          }
-        ]
-      }
-    },
-    "/api/v1/cohorts/{cohortId}/progression-free-survival/{therapyLine}/drug-combinations": {
-      "get": {
-        "operationId": "getCohortProgressionFreeSurvivalCurveByDrugCombinations",
-        "summary": "Get Cohort Progression Free Survival Curve By Drug Combinations",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "cohortId",
-            "schema": {
-              "title": "Cohortid",
-              "type": "string"
-            },
-            "required": true
-          },
-          {
-            "in": "path",
-            "name": "therapyLine",
-            "schema": {
-              "title": "Therapyline",
-              "type": "string"
-            },
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "additionalProperties": true,
-                  "title": "Response",
-                  "type": "object"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "422": {
-            "description": "Unprocessable Entity"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          }
-        },
-        "tags": [
-          "Cohorts"
-        ],
-        "security": [
-          {
-            "XSessionTokenAuth": []
-          }
-        ]
-      }
-    },
-    "/api/v1/cohorts/{cohortId}/progression-free-survival/{therapyLine}/therapy-classifications": {
-      "get": {
-        "operationId": "getCohortProgressionFreeSurvivalCurveByTherapyClassifications",
-        "summary": "Get Cohort Progression Free Survival Curve By Therapy Classifications",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "cohortId",
-            "schema": {
-              "title": "Cohortid",
-              "type": "string"
-            },
-            "required": true
-          },
-          {
-            "in": "path",
-            "name": "therapyLine",
-            "schema": {
-              "title": "Therapyline",
-              "type": "string"
-            },
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "additionalProperties": true,
-                  "title": "Response",
-                  "type": "object"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "422": {
-            "description": "Unprocessable Entity"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          }
-        },
-        "tags": [
-          "Cohorts"
-        ],
-        "security": [
-          {
-            "XSessionTokenAuth": []
-          }
-        ]
-      }
-    },
-    "/api/v1/cohorts/{cohortId}/therapy-responses/{therapyLine}": {
-      "get": {
-        "operationId": "getCohortTherapyLineResponseDistribution",
-        "summary": "Get Cohort Therapy Line Responses Distribution",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "cohortId",
-            "schema": {
-              "title": "Cohortid",
-              "type": "string"
-            },
-            "required": true
-          },
-          {
-            "in": "path",
-            "name": "therapyLine",
-            "schema": {
-              "title": "Therapyline",
-              "type": "string"
-            },
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "items": {
-                    "$ref": "#/components/schemas/CohortTraitCounts"
-                  },
-                  "title": "Response",
-                  "type": "array"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "422": {
-            "description": "Unprocessable Entity"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          }
-        },
-        "tags": [
-          "Cohorts"
+          "Data Analysis"
         ],
         "security": [
           {
@@ -86298,9 +86283,48 @@
         "title": "CohortTraits",
         "type": "object"
       },
-      "KapplerMeierCurve": {
-        "description": "Schema for Kaplan-Meier survival curve results.",
+      "AnalysisMetadata": {
         "properties": {
+          "cohortId": {
+            "description": "The ID of the cohort for which the analysis was performed.",
+            "title": "Cohort ID",
+            "type": "string"
+          },
+          "analyzedAt": {
+            "description": "The datetime at which the analysis was performed.",
+            "format": "date-time",
+            "title": "Analyzed At",
+            "type": "string"
+          },
+          "cohortPopulation": {
+            "description": "The effective number of valid patient cases in the cohort used for the analysis.",
+            "title": "Population",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "cohortId",
+          "analyzedAt",
+          "cohortPopulation"
+        ],
+        "title": "AnalysisMetadata",
+        "type": "object"
+      },
+      "KaplanMeierCurve": {
+        "description": "Kaplan-Meier survival curve",
+        "properties": {
+          "metadata": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AnalysisMetadata"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Metadata for the Kaplan-Meier curve.",
+            "title": "Metadata"
+          },
           "months": {
             "description": "List of time points (in months) for survival probability estimates.",
             "items": {
@@ -86340,7 +86364,149 @@
           "lowerConfidenceBand",
           "upperConfidenceBand"
         ],
-        "title": "KapplerMeierCurve",
+        "title": "KaplanMeierCurve",
+        "type": "object"
+      },
+      "OncoplotDataset": {
+        "properties": {
+          "metadata": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AnalysisMetadata"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Metadata for the Kaplan-Meier curve.",
+            "title": "Metadata"
+          },
+          "genes": {
+            "description": "List of most frequently encountered genes",
+            "items": {
+              "type": "string"
+            },
+            "title": "Genes",
+            "type": "array"
+          },
+          "cases": {
+            "description": "List of patient cases",
+            "items": {
+              "type": "string"
+            },
+            "title": "Cases",
+            "type": "array"
+          },
+          "variants": {
+            "description": "Variants included in the Oncoplot",
+            "items": {
+              "$ref": "#/components/schemas/OncoplotVariant"
+            },
+            "title": "Variants",
+            "type": "array"
+          }
+        },
+        "required": [
+          "genes",
+          "cases",
+          "variants"
+        ],
+        "title": "OncoplotDataset",
+        "type": "object"
+      },
+      "OncoplotVariant": {
+        "properties": {
+          "gene": {
+            "title": "Gene",
+            "type": "string"
+          },
+          "caseId": {
+            "title": "Caseid",
+            "type": "string"
+          },
+          "hgvsExpression": {
+            "title": "Hgvsexpression",
+            "type": "string"
+          },
+          "isPathogenic": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ispathogenic"
+          }
+        },
+        "required": [
+          "gene",
+          "caseId",
+          "hgvsExpression",
+          "isPathogenic"
+        ],
+        "title": "OncoplotVariant",
+        "type": "object"
+      },
+      "CategorizedSurvivals": {
+        "properties": {
+          "metadata": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AnalysisMetadata"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Metadata for the Kaplan-Meier curve.",
+            "title": "Metadata"
+          },
+          "survivals": {
+            "additionalProperties": {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            "title": "Survivals",
+            "type": "object"
+          }
+        },
+        "required": [
+          "survivals"
+        ],
+        "title": "CategorizedSurvivals",
+        "type": "object"
+      },
+      "TherapyLineResponseCounts": {
+        "properties": {
+          "metadata": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AnalysisMetadata"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Metadata for the Kaplan-Meier curve.",
+            "title": "Metadata"
+          },
+          "counts": {
+            "description": "The counts for the different therapy responses.",
+            "items": {
+              "$ref": "#/components/schemas/CohortTraitCounts"
+            },
+            "title": "Counts",
+            "type": "array"
+          }
+        },
+        "required": [
+          "counts"
+        ],
+        "title": "TherapyLineResponseCounts",
         "type": "object"
       },
       "DataPlatformStatisticsSchema": {

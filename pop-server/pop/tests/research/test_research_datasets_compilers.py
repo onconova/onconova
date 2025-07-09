@@ -23,7 +23,7 @@ class TestConstructDataset(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        cls.case = factories.PatientCaseFactory()
+        cls.case = factories.PatientCaseFactory(consent_status="valid")
         cls.cohort = Cohort.objects.create(name="test_cohort")
         cls.cohort.cases.set([cls.case])
 

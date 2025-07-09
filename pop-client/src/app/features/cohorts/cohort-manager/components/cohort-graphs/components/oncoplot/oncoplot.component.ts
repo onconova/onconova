@@ -4,6 +4,7 @@ import { MatrixController, MatrixElement } from 'chartjs-chart-matrix';
 import { ChartModule } from 'primeng/chart';
 import { CohortGraphsContextMenu } from '../graph-context-menu/graph-context-menu.component';
 import { LayoutService } from 'src/app/core/layout/app.layout.service';
+import { OncoplotDataset } from 'pop-api-client';
 
 // Register Chart.js modules and BoxPlot plugin
 Chart.register(MatrixController, MatrixElement);
@@ -36,7 +37,7 @@ export class OncoplotComponent {
 
     readonly #layoutService = inject(LayoutService);
 
-    public data = input.required<any>()
+    public data = input.required<OncoplotDataset>()
 
     public chartRef = viewChild<ElementRef<HTMLCanvasElement>>('oncoplotCanvas');
     public sideChartRef = viewChild<ElementRef<HTMLCanvasElement>>('oncoplotSideCanvas');

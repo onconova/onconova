@@ -8,7 +8,7 @@ import { ChartModule } from 'primeng/chart';
 import { SplitterModule } from 'primeng/splitter';
 import { PanelModule } from 'primeng/panel';
 
-import { Cohort, CohortsService, CohortTraitCounts, CohortTraits } from 'pop-api-client';
+import { Cohort, CohortsService, CohortTraitCounts, CohortTraits, DataAnalysisService } from 'pop-api-client';
 import { KapplerMeierCurveComponent } from './components/kappler-meier-curve/kappler-meier-curve.component';
 import { FormsModule } from '@angular/forms';
 import { DoughnutGraphComponent } from './components/doughnut-graph/doughnut-graph.component';
@@ -47,16 +47,16 @@ export class CohortGraphsComponent {
     public loading = input<boolean>(false);
 
     // Injected services
-    readonly #cohortService = inject(CohortsService);
+    readonly #analysisService = inject(DataAnalysisService);
 
     // Resources    
     public overallSurvivalCurve = rxResource({
         request: () => ({cohortId: this.cohort().id}),
-        loader: ({request}) => this.#cohortService.getCohortOverallSurvivalCurve(request)
+        loader: ({request}) => this.#analysisService.getCohortOverallSurvivalCurve(request)
     })
     public cohortGenomics = rxResource({
         request: () => ({cohortId: this.cohort().id}),
-        loader: ({request}) => this.#cohortService.getCohortGenomics(request)
+        loader: ({request}) => this.#analysisService.getCohortOncoplot(request)
     })    
     public ageCount = computed(() => this.traits().value()?.ages)
     public ageAtDiagnosisCount = computed(() => this.traits().value()?.agesAtDiagnosis)
@@ -81,19 +81,19 @@ export class CohortGraphsComponent {
     })
     public selectedTherapyLine = signal<string>('CLoT1');
     public therapyLineDrugCombinations = rxResource({
-        request: () => ({cohortId: this.cohort().id, therapyLine: this.selectedTherapyLine()}),
-        loader: ({request}) => this.#cohortService.getCohortProgressionFreeSurvivalCurveByDrugCombinations(request)
+        request: () => ({cohortId: this.cohort().id, therapyLine: this.selectedTherapyLine(), categorization: 'drugs'}),
+        loader: ({request}) => this.#analysisService.getCohortLineProgressionFreeSurvivalsByCategories(request)
     })
     public therapyLineTherapyClassifications = rxResource({
-        request: () => ({cohortId: this.cohort().id, therapyLine: this.selectedTherapyLine()}),
-        loader: ({request}) => this.#cohortService.getCohortProgressionFreeSurvivalCurveByTherapyClassifications(request)
+        request: () => ({cohortId: this.cohort().id, therapyLine: this.selectedTherapyLine(), categorization: 'therapies'}),
+        loader: ({request}) => this.#analysisService.getCohortLineProgressionFreeSurvivalsByCategories(request)
     })
     public therapyLineSurvivalCurve = rxResource({
         request: () => ({cohortId: this.cohort().id, therapyLine: this.selectedTherapyLine()}),
-        loader: ({request}) => this.#cohortService.getCohortProgressionFreeSurvivalCurve(request)
+        loader: ({request}) => this.#analysisService.getCohortLineProgressionFreeSurvivalCurve(request)
     })
     public therapyLineResponsesCount = rxResource({
         request: () => ({cohortId: this.cohort().id, therapyLine: this.selectedTherapyLine()}),
-        loader: ({request}) => this.#cohortService.getCohortTherapyLineResponseDistribution(request)
+        loader: ({request}) => this.#analysisService.getCohortTherapyLineResponsesCounts(request)
     })
 }

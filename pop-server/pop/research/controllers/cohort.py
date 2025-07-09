@@ -49,12 +49,6 @@ from pop.research.schemas.cohort import (
     CohortTraitCounts,
     CohortContribution,
 )
-from pop.research.analysis import (
-    calculate_Kappler_Maier_survival_curve,
-    calculate_pfs_by_combination_therapy,
-    calculate_pfs_by_therapy_classification,
-    count_treatment_responses_by_therapy_line,
-)
 
 
 def convert_api_path_to_snake_case_path(path):
@@ -384,17 +378,12 @@ class CohortsController(ControllerBase):
         if not cohort.cases.exists():
             raise EmptyCohortException
 
-        age_median, age_iqr = cohort.get_cohort_trait_median(
-            cohort.cases.all(),
-            "age"
-        )
+        age_median, age_iqr = cohort.get_cohort_trait_median(cohort.cases.all(), "age")
         data_completion_median, data_completion_iqr = cohort.get_cohort_trait_median(
-            cohort.cases.all(),
-            "data_completion_rate"
+            cohort.cases.all(), "data_completion_rate"
         )
         overall_survival_median, overall_survival_iqr = cohort.get_cohort_trait_median(
-            cohort.cases.all(),
-            "overall_survival"
+            cohort.cases.all(), "overall_survival"
         )
 
         return 200, CohortTraits(
@@ -415,8 +404,7 @@ class CohortsController(ControllerBase):
                     category=category, counts=count, percentage=percentage
                 )
                 for category, (count, percentage) in cohort.get_cohort_trait_counts(
-                    cohort.cases.all(),
-                    "age", anonymization=anonymize_age
+                    cohort.cases.all(), "age", anonymization=anonymize_age
                 ).items()
             ],
             agesAtDiagnosis=[
@@ -424,8 +412,7 @@ class CohortsController(ControllerBase):
                     category=category, counts=count, percentage=percentage
                 )
                 for category, (count, percentage) in cohort.get_cohort_trait_counts(
-                    cohort.cases.all(),
-                    "age_at_diagnosis", anonymization=anonymize_age
+                    cohort.cases.all(), "age_at_diagnosis", anonymization=anonymize_age
                 ).items()
             ],
             genders=[
@@ -433,8 +420,7 @@ class CohortsController(ControllerBase):
                     category=category, counts=count, percentage=percentage
                 )
                 for category, (count, percentage) in cohort.get_cohort_trait_counts(
-                    cohort.cases.all(),
-                    "gender__display"
+                    cohort.cases.all(), "gender__display"
                 ).items()
             ],
             neoplasticSites=[
@@ -451,8 +437,7 @@ class CohortsController(ControllerBase):
                     category=category, counts=count, percentage=percentage
                 )
                 for category, (count, percentage) in cohort.get_cohort_trait_counts(
-                    cohort.cases.all(),
-                    "therapy_lines__label"
+                    cohort.cases.all(), "therapy_lines__label"
                 ).items()
             ],
             vitalStatus=[
@@ -460,8 +445,7 @@ class CohortsController(ControllerBase):
                     category=category, counts=count, percentage=percentage
                 )
                 for category, (count, percentage) in cohort.get_cohort_trait_counts(
-                    cohort.cases.all(),
-                    "is_deceased"
+                    cohort.cases.all(), "is_deceased"
                 ).items()
             ],
             consentStatus=[
@@ -469,8 +453,7 @@ class CohortsController(ControllerBase):
                     category=category, counts=count, percentage=percentage
                 )
                 for category, (count, percentage) in cohort.get_cohort_trait_counts(
-                    cohort.cases.all(),
-                    "consent_status"
+                    cohort.cases.all(), "consent_status"
                 ).items()
             ],
         )

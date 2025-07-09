@@ -150,7 +150,7 @@
                         <p-skeleton height="10rem" width="15rem"/>
                     } @else {
                         @if (therapyLineResponsesCount.value(); as data) {
-                            <pop-doughnut-graph [data]="data" legendPosition="right" width="25rem"/>
+                            <pop-doughnut-graph [data]="data.counts" legendPosition="right" width="25rem"/>
                         }
                     }
                 }
@@ -188,7 +188,7 @@
                 <p-skeleton height="15rem"/>
             } @else {
                 @if (therapyLineTherapyClassifications.value(); as data) {
-                    <pop-box-plot [data]="data"/>
+                    <pop-box-plot [data]="data.survivals"/>
                 }
             }
         }
@@ -206,7 +206,7 @@
                 <p-skeleton height="15rem"/>
             } @else {
                 @if (therapyLineDrugCombinations.value(); as data) {
-                    <pop-box-plot [data]="data"/>
+                    <pop-box-plot [data]="data.survivals"/>
                 }
             }
         }

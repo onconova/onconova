@@ -315,8 +315,8 @@ class TherapyLine(BaseModel):
                     set(
                         [
                             (
-                                drug.therapyCategory
-                                if drug.therapyCategory
+                                drug.therapy_category
+                                if drug.therapy_category
                                 else drug.parent if drug.parent else "Unknown"
                             )
                             for drug in previous_SACT.drugs
@@ -327,8 +327,8 @@ class TherapyLine(BaseModel):
                     set(
                         [
                             (
-                                drug.therapyCategory
-                                if drug.therapyCategory
+                                drug.therapy_category
+                                if drug.therapy_category
                                 else drug.parent if drug.parent else "Unknown"
                             )
                             for therapy in systemic_therapies

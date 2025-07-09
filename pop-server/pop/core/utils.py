@@ -14,6 +14,8 @@ from django.db.models import Model as DjangoModel, QuerySet
 from django.db.models.enums import ChoicesType
 from django.core.exceptions import ObjectDoesNotExist
 
+COMMON_HTTP_ERRORS = {404: None, 401: None, 403: None, 500: None}
+
 
 def is_optional(field: type) -> bool:
     """
