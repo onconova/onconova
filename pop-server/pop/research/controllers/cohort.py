@@ -172,7 +172,7 @@ class CohortsController(ControllerBase):
     @paginate()
     @anonymize()
     def get_cohort_cases(self, cohortId: str, anonymized: bool = True):
-        return get_object_or_404(Cohort, id=cohortId).cases.all()
+        return get_object_or_404(Cohort, id=cohortId).valid_cases.all()
 
     @route.get(
         path="/{cohortId}/contributors",
@@ -191,7 +191,7 @@ class CohortsController(ControllerBase):
         contributions = Counter(
             [
                 contributor
-                for case in cohort.cases.all()
+                for case in cohort.valid_cases.all()
                 for contributor in case.contributors
             ]
         )
@@ -382,7 +382,7 @@ class CohortsController(ControllerBase):
     )
     def get_cohort_traits_statistics(self, cohortId: str):
         cohort = get_object_or_404(Cohort, id=cohortId)
-        if not cohort.cases.exists():
+        if not cohort.valid_cases.exists():
             raise EmptyCohortException
 
         age_median, age_iqr = cohort.get_cohort_trait_median("age")
@@ -474,11 +474,11 @@ class CohortAnalysisController(ControllerBase):
     )
     def get_cohort_overall_survival_curve(self, cohortId: str):
         cohort = get_object_or_404(Cohort, id=cohortId)
-        if not cohort.cases.exists():
+        if not cohort.valid_cases.exists():
             raise EmptyCohortException
         # Get all the OS values for the cohort
         overall_survivals = list(
-            cohort.cases.annotate(overall_survival=F("overall_survival")).values_list(
+            cohort.valid_cases.annotate(overall_survival=F("overall_survival")).values_list(
                 "overall_survival", flat=True
             )
         )
@@ -509,9 +509,10 @@ class CohortAnalysisController(ControllerBase):
         from pop.oncology.models import GenomicVariant
 
         cohort = get_object_or_404(Cohort, id=cohortId)
-        if not cohort.cases.exists():
+        if not cohort.valid_cases.exists():
             raise EmptyCohortException
-        variants = GenomicVariant.objects.filter(case__in=cohort.cases.all())
+        cases = cohort.valid_cases.all()
+        variants = GenomicVariant.objects.filter(case__in=cases)
         genes = [
             gene[0]
             for gene in Counter(
@@ -529,7 +530,7 @@ class CohortAnalysisController(ControllerBase):
         )
         return 200, {
             "genes": genes,
-            "cases": list(cohort.cases.values_list("pseudoidentifier", flat=True)),
+            "cases": list(cases.values_list("pseudoidentifier", flat=True)),
             "variants": list(variants),
         }
 
@@ -549,10 +550,10 @@ class CohortAnalysisController(ControllerBase):
         self, cohortId: str, therapyLine: str
     ):
         cohort = get_object_or_404(Cohort, id=cohortId)
-        if not cohort.cases.exists():
+        if not cohort.valid_cases.exists():
             raise EmptyCohortException
         progression_free_survivals = (
-            cohort.cases.annotate(
+            cohort.valid_cases.annotate(
                 progression_free_survival=
                 # Filter all therapy lines for current patient and by the queries line-label
                 Subquery(
@@ -597,7 +598,7 @@ class CohortAnalysisController(ControllerBase):
         self, cohortId: str, therapyLine: str
     ):
         cohort = get_object_or_404(Cohort, id=cohortId)
-        if not cohort.cases.exists():
+        if not cohort.valid_cases.exists():
             raise EmptyCohortException
         return 200, calculate_pfs_by_combination_therapy(cohort, therapyLine)
 
@@ -617,7 +618,7 @@ class CohortAnalysisController(ControllerBase):
         self, cohortId: str, therapyLine: str
     ):
         cohort = get_object_or_404(Cohort, id=cohortId)
-        if not cohort.cases.exists():
+        if not cohort.valid_cases.exists():
             raise EmptyCohortException
         return 200, calculate_pfs_by_therapy_classification(cohort, therapyLine)
 
@@ -637,7 +638,7 @@ class CohortAnalysisController(ControllerBase):
         self, cohortId: str, therapyLine: str
     ):
         cohort = get_object_or_404(Cohort, id=cohortId)
-        if not cohort.cases.exists():
+        if not cohort.valid_cases.exists():
             raise EmptyCohortException
         counter = count_treatment_responses_by_therapy_line(cohort, therapyLine)
         return 200, [

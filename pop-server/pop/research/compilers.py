@@ -507,7 +507,7 @@ class QueryCompiler:
             QuerySet: The dataset for the cohort
         """
         annotations, queryset_fields = self.rule_compiler.generate_annotations()
-        return self.cohort.cases.annotate(**annotations).values(*queryset_fields)
+        return self.cohort.valid_cases.annotate(**annotations).values(*queryset_fields)
 
 
 def construct_dataset(cohort, rules: List[DatasetRule]) -> QuerySet:

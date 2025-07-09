@@ -76,6 +76,10 @@ class Cohort(BaseModel):
     def description(self) -> str:
         return f"{self.name} ({self.cases.count()} cases)"
 
+    @property 
+    def valid_cases(self):
+        return self.cases.filter(consent_status=PatientCase.ConsentStatus.VALID)
+
     def get_cohort_trait_average(self, trait: str, **filters) -> Tuple[float, float]:
         cases = self.cases.all()
         if filters:

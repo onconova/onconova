@@ -13,7 +13,7 @@ class TestGetCohortPopulation(TestCase):
         cls.population = 4
         cls.cohort = Cohort.objects.create(name="Test Cohort")
         cls.cohort.cases.set(
-            [PatientCaseFactory.create() for _ in range(cls.population)]
+            [PatientCaseFactory.create(consent_status='valid') for _ in range(cls.population)]
         )
 
     def test_no_cases(self):
@@ -29,14 +29,14 @@ class TestGetCohortTraitAverage(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.cohort = Cohort.objects.create(name="Test Cohort")
-        cls.cohort.cases.set([PatientCaseFactory.create() for _ in range(4)])
+        cls.cohort.cases.set([PatientCaseFactory.create(consent_status='valid') for _ in range(4)])
 
     def test_no_cases(self):
         self.cohort.cases.set([])
         self.assertIsNone(self.cohort.get_cohort_trait_average("age"))
 
     def test_average_and_standard_deviation_values(self):
-        ages = [c.age for c in self.cohort.cases.all()]
+        ages = [c.age for c in self.cohort.valid_cases.all()]
         avg, stddev = self.cohort.get_cohort_trait_average("age")
         self.assertAlmostEqual(avg, average(ages))
         self.assertAlmostEqual(stddev, std(ages))
@@ -51,14 +51,14 @@ class TestGetCohortTraitMedian(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.cohort = Cohort.objects.create(name="Test Cohort")
-        cls.cohort.cases.set([PatientCaseFactory.create() for _ in range(10)])
+        cls.cohort.cases.set([PatientCaseFactory.create(consent_status='valid') for _ in range(10)])
 
     def test_no_cases(self):
         self.cohort.cases.set([])
         self.assertIsNone(self.cohort.get_cohort_trait_median("age"))
 
     def test_median_and_iqr_values(self):
-        ages = [c.age for c in self.cohort.cases.all()]
+        ages = [c.age for c in self.cohort.valid_cases.all()]
         avg, iqr = self.cohort.get_cohort_trait_median("age")
         self.assertAlmostEqual(avg, percentile(ages, 50))
         self.assertAlmostEqual(iqr[0], percentile(ages, 25))
@@ -87,7 +87,8 @@ class TestGetCohortTraitCounts(TestCase):
                 PatientCaseFactory.create(
                     clinical_center=(
                         "centerA" if not seed(n) and random() > 0.25 else "centerB"
-                    )
+                    ),
+                    consent_status='valid',
                 )
                 for n in range(10)
             ]
@@ -99,7 +100,7 @@ class TestGetCohortTraitCounts(TestCase):
         self.assertEqual(result, OrderedDict())
 
     def test_trait_counts(self):
-        counter = dict(Counter([c.clinical_center for c in self.cohort.cases.all()]))
+        counter = dict(Counter([c.clinical_center for c in self.cohort.valid_cases.all()]))
         result = self.cohort.get_cohort_trait_counts("clinical_center")
         expected = dict(
             OrderedDict(

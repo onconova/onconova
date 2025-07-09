@@ -112,7 +112,7 @@ def get_progression_free_survival_for_therapy_line(
         List[float]: The list of progression free survival values.
     """
     return list(
-        cohort.cases.annotate(
+        cohort.valid_cases.annotate(
             progression_free_survival=Subquery(
                 TherapyLine.objects.filter(case_id=OuterRef("id"), **include_filters)
                 .exclude(**exclude_filters)
@@ -127,7 +127,7 @@ def get_progression_free_survival_for_therapy_line(
 
 def calculate_pfs_by_combination_therapy(cohort: Cohort, therapyLine: str):
     drug_combinations = (
-        cohort.cases.annotate(
+        cohort.valid_cases.annotate(
             drug_combination=Subquery(
                 SystemicTherapy.objects.filter(
                     case_id=OuterRef("id"), therapy_line__label=therapyLine
@@ -208,7 +208,7 @@ def calculate_pfs_by_therapy_classification(cohort: Cohort, therapyLine: str):
             return " & ".join(categories).title()
 
     therapy_classifications = (
-        TherapyLine.objects.filter(case__in=cohort.cases.all())
+        TherapyLine.objects.filter(case__in=cohort.valid_cases.all())
         .filter(label=therapyLine)
         .annotate(therapy_classification=F("therapy_classification"))
         .values_list("therapy_classification", flat=True)
@@ -261,7 +261,7 @@ def count_treatment_responses_by_therapy_line(cohort: Cohort, therapyLine: str):
     """
     # Filter all therapy lines for current patient and by the queries line-label
     values = (
-        cohort.cases.filter(therapy_lines__label=therapyLine)
+        cohort.valid_cases.filter(therapy_lines__label=therapyLine)
         .annotate(
             response=Subquery(
                 TreatmentResponse.objects.annotate(
