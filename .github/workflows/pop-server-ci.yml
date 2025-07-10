@@ -10,6 +10,7 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
     env:
+      COMPOSE_FILE: 'compose.dev.yml'
       COMPOSE_PROJECT_NAME: 'pop-ci'
       POSTGRES_DATABASE: 'pop-ci'
       POSTGRES_PORT: 5432
@@ -32,9 +33,7 @@ jobs:
         uses: docker/setup-compose-action@v1
 
       - name: Build pop-server service
-        run: |
-          docker compose -f compose.dev.yml build pop-server
+        run: docker compose build pop-server
 
       - name: Run tests with pytest
-        run: |
-          docker compose run --rm pop-server pytest -W ignore
+        run: docker compose run --rm pop-server pytest -W ignore
