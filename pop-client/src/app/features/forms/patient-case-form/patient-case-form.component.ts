@@ -19,24 +19,26 @@ import {
   ConceptSelectorComponent, 
   DatePickerComponent,
 } from '../../../shared/components';
+import { SelectButton } from "primeng/selectbutton";
 
 @Component({
     selector: 'patient-form',
     templateUrl: './patient-case-form.component.html',
     imports: [
-        CommonModule,
-        FormsModule,
-        InlineSVGModule,
-        ReactiveFormsModule,
-        ConceptSelectorComponent,
-        DatePickerComponent,
-        AutoCompleteModule,
-        InputTextModule,
-        StepperModule,
-        ButtonModule,
-        ToggleSwitch,
-        Fluid,
-    ]
+    CommonModule,
+    FormsModule,
+    InlineSVGModule,
+    ReactiveFormsModule,
+    ConceptSelectorComponent,
+    DatePickerComponent,
+    AutoCompleteModule,
+    InputTextModule,
+    StepperModule,
+    ButtonModule,
+    ToggleSwitch,
+    Fluid,
+    SelectButton
+]
 })
 export class PatientFormComponent extends AbstractFormBase {
 
@@ -69,7 +71,8 @@ export class PatientFormComponent extends AbstractFormBase {
       causeOfDeath: this.#fb.control<CodedConcept | null>(null),
     }),
     consent: this.#fb.nonNullable.group({
-      consentValid: this.#fb.control<boolean | null>(false, Validators.required),
+      consentCheck: this.#fb.control<boolean | null>(false, Validators.required),
+      consentStatus: this.#fb.control<PatientCaseConsentStatusChoices | null>(null, Validators.required),
     }),
   });
 
@@ -90,7 +93,8 @@ export class PatientFormComponent extends AbstractFormBase {
         causeOfDeath: data.causeOfDeath ?? null,
       },
       consent: {
-        consentValid: false,
+        consentCheck: false,
+        consentStatus: data.consentStatus,
       },
     });
   });
@@ -105,7 +109,7 @@ export class PatientFormComponent extends AbstractFormBase {
       causeOfDeath: !data.general!.isAlive ? data.general!.causeOfDeath: null,
       clinicalCenter: data.identification!.clinicalCenter!,
       clinicalIdentifier: data.identification!.clinicalIdentifier!,
-      consentStatus: data.consent!.consentValid ? PatientCaseConsentStatusChoices.Valid : PatientCaseConsentStatusChoices.Unknown,
+      consentStatus: data.consent!.consentStatus!,
     };
   }
   // Get the default clinical center through the API
@@ -142,4 +146,9 @@ export class PatientFormComponent extends AbstractFormBase {
     causeOfDeathControl?.updateValueAndValidity();
   })
 
+  protected readonly consentStatusOptions = [
+    {label: 'Valid', value: PatientCaseConsentStatusChoices.Valid},
+    {label: 'Revoked', value: PatientCaseConsentStatusChoices.Revoked},
+    {label: 'Unknown', value: PatientCaseConsentStatusChoices.Unknown},
+  ]
 }
