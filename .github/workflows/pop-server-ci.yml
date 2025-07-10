@@ -32,6 +32,9 @@ jobs:
       - name: Set up Docker Compose
         uses: docker/setup-compose-action@v1
 
+      - name: Create .env file 
+        uses: iamsauravsharma/create-dotenv@v3.2.0
+
       - name: Build pop-server service
         run: docker compose build pop-server
 
