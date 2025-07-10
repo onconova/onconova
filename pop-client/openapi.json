@@ -42631,7 +42631,75 @@
         ]
       }
     },
-    "/api/v1/cohorts/{cohortId}/overall-survival-curve": {
+    "/api/v1/cohorts/{cohortId}/analysis/distribution": {
+      "get": {
+        "operationId": "getCohortPropertyDistribution",
+        "summary": "Get Cohort Property Distribution",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "cohortId",
+            "schema": {
+              "title": "Cohortid",
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "property",
+            "schema": {
+              "enum": [
+                "gender",
+                "age",
+                "ageAtDiagnosis",
+                "neoplasticSites",
+                "vitalStatus"
+              ],
+              "title": "Property",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Distribution"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "tags": [
+          "Data Analysis"
+        ],
+        "security": [
+          {
+            "XSessionTokenAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/cohorts/{cohortId}/analysis/overall-survical/kaplan-meier": {
       "get": {
         "operationId": "getCohortOverallSurvivalCurve",
         "summary": "Get Cohort Overall Survival Curve",
@@ -42644,6 +42712,16 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "in": "query",
+            "name": "confidence",
+            "schema": {
+              "default": 0.95,
+              "title": "Confidence",
+              "type": "number"
+            },
+            "required": false
           }
         ],
         "responses": {
@@ -42652,26 +42730,29 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/KapplerMeierCurve"
+                  "$ref": "#/components/schemas/KaplanMeierCurve"
                 }
               }
             }
           },
-          "404": {
-            "description": "Not Found"
-          },
           "422": {
             "description": "Unprocessable Entity"
+          },
+          "404": {
+            "description": "Not Found"
           },
           "401": {
             "description": "Unauthorized"
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
-          "Cohorts"
+          "Data Analysis"
         ],
         "security": [
           {
@@ -42680,10 +42761,10 @@
         ]
       }
     },
-    "/api/v1/cohorts/{cohortId}/genomics": {
+    "/api/v1/cohorts/{cohortId}/analysis/oncoplot": {
       "get": {
-        "operationId": "getCohortGenomics",
-        "summary": "Get Cohort Genomics",
+        "operationId": "getCohortOncoplot",
+        "summary": "Get Cohort Oncoplot Dataset",
         "parameters": [
           {
             "in": "path",
@@ -42701,28 +42782,29 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "additionalProperties": true,
-                  "title": "Response",
-                  "type": "object"
+                  "$ref": "#/components/schemas/OncoplotDataset"
                 }
               }
             }
           },
-          "404": {
-            "description": "Not Found"
-          },
           "422": {
             "description": "Unprocessable Entity"
+          },
+          "404": {
+            "description": "Not Found"
           },
           "401": {
             "description": "Unauthorized"
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
-          "Cohorts"
+          "Data Analysis"
         ],
         "security": [
           {
@@ -42731,68 +42813,10 @@
         ]
       }
     },
-    "/api/v1/cohorts/{cohortId}/progression-free-survival-curve/{therapyLine}": {
+    "/api/v1/cohorts/{cohortId}/analysis/{therapyLine}/progression-free-survival/kaplan-meier": {
       "get": {
-        "operationId": "getCohortProgressionFreeSurvivalCurve",
-        "summary": "Get Cohort Progression Free Survival Curve",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "cohortId",
-            "schema": {
-              "title": "Cohortid",
-              "type": "string"
-            },
-            "required": true
-          },
-          {
-            "in": "path",
-            "name": "therapyLine",
-            "schema": {
-              "title": "Therapyline",
-              "type": "string"
-            },
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/KapplerMeierCurve"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "422": {
-            "description": "Unprocessable Entity"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          }
-        },
-        "tags": [
-          "Cohorts"
-        ],
-        "security": [
-          {
-            "XSessionTokenAuth": []
-          }
-        ]
-      }
-    },
-    "/api/v1/cohorts/{cohortId}/progression-free-survival/{therapyLine}/drug-combinations": {
-      "get": {
-        "operationId": "getCohortProgressionFreeSurvivalCurveByDrugCombinations",
-        "summary": "Get Cohort Progression Free Survival Curve By Drug Combinations",
+        "operationId": "getCohortLineProgressionFreeSurvivalCurve",
+        "summary": "Get Cohort Line Progression Free Survival Curve",
         "parameters": [
           {
             "in": "path",
@@ -42811,6 +42835,16 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "in": "query",
+            "name": "confidence",
+            "schema": {
+              "default": 0.95,
+              "title": "Confidence",
+              "type": "number"
+            },
+            "required": false
           }
         ],
         "responses": {
@@ -42819,28 +42853,29 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "additionalProperties": true,
-                  "title": "Response",
-                  "type": "object"
+                  "$ref": "#/components/schemas/KaplanMeierCurve"
                 }
               }
             }
           },
-          "404": {
-            "description": "Not Found"
-          },
           "422": {
             "description": "Unprocessable Entity"
+          },
+          "404": {
+            "description": "Not Found"
           },
           "401": {
             "description": "Unauthorized"
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
-          "Cohorts"
+          "Data Analysis"
         ],
         "security": [
           {
@@ -42849,10 +42884,10 @@
         ]
       }
     },
-    "/api/v1/cohorts/{cohortId}/progression-free-survival/{therapyLine}/therapy-classifications": {
+    "/api/v1/cohorts/{cohortId}/analysis/{therapyLine}/progression-free-survivals/categories": {
       "get": {
-        "operationId": "getCohortProgressionFreeSurvivalCurveByTherapyClassifications",
-        "summary": "Get Cohort Progression Free Survival Curve By Therapy Classifications",
+        "operationId": "getCohortLineProgressionFreeSurvivalsByCategories",
+        "summary": "Get Cohort Line Progression Free Survival By Categories",
         "parameters": [
           {
             "in": "path",
@@ -42871,6 +42906,24 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "in": "query",
+            "name": "categorization",
+            "schema": {
+              "anyOf": [
+                {
+                  "const": "therapies",
+                  "type": "string"
+                },
+                {
+                  "const": "drugs",
+                  "type": "string"
+                }
+              ],
+              "title": "Categorization"
+            },
+            "required": true
           }
         ],
         "responses": {
@@ -42879,28 +42932,29 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "additionalProperties": true,
-                  "title": "Response",
-                  "type": "object"
+                  "$ref": "#/components/schemas/CategorizedSurvivals"
                 }
               }
             }
           },
-          "404": {
-            "description": "Not Found"
-          },
           "422": {
             "description": "Unprocessable Entity"
+          },
+          "404": {
+            "description": "Not Found"
           },
           "401": {
             "description": "Unauthorized"
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
-          "Cohorts"
+          "Data Analysis"
         ],
         "security": [
           {
@@ -42909,10 +42963,10 @@
         ]
       }
     },
-    "/api/v1/cohorts/{cohortId}/therapy-responses/{therapyLine}": {
+    "/api/v1/cohorts/{cohortId}/analysis/{therapyLine}/distribution": {
       "get": {
-        "operationId": "getCohortTherapyLineResponseDistribution",
-        "summary": "Get Cohort Therapy Line Responses Distribution",
+        "operationId": "getCohortLinePropertyDistribution",
+        "summary": "Get Cohort Line Property Distribution",
         "parameters": [
           {
             "in": "path",
@@ -42931,6 +42985,19 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "in": "query",
+            "name": "property",
+            "schema": {
+              "enum": [
+                "cases",
+                "responses"
+              ],
+              "title": "Property",
+              "type": "string"
+            },
+            "required": true
           }
         ],
         "responses": {
@@ -42939,30 +43006,29 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "items": {
-                    "$ref": "#/components/schemas/CohortTraitCounts"
-                  },
-                  "title": "Response",
-                  "type": "array"
+                  "$ref": "#/components/schemas/Distribution"
                 }
               }
             }
           },
-          "404": {
-            "description": "Not Found"
-          },
           "422": {
             "description": "Unprocessable Entity"
+          },
+          "404": {
+            "description": "Not Found"
           },
           "401": {
             "description": "Unauthorized"
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
-          "Cohorts"
+          "Data Analysis"
         ],
         "security": [
           {
@@ -76507,109 +76573,10 @@
             "title": "Export Checksum",
             "type": "string"
           },
-          "includeCriteria": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/CohortRuleset"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "Logic rules to filter and constrain the cases to be included in the cohort",
-            "title": "Inclusion critera"
-          },
-          "excludeCriteria": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/CohortRuleset"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "Logic rules to filter and constrain the cases to be excluded from the cohort",
-            "title": "Exclusion critera"
-          },
-          "externalSource": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "The digital source of the data, relevant for automated data",
-            "title": "External data source",
-            "x-expanded": false
-          },
-          "externalSourceId": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "The data identifier at the digital source of the data, relevant for automated data",
-            "title": "External data source Id",
-            "x-expanded": false
-          },
-          "name": {
-            "description": "Name of the cohort",
-            "maxLength": 255,
-            "title": "Cohort name",
-            "type": "string",
-            "x-expanded": false
-          },
-          "projectId": {
-            "anyOf": [
-              {
-                "format": "uuid",
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "Project to which the cohort is associated",
-            "title": "Project",
-            "x-expanded": false
-          },
-          "casesIds": {
-            "default": [],
-            "description": "Cases composing the cohort",
-            "items": {
-              "format": "uuid",
-              "type": "string"
-            },
-            "title": "Cases",
-            "type": "array",
-            "x-expanded": false
-          },
-          "manualChoicesIds": {
-            "default": [],
-            "description": "Manually added cases",
-            "items": {
-              "format": "uuid",
-              "type": "string"
-            },
-            "title": "Manually added cases",
-            "type": "array",
-            "x-expanded": false
-          },
-          "frozenSetIds": {
-            "default": [],
-            "description": "Frozen cases",
-            "items": {
-              "format": "uuid",
-              "type": "string"
-            },
-            "title": "Frozen cases",
-            "type": "array",
-            "x-expanded": false
+          "definition": {
+            "$ref": "#/components/schemas/CohortCreate",
+            "description": "The cohort definition",
+            "title": "Cohort Definition"
           }
         },
         "required": [
@@ -76617,7 +76584,7 @@
           "exportedBy",
           "exportVersion",
           "checksum",
-          "name"
+          "definition"
         ],
         "title": "ExportedCohortDefinition",
         "type": "object"
@@ -78134,12 +78101,6 @@
       },
       "ExportedPatientCaseDataset": {
         "properties": {
-          "anonymized": {
-            "default": false,
-            "description": "Whether the data has been anonymized",
-            "title": "Is anonymized",
-            "type": "boolean"
-          },
           "exportedAt": {
             "description": "The datetime when the resource was exported.",
             "format": "date-time",
@@ -78161,825 +78122,13 @@
             "title": "Export Checksum",
             "type": "string"
           },
-          "age": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "$ref": "#/components/schemas/AgeBin"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Age"
-          },
-          "dateOfBirth": {
-            "anyOf": [
-              {
-                "format": "date",
-                "type": "string"
-              },
-              {
-                "const": "*************",
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Dateofbirth"
-          },
-          "overallSurvival": {
-            "anyOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Overallsurvival"
-          },
-          "ageAtDiagnosis": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "$ref": "#/components/schemas/AgeBin"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Ageatdiagnosis"
-          },
-          "dataCompletionRate": {
-            "anyOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Datacompletionrate"
-          },
-          "contributors": {
-            "anyOf": [
-              {
-                "items": {
-                  "type": "string"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Contributors"
-          },
-          "id": {
-            "anyOf": [
-              {
-                "format": "uuid",
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Id"
-          },
-          "externalSource": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Externalsource"
-          },
-          "externalSourceId": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Externalsourceid"
-          },
-          "pseudoidentifier": {
-            "title": "Pseudoidentifier",
-            "type": "string"
-          },
-          "clinicalCenter": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Clinicalcenter"
-          },
-          "clinicalIdentifier": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Clinicalidentifier"
-          },
-          "consentStatus": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/PatientCaseConsentStatusChoices"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
-          "gender": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "items": {
-                  "anyOf": [
-                    {
-                      "type": "string"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Gender"
-          },
-          "race": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "items": {
-                  "anyOf": [
-                    {
-                      "type": "string"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Race"
-          },
-          "sexAtBirth": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "items": {
-                  "anyOf": [
-                    {
-                      "type": "string"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Sexatbirth"
-          },
-          "genderIdentity": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "items": {
-                  "anyOf": [
-                    {
-                      "type": "string"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Genderidentity"
-          },
-          "isDeceased": {
-            "anyOf": [
-              {
-                "type": "boolean"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Isdeceased"
-          },
-          "dateOfDeath": {
-            "anyOf": [
-              {
-                "format": "date",
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Dateofdeath"
-          },
-          "causeOfDeath": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "items": {
-                  "anyOf": [
-                    {
-                      "type": "string"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Causeofdeath"
-          },
-          "description": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Description"
-          },
-          "createdAt": {
-            "anyOf": [
-              {
-                "format": "date-time",
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Createdat"
-          },
-          "updatedAt": {
-            "anyOf": [
-              {
-                "format": "date-time",
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Updatedat"
-          },
-          "createdBy": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Createdby"
-          },
-          "updatedBy": {
-            "anyOf": [
-              {
-                "items": {
-                  "type": "string"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Updatedby"
-          },
-          "neoplasticEntities": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/NeoplasticEntityPartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Neoplasticentities"
-          },
-          "tnmStagings": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/TNMStagingPartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Tnmstagings"
-          },
-          "figoStagings": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/TNMStagingPartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Figostagings"
-          },
-          "binetStagings": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/BinetStagingPartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Binetstagings"
-          },
-          "raiStagings": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/RaiStagingPartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Raistagings"
-          },
-          "breslowStagings": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/BreslowDepthPartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Breslowstagings"
-          },
-          "clarkStagings": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/ClarkStagingPartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Clarkstagings"
-          },
-          "issStagings": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/ISSStagingPartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Issstagings"
-          },
-          "rissStagings": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/RISSStagingPartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Rissstagings"
-          },
-          "inssStagings": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/INSSStagePartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Inssstagings"
-          },
-          "inrgssStagings": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/INRGSSStagePartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Inrgssstagings"
-          },
-          "gleasonStagings": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/GleasonGradePartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Gleasonstagings"
-          },
-          "rhabdomyosarcomaGroups": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/RhabdomyosarcomaClinicalGroupPartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Rhabdomyosarcomagroups"
-          },
-          "wilmsStagings": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/WilmsStagePartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Wilmsstagings"
-          },
-          "lymphomaStagings": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/LymphomaStagingPartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Lymphomastagings"
-          },
-          "tumorMarkers": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/TumorMarkerPartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Tumormarkers"
-          },
-          "riskAssessments": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/RiskAssessmentPartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Riskassessments"
-          },
-          "therapyLines": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/TherapyLinePartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Therapylines"
-          },
-          "systemicTherapies": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/SystemicTherapyPartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Systemictherapies"
-          },
-          "surgeries": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/SurgeryPartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Surgeries"
-          },
-          "radiotherapies": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/RadiotherapyPartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Radiotherapies"
-          },
-          "adverseEvents": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/AdverseEventPartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Adverseevents"
-          },
-          "treatmentResponses": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/TreatmentResponsePartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Treatmentresponses"
-          },
-          "performanceStatus": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/PerformanceStatusPartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Performancestatus"
-          },
-          "comorbidities": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/ComorbiditiesAssessmentPartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Comorbidities"
-          },
-          "genomicVariants": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/GenomicVariantPartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Genomicvariants"
-          },
-          "genomicSignatures": {
-            "anyOf": [
-              {
-                "items": {
-                  "anyOf": [
-                    {
-                      "$ref": "#/components/schemas/TumorMutationalBurdenPartial"
-                    },
-                    {
-                      "$ref": "#/components/schemas/MicrosatelliteInstabilityPartial"
-                    },
-                    {
-                      "$ref": "#/components/schemas/LossOfHeterozygosityPartial"
-                    },
-                    {
-                      "$ref": "#/components/schemas/HomologousRecombinationDeficiencyPartial"
-                    },
-                    {
-                      "$ref": "#/components/schemas/TumorNeoantigenBurdenPartial"
-                    },
-                    {
-                      "$ref": "#/components/schemas/AneuploidScorePartial"
-                    }
-                  ]
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Genomicsignatures"
-          },
-          "vitals": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/VitalsPartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Vitals"
-          },
-          "lifestyles": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/LifestylePartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Lifestyles"
-          },
-          "familyHistory": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/FamilyHistoryPartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Familyhistory"
-          },
-          "unspecifiedTumorBoards": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/UnspecifiedTumorBoardPartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Unspecifiedtumorboards"
-          },
-          "molecularTumorBoards": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/UnspecifiedTumorBoardPartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Moleculartumorboards"
+          "dataset": {
+            "description": "The dataset that was exported",
+            "items": {
+              "$ref": "#/components/schemas/PatientCaseDataset"
+            },
+            "title": "Dataset",
+            "type": "array"
           }
         },
         "required": [
@@ -78987,7 +78136,7 @@
           "exportedBy",
           "exportVersion",
           "checksum",
-          "pseudoidentifier"
+          "dataset"
         ],
         "title": "ExportedPatientCaseDataset",
         "type": "object"
@@ -81781,6 +80930,841 @@
           }
         },
         "title": "NeoplasticEntityPartial",
+        "type": "object"
+      },
+      "PatientCaseDataset": {
+        "properties": {
+          "anonymized": {
+            "default": false,
+            "description": "Whether the data has been anonymized",
+            "title": "Is anonymized",
+            "type": "boolean"
+          },
+          "age": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "$ref": "#/components/schemas/AgeBin"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Age"
+          },
+          "dateOfBirth": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "const": "*************",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dateofbirth"
+          },
+          "overallSurvival": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Overallsurvival"
+          },
+          "ageAtDiagnosis": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "$ref": "#/components/schemas/AgeBin"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ageatdiagnosis"
+          },
+          "dataCompletionRate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Datacompletionrate"
+          },
+          "contributors": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Contributors"
+          },
+          "id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Id"
+          },
+          "externalSource": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Externalsource"
+          },
+          "externalSourceId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Externalsourceid"
+          },
+          "pseudoidentifier": {
+            "title": "Pseudoidentifier",
+            "type": "string"
+          },
+          "clinicalCenter": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Clinicalcenter"
+          },
+          "clinicalIdentifier": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Clinicalidentifier"
+          },
+          "consentStatus": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PatientCaseConsentStatusChoices"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "gender": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "items": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Gender"
+          },
+          "race": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "items": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Race"
+          },
+          "sexAtBirth": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "items": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sexatbirth"
+          },
+          "genderIdentity": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "items": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Genderidentity"
+          },
+          "isDeceased": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Isdeceased"
+          },
+          "dateOfDeath": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dateofdeath"
+          },
+          "causeOfDeath": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "items": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Causeofdeath"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "createdAt": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Createdat"
+          },
+          "updatedAt": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Updatedat"
+          },
+          "createdBy": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Createdby"
+          },
+          "updatedBy": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Updatedby"
+          },
+          "neoplasticEntities": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/NeoplasticEntityPartial"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Neoplasticentities"
+          },
+          "tnmStagings": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/TNMStagingPartial"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tnmstagings"
+          },
+          "figoStagings": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/TNMStagingPartial"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Figostagings"
+          },
+          "binetStagings": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/BinetStagingPartial"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Binetstagings"
+          },
+          "raiStagings": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/RaiStagingPartial"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Raistagings"
+          },
+          "breslowStagings": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/BreslowDepthPartial"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Breslowstagings"
+          },
+          "clarkStagings": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/ClarkStagingPartial"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Clarkstagings"
+          },
+          "issStagings": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/ISSStagingPartial"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Issstagings"
+          },
+          "rissStagings": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/RISSStagingPartial"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rissstagings"
+          },
+          "inssStagings": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/INSSStagePartial"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Inssstagings"
+          },
+          "inrgssStagings": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/INRGSSStagePartial"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Inrgssstagings"
+          },
+          "gleasonStagings": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/GleasonGradePartial"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Gleasonstagings"
+          },
+          "rhabdomyosarcomaGroups": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/RhabdomyosarcomaClinicalGroupPartial"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rhabdomyosarcomagroups"
+          },
+          "wilmsStagings": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/WilmsStagePartial"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wilmsstagings"
+          },
+          "lymphomaStagings": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/LymphomaStagingPartial"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lymphomastagings"
+          },
+          "tumorMarkers": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/TumorMarkerPartial"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tumormarkers"
+          },
+          "riskAssessments": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/RiskAssessmentPartial"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Riskassessments"
+          },
+          "therapyLines": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/TherapyLinePartial"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Therapylines"
+          },
+          "systemicTherapies": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/SystemicTherapyPartial"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Systemictherapies"
+          },
+          "surgeries": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/SurgeryPartial"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Surgeries"
+          },
+          "radiotherapies": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/RadiotherapyPartial"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Radiotherapies"
+          },
+          "adverseEvents": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/AdverseEventPartial"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Adverseevents"
+          },
+          "treatmentResponses": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/TreatmentResponsePartial"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Treatmentresponses"
+          },
+          "performanceStatus": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/PerformanceStatusPartial"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Performancestatus"
+          },
+          "comorbidities": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/ComorbiditiesAssessmentPartial"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Comorbidities"
+          },
+          "genomicVariants": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/GenomicVariantPartial"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Genomicvariants"
+          },
+          "genomicSignatures": {
+            "anyOf": [
+              {
+                "items": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/TumorMutationalBurdenPartial"
+                    },
+                    {
+                      "$ref": "#/components/schemas/MicrosatelliteInstabilityPartial"
+                    },
+                    {
+                      "$ref": "#/components/schemas/LossOfHeterozygosityPartial"
+                    },
+                    {
+                      "$ref": "#/components/schemas/HomologousRecombinationDeficiencyPartial"
+                    },
+                    {
+                      "$ref": "#/components/schemas/TumorNeoantigenBurdenPartial"
+                    },
+                    {
+                      "$ref": "#/components/schemas/AneuploidScorePartial"
+                    }
+                  ]
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Genomicsignatures"
+          },
+          "vitals": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/VitalsPartial"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Vitals"
+          },
+          "lifestyles": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/LifestylePartial"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lifestyles"
+          },
+          "familyHistory": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/FamilyHistoryPartial"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Familyhistory"
+          },
+          "unspecifiedTumorBoards": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/UnspecifiedTumorBoardPartial"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Unspecifiedtumorboards"
+          },
+          "molecularTumorBoards": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/UnspecifiedTumorBoardPartial"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Moleculartumorboards"
+          }
+        },
+        "required": [
+          "pseudoidentifier"
+        ],
+        "title": "PatientCaseDataset",
         "type": "object"
       },
       "PerformanceStatusPartial": {
@@ -86143,841 +86127,6 @@
         "title": "Paginated[PatientCaseDataset]",
         "type": "object"
       },
-      "PatientCaseDataset": {
-        "properties": {
-          "anonymized": {
-            "default": false,
-            "description": "Whether the data has been anonymized",
-            "title": "Is anonymized",
-            "type": "boolean"
-          },
-          "age": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "$ref": "#/components/schemas/AgeBin"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Age"
-          },
-          "dateOfBirth": {
-            "anyOf": [
-              {
-                "format": "date",
-                "type": "string"
-              },
-              {
-                "const": "*************",
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Dateofbirth"
-          },
-          "overallSurvival": {
-            "anyOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Overallsurvival"
-          },
-          "ageAtDiagnosis": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "$ref": "#/components/schemas/AgeBin"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Ageatdiagnosis"
-          },
-          "dataCompletionRate": {
-            "anyOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Datacompletionrate"
-          },
-          "contributors": {
-            "anyOf": [
-              {
-                "items": {
-                  "type": "string"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Contributors"
-          },
-          "id": {
-            "anyOf": [
-              {
-                "format": "uuid",
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Id"
-          },
-          "externalSource": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Externalsource"
-          },
-          "externalSourceId": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Externalsourceid"
-          },
-          "pseudoidentifier": {
-            "title": "Pseudoidentifier",
-            "type": "string"
-          },
-          "clinicalCenter": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Clinicalcenter"
-          },
-          "clinicalIdentifier": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Clinicalidentifier"
-          },
-          "consentStatus": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/PatientCaseConsentStatusChoices"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
-          "gender": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "items": {
-                  "anyOf": [
-                    {
-                      "type": "string"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Gender"
-          },
-          "race": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "items": {
-                  "anyOf": [
-                    {
-                      "type": "string"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Race"
-          },
-          "sexAtBirth": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "items": {
-                  "anyOf": [
-                    {
-                      "type": "string"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Sexatbirth"
-          },
-          "genderIdentity": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "items": {
-                  "anyOf": [
-                    {
-                      "type": "string"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Genderidentity"
-          },
-          "isDeceased": {
-            "anyOf": [
-              {
-                "type": "boolean"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Isdeceased"
-          },
-          "dateOfDeath": {
-            "anyOf": [
-              {
-                "format": "date",
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Dateofdeath"
-          },
-          "causeOfDeath": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "items": {
-                  "anyOf": [
-                    {
-                      "type": "string"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Causeofdeath"
-          },
-          "description": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Description"
-          },
-          "createdAt": {
-            "anyOf": [
-              {
-                "format": "date-time",
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Createdat"
-          },
-          "updatedAt": {
-            "anyOf": [
-              {
-                "format": "date-time",
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Updatedat"
-          },
-          "createdBy": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Createdby"
-          },
-          "updatedBy": {
-            "anyOf": [
-              {
-                "items": {
-                  "type": "string"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Updatedby"
-          },
-          "neoplasticEntities": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/NeoplasticEntityPartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Neoplasticentities"
-          },
-          "tnmStagings": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/TNMStagingPartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Tnmstagings"
-          },
-          "figoStagings": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/TNMStagingPartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Figostagings"
-          },
-          "binetStagings": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/BinetStagingPartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Binetstagings"
-          },
-          "raiStagings": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/RaiStagingPartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Raistagings"
-          },
-          "breslowStagings": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/BreslowDepthPartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Breslowstagings"
-          },
-          "clarkStagings": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/ClarkStagingPartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Clarkstagings"
-          },
-          "issStagings": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/ISSStagingPartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Issstagings"
-          },
-          "rissStagings": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/RISSStagingPartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Rissstagings"
-          },
-          "inssStagings": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/INSSStagePartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Inssstagings"
-          },
-          "inrgssStagings": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/INRGSSStagePartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Inrgssstagings"
-          },
-          "gleasonStagings": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/GleasonGradePartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Gleasonstagings"
-          },
-          "rhabdomyosarcomaGroups": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/RhabdomyosarcomaClinicalGroupPartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Rhabdomyosarcomagroups"
-          },
-          "wilmsStagings": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/WilmsStagePartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Wilmsstagings"
-          },
-          "lymphomaStagings": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/LymphomaStagingPartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Lymphomastagings"
-          },
-          "tumorMarkers": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/TumorMarkerPartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Tumormarkers"
-          },
-          "riskAssessments": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/RiskAssessmentPartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Riskassessments"
-          },
-          "therapyLines": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/TherapyLinePartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Therapylines"
-          },
-          "systemicTherapies": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/SystemicTherapyPartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Systemictherapies"
-          },
-          "surgeries": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/SurgeryPartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Surgeries"
-          },
-          "radiotherapies": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/RadiotherapyPartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Radiotherapies"
-          },
-          "adverseEvents": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/AdverseEventPartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Adverseevents"
-          },
-          "treatmentResponses": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/TreatmentResponsePartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Treatmentresponses"
-          },
-          "performanceStatus": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/PerformanceStatusPartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Performancestatus"
-          },
-          "comorbidities": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/ComorbiditiesAssessmentPartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Comorbidities"
-          },
-          "genomicVariants": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/GenomicVariantPartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Genomicvariants"
-          },
-          "genomicSignatures": {
-            "anyOf": [
-              {
-                "items": {
-                  "anyOf": [
-                    {
-                      "$ref": "#/components/schemas/TumorMutationalBurdenPartial"
-                    },
-                    {
-                      "$ref": "#/components/schemas/MicrosatelliteInstabilityPartial"
-                    },
-                    {
-                      "$ref": "#/components/schemas/LossOfHeterozygosityPartial"
-                    },
-                    {
-                      "$ref": "#/components/schemas/HomologousRecombinationDeficiencyPartial"
-                    },
-                    {
-                      "$ref": "#/components/schemas/TumorNeoantigenBurdenPartial"
-                    },
-                    {
-                      "$ref": "#/components/schemas/AneuploidScorePartial"
-                    }
-                  ]
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Genomicsignatures"
-          },
-          "vitals": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/VitalsPartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Vitals"
-          },
-          "lifestyles": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/LifestylePartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Lifestyles"
-          },
-          "familyHistory": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/FamilyHistoryPartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Familyhistory"
-          },
-          "unspecifiedTumorBoards": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/UnspecifiedTumorBoardPartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Unspecifiedtumorboards"
-          },
-          "molecularTumorBoards": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/UnspecifiedTumorBoardPartial"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Moleculartumorboards"
-          }
-        },
-        "required": [
-          "pseudoidentifier"
-        ],
-        "title": "PatientCaseDataset",
-        "type": "object"
-      },
       "DataResource": {
         "enum": [
           "PatientCase",
@@ -87150,20 +86299,6 @@
               }
             ]
           },
-          "ages": {
-            "items": {
-              "$ref": "#/components/schemas/CohortTraitCounts"
-            },
-            "title": "Ages",
-            "type": "array"
-          },
-          "agesAtDiagnosis": {
-            "items": {
-              "$ref": "#/components/schemas/CohortTraitCounts"
-            },
-            "title": "Agesatdiagnosis",
-            "type": "array"
-          },
           "genders": {
             "items": {
               "$ref": "#/components/schemas/CohortTraitCounts"
@@ -87185,11 +86320,11 @@
             "title": "Therapylines",
             "type": "array"
           },
-          "vitalStatus": {
+          "consentStatus": {
             "items": {
               "$ref": "#/components/schemas/CohortTraitCounts"
             },
-            "title": "Vitalstatus",
+            "title": "Consentstatus",
             "type": "array"
           }
         },
@@ -87197,19 +86332,85 @@
           "age",
           "dataCompletion",
           "overallSurvival",
-          "ages",
-          "agesAtDiagnosis",
           "genders",
           "neoplasticSites",
           "therapyLines",
-          "vitalStatus"
+          "consentStatus"
         ],
         "title": "CohortTraits",
         "type": "object"
       },
-      "KapplerMeierCurve": {
-        "description": "Schema for Kaplan-Meier survival curve results.",
+      "AnalysisMetadata": {
         "properties": {
+          "cohortId": {
+            "description": "The ID of the cohort for which the analysis was performed.",
+            "title": "Cohort ID",
+            "type": "string"
+          },
+          "analyzedAt": {
+            "description": "The datetime at which the analysis was performed.",
+            "format": "date-time",
+            "title": "Analyzed At",
+            "type": "string"
+          },
+          "cohortPopulation": {
+            "description": "The effective number of valid patient cases in the cohort used for the analysis.",
+            "title": "Population",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "cohortId",
+          "analyzedAt",
+          "cohortPopulation"
+        ],
+        "title": "AnalysisMetadata",
+        "type": "object"
+      },
+      "Distribution": {
+        "properties": {
+          "metadata": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AnalysisMetadata"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Metadata for the Kaplan-Meier curve.",
+            "title": "Metadata"
+          },
+          "items": {
+            "description": "The entries in the distribution.",
+            "items": {
+              "$ref": "#/components/schemas/CohortTraitCounts"
+            },
+            "title": "Items",
+            "type": "array"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "title": "Distribution",
+        "type": "object"
+      },
+      "KaplanMeierCurve": {
+        "description": "Kaplan-Meier survival curve",
+        "properties": {
+          "metadata": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AnalysisMetadata"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Metadata for the Kaplan-Meier curve.",
+            "title": "Metadata"
+          },
           "months": {
             "description": "List of time points (in months) for survival probability estimates.",
             "items": {
@@ -87249,7 +86450,120 @@
           "lowerConfidenceBand",
           "upperConfidenceBand"
         ],
-        "title": "KapplerMeierCurve",
+        "title": "KaplanMeierCurve",
+        "type": "object"
+      },
+      "OncoplotDataset": {
+        "properties": {
+          "metadata": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AnalysisMetadata"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Metadata for the Kaplan-Meier curve.",
+            "title": "Metadata"
+          },
+          "genes": {
+            "description": "List of most frequently encountered genes",
+            "items": {
+              "type": "string"
+            },
+            "title": "Genes",
+            "type": "array"
+          },
+          "cases": {
+            "description": "List of patient cases",
+            "items": {
+              "type": "string"
+            },
+            "title": "Cases",
+            "type": "array"
+          },
+          "variants": {
+            "description": "Variants included in the Oncoplot",
+            "items": {
+              "$ref": "#/components/schemas/OncoplotVariant"
+            },
+            "title": "Variants",
+            "type": "array"
+          }
+        },
+        "required": [
+          "genes",
+          "cases",
+          "variants"
+        ],
+        "title": "OncoplotDataset",
+        "type": "object"
+      },
+      "OncoplotVariant": {
+        "properties": {
+          "gene": {
+            "title": "Gene",
+            "type": "string"
+          },
+          "caseId": {
+            "title": "Caseid",
+            "type": "string"
+          },
+          "hgvsExpression": {
+            "title": "Hgvsexpression",
+            "type": "string"
+          },
+          "isPathogenic": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ispathogenic"
+          }
+        },
+        "required": [
+          "gene",
+          "caseId",
+          "hgvsExpression",
+          "isPathogenic"
+        ],
+        "title": "OncoplotVariant",
+        "type": "object"
+      },
+      "CategorizedSurvivals": {
+        "properties": {
+          "metadata": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AnalysisMetadata"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Metadata for the Kaplan-Meier curve.",
+            "title": "Metadata"
+          },
+          "survivals": {
+            "additionalProperties": {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            "title": "Survivals",
+            "type": "object"
+          }
+        },
+        "required": [
+          "survivals"
+        ],
+        "title": "CategorizedSurvivals",
         "type": "object"
       },
       "DataPlatformStatisticsSchema": {

@@ -43,10 +43,11 @@
                         <ng-template #content let-activateCallback="activateCallback">
                             <div class="flex flex-column" formGroupName="general">
 
-                                <div class="field">
+                                <div class="field flex flex-column">
                                     <label class="form-label required">Gender</label>
                                     <pop-concept-selector 
                                         terminology="AdministrativeGender"
+                                        widget="selectbutton"
                                         formControlName="gender"/>
                                 </div>
                         
@@ -98,23 +99,35 @@
                     <p-step>Consent</p-step>
                     <p-step-panel>
                         <ng-template #content let-activateCallback="activateCallback">
-                            <div class="flex">
-                                <div [inlineSVG]="consentIllustration" class="pop-svg-illustration mr-3 h-15rem"></div>
-                                <div class="flex flex-column my-auto">
-                                    <p>Have you checked for consent/permission?</p>
-                                    <small class="text-muted">
-                                    A patient's case may only be included in the Precision Oncology Platform if the patient has provided explicit informed consent 
-                                    (e.g., through a signed general consent) or if the managing researcher has obtained authorization from the appropriate regulatory 
-                                    or ethics governance bodies to access and utilize the data in accordance with applicable legal and ethical standards.</small>
+                            <div formGroupName="consent">
+                                <div class="flex">
+                                    <div [inlineSVG]="consentIllustration" class="pop-svg-illustration mr-3 h-15rem"></div>
+                                    <div class="flex flex-column my-auto">
+                                        <p>Have you checked for consent/permission?</p>
+                                        <small class="text-muted">
+                                        A patient's case may only be included in the Precision Oncology Platform if the patient has provided explicit informed consent 
+                                        (e.g., through a signed general consent) or if the managing researcher has obtained authorization from the appropriate regulatory 
+                                        or ethics governance bodies to access and utilize the data in accordance with applicable legal and ethical standards.</small>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="field flex mt-3"  formGroupName="consent">
-                                <p-toggleswitch formControlName="consentValid" />
-                                <label class="form-label ml-2 my-auto required">I hereby confirm that I have the legal and ethical authorization to access and utilize this patient’s clinical data for research purposes in compliance with all applicable laws, regulations, and institutional policies.</label>
-                            </div>
-                            <div class="flex py-3 gap-3">
-                                <p-button label="Back" severity="secondary" icon="pi pi-arrow-left" (onClick)="activateCallback(2)" />
-                                <p-button label="Next" (onClick)="activateCallback(4)" [disabled]="!form.value.consent!.consentValid" class="flex-grow-1"/>
+
+
+                                <div class="field flex flex-column">
+                                    <label class="form-label required">Consent Status</label>
+                                    <p-selectbutton [options]="consentStatusOptions" formControlName="consentStatus" optionLabel="label" optionValue="value" />
+                                </div>
+
+                                <div class="field flex mt-4" >
+                                    <p-toggleswitch formControlName="consentCheck" />
+                                    <label class="form-label ml-2 my-auto required">
+                                        I hereby confirm that I have the legal and ethical authorization to access and utilize this patient’s clinical data 
+                                        for research purposes in compliance with all applicable laws, regulations, and institutional policies.</label>
+                                </div>
+
+                                <div class="flex py-3 gap-3">
+                                    <p-button label="Back" severity="secondary" icon="pi pi-arrow-left" (onClick)="activateCallback(2)" />
+                                    <p-button label="Next" (onClick)="activateCallback(4)" [disabled]="!form.value.consent!.consentCheck" class="flex-grow-1"/>
+                                </div>
                             </div>
                         </ng-template>
                     </p-step-panel>
@@ -137,11 +150,11 @@
                                         <div><b>Date of death</b>: {{form.value.general!.dateOfDeath | date:'MMM, y'}}</div>
                                         <div><b>Cause of death</b>: {{form.value.general!.causeOfDeath?.display ?? 'N/S'}}</div>
                                     }
-                                    <div><b>Valid consent</b>: {{form.value.consent!.consentValid ? 'Yes' : 'No'}}</div>
+                                    <div><b>Consent</b>: {{form.value.consent!.consentStatus}}</div>
                                 </div>
                             </div>
                             <div class="flex py-3 gap-3">
-                                <p-button label="Back" severity="secondary" icon="pi pi-arrow-left" (onClick)="activateCallback(2)" />
+                                <p-button label="Back" severity="secondary" icon="pi pi-arrow-left" (onClick)="activateCallback(3)" />
                                 <p-button 
                                     type="submit" 
                                     icon="pi pi-verified"

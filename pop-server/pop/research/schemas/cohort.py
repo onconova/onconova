@@ -1,21 +1,20 @@
-from typing import Optional, Tuple, Any, List, Union, Iterator
-from pydantic import AliasChoices
 from enum import Enum
+from typing import Any, Iterator, List, Optional, Tuple, Union
 
-from django.db.models import Q, Exists, OuterRef
-from ninja import Schema, Field
-
-from pop.research.models import cohort as orm
-from pop.oncology import models as oncology_models
-from pop.interoperability.schemas import ExportMetadata
+from django.db.models import Exists, OuterRef, Q
+from ninja import Field, Schema
 from pop.core.serialization import filters as filters_module
-from pop.core.utils import camel_to_snake
 from pop.core.serialization.factory import create_filters_schema
 from pop.core.serialization.metaclasses import (
-    ModelGetSchema,
     ModelCreateSchema,
+    ModelGetSchema,
     SchemaConfig,
 )
+from pop.core.utils import camel_to_snake
+from pop.interoperability.schemas import ExportMetadata
+from pop.oncology import models as oncology_models
+from pop.research.models import cohort as orm
+from pydantic import AliasChoices
 
 
 class RulesetCondition(str, Enum):
@@ -235,12 +234,10 @@ class CohortTraits(Schema):
     age: CohortTraitMedian
     dataCompletion: CohortTraitMedian
     overallSurvival: Optional[CohortTraitMedian]
-    ages: List[CohortTraitCounts]
-    agesAtDiagnosis: List[CohortTraitCounts]
     genders: List[CohortTraitCounts]
     neoplasticSites: List[CohortTraitCounts]
     therapyLines: List[CohortTraitCounts]
-    vitalStatus: List[CohortTraitCounts]
+    consentStatus: List[CohortTraitCounts]
 
 
 class CohortContribution(Schema):
@@ -255,28 +252,6 @@ class CohortContribution(Schema):
     contributions: int = Field(
         title="Contributions",
         description="The number of records or actions contributed by this user.",
-    )
-
-
-class KapplerMeierCurve(Schema):
-    """
-    Schema for Kaplan-Meier survival curve results.
-    """
-
-    months: List[float] = Field(
-        title="Months",
-        description="List of time points (in months) for survival probability estimates.",
-    )
-    probabilities: List[float] = Field(
-        title="Probabilities", description="Survival probabilities at each time point."
-    )
-    lowerConfidenceBand: List[float] = Field(
-        title="Lower Confidence Band",
-        description="Lower bound of the survival probability confidence interval at each time point.",
-    )
-    upperConfidenceBand: List[float] = Field(
-        title="Upper Confidence Band",
-        description="Upper bound of the survival probability confidence interval at each time point.",
     )
 
 

@@ -1,37 +1,32 @@
-import pytest
-from datetime import date
 from collections import Counter
+from datetime import date
+from unittest.mock import MagicMock
 
-from django.test import TestCase
+import pytest
 from django.db.models import F
-
+from django.test import TestCase
+from pop.research.schemas.analysis import *
 from pop.terminology.models import AntineoplasticAgent
 from pop.tests import factories
-from pop.research.analysis import (
-    calculate_pfs_by_combination_therapy,
-    calculate_Kappler_Maier_survival_curve,
-    get_progression_free_survival_for_therapy_line,
-    calculate_pfs_by_therapy_classification,
-    count_treatment_responses_by_therapy_line,
-)
-from unittest.mock import MagicMock, patch
 
 
 class TestKapplerMeierCurves(TestCase):
 
     def _assert_correct_KM_Curve(self):
-        survival_axis, survival_prob, ci95 = calculate_Kappler_Maier_survival_curve(
-            self.survival_months
-        )
-        self.assertEqual(survival_axis, self.expected_survival_axis)
+        curve = KaplanMeierCurve.calculate(self.survival_months)
+        self.assertEqual(curve.months, self.expected_survival_axis)
 
-        for value, expected in zip(survival_prob, self.expected_survival_prob):
+        for value, expected in zip(curve.probabilities, self.expected_survival_prob):
             self.assertAlmostEqual(value, expected, places=5)
 
         if self.expected_ci:
-            for lower_ci, expected in zip(ci95["lower"], self.expected_ci["lower"]):
+            for lower_ci, expected in zip(
+                curve.lowerConfidenceBand, self.expected_ci["lower"]
+            ):
                 self.assertAlmostEqual(lower_ci, expected, places=2)
-            for upper_ci, expected in zip(ci95["upper"], self.expected_ci["upper"]):
+            for upper_ci, expected in zip(
+                curve.upperConfidenceBand, self.expected_ci["upper"]
+            ):
                 self.assertAlmostEqual(upper_ci, expected, places=2)
 
     def test_empty_dataset_raises_error(self):
@@ -98,7 +93,7 @@ class TestGetProgressionFreeSurvivalForTherapyLine(TestCase):
     @staticmethod
     def _simulate_case():
         user = factories.UserFactory.create()
-        case = factories.PatientCaseFactory.create()
+        case = factories.PatientCaseFactory.create(consent_status="valid")
         therapy_line_1 = factories.TherapyLineFactory.create(
             case=case, intent="curative", ordinal=1
         )
@@ -143,7 +138,7 @@ class TestGetProgressionFreeSurvivalForTherapyLine(TestCase):
         ]
 
     def test_get_pfs_incuding_CLoT1_lines(self):
-        result = get_progression_free_survival_for_therapy_line(
+        result = CategorizedSurvivals._get_progression_free_survival_for_therapy_line(
             self.cohort,
             intent="curative",
             ordinal=1,
@@ -151,14 +146,16 @@ class TestGetProgressionFreeSurvivalForTherapyLine(TestCase):
         self.assertEqual(sorted(self.exected), sorted(result))
 
     def test_get_pfs_excluding_PLoT1_lines(self):
-        result = get_progression_free_survival_for_therapy_line(
+        result = CategorizedSurvivals._get_progression_free_survival_for_therapy_line(
             self.cohort,
             exclude_filters=dict(intent="palliative", ordinal=1),
         )
         self.assertEqual(sorted(self.exected), sorted(result))
 
-    def test_get_pfs_by_therapy(self):
-        result = calculate_pfs_by_combination_therapy(self.cohort, "CLoT1")
+    def test_get_pfs_by_combined_drugs(self):
+        result = CategorizedSurvivals._calculate_by_combination_therapy(
+            self.cohort, "CLoT1"
+        )
         self.assertEqual(len(result), 2)
         self.assertEqual(sorted(self.exected), sorted(list(result.values())[0]))
         self.assertEqual([], result["Others"])
@@ -169,7 +166,7 @@ class TestCalculatePFSByTherapyClassification(TestCase):
     @staticmethod
     def _simulate_case():
         user = factories.UserFactory.create()
-        case = factories.PatientCaseFactory.create()
+        case = factories.PatientCaseFactory.create(consent_status="valid")
         therapy_line_1 = factories.TherapyLineFactory.create(
             case=case, intent="curative", ordinal=1
         )
@@ -227,12 +224,16 @@ class TestCalculatePFSByTherapyClassification(TestCase):
         ]
 
     def test_get_pfs_incuding_CLoT1_lines(self):
-        result = calculate_pfs_by_therapy_classification(self.cohort, "CLoT1")
+        result = CategorizedSurvivals._calculate_by_therapy_classification(
+            self.cohort, "CLoT1"
+        )
         self.assertEqual(sorted(self.expected), sorted(result["Chemoimmunotherapy"]))
 
     def test_with_no_cases(self):
         self.cohort.cases.clear()
-        result = calculate_pfs_by_therapy_classification(self.cohort, "CLoT1")
+        result = CategorizedSurvivals._calculate_by_therapy_classification(
+            self.cohort, "CLoT1"
+        )
         self.assertEqual([], result["Others"])
 
 
@@ -240,7 +241,7 @@ class TestCountTreatmentResponseByTherapyLine(TestCase):
 
     @staticmethod
     def _simulate_case():
-        case = factories.PatientCaseFactory.create()
+        case = factories.PatientCaseFactory.create(consent_status="valid")
         therapy_line_1 = factories.TherapyLineFactory.create(
             case=case, intent="curative", ordinal=1
         )
@@ -274,8 +275,8 @@ class TestCountTreatmentResponseByTherapyLine(TestCase):
         cls.case3 = cls._simulate_case()
         cls.cohort.cases.set([cls.case1, cls.case2, cls.case3])
 
-    def test_count_treatment_responses_incuding_CLoT1_lines(self):
-        result = count_treatment_responses_by_therapy_line(self.cohort, "CLoT1")
+    def test_count_treatment_responses_including_CLoT1_lines(self):
+        result = TherapyLineResponseDistribution.calculate(self.cohort, "CLoT1").items
         expected_recists = set(
             [
                 recist
@@ -286,20 +287,20 @@ class TestCountTreatmentResponseByTherapyLine(TestCase):
             ]
         )
         for recist in expected_recists:
-            self.assertIn(recist, result.keys())
+            self.assertIn(recist, [entry.category for entry in result])
 
-        for recist, (count, percentage) in result.items():
+        for entry in result:
             expected_counts = sum(
                 [
                     case.treatment_responses.filter(
-                        recist__display=recist, date=date(2000, 6, 6)
+                        recist__display=entry.category, date=date(2000, 6, 6)
                     ).count()
                     for case in [self.case1, self.case2, self.case3]
                 ]
             )
-            self.assertEqual(expected_counts, count)
+            self.assertEqual(expected_counts, entry.counts)
 
     def test_with_no_cases(self):
         self.cohort.cases.clear()
-        result = count_treatment_responses_by_therapy_line(self.cohort, "CLoT1")
-        self.assertEqual([], list(result.keys()))
+        result = TherapyLineResponseDistribution.calculate(self.cohort, "CLoT1").items
+        self.assertEqual([], result)

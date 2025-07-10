@@ -15,7 +15,7 @@ import { Divider } from 'primeng/divider';
 import { Users, CalendarClock, ClipboardCheck, Activity, VenusAndMars, Locate } from 'lucide-angular';
 import { LucideAngularModule } from 'lucide-angular';
 
-import { CohortsService, Cohort, CohortCreate, ProjectsService, AccessRoles, CohortTraitCounts } from 'pop-api-client';
+import { CohortsService, Cohort, CohortCreate, ProjectsService, AccessRoles, CohortTraitCounts, PatientCaseConsentStatusChoices } from 'pop-api-client';
 
 import { CohortQueryBuilderComponent } from './components/cohort-query-builder/cohort-query-builder.component';
 import { catchError, map, of, throwError } from 'rxjs';
@@ -185,6 +185,17 @@ export class CohortBuilderComponent {
         request: () => this.cohortNonEmpty() ? {cohortId: this.currentCohortId()} : undefined,
         loader: ({request}: any) =>  this.#cohortsService.getCohortTraitsStatistics(request)
     }) 
+    protected totalInvalidCases = computed(() => {
+        const consentStatusCounts = this.cohortTraits.value()?.consentStatus;
+        if (consentStatusCounts) {
+            return consentStatusCounts.filter(item => [
+                PatientCaseConsentStatusChoices.Revoked as string,
+                PatientCaseConsentStatusChoices.Unknown as string,
+            ].includes(item.category)).reduce((total: number, item: CohortTraitCounts) => total + item.counts, 0)
+        } else {
+            return 0
+        }
+    })
 
     
     revertCohortDefinition(old: Cohort, timestamp: string) {

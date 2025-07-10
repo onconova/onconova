@@ -4,6 +4,7 @@ import { MatrixController, MatrixElement } from 'chartjs-chart-matrix';
 import { ChartModule } from 'primeng/chart';
 import { CohortGraphsContextMenu } from '../graph-context-menu/graph-context-menu.component';
 import { LayoutService } from 'src/app/core/layout/app.layout.service';
+import { OncoplotDataset } from 'pop-api-client';
 
 // Register Chart.js modules and BoxPlot plugin
 Chart.register(MatrixController, MatrixElement);
@@ -36,7 +37,7 @@ export class OncoplotComponent {
 
     readonly #layoutService = inject(LayoutService);
 
-    public data = input.required<any>()
+    public data = input.required<OncoplotDataset>()
 
     public chartRef = viewChild<ElementRef<HTMLCanvasElement>>('oncoplotCanvas');
     public sideChartRef = viewChild<ElementRef<HTMLCanvasElement>>('oncoplotSideCanvas');
@@ -82,7 +83,7 @@ export class OncoplotComponent {
                 datasets: [
                     {
                         data: this.data()['variants'].map( (entry: any) => ({
-                            x: entry.pseudoidentifier, y: entry.gene, variant: entry.variant, isPathogenic: entry.is_pathogenic ? 1 : 0,
+                            x: entry.caseId, y: entry.gene, hgvsExpression: entry.hgvsExpression, isPathogenic: entry.isPathogenic ? 1 : 0,
                         })),
                         backgroundColor(context: any) {
                           if (context.dataset.data[context.dataIndex].isPathogenic){
@@ -123,7 +124,7 @@ export class OncoplotComponent {
                         },
                         label(context) {
                           const data: any = context.dataset.data[context.dataIndex];
-                          const variants = genomicsData['variants'].filter((entry: any) => entry.gene == data.y && entry.pseudoidentifier == data.x).map((entry: any) => entry.variant + (entry.is_pathogenic ? ' (Pathogenic)' : ' (VUS)'))
+                          const variants = genomicsData['variants'].filter((entry: any) => entry.gene == data.y && entry.caseId == data.x && entry.hgvsExpression == data.hgvsExpression).map((entry: any) => entry.hgvsExpression + (entry.isPathogenic ? ' (Pathogenic)' : ' (VUS)'))
                           return [...variants, 'Gene: ' + data.y, 'Case: ' + data.x];
                         }
                       }
@@ -200,13 +201,13 @@ export class OncoplotComponent {
                 datasets: [
                     {
                         label: 'Pathogenic',
-                        data: this.data()['genes'].map((gene:string) => this.data()['variants'].filter((entry:any) => entry.is_pathogenic).reduce((total: number, entry: any) => (gene==entry.gene ? total+1 : total), 0)),
+                        data: this.data()['genes'].map((gene:string) => this.data()['variants'].filter((entry:any) => entry.isPathogenic).reduce((total: number, entry: any) => (gene==entry.gene ? total+1 : total), 0)),
                         backgroundColor: documentStyle.getPropertyValue('--p-primary-500-semitransparent'),
                         barPercentage: 1,
                     },
                     {
                         label: 'VUS',
-                        data: this.data()['genes'].map((gene:string) => this.data()['variants'].filter((entry:any) => !entry.is_pathogenic).reduce((total: number, entry: any) => (gene==entry.gene ? total+1 : total), 0)),
+                        data: this.data()['genes'].map((gene:string) => this.data()['variants'].filter((entry:any) => !entry.isPathogenic).reduce((total: number, entry: any) => (gene==entry.gene ? total+1 : total), 0)),
                         backgroundColor: documentStyle.getPropertyValue('--p-primary-500-transparent'),
                         barPercentage: 1,
                     },
@@ -274,13 +275,13 @@ export class OncoplotComponent {
                 datasets: [
                     {
                         label: 'Pathogenic',
-                        data: this.data()['cases'].map((pseudoidentifier:string) => this.data()['variants'].filter((entry:any) => entry.is_pathogenic).reduce((total: number, entry: any) => (pseudoidentifier==entry.pseudoidentifier ? total+1 : total), 0)),
+                        data: this.data()['cases'].map((caseId:string) => this.data()['variants'].filter((entry:any) => entry.isPathogenic).reduce((total: number, entry: any) => (caseId==entry.caseId ? total+1 : total), 0)),
                         backgroundColor: documentStyle.getPropertyValue('--p-primary-500-semitransparent'),
                         barPercentage: 1,
                     },
                     {
                         label: 'VUS',
-                        data: this.data()['cases'].map((pseudoidentifier:string) => this.data()['variants'].filter((entry:any) => !entry.is_pathogenic).reduce((total: number, entry: any) => (pseudoidentifier==entry.pseudoidentifier ? total+1 : total), 0)),
+                        data: this.data()['cases'].map((caseId:string) => this.data()['variants'].filter((entry:any) => !entry.isPathogenic).reduce((total: number, entry: any) => (caseId==entry.caseId ? total+1 : total), 0)),
                         backgroundColor: documentStyle.getPropertyValue('--p-primary-500-transparent'),
                         barPercentage: 1,
                     },

@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, effect, ElementRef, inject, input, Input, viewChild, ViewChild } from '@angular/core';
 import { ChartModule } from 'primeng/chart';
 
-import { KapplerMeierCurve } from 'pop-api-client';
+import { KaplanMeierCurve } from 'pop-api-client';
 import { CohortGraphsContextMenu } from '../graph-context-menu/graph-context-menu.component';
 import { Chart } from 'chart.js';
 import { LayoutService } from 'src/app/core/layout/app.layout.service';
@@ -24,7 +24,7 @@ export class KapplerMeierCurveComponent {
 
     readonly #layoutService = inject(LayoutService);
 
-    public data = input.required<KapplerMeierCurve>()
+    public data = input.required<KaplanMeierCurve>()
     public height = input<string>('30rem')
     public width = input<string>('100%')
     public legendPosition = input<"left" | "right" | "bottom" | "top" | "center" | "chartArea">('top')

@@ -86,7 +86,7 @@ class TestCohortTraitsController(common.ApiControllerTestMixin, TestCase):
         super().setUpTestData()
         cls.trait = "age"
         cls.cohort = factories.CohortFactory.create()
-        cls.cohort.cases.set([factories.PatientCaseFactory.create() for _ in range(10)])
+        cls.cohort.cases.set([factories.PatientCaseFactory.create(consent_status='valid') for _ in range(10)])
 
     @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
     def test_get_cohort_traits_statistics(self, scenario, config):
@@ -97,7 +97,7 @@ class TestCohortTraitsController(common.ApiControllerTestMixin, TestCase):
             self.assertEqual(response.status_code, 200)
 
             # Assert median age in response
-            values = [getattr(case, "age") for case in self.cohort.cases.all()]
+            values = [getattr(case, "age") for case in self.cohort.valid_cases.all()]
             expected = schemas.cohort.CohortTraitMedian(
                 median=percentile(values, 50),
                 interQuartalRange=(percentile(values, 25), percentile(values, 75)),
@@ -108,7 +108,7 @@ class TestCohortTraitsController(common.ApiControllerTestMixin, TestCase):
             self.assertDictEqual(result, expected)
 
             # Assert gender counts in response
-            counter = Counter([case.gender.display for case in self.cohort.cases.all()])
+            counter = Counter([case.gender.display for case in self.cohort.valid_cases.all()])
             expected = [
                 schemas.cohort.CohortTraitCounts(
                     category=category,

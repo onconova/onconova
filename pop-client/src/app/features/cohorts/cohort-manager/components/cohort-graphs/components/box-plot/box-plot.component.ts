@@ -26,7 +26,7 @@ export class BoxPlotComponent {
 
     readonly #layoutService = inject(LayoutService);
 
-    public data = input.required<any>()
+    public data = input.required<{[key: string]: number[]}>()
     public height = input<string>('20rem')
     public width = input<string>('80%')
     public legendPosition = input<"left" | "right" | "bottom" | "top" | "center" | "chartArea">('top')
