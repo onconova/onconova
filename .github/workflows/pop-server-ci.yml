@@ -39,4 +39,4 @@ jobs:
         run: docker compose build pop-server
 
       - name: Run tests with pytest
-        run: docker compose run --rm pop-server pytest -W ignore --create-db
+        run: docker compose run --rm pop-server python -mpytest -W ignore --create-db
