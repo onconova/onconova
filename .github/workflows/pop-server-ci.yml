@@ -2,13 +2,24 @@ name: POP Server CI
 
 on:
   workflow_dispatch:
-  push:
+  pull_request:
     paths:
       - 'pop-server/**'
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
+    env:
+      COMPOSE_PROJECT_NAME: 'pop-ci'
+      POSTGRES_DATABASE: 'pop-ci'
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: 'postgres_secret'
+      POSTGRES_HOST: 'pop-postgres'
+      ANONYMIZATION_SECRET_KEY: 'anonymization_secret_key'
+      DJANGO_ALLOWED_HOSTS: 'localhost'
+      DJANGO_SECRET_KEY: 'django_secret_key'
+      ORGANIZATION_NAME: 'Organization Name' 
 
     steps:
       - name: Checkout repository
