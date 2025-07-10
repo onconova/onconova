@@ -1,0 +1,25 @@
+name: POP Server CI
+
+on:
+  push:
+    paths:
+      - 'pop-server/**'
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Compose
+        uses: docker/setup-compose-action@v1
+
+      - name: Build pop-server service
+        run: |
+          docker compose build pop-server
+
+      - name: Run tests with pytest
+        run: |
+          docker compose run --rm pop-server pytest -W ignore
