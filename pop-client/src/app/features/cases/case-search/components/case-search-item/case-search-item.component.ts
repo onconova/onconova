@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, Output, inject, EventEmitter, input, Resource, computed} from '@angular/core';
+import { Component, Output, inject, EventEmitter, input, Resource, computed, effect, signal} from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 
-import { PatientCase, NeoplasticEntity, AnyStaging, StagingsService, NeoplasticEntitiesService, TherapyLinesService, TherapyLine, PatientCasesService, InteroperabilityService} from 'pop-api-client';
+import { PatientCase, NeoplasticEntity, AnyStaging, StagingsService, NeoplasticEntitiesService, TherapyLinesService, TherapyLine, PatientCasesService, InteroperabilityService, PatientCaseConsentStatusChoices} from 'pop-api-client';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { first, map } from 'rxjs';
@@ -73,6 +73,7 @@ export class CaseSearchItemCardComponent {
     // Properties
     public readonly case = input.required<PatientCase>();
     public readonly layout = input<'card' | 'row'>('card');
+
     public readonly currentUser = computed(() => this.#authService.user());
     public caseData = rxResource({
         request: () => ({caseId: this.case().id, anonymized: this.currentUser().canManageCases ? false : true}),
@@ -90,10 +91,10 @@ export class CaseSearchItemCardComponent {
         request: () => ({caseId: this.case().id, limit: 1}),
         loader: ({request}) => this.#therapyLinesService.getTherapyLines(request).pipe(map(data => data.items[0])),
     });
-    public readonly actionItems: MenuItem[] = [
+    public readonly actionItems = computed<MenuItem[]>(() => [
         {
             label: 'Export',
-            disabled: !this.currentUser().canExportData,
+            disabled: !this.currentUser().canExportData || !(this.case().consentStatus === PatientCaseConsentStatusChoices.Valid),
             icon: 'pi pi-file-export',
             command: () => this.exportCaseBundle(),
         },
@@ -110,7 +111,7 @@ export class CaseSearchItemCardComponent {
             disabled: !this.currentUser().canManageCases,
             command: (event: any) => this.openUpdateCaseForm(),
         },
-    ];
+    ]);
 
     openCaseManagement() {
         this.#router.navigate(['cases/management',this.case().pseudoidentifier])

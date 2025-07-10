@@ -13,7 +13,7 @@
             <p-button
                 id="case-manager-export-case-button"
                 label="Export case"
-                [disabled]="!currentUser().canExportData"
+                [disabled]="!currentUser().canExportData || !(case$.value()?.consentStatus === 'valid')"
                 [icon]="currentUser().canExportData ? 'pi pi-file-export' : 'pi pi-lock'"
                 [loading]="exportLoading"
                 (click)="downloadCaseBundle(case$.value()?.id || '')"/>

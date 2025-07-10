@@ -185,7 +185,7 @@
         class="my-auto ml-auto"
         [menuButtonDisabled]="!currentUser().canManageCases"
         [dropdownIcon]="currentUser().canManageCases ? 'pi pi-cog' : 'pi pi-lock'" 
-        [model]="actionItems"
+        [model]="actionItems()"
         (onClick)="openCaseManagement()" />
 </ng-template>
 
