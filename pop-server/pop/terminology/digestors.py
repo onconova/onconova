@@ -1,22 +1,23 @@
-from collections import defaultdict
-from django.conf import settings
-import re
-import os
 import csv
-import subprocess
 import json
+import os
+import re
+import subprocess
 import sys
-from pydantic import BaseModel
+from collections import defaultdict
 from datetime import datetime
 from typing import Optional
-from tqdm import tqdm
+
+from django.conf import settings
 from pop.terminology.utils import (
-    get_file_location,
-    get_dictreader_and_size,
-    ensure_within_string_limits,
-    ensure_list,
     CodedConcept,
+    ensure_list,
+    ensure_within_string_limits,
+    get_dictreader_and_size,
+    get_file_location,
 )
+from pydantic import BaseModel
+from tqdm import tqdm
 
 # Expand size limit to load heavy CSV files
 csv.field_size_limit(sys.maxsize)
@@ -47,7 +48,9 @@ class TerminologyDigestor:
             Processes a single row from the concepts file.
     """
 
-    PATH: str = os.path.join(settings.BASE_DIR, os.environ.get("EXTERNAL_DATA_DIR"))
+    PATH: str = os.path.join(
+        settings.BASE_DIR, os.environ.get("EXTERNAL_DATA_DIR", "external_data")
+    )
     FILENAME: str
     CANONICAL_URL: str
     OTHER_URLS: list[str] = []

@@ -21,6 +21,9 @@ COPY ${ROOT_CA_CERTIFICATES} /usr/local/share/ca-certificates/corporate-ca.crt
 # Update the system's CA certificates bundle
 RUN update-ca-certificates
 
+# Install dependencies for headless Chromium browser
+RUN apt-get update && apt-get install -y libxkbcommon-x11-0 libgbm-dev && apt-get clean
+
 # Install Java for running OpenAPI Generator
 RUN apt-get update && apt-get install -y default-jre curl && apt-get clean
 

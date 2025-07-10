@@ -1,15 +1,15 @@
-from ninja import Schema, Field
-from typing import Optional, List
-from pydantic import AliasChoices
+from typing import List, Optional
 
-from pop.oncology import models as orm
+from ninja import Field, Schema
+from pop.core.anonymization import AnonymizationConfig
 from pop.core.schemas import CodedConcept as CodedConceptSchema
 from pop.core.serialization.metaclasses import (
-    ModelGetSchema,
     ModelCreateSchema,
+    ModelGetSchema,
     SchemaConfig,
 )
-from pop.core.anonymization import AnonymizationConfig
+from pop.oncology import models as orm
+from pydantic import AliasChoices
 
 
 class ComorbiditiesAssessmentSchema(ModelGetSchema):

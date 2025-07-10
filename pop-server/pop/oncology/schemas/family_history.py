@@ -1,10 +1,10 @@
-from pop.oncology import models as orm
+from pop.core.anonymization import AnonymizationConfig
 from pop.core.serialization.metaclasses import (
-    ModelGetSchema,
     ModelCreateSchema,
+    ModelGetSchema,
     SchemaConfig,
 )
-from pop.core.anonymization import AnonymizationConfig
+from pop.oncology import models as orm
 
 
 class FamilyHistorySchema(ModelGetSchema):
