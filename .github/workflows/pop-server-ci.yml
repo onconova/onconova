@@ -20,6 +20,9 @@ jobs:
       DJANGO_ALLOWED_HOSTS: 'localhost'
       DJANGO_SECRET_KEY: 'django_secret_key'
       ORGANIZATION_NAME: 'Organization Name' 
+      HOST_SSL_CERTIFICATE_BUNDLE: '/etc/ssl/cert.pem'
+      HOST_SSL_CERTIFICATE_PRIVATE_KEY: '/etc/ssl/cert.key'
+      CLIENT_PLUGINS_PATH: './pop-client/src/plugins'
 
     steps:
       - name: Checkout repository

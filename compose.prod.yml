@@ -25,7 +25,7 @@ services:
             dockerfile: Dockerfile
             target: production
         volumes:
-            - ${CLIENT_PLUGINS_PATH}:/app/src/plugins
+            - ${CLIENT_PLUGINS_PATH:-./pop-client/src/plugins}:/app/src/plugins
 
     pop-docs:
         container_name: "${COMPOSE_PROJECT_NAME}-docs"
