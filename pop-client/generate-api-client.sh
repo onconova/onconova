@@ -120,7 +120,7 @@ run_docker() {
         echo "Docker found. Attempting to run openapitools/openapi-generator-cli via Docker..."
         docker run --rm -v "${PWD}:/local" openapitools/openapi-generator-cli:v${OPENAPI_GENERATOR_VERSION} generate ${GENERATOR_ARGS_DOCKER}
         if [ $? -eq 0 ]; then
-            echo "Successfully generated API client using Docker."
+            echo "Successfully generated API client using Docker. Output directory: ${PWD}/${OUTPUT_DIR}"
             return 0 # Success
         else
             echo "Error: Docker openapitools/openapi-generator-cli failed."

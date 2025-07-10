@@ -82,7 +82,8 @@ export class AuthService {
         error: (response) => {
             if ([400, 410,].includes(response.status)) {
                 const errors = response.error.errors
-                this.#messageService.add({ severity: 'error', summary: 'Login failed', detail: errors[0].message });
+                const errorMessage = (errors && errors.length) ? errors[0].message : `${response.status} HTTP Error` 
+                this.#messageService.add({ severity: 'error', summary: 'Login failed', detail: errorMessage });
             } else {
                 this.#messageService.add({ severity: 'error', summary: 'Network error', detail: response.error.message });
             }

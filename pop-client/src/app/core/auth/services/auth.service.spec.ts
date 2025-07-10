@@ -24,7 +24,6 @@ describe('AuthService', () => {
         allAuthApiServiceSpy = jasmine.createSpyObj('AllAuthApiService', ['login','logoutCurrentSession','authenticateWithProviderToken']);
         allAuthApiServiceSpy.logoutCurrentSession.and.returnValue(of({}));
 
-
         routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl','navigate']);
         routerSpy.navigateByUrl.and.resolveTo(true);
         routerSpy.navigate.and.resolveTo(true);
