@@ -50,8 +50,8 @@ services:
             - 80
             - 443
         ports:
-            - "${WEBAPP_HTTPS_PORT}:443"
-            - "${WEBAPP_HTTP_PORT}:80"
+            - "${WEBAPP_HTTPS_PORT:-443}:443"
+            - "${WEBAPP_HTTP_PORT:-80}:80"
         env_file: .env
         depends_on:
             - pop-postgres
