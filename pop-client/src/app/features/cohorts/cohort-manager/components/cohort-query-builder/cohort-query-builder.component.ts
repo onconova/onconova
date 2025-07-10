@@ -151,8 +151,10 @@ export class CohortQueryBuilderComponent implements ControlValueAccessor {
                     isArray = true;
                 }
                 let propertyType: string;
-                if (property.type === undefined && property.$ref) {
-                    propertyType = property.$ref.split('/').pop();
+                if (property.type === undefined) {
+                  if (property.$ref) propertyType = property.$ref.split('/').pop();
+                  else if (property.allOf) propertyType = property.allOf[0].$ref.split('/').pop();
+                  else propertyType = property.type;
                 } else {
                     propertyType = property.type;
                 }        
@@ -185,15 +187,18 @@ export class CohortQueryBuilderComponent implements ControlValueAccessor {
                     extras['options'] = propertyEnum.map((option: any) => ({ value: option, label: option }));
                     propertyType = 'enum';
                 }
+                console.log( `${entity}.${propertyKey} 0`, property)
+                console.log( `${entity}.${propertyKey} 1`, propertyType)
                 if (propertyType == 'string' && property.format) {
                     propertyType = property.format
                 }
+                console.log( `${entity}.${propertyKey} 2`, propertyType)
                 if (propertyType == 'Measure') {
                     extras['measureType'] = property['x-measure'];
                     extras['defaultUnit'] = property['x-default-unit'];
                 }
                 propertyType = (isArray ? "Multi" : "") + propertyType;
-
+                console.log( `${entity}.${propertyKey} 3`, propertyType)
                 // Create a field object and add it to the array
                 return {
                     name: title,
