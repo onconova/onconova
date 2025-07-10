@@ -12,18 +12,6 @@ jobs:
     env:
       COMPOSE_FILE: 'compose.dev.yml'
       COMPOSE_PROJECT_NAME: 'pop-ci'
-      POSTGRES_DATABASE: 'pop-ci-db'
-      POSTGRES_PORT: 5432
-      POSTGRES_USER: 'postgres'
-      POSTGRES_PASSWORD: 'postgres_secret'
-      POSTGRES_HOST: 'pop-postgres'
-      ANONYMIZATION_SECRET_KEY: 'anonymization_secret_key'
-      DJANGO_ALLOWED_HOSTS: 'localhost'
-      DJANGO_SECRET_KEY: 'django_secret_key'
-      ORGANIZATION_NAME: 'Organization Name' 
-      HOST_SSL_CERTIFICATE_BUNDLE: '/etc/ssl/cert.pem'
-      HOST_SSL_CERTIFICATE_PRIVATE_KEY: '/etc/ssl/cert.key'
-      CLIENT_PLUGINS_PATH: './pop-client/src/plugins'
 
     steps:
       - name: Checkout repository
@@ -34,9 +22,25 @@ jobs:
 
       - name: Create .env file 
         uses: iamsauravsharma/create-dotenv@v3.2.0
+        with:
+          input-prefix: 'ENV_'
+        env:
+          ENV_POSTGRES_DATABASE: 'pop-ci-db'
+          ENV_POSTGRES_PORT: 5435
+          ENV_POSTGRES_USER: 'postgres'
+          ENV_POSTGRES_PASSWORD: 'postgres_secret'
+          ENV_POSTGRES_HOST: 'pop-postgres'
+          ENV_ANONYMIZATION_SECRET_KEY: 'anonymization_secret_key'
+          ENV_DJANGO_ALLOWED_HOSTS: 'localhost'
+          ENV_DJANGO_SECRET_KEY: 'django_secret_key'
+          ENV_ORGANIZATION_NAME: 'Organization Name' 
+          ENV_HOST_SSL_CERTIFICATE_BUNDLE: '/etc/ssl/cert.pem'
+          ENV_HOST_SSL_CERTIFICATE_PRIVATE_KEY: '/etc/ssl/cert.key'
+          ENV_CLIENT_PLUGINS_PATH: './pop-client/src/plugins'
+          
 
       - name: Build pop-server service
         run: docker compose build pop-server
 
       - name: Run tests with pytest
-        run: docker compose run --rm pop-server python -mpytest -W ignore --create-db
+        run: docker compose run --rm pop-server python -m pytest -W ignore --create-db --exitfirst 
