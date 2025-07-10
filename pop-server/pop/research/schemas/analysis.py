@@ -8,6 +8,7 @@ from django.db.models import F, Max, Min, OuterRef, Subquery, Value
 from django.db.models.functions import Coalesce
 from django.db.models.query import QuerySet
 from ninja import Field, Schema
+from pop.core.anonymization import anonymize, anonymize_age
 from pop.oncology.models import (
     GenomicVariant,
     PatientCase,
@@ -380,11 +381,64 @@ class CategorizedSurvivals(Schema, AnalysisMetadataMixin):
         )
 
 
-class TherapyLineResponseCounts(Schema, AnalysisMetadataMixin):
+class Distribution(Schema, AnalysisMetadataMixin):
 
-    counts: List[CohortTraitCounts] = Field(
-        title="Counts", description="The counts for the different therapy responses."
+    items: List[CohortTraitCounts] = Field(
+        title="Items", description="The entries in the distribution."
     )
+
+    @classmethod
+    def calculate(cls, cohort: Cohort, property: str) -> Self:
+        property_info = dict(
+            age={"lookup": "age", "anonymization": anonymize_age},
+            ageAtDiagnosis={
+                "lookup": "age_at_diagnosis",
+                "anonymization": anonymize_age,
+            },
+            gender={"lookup": "gender__display"},
+            neoplasticSites={
+                "lookup": "neoplastic_entities__topography_group__display"
+            },
+            vitalStatus={"lookup": "is_deceased"},
+        ).get(property)
+        return Distribution(
+            items=[
+                CohortTraitCounts(
+                    category=category, counts=count, percentage=percentage
+                )
+                for category, (count, percentage) in cohort.get_cohort_trait_counts(
+                    cohort.valid_cases.all(),
+                    property_info["lookup"],
+                    anonymization=property_info.get("anonymization"),
+                ).items()
+            ]
+        )
+
+
+class TherapyLineCasesDistribution(Distribution):
+
+    @classmethod
+    def calculate(cls, cohort: Cohort, therapyLine: str) -> Self:
+        total = cohort.valid_cases.count()
+        included = cohort.valid_cases.filter(therapy_lines__label=therapyLine).count()
+        not_included = total - included
+        return Distribution(
+            items=[
+                CohortTraitCounts(
+                    category=f"Included in {therapyLine}",
+                    counts=included,
+                    percentage=round(included / total * 100.0, 4),
+                ),
+                CohortTraitCounts(
+                    category="Not included",
+                    counts=not_included,
+                    percentage=round(not_included / total * 100.0, 4),
+                ),
+            ]
+        )
+
+
+class TherapyLineResponseDistribution(Distribution):
 
     @classmethod
     def calculate(cls, cohort: Cohort, therapyLine: str) -> Self:
@@ -409,8 +463,8 @@ class TherapyLineResponseCounts(Schema, AnalysisMetadataMixin):
             )
             .values_list("response", flat=True)
         )
-        return cls(
-            counts=[
+        return Distribution(
+            items=[
                 CohortTraitCounts(
                     category=key or "Unknown",
                     counts=count,

@@ -276,7 +276,7 @@ class TestCountTreatmentResponseByTherapyLine(TestCase):
         cls.cohort.cases.set([cls.case1, cls.case2, cls.case3])
 
     def test_count_treatment_responses_including_CLoT1_lines(self):
-        result = TherapyLineResponseCounts.calculate(self.cohort, "CLoT1").counts
+        result = TherapyLineResponseDistribution.calculate(self.cohort, "CLoT1").items
         expected_recists = set(
             [
                 recist
@@ -302,5 +302,5 @@ class TestCountTreatmentResponseByTherapyLine(TestCase):
 
     def test_with_no_cases(self):
         self.cohort.cases.clear()
-        result = TherapyLineResponseCounts.calculate(self.cohort, "CLoT1").counts
+        result = TherapyLineResponseDistribution.calculate(self.cohort, "CLoT1").items
         self.assertEqual([], result)

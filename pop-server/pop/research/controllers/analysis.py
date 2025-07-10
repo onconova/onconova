@@ -11,9 +11,11 @@ from pop.research.controllers.cohort import EmptyCohortException
 from pop.research.models.cohort import Cohort
 from pop.research.schemas.analysis import (
     CategorizedSurvivals,
+    Distribution,
     KaplanMeierCurve,
     OncoplotDataset,
-    TherapyLineResponseCounts,
+    TherapyLineCasesDistribution,
+    TherapyLineResponseDistribution,
 )
 
 
@@ -26,6 +28,22 @@ def get_nonempty_cohort_or_error(cohortId: str) -> Cohort:
 
 @api_controller("/cohorts", auth=[XSessionTokenAuth()], tags=["Data Analysis"])
 class CohortAnalysisController(ControllerBase):
+
+    @route.get(
+        path="/{cohortId}/analysis/distribution",
+        response={200: Distribution, 422: None, **COMMON_HTTP_ERRORS},
+        permissions=[perms.CanViewCohorts],
+        operation_id="getCohortPropertyDistribution",
+    )
+    def get_cohort_property_distribution(
+        self,
+        cohortId: str,
+        property: Literal[
+            "gender", "age", "ageAtDiagnosis", "neoplasticSites", "vitalStatus"
+        ],
+    ):
+        cohort = get_nonempty_cohort_or_error(cohortId)
+        return Distribution.calculate(cohort, property).add_metadata(cohort)
 
     @route.get(
         path="/{cohortId}/analysis/overall-survical/kaplan-meier",
@@ -101,13 +119,20 @@ class CohortAnalysisController(ControllerBase):
         ).add_metadata(cohort)
 
     @route.get(
-        path="/{cohortId}/analysis/{therapyLine}/counts/therapy-response",
-        response={200: TherapyLineResponseCounts, 422: None, **COMMON_HTTP_ERRORS},
+        path="/{cohortId}/analysis/{therapyLine}/distribution",
+        response={200: Distribution, 422: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCohorts],
-        operation_id="getCohortTherapyLineResponsesCounts",
+        operation_id="getCohortLinePropertyDistribution",
     )
-    def get_cohort_therapy_line_response_counts(self, cohortId: str, therapyLine: str):
+    def get_cohort_line_property_distribution(
+        self, cohortId: str, therapyLine: str, property: Literal["cases", "responses"]
+    ):
         cohort = get_nonempty_cohort_or_error(cohortId)
-        return TherapyLineResponseCounts.calculate(cohort, therapyLine).add_metadata(
-            cohort
-        )
+        if property == "cases":
+            return TherapyLineCasesDistribution.calculate(
+                cohort, therapyLine
+            ).add_metadata(cohort)
+        elif property == "responses":
+            return TherapyLineResponseDistribution.calculate(
+                cohort, therapyLine
+            ).add_metadata(cohort)

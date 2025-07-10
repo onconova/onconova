@@ -42631,6 +42631,74 @@
         ]
       }
     },
+    "/api/v1/cohorts/{cohortId}/analysis/distribution": {
+      "get": {
+        "operationId": "getCohortPropertyDistribution",
+        "summary": "Get Cohort Property Distribution",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "cohortId",
+            "schema": {
+              "title": "Cohortid",
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "property",
+            "schema": {
+              "enum": [
+                "gender",
+                "age",
+                "ageAtDiagnosis",
+                "neoplasticSites",
+                "vitalStatus"
+              ],
+              "title": "Property",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Distribution"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "tags": [
+          "Data Analysis"
+        ],
+        "security": [
+          {
+            "XSessionTokenAuth": []
+          }
+        ]
+      }
+    },
     "/api/v1/cohorts/{cohortId}/analysis/overall-survical/kaplan-meier": {
       "get": {
         "operationId": "getCohortOverallSurvivalCurve",
@@ -42895,10 +42963,10 @@
         ]
       }
     },
-    "/api/v1/cohorts/{cohortId}/analysis/{therapyLine}/counts/therapy-response": {
+    "/api/v1/cohorts/{cohortId}/analysis/{therapyLine}/distribution": {
       "get": {
-        "operationId": "getCohortTherapyLineResponsesCounts",
-        "summary": "Get Cohort Therapy Line Response Counts",
+        "operationId": "getCohortLinePropertyDistribution",
+        "summary": "Get Cohort Line Property Distribution",
         "parameters": [
           {
             "in": "path",
@@ -42917,6 +42985,19 @@
               "type": "string"
             },
             "required": true
+          },
+          {
+            "in": "query",
+            "name": "property",
+            "schema": {
+              "enum": [
+                "cases",
+                "responses"
+              ],
+              "title": "Property",
+              "type": "string"
+            },
+            "required": true
           }
         ],
         "responses": {
@@ -42925,7 +43006,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/TherapyLineResponseCounts"
+                  "$ref": "#/components/schemas/Distribution"
                 }
               }
             }
@@ -86218,20 +86299,6 @@
               }
             ]
           },
-          "ages": {
-            "items": {
-              "$ref": "#/components/schemas/CohortTraitCounts"
-            },
-            "title": "Ages",
-            "type": "array"
-          },
-          "agesAtDiagnosis": {
-            "items": {
-              "$ref": "#/components/schemas/CohortTraitCounts"
-            },
-            "title": "Agesatdiagnosis",
-            "type": "array"
-          },
           "genders": {
             "items": {
               "$ref": "#/components/schemas/CohortTraitCounts"
@@ -86253,13 +86320,6 @@
             "title": "Therapylines",
             "type": "array"
           },
-          "vitalStatus": {
-            "items": {
-              "$ref": "#/components/schemas/CohortTraitCounts"
-            },
-            "title": "Vitalstatus",
-            "type": "array"
-          },
           "consentStatus": {
             "items": {
               "$ref": "#/components/schemas/CohortTraitCounts"
@@ -86272,12 +86332,9 @@
           "age",
           "dataCompletion",
           "overallSurvival",
-          "ages",
-          "agesAtDiagnosis",
           "genders",
           "neoplasticSites",
           "therapyLines",
-          "vitalStatus",
           "consentStatus"
         ],
         "title": "CohortTraits",
@@ -86308,6 +86365,35 @@
           "cohortPopulation"
         ],
         "title": "AnalysisMetadata",
+        "type": "object"
+      },
+      "Distribution": {
+        "properties": {
+          "metadata": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AnalysisMetadata"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Metadata for the Kaplan-Meier curve.",
+            "title": "Metadata"
+          },
+          "items": {
+            "description": "The entries in the distribution.",
+            "items": {
+              "$ref": "#/components/schemas/CohortTraitCounts"
+            },
+            "title": "Items",
+            "type": "array"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "title": "Distribution",
         "type": "object"
       },
       "KaplanMeierCurve": {
@@ -86478,35 +86564,6 @@
           "survivals"
         ],
         "title": "CategorizedSurvivals",
-        "type": "object"
-      },
-      "TherapyLineResponseCounts": {
-        "properties": {
-          "metadata": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/AnalysisMetadata"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "Metadata for the Kaplan-Meier curve.",
-            "title": "Metadata"
-          },
-          "counts": {
-            "description": "The counts for the different therapy responses.",
-            "items": {
-              "$ref": "#/components/schemas/CohortTraitCounts"
-            },
-            "title": "Counts",
-            "type": "array"
-          }
-        },
-        "required": [
-          "counts"
-        ],
-        "title": "TherapyLineResponseCounts",
         "type": "object"
       },
       "DataPlatformStatisticsSchema": {

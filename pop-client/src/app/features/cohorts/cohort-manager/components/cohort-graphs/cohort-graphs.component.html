@@ -13,8 +13,8 @@
                         @if (loading() || traits().isLoading()) {
                             <p-skeleton height="10rem" width="15rem"/>
                         } @else {
-                            @if (genderCount(); as data) {
-                                <pop-doughnut-graph [data]="data"/>
+                            @if (genderCount.value(); as data) {
+                                <pop-doughnut-graph [data]="data.items"/>
                             }
                         }
                     </div>
@@ -22,8 +22,8 @@
                         @if (loading() || traits().isLoading()) {
                             <p-skeleton height="10rem" width="15rem"/>
                         } @else {
-                            @if (vitalStatusCount(); as data) {
-                                <pop-doughnut-graph [data]="data"/>
+                            @if (vitalStatusCount.value(); as data) {
+                                <pop-doughnut-graph [data]="data.items"/>
                             }
                         }
                     </div>
@@ -33,8 +33,8 @@
                         @if (loading() || traits().isLoading()) {
                             <p-skeleton height="15rem"/>
                         } @else {
-                            @if (ageCount(); as data) {
-                                <pop-distribution-graph [data]="data"/>
+                            @if (ageCount.value(); as data) {
+                                <pop-distribution-graph [data]="data.items"/>
                             }
                         }
                     </div>
@@ -49,8 +49,8 @@
                     @if (loading() || traits().isLoading()) {
                         <p-skeleton height="15rem"/>
                     } @else {
-                        @if (ageAtDiagnosisCount(); as data) {
-                            <pop-distribution-graph [data]="data"/>
+                        @if (ageAtDiagnosisCount.value(); as data) {
+                            <pop-distribution-graph [data]="data.items"/>
                         }
                     }
                 </div>
@@ -62,8 +62,8 @@
                     @if (loading() || traits().isLoading()) {
                         <p-skeleton height="15rem"/>
                     } @else {
-                        @if (neoplasticSitesCount(); as data) {
-                            <pop-doughnut-graph [data]="data" legendPosition="right" width="30rem"/>
+                        @if (neoplasticSitesCount.value(); as data) {
+                            <pop-doughnut-graph [data]="data.items" legendPosition="right" width="30rem"/>
                         }
                     }
                 </div>
@@ -150,7 +150,7 @@
                         <p-skeleton height="10rem" width="15rem"/>
                     } @else {
                         @if (therapyLineResponsesCount.value(); as data) {
-                            <pop-doughnut-graph [data]="data.counts" legendPosition="right" width="25rem"/>
+                            <pop-doughnut-graph [data]="data.items" legendPosition="right" width="25rem"/>
                         }
                     }
                 }

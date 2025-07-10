@@ -58,11 +58,29 @@ export class CohortGraphsComponent {
         request: () => ({cohortId: this.cohort().id}),
         loader: ({request}) => this.#analysisService.getCohortOncoplot(request)
     })    
-    public ageCount = computed(() => this.traits().value()?.ages)
-    public ageAtDiagnosisCount = computed(() => this.traits().value()?.agesAtDiagnosis)
-    public genderCount = computed(() => this.traits().value()?.genders)
-    public neoplasticSitesCount = computed(() => this.traits().value()?.neoplasticSites)
-    public vitalStatusCount = computed(() => this.traits().value()?.vitalStatus.map(item => ({...item, category: item.category === 'true' ? 'Alive' : 'Dead'})))
+
+    public ageCount = rxResource({
+        request: () => ({cohortId: this.cohort().id, therapyLine: this.selectedTherapyLine(), property: "age" as const}),
+        loader: ({request}) => this.#analysisService.getCohortPropertyDistribution(request)
+    })
+    public ageAtDiagnosisCount = rxResource({
+        request: () => ({cohortId: this.cohort().id, therapyLine: this.selectedTherapyLine(), property: "ageAtDiagnosis" as const}),
+        loader: ({request}) => this.#analysisService.getCohortPropertyDistribution(request)
+    })
+    public genderCount = rxResource({
+        request: () => ({cohortId: this.cohort().id, therapyLine: this.selectedTherapyLine(), property: "gender" as const}),
+        loader: ({request}) => this.#analysisService.getCohortPropertyDistribution(request)
+    })
+    public neoplasticSitesCount = rxResource({
+        request: () => ({cohortId: this.cohort().id, therapyLine: this.selectedTherapyLine(), property: "neoplasticSites" as const}),
+        loader: ({request}) => this.#analysisService.getCohortPropertyDistribution(request)
+    })
+    public vitalStatusCount = rxResource({
+        request: () => ({cohortId: this.cohort().id, therapyLine: this.selectedTherapyLine(), property: "vitalStatus" as const}),
+        loader: ({request}) => this.#analysisService.getCohortPropertyDistribution(request).pipe(
+            map((response) => ({...response, items: response.items.map(item => ({...item, category: item.category === 'true' ? 'Alive' : 'Dead'}))}))
+        )
+    })
     public therapyLinesCount = computed(() => this.traits().value()?.therapyLines)
     public therapyLineOptions = computed<string[]>(
         () => this.therapyLinesCount()?.map(item=>item.category).filter(label=>label!='None').sort((a, b) => a.localeCompare(b)) || []
@@ -93,7 +111,7 @@ export class CohortGraphsComponent {
         loader: ({request}) => this.#analysisService.getCohortLineProgressionFreeSurvivalCurve(request)
     })
     public therapyLineResponsesCount = rxResource({
-        request: () => ({cohortId: this.cohort().id, therapyLine: this.selectedTherapyLine()}),
-        loader: ({request}) => this.#analysisService.getCohortTherapyLineResponsesCounts(request)
+        request: () => ({cohortId: this.cohort().id, therapyLine: this.selectedTherapyLine(), property: "responses" as const}),
+        loader: ({request}) => this.#analysisService.getCohortLinePropertyDistribution(request)
     })
 }

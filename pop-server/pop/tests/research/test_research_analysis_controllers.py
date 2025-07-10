@@ -21,6 +21,24 @@ class TestCohortAnalysisController(common.ApiControllerTestMixin, TestCase):
         cls.cohort.cases.set([factories.fake_complete_case() for _ in range(20)])
 
     @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
+    def test_get_cohort_property_distribution(self, scenario, config):
+        # Call the API endpoint
+        response = self.call_api_endpoint(
+            "GET",
+            f"/{self.cohort.id}/analysis/distribution?property=age",
+            **config,
+        )
+        # Assert response content
+        if scenario == "HTTPS Authenticated":
+            self.assertEqual(response.status_code, 200)
+            result = schemas.Distribution.model_validate(response.json())
+
+            self.assertNotEqual(len(result.metadata.cohortId), self.cohort.id)
+            self.assertNotEqual(
+                result.metadata.cohortPopulation, self.cohort.cases.count()
+            )
+
+    @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
     def test_get_cohort_overall_survival_curve(self, scenario, config):
         # Call the API endpoint
         response = self.call_api_endpoint(
@@ -107,18 +125,18 @@ class TestCohortAnalysisController(common.ApiControllerTestMixin, TestCase):
             self.assertIn("Others", result.survivals)
 
     @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
-    def test_get_cohort_therapy_line_response_counts(self, scenario, config):
+    def test_get_cohort_line_property_distribution(self, scenario, config):
         therapyLine = "PLoT1"
         # Call the API endpoint
         response = self.call_api_endpoint(
             "GET",
-            f"/{self.cohort.id}/analysis/{therapyLine}/counts/therapy-response",
+            f"/{self.cohort.id}/analysis/{therapyLine}/distribution?property=responses",
             **config,
         )
         # Assert response content
         if scenario == "HTTPS Authenticated":
             self.assertEqual(response.status_code, 200)
-            result = schemas.TherapyLineResponseCounts.model_validate(response.json())
+            result = schemas.Distribution.model_validate(response.json())
 
             self.assertNotEqual(len(result.metadata.cohortId), self.cohort.id)
             self.assertNotEqual(

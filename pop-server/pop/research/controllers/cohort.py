@@ -1,53 +1,49 @@
-import pghistory
-import json
 import hashlib
-from enum import Enum
-from datetime import datetime
+import json
 from collections import Counter, OrderedDict
+from datetime import datetime
+from enum import Enum
 from typing import List
 
+import pghistory
 from django.conf import settings
-from django.shortcuts import get_object_or_404
-from django.db.models import Subquery, F, OuterRef, Value, Max, Min
+from django.db.models import F, Max, Min, OuterRef, Subquery, Value
 from django.db.models.functions import Coalesce
-
+from django.shortcuts import get_object_or_404
 from ninja import Query
 from ninja.errors import HttpError, ValidationError
-from ninja_extra import route, api_controller
-from ninja_extra.pagination import paginate
-from ninja_extra.ordering import ordering
-from ninja_extra import route, api_controller, status, ControllerBase
+from ninja_extra import ControllerBase, api_controller, route, status
 from ninja_extra.exceptions import APIException
-
-from pop.core.auth import permissions as perms
-from pop.core.utils import camel_to_snake
-from pop.core.auth.token import XSessionTokenAuth
+from ninja_extra.ordering import ordering
+from ninja_extra.pagination import paginate
 from pop.core.anonymization import anonymize, anonymize_age
-from pop.core.schemas import ModifiedResource as ModifiedResourceSchema, Paginated
+from pop.core.auth import permissions as perms
+from pop.core.auth.token import XSessionTokenAuth
 from pop.core.history.schemas import HistoryEvent
-
+from pop.core.schemas import ModifiedResource as ModifiedResourceSchema
+from pop.core.schemas import Paginated
+from pop.core.utils import camel_to_snake
+from pop.interoperability.schemas import ExportMetadata
 from pop.oncology import schemas as oncological_schemas
 from pop.oncology.models import TherapyLine, TreatmentResponse
-from pop.interoperability.schemas import ExportMetadata
-
 from pop.research.compilers import construct_dataset
-from pop.research.models.dataset import Dataset
 from pop.research.models.cohort import Cohort
+from pop.research.models.dataset import Dataset
 from pop.research.models.project import Project
-from pop.research.schemas.dataset import (
-    DatasetRule,
-    PatientCaseDataset,
-    ExportedPatientCaseDataset,
-)
 from pop.research.schemas.cohort import (
-    CohortSchema,
+    CohortContribution,
     CohortCreateSchema,
     CohortFilters,
+    CohortSchema,
+    CohortTraitCounts,
+    CohortTraitMedian,
     CohortTraits,
     ExportedCohortDefinition,
-    CohortTraitMedian,
-    CohortTraitCounts,
-    CohortContribution,
+)
+from pop.research.schemas.dataset import (
+    DatasetRule,
+    ExportedPatientCaseDataset,
+    PatientCaseDataset,
 )
 
 
@@ -399,22 +395,6 @@ class CohortsController(ControllerBase):
                 if overall_survival_median
                 else None
             ),
-            ages=[
-                CohortTraitCounts(
-                    category=category, counts=count, percentage=percentage
-                )
-                for category, (count, percentage) in cohort.get_cohort_trait_counts(
-                    cohort.cases.all(), "age", anonymization=anonymize_age
-                ).items()
-            ],
-            agesAtDiagnosis=[
-                CohortTraitCounts(
-                    category=category, counts=count, percentage=percentage
-                )
-                for category, (count, percentage) in cohort.get_cohort_trait_counts(
-                    cohort.cases.all(), "age_at_diagnosis", anonymization=anonymize_age
-                ).items()
-            ],
             genders=[
                 CohortTraitCounts(
                     category=category, counts=count, percentage=percentage
@@ -438,14 +418,6 @@ class CohortsController(ControllerBase):
                 )
                 for category, (count, percentage) in cohort.get_cohort_trait_counts(
                     cohort.cases.all(), "therapy_lines__label"
-                ).items()
-            ],
-            vitalStatus=[
-                CohortTraitCounts(
-                    category=category, counts=count, percentage=percentage
-                )
-                for category, (count, percentage) in cohort.get_cohort_trait_counts(
-                    cohort.cases.all(), "is_deceased"
                 ).items()
             ],
             consentStatus=[
