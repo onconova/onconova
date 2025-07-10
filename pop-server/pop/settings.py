@@ -1,8 +1,9 @@
 import os
-import tomllib
-import pghistory
 import socket
+import tomllib
 from pathlib import Path
+
+import pghistory
 from corsheaders.defaults import default_headers
 
 # Project base directory path
@@ -30,7 +31,7 @@ ANONYMIZATION_SECRET_KEY = os.getenv("ANONYMIZATION_SECRET_KEY")
 # ----------------------------------------------------------------
 
 # Hosts the app is allowed to serve
-ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS").split(",")
+ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "").split(",")
 if os.getenv("ENVIRONMENT") == "development":
     ALLOWED_HOSTS = ALLOWED_HOSTS + [socket.gethostbyname(socket.gethostname())]
 # Port the app is allowed to serve
