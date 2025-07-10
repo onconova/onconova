@@ -12,7 +12,7 @@ jobs:
     env:
       COMPOSE_FILE: 'compose.dev.yml'
       COMPOSE_PROJECT_NAME: 'pop-ci'
-      POSTGRES_DATABASE: 'pop-ci'
+      POSTGRES_DATABASE: 'pop-ci-db'
       POSTGRES_PORT: 5432
       POSTGRES_USER: 'postgres'
       POSTGRES_PASSWORD: 'postgres_secret'
@@ -36,4 +36,4 @@ jobs:
         run: docker compose build pop-server
 
       - name: Run tests with pytest
-        run: docker compose run --rm pop-server pytest -W ignore
+        run: docker compose run --rm pop-server pytest -W ignore --create-db
