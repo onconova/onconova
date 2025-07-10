@@ -1,13 +1,13 @@
 from typing import List
-from pydantic import Field, AliasChoices
 
-from pop.oncology import models as orm
+from pop.core.anonymization import AnonymizationConfig
 from pop.core.serialization.metaclasses import (
-    ModelGetSchema,
     ModelCreateSchema,
+    ModelGetSchema,
     SchemaConfig,
 )
-from pop.core.anonymization import AnonymizationConfig
+from pop.oncology import models as orm
+from pydantic import AliasChoices, Field
 
 
 class AdverseEventSuspectedCauseSchema(ModelGetSchema):
