@@ -18,7 +18,7 @@ jobs:
 
       - name: Build pop-server service
         run: |
-          docker compose build pop-server
+          docker compose -f compose.dev.yml build pop-server
 
       - name: Run tests with pytest
         run: |
