@@ -1,6 +1,7 @@
 name: POP Server CI
 
 on:
+  workflow_dispatch:
   push:
     paths:
       - 'pop-server/**'
