@@ -71,7 +71,11 @@ def parent_to_children(codesystem: dict) -> dict:
         return _cache[id(codesystem)]
     mapping = defaultdict(list)
     for concept in codesystem.values():
-        mapping[concept.parent].append(concept)
+        if concept.parent and '|' in concept.parent:
+            for subparent in concept.parent.split('|'):
+                mapping[subparent].append(concept)    
+        else:
+            mapping[concept.parent].append(concept)
     _cache[id(codesystem)] = mapping
     return mapping
 
