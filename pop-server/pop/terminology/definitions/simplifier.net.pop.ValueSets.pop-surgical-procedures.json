@@ -18,12 +18,12 @@
     "compose": {
         "include": [
             {
-                "system": "http://snomed.info/sct",
+                "system": "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
                 "filter": [
                     {
                         "property": "concept",
                         "op": "descendent-of",
-                        "value": "387713003"
+                        "value": "C15329"
                     }
                 ]
             }
