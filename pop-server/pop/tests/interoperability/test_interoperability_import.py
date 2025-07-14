@@ -421,7 +421,6 @@ class BundleParserTest(TestCase):
         # Ensure the case data has been imported properly
         imported_events = self.imported_primary_entity.events.all().order_by('pgh_created_at').exclude(pgh_label='import')           
         self.assertEqual(len(imported_events), len(self.original_primary_entity_events))
-        print(self.original_primary_entity_events, imported_events)
         for original_event, event in zip(self.original_primary_entity_events, imported_events):
             self.assertEqual(
                 original_event.pgh_label, event.pgh_label
