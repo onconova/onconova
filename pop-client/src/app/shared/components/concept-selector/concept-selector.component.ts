@@ -39,7 +39,7 @@ export class ConceptSelectorComponent implements ControlValueAccessor {
     multiple = input<boolean>(false);
     disabled = input<boolean>(false);
     placeholder = input<string>('Select or search an option');
-    conceptsLimit = input<number>(100);
+    conceptsLimit = input<number>(50);
     widget = input<'autocomplete' | 'radio' | 'selectbutton'>('autocomplete');
     returnCode = input<boolean>(false);
 
@@ -58,7 +58,7 @@ export class ConceptSelectorComponent implements ControlValueAccessor {
     })
     public subsetSize = computed( () => this.concepts.value()?.length || 0);
     public concepts = rxResource({
-        request: () => ({terminologyName: this.terminology(), query: this.query()}),
+        request: () => ({terminologyName: this.terminology(), query: this.query(), limit: this.conceptsLimit()}),
         loader: ({request}) => this.#terminologyService.getTerminologyConcepts(request).pipe(                   
             catchError(error => {
                 console.error('Error loading terminology concepts:', error);
