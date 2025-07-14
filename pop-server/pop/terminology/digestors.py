@@ -135,7 +135,7 @@ class NCITDigestor(TerminologyDigestor):
     def _digest_concept_row(self, row):
         # Get core coding elements
         code = row["code"]
-        parent = row["parents"].split("|")[0] if row["parents"] else None
+        parents = row["parents"] or None
         synonyms = (
             [
                 ensure_within_string_limits(synonym)
@@ -150,7 +150,7 @@ class NCITDigestor(TerminologyDigestor):
             code=code,
             display=display,
             definition=row["definition"],
-            parent=parent,
+            parent=parents,
             synonyms=[synonym for synonym in synonyms[1:]],
             system=self.CANONICAL_URL,
         )
