@@ -63,7 +63,7 @@ export class CaseImporterComponent {
     public importLoading: boolean = false;
     public readonly importOptions: any[] = [
         { label: 'POP JSON', value: 'pop+json' },
-        { label: 'FHIR JSON', value: 'fhir+json'  }
+        // { label: 'FHIR JSON', value: 'fhir+json'  }
     ];
     public conflictResolution!: string;
 
