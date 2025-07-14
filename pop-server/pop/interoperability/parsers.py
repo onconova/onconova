@@ -168,6 +168,7 @@ class BundleParser:
         events = [event for event in self.bundle.history if str(event.resourceId) == str(resource.id)]
         # Resolve any foreign keys in the resource
         resource = self.resolve_foreign_keys(resource)
+        resourceId = resource.id
         # Create the database entry for the resource
         orm_instance = CreateSchema.model_validate(resource).model_dump_django(
             instance=instance,
@@ -177,7 +178,7 @@ class BundleParser:
         orm_instance.events.latest('pgh_created_at').delete()
         # Update the external-to-internal foreign key map
         self.update_key_map(orm_instance, resource)
-        self.import_history_events(orm_instance, resource.id)           
+        self.import_history_events(orm_instance, resourceId)           
         return orm_instance
 
     def import_bundle(self, case=None) -> models.PatientCase:

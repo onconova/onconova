@@ -2,6 +2,7 @@ import pghistory
 from datetime import datetime
 from typing import List, Union, Dict
 from pydantic import Field, AliasChoices, BaseModel, ConfigDict
+from django.db.models import Model as DjangoModel 
 from pop.oncology.models.patient_case import PatientCaseDataCategories
 from pop.core.history.schemas import HistoryEvent
 import pop.oncology.schemas as sc
@@ -206,5 +207,7 @@ class PatientCaseBundle(sc.PatientCaseSchema):
 
     @staticmethod
     def resolve_history(obj):
-        return pghistory.models.Events.objects.tracks(obj).all().union(pghistory.models.Events.objects.references(obj).filter(pgh_model__icontains='oncology'))
-        
+        if isinstance(obj, dict):
+            return obj.get('history')
+        else:
+            return pghistory.models.Events.objects.tracks(obj).all().union(pghistory.models.Events.objects.references(obj).filter(pgh_model__icontains='oncology'))

@@ -5,6 +5,7 @@ from django.test import TestCase
 from pop.tests import common, factories
 from pop.oncology.models import PatientCase
 from pop.interoperability.schemas import PatientCaseBundle
+from pop.core.history.schemas import HistoryEvent
 from parameterized import parameterized
 
 
@@ -25,6 +26,7 @@ class TestInteroperabilityController(common.ApiControllerTestMixin, TestCase):
             cohort = factories.CohortFactory()
             cohort.cases.add(cls.case)
             cls.bundle = PatientCaseBundle.model_validate(cls.case)
+            cls.bundle.history = [HistoryEvent.model_validate(event) for event in cls.bundle.resolve_history(cls.case)]
             cls.payload = cls.bundle.model_dump(mode="json")
 
     @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
@@ -88,7 +90,11 @@ class TestInteroperabilityController(common.ApiControllerTestMixin, TestCase):
             )
             self.assertTrue(
                 imported_case.events.filter(pgh_label="import").exists(),
-                "Event not properly registered",
+                "Import event not properly registered",
+            )
+            self.assertTrue(
+                imported_case.events.filter(pgh_label="create").exists(),
+                "Create event not properly registered",
             )
 
     def test_import_conflicting_bundle_unresolved(self):

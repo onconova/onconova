@@ -119,9 +119,13 @@ class BundleParserTest(TestCase):
             pghistory.create_event(cls.original_case, label='update')
             pghistory.create_event(cls.original_case, label='export')
             # Get all events related to the case and delete the original audit trail 
-            cls.original_events = list(cls.original_case.events.all().order_by('pgh_created_at'))
             cls.bundle.history = [HistoryEvent.model_validate(event) for event in cls.bundle.resolve_history(cls.original_case)]
+            
+            cls.original_events = list(cls.original_case.events.all().order_by('pgh_created_at'))
             cls.original_case.events.all().delete()
+            
+            cls.original_primary_entity_events = list(cls.original_primary_entity.events.all().order_by('pgh_created_at'))
+            cls.original_primary_entity.events.all().delete()
 
             # Remove all instances of the "external" resources
             for resource in (
@@ -400,6 +404,25 @@ class BundleParserTest(TestCase):
         imported_case_events = self.imported_case.events.all().order_by('pgh_created_at').exclude(pgh_label='import')           
         self.assertEqual(len(imported_case_events), len(self.original_events))
         for original_event, event in zip(self.original_events, imported_case_events):
+            self.assertEqual(
+                original_event.pgh_label, event.pgh_label
+            )
+            self.assertEqual(
+                original_event.pgh_context['username'], event.pgh_context['username']
+            )
+            self.assertEqual(
+                original_event.pgh_created_at, event.pgh_created_at
+            )
+
+
+
+    def test_import_bundle__resource_history(self):
+        self._import_bundle()
+        # Ensure the case data has been imported properly
+        imported_events = self.imported_primary_entity.events.all().order_by('pgh_created_at').exclude(pgh_label='import')           
+        self.assertEqual(len(imported_events), len(self.original_primary_entity_events))
+        print(self.original_primary_entity_events, imported_events)
+        for original_event, event in zip(self.original_primary_entity_events, imported_events):
             self.assertEqual(
                 original_event.pgh_label, event.pgh_label
             )

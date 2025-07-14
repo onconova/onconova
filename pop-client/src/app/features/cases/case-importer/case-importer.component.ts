@@ -132,7 +132,7 @@ export class CaseImporterComponent {
 
     private constructBundleTree(bundle: PatientCaseBundle): TreeNode[] {
         return Object.entries(bundle)
-            .filter(([key,value]) => Array.isArray(value) && key!='updatedBy') // Only process array properties
+            .filter(([key,value]) => Array.isArray(value) && key!='history') // Only process array properties
             .map(([key,value]) => ({
                 label: key
                     .replace(/([a-z])([A-Z])/g, '$1 $2')

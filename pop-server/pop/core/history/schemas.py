@@ -88,6 +88,8 @@ class HistoryEvent(Schema):
         Returns:
             Optional[str]: The resource if present.
         """
+        if isinstance(obj, dict):
+            return obj.get('resource')
         return obj.pgh_obj_model.split(".")[-1]
 
     @staticmethod
@@ -101,6 +103,8 @@ class HistoryEvent(Schema):
         Returns:
             Optional[str]: The resource if present.
         """
+        if isinstance(obj, dict):
+            return obj.get('url')
         return obj.pgh_context.get("url")
 
     @staticmethod
@@ -114,6 +118,8 @@ class HistoryEvent(Schema):
         Returns:
             Optional[str]: The username if present.
         """
+        if isinstance(obj, dict):
+            return obj.get('user')
         return obj.pgh_context.get("username")
 
     @staticmethod
@@ -127,6 +133,8 @@ class HistoryEvent(Schema):
         Returns:
             Optional[HistoryEventCategory]: The corresponding event category.
         """
+        if isinstance(obj, dict):
+            return obj.get('category')
         return {
             "create": HistoryEventCategory.CREATE,
             "update": HistoryEventCategory.UPDATE,
@@ -147,6 +155,8 @@ class HistoryEvent(Schema):
         Returns:
             Dict[str, Any]: The data snapshot.
         """
+        if isinstance(obj, dict):
+            return obj.get('snapshot')
         return obj.pgh_data
 
     @staticmethod
@@ -160,6 +170,8 @@ class HistoryEvent(Schema):
         Returns:
             Optional[Dict[str, Any]]: The data changes if present.
         """
+        if isinstance(obj, dict):
+            return obj.get('differential')
         return obj.pgh_diff
 
     @classmethod
@@ -180,6 +192,8 @@ class HistoryEvent(Schema):
         class HistoryEventWithSchema(cls):
             @staticmethod
             def resolve_snapshot(obj):
+                if isinstance(obj, dict):
+                    return obj.get('snapshot')
                 # Create a new instance of the model based on snapshot data to automatically resolve foreign keys
                 try:
                     instance = schema.get_orm_model()(
@@ -194,6 +208,8 @@ class HistoryEvent(Schema):
 
             @staticmethod
             def resolve_differential(obj):
+                if isinstance(obj, dict):
+                    return obj.get('differential')
                 if obj.pgh_diff:
                     return schema.model_construct(**obj.pgh_diff).model_dump(
                         exclude_defaults=True

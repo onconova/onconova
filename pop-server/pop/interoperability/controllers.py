@@ -112,10 +112,11 @@ class InteroperabilityController(ControllerBase):
         operation_id="importPatientCaseBundle",
     )
     def import_case_bundle(
-        self, payload: PatientCaseBundle, conflict: ConflictResolution = None
+        self, bundle: PatientCaseBundle, conflict: ConflictResolution = None
     ):
+        
         conflicting_case = PatientCase.objects.filter(
-            pseudoidentifier=payload.pseudoidentifier
+            pseudoidentifier=bundle.pseudoidentifier
         ).first()
         with transaction.atomic():
             if conflicting_case:
@@ -126,15 +127,14 @@ class InteroperabilityController(ControllerBase):
                     conflicting_case.delete()
                     conflicting_case = PatientCase(pk=caseId)
                 elif conflict == ConflictResolution.REASSIGN:
-                    payload.pseudoidentifier = ""
+                    bundle.pseudoidentifier = ""
                     conflicting_case = None
             if not conflicting_case:
                 if PatientCase.objects.filter(
-                    clinical_identifier=payload.clinicalIdentifier,
-                    clinical_center=payload.clinicalCenter,
+                    clinical_identifier=bundle.clinicalIdentifier,
+                    clinical_center=bundle.clinicalCenter,
                 ).exists():
                     raise ConflictingClinicalIdentifierException()
-
-            imported_case = BundleParser(payload).import_bundle(case=conflicting_case)
+            imported_case = BundleParser(bundle).import_bundle(case=conflicting_case)
             pghistory.create_event(imported_case, label="import")
         return 201, imported_case
