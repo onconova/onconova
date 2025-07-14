@@ -318,7 +318,7 @@ class CohortsController(ControllerBase):
                 default=str,
             ).encode("utf-8")
         ).hexdigest()
-        print(data)
+        
         export = {
             **ExportMetadata(
                 exportedAt=datetime.now(),

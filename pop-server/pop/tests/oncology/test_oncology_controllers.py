@@ -53,8 +53,6 @@ class ApiControllerTextMixin(common.ApiControllerTestMixin):
                 cls.UPDATE_PAYLOAD.append(
                     schema.model_validate(instance2).model_dump(mode="json")
                 )
-                print(instance1.__dict__)
-                print(instance2.__dict__)
                 instance2.delete()
 
     def _remove_key_recursive(self, dictionary, keys_to_remove):

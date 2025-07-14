@@ -32,7 +32,7 @@
     <ng-template #start>
 
             <div class="case-search-filters">
-                <div class="flex gap-2 align-items-center">
+                <div class="flex flex-wrap gap-2 align-items-center">
                     <p-iconfield class="">
                         <p-inputicon styleClass="pi pi-search"/>
                         <input type="text" pInputText placeholder="Search by ID" [(ngModel)]="searchQuery"/>
@@ -206,7 +206,7 @@
         <div class="grid mt-3" >
             @if (cases.hasValue()) {
                 @for (case of data; track case.id; let first = $first) {
-                    <div class="col p-2">
+                    <div class="col p-2 m-auto">
                         <pop-case-search-item 
                         @fadeAnimation
                         [case]="case"

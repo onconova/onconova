@@ -20,7 +20,7 @@
     flex-grow: 0;
     padding: 1rem;
     margin-bottom: .25rem;
-    width: var(--pop-case-search-item-card-width);
+    min-width: var(--pop-case-search-item-card-width);
     height: 100%;
     border-left: solid 4px var(--p-content-border-color);
     &:hover {

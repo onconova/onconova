@@ -46572,6 +46572,10 @@
             "description": "The unique identifier of the history event",
             "title": "Event ID"
           },
+          "resourceId": {
+            "description": "The unique identifier of the tracked resource",
+            "title": "Resource ID"
+          },
           "category": {
             "$ref": "#/components/schemas/HistoryEventCategory",
             "description": "The type of history event",
@@ -46654,6 +46658,7 @@
         },
         "required": [
           "id",
+          "resourceId",
           "category",
           "timestamp",
           "snapshot",
@@ -47388,6 +47393,10 @@
             "description": "The unique identifier of the history event",
             "title": "Event ID"
           },
+          "resourceId": {
+            "description": "The unique identifier of the tracked resource",
+            "title": "Resource ID"
+          },
           "category": {
             "$ref": "#/components/schemas/HistoryEventCategory",
             "description": "The type of history event",
@@ -47470,6 +47479,7 @@
         },
         "required": [
           "id",
+          "resourceId",
           "category",
           "timestamp",
           "snapshot",
@@ -52819,6 +52829,14 @@
             },
             "title": "Completeddatacategories",
             "type": "object"
+          },
+          "history": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/HistoryEvent"
+            },
+            "title": "History",
+            "type": "array"
           }
         },
         "required": [

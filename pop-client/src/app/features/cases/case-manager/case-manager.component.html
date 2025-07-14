@@ -2,34 +2,33 @@
 @if (case$.error()) {
     {{ pseudoidentifier()}} does not exist
 } @else { 
-    <div class="mb-3 mr-3 flex">
+    <div class="mb-3 mr-3 flex flex-wrap gap-2 row-gap-3">
         <p-button label="Return" severity="secondary" icon="pi pi-chevron-left" (click)="location.back()"/>
-        <div class="flex ml-auto gap-2">
-            <p-button
-                icon="pi pi-question-circle"
-                label="Tutorial" 
-                [outlined]="true"
-                (onClick)="startTour()"/>
-            <p-button
-                id="case-manager-export-case-button"
-                label="Export case"
-                [disabled]="!currentUser().canExportData || !(case$.value()?.consentStatus === 'valid')"
-                [icon]="currentUser().canExportData ? 'pi pi-file-export' : 'pi pi-lock'"
-                [loading]="exportLoading"
-                (click)="downloadCaseBundle(case$.value()?.id || '')"/>
-            <p-button
-                id="case-manager-data-management-button"
-                [label]="anonymized() ? 'Enable data management' : 'Disable data management'"
-                [disabled]="!currentUser().canManageCases"
-                [icon]="anonymized() ? 'pi pi-lock' : 'pi pi-lock-open'"
-                (click)="anonymized.set(!anonymized())"/>
-            <ng-container *ngTemplateOutlet="additionalCaseActionButtons() || null"></ng-container>
-        </div>
+        <p-button
+            icon="pi pi-question-circle"
+            label="Tutorial" 
+            class="ml-auto"
+            [outlined]="true"
+            (onClick)="startTour()"/>
+        <p-button
+            id="case-manager-export-case-button"
+            label="Export case"
+            [disabled]="!currentUser().canExportData || !(case$.value()?.consentStatus === 'valid')"
+            [icon]="currentUser().canExportData ? 'pi pi-file-export' : 'pi pi-lock'"
+            [loading]="exportLoading"
+            (click)="downloadCaseBundle(case$.value()?.id || '')"/>
+        <p-button
+            id="case-manager-data-management-button"
+            [label]="anonymized() ? 'Enable data management' : 'Disable data management'"
+            [disabled]="!currentUser().canManageCases"
+            [icon]="anonymized() ? 'pi pi-lock' : 'pi pi-lock-open'"
+            (click)="anonymized.set(!anonymized())"/>
+        <ng-container *ngTemplateOutlet="additionalCaseActionButtons() || null"></ng-container>
     </div>
     
     <!-- Case summary -->
     <div class="case-manager-header card p-3">
-        <div class="case-manager-header-summary flex">
+        <div class="case-manager-header-summary flex flex-wrap">
             <pop-identicon [value]="pseudoidentifier()" class="m-auto"/>
             <div class="ml-3 my-auto">
                 <small class="text-muted">Patient case</small>
@@ -44,131 +43,131 @@
                         <p-skeleton width="7rem" height="1.2rem" />
                     }
                 </div>    
-            </div>
-            <p-divider layout="vertical"></p-divider>
-            <div class="my-auto">
-                @if (case$.value(); as case) {
-                    <div class="flex">
+            </div> 
+        </div>
+        <p-divider layout="vertical"></p-divider>
+        <div class="my-auto">
+            @if (case$.value(); as case) {
+                <div class="flex">
+                    @if (primaryEntity$.value(); as primaryEntity) {
+                        <pop-cancer-icon class="my-auto mr-2" [topography]="primaryEntity.topography.code"/>
+                    }
+                    <div>
+                        <small class="text-muted">Primary site</small>
+                        @if (primaryEntity$.isLoading()) {
+                            <p-skeleton width="12rem" height="1.5rem" />
+                        } @else {
+                            <div>
+                                @if (primaryEntity$.value(); as primaryEntity) {
+                                    {{ primaryEntity.topography.display }}
+                                } @else {
+                                    -
+                                }
+                            </div>
+                        }  
+                    </div>
+                </div>
+                <small class="text-muted">Morphology</small>
+                @if (primaryEntity$.isLoading()) {
+                    <p-skeleton width="12rem" height="1.5rem" />
+                }  @else {
+                    <div>
                         @if (primaryEntity$.value(); as primaryEntity) {
-                            <pop-cancer-icon class="my-auto mr-2" [topography]="primaryEntity.topography.code"/>
+                            {{ primaryEntity.morphology.display }}
+                        } @else {
+                            -
                         }
-                        <div>
-                            <small class="text-muted">Primary site</small>
-                            @if (primaryEntity$.isLoading()) {
-                                <p-skeleton width="12rem" height="1.5rem" />
-                            } @else {
-                                <div>
-                                    @if (primaryEntity$.value(); as primaryEntity) {
-                                        {{ primaryEntity.topography.display }}
-                                    } @else {
-                                        -
-                                    }
-                                </div>
-                            }  
-                        </div>
                     </div>
-                    <small class="text-muted">Morphology</small>
-                    @if (primaryEntity$.isLoading()) {
+                }  
+            } 
+        </div>
+        <p-divider layout="vertical"></p-divider>
+        <div class="my-auto">
+            <div class="text-left">
+                <small class="text-muted">Latest staging</small>
+                <div>
+                    @if (case$.value(); as case) {
+                        @if (latestStaging$.value(); as latestStaging) {
+                            {{ latestStaging.description }}
+                        } @else {
+                            -
+                        }
+                    } @else {
                         <p-skeleton width="12rem" height="1.5rem" />
-                    }  @else {
-                        <div>
-                            @if (primaryEntity$.value(); as primaryEntity) {
-                                {{ primaryEntity.morphology.display }}
-                            } @else {
-                                -
-                            }
-                        </div>
-                    }  
-                } 
-            </div>
-            <p-divider layout="vertical"></p-divider>
-            <div class="my-auto">
-                <div class="text-left">
-                    <small class="text-muted">Latest staging</small>
-                    <div>
-                        @if (case$.value(); as case) {
-                            @if (latestStaging$.value(); as latestStaging) {
-                                {{ latestStaging.description }}
-                            } @else {
-                                -
-                            }
+                    }      
+                </div>
+            </div> 
+    
+            <div class="text-left mt-1">
+                <small class="text-muted">Age at diagnosis</small>
+                <div>
+                    @if (case$.value(); as case) {
+                        @if (case.overallSurvival !== null) {
+                            {{ case.ageAtDiagnosis }} years
                         } @else {
-                            <p-skeleton width="12rem" height="1.5rem" />
-                        }      
-                    </div>
-                </div> 
-        
-                <div class="text-left mt-1">
-                    <small class="text-muted">Age at diagnosis</small>
-                    <div>
-                        @if (case$.value(); as case) {
-                            @if (case.overallSurvival !== null) {
-                                {{ case.ageAtDiagnosis }} years
-                            } @else {
-                                -
-                            }
-                        } @else {
-                            <p-skeleton width="12rem" height="1.5rem" />
-                        }      
-                    </div>
-                </div> 
-            </div>
-            <p-divider layout="vertical"></p-divider>
-            <div class="my-auto">
-                <div class="text-left">
-                    <small class="text-muted">Overall survival</small>
-                    <div>
-                        @if (case$.value(); as case) {
-                            @if (case.overallSurvival !== null) {
-                                {{ case.overallSurvival | number:'1.0-0' }} months
-                            } @else {
-                                -
-                            }
-                        } @else {
-                            <p-skeleton width="12rem" height="1.5rem" />
-                        }      
-                    </div>
-                </div> 
-        
-                <div class="text-left mt-1">
-                    <small class="text-muted">Cause of death</small>
-                    <div>
-                        @if (case$.value(); as case) {
-                            {{ case.causeOfDeath ? case.causeOfDeath.display : '-' }}
-                        } @else {
-                            <p-skeleton width="12rem" height="1.5rem" />
-                        }      
-                    </div>
-                </div> 
-            </div>
-            <p-divider layout="vertical"></p-divider>
-            <div class="my-auto">
-                <div class="text-left">
-                    <small class="text-muted">Clinical center</small>
-                    <div>
-                        @if (case$.value(); as case) {
-                            {{ case.clinicalCenter }}      
-                        } @else {
-                            <p-skeleton width="12rem" height="1.5rem" />
+                            -
                         }
-                    </div>
-                </div> 
-        
-                <div class="text-left mt-1">
-                    <small class="text-muted">Clinical Identifier</small>
-                    <div>
-                        @if (case$.value(); as case) {
-                            @if (currentUser().canManageCases) {
-                                {{ case.clinicalIdentifier}}
-                            } @else {
-                                <span class="opacity-50">🞸🞸🞸🞸🞸🞸🞸</span>
-                            }
+                    } @else {
+                        <p-skeleton width="12rem" height="1.5rem" />
+                    }      
+                </div>
+            </div> 
+        </div>
+        <p-divider layout="vertical"></p-divider>
+        <div class="my-auto">
+            <div class="text-left">
+                <small class="text-muted">Overall survival</small>
+                <div>
+                    @if (case$.value(); as case) {
+                        @if (case.overallSurvival !== null) {
+                            {{ case.overallSurvival | number:'1.0-0' }} months
                         } @else {
-                            <p-skeleton width="12rem" height="1.5rem" />
+                            -
                         }
-                    </div>
-                </div> 
-            </div>
+                    } @else {
+                        <p-skeleton width="12rem" height="1.5rem" />
+                    }      
+                </div>
+            </div> 
+    
+            <div class="text-left mt-1">
+                <small class="text-muted">Cause of death</small>
+                <div>
+                    @if (case$.value(); as case) {
+                        {{ case.causeOfDeath ? case.causeOfDeath.display : '-' }}
+                    } @else {
+                        <p-skeleton width="12rem" height="1.5rem" />
+                    }      
+                </div>
+            </div> 
+        </div>
+        <p-divider layout="vertical"></p-divider>
+        <div class="my-auto">
+            <div class="text-left">
+                <small class="text-muted">Clinical center</small>
+                <div>
+                    @if (case$.value(); as case) {
+                        {{ case.clinicalCenter }}      
+                    } @else {
+                        <p-skeleton width="12rem" height="1.5rem" />
+                    }
+                </div>
+            </div> 
+    
+            <div class="text-left mt-1">
+                <small class="text-muted">Clinical Identifier</small>
+                <div>
+                    @if (case$.value(); as case) {
+                        @if (currentUser().canManageCases) {
+                            {{ case.clinicalIdentifier}}
+                        } @else {
+                            <span class="opacity-50">🞸🞸🞸🞸🞸🞸🞸</span>
+                        }
+                    } @else {
+                        <p-skeleton width="12rem" height="1.5rem" />
+                    }
+                </div>
+            </div> 
         </div>
         <p-divider layout="vertical"></p-divider>
         <div class="case-manager-header-data-completion my-auto text-center">
@@ -184,64 +183,62 @@
             }
         </div>
         <p-divider layout="vertical"></p-divider>
-        <div class="case-manager-header-metadata flex">
-            <div class="my-auto text-left">
-                <small class="text-muted">Anonymization</small>
-                <div class="">
-                    @if (anonymized()) {
-                        <i class="pi pi-lock" style="scale: 0.8"></i> Anonymized
-                    } @else {
-                        <i class="pi pi-lock-open" style="scale: 0.8"></i> Pseudonymized
-                    }
-                </div>
-
-                <div class="flex flex-column gap-1">
-                    <small class="text-muted">Contributors</small>
-                        <p-avatar-group >
-                            @if (case$.value(); as case) {
-                                @for (contributor of case.contributors; track $index; let index = $index;) {
-                                    @if (index<3) {
-                                        <pop-user-badge [username]="contributor"/>
-                                    }
-                                }
-                                @if ((case.contributors.length || 0) > 3) {
-                                    <p-avatar class="pop-other-users-avatar" [label]="'+' + (case.contributors!.length-3).toString()" shape="circle" size="normal" />
-                                }
-                            } @else {
-                                <p-skeleton width="4rem" height="4rem" shape="circle"/>
-                                <p-skeleton width="4rem" height="4rem" shape="circle"/>
-                                <p-skeleton width="4rem" height="4rem" shape="circle"/>
-                            }
-                        </p-avatar-group>
-                </div>    
+        <div class="my-auto text-left case-manager-header-metadata">
+            <small class="text-muted">Anonymization</small>
+            <div class="white-space-nowrap">
+                @if (anonymized()) {
+                    <i class="pi pi-lock" style="scale: 0.8"></i> Anonymized
+                } @else {
+                    <i class="pi pi-lock-open" style="scale: 0.8"></i> Pseudonymized
+                }
             </div>
-            <p-divider layout="vertical"></p-divider>
-            <div class="my-auto">
-                <div class=flex>
-                    <div class="text-left">
-                        <small class="text-muted">Created</small>
-                        <div>
-                            @if (case$.value(); as case) {
-                                {{ case.createdAt | date }}
-                            } @else {
-                                <p-skeleton width="7rem" height="1.5rem" />                    
+
+            <div class="flex flex-column gap-1">
+                <small class="text-muted">Contributors</small>
+                    <p-avatar-group >
+                        @if (case$.value(); as case) {
+                            @for (contributor of case.contributors; track $index; let index = $index;) {
+                                @if (index<3) {
+                                    <pop-user-badge [username]="contributor"/>
+                                }
                             }
-                        </div>
-                    </div> 
-                </div>
-        
-                <div class=flex>
-                    <div class="text-left mt-1">
-                        <small class="text-muted">Last updated</small>
-                        <div>
-                            @if (case$.value(); as case) {
-                                {{ case.updatedAt | date }}
-                            } @else {
-                                <p-skeleton width="7rem" height="1.5rem"/>
-                            }      
-                        </div>
-                    </div> 
-                </div>
+                            @if ((case.contributors.length || 0) > 3) {
+                                <p-avatar class="pop-other-users-avatar" [label]="'+' + (case.contributors!.length-3).toString()" shape="circle" size="normal" />
+                            }
+                        } @else {
+                            <p-skeleton width="4rem" height="4rem" shape="circle"/>
+                            <p-skeleton width="4rem" height="4rem" shape="circle"/>
+                            <p-skeleton width="4rem" height="4rem" shape="circle"/>
+                        }
+                    </p-avatar-group>
+            </div>    
+        </div>
+        <p-divider layout="vertical"></p-divider>
+        <div class="my-auto">
+            <div class=flex>
+                <div class="text-left">
+                    <small class="text-muted">Created</small>
+                    <div>
+                        @if (case$.value(); as case) {
+                            {{ case.createdAt | date }}
+                        } @else {
+                            <p-skeleton width="7rem" height="1.5rem" />                    
+                        }
+                    </div>
+                </div> 
+            </div>
+    
+            <div class=flex>
+                <div class="text-left mt-1">
+                    <small class="text-muted">Last updated</small>
+                    <div>
+                        @if (case$.value(); as case) {
+                            {{ (case.updatedAt | date) || '-' }}
+                        } @else {
+                            <p-skeleton width="7rem" height="1.5rem"/>
+                        }      
+                    </div>
+                </div> 
             </div>
         </div>
     </div>
@@ -330,7 +327,7 @@
             </div>
     
     
-            <div class="col-12 md:col-6 lg:col-4 px-3">
+            <div class="col-12 md:col-6 lg:col-6 xl:col-4">
     
                 <p-fieldset legend="Therapy" class="pop-case-manager-group-panel">
     

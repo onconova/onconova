@@ -227,6 +227,7 @@ DATABASES = {
 
 # Postgres trigger-based event tracking configuration
 PGHISTORY_CONTEXT_FIELD = pghistory.ContextJSONField()
+PGHISTORY_FIELD = pghistory.Field(null=True)
 PGHISTORY_OBJ_FIELD = pghistory.ObjForeignKey(db_index=True)
 PGHISTORY_DEFAULT_TRACKERS = (
     pghistory.InsertEvent(label="create"),

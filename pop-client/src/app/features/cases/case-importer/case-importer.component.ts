@@ -63,7 +63,7 @@ export class CaseImporterComponent {
     public importLoading: boolean = false;
     public readonly importOptions: any[] = [
         { label: 'POP JSON', value: 'pop+json' },
-        { label: 'FHIR JSON', value: 'fhir+json'  }
+        // { label: 'FHIR JSON', value: 'fhir+json'  }
     ];
     public conflictResolution!: string;
 
@@ -132,7 +132,7 @@ export class CaseImporterComponent {
 
     private constructBundleTree(bundle: PatientCaseBundle): TreeNode[] {
         return Object.entries(bundle)
-            .filter(([key,value]) => Array.isArray(value) && key!='updatedBy') // Only process array properties
+            .filter(([key,value]) => Array.isArray(value) && key!='history') // Only process array properties
             .map(([key,value]) => ({
                 label: key
                     .replace(/([a-z])([A-Z])/g, '$1 $2')

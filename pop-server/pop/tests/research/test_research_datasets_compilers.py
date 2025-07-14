@@ -47,7 +47,6 @@ class TestConstructDataset(TestCase):
         rule = DatasetRule(resource="PatientCase", field="dateOfBirth")
         dataset = construct_dataset(self.cohort, [rule])
         self.assertEqual(len(dataset), 1)
-        print(dataset)
         self.assertEqual(self.case.date_of_birth, dataset[0]["date_of_birth"])
 
     def test_query_annotated_property(self):

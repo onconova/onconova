@@ -2,7 +2,7 @@
 <p-card>
     <p-panel header="Demographics" [toggleable]="true">
 
-        <div class="flex">
+        <div class="flex flex-wrap">
             <div class="flex flex-column">
                 <div class="font-semibold">Patient Traits</div>
                 <div class="text-muted mb-2">
@@ -115,11 +115,12 @@
             </div>
             <p-selectbutton 
                 [options]="therapyLineOptions()" 
+                class="flex-wrap"
                 [(ngModel)]="selectedTherapyLine" 
                 [allowEmpty]="false"/>
         }
 
-        <div class="flex gap-5">
+        <div class="flex flex-wrap gap-5">
             <div class="mr-4">
                 <div class="font-semibold mt-4">Cohort fraction</div>
                 <div class="text-muted mb-2">

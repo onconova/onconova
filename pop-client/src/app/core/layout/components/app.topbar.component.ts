@@ -55,42 +55,45 @@ import { Divider } from 'primeng/divider';
                 <i class="pi pi-bars"></i>
             </button>
 
-            <button #topbarmenubutton class="p-link layout-topbar-menu-button layout-topbar-button" (click)="showProfileSidebar()">
-                <i class="pi pi-ellipsis-v"></i>
-            </button>
+            <div #topbarmenubutton class="layout-topbar-menu-button">
+                 <ng-template [ngTemplateOutlet]="topbarbuttons"></ng-template>
+            </div>
 
-            <div #topbarmenu class="layout-topbar-menu" [ngClass]="{'layout-topbar-menu-mobile-active': isSidebarVisible}">
-                <p-button [icon]="darkMode() ? 'pi pi-moon' : 'pi pi-sun'" [rounded]="true" [outlined]="true" (onClick)="toggleDarkMode()" class="my-auto mr-3 btn-secondary"/>
-
-                <p-button icon="pi pi-user" [rounded]="true" (onClick)="profile.toggle($event)" />
-                <p-menu #profile class="pop-profile-menu" [model]="profileItems()" [popup]="true">
-                    <ng-template #start>
-                        <div class="flex flex-column m-3 text-center">    
-                            @if (currentUser().isProvided) {
-                                <div class="text-muted text-sm">
-                                    <i class="pi pi-{{currentUser().provider}} mr-2"></i>{{currentUser().provider | titlecase}} account
-                                </div>
-                            }
-                            <p-avatar label="{{ currentUser() | acronym }}" size="large" shape="circle" class="my-3 mx-auto"/>
-                            <div class="flex-col my-auto">
-                                <div class="font-bold mb-0">{{currentUser() | fullname}}</div>
-                                <div class="text-muted text-sm mb-2">{{currentUser().email || 'Email unknown'}}</div>
-
-                            </div>
-                        </div>
-                        <p-divider><span class="p-divider-text text-sm">Access level</span></p-divider>
-                        <div class="flex flex-column m-3 text-center">    
-                            <div class="">
-                                <i class="pi pi-lock text-muted"></i> {{ currentUser().accessLevel }} - {{currentUser().role}}
-                            </div>
-                        </div>
-                        <p-divider><span class="p-divider-text text-sm">Management</span></p-divider>
-                    </ng-template>
-                </p-menu>
-
+            <div class="layout-topbar-menu">
+                 <ng-template [ngTemplateOutlet]="topbarbuttons"></ng-template>
             </div>
         </div>
         <pop-settings-dialog></pop-settings-dialog>
+
+        <ng-template #topbarbuttons>
+                <p-button [icon]="darkMode() ? 'pi pi-moon' : 'pi pi-sun'" [rounded]="true" [outlined]="true" (onClick)="toggleDarkMode()" class="my-auto mr-3 btn-secondary"/>
+                <p-button icon="pi pi-user" [rounded]="true" (onClick)="profile.toggle($event)" />
+        </ng-template>
+
+        <p-menu #profile class="pop-profile-menu" [model]="profileItems()" [popup]="true">
+            <ng-template #start>
+                <div class="flex flex-column m-3 text-center">    
+                    @if (currentUser().isProvided) {
+                        <div class="text-muted text-sm">
+                            <i class="pi pi-{{currentUser().provider}} mr-2"></i>{{currentUser().provider | titlecase}} account
+                        </div>
+                    }
+                    <p-avatar label="{{ currentUser() | acronym }}" size="large" shape="circle" class="my-3 mx-auto"/>
+                    <div class="flex-col my-auto">
+                        <div class="font-bold mb-0">{{currentUser() | fullname}}</div>
+                        <div class="text-muted text-sm mb-2">{{currentUser().email || 'Email unknown'}}</div>
+
+                    </div>
+                </div>
+                <p-divider><span class="p-divider-text text-sm">Access level</span></p-divider>
+                <div class="flex flex-column m-3 text-center">    
+                    <div class="">
+                        <i class="pi pi-lock text-muted"></i> {{ currentUser().accessLevel }} - {{currentUser().role}}
+                    </div>
+                </div>
+                <p-divider><span class="p-divider-text text-sm">Management</span></p-divider>
+            </ng-template>
+        </p-menu>
     `
 })
 export class AppTopBarComponent {

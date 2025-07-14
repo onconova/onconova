@@ -16,17 +16,17 @@
                         <div class="flex flex-column gap-2">
                             <h6 class="text-muted font-semibold mb-1">POP JSON Format</h6> 
                             <p>
-                                Select this option if you have a file in our internal POP JSON format. This format is specific to our system and is used for
-                                 storing and processing cases. If you've exported cases from our system previously, they'll be in POP JSON format. You can
-                                import these files directly into the system without needing to convert them.
+                                Select this option if you have a file in the POP JSON format. This format is specific to our system and is used for
+                                 storing and processing cases. If you've exported cases from the platform previously, they'll be in POP JSON format. You can
+                                import these files directly into the platform without needing to convert them.
                             </p>
-                            <h6 class="text-muted font-semibold my-1">FHIR JSON Format</h6> 
+                            <!-- <h6 class="text-muted font-semibold my-1">FHIR JSON Format</h6> 
                             <p>
                                 Select this option if you have a file in FHIR (Fast Healthcare Interoperability Resources) JSON format. 
                                 FHIR is a standardized format for exchanging healthcare data, and using this format ensures that your data is compatible 
                                 with other healthcare systems. If you're importing data from another healthcare system or application, it's likely in FHIR
                                 JSON format.
-                            </p>
+                            </p> -->
                             <label class="field-label required">Choose a data format</label>
                             <p-selectbutton 
                                 [options]="importOptions" 

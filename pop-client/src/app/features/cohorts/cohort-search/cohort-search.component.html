@@ -146,7 +146,7 @@
     <ng-template #grid let-cohorts>
         <div class="grid mt-3">
             @for (cohort of cohorts; track cohort.id; let first = $first;) {
-                <div class="col col-6 p-2">
+                <div class="col p-2 m-auto">
                     <pop-cohort-search-item [cohort]="cohort" (delete)="cohorts.reload()"/>
                 </div>
             }

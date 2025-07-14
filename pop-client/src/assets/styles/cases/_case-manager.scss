@@ -2,10 +2,11 @@
 
 .case-manager-header {
     display: flex; 
-    flex-direction: row;
+    flex-wrap: wrap;
+    flex-direction: row;    
+    row-gap: 1rem;
     background: var(--p-content-background); 
     color: var(--p-text-color); 
-    width: fit-content;
     margin: 1rem inherit;
 }
 .pop-case-manager-group-panel {
