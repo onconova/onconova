@@ -1,7 +1,7 @@
 <p-card styleClass="h-[65rem]">
     <div class="flex mb-3">
         <p-fieldset legend="Dataset Defintion" styleClass="my-auto mr-3 pb-0" class="w-full">
-            <div class="flex">
+            <div class="flex flex-wrap row-gap-3">
                 <div class="flex flex-column mr-3 gap-3">
                     <div class="flex gap-2">
                         <p-button icon="pi pi-sync" label="Load Dataset" styleClass="load-dataset-button" severity="secondary" (onClick)="datasetSelect.toggle($event);"/>
@@ -41,7 +41,7 @@
                     </div>
                     <div class="field">
                             <label class="form-label required mr-3">Description</label>
-                            <input type="text" pInputText class="flex-grow w-30rem" formControlName="summary" />
+                            <input type="text" pInputText class="w-20rem" formControlName="summary" />
                     </div>
                 </form>
                 <div class="ml-auto my-auto">

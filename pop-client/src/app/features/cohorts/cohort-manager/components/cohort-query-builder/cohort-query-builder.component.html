@@ -84,7 +84,7 @@
                   <ul class="q-filters-container">
                     @for (filter of rule.filters; track $index;) {
                       @let field = config.fields[filter.field];
-                      <li class="flex gap-3 ml-0 mt-2">          
+                      <li class="flex flex-wrap gap-3 ml-0 mt-2">          
                         <!-- Filter field selector -->
                         <p-select 
                           [options]="getFields(rule.entity)" 

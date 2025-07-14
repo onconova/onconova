@@ -268,6 +268,7 @@ pop-cohort-query-builder {
         padding: .25rem .75rem !important;
         border-radius: 5rem;
         display: flex;
+        align-items: center;
         margin-top: .75rem;
         box-shadow: none !important;
     }
@@ -276,7 +277,6 @@ pop-cohort-query-builder {
         font-size: 0.5rem;
         margin-right: 0.25rem;
         display: block;
-        margin-top: 0.25rem;
 
     }
     & .q-condition-select .p-select-dropdown {
@@ -296,13 +296,13 @@ pop-cohort-query-builder {
     border-radius: 6.5rem;
     z-index: 6;
     display: flex;
+    align-items: center;
 
     &::before {
         content: "⬤";
         font-size: 0.35rem;
         margin-right: 0.25rem;
         display: block;
-        margin-top: .25rem;
     }
     }
     & .q-row.q-connector {
