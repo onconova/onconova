@@ -120,7 +120,7 @@ class BundleParser:
         return self.key_map[external_key]
 
     def resolve_foreign_keys(self, schema_instance: Schema) -> Schema:
-        for field_name in schema_instance.model_fields:
+        for field_name in [field for field in schema_instance.model_fields if field not in ['externalSourceId']]:
             if field_name.endswith("Id"):
                 external_key = getattr(schema_instance, field_name)
                 if external_key:

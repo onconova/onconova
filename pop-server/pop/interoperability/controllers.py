@@ -10,6 +10,7 @@ from ninja_extra import api_controller, ControllerBase, route, status
 from ninja_extra.exceptions import APIException
 
 from django.conf import settings
+from django.db import transaction
 from django.shortcuts import get_object_or_404
 
 from pop.core.auth import permissions as perms
@@ -116,21 +117,24 @@ class InteroperabilityController(ControllerBase):
         conflicting_case = PatientCase.objects.filter(
             pseudoidentifier=payload.pseudoidentifier
         ).first()
-        if conflicting_case:
-            if not conflict:
-                raise ConflictingCaseException()
-            if conflict == ConflictResolution.OVERWRITE:
-                conflicting_case = conflicting_case
-            elif conflict == ConflictResolution.REASSIGN:
-                payload.pseudoidentifier = ""
-                conflicting_case = None
-        if not conflicting_case:
-            if PatientCase.objects.filter(
-                clinical_identifier=payload.clinicalIdentifier,
-                clinical_center=payload.clinicalCenter,
-            ).exists():
-                raise ConflictingClinicalIdentifierException()
+        with transaction.atomic():
+            if conflicting_case:
+                if not conflict:
+                    raise ConflictingCaseException()
+                if conflict == ConflictResolution.OVERWRITE:
+                    caseId = conflicting_case.id
+                    conflicting_case.delete()
+                    conflicting_case = PatientCase(pk=caseId)
+                elif conflict == ConflictResolution.REASSIGN:
+                    payload.pseudoidentifier = ""
+                    conflicting_case = None
+            if not conflicting_case:
+                if PatientCase.objects.filter(
+                    clinical_identifier=payload.clinicalIdentifier,
+                    clinical_center=payload.clinicalCenter,
+                ).exists():
+                    raise ConflictingClinicalIdentifierException()
 
-        imported_case = BundleParser(payload).import_bundle(case=conflicting_case)
-        pghistory.create_event(imported_case, label="import")
+            imported_case = BundleParser(payload).import_bundle(case=conflicting_case)
+            pghistory.create_event(imported_case, label="import")
         return 201, imported_case

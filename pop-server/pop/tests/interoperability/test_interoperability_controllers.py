@@ -18,10 +18,12 @@ class TestInteroperabilityController(common.ApiControllerTestMixin, TestCase):
             cls.case = factories.PatientCaseFactory.create()
             cls.entity = factories.PrimaryNeoplasticEntityFactory.create(case=cls.case)
             cls.systemic_therapy = factories.SystemicTherapyFactory.create(
-                case=cls.case, therapy_line=None
+                case=cls.case, therapy_line=None, targeted_entities=[cls.entity]
             )
             cls.case.save()
             cls.case.refresh_from_db()
+            cohort = factories.CohortFactory()
+            cohort.cases.add(cls.case)
             cls.bundle = PatientCaseBundle.model_validate(cls.case)
             cls.payload = cls.bundle.model_dump(mode="json")
 
@@ -119,6 +121,8 @@ class TestInteroperabilityController(common.ApiControllerTestMixin, TestCase):
         self.assertEqual(self.case.id, new_case.id)
         imported_case = PatientCase.objects.filter(id=self.case.id).first()
         self.assertIsNotNone(imported_case)
+        self.assertEqual(imported_case.neoplastic_entities.count(), 1)
+        self.assertEqual(imported_case.systemic_therapies.count(), 1)
 
     def test_import_conflicting_bundle_reassign(self):
         self.payload["clinicalIdentifier"] = "123456789"
