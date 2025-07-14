@@ -1,7 +1,9 @@
+import pghistory
 from datetime import datetime
 from typing import List, Union, Dict
 from pydantic import Field, AliasChoices, BaseModel, ConfigDict
 from pop.oncology.models.patient_case import PatientCaseDataCategories
+from pop.core.history.schemas import HistoryEvent
 import pop.oncology.schemas as sc
 
 
@@ -137,6 +139,9 @@ class PatientCaseBundle(sc.PatientCaseSchema):
     completedDataCategories: Dict[
         PatientCaseDataCategories, sc.PatientCaseDataCompletionStatusSchema
     ]
+    history: List[HistoryEvent] = Field(
+        default=[],
+    )
 
     model_config = ConfigDict(serialize_by_alias=False)
 
@@ -198,3 +203,8 @@ class PatientCaseBundle(sc.PatientCaseSchema):
                 or [None]
             )
         }
+
+    @staticmethod
+    def resolve_history(obj):
+        return pghistory.models.Events.objects.tracks(obj).all().union(pghistory.models.Events.objects.references(obj).filter(pgh_model__icontains='oncology'))
+        

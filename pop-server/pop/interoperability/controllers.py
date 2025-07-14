@@ -130,7 +130,6 @@ class InteroperabilityController(ControllerBase):
                 clinical_center=payload.clinicalCenter,
             ).exists():
                 raise ConflictingClinicalIdentifierException()
-        print("CHECK PARSER")
 
         imported_case = BundleParser(payload).import_bundle(case=conflicting_case)
         pghistory.create_event(imported_case, label="import")

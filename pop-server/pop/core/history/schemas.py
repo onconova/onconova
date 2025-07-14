@@ -29,6 +29,12 @@ class HistoryEvent(Schema):
         alias="pgh_id",
         validation_alias=AliasChoices("id", "pgh_id"),
     )
+    resourceId: Any = Field(
+        title="Resource ID",
+        description="The unique identifier of the tracked resource",
+        alias="pgh_obj_id",
+        validation_alias=AliasChoices("resourceId", "pgh_obj_id"),
+    )
     category: HistoryEventCategory = Field(
         title="Category",
         description="The type of history event",

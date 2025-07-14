@@ -6,6 +6,7 @@ from pop.interoperability.schemas import PatientCaseBundle
 from pop.core.auth.schemas import UserSchema
 from pop.oncology import models, schemas
 from pop.tests import factories
+from pop.core.history.schemas import HistoryEvent
 from django.test import TestCase
 
 from pop.interoperability.parsers import BundleParser
@@ -114,12 +115,25 @@ class BundleParserTest(TestCase):
                     cls.original_tumor_board
                 )
             ]
+            # Add a custom event to the case 
+            pghistory.create_event(cls.original_case, label='update')
+            pghistory.create_event(cls.original_case, label='export')
+            # Get all events related to the case and delete the original audit trail 
+            cls.original_events = list(cls.original_case.events.all().order_by('pgh_created_at'))
+            cls.bundle.history = [HistoryEvent.model_validate(event) for event in cls.bundle.resolve_history(cls.original_case)]
+            cls.original_case.events.all().delete()
+
             # Remove all instances of the "external" resources
             for resource in (
                 cls.original_user,
                 cls.original_case,
             ):
                 resource.delete()
+        
+        # Assign a new id to the bundle
+        cls.bundle.pseudoidentifier = 'A.123.456.7890'
+        cls.bundle.clinicalIdentifier = '123456789'
+        
         # Simulate parsing of the external bundle
         cls.importing_user = factories.UserFactory()
         cls.parser = BundleParser(cls.bundle)
@@ -151,19 +165,17 @@ class BundleParserTest(TestCase):
                 status=True, timestamp="2024-01-01T12:00:00Z", username="doctor1"
             )
         }
-        self.parser.import_bundle()
-
-        imported_case = models.PatientCase.objects.get(
-            clinical_identifier=self.original_case.clinical_identifier
-        )
+        self.imported_case = self.parser.import_bundle()
         self.assertTrue(
             models.PatientCaseDataCompletion.objects.filter(
-                case=imported_case, category="Diagnosis"
+                case=self.imported_case, category="Diagnosis"
             ).exists()
         )
 
     def _import_bundle(self):
-        self.imported_case = self.parser.import_bundle()
+        
+        with pghistory.context(username=self.importing_user.username):
+            self.imported_case = self.parser.import_bundle()
         self.imported_primary_entity = models.NeoplasticEntity.objects.get(
             case=self.imported_case, relationship="primary"
         )
@@ -179,15 +191,11 @@ class BundleParserTest(TestCase):
 
     def test_import_bundle__patient_case(self):
         self._import_bundle()
-        # Ensure the case data has been imported properly
-        imported_case = models.PatientCase.objects.get(
-            clinical_identifier=self.original_case.clinical_identifier
+        self.assertNotEqual(
+            self.imported_case.pseudoidentifier, self.original_case.pseudoidentifier
         )
-        self.assertEqual(
-            imported_case.pseudoidentifier, self.original_case.pseudoidentifier
-        )
-        self.assertEqual(
-            imported_case.clinical_identifier, self.original_case.clinical_identifier
+        self.assertNotEqual(
+            self.imported_case.clinical_identifier, self.original_case.clinical_identifier
         )
 
     def test_import_bundle__neoplastic_entities(self):
@@ -384,3 +392,20 @@ class BundleParserTest(TestCase):
             imported_molecular_tumor_board.therapeutic_recommendations.first()
         )
         # Check nested resources
+
+
+    def test_import_bundle__case_history(self):
+        self._import_bundle()
+        # Ensure the case data has been imported properly
+        imported_case_events = self.imported_case.events.all().order_by('pgh_created_at').exclude(pgh_label='import')           
+        self.assertEqual(len(imported_case_events), len(self.original_events))
+        for original_event, event in zip(self.original_events, imported_case_events):
+            self.assertEqual(
+                original_event.pgh_label, event.pgh_label
+            )
+            self.assertEqual(
+                original_event.pgh_context['username'], event.pgh_context['username']
+            )
+            self.assertEqual(
+                original_event.pgh_created_at, event.pgh_created_at
+            )

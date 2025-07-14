@@ -280,6 +280,7 @@ class BaseSchema(Schema):
         model: Optional[Type[DjangoModel]] = None,
         instance: Optional[DjangoModel] = None,
         create: Optional[bool] = None,
+        **fields
     ) -> DjangoModel:
         """
         Converts a Pydantic model instance to a Django model instance, handling
@@ -408,7 +409,10 @@ class BaseSchema(Schema):
                 else:
                     # Otherwise simply handle all other non-relational fields
                     setattr(instance, orm_field.name, data)
-
+                    
+        for orm_field_name, value in fields.items():
+            setattr(instance, orm_field_name, value)
+            
         # Rollback changes if any exception occurs during the transaction
         with transaction.atomic():
             # Save the model instance to the database
