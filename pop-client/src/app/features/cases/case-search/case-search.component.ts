@@ -128,7 +128,7 @@ export class CaseSearchComponent {
   // Resources
   public cases: Resource<PatientCase[] | undefined> = rxResource({
     request: () => ({
-      pseudoidentifierContains: this.searchQuery() || undefined, 
+      idSearch: this.searchQuery() || undefined, 
       contributorsOverlaps: this.manager() ? [this.manager() as string] : undefined,
       ageBetween: this.selectedAgeRange(),
       gender: this.selectedGender()?.code || undefined,

@@ -39,6 +39,7 @@ import {
     TumorBoardsService,
     TreatmentResponsesService,
     InteroperabilityService,
+    PatientCaseIdentifier,
 } from 'pop-api-client'
 
 import { 
@@ -277,8 +278,8 @@ export class CaseManagerComponent {
     // Case properties
     public pseudoidentifier = input.required<string>();
     public case$ = rxResource({
-        request: () => ({pseudoidentifier: this.pseudoidentifier(), anonymized: this.anonymized()}),
-        loader: ({request}) => this.#caseService.getPatientCaseByPseudoidentifier(request).pipe(
+        request: () => ({caseId: this.pseudoidentifier(), anonymized: this.anonymized(), type: PatientCaseIdentifier.Pseudoidentifier}),
+        loader: ({request}) => this.#caseService.getPatientCaseById(request).pipe(
             tap(response => this.totalCompletion = response.dataCompletionRate)
         )
     })

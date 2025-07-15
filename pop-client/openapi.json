@@ -4348,124 +4348,6 @@
           },
           {
             "in": "query",
-            "name": "dateOfBirth.before",
-            "schema": {
-              "description": "Date of birth - Filter for entries with dates before the specified value",
-              "format": "date",
-              "title": "Dateofbirth.Before",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Date of birth - Filter for entries with dates before the specified value"
-          },
-          {
-            "in": "query",
-            "name": "dateOfBirth.after",
-            "schema": {
-              "description": "Date of birth - Filter for entries with dates after the specified value",
-              "format": "date",
-              "title": "Dateofbirth.After",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Date of birth - Filter for entries with dates after the specified value"
-          },
-          {
-            "in": "query",
-            "name": "dateOfBirth.onOrBefore",
-            "schema": {
-              "description": "Date of birth - Filter for entries with dates on or before the specified value",
-              "format": "date",
-              "title": "Dateofbirth.Onorbefore",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Date of birth - Filter for entries with dates on or before the specified value"
-          },
-          {
-            "in": "query",
-            "name": "dateOfBirth.onOrAfter",
-            "schema": {
-              "description": "Date of birth - Filter for entries with dates on or after the specified value",
-              "format": "date",
-              "title": "Dateofbirth.Onorafter",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Date of birth - Filter for entries with dates on or after the specified value"
-          },
-          {
-            "in": "query",
-            "name": "dateOfBirth.on",
-            "schema": {
-              "description": "Date of birth - Filter for entries with dates exactly matching the specified value",
-              "format": "date",
-              "title": "Dateofbirth.On",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Date of birth - Filter for entries with dates exactly matching the specified value"
-          },
-          {
-            "in": "query",
-            "name": "dateOfBirth.not.on",
-            "schema": {
-              "description": "Date of birth - Filter for entries with dates not matching the specified value",
-              "format": "date",
-              "title": "Dateofbirth.Not.On",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Date of birth - Filter for entries with dates not matching the specified value"
-          },
-          {
-            "in": "query",
-            "name": "dateOfBirth.between",
-            "schema": {
-              "description": "Date of birth - Filter for entries with dates between two specified values (inclusive)",
-              "maxItems": 2,
-              "minItems": 2,
-              "prefixItems": [
-                {
-                  "format": "date",
-                  "type": "string"
-                },
-                {
-                  "format": "date",
-                  "type": "string"
-                }
-              ],
-              "title": "Dateofbirth.Between",
-              "type": "array"
-            },
-            "required": false,
-            "description": "Date of birth - Filter for entries with dates between two specified values (inclusive)"
-          },
-          {
-            "in": "query",
-            "name": "dateOfBirth.not.between",
-            "schema": {
-              "description": "Date of birth - Filter for entries with dates not between two specified values (inclusive)",
-              "maxItems": 2,
-              "minItems": 2,
-              "prefixItems": [
-                {
-                  "format": "date",
-                  "type": "string"
-                },
-                {
-                  "format": "date",
-                  "type": "string"
-                }
-              ],
-              "title": "Dateofbirth.Not.Between",
-              "type": "array"
-            },
-            "required": false,
-            "description": "Date of birth - Filter for entries with dates not between two specified values (inclusive)"
-          },
-          {
-            "in": "query",
             "name": "overallSurvival.not.exists",
             "schema": {
               "description": "Overall survival - Filter for entries without a value",
@@ -5178,238 +5060,6 @@
           },
           {
             "in": "query",
-            "name": "clinicalCenter",
-            "schema": {
-              "description": "Medical center - Filter for full text matches",
-              "title": "Clinicalcenter",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Medical center - Filter for full text matches"
-          },
-          {
-            "in": "query",
-            "name": "clinicalCenter.not",
-            "schema": {
-              "description": "Medical center - Filter for full text mismatches",
-              "title": "Clinicalcenter.Not",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Medical center - Filter for full text mismatches"
-          },
-          {
-            "in": "query",
-            "name": "clinicalCenter.contains",
-            "schema": {
-              "description": "Medical center - Filter for partial text matches",
-              "title": "Clinicalcenter.Contains",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Medical center - Filter for partial text matches"
-          },
-          {
-            "in": "query",
-            "name": "clinicalCenter.not.contains",
-            "schema": {
-              "description": "Medical center - Filter for partial text mismatches",
-              "title": "Clinicalcenter.Not.Contains",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Medical center - Filter for partial text mismatches"
-          },
-          {
-            "in": "query",
-            "name": "clinicalCenter.beginsWith",
-            "schema": {
-              "description": "Medical center - Filter for entries starting with the text",
-              "title": "Clinicalcenter.Beginswith",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Medical center - Filter for entries starting with the text"
-          },
-          {
-            "in": "query",
-            "name": "clinicalCenter.not.beginsWith",
-            "schema": {
-              "description": "Medical center - Filter for entries not starting with the text",
-              "title": "Clinicalcenter.Not.Beginswith",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Medical center - Filter for entries not starting with the text"
-          },
-          {
-            "in": "query",
-            "name": "clinicalCenter.endsWith",
-            "schema": {
-              "description": "Medical center - Filter for entries ending with the text",
-              "title": "Clinicalcenter.Endswith",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Medical center - Filter for entries ending with the text"
-          },
-          {
-            "in": "query",
-            "name": "clinicalCenter.not.endsWith",
-            "schema": {
-              "description": "Medical center - Filter for entries not ending with the text",
-              "title": "Clinicalcenter.Not.Endswith",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Medical center - Filter for entries not ending with the text"
-          },
-          {
-            "in": "query",
-            "name": "clinicalCenter.anyOf",
-            "schema": {
-              "description": "Medical center - Filter for entries where at least one reference matches the query",
-              "items": {
-                "type": "string"
-              },
-              "title": "Clinicalcenter.Anyof",
-              "type": "array"
-            },
-            "required": false,
-            "description": "Medical center - Filter for entries where at least one reference matches the query"
-          },
-          {
-            "in": "query",
-            "name": "clinicalCenter.not.anyOf",
-            "schema": {
-              "description": "Medical center - Filter for entries where at least one reference mismatches the query",
-              "items": {
-                "type": "string"
-              },
-              "title": "Clinicalcenter.Not.Anyof",
-              "type": "array"
-            },
-            "required": false,
-            "description": "Medical center - Filter for entries where at least one reference mismatches the query"
-          },
-          {
-            "in": "query",
-            "name": "clinicalIdentifier",
-            "schema": {
-              "description": "Clinical identifier - Filter for full text matches",
-              "title": "Clinicalidentifier",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Clinical identifier - Filter for full text matches"
-          },
-          {
-            "in": "query",
-            "name": "clinicalIdentifier.not",
-            "schema": {
-              "description": "Clinical identifier - Filter for full text mismatches",
-              "title": "Clinicalidentifier.Not",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Clinical identifier - Filter for full text mismatches"
-          },
-          {
-            "in": "query",
-            "name": "clinicalIdentifier.contains",
-            "schema": {
-              "description": "Clinical identifier - Filter for partial text matches",
-              "title": "Clinicalidentifier.Contains",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Clinical identifier - Filter for partial text matches"
-          },
-          {
-            "in": "query",
-            "name": "clinicalIdentifier.not.contains",
-            "schema": {
-              "description": "Clinical identifier - Filter for partial text mismatches",
-              "title": "Clinicalidentifier.Not.Contains",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Clinical identifier - Filter for partial text mismatches"
-          },
-          {
-            "in": "query",
-            "name": "clinicalIdentifier.beginsWith",
-            "schema": {
-              "description": "Clinical identifier - Filter for entries starting with the text",
-              "title": "Clinicalidentifier.Beginswith",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Clinical identifier - Filter for entries starting with the text"
-          },
-          {
-            "in": "query",
-            "name": "clinicalIdentifier.not.beginsWith",
-            "schema": {
-              "description": "Clinical identifier - Filter for entries not starting with the text",
-              "title": "Clinicalidentifier.Not.Beginswith",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Clinical identifier - Filter for entries not starting with the text"
-          },
-          {
-            "in": "query",
-            "name": "clinicalIdentifier.endsWith",
-            "schema": {
-              "description": "Clinical identifier - Filter for entries ending with the text",
-              "title": "Clinicalidentifier.Endswith",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Clinical identifier - Filter for entries ending with the text"
-          },
-          {
-            "in": "query",
-            "name": "clinicalIdentifier.not.endsWith",
-            "schema": {
-              "description": "Clinical identifier - Filter for entries not ending with the text",
-              "title": "Clinicalidentifier.Not.Endswith",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Clinical identifier - Filter for entries not ending with the text"
-          },
-          {
-            "in": "query",
-            "name": "clinicalIdentifier.anyOf",
-            "schema": {
-              "description": "Clinical identifier - Filter for entries where at least one reference matches the query",
-              "items": {
-                "type": "string"
-              },
-              "title": "Clinicalidentifier.Anyof",
-              "type": "array"
-            },
-            "required": false,
-            "description": "Clinical identifier - Filter for entries where at least one reference matches the query"
-          },
-          {
-            "in": "query",
-            "name": "clinicalIdentifier.not.anyOf",
-            "schema": {
-              "description": "Clinical identifier - Filter for entries where at least one reference mismatches the query",
-              "items": {
-                "type": "string"
-              },
-              "title": "Clinicalidentifier.Not.Anyof",
-              "type": "array"
-            },
-            "required": false,
-            "description": "Clinical identifier - Filter for entries where at least one reference mismatches the query"
-          },
-          {
-            "in": "query",
             "name": "consentStatus",
             "schema": {
               "allOf": [
@@ -5791,146 +5441,6 @@
           },
           {
             "in": "query",
-            "name": "dateOfDeath.not.exists",
-            "schema": {
-              "description": "Date of death - Filter for entries without a value",
-              "title": "Dateofdeath.Not.Exists",
-              "type": "boolean"
-            },
-            "required": false,
-            "description": "Date of death - Filter for entries without a value"
-          },
-          {
-            "in": "query",
-            "name": "dateOfDeath.exists",
-            "schema": {
-              "description": "Date of death - Filter for entries with a value",
-              "title": "Dateofdeath.Exists",
-              "type": "boolean"
-            },
-            "required": false,
-            "description": "Date of death - Filter for entries with a value"
-          },
-          {
-            "in": "query",
-            "name": "dateOfDeath.before",
-            "schema": {
-              "description": "Date of death - Filter for entries with dates before the specified value",
-              "format": "date",
-              "title": "Dateofdeath.Before",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Date of death - Filter for entries with dates before the specified value"
-          },
-          {
-            "in": "query",
-            "name": "dateOfDeath.after",
-            "schema": {
-              "description": "Date of death - Filter for entries with dates after the specified value",
-              "format": "date",
-              "title": "Dateofdeath.After",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Date of death - Filter for entries with dates after the specified value"
-          },
-          {
-            "in": "query",
-            "name": "dateOfDeath.onOrBefore",
-            "schema": {
-              "description": "Date of death - Filter for entries with dates on or before the specified value",
-              "format": "date",
-              "title": "Dateofdeath.Onorbefore",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Date of death - Filter for entries with dates on or before the specified value"
-          },
-          {
-            "in": "query",
-            "name": "dateOfDeath.onOrAfter",
-            "schema": {
-              "description": "Date of death - Filter for entries with dates on or after the specified value",
-              "format": "date",
-              "title": "Dateofdeath.Onorafter",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Date of death - Filter for entries with dates on or after the specified value"
-          },
-          {
-            "in": "query",
-            "name": "dateOfDeath.on",
-            "schema": {
-              "description": "Date of death - Filter for entries with dates exactly matching the specified value",
-              "format": "date",
-              "title": "Dateofdeath.On",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Date of death - Filter for entries with dates exactly matching the specified value"
-          },
-          {
-            "in": "query",
-            "name": "dateOfDeath.not.on",
-            "schema": {
-              "description": "Date of death - Filter for entries with dates not matching the specified value",
-              "format": "date",
-              "title": "Dateofdeath.Not.On",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Date of death - Filter for entries with dates not matching the specified value"
-          },
-          {
-            "in": "query",
-            "name": "dateOfDeath.between",
-            "schema": {
-              "description": "Date of death - Filter for entries with dates between two specified values (inclusive)",
-              "maxItems": 2,
-              "minItems": 2,
-              "prefixItems": [
-                {
-                  "format": "date",
-                  "type": "string"
-                },
-                {
-                  "format": "date",
-                  "type": "string"
-                }
-              ],
-              "title": "Dateofdeath.Between",
-              "type": "array"
-            },
-            "required": false,
-            "description": "Date of death - Filter for entries with dates between two specified values (inclusive)"
-          },
-          {
-            "in": "query",
-            "name": "dateOfDeath.not.between",
-            "schema": {
-              "description": "Date of death - Filter for entries with dates not between two specified values (inclusive)",
-              "maxItems": 2,
-              "minItems": 2,
-              "prefixItems": [
-                {
-                  "format": "date",
-                  "type": "string"
-                },
-                {
-                  "format": "date",
-                  "type": "string"
-                }
-              ],
-              "title": "Dateofdeath.Not.Between",
-              "type": "array"
-            },
-            "required": false,
-            "description": "Date of death - Filter for entries with dates not between two specified values (inclusive)"
-          },
-          {
-            "in": "query",
             "name": "causeOfDeath.not.exists",
             "schema": {
               "description": "Cause of death - Filter for entries without a value",
@@ -6051,6 +5561,22 @@
               "default": true,
               "title": "Anonymized",
               "type": "boolean"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "idSearch",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Idsearch"
             },
             "required": false
           },
@@ -6180,6 +5706,34 @@
               "type": "boolean"
             },
             "required": false
+          },
+          {
+            "in": "query",
+            "name": "type",
+            "schema": {
+              "allOf": [
+                {
+                  "enum": [
+                    "id",
+                    "pseudoidentifier",
+                    "clinicalIdentifier"
+                  ],
+                  "title": "PatientCaseIdentifier",
+                  "type": "string"
+                }
+              ],
+              "default": "id"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "clinicalCenter",
+            "schema": {
+              "title": "Clinicalcenter",
+              "type": "string"
+            },
+            "required": false
           }
         ],
         "responses": {
@@ -6195,6 +5749,12 @@
           },
           "404": {
             "description": "Not Found"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           }
         },
         "tags": [
@@ -6286,56 +5846,6 @@
           },
           "403": {
             "description": "Forbidden"
-          }
-        },
-        "tags": [
-          "Patient Cases"
-        ],
-        "security": [
-          {
-            "XSessionTokenAuth": []
-          }
-        ]
-      }
-    },
-    "/api/v1/patient-cases/pseudo/{pseudoidentifier}": {
-      "get": {
-        "operationId": "getPatientCaseByPseudoidentifier",
-        "summary": "Get Patient Case By Pseudoidentifier",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "pseudoidentifier",
-            "schema": {
-              "title": "Pseudoidentifier",
-              "type": "string"
-            },
-            "required": true
-          },
-          {
-            "in": "query",
-            "name": "anonymized",
-            "schema": {
-              "default": true,
-              "title": "Anonymized",
-              "type": "boolean"
-            },
-            "required": false
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PatientCase"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found"
           }
         },
         "tags": [
@@ -56935,76 +56445,6 @@
             "title": "Age.Not.Between",
             "type": "array"
           },
-          "dateOfBirth.before": {
-            "description": "Date of birth - Filter for entries with dates before the specified value",
-            "format": "date",
-            "title": "Dateofbirth.Before",
-            "type": "string"
-          },
-          "dateOfBirth.after": {
-            "description": "Date of birth - Filter for entries with dates after the specified value",
-            "format": "date",
-            "title": "Dateofbirth.After",
-            "type": "string"
-          },
-          "dateOfBirth.onOrBefore": {
-            "description": "Date of birth - Filter for entries with dates on or before the specified value",
-            "format": "date",
-            "title": "Dateofbirth.Onorbefore",
-            "type": "string"
-          },
-          "dateOfBirth.onOrAfter": {
-            "description": "Date of birth - Filter for entries with dates on or after the specified value",
-            "format": "date",
-            "title": "Dateofbirth.Onorafter",
-            "type": "string"
-          },
-          "dateOfBirth.on": {
-            "description": "Date of birth - Filter for entries with dates exactly matching the specified value",
-            "format": "date",
-            "title": "Dateofbirth.On",
-            "type": "string"
-          },
-          "dateOfBirth.not.on": {
-            "description": "Date of birth - Filter for entries with dates not matching the specified value",
-            "format": "date",
-            "title": "Dateofbirth.Not.On",
-            "type": "string"
-          },
-          "dateOfBirth.between": {
-            "description": "Date of birth - Filter for entries with dates between two specified values (inclusive)",
-            "maxItems": 2,
-            "minItems": 2,
-            "prefixItems": [
-              {
-                "format": "date",
-                "type": "string"
-              },
-              {
-                "format": "date",
-                "type": "string"
-              }
-            ],
-            "title": "Dateofbirth.Between",
-            "type": "array"
-          },
-          "dateOfBirth.not.between": {
-            "description": "Date of birth - Filter for entries with dates not between two specified values (inclusive)",
-            "maxItems": 2,
-            "minItems": 2,
-            "prefixItems": [
-              {
-                "format": "date",
-                "type": "string"
-              },
-              {
-                "format": "date",
-                "type": "string"
-              }
-            ],
-            "title": "Dateofbirth.Not.Between",
-            "type": "array"
-          },
           "overallSurvival.not.exists": {
             "description": "Overall survival - Filter for entries without a value",
             "title": "Overallsurvival.Not.Exists",
@@ -57381,118 +56821,6 @@
             "title": "Pseudoidentifier.Not.Anyof",
             "type": "array"
           },
-          "clinicalCenter": {
-            "description": "Medical center - Filter for full text matches",
-            "title": "Clinicalcenter",
-            "type": "string"
-          },
-          "clinicalCenter.not": {
-            "description": "Medical center - Filter for full text mismatches",
-            "title": "Clinicalcenter.Not",
-            "type": "string"
-          },
-          "clinicalCenter.contains": {
-            "description": "Medical center - Filter for partial text matches",
-            "title": "Clinicalcenter.Contains",
-            "type": "string"
-          },
-          "clinicalCenter.not.contains": {
-            "description": "Medical center - Filter for partial text mismatches",
-            "title": "Clinicalcenter.Not.Contains",
-            "type": "string"
-          },
-          "clinicalCenter.beginsWith": {
-            "description": "Medical center - Filter for entries starting with the text",
-            "title": "Clinicalcenter.Beginswith",
-            "type": "string"
-          },
-          "clinicalCenter.not.beginsWith": {
-            "description": "Medical center - Filter for entries not starting with the text",
-            "title": "Clinicalcenter.Not.Beginswith",
-            "type": "string"
-          },
-          "clinicalCenter.endsWith": {
-            "description": "Medical center - Filter for entries ending with the text",
-            "title": "Clinicalcenter.Endswith",
-            "type": "string"
-          },
-          "clinicalCenter.not.endsWith": {
-            "description": "Medical center - Filter for entries not ending with the text",
-            "title": "Clinicalcenter.Not.Endswith",
-            "type": "string"
-          },
-          "clinicalCenter.anyOf": {
-            "description": "Medical center - Filter for entries where at least one reference matches the query",
-            "items": {
-              "type": "string"
-            },
-            "title": "Clinicalcenter.Anyof",
-            "type": "array"
-          },
-          "clinicalCenter.not.anyOf": {
-            "description": "Medical center - Filter for entries where at least one reference mismatches the query",
-            "items": {
-              "type": "string"
-            },
-            "title": "Clinicalcenter.Not.Anyof",
-            "type": "array"
-          },
-          "clinicalIdentifier": {
-            "description": "Clinical identifier - Filter for full text matches",
-            "title": "Clinicalidentifier",
-            "type": "string"
-          },
-          "clinicalIdentifier.not": {
-            "description": "Clinical identifier - Filter for full text mismatches",
-            "title": "Clinicalidentifier.Not",
-            "type": "string"
-          },
-          "clinicalIdentifier.contains": {
-            "description": "Clinical identifier - Filter for partial text matches",
-            "title": "Clinicalidentifier.Contains",
-            "type": "string"
-          },
-          "clinicalIdentifier.not.contains": {
-            "description": "Clinical identifier - Filter for partial text mismatches",
-            "title": "Clinicalidentifier.Not.Contains",
-            "type": "string"
-          },
-          "clinicalIdentifier.beginsWith": {
-            "description": "Clinical identifier - Filter for entries starting with the text",
-            "title": "Clinicalidentifier.Beginswith",
-            "type": "string"
-          },
-          "clinicalIdentifier.not.beginsWith": {
-            "description": "Clinical identifier - Filter for entries not starting with the text",
-            "title": "Clinicalidentifier.Not.Beginswith",
-            "type": "string"
-          },
-          "clinicalIdentifier.endsWith": {
-            "description": "Clinical identifier - Filter for entries ending with the text",
-            "title": "Clinicalidentifier.Endswith",
-            "type": "string"
-          },
-          "clinicalIdentifier.not.endsWith": {
-            "description": "Clinical identifier - Filter for entries not ending with the text",
-            "title": "Clinicalidentifier.Not.Endswith",
-            "type": "string"
-          },
-          "clinicalIdentifier.anyOf": {
-            "description": "Clinical identifier - Filter for entries where at least one reference matches the query",
-            "items": {
-              "type": "string"
-            },
-            "title": "Clinicalidentifier.Anyof",
-            "type": "array"
-          },
-          "clinicalIdentifier.not.anyOf": {
-            "description": "Clinical identifier - Filter for entries where at least one reference mismatches the query",
-            "items": {
-              "type": "string"
-            },
-            "title": "Clinicalidentifier.Not.Anyof",
-            "type": "array"
-          },
           "consentStatus": {
             "allOf": [
               {
@@ -57693,86 +57021,6 @@
             "description": "Is deceased - ('Filter for yes/no statement',)",
             "title": "Isdeceased",
             "type": "boolean"
-          },
-          "dateOfDeath.not.exists": {
-            "description": "Date of death - Filter for entries without a value",
-            "title": "Dateofdeath.Not.Exists",
-            "type": "boolean"
-          },
-          "dateOfDeath.exists": {
-            "description": "Date of death - Filter for entries with a value",
-            "title": "Dateofdeath.Exists",
-            "type": "boolean"
-          },
-          "dateOfDeath.before": {
-            "description": "Date of death - Filter for entries with dates before the specified value",
-            "format": "date",
-            "title": "Dateofdeath.Before",
-            "type": "string"
-          },
-          "dateOfDeath.after": {
-            "description": "Date of death - Filter for entries with dates after the specified value",
-            "format": "date",
-            "title": "Dateofdeath.After",
-            "type": "string"
-          },
-          "dateOfDeath.onOrBefore": {
-            "description": "Date of death - Filter for entries with dates on or before the specified value",
-            "format": "date",
-            "title": "Dateofdeath.Onorbefore",
-            "type": "string"
-          },
-          "dateOfDeath.onOrAfter": {
-            "description": "Date of death - Filter for entries with dates on or after the specified value",
-            "format": "date",
-            "title": "Dateofdeath.Onorafter",
-            "type": "string"
-          },
-          "dateOfDeath.on": {
-            "description": "Date of death - Filter for entries with dates exactly matching the specified value",
-            "format": "date",
-            "title": "Dateofdeath.On",
-            "type": "string"
-          },
-          "dateOfDeath.not.on": {
-            "description": "Date of death - Filter for entries with dates not matching the specified value",
-            "format": "date",
-            "title": "Dateofdeath.Not.On",
-            "type": "string"
-          },
-          "dateOfDeath.between": {
-            "description": "Date of death - Filter for entries with dates between two specified values (inclusive)",
-            "maxItems": 2,
-            "minItems": 2,
-            "prefixItems": [
-              {
-                "format": "date",
-                "type": "string"
-              },
-              {
-                "format": "date",
-                "type": "string"
-              }
-            ],
-            "title": "Dateofdeath.Between",
-            "type": "array"
-          },
-          "dateOfDeath.not.between": {
-            "description": "Date of death - Filter for entries with dates not between two specified values (inclusive)",
-            "maxItems": 2,
-            "minItems": 2,
-            "prefixItems": [
-              {
-                "format": "date",
-                "type": "string"
-              },
-              {
-                "format": "date",
-                "type": "string"
-              }
-            ],
-            "title": "Dateofdeath.Not.Between",
-            "type": "array"
           },
           "causeOfDeath.not.exists": {
             "description": "Cause of death - Filter for entries without a value",
@@ -58309,6 +57557,15 @@
         ],
         "title": "PatientCaseCreate",
         "type": "object"
+      },
+      "PatientCaseIdentifier": {
+        "enum": [
+          "id",
+          "pseudoidentifier",
+          "clinicalIdentifier"
+        ],
+        "title": "PatientCaseIdentifier",
+        "type": "string"
       },
       "NeoplasticEntityFilters": {
         "properties": {

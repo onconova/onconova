@@ -1,19 +1,16 @@
-from typing import Any, List, Tuple, Type, Optional
 import types
+from typing import Any, List, Optional, Tuple, Type
 
 from django.db.models import Model as DjangoModel
-
-from pydantic import create_model as create_pydantic_model
-
 from ninja.errors import ConfigError
 from ninja.orm.factory import SchemaFactory as NinjaSchemaFactory
 from ninja.schema import Schema
+from pydantic import create_model as create_pydantic_model
 
-from .fields import get_schema_field, get_schema_field_filters
 from .base import BaseSchema
+from .fields import get_schema_field, get_schema_field_filters
 from .filters import FilterBaseSchema
 from .mixins import OrmMetadataMixin
-
 
 __all__ = ["SchemaFactory", "factory", "create_schema"]
 
@@ -139,6 +136,8 @@ class SchemaFactory(NinjaSchemaFactory):
         definitions = {}
         filter_fcns = {}
         for field_name, field_info in schema.model_fields.items():
+            if exclude and field_name in exclude:
+                continue
             if field_name in [
                 "description",
                 "createdAt",
