@@ -1,21 +1,18 @@
 import { Component, inject, input, computed, signal, Resource, Signal  } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { map, first, of, catchError, tap } from 'rxjs';
+import { map, of, catchError, tap } from 'rxjs';
 
 import { Users } from 'lucide-angular';
 
-// PrimeNG dependencies
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { MessageService } from 'primeng/api';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { DataViewModule } from 'primeng/dataview';
 import { SkeletonModule } from 'primeng/skeleton';
-import { DividerModule } from 'primeng/divider';
 
-// Project dependencies
 import { Cohort, CohortsService} from 'pop-api-client';
 import { CohortSearchItemComponent } from './components/cohort-search-item/cohort-search-item.component';
 import { CohortFormComponent } from 'src/app/features/forms/cohort-form/cohort-form.component';
@@ -24,15 +21,12 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ModalFormHeaderComponent } from '../../forms/modal-form-header.component';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { Toolbar } from 'primeng/toolbar';
-import { PopoverFilterButtonComponent } from 'src/app/shared/components/popover-filter-button/popover-filter-button.component';
 import { NgxCountAnimationDirective } from 'ngx-count-animation';
 import { driver } from 'driver.js';
 import TourDriverConfig from './cohort-search.tour';
 import { Select } from 'primeng/select';
 import { TableModule } from 'primeng/table';
 import { SelectButton } from 'primeng/selectbutton';
-import { ConfirmDialog } from 'primeng/confirmdialog';
-import { ExportConfirmDialogComponent } from 'src/app/shared/components/export-confirm-dialog/export-confirm-dialog.component';
 
 @Component({
     templateUrl: './cohort-search.component.html',
@@ -81,12 +75,12 @@ export class CohortSearchComponent {
       {label: 'Title', value: 'name'},
       {label: 'Population', value: 'population'},
   ]
-  protected orederingDirections = [
+  protected orderingDirections = [
       {label: 'Descending', value: '-'},
       {label: 'Ascending', value: ''},
   ]
   protected orderingField = signal<string>(this.orderingFields[0].value)
-  protected orderingDirection = signal<string>(this.orederingDirections[0].value)
+  protected orderingDirection = signal<string>(this.orderingDirections[0].value)
   protected ordering = computed(() => this.orderingDirection() + this.orderingField()) 
 
   // Resources

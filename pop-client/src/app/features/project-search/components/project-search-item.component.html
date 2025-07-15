@@ -8,13 +8,18 @@
             <div class="flex flex-column mb-3">
                 <small class="text-muted mb-1">Title</small>
                 <h5 class="project-search-item-title my-0">{{ project().title }}</h5>
-                <div class="text-muted text-sm">{{ project().summary | slice:0:100 }}... </div>
+                @if (project().summary.length > 150) {
+                    <div class="text-muted text-sm">{{ project().summary | slice:0:150 }}... </div>                
+                } @else {
+                    <div class="text-muted text-sm">{{ project().summary }} </div>
+                }
             </div>
 
             <!-- Project status -->
             <div class="flex flex-column ml-auto">
                 <div class="project-search-item-chip text-md mt-2">
-                    <small class="text-muted mb-1">Status</small>
+                    @let status = parseStatus(project().status!);
+                    <p-tag [value]="status.value" [severity]="status.severity"/>    
                 </div>
             </div>
         </div>

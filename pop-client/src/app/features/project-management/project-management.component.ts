@@ -70,6 +70,7 @@ export class ProjectManagementComponent {
         loader: ({request}) => this.#projectsService.getProjectById(request)
     });
     
+    protected readonly membersPlaceholder = [1,3,4,5] as unknown as ProjectMember[];
     protected members = rxResource({
         request: () => ({usernameAnyOf: this.project.value()?.members ?? []}),
         loader: ({request}) => this.#userService.getUsers(request).pipe(
