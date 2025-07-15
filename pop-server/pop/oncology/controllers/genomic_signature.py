@@ -13,7 +13,7 @@ from pop.core.auth.token import XSessionTokenAuth
 from pop.core.history.schemas import HistoryEvent
 from pop.core.schemas import ModifiedResource as ModifiedResourceSchema
 from pop.core.schemas import Paginated
-from pop.core.utils import revert_multitable_model
+from pop.core.utils import COMMON_HTTP_ERRORS, revert_multitable_model
 from pop.oncology.models import GenomicSignature, GenomicSignatureTypes
 from pop.oncology.schemas import (
     AneuploidScoreCreateSchema,
@@ -96,11 +96,7 @@ class GenomicSignatureController(ControllerBase):
 
     @route.post(
         path="",
-        response={
-            201: ModifiedResourceSchema,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="createGenomicSignature",
     )
@@ -123,12 +119,7 @@ class GenomicSignatureController(ControllerBase):
 
     @route.put(
         path="/{genomicSignatureId}",
-        response={
-            200: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="updateGenomicSignatureById",
     )
@@ -140,12 +131,7 @@ class GenomicSignatureController(ControllerBase):
 
     @route.delete(
         path="/{genomicSignatureId}",
-        response={
-            204: None,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={204: None, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="deleteGenomicSignatureById",
     )
@@ -156,12 +142,7 @@ class GenomicSignatureController(ControllerBase):
 
     @route.get(
         path="/{genomicSignatureId}/history/events",
-        response={
-            200: Paginated[HistoryEvent],
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: Paginated[HistoryEvent], 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCases],
         operation_id="getAllGenomicSignatureHistoryEvents",
     )
@@ -173,12 +154,7 @@ class GenomicSignatureController(ControllerBase):
 
     @route.get(
         path="/{genomicSignatureId}/history/events/{eventId}",
-        response={
-            200: HistoryEvent,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: HistoryEvent, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCases],
         operation_id="getGenomicSignatureHistoryEventById",
     )
@@ -197,12 +173,7 @@ class GenomicSignatureController(ControllerBase):
 
     @route.put(
         path="/{genomicSignatureId}/history/events/{eventId}/reversion",
-        response={
-            201: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="revertGenomicSignatureToHistoryEvent",
     )

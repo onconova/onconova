@@ -11,6 +11,7 @@ from pop.core.auth.token import XSessionTokenAuth
 from pop.core.history.schemas import HistoryEvent
 from pop.core.schemas import ModifiedResource as ModifiedResourceSchema
 from pop.core.schemas import Paginated
+from pop.core.utils import COMMON_HTTP_ERRORS
 from pop.oncology.models import Lifestyle
 from pop.oncology.schemas import (
     LifestyleCreateSchema,
@@ -43,11 +44,7 @@ class LifestyleController(ControllerBase):
 
     @route.post(
         path="",
-        response={
-            201: ModifiedResourceSchema,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="createLifestyle",
     )
@@ -56,12 +53,7 @@ class LifestyleController(ControllerBase):
 
     @route.get(
         path="/{lifestyleId}",
-        response={
-            200: LifestyleSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: LifestyleSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCases],
         operation_id="getLifestyleById",
     )
@@ -71,12 +63,7 @@ class LifestyleController(ControllerBase):
 
     @route.put(
         path="/{lifestyleId}",
-        response={
-            200: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="updateLifestyleById",
     )
@@ -86,12 +73,7 @@ class LifestyleController(ControllerBase):
 
     @route.delete(
         path="/{lifestyleId}",
-        response={
-            204: None,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={204: None, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="deleteLifestyleById",
     )
@@ -104,8 +86,7 @@ class LifestyleController(ControllerBase):
         response={
             200: Paginated[HistoryEvent.bind_schema(LifestyleCreateSchema)],
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getAllLifestyleHistoryEvents",
@@ -121,8 +102,7 @@ class LifestyleController(ControllerBase):
         response={
             200: HistoryEvent.bind_schema(LifestyleCreateSchema),
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getLifestyleHistoryEventById",
@@ -135,12 +115,7 @@ class LifestyleController(ControllerBase):
 
     @route.put(
         path="/{lifestyleId}/history/events/{eventId}/reversion",
-        response={
-            201: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="revertLifestyleToHistoryEvent",
     )

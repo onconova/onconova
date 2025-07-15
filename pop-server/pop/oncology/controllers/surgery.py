@@ -10,6 +10,7 @@ from pop.core.auth.token import XSessionTokenAuth
 from pop.core.history.schemas import HistoryEvent
 from pop.core.schemas import ModifiedResource as ModifiedResourceSchema
 from pop.core.schemas import Paginated
+from pop.core.utils import COMMON_HTTP_ERRORS
 from pop.oncology.models import Surgery, TherapyLine
 from pop.oncology.schemas import SurgeryCreateSchema, SurgeryFilters, SurgerySchema
 
@@ -38,11 +39,7 @@ class SurgeryController(ControllerBase):
 
     @route.post(
         path="",
-        response={
-            201: ModifiedResourceSchema,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="createSurgery",
     )
@@ -51,12 +48,7 @@ class SurgeryController(ControllerBase):
 
     @route.get(
         path="/{surgeryId}",
-        response={
-            200: SurgerySchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: SurgerySchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCases],
         operation_id="getSurgeryById",
     )
@@ -66,12 +58,7 @@ class SurgeryController(ControllerBase):
 
     @route.put(
         path="/{surgeryId}",
-        response={
-            200: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="updateSurgeryById",
     )
@@ -81,12 +68,7 @@ class SurgeryController(ControllerBase):
 
     @route.delete(
         path="/{surgeryId}",
-        response={
-            204: None,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={204: None, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="deleteSurgeryById",
     )
@@ -102,8 +84,7 @@ class SurgeryController(ControllerBase):
         response={
             200: Paginated[HistoryEvent.bind_schema(SurgeryCreateSchema)],
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getAllSurgeryHistoryEvents",
@@ -119,8 +100,7 @@ class SurgeryController(ControllerBase):
         response={
             200: HistoryEvent.bind_schema(SurgeryCreateSchema),
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getSurgeryHistoryEventById",
@@ -133,12 +113,7 @@ class SurgeryController(ControllerBase):
 
     @route.put(
         path="/{surgeryId}/history/events/{eventId}/reversion",
-        response={
-            201: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="revertSurgeryToHistoryEvent",
     )

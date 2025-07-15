@@ -13,6 +13,7 @@ from pop.core.auth.token import XSessionTokenAuth
 from pop.core.history.schemas import HistoryEvent
 from pop.core.schemas import ModifiedResource as ModifiedResourceSchema
 from pop.core.schemas import Paginated
+from pop.core.utils import COMMON_HTTP_ERRORS
 from pop.oncology.models import PatientCase, TherapyLine
 from pop.oncology.schemas import (
     TherapyLineCreateSchema,
@@ -45,11 +46,7 @@ class TherapyLineController(ControllerBase):
 
     @route.post(
         path="",
-        response={
-            201: ModifiedResourceSchema,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="createTherapyLine",
     )
@@ -58,12 +55,7 @@ class TherapyLineController(ControllerBase):
 
     @route.get(
         path="/{therapyLineId}",
-        response={
-            200: TherapyLineSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: TherapyLineSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCases],
         operation_id="getTherapyLineById",
     )
@@ -73,12 +65,7 @@ class TherapyLineController(ControllerBase):
 
     @route.put(
         path="/{therapyLineId}",
-        response={
-            200: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="updateTherapyLine",
     )
@@ -88,12 +75,7 @@ class TherapyLineController(ControllerBase):
 
     @route.delete(
         path="/{therapyLineId}",
-        response={
-            204: None,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={204: None, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="deleteTherapyLine",
     )
@@ -106,8 +88,7 @@ class TherapyLineController(ControllerBase):
         response={
             200: Paginated[HistoryEvent.bind_schema(TherapyLineCreateSchema)],
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getAllTherapyLineHistoryEvents",
@@ -123,8 +104,7 @@ class TherapyLineController(ControllerBase):
         response={
             200: HistoryEvent.bind_schema(TherapyLineCreateSchema),
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getTherapyLineHistoryEventById",
@@ -137,12 +117,7 @@ class TherapyLineController(ControllerBase):
 
     @route.put(
         path="/{therapyLineId}/history/events/{eventId}/reversion",
-        response={
-            201: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="revertTherapyLineToHistoryEvent",
     )
@@ -152,12 +127,7 @@ class TherapyLineController(ControllerBase):
 
     @route.get(
         path="/{caseId}/re-assignments",
-        response={
-            200: List[TherapyLineSchema],
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: List[TherapyLineSchema], 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCases],
         operation_id="getReassignedPatientCaseTherapyLines",
     )

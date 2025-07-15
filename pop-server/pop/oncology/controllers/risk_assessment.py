@@ -11,6 +11,7 @@ from pop.core.auth.token import XSessionTokenAuth
 from pop.core.history.schemas import HistoryEvent
 from pop.core.schemas import ModifiedResource as ModifiedResourceSchema
 from pop.core.schemas import Paginated
+from pop.core.utils import COMMON_HTTP_ERRORS
 from pop.oncology.models import RiskAssessment
 from pop.oncology.schemas import (
     RiskAssessmentCreateSchema,
@@ -43,11 +44,7 @@ class RiskAssessmentController(ControllerBase):
 
     @route.post(
         path="",
-        response={
-            201: ModifiedResourceSchema,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="createRiskAssessment",
     )
@@ -56,12 +53,7 @@ class RiskAssessmentController(ControllerBase):
 
     @route.get(
         path="/{riskAssessmentId}",
-        response={
-            200: RiskAssessmentSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: RiskAssessmentSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCases],
         operation_id="getRiskAssessmentById",
     )
@@ -71,12 +63,7 @@ class RiskAssessmentController(ControllerBase):
 
     @route.put(
         path="/{riskAssessmentId}",
-        response={
-            200: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="updateRiskAssessmentById",
     )
@@ -86,12 +73,7 @@ class RiskAssessmentController(ControllerBase):
 
     @route.delete(
         path="/{riskAssessmentId}",
-        response={
-            204: None,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={204: None, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="deleteRiskAssessmentById",
     )
@@ -104,8 +86,7 @@ class RiskAssessmentController(ControllerBase):
         response={
             200: Paginated[HistoryEvent.bind_schema(RiskAssessmentCreateSchema)],
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getAllRiskAssessmentHistoryEvents",
@@ -121,8 +102,7 @@ class RiskAssessmentController(ControllerBase):
         response={
             200: HistoryEvent.bind_schema(RiskAssessmentCreateSchema),
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getRiskAssessmentHistoryEventById",
@@ -137,12 +117,7 @@ class RiskAssessmentController(ControllerBase):
 
     @route.put(
         path="/{riskAssessmentId}/history/events/{eventId}/reversion",
-        response={
-            201: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="revertRiskAssessmentToHistoryEvent",
     )

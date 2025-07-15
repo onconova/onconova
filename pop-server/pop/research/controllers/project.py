@@ -1,25 +1,24 @@
 import pghistory
-from ninja import Query
-from ninja.schema import Schema, Field
-from ninja_extra.pagination import paginate
-from ninja_extra.ordering import ordering
-from ninja_extra import api_controller, ControllerBase, route
-
-from pop.core.auth import permissions as perms
-from pop.core.auth.token import XSessionTokenAuth
-from pop.core.auth.models import User
-from pop.core.schemas import ModifiedResource as ModifiedResourceSchema, Paginated
-from pop.core.history.schemas import HistoryEvent
-from pop.research.models.project import Project, ProjectDataManagerGrant
-
 from django.shortcuts import get_object_or_404
-
+from ninja import Query
+from ninja.schema import Field, Schema
+from ninja_extra import ControllerBase, api_controller, route
+from ninja_extra.ordering import ordering
+from ninja_extra.pagination import paginate
+from pop.core.auth import permissions as perms
+from pop.core.auth.models import User
+from pop.core.auth.token import XSessionTokenAuth
+from pop.core.history.schemas import HistoryEvent
+from pop.core.schemas import ModifiedResource as ModifiedResourceSchema
+from pop.core.schemas import Paginated
+from pop.core.utils import COMMON_HTTP_ERRORS
+from pop.research.models.project import Project, ProjectDataManagerGrant
 from pop.research.schemas.project import (
-    ProjectSchema,
     ProjectCreateSchema,
-    ProjectFilters,
-    ProjectDataManagerGrantSchema,
     ProjectDataManagerGrantCreateSchema,
+    ProjectDataManagerGrantSchema,
+    ProjectFilters,
+    ProjectSchema,
 )
 
 
@@ -46,11 +45,7 @@ class ProjectController(ControllerBase):
 
     @route.post(
         path="",
-        response={
-            201: ModifiedResourceSchema,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageProjects],
         operation_id="createProject",
     )
@@ -59,12 +54,7 @@ class ProjectController(ControllerBase):
 
     @route.get(
         path="/{projectId}",
-        response={
-            200: ProjectSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: ProjectSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewProjects],
         operation_id="getProjectById",
     )
@@ -73,12 +63,7 @@ class ProjectController(ControllerBase):
 
     @route.put(
         path="/{projectId}",
-        response={
-            200: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageProjects],
         operation_id="updateProjectById",
     )
@@ -88,12 +73,7 @@ class ProjectController(ControllerBase):
 
     @route.delete(
         path="/{projectId}",
-        response={
-            204: None,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={204: None, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanDeleteProjects],
         operation_id="deleteProjectById",
     )
@@ -106,8 +86,7 @@ class ProjectController(ControllerBase):
         response={
             200: Paginated[HistoryEvent.bind_schema(ProjectCreateSchema)],
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewProjects],
         operation_id="getAllProjectHistoryEvents",
@@ -123,8 +102,7 @@ class ProjectController(ControllerBase):
         response={
             200: HistoryEvent.bind_schema(ProjectCreateSchema),
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewProjects],
         operation_id="getProjectHistoryEventById",
@@ -137,12 +115,7 @@ class ProjectController(ControllerBase):
 
     @route.put(
         path="/{projectId}/history/events/{eventId}/reversion",
-        response={
-            201: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageProjects],
         operation_id="revertProjectToHistoryEvent",
     )
@@ -168,11 +141,7 @@ class ProjectController(ControllerBase):
 
     @route.post(
         path="/{projectId}/members/{memberId}/data-management/grants",
-        response={
-            201: ModifiedResourceSchema,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageProjects],
         operation_id="createProjectDataManagerGrant",
     )
@@ -184,12 +153,7 @@ class ProjectController(ControllerBase):
 
     @route.get(
         path="/{projectId}/members/{memberId}/data-management/grants/{grantId}",
-        response={
-            200: ProjectDataManagerGrantSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: ProjectDataManagerGrantSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewProjects],
         operation_id="getProjectDataManagerGrantById",
     )
@@ -205,12 +169,7 @@ class ProjectController(ControllerBase):
 
     @route.delete(
         path="/{projectId}/members/{memberId}/data-management/grants/{grantId}",
-        response={
-            201: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageProjects],
         operation_id="revokeProjectDataManagerGrant",
     )
@@ -235,8 +194,7 @@ class ProjectController(ControllerBase):
         response={
             200: Paginated[HistoryEvent.bind_schema(ProjectCreateSchema)],
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewProjects],
         operation_id="getAllProjectDataManagementGrantHistoryEvents",
@@ -259,8 +217,7 @@ class ProjectController(ControllerBase):
         response={
             200: HistoryEvent.bind_schema(ProjectCreateSchema),
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewProjects],
         operation_id="getProjectDataManagementGrantHistoryEventById",
@@ -280,12 +237,7 @@ class ProjectController(ControllerBase):
 
     @route.put(
         path="/{projectId}/members/{memberId}/data-management/grants/{grantId}/history/events/{eventId}/reversion",
-        response={
-            201: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageProjects],
         operation_id="revertProjectDataManagementGrantToHistoryEvent",
     )

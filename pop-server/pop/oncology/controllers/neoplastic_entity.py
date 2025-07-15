@@ -14,6 +14,7 @@ from pop.core.auth.token import XSessionTokenAuth
 from pop.core.history.schemas import HistoryEvent
 from pop.core.schemas import ModifiedResource as ModifiedResourceSchema
 from pop.core.schemas import Paginated
+from pop.core.utils import COMMON_HTTP_ERRORS
 from pop.oncology.models import NeoplasticEntity
 from pop.oncology.schemas import (
     NeoplasticEntityCreateSchema,
@@ -46,11 +47,7 @@ class NeoplasticEntityController(ControllerBase):
 
     @route.post(
         path="",
-        response={
-            201: ModifiedResourceSchema,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="createNeoplasticEntity",
     )
@@ -59,12 +56,7 @@ class NeoplasticEntityController(ControllerBase):
 
     @route.get(
         path="/{entityId}",
-        response={
-            200: NeoplasticEntitySchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: NeoplasticEntitySchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCases],
         operation_id="getNeoplasticEntityById",
     )
@@ -74,12 +66,7 @@ class NeoplasticEntityController(ControllerBase):
 
     @route.put(
         path="/{entityId}",
-        response={
-            200: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="updateNeoplasticEntityById",
     )
@@ -89,12 +76,7 @@ class NeoplasticEntityController(ControllerBase):
 
     @route.delete(
         path="/{entityId}",
-        response={
-            204: None,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={204: None, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="deleteNeoplasticEntityById",
     )
@@ -107,8 +89,7 @@ class NeoplasticEntityController(ControllerBase):
         response={
             200: Paginated[HistoryEvent.bind_schema(NeoplasticEntityCreateSchema)],
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getAllNeoplasticEntityHistoryEvents",
@@ -124,8 +105,7 @@ class NeoplasticEntityController(ControllerBase):
         response={
             200: HistoryEvent.bind_schema(NeoplasticEntityCreateSchema),
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getNeoplasticEntityHistoryEventById",
@@ -138,12 +118,7 @@ class NeoplasticEntityController(ControllerBase):
 
     @route.put(
         path="/{entityId}/history/events/{eventId}/reversion",
-        response={
-            201: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="revertNeoplasticEntityToHistoryEvent",
     )

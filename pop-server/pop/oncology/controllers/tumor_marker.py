@@ -12,6 +12,7 @@ from pop.core.auth.token import XSessionTokenAuth
 from pop.core.history.schemas import HistoryEvent
 from pop.core.schemas import ModifiedResource as ModifiedResourceSchema
 from pop.core.schemas import Paginated
+from pop.core.utils import COMMON_HTTP_ERRORS
 from pop.oncology.models import TumorMarker
 from pop.oncology.models.tumor_marker import ANALYTES_DATA, AnalyteDetails
 from pop.oncology.schemas import (
@@ -45,11 +46,7 @@ class TumorMarkerController(ControllerBase):
 
     @route.post(
         path="",
-        response={
-            201: ModifiedResourceSchema,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="createTumorMarker",
     )
@@ -58,12 +55,7 @@ class TumorMarkerController(ControllerBase):
 
     @route.get(
         path="/{tumorMarkerId}",
-        response={
-            200: TumorMarkerSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: TumorMarkerSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCases],
         operation_id="getTumorMarkerById",
     )
@@ -73,12 +65,7 @@ class TumorMarkerController(ControllerBase):
 
     @route.put(
         path="/{tumorMarkerId}",
-        response={
-            200: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="updateTumorMarkerById",
     )
@@ -88,12 +75,7 @@ class TumorMarkerController(ControllerBase):
 
     @route.delete(
         path="/{tumorMarkerId}",
-        response={
-            204: None,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={204: None, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="deleteTumorMarkerById",
     )
@@ -106,8 +88,7 @@ class TumorMarkerController(ControllerBase):
         response={
             200: Paginated[HistoryEvent.bind_schema(TumorMarkerCreateSchema)],
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getAllTumorMarkerHistoryEvents",
@@ -123,8 +104,7 @@ class TumorMarkerController(ControllerBase):
         response={
             200: HistoryEvent.bind_schema(TumorMarkerCreateSchema),
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getTumorMarkerHistoryEventById",
@@ -137,12 +117,7 @@ class TumorMarkerController(ControllerBase):
 
     @route.put(
         path="/{tumorMarkerId}/history/events/{eventId}/reversion",
-        response={
-            201: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="revertTumorMarkerToHistoryEvent",
     )
@@ -152,12 +127,7 @@ class TumorMarkerController(ControllerBase):
 
     @route.get(
         path="analytes/{analyteCode}/details",
-        response={
-            200: AnalyteDetails,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: AnalyteDetails, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCases],
         operation_id="getTumorMarkerAnalyteDetailsByCode",
     )

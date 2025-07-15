@@ -14,6 +14,7 @@ from pop.core.auth.token import XSessionTokenAuth
 from pop.core.history.schemas import HistoryEvent
 from pop.core.schemas import ModifiedResource as ModifiedResourceSchema
 from pop.core.schemas import Paginated
+from pop.core.utils import COMMON_HTTP_ERRORS
 from pop.oncology.models import ComorbiditiesAssessment, ComorbiditiesPanel
 from pop.oncology.models.comorbidities import (
     ComorbidityPanelCategory as ComorbidityPanelCategoryType,
@@ -52,11 +53,7 @@ class ComorbiditiesAssessmentController(ControllerBase):
 
     @route.post(
         path="",
-        response={
-            201: ModifiedResourceSchema,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="createComorbiditiesAssessment",
     )
@@ -65,12 +62,7 @@ class ComorbiditiesAssessmentController(ControllerBase):
 
     @route.get(
         path="/{comorbiditiesAssessmentId}",
-        response={
-            200: ComorbiditiesAssessmentSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: ComorbiditiesAssessmentSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCases],
         operation_id="getComorbiditiesAssessmentById",
     )
@@ -80,12 +72,7 @@ class ComorbiditiesAssessmentController(ControllerBase):
 
     @route.delete(
         path="/{comorbiditiesAssessmentId}",
-        response={
-            204: None,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={204: None, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="deleteComorbiditiesAssessment",
     )
@@ -98,12 +85,7 @@ class ComorbiditiesAssessmentController(ControllerBase):
 
     @route.put(
         path="/{comorbiditiesAssessmentId}",
-        response={
-            200: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="updateComorbiditiesAssessment",
     )
@@ -123,8 +105,7 @@ class ComorbiditiesAssessmentController(ControllerBase):
                 HistoryEvent.bind_schema(ComorbiditiesAssessmentCreateSchema)
             ],
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getAllComorbiditiesAssessmentHistoryEvents",
@@ -144,8 +125,7 @@ class ComorbiditiesAssessmentController(ControllerBase):
         response={
             200: HistoryEvent.bind_schema(ComorbiditiesAssessmentCreateSchema),
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getComorbiditiesAssessmentHistoryEventById",
@@ -162,12 +142,7 @@ class ComorbiditiesAssessmentController(ControllerBase):
 
     @route.put(
         path="/{comorbiditiesAssessmentId}/history/events/{eventId}/reversion",
-        response={
-            201: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="revertComorbiditiesAssessmentToHistoryEvent",
     )
@@ -181,11 +156,7 @@ class ComorbiditiesAssessmentController(ControllerBase):
 
     @route.get(
         path="/meta/panels",
-        response={
-            200: List[ComorbiditiesPanel],
-            401: None,
-            403: None,
-        },
+        response={200: List[ComorbiditiesPanel], **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCases],
         operation_id="getComorbiditiesPanels",
     )
@@ -212,12 +183,7 @@ class ComorbiditiesAssessmentController(ControllerBase):
 
     @route.get(
         path="/meta/panels/{panel}",
-        response={
-            200: ComorbiditiesPanel,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: ComorbiditiesPanel, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCases],
         operation_id="getComorbiditiesPanelsByName",
     )

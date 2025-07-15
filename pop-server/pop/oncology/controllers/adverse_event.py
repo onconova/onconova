@@ -13,6 +13,7 @@ from pop.core.auth.token import XSessionTokenAuth
 from pop.core.history.schemas import HistoryEvent
 from pop.core.schemas import ModifiedResource as ModifiedResourceSchema
 from pop.core.schemas import Paginated
+from pop.core.utils import COMMON_HTTP_ERRORS
 from pop.oncology.models import (
     AdverseEvent,
     AdverseEventMitigation,
@@ -38,11 +39,7 @@ class AdverseEventController(ControllerBase):
 
     @route.get(
         path="",
-        response={
-            200: Paginated[AdverseEventSchema],
-            401: None,
-            403: None,
-        },
+        response={200: Paginated[AdverseEventSchema], **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCases],
         operation_id="getAdverseEvents",
     )
@@ -55,11 +52,7 @@ class AdverseEventController(ControllerBase):
 
     @route.post(
         path="",
-        response={
-            201: ModifiedResourceSchema,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="createAdverseEvent",
     )
@@ -68,12 +61,7 @@ class AdverseEventController(ControllerBase):
 
     @route.get(
         path="/{adverseEventId}",
-        response={
-            200: AdverseEventSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: AdverseEventSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCases],
         operation_id="getAdverseEventById",
     )
@@ -83,12 +71,7 @@ class AdverseEventController(ControllerBase):
 
     @route.delete(
         path="/{adverseEventId}",
-        response={
-            204: None,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={204: None, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="deleteAdverseEventById",
     )
@@ -98,12 +81,7 @@ class AdverseEventController(ControllerBase):
 
     @route.put(
         path="/{adverseEventId}",
-        response={
-            200: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="updateAdverseEvent",
     )
@@ -116,8 +94,7 @@ class AdverseEventController(ControllerBase):
         response={
             200: Paginated[HistoryEvent.bind_schema(AdverseEventCreateSchema)],
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getAllAdverseEventHistoryEvents",
@@ -133,8 +110,7 @@ class AdverseEventController(ControllerBase):
         response={
             200: HistoryEvent.bind_schema(AdverseEventCreateSchema),
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getAdverseEventHistoryEventById",
@@ -147,12 +123,7 @@ class AdverseEventController(ControllerBase):
 
     @route.put(
         path="/{adverseEventId}/history/events/{eventId}/reversion",
-        response={
-            201: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="revertAdverseEventToHistoryEvent",
     )
@@ -165,8 +136,7 @@ class AdverseEventController(ControllerBase):
         response={
             200: List[AdverseEventSuspectedCauseSchema],
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getAdverseEventSuspectedCauses",
@@ -179,8 +149,7 @@ class AdverseEventController(ControllerBase):
         response={
             200: AdverseEventSuspectedCauseSchema,
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getAdverseEventSuspectedCauseById",
@@ -192,11 +161,7 @@ class AdverseEventController(ControllerBase):
 
     @route.post(
         path="/{adverseEventId}/suspected-causes",
-        response={
-            201: ModifiedResourceSchema,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="createAdverseEventSuspectedCause",
     )
@@ -208,12 +173,7 @@ class AdverseEventController(ControllerBase):
 
     @route.put(
         path="/{adverseEventId}/suspected-causes/{causeId}",
-        response={
-            200: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="updateAdverseEventSuspectedCause",
     )
@@ -225,12 +185,7 @@ class AdverseEventController(ControllerBase):
 
     @route.delete(
         path="/{adverseEventId}/suspected-causes/{causeId}",
-        response={
-            204: None,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={204: None, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="deleteAdverseEventSuspectedCause",
     )
@@ -247,8 +202,7 @@ class AdverseEventController(ControllerBase):
                 HistoryEvent.bind_schema(AdverseEventSuspectedCauseCreateSchema)
             ],
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getAllAdverseEventSuspectedCauseHistoryEvents",
@@ -268,8 +222,7 @@ class AdverseEventController(ControllerBase):
         response={
             200: HistoryEvent.bind_schema(AdverseEventSuspectedCauseCreateSchema),
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getAdverseEventSuspectedCauseHistoryEventById",
@@ -286,12 +239,7 @@ class AdverseEventController(ControllerBase):
 
     @route.put(
         path="/{adverseEventId}/suspected-causes/{causeId}/history/events/{eventId}/reversion",
-        response={
-            201: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="revertAdverseEventSuspectedCauseToHistoryEvent",
     )
@@ -308,8 +256,7 @@ class AdverseEventController(ControllerBase):
         response={
             200: List[AdverseEventMitigationSchema],
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getAdverseEventMitigations",
@@ -319,12 +266,7 @@ class AdverseEventController(ControllerBase):
 
     @route.get(
         path="/{adverseEventId}/mitigations/{mitigationId}",
-        response={
-            200: AdverseEventMitigationSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: AdverseEventMitigationSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCases],
         operation_id="getAdverseEventMitigationById",
     )
@@ -335,11 +277,7 @@ class AdverseEventController(ControllerBase):
 
     @route.post(
         path="/{adverseEventId}/mitigations",
-        response={
-            201: ModifiedResourceSchema,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="createAdverseEventMitigation",
     )
@@ -351,12 +289,7 @@ class AdverseEventController(ControllerBase):
 
     @route.put(
         path="/{adverseEventId}/mitigations/{mitigationId}",
-        response={
-            200: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="updateAdverseEventMitigation",
     )
@@ -368,12 +301,7 @@ class AdverseEventController(ControllerBase):
 
     @route.delete(
         path="/{adverseEventId}/mitigations/{mitigationId}",
-        response={
-            204: None,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={204: None, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="deleteAdverseEventMitigation",
     )
@@ -390,8 +318,7 @@ class AdverseEventController(ControllerBase):
                 HistoryEvent.bind_schema(AdverseEventMitigationCreateSchema)
             ],
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getAllAdverseEventMitigationHistoryEvents",
@@ -411,8 +338,7 @@ class AdverseEventController(ControllerBase):
         response={
             200: HistoryEvent.bind_schema(AdverseEventMitigationCreateSchema),
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getAdverseEventMitigationHistoryEventById",
@@ -429,12 +355,7 @@ class AdverseEventController(ControllerBase):
 
     @route.put(
         path="/{adverseEventId}/mitigations/{mitigationId}/history/events/{eventId}/reversion",
-        response={
-            201: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="revertAdverseEventMitigationToHistoryEvent",
     )

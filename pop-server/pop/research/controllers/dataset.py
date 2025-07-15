@@ -1,26 +1,21 @@
 import pghistory
 from django.shortcuts import get_object_or_404
-
-
 from ninja import Query
 from ninja.errors import HttpError
-from ninja_extra import route, api_controller
-from ninja_extra.pagination import paginate
+from ninja_extra import ControllerBase, api_controller, route
 from ninja_extra.ordering import ordering
-from ninja_extra import api_controller, ControllerBase, route
-
+from ninja_extra.pagination import paginate
 from pop.core.auth import permissions as perms
 from pop.core.auth.token import XSessionTokenAuth
-from pop.core.schemas import ModifiedResource as ModifiedResourceSchema, Paginated
 from pop.core.history.schemas import HistoryEvent
-
+from pop.core.schemas import ModifiedResource as ModifiedResourceSchema
+from pop.core.schemas import Paginated
+from pop.core.utils import COMMON_HTTP_ERRORS
 from pop.research.models.dataset import Dataset
 from pop.research.models.project import Project
-from pop.research.schemas.dataset import (
-    Dataset as DatasetSchema,
-    DatasetCreate as DatasetCreateSchema,
-    DatasetFilters,
-)
+from pop.research.schemas.dataset import Dataset as DatasetSchema
+from pop.research.schemas.dataset import DatasetCreate as DatasetCreateSchema
+from pop.research.schemas.dataset import DatasetFilters
 
 
 @api_controller("/datasets", auth=[XSessionTokenAuth()], tags=["Datasets"])
@@ -28,11 +23,7 @@ class DatasetsController(ControllerBase):
 
     @route.get(
         path="",
-        response={
-            200: Paginated[DatasetSchema],
-            401: None,
-            403: None,
-        },
+        response={200: Paginated[DatasetSchema], **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewDatasets],
         operation_id="getDatasets",
     )
@@ -44,11 +35,7 @@ class DatasetsController(ControllerBase):
 
     @route.post(
         path="",
-        response={
-            201: ModifiedResourceSchema,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageDatasets],
         operation_id="createDataset",
     )
@@ -64,12 +51,7 @@ class DatasetsController(ControllerBase):
 
     @route.get(
         path="/{datasetId}",
-        response={
-            200: DatasetSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: DatasetSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewDatasets],
         operation_id="getDatasetById",
     )
@@ -78,12 +60,7 @@ class DatasetsController(ControllerBase):
 
     @route.delete(
         path="/{datasetId}",
-        response={
-            204: None,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={204: None, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanDeleteDatasets],
         operation_id="deleteDatasetById",
     )
@@ -93,12 +70,7 @@ class DatasetsController(ControllerBase):
 
     @route.put(
         path="/{datasetId}",
-        response={
-            200: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageDatasets],
         operation_id="updateDataset",
     )
@@ -112,8 +84,7 @@ class DatasetsController(ControllerBase):
         response={
             200: Paginated[HistoryEvent.bind_schema(DatasetCreateSchema)],
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getAllDatasetHistoryEvents",
@@ -129,8 +100,7 @@ class DatasetsController(ControllerBase):
         response={
             200: HistoryEvent.bind_schema(DatasetCreateSchema),
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getDatasetHistoryEventById",
@@ -143,12 +113,7 @@ class DatasetsController(ControllerBase):
 
     @route.put(
         path="/{datasetId}/history/events/{eventId}/reversion",
-        response={
-            201: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="revertDatasetToHistoryEvent",
     )

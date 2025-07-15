@@ -15,6 +15,7 @@ from pop.core.auth.token import XSessionTokenAuth
 from pop.core.history.schemas import HistoryEvent
 from pop.core.schemas import ModifiedResource as ModifiedResourceSchema
 from pop.core.schemas import Paginated
+from pop.core.utils import COMMON_HTTP_ERRORS
 from pop.oncology.models import NeoplasticEntity, PatientCase, PatientCaseDataCompletion
 from pop.oncology.schemas import (
     PatientCaseCreateSchema,
@@ -96,11 +97,7 @@ class PatientCaseController(ControllerBase):
 
     @route.post(
         path="",
-        response={
-            201: ModifiedResourceSchema,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="createPatientCase",
     )
@@ -109,12 +106,7 @@ class PatientCaseController(ControllerBase):
 
     @route.get(
         path="/{caseId}",
-        response={
-            200: PatientCaseSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: PatientCaseSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCases],
         operation_id="getPatientCaseById",
     )
@@ -146,12 +138,7 @@ class PatientCaseController(ControllerBase):
 
     @route.put(
         path="/{caseId}",
-        response={
-            200: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="updatePatientCaseById",
     )
@@ -163,12 +150,7 @@ class PatientCaseController(ControllerBase):
 
     @route.delete(
         path="/{caseId}",
-        response={
-            204: None,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={204: None, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="deletePatientCaseById",
     )
@@ -182,8 +164,7 @@ class PatientCaseController(ControllerBase):
         response={
             200: Paginated[HistoryEvent.bind_schema(PatientCaseCreateSchema)],
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getAllPatientCaseHistoryEvents",
@@ -199,8 +180,7 @@ class PatientCaseController(ControllerBase):
         response={
             200: HistoryEvent.bind_schema(PatientCaseCreateSchema),
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getPatientCaseHistoryEventById",
@@ -213,12 +193,7 @@ class PatientCaseController(ControllerBase):
 
     @route.put(
         path="/{caseId}/history/events/{eventId}/reversion",
-        response={
-            201: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="revertPatientCaseToHistoryEvent",
     )
@@ -231,8 +206,7 @@ class PatientCaseController(ControllerBase):
         response={
             200: PatientCaseDataCompletionStatusSchema,
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getPatientCaseDataCompletionStatus",
@@ -251,12 +225,7 @@ class PatientCaseController(ControllerBase):
 
     @route.post(
         path="/{caseId}/data-completion/{category}",
-        response={
-            201: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="createPatientCaseDataCompletion",
     )
@@ -269,12 +238,7 @@ class PatientCaseController(ControllerBase):
 
     @route.delete(
         path="/{caseId}/data-completion/{category}",
-        response={
-            204: None,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={204: None, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="deletePatientCaseDataCompletion",
     )
