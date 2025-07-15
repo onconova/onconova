@@ -1,23 +1,21 @@
 import pghistory
+from django.shortcuts import get_object_or_404
 from ninja import Query
-from ninja.schema import Schema, Field
-from ninja_extra.pagination import paginate
+from ninja.schema import Field, Schema
+from ninja_extra import ControllerBase, api_controller, route
 from ninja_extra.ordering import ordering
-from ninja_extra import api_controller, ControllerBase, route
-
+from ninja_extra.pagination import paginate
+from pop.core.anonymization import anonymize
 from pop.core.auth import permissions as perms
 from pop.core.auth.token import XSessionTokenAuth
-from pop.core.anonymization import anonymize
-from pop.core.schemas import ModifiedResource as ModifiedResourceSchema, Paginated
 from pop.core.history.schemas import HistoryEvent
+from pop.core.schemas import ModifiedResource as ModifiedResourceSchema
+from pop.core.schemas import Paginated
 from pop.oncology.models import Lifestyle
-
-from django.shortcuts import get_object_or_404
-
 from pop.oncology.schemas import (
-    LifestyleSchema,
     LifestyleCreateSchema,
     LifestyleFilters,
+    LifestyleSchema,
 )
 
 
@@ -39,7 +37,7 @@ class LifestyleController(ControllerBase):
     @paginate()
     @ordering()
     @anonymize()
-    def get_all_lifestyles_matching_the_query(self, query: Query[LifestyleFilters], anonymized: bool = True):  # type: ignore
+    def get_all_lifestyles_matching_the_query(self, query: Query[LifestyleFilters]):  # type: ignore
         queryset = Lifestyle.objects.all().order_by("-date")
         return query.filter(queryset)
 
@@ -68,7 +66,7 @@ class LifestyleController(ControllerBase):
         operation_id="getLifestyleById",
     )
     @anonymize()
-    def get_lifestyle_by_id(self, lifestyleId: str, anonymized: bool = True):
+    def get_lifestyle_by_id(self, lifestyleId: str):
         return get_object_or_404(Lifestyle, id=lifestyleId)
 
     @route.put(

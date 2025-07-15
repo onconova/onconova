@@ -1,27 +1,25 @@
-import pghistory
 from typing import List
 
+import pghistory
+from django.db import transaction
+from django.shortcuts import get_object_or_404
 from ninja import Query
-from ninja_extra.pagination import paginate
+from ninja_extra import ControllerBase, api_controller, route
 from ninja_extra.ordering import ordering
-from ninja_extra import api_controller, ControllerBase, route
-
+from ninja_extra.pagination import paginate
+from pop.core.anonymization import anonymize
 from pop.core.auth import permissions as perms
 from pop.core.auth.token import XSessionTokenAuth
-from pop.core.anonymization import anonymize
-from pop.core.schemas import ModifiedResource as ModifiedResourceSchema, Paginated
 from pop.core.history.schemas import HistoryEvent
+from pop.core.schemas import ModifiedResource as ModifiedResourceSchema
+from pop.core.schemas import Paginated
 from pop.oncology.models import SystemicTherapy, SystemicTherapyMedication, TherapyLine
-
-from django.shortcuts import get_object_or_404
-from django.db import transaction
-
 from pop.oncology.schemas import (
-    SystemicTherapySchema,
     SystemicTherapyCreateSchema,
-    SystemicTherapyMedicationSchema,
-    SystemicTherapyMedicationCreateSchema,
     SystemicTherapyFilters,
+    SystemicTherapyMedicationCreateSchema,
+    SystemicTherapyMedicationSchema,
+    SystemicTherapySchema,
 )
 
 
@@ -43,7 +41,7 @@ class SystemicTherapyController(ControllerBase):
     @paginate()
     @ordering()
     @anonymize()
-    def get_all_systemic_therapies_matching_the_query(self, query: Query[SystemicTherapyFilters], anonymized: bool = True):  # type: ignore
+    def get_all_systemic_therapies_matching_the_query(self, query: Query[SystemicTherapyFilters]):  # type: ignore
         queryset = SystemicTherapy.objects.all().order_by("-period")
         return query.filter(queryset)
 
@@ -72,9 +70,7 @@ class SystemicTherapyController(ControllerBase):
         operation_id="getSystemicTherapyById",
     )
     @anonymize()
-    def get_systemic_therapy_by_id(
-        self, systemicTherapyId: str, anonymized: bool = True
-    ):
+    def get_systemic_therapy_by_id(self, systemicTherapyId: str):
         return get_object_or_404(SystemicTherapy, id=systemicTherapyId)
 
     @route.delete(

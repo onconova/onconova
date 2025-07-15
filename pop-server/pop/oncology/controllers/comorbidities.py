@@ -1,33 +1,31 @@
-import pghistory
 import dataclasses
 from typing import List
 
+import pghistory
+from django.db import transaction
+from django.shortcuts import get_object_or_404
 from ninja import Query
-from ninja_extra.pagination import paginate
+from ninja_extra import ControllerBase, api_controller, route
 from ninja_extra.ordering import ordering
-from ninja_extra import api_controller, ControllerBase, route
-
+from ninja_extra.pagination import paginate
+from pop.core.anonymization import anonymize
 from pop.core.auth import permissions as perms
 from pop.core.auth.token import XSessionTokenAuth
-from pop.core.anonymization import anonymize
-from pop.core.schemas import ModifiedResource as ModifiedResourceSchema, Paginated
 from pop.core.history.schemas import HistoryEvent
+from pop.core.schemas import ModifiedResource as ModifiedResourceSchema
+from pop.core.schemas import Paginated
 from pop.oncology.models import ComorbiditiesAssessment, ComorbiditiesPanel
 from pop.oncology.models.comorbidities import (
     ComorbidityPanelCategory as ComorbidityPanelCategoryType,
 )
-from pop.terminology.models import ICD10Condition
-
-from django.shortcuts import get_object_or_404
-from django.db import transaction
-
 from pop.oncology.schemas import (
-    ComorbiditiesAssessmentSchema,
     ComorbiditiesAssessmentCreateSchema,
+    ComorbiditiesAssessmentFilters,
+    ComorbiditiesAssessmentSchema,
     ComorbiditiesPanel,
     ComorbidityPanelCategory,
-    ComorbiditiesAssessmentFilters,
 )
+from pop.terminology.models import ICD10Condition
 
 
 @api_controller(
@@ -48,7 +46,7 @@ class ComorbiditiesAssessmentController(ControllerBase):
     @paginate()
     @ordering()
     @anonymize()
-    def get_all_comorbidities_assessments_matching_the_query(self, query: Query[ComorbiditiesAssessmentFilters], anonymized: bool = True):  # type: ignore
+    def get_all_comorbidities_assessments_matching_the_query(self, query: Query[ComorbiditiesAssessmentFilters]):  # type: ignore
         queryset = ComorbiditiesAssessment.objects.all().order_by("-date")
         return query.filter(queryset)
 
@@ -77,9 +75,7 @@ class ComorbiditiesAssessmentController(ControllerBase):
         operation_id="getComorbiditiesAssessmentById",
     )
     @anonymize()
-    def get_comorbidities_assessment_by_id(
-        self, comorbiditiesAssessmentId: str, anonymized: bool = True
-    ):
+    def get_comorbidities_assessment_by_id(self, comorbiditiesAssessmentId: str):
         return get_object_or_404(ComorbiditiesAssessment, id=comorbiditiesAssessmentId)
 
     @route.delete(

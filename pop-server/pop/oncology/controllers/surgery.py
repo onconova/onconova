@@ -1,20 +1,17 @@
 import pghistory
-
+from django.shortcuts import get_object_or_404
 from ninja import Query
-from ninja_extra.pagination import paginate
+from ninja_extra import ControllerBase, api_controller, route
 from ninja_extra.ordering import ordering
-from ninja_extra import api_controller, ControllerBase, route
-
+from ninja_extra.pagination import paginate
+from pop.core.anonymization import anonymize
 from pop.core.auth import permissions as perms
 from pop.core.auth.token import XSessionTokenAuth
-from pop.core.anonymization import anonymize
-from pop.core.schemas import ModifiedResource as ModifiedResourceSchema, Paginated
 from pop.core.history.schemas import HistoryEvent
+from pop.core.schemas import ModifiedResource as ModifiedResourceSchema
+from pop.core.schemas import Paginated
 from pop.oncology.models import Surgery, TherapyLine
-
-from django.shortcuts import get_object_or_404
-
-from pop.oncology.schemas import SurgerySchema, SurgeryCreateSchema, SurgeryFilters
+from pop.oncology.schemas import SurgeryCreateSchema, SurgeryFilters, SurgerySchema
 
 
 @api_controller(
@@ -35,7 +32,7 @@ class SurgeryController(ControllerBase):
     @paginate()
     @ordering()
     @anonymize()
-    def get_all_surgeries_matching_the_query(self, query: Query[SurgeryFilters], anonymized: bool = True):  # type: ignore
+    def get_all_surgeries_matching_the_query(self, query: Query[SurgeryFilters]):  # type: ignore
         queryset = Surgery.objects.all().order_by("-date")
         return query.filter(queryset)
 
@@ -64,7 +61,7 @@ class SurgeryController(ControllerBase):
         operation_id="getSurgeryById",
     )
     @anonymize()
-    def get_surgery_by_id(self, surgeryId: str, anonymized: bool = True):
+    def get_surgery_by_id(self, surgeryId: str):
         return get_object_or_404(Surgery, id=surgeryId)
 
     @route.put(

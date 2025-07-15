@@ -1,38 +1,36 @@
+from typing import List, TypeAlias, Union
+
 import pghistory
-
-from ninja import Query
-from ninja_extra.pagination import paginate
-from ninja_extra.ordering import ordering
-from ninja_extra import api_controller, ControllerBase, route
-
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import get_object_or_404
-
-from typing import List, Union, TypeAlias
-from typing_extensions import TypeAliasType
-
-from pop.core.auth import permissions as perms
-from pop.core.utils import revert_multitable_model
-from pop.core.auth.token import XSessionTokenAuth
+from ninja import Query
+from ninja_extra import ControllerBase, api_controller, route
+from ninja_extra.ordering import ordering
+from ninja_extra.pagination import paginate
 from pop.core.anonymization import anonymize
-from pop.core.schemas import ModifiedResource as ModifiedResourceSchema, Paginated
+from pop.core.auth import permissions as perms
+from pop.core.auth.token import XSessionTokenAuth
 from pop.core.history.schemas import HistoryEvent
+from pop.core.schemas import ModifiedResource as ModifiedResourceSchema
+from pop.core.schemas import Paginated
+from pop.core.utils import revert_multitable_model
 from pop.oncology.models import GenomicSignature, GenomicSignatureTypes
 from pop.oncology.schemas import (
-    GenomicSignatureFilters,
-    TumorMutationalBurdenSchema,
-    TumorMutationalBurdenCreateSchema,
-    MicrosatelliteInstabilitySchema,
-    MicrosatelliteInstabilityCreateSchema,
-    LossOfHeterozygositySchema,
-    LossOfHeterozygosityCreateSchema,
-    HomologousRecombinationDeficiencySchema,
-    HomologousRecombinationDeficiencyCreateSchema,
-    TumorNeoantigenBurdenSchema,
-    TumorNeoantigenBurdenCreateSchema,
-    AneuploidScoreSchema,
     AneuploidScoreCreateSchema,
+    AneuploidScoreSchema,
+    GenomicSignatureFilters,
+    HomologousRecombinationDeficiencyCreateSchema,
+    HomologousRecombinationDeficiencySchema,
+    LossOfHeterozygosityCreateSchema,
+    LossOfHeterozygositySchema,
+    MicrosatelliteInstabilityCreateSchema,
+    MicrosatelliteInstabilitySchema,
+    TumorMutationalBurdenCreateSchema,
+    TumorMutationalBurdenSchema,
+    TumorNeoantigenBurdenCreateSchema,
+    TumorNeoantigenBurdenSchema,
 )
+from typing_extensions import TypeAliasType
 
 RESPONSE_SCHEMAS = (
     MicrosatelliteInstabilitySchema,
@@ -86,7 +84,7 @@ class GenomicSignatureController(ControllerBase):
     @paginate()
     @ordering()
     @anonymize()
-    def get_all_genomic_signatures_matching_the_query(self, query: Query[GenomicSignatureFilters], anonymized: bool = True):  # type: ignore
+    def get_all_genomic_signatures_matching_the_query(self, query: Query[GenomicSignatureFilters]):  # type: ignore
         queryset = GenomicSignature.objects.all().order_by("-date")
         return [
             cast_to_model_schema(
@@ -117,9 +115,7 @@ class GenomicSignatureController(ControllerBase):
         operation_id="getGenomicSignatureById",
     )
     @anonymize()
-    def get_genomic_signature_by_id(
-        self, genomicSignatureId: str, anonymized: bool = True
-    ):
+    def get_genomic_signature_by_id(self, genomicSignatureId: str):
         instance = get_object_or_404(GenomicSignature, id=genomicSignatureId)
         return cast_to_model_schema(
             instance.get_discriminated_genomic_signature(), RESPONSE_SCHEMAS

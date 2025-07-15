@@ -1,23 +1,20 @@
 import pghistory
-
+from django.shortcuts import get_object_or_404
 from ninja import Query
-from ninja_extra.pagination import paginate
+from ninja_extra import ControllerBase, api_controller, route
 from ninja_extra.ordering import ordering
-from ninja_extra import api_controller, ControllerBase, route
-
+from ninja_extra.pagination import paginate
+from pop.core.anonymization import anonymize
 from pop.core.auth import permissions as perms
 from pop.core.auth.token import XSessionTokenAuth
-from pop.core.anonymization import anonymize
-from pop.core.schemas import ModifiedResource as ModifiedResourceSchema, Paginated
 from pop.core.history.schemas import HistoryEvent
-from pop.oncology.models import TreatmentResponse, TherapyLine
-
-from django.shortcuts import get_object_or_404
-
+from pop.core.schemas import ModifiedResource as ModifiedResourceSchema
+from pop.core.schemas import Paginated
+from pop.oncology.models import TherapyLine, TreatmentResponse
 from pop.oncology.schemas import (
-    TreatmentResponseSchema,
     TreatmentResponseCreateSchema,
     TreatmentResponseFilters,
+    TreatmentResponseSchema,
 )
 
 
@@ -39,7 +36,7 @@ class TreatmentResponseController(ControllerBase):
     @paginate()
     @ordering()
     @anonymize()
-    def get_all_treatment_responses_matching_the_query(self, query: Query[TreatmentResponseFilters], anonymized: bool = True):  # type: ignore
+    def get_all_treatment_responses_matching_the_query(self, query: Query[TreatmentResponseFilters]):  # type: ignore
         queryset = TreatmentResponse.objects.all().order_by("-date")
         return query.filter(queryset)
 
@@ -68,9 +65,7 @@ class TreatmentResponseController(ControllerBase):
         operation_id="getTreatmentResponseById",
     )
     @anonymize()
-    def get_treatment_response_by_id(
-        self, treatmentRresponseId: str, anonymized: bool = True
-    ):
+    def get_treatment_response_by_id(self, treatmentRresponseId: str):
         return get_object_or_404(TreatmentResponse, id=treatmentRresponseId)
 
     @route.put(

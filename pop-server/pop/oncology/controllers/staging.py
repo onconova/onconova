@@ -1,53 +1,52 @@
+from typing import Union
+
 import pghistory
-
-from ninja import Query
-from ninja_extra.pagination import paginate
-from ninja_extra.ordering import ordering
-from ninja_extra import api_controller, ControllerBase, route
-
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import get_object_or_404
-from typing import Union
-from typing_extensions import TypeAliasType
-
-from pop.core.auth import permissions as perms
-from pop.core.utils import revert_multitable_model
-from pop.core.auth.token import XSessionTokenAuth
+from ninja import Query
+from ninja_extra import ControllerBase, api_controller, route
+from ninja_extra.ordering import ordering
+from ninja_extra.pagination import paginate
 from pop.core.anonymization import anonymize
-from pop.core.schemas import ModifiedResource as ModifiedResourceSchema, Paginated
+from pop.core.auth import permissions as perms
+from pop.core.auth.token import XSessionTokenAuth
 from pop.core.history.schemas import HistoryEvent
+from pop.core.schemas import ModifiedResource as ModifiedResourceSchema
+from pop.core.schemas import Paginated
+from pop.core.utils import revert_multitable_model
 from pop.oncology.models import Staging
 from pop.oncology.schemas import (
-    StagingFilters,
-    TNMStagingSchema,
-    TNMStagingCreateSchema,
-    FIGOStagingSchema,
-    FIGOStagingCreateSchema,
-    BinetStagingSchema,
     BinetStagingCreateSchema,
-    RaiStagingSchema,
-    RaiStagingCreateSchema,
-    BreslowDepthSchema,
+    BinetStagingSchema,
     BreslowDepthCreateSchema,
-    ClarkStagingSchema,
+    BreslowDepthSchema,
     ClarkStagingCreateSchema,
-    ISSStagingSchema,
-    ISSStagingCreateSchema,
-    RISSStagingSchema,
-    RISSStagingCreateSchema,
-    GleasonGradeSchema,
+    ClarkStagingSchema,
+    FIGOStagingCreateSchema,
+    FIGOStagingSchema,
     GleasonGradeCreateSchema,
-    INSSStageSchema,
-    INSSStageCreateSchema,
-    INRGSSStageSchema,
+    GleasonGradeSchema,
     INRGSSStageCreateSchema,
-    WilmsStageSchema,
-    WilmsStageCreateSchema,
-    RhabdomyosarcomaClinicalGroupSchema,
-    RhabdomyosarcomaClinicalGroupCreateSchema,
-    LymphomaStagingSchema,
+    INRGSSStageSchema,
+    INSSStageCreateSchema,
+    INSSStageSchema,
+    ISSStagingCreateSchema,
+    ISSStagingSchema,
     LymphomaStagingCreateSchema,
+    LymphomaStagingSchema,
+    RaiStagingCreateSchema,
+    RaiStagingSchema,
+    RhabdomyosarcomaClinicalGroupCreateSchema,
+    RhabdomyosarcomaClinicalGroupSchema,
+    RISSStagingCreateSchema,
+    RISSStagingSchema,
+    StagingFilters,
+    TNMStagingCreateSchema,
+    TNMStagingSchema,
+    WilmsStageCreateSchema,
+    WilmsStageSchema,
 )
+from typing_extensions import TypeAliasType
 
 RESPONSE_SCHEMAS = (
     TNMStagingSchema,
@@ -125,7 +124,7 @@ class StagingController(ControllerBase):
     @paginate()
     @ordering()
     @anonymize()
-    def get_all_stagings_matching_the_query(self, query: Query[StagingFilters], anonymized: bool = True):  # type: ignore
+    def get_all_stagings_matching_the_query(self, query: Query[StagingFilters]):  # type: ignore
         queryset = Staging.objects.all().order_by("-date")
         return [
             cast_to_model_schema(staging.get_domain_staging(), RESPONSE_SCHEMAS)
@@ -153,7 +152,7 @@ class StagingController(ControllerBase):
         operation_id="getStagingById",
     )
     @anonymize()
-    def get_staging_by_id(self, stagingId: str, anonymized: bool = True):
+    def get_staging_by_id(self, stagingId: str):
         instance = get_object_or_404(Staging, id=stagingId)
         return cast_to_model_schema(instance.get_domain_staging(), RESPONSE_SCHEMAS)
 

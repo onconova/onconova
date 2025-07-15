@@ -80,7 +80,6 @@ class PatientCaseController(ControllerBase):
     def get_all_patient_cases_matching_the_query(
         self,
         query: Query[PatientCaseFilters],
-        anonymized: bool = True,
         idSearch: Optional[str] = None,
     ):  # type: ignore
         queryset = PatientCase.objects.all()
@@ -123,7 +122,6 @@ class PatientCaseController(ControllerBase):
     def get_patient_case_by_id(
         self,
         caseId: str,
-        anonymized: bool = True,
         type: PatientCaseIdentifier = PatientCaseIdentifier.ID,
         clinicalCenter: str = None,
     ):

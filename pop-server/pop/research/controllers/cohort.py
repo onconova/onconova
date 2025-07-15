@@ -160,7 +160,7 @@ class CohortsController(ControllerBase):
     )
     @paginate()
     @anonymize()
-    def get_cohort_cases(self, cohortId: str, anonymized: bool = True):
+    def get_cohort_cases(self, cohortId: str):
         return get_object_or_404(Cohort, id=cohortId).cases.all()
 
     @route.get(
@@ -318,7 +318,7 @@ class CohortsController(ControllerBase):
                 default=str,
             ).encode("utf-8")
         ).hexdigest()
-        
+
         export = {
             **ExportMetadata(
                 exportedAt=datetime.now(),

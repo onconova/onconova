@@ -1,24 +1,23 @@
-import pghistory
-from ninja import Query
-from ninja.schema import Schema, Field
-from ninja_extra.pagination import paginate
-from ninja_extra.ordering import ordering
-from ninja_extra import api_controller, ControllerBase, route
 from typing import List
 
+import pghistory
+from django.shortcuts import get_object_or_404
+from ninja import Query
+from ninja.schema import Field, Schema
+from ninja_extra import ControllerBase, api_controller, route
+from ninja_extra.ordering import ordering
+from ninja_extra.pagination import paginate
+from pop.core.anonymization import anonymize
 from pop.core.auth import permissions as perms
 from pop.core.auth.token import XSessionTokenAuth
-from pop.core.anonymization import anonymize
-from pop.core.schemas import ModifiedResource as ModifiedResourceSchema, Paginated
 from pop.core.history.schemas import HistoryEvent
-from pop.oncology.models import TherapyLine, PatientCase
-
-from django.shortcuts import get_object_or_404
-
+from pop.core.schemas import ModifiedResource as ModifiedResourceSchema
+from pop.core.schemas import Paginated
+from pop.oncology.models import PatientCase, TherapyLine
 from pop.oncology.schemas import (
-    TherapyLineSchema,
     TherapyLineCreateSchema,
     TherapyLineFilters,
+    TherapyLineSchema,
 )
 
 
@@ -40,7 +39,7 @@ class TherapyLineController(ControllerBase):
     @paginate()
     @ordering()
     @anonymize()
-    def get_all_therapy_lines_matching_the_query(self, query: Query[TherapyLineFilters], anonymized: bool = True):  # type: ignore
+    def get_all_therapy_lines_matching_the_query(self, query: Query[TherapyLineFilters]):  # type: ignore
         queryset = TherapyLine.objects.all().order_by("-period")
         return query.filter(queryset)
 
@@ -69,7 +68,7 @@ class TherapyLineController(ControllerBase):
         operation_id="getTherapyLineById",
     )
     @anonymize()
-    def get_therapy_line_by_id(self, therapyLineId: str, anonymized: bool = True):
+    def get_therapy_line_by_id(self, therapyLineId: str):
         return get_object_or_404(TherapyLine, id=therapyLineId)
 
     @route.put(
