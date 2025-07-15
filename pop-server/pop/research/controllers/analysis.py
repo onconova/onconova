@@ -84,8 +84,8 @@ class CohortAnalysisController(ControllerBase):
         self, cohortId: str, therapyLine: str, confidence: float = 0.95
     ):
         cohort = get_nonempty_cohort_or_error(cohortId)
-        return 200, KaplanMeierCurve.calculate(
-            survivals=cohort.valid_cases.annotate(
+        therapy_line_survivals = (
+            cohort.valid_cases.annotate(
                 progression_free_survival=Subquery(
                     TherapyLine.objects.filter(
                         case_id=OuterRef("id"), label=therapyLine
@@ -95,7 +95,12 @@ class CohortAnalysisController(ControllerBase):
                 )
             )
             .filter(progression_free_survival__isnull=False)
-            .values_list("progression_free_survival", flat=True),
+            .values_list("progression_free_survival", flat=True)
+        )
+        if not therapy_line_survivals:
+            raise EmptyCohortException
+        return 200, KaplanMeierCurve.calculate(
+            survivals=therapy_line_survivals,
             confidence_level=confidence,
         ).add_metadata(cohort)
 
