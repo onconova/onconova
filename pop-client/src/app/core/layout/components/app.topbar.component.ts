@@ -78,9 +78,9 @@ import { Divider } from 'primeng/divider';
                             <i class="pi pi-{{currentUser().provider}} mr-2"></i>{{currentUser().provider | titlecase}} account
                         </div>
                     }
-                    <p-avatar label="{{ currentUser() | acronym }}" size="large" shape="circle" class="my-3 mx-auto"/>
+                    <p-avatar label="{{ currentUser() | acronym }}" size="large" shape="circle" class="layout-tobbar-menu-avatar"/>
                     <div class="flex-col my-auto">
-                        <div class="font-bold mb-0">{{currentUser() | fullname}}</div>
+                        <div class="font-bold mb-0 mt-1">{{currentUser() | fullname}}</div>
                         <div class="text-muted text-sm mb-2">{{currentUser().email || 'Email unknown'}}</div>
 
                     </div>

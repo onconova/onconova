@@ -93,7 +93,16 @@
         .layout-topbar-button {
             margin-left: 1rem;
         }
-    }
+    }    
+}
+
+.layout-tobbar-menu-avatar {
+    width: 5rem !important;
+    font-size: 2.5rem !important;
+    height: 5rem !important;
+    color: white !important;
+    background: var(--p-primary-500-semitransparent) !important;
+    margin: 0 auto !important;
 }
 
 @media (max-width: 991px) {
