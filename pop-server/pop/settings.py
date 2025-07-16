@@ -128,6 +128,7 @@ INSTALLED_APPS = [
 # Middleware stack
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    'pop.core.middleware.AuditLogMiddleware',
     "corsheaders.middleware.CorsMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -279,46 +280,59 @@ USE_TZ = False  # Do not make datetimes timezone-aware by default
 
 # Logger settings
 LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "formatters": {
-        "simple": {
-            "format": "[%(levelname)s %(asctime)s] %(message)s",
-            "datefmt": "%d/%b/%Y %H:%M:%S",
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'audit_logfmt': {
+            'format': (
+                'timestamp="%(asctime)s" level=%(levelname)s user.username="%(username)s" user.id="%(user_id)s" user.level=%(access_level)s '
+                'request.ip="%(ip)s" request.agent="%(user_agent)s" request.method=%(method)s request.path="%(path)s" '
+                'response.status=%(status_code)s response.duration=%(duration)s '
+                'params=%(params)s'
+            ),
+            'datefmt': '%Y-%m-%d %H:%M:%S%z',
+        },
+        'error_verbose': {
+            'format': (
+                '[%(asctime)s] %(levelname)s in %(module)s: %(message)s\n'
+                '%(exc_info)s'
+            ),
+            'datefmt': '%Y-%m-%d %H:%M:%S',
         },
     },
-    "filters": {
-        "require_debug_true": {
-            "()": "django.utils.log.RequireDebugTrue",
-        },
-    },
-    "handlers": {
-        "console": {
-            "level": "DEBUG",
-            "filters": ["require_debug_true"],
-            "class": "logging.StreamHandler",
-            "formatter": "simple",
-        },
-        "file": {
-            "level": "INFO",
+    'handlers': {
+        'audit_file': {
+            'level': 'INFO',
             "class": "logging.handlers.TimedRotatingFileHandler",
-            "filters": [],
-            "filename": "/app/logs/logfile.log",
             "when": "midnight",
+            "filename": "/app/logs/logfile.log",
+            'formatter': 'audit_logfmt',
             "backupCount": 31,
-            "formatter": "simple",
+        },
+        'audit_console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'audit_logfmt',
+        },
+        'error_file': {
+            'level': 'ERROR',
+            "class": "logging.handlers.TimedRotatingFileHandler",
+            "when": "midnight",
+            "filename": "/app/logs/error.log",
+            'formatter': 'error_verbose',
+            "backupCount": 31,
         },
     },
-    "loggers": {
-        "api": {
-            "handlers": ["console", "file"],
-            "level": "INFO",
-            "propagate": True,
+    'loggers': {
+        'audit': {
+            'handlers': ['audit_file', 'audit_console'],
+            'level': 'INFO',
+            'propagate': False,
         },
-        "django": {
-            "handlers": ["console"],
-            "level": "INFO",
-            "propagate": True,
+        'error': {
+            'handlers': ['error_file'],
+            'level': 'ERROR',
+            'propagate': False,
         },
     },
 }
