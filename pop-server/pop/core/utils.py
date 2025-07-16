@@ -1,20 +1,20 @@
-import re
-import inspect
-from datetime import datetime
 import hashlib
+import inspect
 import math
-from uuid import UUID
+import re
+from datetime import datetime
 from enum import Enum
-from typing import Any, Union, get_args, get_origin, Optional, Literal
-
-from pydantic import BaseModel, Field
+from typing import Any, Literal, Optional, Union, get_args, get_origin
+from uuid import UUID
 
 from django.apps import apps
-from django.db.models import Model as DjangoModel, QuerySet
-from django.db.models.enums import ChoicesType
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Model as DjangoModel
+from django.db.models import QuerySet
+from django.db.models.enums import ChoicesType
+from pydantic import BaseModel, Field
 
-COMMON_HTTP_ERRORS = {404: None, 401: None, 403: None, 500: None}
+COMMON_HTTP_ERRORS = {401: None, 403: None, 500: None}
 
 
 def is_optional(field: type) -> bool:

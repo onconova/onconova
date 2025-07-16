@@ -1,27 +1,34 @@
-import pghistory.models
+from enum import Enum
 from typing import Optional
 
-from ninja import Query
-from ninja_extra.pagination import paginate
-from ninja_extra.ordering import ordering
-from ninja_extra import api_controller, ControllerBase, route
-
-from django.shortcuts import get_object_or_404
-from django.db.models import Q, Exists, OuterRef
+import pghistory.models
 from django.conf import settings
-
-from pop.core.auth import permissions as perms
-from pop.core.schemas import ModifiedResource as ModifiedResourceSchema, Paginated
-from pop.core.history.schemas import HistoryEvent
-from pop.core.auth.token import XSessionTokenAuth
+from django.db.models import Exists, OuterRef, Q
+from django.shortcuts import get_object_or_404
+from ninja import Query
+from ninja_extra import ControllerBase, api_controller, route
+from ninja_extra.ordering import ordering
+from ninja_extra.pagination import paginate
 from pop.core.anonymization import anonymize
-from pop.oncology.models import PatientCase, PatientCaseDataCompletion, NeoplasticEntity
+from pop.core.auth import permissions as perms
+from pop.core.auth.token import XSessionTokenAuth
+from pop.core.history.schemas import HistoryEvent
+from pop.core.schemas import ModifiedResource as ModifiedResourceSchema
+from pop.core.schemas import Paginated
+from pop.core.utils import COMMON_HTTP_ERRORS
+from pop.oncology.models import NeoplasticEntity, PatientCase, PatientCaseDataCompletion
 from pop.oncology.schemas import (
-    PatientCaseSchema,
     PatientCaseCreateSchema,
-    PatientCaseFilters as PatientCaseFiltersBase,
     PatientCaseDataCompletionStatusSchema,
 )
+from pop.oncology.schemas import PatientCaseFilters as PatientCaseFiltersBase
+from pop.oncology.schemas import PatientCaseSchema
+
+
+class PatientCaseIdentifier(str, Enum):
+    ID = "id"
+    PSEUDO = "pseudoidentifier"
+    CLINICAL = "clinicalIdentifier"
 
 
 class PatientCaseFilters(PatientCaseFiltersBase):
@@ -71,17 +78,26 @@ class PatientCaseController(ControllerBase):
     @paginate()
     @ordering()
     @anonymize()
-    def get_all_patient_cases_matching_the_query(self, query: Query[PatientCaseFilters], anonymized: bool = True):  # type: ignore
+    def get_all_patient_cases_matching_the_query(
+        self,
+        query: Query[PatientCaseFilters],
+        idSearch: Optional[str] = None,
+    ):  # type: ignore
         queryset = PatientCase.objects.all()
+        if idSearch:
+            id_query = Q(pseudoidentifier__icontains=idSearch) | Q(
+                id__icontains=idSearch
+            )
+            if perms.CanManageCases.check_user_permission(
+                self, self.context.request.user
+            ):
+                id_query = id_query | Q(clinical_identifier__icontains=idSearch)
+            queryset = queryset.filter(id_query)
         return query.filter(queryset)
 
     @route.post(
         path="",
-        response={
-            201: ModifiedResourceSchema,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="createPatientCase",
     )
@@ -90,34 +106,39 @@ class PatientCaseController(ControllerBase):
 
     @route.get(
         path="/{caseId}",
-        response={200: PatientCaseSchema, 404: None},
+        response={200: PatientCaseSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCases],
         operation_id="getPatientCaseById",
     )
     @anonymize()
-    def get_patient_case_by_id(self, caseId: str, anonymized: bool = True):
-        return get_object_or_404(PatientCase, id=caseId)
-
-    @route.get(
-        path="/pseudo/{pseudoidentifier}",
-        response={200: PatientCaseSchema, 404: None},
-        permissions=[perms.CanViewCases],
-        operation_id="getPatientCaseByPseudoidentifier",
-    )
-    @anonymize()
-    def get_patient_case_by_pseudoidentifier(
-        self, pseudoidentifier: str, anonymized: bool = True
+    def get_patient_case_by_id(
+        self,
+        caseId: str,
+        type: PatientCaseIdentifier = PatientCaseIdentifier.ID,
+        clinicalCenter: str = None,
     ):
-        return get_object_or_404(PatientCase, pseudoidentifier=pseudoidentifier.strip())
+        if type == PatientCaseIdentifier.ID:
+            return get_object_or_404(PatientCase, id=caseId.strip())
+        elif type == PatientCaseIdentifier.PSEUDO:
+            return get_object_or_404(PatientCase, pseudoidentifier=caseId.strip())
+        elif type == PatientCaseIdentifier.CLINICAL:
+            if not perms.CanManageCases.check_user_permission(
+                self, self.context.request.user
+            ):
+                return 403, None
+            if not clinicalCenter:
+                raise ValueError(
+                    "Clinical center must also be provided along the clinical identifier."
+                )
+            return get_object_or_404(
+                PatientCase,
+                clinical_identifier=caseId.strip(),
+                clinical_center=clinicalCenter.strip(),
+            )
 
     @route.put(
         path="/{caseId}",
-        response={
-            200: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="updatePatientCaseById",
     )
@@ -129,12 +150,7 @@ class PatientCaseController(ControllerBase):
 
     @route.delete(
         path="/{caseId}",
-        response={
-            204: None,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={204: None, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="deletePatientCaseById",
     )
@@ -148,8 +164,7 @@ class PatientCaseController(ControllerBase):
         response={
             200: Paginated[HistoryEvent.bind_schema(PatientCaseCreateSchema)],
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getAllPatientCaseHistoryEvents",
@@ -165,8 +180,7 @@ class PatientCaseController(ControllerBase):
         response={
             200: HistoryEvent.bind_schema(PatientCaseCreateSchema),
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getPatientCaseHistoryEventById",
@@ -179,12 +193,7 @@ class PatientCaseController(ControllerBase):
 
     @route.put(
         path="/{caseId}/history/events/{eventId}/reversion",
-        response={
-            201: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="revertPatientCaseToHistoryEvent",
     )
@@ -197,8 +206,7 @@ class PatientCaseController(ControllerBase):
         response={
             200: PatientCaseDataCompletionStatusSchema,
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getPatientCaseDataCompletionStatus",
@@ -217,12 +225,7 @@ class PatientCaseController(ControllerBase):
 
     @route.post(
         path="/{caseId}/data-completion/{category}",
-        response={
-            201: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="createPatientCaseDataCompletion",
     )
@@ -235,12 +238,7 @@ class PatientCaseController(ControllerBase):
 
     @route.delete(
         path="/{caseId}/data-completion/{category}",
-        response={
-            204: None,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={204: None, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="deletePatientCaseDataCompletion",
     )

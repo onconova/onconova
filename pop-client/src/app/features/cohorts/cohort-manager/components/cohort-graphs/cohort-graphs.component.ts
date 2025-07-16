@@ -97,6 +97,7 @@ export class CohortGraphsComponent {
             percentage: cohortFractionCount / this.cohort().population
         }]
     })
+    protected readonly therapyLinePopulation = computed(() => this.therapyLineCohortFractionCount()[1].counts) 
     public selectedTherapyLine = signal<string>('CLoT1');
     public therapyLineDrugCombinations = rxResource({
         request: () => ({cohortId: this.cohort().id, therapyLine: this.selectedTherapyLine(), categorization: 'drugs'}),

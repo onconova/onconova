@@ -95,7 +95,7 @@
 </p-popover>
 
 <p-table 
-    [value]="members.value() ?? []"
+    [value]="members.value() ?? membersPlaceholder"
     sortField="fullName"
     >
     <ng-template #header>
@@ -116,58 +116,70 @@
         </tr>
     </ng-template>
     <ng-template #body let-member>
-        <tr>
-            <td><i class="pi pi-user text-primary mr-2"></i>{{member.fullName}}</td>
-            <td><span class="text-muted"><i class="pi pi-lock"></i> {{member.accessLevel}}</span> - {{member.role}}</td>
-            <td>
-                -
-            </td>
-            <td>
-                @if (member.canManageCases) {
-                    <p-tag value="Authorized" severity="success"/>
-                } @else {
-                    <p-tag value="Unauthorized" severity="danger"/>   
-                }
-            </td>
-            <td>
-                @if (member.authorization; as authorization) {
-                    <div>
-                        <pop-user-badge [username]="authorization.grantedBy" [showName]="true"/>
-                    </div>
-                    <div class="text-muted text-sm authorization-granter-subtitle">
-                        on {{ authorization.createdAt | date }}
-                    </div>
-                } @else if (member.accessLevel >= 4) {
-                    <span class="text-muted">System</span>
-                } @else {
-                    <span class="text-muted">-</span>
-                }
-            </td>
-            <td>
-                @if (member.authorization; as authorization) {
-                    <div> 
-                        {{authorization.validityPeriod.start | date}}
-                        -
-                        {{authorization.validityPeriod.end | date}}
-                    </div>
-                    <div class="text-muted text-sm">
-                        @if (authorization.revoked) {
-                            Revoked
-                        } @else {
-                            {{ getValidityPeriodAnnotation(authorization.validityPeriod) }}
-                        }
-                    </div>
-                } @else if (member.accessLevel >= 4) {
-                    <span class="text-muted">Always</span>
-                } @else {
-                    <span class="text-muted">-</span>
-                }
-            </td>
-            <td>
-                <p-menu #menu [model]="(dynamicMenuItems$ | async)!" (onShow)="getMemberMenuItems(member)" [popup]="true" appendTo="body" [tabindex]="undefined"/>
-                <p-button (click)="menu.toggle($event)" icon="pi pi-ellipsis-v" [disabled]="!canEditAuthorizations() "/>
-            </td>
-        </tr>
+        @if (members.isLoading()) {
+            <tr>
+                <td><p-skeleton height="2rem" width="100%"/></td>
+                <td><p-skeleton height="2rem" width="100%"/></td>
+                <td><p-skeleton height="2rem" width="100%"/></td>
+                <td><p-skeleton height="2rem" width="100%"/></td>
+                <td><p-skeleton height="2rem" width="100%"/></td>
+                <td><p-skeleton height="2rem" width="100%"/></td>
+                <td><p-skeleton height="2rem" width="100%"/></td>
+            </tr>
+        } @else {
+            <tr>
+                <td><i class="pi pi-user text-primary mr-2"></i>{{member.fullName}}</td>
+                <td><span class="text-muted"><i class="pi pi-lock"></i> {{member.accessLevel}}</span> - {{member.role}}</td>
+                <td>
+                    -
+                </td>
+                <td>
+                    @if (member.canManageCases) {
+                        <p-tag value="Authorized" severity="success"/>
+                    } @else {
+                        <p-tag value="Unauthorized" severity="danger"/>   
+                    }
+                </td>
+                <td>
+                    @if (member.authorization; as authorization) {
+                        <div>
+                            <pop-user-badge [username]="authorization.grantedBy" [showName]="true"/>
+                        </div>
+                        <div class="text-muted text-sm authorization-granter-subtitle">
+                            on {{ authorization.createdAt | date }}
+                        </div>
+                    } @else if (member.accessLevel >= 4) {
+                        <span class="text-muted">System</span>
+                    } @else {
+                        <span class="text-muted">-</span>
+                    }
+                </td>
+                <td>
+                    @if (member.authorization; as authorization) {
+                        <div> 
+                            {{authorization.validityPeriod.start | date}}
+                            -
+                            {{authorization.validityPeriod.end | date}}
+                        </div>
+                        <div class="text-muted text-sm">
+                            @if (authorization.revoked) {
+                                Revoked
+                            } @else {
+                                {{ getValidityPeriodAnnotation(authorization.validityPeriod) }}
+                            }
+                        </div>
+                    } @else if (member.accessLevel >= 4) {
+                        <span class="text-muted">Always</span>
+                    } @else {
+                        <span class="text-muted">-</span>
+                    }
+                </td>
+                <td>
+                    <p-menu #menu [model]="(dynamicMenuItems$ | async)!" (onShow)="getMemberMenuItems(member)" [popup]="true" appendTo="body" [tabindex]="undefined"/>
+                    <p-button (click)="menu.toggle($event)" icon="pi pi-ellipsis-v" [disabled]="!canEditAuthorizations() "/>
+                </td>
+            </tr>
+        }
     </ng-template>
 </p-table>
 

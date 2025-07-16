@@ -1,31 +1,25 @@
-from typing import Optional, Literal
-from pghistory.models import Events
-
-from ninja import Query, Schema
-from ninja_extra import route, api_controller, ControllerBase
-from ninja_extra.pagination import paginate
-from ninja_extra.ordering import ordering
+import json
+from typing import Literal, Optional
 
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from django.urls import resolve
-
-import json
-
+from ninja import Query, Schema
+from ninja_extra import ControllerBase, api_controller, route
+from ninja_extra.ordering import ordering
+from ninja_extra.pagination import paginate
+from pghistory.models import Events
 from pop.core.auth import permissions as perms
-from pop.core.auth.token import XSessionTokenAuth
 from pop.core.auth.models import User
+from pop.core.auth.schemas import UserCreateSchema, UserFilters
+from pop.core.auth.schemas import UserPasswordReset as UserPasswordResetSchema
+from pop.core.auth.schemas import UserProfileSchema, UserSchema
+from pop.core.auth.token import XSessionTokenAuth
 from pop.core.history.schemas import HistoryEvent
-from pop.core.schemas import Paginated, ModifiedResource as ModifiedResourceSchema
-from pop.core.auth.schemas import (
-    UserFilters,
-    UserSchema,
-    UserCreateSchema,
-    UserProfileSchema,
-    UserPasswordReset as UserPasswordResetSchema,
-)
-
-from pydantic import Field, AliasChoices
+from pop.core.schemas import ModifiedResource as ModifiedResourceSchema
+from pop.core.schemas import Paginated
+from pop.core.utils import COMMON_HTTP_ERRORS
+from pydantic import AliasChoices, Field
 
 
 class UserCredentials(Schema):
@@ -75,6 +69,7 @@ class AuthController(ControllerBase):
             401: None,
             400: None,
             403: None,
+            500: None,
         },
         operation_id="login",
         openapi_extra=dict(security=[]),
@@ -89,12 +84,7 @@ class AuthController(ControllerBase):
 
     @route.post(
         path="/provider/session",
-        response={
-            200: AuthenticationMeta,
-            400: None,
-            401: None,
-            403: None,
-        },
+        response={200: AuthenticationMeta, 400: None, 401: None, 500: None},
         operation_id="loginWithProviderToken",
         openapi_extra=dict(security=[]),
     )
@@ -116,11 +106,7 @@ class UsersController(ControllerBase):
 
     @route.get(
         path="",
-        response={
-            200: Paginated[UserSchema],
-            401: None,
-            403: None,
-        },
+        response={200: Paginated[UserSchema], **COMMON_HTTP_ERRORS},
         operation_id="getUsers",
     )
     @paginate
@@ -131,12 +117,7 @@ class UsersController(ControllerBase):
 
     @route.get(
         path="/{userId}",
-        response={
-            200: UserSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: UserSchema, 404: None, **COMMON_HTTP_ERRORS},
         operation_id="getUserById",
     )
     def get_user_by_id(self, userId: str):
@@ -144,11 +125,7 @@ class UsersController(ControllerBase):
 
     @route.post(
         path="",
-        response={
-            201: ModifiedResourceSchema,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageUsers],
         operation_id="createUser",
     )
@@ -157,12 +134,7 @@ class UsersController(ControllerBase):
 
     @route.put(
         path="/{userId}",
-        response={
-            200: UserSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: UserSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageUsers],
         operation_id="updateUser",
     )
@@ -172,12 +144,7 @@ class UsersController(ControllerBase):
 
     @route.put(
         path="/{userId}/profile",
-        response={
-            201: UserSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={201: UserSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageUsers | perms.IsRequestingUser],
         operation_id="updateUserProfile",
     )
@@ -188,12 +155,7 @@ class UsersController(ControllerBase):
 
     @route.put(
         path="/{userId}/password",
-        response={
-            201: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         operation_id="updateUserPassword",
     )
     def update_user_password(self, userId: str, payload: UserPasswordResetSchema):
@@ -208,11 +170,7 @@ class UsersController(ControllerBase):
 
     @route.post(
         path="/{userId}/password/reset",
-        response={
-            201: ModifiedResourceSchema,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageUsers],
         operation_id="resetUserPassword",
     )
@@ -224,12 +182,7 @@ class UsersController(ControllerBase):
 
     @route.get(
         path="/{userId}/events",
-        response={
-            200: Paginated[HistoryEvent],
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: Paginated[HistoryEvent], 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewUsers],
         operation_id="getUserEvents",
     )

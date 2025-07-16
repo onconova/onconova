@@ -85,7 +85,7 @@ POP enforces **role-based access control (RBAC)** to manage who can access pseud
 | 6 | **Administrator**         | ✅      | ✅                         |
 | 5 | **Platform Manager**      | ✅      | ✅                         |
 | 4 | **Project Manager**       | ✅      | ✅                         |
-| 1 | **Member**                | ✱       | ✱                         |
+| 1 | **Member**                | ✅       | ✱                         |
 | 0 | **External**              | ❌      | ❌                         |
 
 ✱ *Members* that belong to an *ongoing* research project **can be granted temporary rights by their project leaders** to manage (add, update and delete) data in addition to the right to see the pseudonymized data of the patient.    

@@ -164,7 +164,7 @@
         </div>    
         @if (therapyLineOptions().length==0) {
             <p-message severity="warn" styleClass="mb-5">No therapy lines have been assigned to this cohort's cases.</p-message>
-        }@else if (cohort().population < 10) {
+        }@else if (cohort().population < 10 || therapyLinePopulation() < 10) {
             <p-message severity="warn" styleClass="mb-5">Cohort population too small. The Kaplan-Meier analysis requires at least 10 cases.</p-message>
         } @else {
             @if (loading() || therapyLineSurvivalCurve.isLoading()) {
@@ -182,7 +182,7 @@
         </div>    
         @if (therapyLineOptions().length==0) {
             <p-message severity="warn" styleClass="mb-5">No therapy lines have been assigned to this cohort's cases.</p-message>
-        }@else if (cohort().population < 10) {
+        }@else if (cohort().population < 10 || therapyLinePopulation() < 10) {
             <p-message severity="warn" styleClass="mb-5">Cohort population too small. The Kaplan-Meier analysis requires at least 10 cases.</p-message>
         } @else {
             @if (loading() || therapyLineTherapyClassifications.isLoading()) {
@@ -200,7 +200,7 @@
         </div>    
         @if (therapyLineOptions().length==0) {
             <p-message severity="warn" styleClass="mb-5">No therapy lines have been assigned to this cohort's cases.</p-message>
-        }@else if (cohort().population < 10) {
+        }@else if (cohort().population < 10 || therapyLinePopulation() < 10) {
             <p-message severity="warn" styleClass="mb-5">Cohort population too small. The Kaplan-Meier analysis requires at least 10 cases.</p-message>
         } @else {
             @if (loading() || therapyLineDrugCombinations.isLoading()) {

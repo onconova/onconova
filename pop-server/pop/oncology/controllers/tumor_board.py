@@ -1,38 +1,36 @@
-import pghistory
-
-from ninja import Query
-from ninja_extra.pagination import paginate
-from ninja_extra.ordering import ordering
-from ninja_extra import api_controller, ControllerBase, route
-
-from django.core.exceptions import ObjectDoesNotExist
-from django.shortcuts import get_object_or_404
-from django.db.models import QuerySet
-
 from typing import List, Union
-from typing_extensions import TypeAliasType
 
-from pop.core.auth import permissions as perms
-from pop.core.utils import revert_multitable_model
-from pop.core.auth.token import XSessionTokenAuth
+import pghistory
+from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import QuerySet
+from django.shortcuts import get_object_or_404
+from ninja import Query
+from ninja_extra import ControllerBase, api_controller, route
+from ninja_extra.ordering import ordering
+from ninja_extra.pagination import paginate
 from pop.core.anonymization import anonymize
-from pop.core.schemas import ModifiedResource as ModifiedResourceSchema, Paginated
+from pop.core.auth import permissions as perms
+from pop.core.auth.token import XSessionTokenAuth
 from pop.core.history.schemas import HistoryEvent
+from pop.core.schemas import ModifiedResource as ModifiedResourceSchema
+from pop.core.schemas import Paginated
+from pop.core.utils import COMMON_HTTP_ERRORS, revert_multitable_model
 from pop.oncology.models.tumor_board import (
+    MolecularTherapeuticRecommendation,
+    MolecularTumorBoard,
     TumorBoard,
     TumorBoardSpecialties,
-    MolecularTumorBoard,
-    MolecularTherapeuticRecommendation,
 )
 from pop.oncology.schemas import (
-    TumorBoardFilters,
-    UnspecifiedTumorBoardSchema,
-    UnspecifiedTumorBoardCreateSchema,
-    MolecularTumorBoardSchema,
-    MolecularTumorBoardCreateSchema,
-    MolecularTherapeuticRecommendationSchema,
     MolecularTherapeuticRecommendationCreateSchema,
+    MolecularTherapeuticRecommendationSchema,
+    MolecularTumorBoardCreateSchema,
+    MolecularTumorBoardSchema,
+    TumorBoardFilters,
+    UnspecifiedTumorBoardCreateSchema,
+    UnspecifiedTumorBoardSchema,
 )
+from typing_extensions import TypeAliasType
 
 RESPONSE_SCHEMAS = (
     UnspecifiedTumorBoardSchema,
@@ -78,7 +76,7 @@ class TumorBoardController(ControllerBase):
     @paginate()
     @ordering()
     @anonymize()
-    def get_all_tumor_boards_matching_the_query(self, query: Query[TumorBoardFilters], anonymized: bool = True):  # type: ignore
+    def get_all_tumor_boards_matching_the_query(self, query: Query[TumorBoardFilters]):  # type: ignore
         queryset = TumorBoard.objects.all().order_by("-date")
         return [
             cast_to_model_schema(tumorboard.specialized_tumor_board, RESPONSE_SCHEMAS)
@@ -87,11 +85,7 @@ class TumorBoardController(ControllerBase):
 
     @route.post(
         path="",
-        response={
-            201: ModifiedResourceSchema,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="createTumorBoard",
     )
@@ -106,18 +100,13 @@ class TumorBoardController(ControllerBase):
         operation_id="getTumorBoardById",
     )
     @anonymize()
-    def get_tumor_board_by_id(self, tumorBoardId: str, anonymized: bool = True):
+    def get_tumor_board_by_id(self, tumorBoardId: str):
         instance = get_object_or_404(TumorBoard, id=tumorBoardId)
         return cast_to_model_schema(instance.specialized_tumor_board, RESPONSE_SCHEMAS)
 
     @route.put(
         path="/{tumorBoardId}",
-        response={
-            200: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="updateTumorBoardById",
     )
@@ -129,12 +118,7 @@ class TumorBoardController(ControllerBase):
 
     @route.delete(
         path="/{tumorBoardId}",
-        response={
-            204: None,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={204: None, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="deleteTumorBoardById",
     )
@@ -145,12 +129,7 @@ class TumorBoardController(ControllerBase):
 
     @route.get(
         path="/{tumorBoardId}/history/events",
-        response={
-            200: Paginated[HistoryEvent],
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: Paginated[HistoryEvent], 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCases],
         operation_id="getAllTumorBoardHistoryEvents",
     )
@@ -162,12 +141,7 @@ class TumorBoardController(ControllerBase):
 
     @route.get(
         path="/{tumorBoardId}/history/events/{eventId}",
-        response={
-            200: HistoryEvent,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: HistoryEvent, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCases],
         operation_id="getTumorBoardHistoryEventById",
     )
@@ -184,12 +158,7 @@ class TumorBoardController(ControllerBase):
 
     @route.put(
         path="/{tumorBoardId}/history/events/{eventId}/reversion",
-        response={
-            201: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="revertTumorBoardToHistoryEvent",
     )
@@ -214,8 +183,7 @@ class MolecularTherapeuticRecommendationController(ControllerBase):
         response={
             200: List[MolecularTherapeuticRecommendationSchema],
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getMolecularTherapeuticRecommendations",
@@ -243,11 +211,7 @@ class MolecularTherapeuticRecommendationController(ControllerBase):
 
     @route.post(
         path="/{tumorBoardId}/therapeutic-recommendations",
-        response={
-            201: ModifiedResourceSchema,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="createMolecularTherapeuticRecommendation",
     )
@@ -261,12 +225,7 @@ class MolecularTherapeuticRecommendationController(ControllerBase):
 
     @route.put(
         path="/{tumorBoardId}/therapeutic-recommendations/{recommendationId}",
-        response={
-            200: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="updateMolecularTherapeuticRecommendation",
     )
@@ -280,12 +239,7 @@ class MolecularTherapeuticRecommendationController(ControllerBase):
 
     @route.delete(
         path="/{tumorBoardId}/therapeutic-recommendations/{recommendationId}",
-        response={
-            204: None,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={204: None, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="deleteMolecularTherapeuticRecommendation",
     )
@@ -302,12 +256,7 @@ class MolecularTherapeuticRecommendationController(ControllerBase):
 
     @route.get(
         path="/{tumorBoardId}/therapeutic-recommendations/{recommendationId}/history/events",
-        response={
-            200: Paginated[HistoryEvent],
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: Paginated[HistoryEvent], 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCases],
         operation_id="getAllMolecularTherapeuticRecommendationHistoryEvents",
     )
@@ -325,12 +274,7 @@ class MolecularTherapeuticRecommendationController(ControllerBase):
 
     @route.get(
         path="/{tumorBoardId}/therapeutic-recommendations/{recommendationId}/history/events/{eventId}",
-        response={
-            200: HistoryEvent,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: HistoryEvent, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCases],
         operation_id="getMolecularTherapeuticRecommendationHistoryEventById",
     )
@@ -348,12 +292,7 @@ class MolecularTherapeuticRecommendationController(ControllerBase):
 
     @route.put(
         path="/{tumorBoardId}/therapeutic-recommendations/{recommendationId}/history/events/{eventId}/reversion",
-        response={
-            201: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="revertMolecularTherapeuticRecommendationToHistoryEvent",
     )

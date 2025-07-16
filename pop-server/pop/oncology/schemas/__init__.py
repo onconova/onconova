@@ -1,106 +1,109 @@
 from pop.core.serialization.factory import create_filters_schema
-from .patient_case import (
-    PatientCaseSchema,
-    PatientCaseCreateSchema,
-    PatientCaseDataCompletionStatusSchema,
-)
-from .neoplastic_entity import NeoplasticEntitySchema, NeoplasticEntityCreateSchema
-from .staging import (
-    StagingSchema,
-    TNMStagingSchema,
-    TNMStagingCreateSchema,
-    FIGOStagingSchema,
-    FIGOStagingCreateSchema,
-    BinetStagingSchema,
-    BinetStagingCreateSchema,
-    RaiStagingSchema,
-    RaiStagingCreateSchema,
-    BreslowDepthSchema,
-    BreslowDepthCreateSchema,
-    ClarkStagingSchema,
-    ClarkStagingCreateSchema,
-    ISSStagingSchema,
-    ISSStagingCreateSchema,
-    RISSStagingSchema,
-    RISSStagingCreateSchema,
-    GleasonGradeSchema,
-    GleasonGradeCreateSchema,
-    INSSStageSchema,
-    INSSStageCreateSchema,
-    INRGSSStageSchema,
-    INRGSSStageCreateSchema,
-    WilmsStageSchema,
-    WilmsStageCreateSchema,
-    RhabdomyosarcomaClinicalGroupSchema,
-    RhabdomyosarcomaClinicalGroupCreateSchema,
-    LymphomaStagingSchema,
-    LymphomaStagingCreateSchema,
-)
-from .therapy_line import TherapyLineSchema, TherapyLineCreateSchema
-from .tumor_marker import TumorMarkerSchema, TumorMarkerCreateSchema
-from .risk_assessment import RiskAssessmentSchema, RiskAssessmentCreateSchema
-from .systemic_therapy import (
-    SystemicTherapySchema,
-    SystemicTherapyCreateSchema,
-    SystemicTherapyMedicationSchema,
-    SystemicTherapyMedicationCreateSchema,
-)
-from .surgery import SurgerySchema, SurgeryCreateSchema
-from .radiotherapy import (
-    RadiotherapySchema,
-    RadiotherapyCreateSchema,
-    RadiotherapyDosageSchema,
-    RadiotherapyDosageCreateSchema,
-    RadiotherapySettingSchema,
-    RadiotherapySettingCreateSchema,
-)
-from .performance_status import PerformanceStatusSchema, PerformanceStatusCreateSchema
+
 from .adverse_event import (
-    AdverseEventSchema,
     AdverseEventCreateSchema,
-    AdverseEventSuspectedCauseSchema,
-    AdverseEventSuspectedCauseCreateSchema,
-    AdverseEventMitigationSchema,
     AdverseEventMitigationCreateSchema,
-)
-from .lifestyle import LifestyleSchema, LifestyleCreateSchema
-from .family_history import FamilyHistorySchema, FamilyHistoryCreateSchema
-from .vitals import VitalsSchema, VitalsCreateSchema
-from .treatment_response import TreatmentResponseSchema, TreatmentResponseCreateSchema
-from .tumor_board import (
-    UnspecifiedTumorBoardSchema,
-    UnspecifiedTumorBoardCreateSchema,
-    MolecularTumorBoardSchema,
-    MolecularTumorBoardCreateSchema,
-    MolecularTherapeuticRecommendationSchema,
-    MolecularTherapeuticRecommendationCreateSchema,
+    AdverseEventMitigationSchema,
+    AdverseEventSchema,
+    AdverseEventSuspectedCauseCreateSchema,
+    AdverseEventSuspectedCauseSchema,
 )
 from .comorbidities import (
-    ComorbiditiesAssessmentSchema,
     ComorbiditiesAssessmentCreateSchema,
+    ComorbiditiesAssessmentSchema,
     ComorbiditiesPanel,
     ComorbidityPanelCategory,
 )
-from .genomic_variant import GenomicVariantSchema, GenomicVariantCreateSchema
+from .family_history import FamilyHistoryCreateSchema, FamilyHistorySchema
 from .genomic_signature import (
-    GenomicSignatureSchema,
-    TumorMutationalBurdenSchema,
-    TumorMutationalBurdenCreateSchema,
-    MicrosatelliteInstabilitySchema,
-    MicrosatelliteInstabilityCreateSchema,
-    LossOfHeterozygositySchema,
-    LossOfHeterozygosityCreateSchema,
-    HomologousRecombinationDeficiencySchema,
-    HomologousRecombinationDeficiencyCreateSchema,
-    TumorNeoantigenBurdenSchema,
-    TumorNeoantigenBurdenCreateSchema,
-    AneuploidScoreSchema,
     AneuploidScoreCreateSchema,
+    AneuploidScoreSchema,
+    GenomicSignatureSchema,
+    HomologousRecombinationDeficiencyCreateSchema,
+    HomologousRecombinationDeficiencySchema,
+    LossOfHeterozygosityCreateSchema,
+    LossOfHeterozygositySchema,
+    MicrosatelliteInstabilityCreateSchema,
+    MicrosatelliteInstabilitySchema,
+    TumorMutationalBurdenCreateSchema,
+    TumorMutationalBurdenSchema,
+    TumorNeoantigenBurdenCreateSchema,
+    TumorNeoantigenBurdenSchema,
 )
+from .genomic_variant import GenomicVariantCreateSchema, GenomicVariantSchema
+from .lifestyle import LifestyleCreateSchema, LifestyleSchema
+from .neoplastic_entity import NeoplasticEntityCreateSchema, NeoplasticEntitySchema
+from .patient_case import (
+    PatientCaseCreateSchema,
+    PatientCaseDataCompletionStatusSchema,
+    PatientCaseSchema,
+)
+from .performance_status import PerformanceStatusCreateSchema, PerformanceStatusSchema
+from .radiotherapy import (
+    RadiotherapyCreateSchema,
+    RadiotherapyDosageCreateSchema,
+    RadiotherapyDosageSchema,
+    RadiotherapySchema,
+    RadiotherapySettingCreateSchema,
+    RadiotherapySettingSchema,
+)
+from .risk_assessment import RiskAssessmentCreateSchema, RiskAssessmentSchema
+from .staging import (
+    BinetStagingCreateSchema,
+    BinetStagingSchema,
+    BreslowDepthCreateSchema,
+    BreslowDepthSchema,
+    ClarkStagingCreateSchema,
+    ClarkStagingSchema,
+    FIGOStagingCreateSchema,
+    FIGOStagingSchema,
+    GleasonGradeCreateSchema,
+    GleasonGradeSchema,
+    INRGSSStageCreateSchema,
+    INRGSSStageSchema,
+    INSSStageCreateSchema,
+    INSSStageSchema,
+    ISSStagingCreateSchema,
+    ISSStagingSchema,
+    LymphomaStagingCreateSchema,
+    LymphomaStagingSchema,
+    RaiStagingCreateSchema,
+    RaiStagingSchema,
+    RhabdomyosarcomaClinicalGroupCreateSchema,
+    RhabdomyosarcomaClinicalGroupSchema,
+    RISSStagingCreateSchema,
+    RISSStagingSchema,
+    StagingSchema,
+    TNMStagingCreateSchema,
+    TNMStagingSchema,
+    WilmsStageCreateSchema,
+    WilmsStageSchema,
+)
+from .surgery import SurgeryCreateSchema, SurgerySchema
+from .systemic_therapy import (
+    SystemicTherapyCreateSchema,
+    SystemicTherapyMedicationCreateSchema,
+    SystemicTherapyMedicationSchema,
+    SystemicTherapySchema,
+)
+from .therapy_line import TherapyLineCreateSchema, TherapyLineSchema
+from .treatment_response import TreatmentResponseCreateSchema, TreatmentResponseSchema
+from .tumor_board import (
+    MolecularTherapeuticRecommendationCreateSchema,
+    MolecularTherapeuticRecommendationSchema,
+    MolecularTumorBoardCreateSchema,
+    MolecularTumorBoardSchema,
+    UnspecifiedTumorBoardCreateSchema,
+    UnspecifiedTumorBoardSchema,
+)
+from .tumor_marker import TumorMarkerCreateSchema, TumorMarkerSchema
+from .vitals import VitalsCreateSchema, VitalsSchema
 
 # Filter schemas
 PatientCaseFilters = create_filters_schema(
-    schema=PatientCaseSchema, name="PatientCaseFilters"
+    schema=PatientCaseSchema,
+    name="PatientCaseFilters",
+    exclude=["clinicalIdentifier", "dateOfBirth", "dateOfDeath", "clinicalCenter"],
 )
 NeoplasticEntityFilters = create_filters_schema(
     schema=NeoplasticEntitySchema, name="NeoplasticEntityFilters"

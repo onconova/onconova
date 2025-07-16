@@ -1,22 +1,21 @@
 import pghistory
-
+from django.shortcuts import get_object_or_404
 from ninja import Query
-from ninja_extra.pagination import paginate
+from ninja_extra import ControllerBase, api_controller, route
 from ninja_extra.ordering import ordering
-from ninja_extra import api_controller, ControllerBase, route
-
+from ninja_extra.pagination import paginate
+from pop.core.anonymization import anonymize
 from pop.core.auth import permissions as perms
 from pop.core.auth.token import XSessionTokenAuth
-from pop.core.anonymization import anonymize
-from pop.core.schemas import ModifiedResource as ModifiedResourceSchema, Paginated
 from pop.core.history.schemas import HistoryEvent
+from pop.core.schemas import ModifiedResource as ModifiedResourceSchema
+from pop.core.schemas import Paginated
+from pop.core.utils import COMMON_HTTP_ERRORS
 from pop.oncology.models import FamilyHistory
-
-from django.shortcuts import get_object_or_404
 from pop.oncology.schemas import (
-    FamilyHistorySchema,
     FamilyHistoryCreateSchema,
     FamilyHistoryFilters,
+    FamilyHistorySchema,
 )
 
 
@@ -38,17 +37,13 @@ class FamilyHistoryController(ControllerBase):
     @paginate()
     @ordering()
     @anonymize()
-    def get_all_family_member_histories_matching_the_query(self, query: Query[FamilyHistoryFilters], anonymized: bool = True):  # type: ignore
+    def get_all_family_member_histories_matching_the_query(self, query: Query[FamilyHistoryFilters]):  # type: ignore
         queryset = FamilyHistory.objects.all().order_by("-date")
         return query.filter(queryset)
 
     @route.post(
         path="",
-        response={
-            201: ModifiedResourceSchema,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="createFamilyHistory",
     )
@@ -57,27 +52,17 @@ class FamilyHistoryController(ControllerBase):
 
     @route.get(
         path="/{familyHistoryId}",
-        response={
-            200: FamilyHistorySchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: FamilyHistorySchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCases],
         operation_id="getFamilyHistoryById",
     )
     @anonymize()
-    def get_family_history_by_id(self, familyHistoryId: str, anonymized: bool = True):
+    def get_family_history_by_id(self, familyHistoryId: str):
         return get_object_or_404(FamilyHistory, id=familyHistoryId)
 
     @route.delete(
         path="/{familyHistoryId}",
-        response={
-            204: None,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={204: None, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="deleteFamilyHistoryById",
     )
@@ -87,12 +72,7 @@ class FamilyHistoryController(ControllerBase):
 
     @route.put(
         path="/{familyHistoryId}",
-        response={
-            200: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="updateFamilyHistory",
     )
@@ -105,8 +85,7 @@ class FamilyHistoryController(ControllerBase):
         response={
             200: Paginated[HistoryEvent.bind_schema(FamilyHistoryCreateSchema)],
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getAllFamilyHistoryHistoryEvents",
@@ -122,8 +101,7 @@ class FamilyHistoryController(ControllerBase):
         response={
             200: HistoryEvent.bind_schema(FamilyHistoryCreateSchema),
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getFamilyHistoryHistoryEventById",
@@ -138,12 +116,7 @@ class FamilyHistoryController(ControllerBase):
 
     @route.put(
         path="/{familyHistoryId}/history/events/{eventId}/reversion",
-        response={
-            201: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="revertFamilyHistoryToHistoryEvent",
     )

@@ -1,27 +1,26 @@
-import pghistory
 from typing import List
 
+import pghistory
+from django.db import transaction
+from django.shortcuts import get_object_or_404
 from ninja import Query
-from ninja_extra.pagination import paginate
+from ninja_extra import ControllerBase, api_controller, route
 from ninja_extra.ordering import ordering
-from ninja_extra import api_controller, ControllerBase, route
-
+from ninja_extra.pagination import paginate
+from pop.core.anonymization import anonymize
 from pop.core.auth import permissions as perms
 from pop.core.auth.token import XSessionTokenAuth
-from pop.core.anonymization import anonymize
-from pop.core.schemas import ModifiedResource as ModifiedResourceSchema, Paginated
 from pop.core.history.schemas import HistoryEvent
+from pop.core.schemas import ModifiedResource as ModifiedResourceSchema
+from pop.core.schemas import Paginated
+from pop.core.utils import COMMON_HTTP_ERRORS
 from pop.oncology.models import SystemicTherapy, SystemicTherapyMedication, TherapyLine
-
-from django.shortcuts import get_object_or_404
-from django.db import transaction
-
 from pop.oncology.schemas import (
-    SystemicTherapySchema,
     SystemicTherapyCreateSchema,
-    SystemicTherapyMedicationSchema,
-    SystemicTherapyMedicationCreateSchema,
     SystemicTherapyFilters,
+    SystemicTherapyMedicationCreateSchema,
+    SystemicTherapyMedicationSchema,
+    SystemicTherapySchema,
 )
 
 
@@ -43,17 +42,13 @@ class SystemicTherapyController(ControllerBase):
     @paginate()
     @ordering()
     @anonymize()
-    def get_all_systemic_therapies_matching_the_query(self, query: Query[SystemicTherapyFilters], anonymized: bool = True):  # type: ignore
+    def get_all_systemic_therapies_matching_the_query(self, query: Query[SystemicTherapyFilters]):  # type: ignore
         queryset = SystemicTherapy.objects.all().order_by("-period")
         return query.filter(queryset)
 
     @route.post(
         path="",
-        response={
-            201: ModifiedResourceSchema,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="createSystemicTherapy",
     )
@@ -62,29 +57,17 @@ class SystemicTherapyController(ControllerBase):
 
     @route.get(
         path="/{systemicTherapyId}",
-        response={
-            200: SystemicTherapySchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: SystemicTherapySchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCases],
         operation_id="getSystemicTherapyById",
     )
     @anonymize()
-    def get_systemic_therapy_by_id(
-        self, systemicTherapyId: str, anonymized: bool = True
-    ):
+    def get_systemic_therapy_by_id(self, systemicTherapyId: str):
         return get_object_or_404(SystemicTherapy, id=systemicTherapyId)
 
     @route.delete(
         path="/{systemicTherapyId}",
-        response={
-            204: None,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={204: None, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="deleteSystemicTherapyById",
     )
@@ -97,12 +80,7 @@ class SystemicTherapyController(ControllerBase):
 
     @route.put(
         path="/{systemicTherapyId}",
-        response={
-            200: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="updateSystemicTherapy",
     )
@@ -115,8 +93,7 @@ class SystemicTherapyController(ControllerBase):
         response={
             200: Paginated[HistoryEvent.bind_schema(SystemicTherapyCreateSchema)],
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getAllSystemicTherapyHistoryEvents",
@@ -132,8 +109,7 @@ class SystemicTherapyController(ControllerBase):
         response={
             200: HistoryEvent.bind_schema(SystemicTherapyCreateSchema),
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getSystemicTherapyHistoryEventById",
@@ -148,12 +124,7 @@ class SystemicTherapyController(ControllerBase):
 
     @route.put(
         path="/{systemicTherapyId}/history/events/{eventId}/reversion",
-        response={
-            201: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="revertSystemicTherapyToHistoryEvent",
     )
@@ -168,8 +139,7 @@ class SystemicTherapyController(ControllerBase):
         response={
             200: List[SystemicTherapyMedicationSchema],
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getSystemicTherapyMedications",
@@ -184,8 +154,7 @@ class SystemicTherapyController(ControllerBase):
         response={
             200: SystemicTherapyMedicationSchema,
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getSystemicTherapyMedicationById",
@@ -199,11 +168,7 @@ class SystemicTherapyController(ControllerBase):
 
     @route.post(
         path="/{systemicTherapyId}/medications",
-        response={
-            201: ModifiedResourceSchema,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="createSystemicTherapyMedication",
     )
@@ -215,12 +180,7 @@ class SystemicTherapyController(ControllerBase):
 
     @route.put(
         path="/{systemicTherapyId}/medications/{medicationId}",
-        response={
-            200: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="updateSystemicTherapyMedication",
     )
@@ -234,12 +194,7 @@ class SystemicTherapyController(ControllerBase):
 
     @route.delete(
         path="/{systemicTherapyId}/medications/{medicationId}",
-        response={
-            204: None,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={204: None, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="deleteSystemicTherapyMedication",
     )
@@ -263,8 +218,7 @@ class SystemicTherapyController(ControllerBase):
                 HistoryEvent.bind_schema(SystemicTherapyMedicationCreateSchema)
             ],
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getAllSystemicTherapyMedicationHistoryEvents",
@@ -286,8 +240,7 @@ class SystemicTherapyController(ControllerBase):
         response={
             200: HistoryEvent.bind_schema(SystemicTherapyMedicationCreateSchema),
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getSystemicTherapyMedicationHistoryEventById",
@@ -306,12 +259,7 @@ class SystemicTherapyController(ControllerBase):
 
     @route.put(
         path="/{systemicTherapyId}/medications/{medicationId}/history/events/{eventId}/reversion",
-        response={
-            201: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="revertSystemicTherapyMedicationToHistoryEvent",
     )

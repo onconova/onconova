@@ -1,26 +1,25 @@
 from enum import Enum
-import pghistory
-
-from ninja import Query
-from ninja.schema import Schema, Field
-from ninja_extra.pagination import paginate
-from ninja_extra.ordering import ordering
-from ninja_extra import api_controller, ControllerBase, route
-
-from pop.core.auth import permissions as perms
-from pop.core.auth.token import XSessionTokenAuth
-from pop.core.anonymization import anonymize
-from pop.core.schemas import ModifiedResource as ModifiedResourceSchema, Paginated
-from pop.core.history.schemas import HistoryEvent
-from pop.oncology.models import NeoplasticEntity
-
-from django.shortcuts import get_object_or_404
 from typing import List
 
+import pghistory
+from django.shortcuts import get_object_or_404
+from ninja import Query
+from ninja.schema import Field, Schema
+from ninja_extra import ControllerBase, api_controller, route
+from ninja_extra.ordering import ordering
+from ninja_extra.pagination import paginate
+from pop.core.anonymization import anonymize
+from pop.core.auth import permissions as perms
+from pop.core.auth.token import XSessionTokenAuth
+from pop.core.history.schemas import HistoryEvent
+from pop.core.schemas import ModifiedResource as ModifiedResourceSchema
+from pop.core.schemas import Paginated
+from pop.core.utils import COMMON_HTTP_ERRORS
+from pop.oncology.models import NeoplasticEntity
 from pop.oncology.schemas import (
-    NeoplasticEntitySchema,
     NeoplasticEntityCreateSchema,
     NeoplasticEntityFilters,
+    NeoplasticEntitySchema,
 )
 
 
@@ -42,17 +41,13 @@ class NeoplasticEntityController(ControllerBase):
     @paginate()
     @ordering()
     @anonymize()
-    def get_all_neoplastic_entities_matching_the_query(self, query: Query[NeoplasticEntityFilters], anonymized: bool = True):  # type: ignore
+    def get_all_neoplastic_entities_matching_the_query(self, query: Query[NeoplasticEntityFilters]):  # type: ignore
         queryset = NeoplasticEntity.objects.all().order_by("-assertion_date")
         return query.filter(queryset)
 
     @route.post(
         path="",
-        response={
-            201: ModifiedResourceSchema,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="createNeoplasticEntity",
     )
@@ -61,27 +56,17 @@ class NeoplasticEntityController(ControllerBase):
 
     @route.get(
         path="/{entityId}",
-        response={
-            200: NeoplasticEntitySchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: NeoplasticEntitySchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCases],
         operation_id="getNeoplasticEntityById",
     )
     @anonymize()
-    def get_neoplastic_entity_by_id(self, entityId: str, anonymized: bool = True):
+    def get_neoplastic_entity_by_id(self, entityId: str):
         return get_object_or_404(NeoplasticEntity, id=entityId)
 
     @route.put(
         path="/{entityId}",
-        response={
-            200: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="updateNeoplasticEntityById",
     )
@@ -91,12 +76,7 @@ class NeoplasticEntityController(ControllerBase):
 
     @route.delete(
         path="/{entityId}",
-        response={
-            204: None,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={204: None, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="deleteNeoplasticEntityById",
     )
@@ -109,8 +89,7 @@ class NeoplasticEntityController(ControllerBase):
         response={
             200: Paginated[HistoryEvent.bind_schema(NeoplasticEntityCreateSchema)],
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getAllNeoplasticEntityHistoryEvents",
@@ -126,8 +105,7 @@ class NeoplasticEntityController(ControllerBase):
         response={
             200: HistoryEvent.bind_schema(NeoplasticEntityCreateSchema),
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getNeoplasticEntityHistoryEventById",
@@ -140,12 +118,7 @@ class NeoplasticEntityController(ControllerBase):
 
     @route.put(
         path="/{entityId}/history/events/{eventId}/reversion",
-        response={
-            201: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="revertNeoplasticEntityToHistoryEvent",
     )

@@ -1,24 +1,22 @@
 import pghistory
-
+from django.shortcuts import get_object_or_404
 from ninja import Query
-from ninja.schema import Schema, Field
-from ninja_extra.pagination import paginate
+from ninja.schema import Field, Schema
+from ninja_extra import ControllerBase, api_controller, route
 from ninja_extra.ordering import ordering
-from ninja_extra import api_controller, ControllerBase, route
-
+from ninja_extra.pagination import paginate
+from pop.core.anonymization import anonymize
 from pop.core.auth import permissions as perms
 from pop.core.auth.token import XSessionTokenAuth
-from pop.core.anonymization import anonymize
-from pop.core.schemas import ModifiedResource as ModifiedResourceSchema, Paginated
 from pop.core.history.schemas import HistoryEvent
+from pop.core.schemas import ModifiedResource as ModifiedResourceSchema
+from pop.core.schemas import Paginated
+from pop.core.utils import COMMON_HTTP_ERRORS
 from pop.oncology.models import RiskAssessment
-
-from django.shortcuts import get_object_or_404
-
 from pop.oncology.schemas import (
-    RiskAssessmentSchema,
     RiskAssessmentCreateSchema,
     RiskAssessmentFilters,
+    RiskAssessmentSchema,
 )
 
 
@@ -40,17 +38,13 @@ class RiskAssessmentController(ControllerBase):
     @paginate()
     @ordering()
     @anonymize()
-    def get_all_risk_assessments_matching_the_query(self, query: Query[RiskAssessmentFilters], anonymized: bool = True):  # type: ignore
+    def get_all_risk_assessments_matching_the_query(self, query: Query[RiskAssessmentFilters]):  # type: ignore
         queryset = RiskAssessment.objects.all().order_by("-date")
         return query.filter(queryset)
 
     @route.post(
         path="",
-        response={
-            201: ModifiedResourceSchema,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="createRiskAssessment",
     )
@@ -59,27 +53,17 @@ class RiskAssessmentController(ControllerBase):
 
     @route.get(
         path="/{riskAssessmentId}",
-        response={
-            200: RiskAssessmentSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: RiskAssessmentSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCases],
         operation_id="getRiskAssessmentById",
     )
     @anonymize()
-    def get_risk_assessment_by_id(self, riskAssessmentId: str, anonymized: bool = True):
+    def get_risk_assessment_by_id(self, riskAssessmentId: str):
         return get_object_or_404(RiskAssessment, id=riskAssessmentId)
 
     @route.put(
         path="/{riskAssessmentId}",
-        response={
-            200: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="updateRiskAssessmentById",
     )
@@ -89,12 +73,7 @@ class RiskAssessmentController(ControllerBase):
 
     @route.delete(
         path="/{riskAssessmentId}",
-        response={
-            204: None,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={204: None, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="deleteRiskAssessmentById",
     )
@@ -107,8 +86,7 @@ class RiskAssessmentController(ControllerBase):
         response={
             200: Paginated[HistoryEvent.bind_schema(RiskAssessmentCreateSchema)],
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getAllRiskAssessmentHistoryEvents",
@@ -124,8 +102,7 @@ class RiskAssessmentController(ControllerBase):
         response={
             200: HistoryEvent.bind_schema(RiskAssessmentCreateSchema),
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getRiskAssessmentHistoryEventById",
@@ -140,12 +117,7 @@ class RiskAssessmentController(ControllerBase):
 
     @route.put(
         path="/{riskAssessmentId}/history/events/{eventId}/reversion",
-        response={
-            201: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="revertRiskAssessmentToHistoryEvent",
     )

@@ -1,23 +1,22 @@
 import pghistory
+from django.shortcuts import get_object_or_404
 from ninja import Query
-from ninja.schema import Schema, Field
-from ninja_extra.pagination import paginate
+from ninja.schema import Field, Schema
+from ninja_extra import ControllerBase, api_controller, route
 from ninja_extra.ordering import ordering
-from ninja_extra import api_controller, ControllerBase, route
-
+from ninja_extra.pagination import paginate
+from pop.core.anonymization import anonymize
 from pop.core.auth import permissions as perms
 from pop.core.auth.token import XSessionTokenAuth
-from pop.core.anonymization import anonymize
-from pop.core.schemas import ModifiedResource as ModifiedResourceSchema, Paginated
 from pop.core.history.schemas import HistoryEvent
+from pop.core.schemas import ModifiedResource as ModifiedResourceSchema
+from pop.core.schemas import Paginated
+from pop.core.utils import COMMON_HTTP_ERRORS
 from pop.oncology.models import Lifestyle
-
-from django.shortcuts import get_object_or_404
-
 from pop.oncology.schemas import (
-    LifestyleSchema,
     LifestyleCreateSchema,
     LifestyleFilters,
+    LifestyleSchema,
 )
 
 
@@ -39,17 +38,13 @@ class LifestyleController(ControllerBase):
     @paginate()
     @ordering()
     @anonymize()
-    def get_all_lifestyles_matching_the_query(self, query: Query[LifestyleFilters], anonymized: bool = True):  # type: ignore
+    def get_all_lifestyles_matching_the_query(self, query: Query[LifestyleFilters]):  # type: ignore
         queryset = Lifestyle.objects.all().order_by("-date")
         return query.filter(queryset)
 
     @route.post(
         path="",
-        response={
-            201: ModifiedResourceSchema,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="createLifestyle",
     )
@@ -58,27 +53,17 @@ class LifestyleController(ControllerBase):
 
     @route.get(
         path="/{lifestyleId}",
-        response={
-            200: LifestyleSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: LifestyleSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCases],
         operation_id="getLifestyleById",
     )
     @anonymize()
-    def get_lifestyle_by_id(self, lifestyleId: str, anonymized: bool = True):
+    def get_lifestyle_by_id(self, lifestyleId: str):
         return get_object_or_404(Lifestyle, id=lifestyleId)
 
     @route.put(
         path="/{lifestyleId}",
-        response={
-            200: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="updateLifestyleById",
     )
@@ -88,12 +73,7 @@ class LifestyleController(ControllerBase):
 
     @route.delete(
         path="/{lifestyleId}",
-        response={
-            204: None,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={204: None, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="deleteLifestyleById",
     )
@@ -106,8 +86,7 @@ class LifestyleController(ControllerBase):
         response={
             200: Paginated[HistoryEvent.bind_schema(LifestyleCreateSchema)],
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getAllLifestyleHistoryEvents",
@@ -123,8 +102,7 @@ class LifestyleController(ControllerBase):
         response={
             200: HistoryEvent.bind_schema(LifestyleCreateSchema),
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getLifestyleHistoryEventById",
@@ -137,12 +115,7 @@ class LifestyleController(ControllerBase):
 
     @route.put(
         path="/{lifestyleId}/history/events/{eventId}/reversion",
-        response={
-            201: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="revertLifestyleToHistoryEvent",
     )

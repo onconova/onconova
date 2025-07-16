@@ -1,23 +1,21 @@
 import pghistory
-
+from django.shortcuts import get_object_or_404
 from ninja import Query
-from ninja_extra.pagination import paginate
+from ninja_extra import ControllerBase, api_controller, route
 from ninja_extra.ordering import ordering
-from ninja_extra import api_controller, ControllerBase, route
-
+from ninja_extra.pagination import paginate
+from pop.core.anonymization import anonymize
 from pop.core.auth import permissions as perms
 from pop.core.auth.token import XSessionTokenAuth
-from pop.core.anonymization import anonymize
-from pop.core.schemas import ModifiedResource as ModifiedResourceSchema, Paginated
 from pop.core.history.schemas import HistoryEvent
-from pop.oncology.models import TreatmentResponse, TherapyLine
-
-from django.shortcuts import get_object_or_404
-
+from pop.core.schemas import ModifiedResource as ModifiedResourceSchema
+from pop.core.schemas import Paginated
+from pop.core.utils import COMMON_HTTP_ERRORS
+from pop.oncology.models import TherapyLine, TreatmentResponse
 from pop.oncology.schemas import (
-    TreatmentResponseSchema,
     TreatmentResponseCreateSchema,
     TreatmentResponseFilters,
+    TreatmentResponseSchema,
 )
 
 
@@ -39,17 +37,13 @@ class TreatmentResponseController(ControllerBase):
     @paginate()
     @ordering()
     @anonymize()
-    def get_all_treatment_responses_matching_the_query(self, query: Query[TreatmentResponseFilters], anonymized: bool = True):  # type: ignore
+    def get_all_treatment_responses_matching_the_query(self, query: Query[TreatmentResponseFilters]):  # type: ignore
         queryset = TreatmentResponse.objects.all().order_by("-date")
         return query.filter(queryset)
 
     @route.post(
         path="",
-        response={
-            201: ModifiedResourceSchema,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="createTreatmentResponse",
     )
@@ -58,29 +52,17 @@ class TreatmentResponseController(ControllerBase):
 
     @route.get(
         path="/{treatmentRresponseId}",
-        response={
-            200: TreatmentResponseSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: TreatmentResponseSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCases],
         operation_id="getTreatmentResponseById",
     )
     @anonymize()
-    def get_treatment_response_by_id(
-        self, treatmentRresponseId: str, anonymized: bool = True
-    ):
+    def get_treatment_response_by_id(self, treatmentRresponseId: str):
         return get_object_or_404(TreatmentResponse, id=treatmentRresponseId)
 
     @route.put(
         path="/{treatmentRresponseId}",
-        response={
-            200: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="updateTreatmentResponse",
     )
@@ -90,12 +72,7 @@ class TreatmentResponseController(ControllerBase):
 
     @route.delete(
         path="/{treatmentRresponseId}",
-        response={
-            204: None,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={204: None, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="deleteTreatmentResponse",
     )
@@ -111,8 +88,7 @@ class TreatmentResponseController(ControllerBase):
         response={
             200: Paginated[HistoryEvent.bind_schema(TreatmentResponseCreateSchema)],
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getAllTreatmentResponseHistoryEvents",
@@ -128,8 +104,7 @@ class TreatmentResponseController(ControllerBase):
         response={
             200: HistoryEvent.bind_schema(TreatmentResponseCreateSchema),
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getTreatmentResponseHistoryEventById",
@@ -144,12 +119,7 @@ class TreatmentResponseController(ControllerBase):
 
     @route.put(
         path="/{treatmentRresponseId}/history/events/{eventId}/reversion",
-        response={
-            201: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="revertTreatmentResponseToHistoryEvent",
     )

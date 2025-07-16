@@ -47,15 +47,14 @@
         </div>
         <p-divider layout="vertical"></p-divider>
         <div class="my-auto">
-            @if (case$.value(); as case) {
                 <div class="flex">
                     @if (primaryEntity$.value(); as primaryEntity) {
-                        <pop-cancer-icon class="my-auto mr-2" [topography]="primaryEntity.topography.code"/>
+                        <pop-cancer-icon class="my-auto mr-1" [topography]="primaryEntity.topography.code"/>
                     }
                     <div>
                         <small class="text-muted">Primary site</small>
                         @if (primaryEntity$.isLoading()) {
-                            <p-skeleton width="12rem" height="1.5rem" />
+                            <p-skeleton width="8rem" height="1.5rem" />
                         } @else {
                             <div>
                                 @if (primaryEntity$.value(); as primaryEntity) {
@@ -69,7 +68,7 @@
                 </div>
                 <small class="text-muted">Morphology</small>
                 @if (primaryEntity$.isLoading()) {
-                    <p-skeleton width="12rem" height="1.5rem" />
+                    <p-skeleton width="8rem" height="1.5rem" />
                 }  @else {
                     <div>
                         @if (primaryEntity$.value(); as primaryEntity) {
@@ -79,7 +78,6 @@
                         }
                     </div>
                 }  
-            } 
         </div>
         <p-divider layout="vertical"></p-divider>
         <div class="my-auto">
@@ -93,7 +91,7 @@
                             -
                         }
                     } @else {
-                        <p-skeleton width="12rem" height="1.5rem" />
+                        <p-skeleton width="8rem" height="1.5rem" />
                     }      
                 </div>
             </div> 
@@ -108,7 +106,7 @@
                             -
                         }
                     } @else {
-                        <p-skeleton width="12rem" height="1.5rem" />
+                        <p-skeleton width="8rem" height="1.5rem" />
                     }      
                 </div>
             </div> 
@@ -125,7 +123,7 @@
                             -
                         }
                     } @else {
-                        <p-skeleton width="12rem" height="1.5rem" />
+                        <p-skeleton width="8rem" height="1.5rem" />
                     }      
                 </div>
             </div> 
@@ -136,7 +134,7 @@
                     @if (case$.value(); as case) {
                         {{ case.causeOfDeath ? case.causeOfDeath.display : '-' }}
                     } @else {
-                        <p-skeleton width="12rem" height="1.5rem" />
+                        <p-skeleton width="8rem" height="1.5rem" />
                     }      
                 </div>
             </div> 
@@ -149,7 +147,7 @@
                     @if (case$.value(); as case) {
                         {{ case.clinicalCenter }}      
                     } @else {
-                        <p-skeleton width="12rem" height="1.5rem" />
+                        <p-skeleton width="8rem" height="1.5rem" />
                     }
                 </div>
             </div> 
@@ -164,7 +162,7 @@
                             <span class="opacity-50">🞸🞸🞸🞸🞸🞸🞸</span>
                         }
                     } @else {
-                        <p-skeleton width="12rem" height="1.5rem" />
+                        <p-skeleton width="8rem" height="1.5rem" />
                     }
                 </div>
             </div> 
@@ -179,7 +177,7 @@
                         valueTemplate="{value}%"
                         [size]="55"/>
             } @else {
-                <p-skeleton width="5rem" height="5rem" />     
+                <p-skeleton width="4rem" height="4rem" />     
             }
         </div>
         <p-divider layout="vertical"></p-divider>
@@ -193,24 +191,26 @@
                 }
             </div>
 
-            <div class="flex flex-column gap-1">
-                <small class="text-muted">Contributors</small>
-                    <p-avatar-group >
-                        @if (case$.value(); as case) {
-                            @for (contributor of case.contributors; track $index; let index = $index;) {
-                                @if (index<3) {
-                                    <pop-user-badge [username]="contributor"/>
+            <div class="flex flex-column">
+                <small class="text-muted mt-1">Contributors</small>
+                    <div style="scale: 0.8" class="mr-auto">
+                        <p-avatar-group>
+                            @if (case$.value(); as case) {
+                                @for (contributor of case.contributors; track $index; let index = $index;) {
+                                    @if (index<3) {
+                                        <pop-user-badge [username]="contributor"/>
+                                    }
                                 }
+                                @if ((case.contributors.length || 0) > 3) {
+                                    <p-avatar class="pop-other-users-avatar" [label]="'+' + (case.contributors!.length-3).toString()" shape="circle" size="normal" />
+                                }
+                            } @else {
+                                <p-skeleton width="2rem" height="2rem" shape="circle"/>
+                                <p-skeleton width="2rem" height="2rem" shape="circle"/>
+                                <p-skeleton width="2rem" height="2rem" shape="circle"/>
                             }
-                            @if ((case.contributors.length || 0) > 3) {
-                                <p-avatar class="pop-other-users-avatar" [label]="'+' + (case.contributors!.length-3).toString()" shape="circle" size="normal" />
-                            }
-                        } @else {
-                            <p-skeleton width="4rem" height="4rem" shape="circle"/>
-                            <p-skeleton width="4rem" height="4rem" shape="circle"/>
-                            <p-skeleton width="4rem" height="4rem" shape="circle"/>
-                        }
-                    </p-avatar-group>
+                        </p-avatar-group>
+                    </div>
             </div>    
         </div>
         <p-divider layout="vertical"></p-divider>

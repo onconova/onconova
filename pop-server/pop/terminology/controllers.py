@@ -1,17 +1,16 @@
 from typing import List
 
-from django.db.models import Q, Value, Case, When, F, Func, IntegerField, CharField
-from django.db.models.functions import StrIndex, Cast, Length
+from django.db.models import Case, CharField, F, Func, IntegerField, Q, Value, When
 from django.db.models.expressions import RawSQL
-
-from ninja import Field, Schema, Query
-from ninja_extra import route, api_controller
-from ninja_extra.pagination import paginate
+from django.db.models.functions import Cast, Length, StrIndex
+from ninja import Field, Query, Schema
+from ninja_extra import ControllerBase, api_controller, route
 from ninja_extra.ordering import ordering
-from ninja_extra import api_controller, ControllerBase, route
-
-from pop.core.schemas import Paginated, CodedConcept as CodedConceptSchema
+from ninja_extra.pagination import paginate
 from pop.core.auth.token import XSessionTokenAuth
+from pop.core.schemas import CodedConcept as CodedConceptSchema
+from pop.core.schemas import Paginated
+from pop.core.utils import COMMON_HTTP_ERRORS
 from pop.terminology import models as terminologies
 
 
@@ -32,11 +31,7 @@ def get_matching_score_expression(query, score):
 class TerminologyController(ControllerBase):
     @route.get(
         path="/{terminologyName}/concepts",
-        response={
-            200: Paginated[CodedConceptSchema],
-            401: None,
-            403: None,
-        },
+        response={200: Paginated[CodedConceptSchema], **COMMON_HTTP_ERRORS},
         operation_id="getTerminologyConcepts",
     )
     @paginate()

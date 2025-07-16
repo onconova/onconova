@@ -1,13 +1,11 @@
 import pghistory
-
-from django.db import models
-from django.db.models import Q, Max, Count, Value
-from django.db.models.functions import Coalesce
 from django.contrib.postgres.aggregates import ArrayAgg
+from django.db import models
+from django.db.models import Count, Max, Q, Value
+from django.db.models.functions import Coalesce
 from django.utils.translation import gettext_lazy as _
 from pop.core.models import BaseModel
 from pop.research.models.project import Project
-
 from queryable_properties.properties import AnnotationProperty
 
 
@@ -49,7 +47,9 @@ class Dataset(BaseModel):
         verbose_name=_("Cohorts Ids"),
         annotation=Coalesce(
             ArrayAgg(
-                "events__pgh_context__cohort", filter=Q(events__pgh_label="export")
+                "events__pgh_context__cohort",
+                filter=Q(events__pgh_label="export"),
+                distinct=True,
             ),
             Value([]),
         ),

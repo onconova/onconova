@@ -1,25 +1,24 @@
+from typing import Dict, List
+
 import pghistory
-
+from django.shortcuts import get_object_or_404
 from ninja import Query
-from ninja_extra.pagination import paginate
+from ninja_extra import ControllerBase, api_controller, route
 from ninja_extra.ordering import ordering
-from ninja_extra import api_controller, ControllerBase, route
-
+from ninja_extra.pagination import paginate
+from pop.core.anonymization import anonymize
 from pop.core.auth import permissions as perms
 from pop.core.auth.token import XSessionTokenAuth
-from pop.core.schemas import ModifiedResource as ModifiedResourceSchema, Paginated
 from pop.core.history.schemas import HistoryEvent
+from pop.core.schemas import ModifiedResource as ModifiedResourceSchema
+from pop.core.schemas import Paginated
+from pop.core.utils import COMMON_HTTP_ERRORS
 from pop.oncology.models import TumorMarker
-from pop.core.anonymization import anonymize
-from pop.oncology.models.tumor_marker import AnalyteDetails, ANALYTES_DATA
-
-from django.shortcuts import get_object_or_404
-from typing import List, Dict
-
+from pop.oncology.models.tumor_marker import ANALYTES_DATA, AnalyteDetails
 from pop.oncology.schemas import (
-    TumorMarkerSchema,
     TumorMarkerCreateSchema,
     TumorMarkerFilters,
+    TumorMarkerSchema,
 )
 
 
@@ -41,17 +40,13 @@ class TumorMarkerController(ControllerBase):
     @paginate()
     @ordering()
     @anonymize()
-    def get_all_tumor_markers_matching_the_query(self, query: Query[TumorMarkerFilters], anonymized: bool = True):  # type: ignore
+    def get_all_tumor_markers_matching_the_query(self, query: Query[TumorMarkerFilters]):  # type: ignore
         queryset = TumorMarker.objects.all().order_by("-date")
         return query.filter(queryset)
 
     @route.post(
         path="",
-        response={
-            201: ModifiedResourceSchema,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="createTumorMarker",
     )
@@ -60,27 +55,17 @@ class TumorMarkerController(ControllerBase):
 
     @route.get(
         path="/{tumorMarkerId}",
-        response={
-            200: TumorMarkerSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: TumorMarkerSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCases],
         operation_id="getTumorMarkerById",
     )
     @anonymize()
-    def get_tumor_marker_by_id(self, tumorMarkerId: str, anonymized: bool = True):
+    def get_tumor_marker_by_id(self, tumorMarkerId: str):
         return get_object_or_404(TumorMarker, id=tumorMarkerId)
 
     @route.put(
         path="/{tumorMarkerId}",
-        response={
-            200: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="updateTumorMarkerById",
     )
@@ -90,12 +75,7 @@ class TumorMarkerController(ControllerBase):
 
     @route.delete(
         path="/{tumorMarkerId}",
-        response={
-            204: None,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={204: None, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="deleteTumorMarkerById",
     )
@@ -108,8 +88,7 @@ class TumorMarkerController(ControllerBase):
         response={
             200: Paginated[HistoryEvent.bind_schema(TumorMarkerCreateSchema)],
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getAllTumorMarkerHistoryEvents",
@@ -125,8 +104,7 @@ class TumorMarkerController(ControllerBase):
         response={
             200: HistoryEvent.bind_schema(TumorMarkerCreateSchema),
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getTumorMarkerHistoryEventById",
@@ -139,12 +117,7 @@ class TumorMarkerController(ControllerBase):
 
     @route.put(
         path="/{tumorMarkerId}/history/events/{eventId}/reversion",
-        response={
-            201: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="revertTumorMarkerToHistoryEvent",
     )
@@ -154,12 +127,7 @@ class TumorMarkerController(ControllerBase):
 
     @route.get(
         path="analytes/{analyteCode}/details",
-        response={
-            200: AnalyteDetails,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: AnalyteDetails, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCases],
         operation_id="getTumorMarkerAnalyteDetailsByCode",
     )

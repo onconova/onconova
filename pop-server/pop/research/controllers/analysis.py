@@ -31,7 +31,7 @@ class CohortAnalysisController(ControllerBase):
 
     @route.get(
         path="/{cohortId}/analysis/distribution",
-        response={200: Distribution, 422: None, **COMMON_HTTP_ERRORS},
+        response={200: Distribution, 404: None, 422: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCohorts],
         operation_id="getCohortPropertyDistribution",
     )
@@ -47,7 +47,7 @@ class CohortAnalysisController(ControllerBase):
 
     @route.get(
         path="/{cohortId}/analysis/overall-survical/kaplan-meier",
-        response={200: KaplanMeierCurve, 422: None, **COMMON_HTTP_ERRORS},
+        response={200: KaplanMeierCurve, 404: None, 422: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCohorts],
         operation_id="getCohortOverallSurvivalCurve",
     )
@@ -66,7 +66,7 @@ class CohortAnalysisController(ControllerBase):
 
     @route.get(
         path="/{cohortId}/analysis/oncoplot",
-        response={200: OncoplotDataset, 422: None, **COMMON_HTTP_ERRORS},
+        response={200: OncoplotDataset, 404: None, 422: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCohorts],
         operation_id="getCohortOncoplot",
     )
@@ -76,7 +76,7 @@ class CohortAnalysisController(ControllerBase):
 
     @route.get(
         path="/{cohortId}/analysis/{therapyLine}/progression-free-survival/kaplan-meier",
-        response={200: KaplanMeierCurve, 422: None, **COMMON_HTTP_ERRORS},
+        response={200: KaplanMeierCurve, 404: None, 422: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCohorts],
         operation_id="getCohortLineProgressionFreeSurvivalCurve",
     )
@@ -84,8 +84,8 @@ class CohortAnalysisController(ControllerBase):
         self, cohortId: str, therapyLine: str, confidence: float = 0.95
     ):
         cohort = get_nonempty_cohort_or_error(cohortId)
-        return 200, KaplanMeierCurve.calculate(
-            survivals=cohort.valid_cases.annotate(
+        therapy_line_survivals = (
+            cohort.valid_cases.annotate(
                 progression_free_survival=Subquery(
                     TherapyLine.objects.filter(
                         case_id=OuterRef("id"), label=therapyLine
@@ -95,13 +95,23 @@ class CohortAnalysisController(ControllerBase):
                 )
             )
             .filter(progression_free_survival__isnull=False)
-            .values_list("progression_free_survival", flat=True),
+            .values_list("progression_free_survival", flat=True)
+        )
+        if not therapy_line_survivals:
+            raise EmptyCohortException
+        return 200, KaplanMeierCurve.calculate(
+            survivals=therapy_line_survivals,
             confidence_level=confidence,
         ).add_metadata(cohort)
 
     @route.get(
         path="/{cohortId}/analysis/{therapyLine}/progression-free-survivals/categories",
-        response={200: CategorizedSurvivals, 422: None, **COMMON_HTTP_ERRORS},
+        response={
+            200: CategorizedSurvivals,
+            404: None,
+            422: None,
+            **COMMON_HTTP_ERRORS,
+        },
         permissions=[perms.CanViewCohorts],
         operation_id="getCohortLineProgressionFreeSurvivalsByCategories",
     )
@@ -120,7 +130,7 @@ class CohortAnalysisController(ControllerBase):
 
     @route.get(
         path="/{cohortId}/analysis/{therapyLine}/distribution",
-        response={200: Distribution, 422: None, **COMMON_HTTP_ERRORS},
+        response={200: Distribution, 404: None, 422: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCohorts],
         operation_id="getCohortLinePropertyDistribution",
     )

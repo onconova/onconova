@@ -1,23 +1,22 @@
 import pghistory
+from django.shortcuts import get_object_or_404
 from ninja import Query
-from ninja.schema import Schema, Field
-from ninja_extra.pagination import paginate
+from ninja.schema import Field, Schema
+from ninja_extra import ControllerBase, api_controller, route
 from ninja_extra.ordering import ordering
-from ninja_extra import api_controller, ControllerBase, route
-
+from ninja_extra.pagination import paginate
+from pop.core.anonymization import anonymize
 from pop.core.auth import permissions as perms
 from pop.core.auth.token import XSessionTokenAuth
-from pop.core.anonymization import anonymize
-from pop.core.schemas import ModifiedResource as ModifiedResourceSchema, Paginated
 from pop.core.history.schemas import HistoryEvent
+from pop.core.schemas import ModifiedResource as ModifiedResourceSchema
+from pop.core.schemas import Paginated
+from pop.core.utils import COMMON_HTTP_ERRORS
 from pop.oncology.models import GenomicVariant
-
-from django.shortcuts import get_object_or_404
-
 from pop.oncology.schemas import (
-    GenomicVariantSchema,
     GenomicVariantCreateSchema,
     GenomicVariantFilters,
+    GenomicVariantSchema,
 )
 
 
@@ -39,17 +38,13 @@ class GenomicVariantController(ControllerBase):
     @paginate()
     @ordering()
     @anonymize()
-    def get_all_genomic_variants_matching_the_query(self, query: Query[GenomicVariantFilters], anonymized: bool = True):  # type: ignore
+    def get_all_genomic_variants_matching_the_query(self, query: Query[GenomicVariantFilters]):  # type: ignore
         queryset = GenomicVariant.objects.all().order_by("-date")
         return query.filter(queryset)
 
     @route.post(
         path="",
-        response={
-            201: ModifiedResourceSchema,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="createGenomicVariant",
     )
@@ -58,27 +53,17 @@ class GenomicVariantController(ControllerBase):
 
     @route.get(
         path="/{genomicVariantId}",
-        response={
-            200: GenomicVariantSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: GenomicVariantSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCases],
         operation_id="getGenomicVariantById",
     )
     @anonymize()
-    def get_genomic_variant_by_id(self, genomicVariantId: str, anonymized: bool = True):
+    def get_genomic_variant_by_id(self, genomicVariantId: str):
         return get_object_or_404(GenomicVariant, id=genomicVariantId)
 
     @route.put(
         path="/{genomicVariantId}",
-        response={
-            200: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="updateGenomicVariant",
     )
@@ -88,12 +73,7 @@ class GenomicVariantController(ControllerBase):
 
     @route.delete(
         path="/{genomicVariantId}",
-        response={
-            204: None,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={204: None, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="deleteGenomicVariant",
     )
@@ -106,8 +86,7 @@ class GenomicVariantController(ControllerBase):
         response={
             200: Paginated[HistoryEvent.bind_schema(GenomicVariantCreateSchema)],
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getAllGenomicVariantHistoryEvents",
@@ -123,8 +102,7 @@ class GenomicVariantController(ControllerBase):
         response={
             200: HistoryEvent.bind_schema(GenomicVariantCreateSchema),
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getGenomicVariantHistoryEventById",
@@ -139,12 +117,7 @@ class GenomicVariantController(ControllerBase):
 
     @route.put(
         path="/{genomicVariantId}/history/events/{eventId}/reversion",
-        response={
-            201: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="revertGenomicVariantToHistoryEvent",
     )

@@ -81,7 +81,7 @@ export class CaseImporterComponent {
                     // Validate against schema
                     if (isValid(bundle)) {
                         this.uploadedLoading = true;
-                        this.casesService.getPatientCaseByPseudoidentifier({pseudoidentifier: bundle.pseudoidentifier}).pipe(
+                        this.casesService.getPatientCaseById({caseId: bundle.pseudoidentifier, type: 'pseudoidentifier'}).pipe(
                             mergeMap((response) => this.interoperabilityService.exportPatientCaseBundle({caseId: response.id}).pipe(first()))
                         ).subscribe({
                             next: (response) => {

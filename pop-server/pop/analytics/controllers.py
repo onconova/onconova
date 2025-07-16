@@ -1,21 +1,19 @@
 from typing import List
 
-from django.db.models import Count, Window, F
+from django.db.models import Count, F, Window
 from django.db.models.functions import TruncMonth
-
-from ninja_extra import route, api_controller
-from ninja_extra import api_controller, ControllerBase, route
-
-from pop.oncology import models as oncological_models
-from pop.research.models.project import Project
-from pop.research.models.cohort import Cohort
-from pop.core.auth.token import XSessionTokenAuth
+from ninja_extra import ControllerBase, api_controller, route
 from pop.analytics.schemas import (
-    EntityStatisticsSchema,
-    DataPlatformStatisticsSchema,
     CasesPerMonthSchema,
+    DataPlatformStatisticsSchema,
+    EntityStatisticsSchema,
 )
 from pop.core.aggregates import Median
+from pop.core.auth.token import XSessionTokenAuth
+from pop.core.utils import COMMON_HTTP_ERRORS
+from pop.oncology import models as oncological_models
+from pop.research.models.cohort import Cohort
+from pop.research.models.project import Project
 
 
 @api_controller("/dashboard", auth=[XSessionTokenAuth()], tags=["Dashboard"])
@@ -23,11 +21,7 @@ class DashboardController(ControllerBase):
 
     @route.get(
         path="/stats",
-        response={
-            200: DataPlatformStatisticsSchema,
-            401: None,
-            403: None,
-        },
+        response={200: DataPlatformStatisticsSchema, **COMMON_HTTP_ERRORS},
         operation_id="getFullCohortStatistics",
     )
     def get_full_cohort_statistics(self):
@@ -57,11 +51,7 @@ class DashboardController(ControllerBase):
 
     @route.get(
         path="/primary-site-stats",
-        response={
-            200: List[EntityStatisticsSchema],
-            401: None,
-            403: None,
-        },
+        response={200: List[EntityStatisticsSchema], **COMMON_HTTP_ERRORS},
         operation_id="getPrimarySiteStatistics",
     )
     def get_primary_site_statistics(self):
@@ -100,11 +90,7 @@ class DashboardController(ControllerBase):
 
     @route.get(
         path="/cases-over-time",
-        response={
-            200: List[CasesPerMonthSchema],
-            401: None,
-            403: None,
-        },
+        response={200: List[CasesPerMonthSchema], **COMMON_HTTP_ERRORS},
         operation_id="getCasesOverTime",
     )
     def get_cases_over_time(self):

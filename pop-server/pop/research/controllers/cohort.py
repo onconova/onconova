@@ -22,7 +22,7 @@ from pop.core.auth.token import XSessionTokenAuth
 from pop.core.history.schemas import HistoryEvent
 from pop.core.schemas import ModifiedResource as ModifiedResourceSchema
 from pop.core.schemas import Paginated
-from pop.core.utils import camel_to_snake
+from pop.core.utils import COMMON_HTTP_ERRORS, camel_to_snake
 from pop.interoperability.schemas import ExportMetadata
 from pop.oncology import schemas as oncological_schemas
 from pop.oncology.models import TherapyLine, TreatmentResponse
@@ -63,11 +63,7 @@ class CohortsController(ControllerBase):
 
     @route.get(
         path="",
-        response={
-            200: Paginated[CohortSchema],
-            401: None,
-            403: None,
-        },
+        response={200: Paginated[CohortSchema], **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCohorts],
         operation_id="getCohorts",
     )
@@ -79,11 +75,7 @@ class CohortsController(ControllerBase):
 
     @route.post(
         path="",
-        response={
-            201: ModifiedResourceSchema,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCohorts],
         operation_id="createCohort",
     )
@@ -103,12 +95,7 @@ class CohortsController(ControllerBase):
 
     @route.get(
         path="/{cohortId}",
-        response={
-            200: CohortSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: CohortSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCohorts],
         operation_id="getCohortById",
     )
@@ -117,12 +104,7 @@ class CohortsController(ControllerBase):
 
     @route.delete(
         path="/{cohortId}",
-        response={
-            204: None,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={204: None, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanDeleteCohorts],
         operation_id="deleteCohortById",
     )
@@ -132,12 +114,7 @@ class CohortsController(ControllerBase):
 
     @route.put(
         path="/{cohortId}",
-        response={
-            200: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCohorts],
         operation_id="updateCohort",
     )
@@ -152,25 +129,19 @@ class CohortsController(ControllerBase):
         response={
             200: Paginated[oncological_schemas.PatientCaseSchema],
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCohorts],
         operation_id="getCohortCases",
     )
     @paginate()
     @anonymize()
-    def get_cohort_cases(self, cohortId: str, anonymized: bool = True):
+    def get_cohort_cases(self, cohortId: str):
         return get_object_or_404(Cohort, id=cohortId).cases.all()
 
     @route.get(
         path="/{cohortId}/contributors",
-        response={
-            200: List[CohortContribution],
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: List[CohortContribution], 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCohorts],
         operation_id="getCohortContributors",
     )
@@ -192,12 +163,7 @@ class CohortsController(ControllerBase):
 
     @route.post(
         path="/{cohortId}/export",
-        response={
-            200: ExportedCohortDefinition,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: ExportedCohortDefinition, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanExportData],
         operation_id="exportCohortDefinition",
     )
@@ -234,8 +200,7 @@ class CohortsController(ControllerBase):
         response={
             200: Paginated[HistoryEvent.bind_schema(CohortCreateSchema)],
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getAllCohortHistoryEvents",
@@ -251,8 +216,7 @@ class CohortsController(ControllerBase):
         response={
             200: HistoryEvent.bind_schema(CohortCreateSchema),
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getCohortHistoryEventById",
@@ -265,12 +229,7 @@ class CohortsController(ControllerBase):
 
     @route.put(
         path="/{cohortId}/history/events/{eventId}/reversion",
-        response={
-            201: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCohorts],
         operation_id="revertCohortToHistoryEvent",
     )
@@ -280,12 +239,7 @@ class CohortsController(ControllerBase):
 
     @route.post(
         path="/{cohortId}/dataset/{datasetId}/export",
-        response={
-            200: ExportedPatientCaseDataset,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: ExportedPatientCaseDataset, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanExportData],
         operation_id="exportCohortDataset",
     )
@@ -318,7 +272,7 @@ class CohortsController(ControllerBase):
                 default=str,
             ).encode("utf-8")
         ).hexdigest()
-        
+
         export = {
             **ExportMetadata(
                 exportedAt=datetime.now(),
@@ -341,12 +295,7 @@ class CohortsController(ControllerBase):
 
     @route.post(
         path="/{cohortId}/dataset",
-        response={
-            200: Paginated[PatientCaseDataset],
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: Paginated[PatientCaseDataset], 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCohorts],
         exclude_unset=True,
         operation_id="getCohortDatasetDynamically",
@@ -359,13 +308,7 @@ class CohortsController(ControllerBase):
 
     @route.get(
         path="/{cohortId}/traits",
-        response={
-            200: CohortTraits,
-            404: None,
-            422: None,
-            401: None,
-            403: None,
-        },
+        response={200: CohortTraits, 404: None, 422: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCohorts],
         operation_id="getCohortTraitsStatistics",
     )

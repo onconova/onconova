@@ -1,20 +1,18 @@
 import pghistory
-
+from django.shortcuts import get_object_or_404
 from ninja import Query
-from ninja_extra.pagination import paginate
+from ninja_extra import ControllerBase, api_controller, route
 from ninja_extra.ordering import ordering
-from ninja_extra import api_controller, ControllerBase, route
-
+from ninja_extra.pagination import paginate
+from pop.core.anonymization import anonymize
 from pop.core.auth import permissions as perms
 from pop.core.auth.token import XSessionTokenAuth
-from pop.core.anonymization import anonymize
-from pop.core.schemas import ModifiedResource as ModifiedResourceSchema, Paginated
 from pop.core.history.schemas import HistoryEvent
+from pop.core.schemas import ModifiedResource as ModifiedResourceSchema
+from pop.core.schemas import Paginated
+from pop.core.utils import COMMON_HTTP_ERRORS
 from pop.oncology.models import Vitals
-
-from django.shortcuts import get_object_or_404
-
-from pop.oncology.schemas import VitalsSchema, VitalsCreateSchema, VitalsFilters
+from pop.oncology.schemas import VitalsCreateSchema, VitalsFilters, VitalsSchema
 
 
 @api_controller(
@@ -35,17 +33,13 @@ class VitalsController(ControllerBase):
     @paginate()
     @ordering()
     @anonymize()
-    def get_all_vitals_matching_the_query(self, query: Query[VitalsFilters], anonymized: bool = True):  # type: ignore
+    def get_all_vitals_matching_the_query(self, query: Query[VitalsFilters]):  # type: ignore
         queryset = Vitals.objects.all().order_by("-date")
         return query.filter(queryset)
 
     @route.post(
         path="",
-        response={
-            201: ModifiedResourceSchema,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="createVitals",
     )
@@ -54,27 +48,17 @@ class VitalsController(ControllerBase):
 
     @route.get(
         path="/{vitalsId}",
-        response={
-            200: VitalsSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: VitalsSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCases],
         operation_id="getVitalsById",
     )
     @anonymize()
-    def get_vitals_by_id(self, vitalsId: str, anonymized: bool = True):
+    def get_vitals_by_id(self, vitalsId: str):
         return get_object_or_404(Vitals, id=vitalsId)
 
     @route.put(
         path="/{vitalsId}",
-        response={
-            200: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={200: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="updateVitalsById",
     )
@@ -84,12 +68,7 @@ class VitalsController(ControllerBase):
 
     @route.delete(
         path="/{vitalsId}",
-        response={
-            204: None,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={204: None, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="deleteVitalsById",
     )
@@ -102,8 +81,7 @@ class VitalsController(ControllerBase):
         response={
             200: Paginated[HistoryEvent.bind_schema(VitalsCreateSchema)],
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getAllVitalsHistoryEvents",
@@ -119,8 +97,7 @@ class VitalsController(ControllerBase):
         response={
             200: HistoryEvent.bind_schema(VitalsCreateSchema),
             404: None,
-            401: None,
-            403: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getVitalsHistoryEventById",
@@ -133,12 +110,7 @@ class VitalsController(ControllerBase):
 
     @route.put(
         path="/{vitalsId}/history/events/{eventId}/reversion",
-        response={
-            201: ModifiedResourceSchema,
-            404: None,
-            401: None,
-            403: None,
-        },
+        response={201: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="revertVitalsToHistoryEvent",
     )
