@@ -41,18 +41,7 @@ This includes:
 This ensures traceability of how and when sensitive data leaves the system — a key requirement for most clinical research data governance frameworks.
 
 
-### Server Access Logs (Optional)
-
-In addition to database-level auditing, POP can be configured to maintain traditional server logs capturing:
-
-Every connection attempt to the server.
-
-- The originating IP address.
-- The associated authenticated user identity.
-
-This is typically managed through the web server or Docker container’s logging subsystem and can be integrated with external log management or security tools for extended auditing.
-
-## Public Audit Trail Access
+### Public Audit Trail Access
 
 One of POP’s key transparency features is that the audit trail is **publicly accessible to all authenticated platform users** irrespective of access level.
 
@@ -62,3 +51,34 @@ This means that:
 - Data changes, exports, and user actions can be inspected at any time.
 
 This fosters trust, ensures accountability, and allows for transparent collaboration within and between institutions.
+
+
+## Server Access Logs
+
+In addition to database-level auditing, POP maintains traditional server logs capturing every connection attempt to the POP server in a format that is both **GDPR** and **HIPAA** aligned. All HTTP requests are recorded in a `logfile.log` file in `logFmt` format containing the following data points:
+
+| Field             | Description                                         | Example                               |
+|------------------|-----------------------------------------------------|----------------------------------------|
+| `timestamp`      | Timestamp of the request in ISO format              | `2025-07-16T14:22:09+0000`             |
+| `level`          | Log level                                           | `INFO`                                 |
+| `user.username`  | Authenticated user ID or `"anonymous"`              | `"e13ea837-ada4-4ba0"`                 |
+| `user.id`        | Authenticated username or `"anonymous"`             | `johnsm`                               |
+| `user.level`     | Authenticated user access level                     | `3`                                    |
+| `request.ip`     | Source IP address                                   | `"192.168.1.5"`                        |
+| `request.agent`  | User agent of the request                           | `"Mozilla/5.0 "`                       |
+| `request.method` | HTTP method used                                    | `POST`                                 |
+| `request.path`   | Full request path                                   | `"/api/auth/sessions"`                 |
+| `request.data`   | Query or redacted JSON body data (gzip-compressed and base64-encoded)| `KaWd2gC/6tWSk4sTvVMUbJSSrK0t...`|
+| `response.status`| HTTP response status code                           | `201`                                  |
+| `response.duration`| Total response time in milliseconds               | `87`                                   |
+| `response.data`   | Redacted JSON response (gzip-compressed and base64-encoded)| `LzE1VslJKSi1PtTA0UdJRysnMzSw...`|
+
+
+These logs can typically be managed through Docker volumes or the container’s logging subsystem and can be integrated with external log management or security tools for extended auditing.
+
+!!! warning "Security Notes"
+
+    - Sensitive fields like password, token, and secret are automatically redacted.
+    - Log files should be protected with file permissions (e.g., `chmod 600`).
+    - For production, ensure logs are encrypted and immutable where required.
+
