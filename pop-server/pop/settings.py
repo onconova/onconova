@@ -288,7 +288,7 @@ LOGGING = {
                 'timestamp="%(asctime)s" level=%(levelname)s user.username="%(username)s" user.id="%(user_id)s" user.level=%(access_level)s '
                 'request.ip="%(ip)s" request.agent="%(user_agent)s" request.method=%(method)s request.path="%(path)s" '
                 'response.status=%(status_code)s response.duration=%(duration)s '
-                'params=%(params)s'
+                'request.data="%(request_data)s" response.data="%(response_data)s"'
             ),
             'datefmt': '%Y-%m-%d %H:%M:%S%z',
         },
