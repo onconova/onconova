@@ -200,7 +200,7 @@ export class AdverseEventFormComponent extends AbstractFormBase {
             event: data.event!,
             grade: data.grade!,
             outcome: data.outcome as AdverseEventOutcomeChoices,
-            dateResolved: data.outcome === AdverseEventOutcomeChoices.Resolved || data.outcome === AdverseEventOutcomeChoices.ResolvedWithSequelae ?  data.dateResolved : null,
+            dateResolved: (data.outcome === AdverseEventOutcomeChoices.Resolved || data.outcome === AdverseEventOutcomeChoices.ResolvedWithSequelae) ?  (data.dateResolved ?? undefined) : undefined,
         }
     }
     suspectedCausesPayloads (): AdverseEventSuspectedCauseCreate[] {

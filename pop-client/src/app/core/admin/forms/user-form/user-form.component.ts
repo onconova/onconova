@@ -65,7 +65,7 @@ export class UserFormComponent extends AbstractFormBase {
             email: data.email ?? null,
             organization: data.organization ?? null,
             department: data.department ?? null,
-            accessLevel: data.accessLevel || 1,
+            accessLevel: data.accessLevel ?? 1,
             isServiceAccount: data.isServiceAccount ?? false,
         });
 
@@ -88,11 +88,11 @@ export class UserFormComponent extends AbstractFormBase {
         const data = this.form.value;   
         return {
             username: data.username!,
-            firstName: data.firstName,
-            lastName: data.lastName,
-            email: data.email,
-            organization: data.organization,
-            department: data.department,
+            firstName: data.firstName ?? undefined,
+            lastName: data.lastName ?? undefined,
+            email: data.email ?? undefined,
+            organization: data.organization ?? undefined,
+            department: data.department ?? undefined,
             accessLevel: data.accessLevel!,
             isServiceAccount: data.isServiceAccount ?? false,
         };
