@@ -26,7 +26,7 @@ import { rxResource } from '@angular/core/rxjs-interop';
     ],
     template: `
         @if (entityStatistics.isLoading()) {
-            <p-table [value]="[1,2,3,4,5,6,7,8]" [paginator]="true" [rows]="8">
+            <p-table [value]="[1,2,3,4,5,6,7,8]" [paginator]="true" [rows]="5">
                 <ng-template #header>
                     <tr>
                         <th>Primary site</th>
@@ -45,7 +45,7 @@ import { rxResource } from '@angular/core/rxjs-interop';
                 </ng-template>
             </p-table>
         } @else {
-            <p-table [value]="entityStatistics.value() || []" [paginator]="true" [rows]="8">
+            <p-table [value]="entityStatistics.value() || []" [paginator]="true" [rows]="5">
                 <ng-template #header>
                     <tr>
                         <th>Primary site</th>

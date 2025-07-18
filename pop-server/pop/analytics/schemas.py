@@ -1,6 +1,8 @@
 from datetime import date
-from ninja import Schema, Field
-from typing import List, Dict, Literal, Optional, Any, Union
+from typing import Any, Dict, List, Literal, Optional, Union
+
+from ninja import Field, Schema
+from pop.core.schemas import CodedConcept
 from pydantic import ConfigDict
 
 
@@ -26,3 +28,16 @@ class EntityStatisticsSchema(Schema):
     topographyCode: Optional[str] = None
     topographyGroup: Optional[str] = None
     model_config = ConfigDict(title="EntityStatistics")
+
+
+class IncompleteCategory(Schema):
+    category: str
+    cases: int
+    affectedSites: List[CodedConcept]
+
+
+class DataCompletionStatistics(Schema):
+    totalCases: int
+    overallCompletion: float
+    mostIncompleteCategories: List[IncompleteCategory]
+    completionOverTime: List

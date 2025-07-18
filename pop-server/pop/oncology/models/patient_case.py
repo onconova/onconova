@@ -1,40 +1,38 @@
 import random
 import string
-import pghistory
 
-from django.db import models
+import pghistory
+import pop.terminology.fields as termfields
+import pop.terminology.models as terminologies
 from django.apps import apps
-from django.db.models.functions import Round, Cast, ExtractYear, Coalesce
-from django.db.models.expressions import RawSQL
 from django.contrib.postgres.fields import ArrayField
+from django.db import models
 from django.db.models import (
-    Q,
+    Case,
+    Count,
+    Exists,
+    ExpressionWrapper,
     F,
     Func,
     Min,
-    ExpressionWrapper,
-    Case,
-    When,
-    Value,
-    Count,
-    Subquery,
     OuterRef,
-    Exists,
+    Q,
+    Subquery,
+    Value,
+    When,
 )
+from django.db.models.expressions import RawSQL
+from django.db.models.functions import Cast, Coalesce, ExtractYear, Round
 from django.utils.translation import gettext_lazy as _
-
-from queryable_properties.properties import (
-    AnnotationProperty,
-    AnnotationGetterMixin,
-    RelatedExistenceCheckProperty,
-    AnnotationMixin,
-    QueryableProperty,
-)
-from queryable_properties.managers import QueryablePropertiesManager
-
 from pop.core.models import BaseModel
-import pop.terminology.fields as termfields
-import pop.terminology.models as terminologies
+from queryable_properties.managers import QueryablePropertiesManager
+from queryable_properties.properties import (
+    AnnotationGetterMixin,
+    AnnotationMixin,
+    AnnotationProperty,
+    QueryableProperty,
+    RelatedExistenceCheckProperty,
+)
 
 
 class PatientCaseDataCategories(models.TextChoices):

@@ -1,12 +1,23 @@
+from collections import Counter
 from typing import List
 
-from django.db.models import Count, F, Window
-from django.db.models.functions import TruncMonth
+from django.db.models import (
+    Count,
+    ExpressionWrapper,
+    F,
+    FloatField,
+    OuterRef,
+    Subquery,
+    Window,
+)
+from django.db.models.functions import Cast, TruncMonth
 from ninja_extra import ControllerBase, api_controller, route
 from pop.analytics.schemas import (
     CasesPerMonthSchema,
+    DataCompletionStatistics,
     DataPlatformStatisticsSchema,
     EntityStatisticsSchema,
+    IncompleteCategory,
 )
 from pop.core.aggregates import Median
 from pop.core.auth.token import XSessionTokenAuth
@@ -14,6 +25,7 @@ from pop.core.utils import COMMON_HTTP_ERRORS
 from pop.oncology import models as oncological_models
 from pop.research.models.cohort import Cohort
 from pop.research.models.project import Project
+from pop.terminology.models import CancerTopographyGroup
 
 
 @api_controller("/dashboard", auth=[XSessionTokenAuth()], tags=["Dashboard"])
@@ -104,4 +116,97 @@ class DashboardController(ControllerBase):
                 )
             )
             .order_by("month")
+        )
+
+    @route.get(
+        path="/data-completion-stats",
+        response={200: DataCompletionStatistics, **COMMON_HTTP_ERRORS},
+        operation_id="getDataCompletionStats",
+    )
+    def get_data_completion_statistics(self):
+        # Total count of PatientCases (denominator for percentages)
+        total_cases = oncological_models.PatientCase.objects.count()
+        overall_completion = round(
+            oncological_models.PatientCaseDataCompletion.objects.count()
+            / (
+                total_cases
+                * oncological_models.PatientCaseDataCompletion.DATA_CATEGORIES_COUNT
+            )
+            * 100
+        )
+        # Guard against division by zero
+        if total_cases == 0:
+            results = []
+        else:
+            # Aggregated counts from PatientCaseDataCompletion by category
+            queryset = oncological_models.PatientCaseDataCompletion.objects.values(
+                "category"
+            ).annotate(
+                counts=Count("id"),
+                percentage=ExpressionWrapper(
+                    Cast(Count("id"), FloatField()) * 100.0 / total_cases,
+                    output_field=FloatField(),
+                ),
+            )
+            # Create a dictionary for quick access to counts/cases per category
+            data_map = {item["category"]: item for item in queryset}
+            # Map to all defined categories (even those with 0 occurrences)
+            results = [
+                {
+                    "category": category.value,
+                    "counts": data_map.get(category.value, {}).get("counts", 0),
+                    "cases": data_map.get(category.value, {}).get("cases", 0.0),
+                }
+                for category in oncological_models.PatientCaseDataCompletion.PatientCaseDataCategories
+            ]
+            results.sort(key=lambda x: x["counts"])
+            top_most_incomplete = []
+            for result in results[:3]:
+                affected_cases = oncological_models.PatientCase.objects.exclude(
+                    completed_data_categories__category=result["category"]
+                )
+                most_affected_sites = Counter(
+                    affected_cases.annotate(
+                        site_code=Subquery(
+                            oncological_models.NeoplasticEntity.objects.filter(
+                                case_id=OuterRef("id"), relationship="primary"
+                            )
+                            .select_properties("topography_group")
+                            .values_list(f"topography_group__code")[:1]
+                        ),
+                    ).values_list("site_code", flat=True)
+                ).most_common(4)
+                most_affected_sites = [code for (code, count) in most_affected_sites]
+                top_most_incomplete.append(
+                    IncompleteCategory(
+                        category=result["category"],
+                        cases=affected_cases.count(),
+                        affectedSites=list(
+                            CancerTopographyGroup.objects.filter(
+                                code__in=most_affected_sites
+                            )
+                        ),
+                    )
+                )
+
+        completion_over_time = (
+            oncological_models.PatientCaseDataCompletion.objects.select_properties(
+                "created_at"
+            )
+            .annotate(month=TruncMonth("created_at"))
+            .values("month")
+            .annotate(
+                cumulativeCount=Window(
+                    expression=Count("id"), order_by=F("month").asc()
+                )
+            )
+            .order_by("month")
+            .distinct()
+        )
+
+        return 200, DataCompletionStatistics(
+            totalCases=total_cases,
+            overallCompletion=overall_completion,
+            mostIncompleteCategories=top_most_incomplete,
+            completionOverTime=completion_over_time,
         )

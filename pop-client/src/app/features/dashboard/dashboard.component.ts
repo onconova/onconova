@@ -11,6 +11,7 @@ import { GetFullNamePipe } from 'src/app/shared/pipes/full-name.pipe';
 
 import { CommonModule } from '@angular/common';
 import { DisclaimerBannerComponent } from "./components/disclaimer-banner.component";
+import { DataCompletionStatsComponent } from './components/data-completion.component';
 
 @Component({
     selector: 'pop-dashboard',
@@ -21,6 +22,7 @@ import { DisclaimerBannerComponent } from "./components/disclaimer-banner.compon
         RandomPaperComponent,
         DataSummaryComponent,
         PrimaryEntitiesTableComponent,
+        DataCompletionStatsComponent,
         DisclaimerBannerComponent,
         GetFullNamePipe,
     ],
@@ -39,6 +41,15 @@ import { DisclaimerBannerComponent } from "./components/disclaimer-banner.compon
                             <div class="text-muted">A summary of the existing cases classified by primary sites and their completion status</div>
                         </div>
                         <pop-primary-entities-table/>
+                    </p-card>
+                </div>
+                <div class="col-12">
+                    <p-card styleClass="">
+                        <div class="mb-3">
+                            <h5 class="mb-0 font-semibold">Data Collection</h5>
+                            <div class="text-muted">A measure of the overall data collection efforts of the platform</div>
+                        </div>
+                        <pop-data-completion-stats/>
                     </p-card>
                 </div>
             </div>

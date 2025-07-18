@@ -58,6 +58,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -122,8 +125,8 @@
           "401": {
             "description": "Unauthorized"
           },
-          "403": {
-            "description": "Forbidden"
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -1974,6 +1977,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -2005,6 +2011,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -2061,6 +2070,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -2105,6 +2117,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -2161,6 +2176,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -2217,6 +2235,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -2279,6 +2300,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -2348,6 +2372,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -3183,6 +3210,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -3239,6 +3269,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -3283,6 +3316,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -3330,6 +3366,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -3415,6 +3454,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -3470,6 +3512,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -3525,6 +3570,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -3660,6 +3708,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -3734,6 +3785,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -3796,6 +3850,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -3899,6 +3956,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -3972,6 +4032,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -4045,6 +4108,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -5556,16 +5622,6 @@
           },
           {
             "in": "query",
-            "name": "anonymized",
-            "schema": {
-              "default": true,
-              "title": "Anonymized",
-              "type": "boolean"
-            },
-            "required": false
-          },
-          {
-            "in": "query",
             "name": "idSearch",
             "schema": {
               "anyOf": [
@@ -5579,6 +5635,18 @@
               "title": "Idsearch"
             },
             "required": false
+          },
+          {
+            "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "description": "Whether to anonymize the data or not (requires elevated permissions)",
+              "title": "Anonymize",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "Whether to anonymize the data or not (requires elevated permissions)"
           },
           {
             "in": "query",
@@ -5661,6 +5729,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -5699,16 +5770,6 @@
           },
           {
             "in": "query",
-            "name": "anonymized",
-            "schema": {
-              "default": true,
-              "title": "Anonymized",
-              "type": "boolean"
-            },
-            "required": false
-          },
-          {
-            "in": "query",
             "name": "type",
             "schema": {
               "allOf": [
@@ -5734,6 +5795,18 @@
               "type": "string"
             },
             "required": false
+          },
+          {
+            "in": "query",
+            "name": "anonymized",
+            "schema": {
+              "default": true,
+              "description": "Whether to anonymize the data or not (requires elevated permissions)",
+              "title": "Anonymize",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "Whether to anonymize the data or not (requires elevated permissions)"
           }
         ],
         "responses": {
@@ -5755,6 +5828,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -5799,6 +5875,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -5846,6 +5925,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -5931,6 +6013,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -5986,6 +6071,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -6041,6 +6129,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -6116,6 +6207,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -6189,6 +6283,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -6255,6 +6352,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -7199,10 +7299,12 @@
             "name": "anonymized",
             "schema": {
               "default": true,
-              "title": "Anonymized",
+              "description": "Whether to anonymize the data or not (requires elevated permissions)",
+              "title": "Anonymize",
               "type": "boolean"
             },
-            "required": false
+            "required": false,
+            "description": "Whether to anonymize the data or not (requires elevated permissions)"
           },
           {
             "in": "query",
@@ -7285,6 +7387,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -7326,10 +7431,12 @@
             "name": "anonymized",
             "schema": {
               "default": true,
-              "title": "Anonymized",
+              "description": "Whether to anonymize the data or not (requires elevated permissions)",
+              "title": "Anonymize",
               "type": "boolean"
             },
-            "required": false
+            "required": false,
+            "description": "Whether to anonymize the data or not (requires elevated permissions)"
           }
         ],
         "responses": {
@@ -7351,6 +7458,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -7395,6 +7505,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -7442,6 +7555,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -7527,6 +7643,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -7582,6 +7701,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -7637,6 +7759,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -8279,10 +8404,12 @@
             "name": "anonymized",
             "schema": {
               "default": true,
-              "title": "Anonymized",
+              "description": "Whether to anonymize the data or not (requires elevated permissions)",
+              "title": "Anonymize",
               "type": "boolean"
             },
-            "required": false
+            "required": false,
+            "description": "Whether to anonymize the data or not (requires elevated permissions)"
           },
           {
             "in": "query",
@@ -8365,6 +8492,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -8450,10 +8580,12 @@
             "name": "anonymized",
             "schema": {
               "default": true,
-              "title": "Anonymized",
+              "description": "Whether to anonymize the data or not (requires elevated permissions)",
+              "title": "Anonymize",
               "type": "boolean"
             },
-            "required": false
+            "required": false,
+            "description": "Whether to anonymize the data or not (requires elevated permissions)"
           }
         ],
         "responses": {
@@ -8513,6 +8645,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -8604,6 +8739,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -8689,6 +8827,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -8744,6 +8885,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -8799,6 +8943,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -9539,10 +9686,12 @@
             "name": "anonymized",
             "schema": {
               "default": true,
-              "title": "Anonymized",
+              "description": "Whether to anonymize the data or not (requires elevated permissions)",
+              "title": "Anonymize",
               "type": "boolean"
             },
-            "required": false
+            "required": false,
+            "description": "Whether to anonymize the data or not (requires elevated permissions)"
           },
           {
             "in": "query",
@@ -9625,6 +9774,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -9666,10 +9818,12 @@
             "name": "anonymized",
             "schema": {
               "default": true,
-              "title": "Anonymized",
+              "description": "Whether to anonymize the data or not (requires elevated permissions)",
+              "title": "Anonymize",
               "type": "boolean"
             },
-            "required": false
+            "required": false,
+            "description": "Whether to anonymize the data or not (requires elevated permissions)"
           }
         ],
         "responses": {
@@ -9691,6 +9845,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -9735,6 +9892,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -9782,6 +9942,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -9867,6 +10030,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -9922,6 +10088,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -9977,6 +10146,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -11728,10 +11900,12 @@
             "name": "anonymized",
             "schema": {
               "default": true,
-              "title": "Anonymized",
+              "description": "Whether to anonymize the data or not (requires elevated permissions)",
+              "title": "Anonymize",
               "type": "boolean"
             },
-            "required": false
+            "required": false,
+            "description": "Whether to anonymize the data or not (requires elevated permissions)"
           },
           {
             "in": "query",
@@ -11814,6 +11988,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -11855,10 +12032,12 @@
             "name": "anonymized",
             "schema": {
               "default": true,
-              "title": "Anonymized",
+              "description": "Whether to anonymize the data or not (requires elevated permissions)",
+              "title": "Anonymize",
               "type": "boolean"
             },
-            "required": false
+            "required": false,
+            "description": "Whether to anonymize the data or not (requires elevated permissions)"
           }
         ],
         "responses": {
@@ -11880,6 +12059,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -11924,6 +12106,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -11971,6 +12156,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -12056,6 +12244,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -12111,6 +12302,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -12166,6 +12360,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -12212,6 +12409,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -14674,10 +14874,12 @@
             "name": "anonymized",
             "schema": {
               "default": true,
-              "title": "Anonymized",
+              "description": "Whether to anonymize the data or not (requires elevated permissions)",
+              "title": "Anonymize",
               "type": "boolean"
             },
-            "required": false
+            "required": false,
+            "description": "Whether to anonymize the data or not (requires elevated permissions)"
           },
           {
             "in": "query",
@@ -14760,6 +14962,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -14801,10 +15006,12 @@
             "name": "anonymized",
             "schema": {
               "default": true,
-              "title": "Anonymized",
+              "description": "Whether to anonymize the data or not (requires elevated permissions)",
+              "title": "Anonymize",
               "type": "boolean"
             },
-            "required": false
+            "required": false,
+            "description": "Whether to anonymize the data or not (requires elevated permissions)"
           }
         ],
         "responses": {
@@ -14826,6 +15033,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -14863,6 +15073,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -14907,6 +15120,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -15002,6 +15218,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -15057,6 +15276,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -15112,6 +15334,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -15162,6 +15387,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -15203,6 +15431,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -15268,6 +15499,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -15321,6 +15555,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -15377,6 +15614,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -15471,6 +15711,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -15535,6 +15778,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -15599,6 +15845,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -16675,10 +16924,12 @@
             "name": "anonymized",
             "schema": {
               "default": true,
-              "title": "Anonymized",
+              "description": "Whether to anonymize the data or not (requires elevated permissions)",
+              "title": "Anonymize",
               "type": "boolean"
             },
-            "required": false
+            "required": false,
+            "description": "Whether to anonymize the data or not (requires elevated permissions)"
           },
           {
             "in": "query",
@@ -16761,6 +17012,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -16802,10 +17056,12 @@
             "name": "anonymized",
             "schema": {
               "default": true,
-              "title": "Anonymized",
+              "description": "Whether to anonymize the data or not (requires elevated permissions)",
+              "title": "Anonymize",
               "type": "boolean"
             },
-            "required": false
+            "required": false,
+            "description": "Whether to anonymize the data or not (requires elevated permissions)"
           }
         ],
         "responses": {
@@ -16827,6 +17083,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -16871,6 +17130,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -16918,6 +17180,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -17003,6 +17268,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -17058,6 +17326,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -17113,6 +17384,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -18956,10 +19230,12 @@
             "name": "anonymized",
             "schema": {
               "default": true,
-              "title": "Anonymized",
+              "description": "Whether to anonymize the data or not (requires elevated permissions)",
+              "title": "Anonymize",
               "type": "boolean"
             },
-            "required": false
+            "required": false,
+            "description": "Whether to anonymize the data or not (requires elevated permissions)"
           },
           {
             "in": "query",
@@ -19042,6 +19318,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -19083,10 +19362,12 @@
             "name": "anonymized",
             "schema": {
               "default": true,
-              "title": "Anonymized",
+              "description": "Whether to anonymize the data or not (requires elevated permissions)",
+              "title": "Anonymize",
               "type": "boolean"
             },
-            "required": false
+            "required": false,
+            "description": "Whether to anonymize the data or not (requires elevated permissions)"
           }
         ],
         "responses": {
@@ -19108,6 +19389,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -19145,6 +19429,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -19189,6 +19476,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -19284,6 +19574,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -19339,6 +19632,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -19394,6 +19690,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -19444,6 +19743,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -19485,6 +19787,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -19550,6 +19855,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -19603,6 +19911,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -19659,6 +19970,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -19753,6 +20067,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -19817,6 +20134,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -19881,6 +20201,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -19931,6 +20254,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -19972,6 +20298,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -20037,6 +20366,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -20090,6 +20422,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -20146,6 +20481,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -20240,6 +20578,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -20304,6 +20645,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -20368,6 +20712,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -21333,10 +21680,12 @@
             "name": "anonymized",
             "schema": {
               "default": true,
-              "title": "Anonymized",
+              "description": "Whether to anonymize the data or not (requires elevated permissions)",
+              "title": "Anonymize",
               "type": "boolean"
             },
-            "required": false
+            "required": false,
+            "description": "Whether to anonymize the data or not (requires elevated permissions)"
           },
           {
             "in": "query",
@@ -21419,6 +21768,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -21460,10 +21812,12 @@
             "name": "anonymized",
             "schema": {
               "default": true,
-              "title": "Anonymized",
+              "description": "Whether to anonymize the data or not (requires elevated permissions)",
+              "title": "Anonymize",
               "type": "boolean"
             },
-            "required": false
+            "required": false,
+            "description": "Whether to anonymize the data or not (requires elevated permissions)"
           }
         ],
         "responses": {
@@ -21485,6 +21839,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -21529,6 +21886,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -21576,6 +21936,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -21661,6 +22024,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -21716,6 +22082,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -21771,6 +22140,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -21821,6 +22193,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -23838,10 +24213,12 @@
             "name": "anonymized",
             "schema": {
               "default": true,
-              "title": "Anonymized",
+              "description": "Whether to anonymize the data or not (requires elevated permissions)",
+              "title": "Anonymize",
               "type": "boolean"
             },
-            "required": false
+            "required": false,
+            "description": "Whether to anonymize the data or not (requires elevated permissions)"
           },
           {
             "in": "query",
@@ -23899,6 +24276,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -23930,6 +24310,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -23971,10 +24354,12 @@
             "name": "anonymized",
             "schema": {
               "default": true,
-              "title": "Anonymized",
+              "description": "Whether to anonymize the data or not (requires elevated permissions)",
+              "title": "Anonymize",
               "type": "boolean"
             },
-            "required": false
+            "required": false,
+            "description": "Whether to anonymize the data or not (requires elevated permissions)"
           }
         ],
         "responses": {
@@ -23996,6 +24381,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -24033,6 +24421,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -24077,6 +24468,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -24172,6 +24566,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -24227,6 +24624,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -24282,6 +24682,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -24332,6 +24735,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -24373,6 +24779,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -24438,6 +24847,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -24491,6 +24903,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -24547,6 +24962,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -24641,6 +25059,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -24705,6 +25126,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -24769,6 +25193,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -24819,6 +25246,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -24860,6 +25290,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -24925,6 +25358,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -24978,6 +25414,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -25034,6 +25473,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -25128,6 +25570,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -25192,6 +25637,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -25256,6 +25704,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -26010,10 +26461,12 @@
             "name": "anonymized",
             "schema": {
               "default": true,
-              "title": "Anonymized",
+              "description": "Whether to anonymize the data or not (requires elevated permissions)",
+              "title": "Anonymize",
               "type": "boolean"
             },
-            "required": false
+            "required": false,
+            "description": "Whether to anonymize the data or not (requires elevated permissions)"
           },
           {
             "in": "query",
@@ -26096,6 +26549,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -26137,10 +26593,12 @@
             "name": "anonymized",
             "schema": {
               "default": true,
-              "title": "Anonymized",
+              "description": "Whether to anonymize the data or not (requires elevated permissions)",
+              "title": "Anonymize",
               "type": "boolean"
             },
-            "required": false
+            "required": false,
+            "description": "Whether to anonymize the data or not (requires elevated permissions)"
           }
         ],
         "responses": {
@@ -26162,6 +26620,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -26206,6 +26667,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -26253,6 +26717,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -26338,6 +26805,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -26393,6 +26863,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -26448,6 +26921,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -27047,10 +27523,12 @@
             "name": "anonymized",
             "schema": {
               "default": true,
-              "title": "Anonymized",
+              "description": "Whether to anonymize the data or not (requires elevated permissions)",
+              "title": "Anonymize",
               "type": "boolean"
             },
-            "required": false
+            "required": false,
+            "description": "Whether to anonymize the data or not (requires elevated permissions)"
           },
           {
             "in": "query",
@@ -27133,6 +27611,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -27182,10 +27663,12 @@
             "name": "anonymized",
             "schema": {
               "default": true,
-              "title": "Anonymized",
+              "description": "Whether to anonymize the data or not (requires elevated permissions)",
+              "title": "Anonymize",
               "type": "boolean"
             },
-            "required": false
+            "required": false,
+            "description": "Whether to anonymize the data or not (requires elevated permissions)"
           }
         ],
         "responses": {
@@ -27245,6 +27728,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -27300,6 +27786,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -27385,6 +27874,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -27440,6 +27932,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -27495,6 +27990,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -27545,6 +28043,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -27586,6 +28087,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -27698,6 +28202,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -27754,6 +28261,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -27848,6 +28358,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -27912,6 +28425,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -27976,6 +28492,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -28774,10 +29293,12 @@
             "name": "anonymized",
             "schema": {
               "default": true,
-              "title": "Anonymized",
+              "description": "Whether to anonymize the data or not (requires elevated permissions)",
+              "title": "Anonymize",
               "type": "boolean"
             },
-            "required": false
+            "required": false,
+            "description": "Whether to anonymize the data or not (requires elevated permissions)"
           },
           {
             "in": "query",
@@ -28860,6 +29381,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -28901,10 +29425,12 @@
             "name": "anonymized",
             "schema": {
               "default": true,
-              "title": "Anonymized",
+              "description": "Whether to anonymize the data or not (requires elevated permissions)",
+              "title": "Anonymize",
               "type": "boolean"
             },
-            "required": false
+            "required": false,
+            "description": "Whether to anonymize the data or not (requires elevated permissions)"
           }
         ],
         "responses": {
@@ -28926,6 +29452,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -28970,6 +29499,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -29017,6 +29549,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -29102,6 +29637,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -29157,6 +29695,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -29212,6 +29753,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -33005,10 +33549,12 @@
             "name": "anonymized",
             "schema": {
               "default": true,
-              "title": "Anonymized",
+              "description": "Whether to anonymize the data or not (requires elevated permissions)",
+              "title": "Anonymize",
               "type": "boolean"
             },
-            "required": false
+            "required": false,
+            "description": "Whether to anonymize the data or not (requires elevated permissions)"
           },
           {
             "in": "query",
@@ -33091,6 +33637,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -33132,10 +33681,12 @@
             "name": "anonymized",
             "schema": {
               "default": true,
-              "title": "Anonymized",
+              "description": "Whether to anonymize the data or not (requires elevated permissions)",
+              "title": "Anonymize",
               "type": "boolean"
             },
-            "required": false
+            "required": false,
+            "description": "Whether to anonymize the data or not (requires elevated permissions)"
           }
         ],
         "responses": {
@@ -33157,6 +33708,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -33201,6 +33755,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -33248,6 +33805,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -33333,6 +33893,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -33388,6 +33951,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -33443,6 +34009,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -33884,10 +34453,12 @@
             "name": "anonymized",
             "schema": {
               "default": true,
-              "title": "Anonymized",
+              "description": "Whether to anonymize the data or not (requires elevated permissions)",
+              "title": "Anonymize",
               "type": "boolean"
             },
-            "required": false
+            "required": false,
+            "description": "Whether to anonymize the data or not (requires elevated permissions)"
           },
           {
             "in": "query",
@@ -33970,6 +34541,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -34031,10 +34605,12 @@
             "name": "anonymized",
             "schema": {
               "default": true,
-              "title": "Anonymized",
+              "description": "Whether to anonymize the data or not (requires elevated permissions)",
+              "title": "Anonymize",
               "type": "boolean"
             },
-            "required": false
+            "required": false,
+            "description": "Whether to anonymize the data or not (requires elevated permissions)"
           }
         ],
         "responses": {
@@ -34094,6 +34670,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -34161,6 +34740,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -34246,6 +34828,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -34301,6 +34886,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -34356,6 +34944,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -35506,10 +36097,12 @@
             "name": "anonymized",
             "schema": {
               "default": true,
-              "title": "Anonymized",
+              "description": "Whether to anonymize the data or not (requires elevated permissions)",
+              "title": "Anonymize",
               "type": "boolean"
             },
-            "required": false
+            "required": false,
+            "description": "Whether to anonymize the data or not (requires elevated permissions)"
           },
           {
             "in": "query",
@@ -35592,6 +36185,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -35633,10 +36229,12 @@
             "name": "anonymized",
             "schema": {
               "default": true,
-              "title": "Anonymized",
+              "description": "Whether to anonymize the data or not (requires elevated permissions)",
+              "title": "Anonymize",
               "type": "boolean"
             },
-            "required": false
+            "required": false,
+            "description": "Whether to anonymize the data or not (requires elevated permissions)"
           }
         ],
         "responses": {
@@ -35658,6 +36256,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -35702,6 +36303,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -35749,6 +36353,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -35834,6 +36441,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -35889,6 +36499,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -35944,6 +36557,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -36717,10 +37333,12 @@
             "name": "anonymized",
             "schema": {
               "default": true,
-              "title": "Anonymized",
+              "description": "Whether to anonymize the data or not (requires elevated permissions)",
+              "title": "Anonymize",
               "type": "boolean"
             },
-            "required": false
+            "required": false,
+            "description": "Whether to anonymize the data or not (requires elevated permissions)"
           },
           {
             "in": "query",
@@ -36803,6 +37421,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -36844,10 +37465,12 @@
             "name": "anonymized",
             "schema": {
               "default": true,
-              "title": "Anonymized",
+              "description": "Whether to anonymize the data or not (requires elevated permissions)",
+              "title": "Anonymize",
               "type": "boolean"
             },
-            "required": false
+            "required": false,
+            "description": "Whether to anonymize the data or not (requires elevated permissions)"
           }
         ],
         "responses": {
@@ -36869,6 +37492,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -36906,6 +37532,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -36950,6 +37579,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -37045,6 +37677,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -37100,6 +37735,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -37155,6 +37793,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -38077,10 +38718,12 @@
             "name": "anonymized",
             "schema": {
               "default": true,
-              "title": "Anonymized",
+              "description": "Whether to anonymize the data or not (requires elevated permissions)",
+              "title": "Anonymize",
               "type": "boolean"
             },
-            "required": false
+            "required": false,
+            "description": "Whether to anonymize the data or not (requires elevated permissions)"
           },
           {
             "in": "query",
@@ -38163,6 +38806,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -38204,10 +38850,12 @@
             "name": "anonymized",
             "schema": {
               "default": true,
-              "title": "Anonymized",
+              "description": "Whether to anonymize the data or not (requires elevated permissions)",
+              "title": "Anonymize",
               "type": "boolean"
             },
-            "required": false
+            "required": false,
+            "description": "Whether to anonymize the data or not (requires elevated permissions)"
           }
         ],
         "responses": {
@@ -38229,6 +38877,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -38266,6 +38917,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -38310,6 +38964,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -38405,6 +39062,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -38460,6 +39120,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -38515,6 +39178,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -38552,6 +39218,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -38598,6 +39267,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -39750,10 +40422,12 @@
             "name": "anonymized",
             "schema": {
               "default": true,
-              "title": "Anonymized",
+              "description": "Whether to anonymize the data or not (requires elevated permissions)",
+              "title": "Anonymize",
               "type": "boolean"
             },
-            "required": false
+            "required": false,
+            "description": "Whether to anonymize the data or not (requires elevated permissions)"
           },
           {
             "in": "query",
@@ -39836,6 +40510,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -39877,10 +40554,12 @@
             "name": "anonymized",
             "schema": {
               "default": true,
-              "title": "Anonymized",
+              "description": "Whether to anonymize the data or not (requires elevated permissions)",
+              "title": "Anonymize",
               "type": "boolean"
             },
-            "required": false
+            "required": false,
+            "description": "Whether to anonymize the data or not (requires elevated permissions)"
           }
         ],
         "responses": {
@@ -39902,6 +40581,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -39946,6 +40628,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -39993,6 +40678,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -40078,6 +40766,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -40133,6 +40824,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -40188,6 +40882,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -40410,6 +41107,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -41371,6 +42071,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -41402,6 +42105,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -41458,6 +42164,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -41495,6 +42204,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -41539,6 +42251,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -41580,10 +42295,12 @@
             "name": "anonymized",
             "schema": {
               "default": true,
-              "title": "Anonymized",
+              "description": "Whether to anonymize the data or not (requires elevated permissions)",
+              "title": "Anonymize",
               "type": "boolean"
             },
-            "required": false
+            "required": false,
+            "description": "Whether to anonymize the data or not (requires elevated permissions)"
           },
           {
             "in": "query",
@@ -41628,6 +42345,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -41701,6 +42421,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -41747,6 +42470,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -41832,6 +42558,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -41887,6 +42616,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -41942,6 +42674,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -41997,6 +42732,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -42066,6 +42804,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -42129,6 +42870,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -42183,11 +42927,11 @@
               }
             }
           },
-          "422": {
-            "description": "Unprocessable Entity"
-          },
           "404": {
             "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
           },
           "401": {
             "description": "Unauthorized"
@@ -42245,11 +42989,11 @@
               }
             }
           },
-          "422": {
-            "description": "Unprocessable Entity"
-          },
           "404": {
             "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
           },
           "401": {
             "description": "Unauthorized"
@@ -42297,11 +43041,11 @@
               }
             }
           },
-          "422": {
-            "description": "Unprocessable Entity"
-          },
           "404": {
             "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
           },
           "401": {
             "description": "Unauthorized"
@@ -42368,11 +43112,11 @@
               }
             }
           },
-          "422": {
-            "description": "Unprocessable Entity"
-          },
           "404": {
             "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
           },
           "401": {
             "description": "Unauthorized"
@@ -42447,11 +43191,11 @@
               }
             }
           },
-          "422": {
-            "description": "Unprocessable Entity"
-          },
           "404": {
             "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
           },
           "401": {
             "description": "Unauthorized"
@@ -42521,11 +43265,11 @@
               }
             }
           },
-          "422": {
-            "description": "Unprocessable Entity"
-          },
           "404": {
             "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
           },
           "401": {
             "description": "Unauthorized"
@@ -42568,6 +43312,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -42605,6 +43352,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -42642,6 +43392,45 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "tags": [
+          "Dashboard"
+        ],
+        "security": [
+          {
+            "XSessionTokenAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/dashboard/data-completion-stats": {
+      "get": {
+        "operationId": "getDataCompletionStats",
+        "summary": "Get Data Completion Statistics",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataCompletionStatistics"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -44020,6 +44809,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -44051,6 +44843,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -44107,6 +44902,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -44144,6 +44942,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -44188,6 +44989,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -44283,6 +45087,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -44338,6 +45145,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -44393,6 +45203,9 @@
           },
           "403": {
             "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         },
         "tags": [
@@ -57087,6 +57900,18 @@
           }
         },
         "title": "PatientCaseFilters",
+        "type": "object"
+      },
+      "pop__core__anonymization__decorator__AnonymizationBase__Input": {
+        "properties": {
+          "anonymized": {
+            "default": true,
+            "description": "Whether to anonymize the data or not (requires elevated permissions)",
+            "title": "Anonymize",
+            "type": "boolean"
+          }
+        },
+        "title": "Input",
         "type": "object"
       },
       "Paginated_PatientCase_": {
@@ -85956,6 +86781,66 @@
           "cumulativeCount"
         ],
         "title": "CasesPerMonthSchema",
+        "type": "object"
+      },
+      "DataCompletionStatistics": {
+        "properties": {
+          "totalCases": {
+            "title": "Totalcases",
+            "type": "integer"
+          },
+          "overallCompletion": {
+            "title": "Overallcompletion",
+            "type": "number"
+          },
+          "mostIncompleteCategories": {
+            "items": {
+              "$ref": "#/components/schemas/IncompleteCategory"
+            },
+            "title": "Mostincompletecategories",
+            "type": "array"
+          },
+          "completionOverTime": {
+            "items": {
+
+            },
+            "title": "Completionovertime",
+            "type": "array"
+          }
+        },
+        "required": [
+          "totalCases",
+          "overallCompletion",
+          "mostIncompleteCategories",
+          "completionOverTime"
+        ],
+        "title": "DataCompletionStatistics",
+        "type": "object"
+      },
+      "IncompleteCategory": {
+        "properties": {
+          "category": {
+            "title": "Category",
+            "type": "string"
+          },
+          "cases": {
+            "title": "Cases",
+            "type": "integer"
+          },
+          "affectedSites": {
+            "items": {
+              "$ref": "#/components/schemas/CodedConcept"
+            },
+            "title": "Affectedsites",
+            "type": "array"
+          }
+        },
+        "required": [
+          "category",
+          "cases",
+          "affectedSites"
+        ],
+        "title": "IncompleteCategory",
         "type": "object"
       },
       "DatasetFilters": {

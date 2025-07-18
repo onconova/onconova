@@ -1,6 +1,6 @@
 
 @if (layout() === 'card') {
-    <div class="pop-cohort-search-item-card mb-2">
+    <div class="pop-cohort-search-item-card shadow-1">
         
         <div class="flex gap-3 mb-2">
             <!-- Population counter -->
@@ -73,7 +73,7 @@
         <td> 
             {{cohort().name}} 
         </td>
-        <td>            
+        <td class="text-center">            
             {{ cohort().population || '-' }}
         </td>
         <td>
