@@ -33,6 +33,7 @@ class TherapyLineController(ControllerBase):
         path="",
         response={
             200: Paginated[TherapyLineSchema],
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getTherapyLines",

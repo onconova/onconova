@@ -31,6 +31,7 @@ class RiskAssessmentController(ControllerBase):
         path="",
         response={
             200: Paginated[RiskAssessmentSchema],
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getRiskAssessments",

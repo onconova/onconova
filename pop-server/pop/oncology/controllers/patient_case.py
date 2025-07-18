@@ -79,7 +79,7 @@ class PatientCaseController(ControllerBase):
 
     @route.get(
         path="",
-        response={200: Paginated[PatientCaseSchema]},
+        response={200: Paginated[PatientCaseSchema], **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCases],
         operation_id="getPatientCases",
     )
@@ -270,6 +270,7 @@ class OthersController(ControllerBase):
         path="/default-clinical-center",
         response={
             200: str,
+            **COMMON_HTTP_ERRORS,
             501: None,
         },
         operation_id="getDefaultClinicalCenter",
@@ -285,6 +286,7 @@ class OthersController(ControllerBase):
         path="/clinical-centers",
         response={
             200: list[str],
+            **COMMON_HTTP_ERRORS,
             501: None,
         },
         operation_id="getClinicalCenters",

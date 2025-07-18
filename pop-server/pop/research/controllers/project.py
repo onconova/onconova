@@ -33,6 +33,7 @@ class ProjectController(ControllerBase):
         path="",
         response={
             200: Paginated[ProjectSchema],
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewProjects],
         operation_id="getProjects",
@@ -127,6 +128,7 @@ class ProjectController(ControllerBase):
         path="/{projectId}/members/{memberId}/data-management/grants",
         response={
             200: Paginated[ProjectDataManagerGrantSchema],
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewProjects],
         operation_id="getProjectDataManagerGrant",

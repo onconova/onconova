@@ -111,8 +111,8 @@ class UsersController(ControllerBase):
         response={200: Paginated[UserSchema], **COMMON_HTTP_ERRORS},
         operation_id="getUsers",
     )
-    @paginate
-    @ordering
+    @paginate()
+    @ordering()
     def get_all_users_matching_the_query(self, query: Query[UserFilters]):  # type: ignore
         queryset = get_user_model().objects.all()
         return query.filter(queryset)
@@ -188,7 +188,7 @@ class UsersController(ControllerBase):
         permissions=[perms.CanViewUsers],
         operation_id="getUserEvents",
     )
-    @paginate
+    @paginate()
     def get_user_events(self, userId: str):
         user = get_object_or_404(User, id=userId)
         return Events.objects.filter(pgh_context__username=user.username).order_by(

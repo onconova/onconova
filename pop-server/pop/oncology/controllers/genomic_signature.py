@@ -76,6 +76,7 @@ class GenomicSignatureController(ControllerBase):
         path="",
         response={
             200: Paginated[AnyResponseSchemas],
+            **COMMON_HTTP_ERRORS,
         },
         exclude_none=True,
         permissions=[perms.CanViewCases],
