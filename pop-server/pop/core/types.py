@@ -1,4 +1,26 @@
 from enum import Enum
+from typing import Annotated, Optional, TypeVar
+
+from pydantic import GetCoreSchemaHandler, GetJsonSchemaHandler
+from pydantic_core import core_schema
+
+
+class RemoveAnyOfNull:
+    def __get_pydantic_json_schema__(
+        self, core_schema: core_schema.CoreSchema, handler: GetJsonSchemaHandler
+    ):
+        schema = handler(core_schema)
+        # Remove "null" from anyOf
+        if "anyOf" in schema:
+            schema["anyOf"] = [s for s in schema["anyOf"] if s.get("type") != "null"]
+            if len(schema["anyOf"]) == 1:
+                schema.update(schema["anyOf"][0])
+                schema.pop("anyOf")
+        return schema
+
+
+T = TypeVar("T")
+Nullable = Annotated[Optional[T], RemoveAnyOfNull()]
 
 
 class Age(int):

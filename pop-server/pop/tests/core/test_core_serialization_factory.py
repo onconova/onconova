@@ -1,22 +1,20 @@
-from typing import Optional, List
+from typing import List, Optional
 from uuid import UUID
 
-from django.test import TestCase
 from django.db import models as django_models
 from django.db.models import CharField, ForeignKey, ManyToManyField
-from pydantic import BaseModel
-
+from django.test import TestCase
 from pop.core.schemas import CodedConcept as CodedConceptSchema
-from pop.core.serialization.fields import (
-    get_schema_field,
-    CodedConceptSchema,
-    get_schema_field,
-    PydanticUndefined,
-)
 from pop.core.serialization.factory import SchemaFactory
+from pop.core.serialization.fields import (
+    CodedConceptSchema,
+    PydanticUndefined,
+    get_schema_field,
+)
 from pop.core.serialization.filters import FilterBaseSchema
-
-from pop.tests.models import MockModel, MockCodedConcept
+from pop.core.types import Nullable
+from pop.tests.models import MockCodedConcept, MockModel
+from pydantic import BaseModel
 
 
 class TestGetSchemaField(TestCase):
@@ -97,7 +95,7 @@ class TestGetSchemaField(TestCase):
         self._assert_naming_and_aliases(
             schema_field_name, field_info, "testFieldId", "test_field"
         )
-        self.assertEqual(python_type, Optional[str])
+        self.assertEqual(python_type, Nullable[str])
         self.assertEqual(field_info.default, None)
 
     def test_relation_field_with_nullable_true(self):
@@ -106,7 +104,7 @@ class TestGetSchemaField(TestCase):
         self._assert_naming_and_aliases(
             schema_field_name, field_info, "testFieldId", "test_field"
         )
-        self.assertEqual(python_type, Optional[str])
+        self.assertEqual(python_type, Nullable[str])
         self.assertEqual(field_info.default, None)
 
     def test_coded_concept_field(self):
