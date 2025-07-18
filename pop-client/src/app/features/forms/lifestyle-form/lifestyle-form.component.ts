@@ -89,13 +89,13 @@ export class LifestyleFormComponent extends AbstractFormBase {
         return {
             caseId: this.caseId(),
             date: data.date!,
-            smokingStatus: data.smokingStatus,
-            smokingPackyears: data.smokingPackyears,
-            smokingQuited: data.smokingQuited,
-            alcoholConsumption: data.alcoholConsumption,
-            nightSleep: data.nightSleep,
-            recreationalDrugs: data.recreationalDrugs,
-            exposures: data.exposures,
+            smokingStatus: data.smokingStatus ?? undefined,
+            smokingPackyears: data.smokingPackyears ?? undefined,
+            smokingQuited: data.smokingQuited ?? undefined,
+            alcoholConsumption: data.alcoholConsumption ?? undefined,
+            nightSleep: data.nightSleep ?? undefined,
+            recreationalDrugs: data.recreationalDrugs ?? undefined,
+            exposures: data.exposures ?? undefined,
         };
     }
 

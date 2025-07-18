@@ -29,9 +29,7 @@ class PerformanceStatusController(ControllerBase):
 
     @route.get(
         path="",
-        response={
-            200: Paginated[PerformanceStatusSchema],
-        },
+        response={200: Paginated[PerformanceStatusSchema], **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCases],
         operation_id="getPerformanceStatus",
     )

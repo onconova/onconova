@@ -1,19 +1,18 @@
-from pydantic import Field, AliasChoices
-from typing import Optional
-
-from pop.oncology import models as orm
+from pop.core.anonymization import AnonymizationConfig
 from pop.core.schemas import Period as PeriodSchema
 from pop.core.serialization.metaclasses import (
-    ModelGetSchema,
     ModelCreateSchema,
+    ModelGetSchema,
     SchemaConfig,
 )
-from pop.core.anonymization import AnonymizationConfig
+from pop.core.types import Nullable
+from pop.oncology import models as orm
+from pydantic import AliasChoices, Field
 
 
 class TherapyLineSchema(ModelGetSchema):
-    period: Optional[PeriodSchema] = Field(
-        None,
+    period: Nullable[PeriodSchema] = Field(
+        default=None,
         title="Period",
         description="Time period of the therapy line",
         alias="period",
@@ -23,8 +22,8 @@ class TherapyLineSchema(ModelGetSchema):
         description="Label categorizing the therapy line",
         alias="label",
     )
-    progressionFreeSurvival: Optional[float] = Field(
-        None,
+    progressionFreeSurvival: Nullable[float] = Field(
+        default=None,
         title="Progression-free survival in months",
         description="Progression-free survival (PFS) of the patient for the therapy line",
         alias="progression_free_survival",

@@ -88,8 +88,8 @@ export class TreatmentResponseFormComponent extends AbstractFormBase {
             date: data.date!,
             recist: data.recist!,
             methodology: data.methodology!,
-            recistInterpreted: data.recistInterpreted,
-            assessedBodysites: data.assessedBodysites,
+            recistInterpreted: data.recistInterpreted ?? undefined,
+            assessedBodysites: data.assessedBodysites ?? undefined,
         };
     }
     

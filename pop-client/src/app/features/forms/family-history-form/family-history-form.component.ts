@@ -89,10 +89,10 @@ export class FamilyHistoryFormComponent extends AbstractFormBase {
       date: data.date!,
       relationship: data.relationship!,
       hadCancer: data.hadCancer!,
-      contributedToDeath: data.contributedToDeath,
-      onsetAge: data.onsetAge,
-      topography: data.topography,
-      morphology: data.morphology,
+      contributedToDeath: data.contributedToDeath ?? undefined,
+      onsetAge: data.onsetAge ?? undefined,
+      topography: data.topography ?? undefined,
+      morphology: data.morphology ?? undefined,
     };
   }
 

@@ -81,8 +81,8 @@ export class PerformanceStatusFormComponent extends AbstractFormBase {
         return {
             caseId: this.caseId(),
             date: data.date!,
-            ecogScore: data.ecogScore,
-            karnofskyScore: data.karnofskyScore,
+            ecogScore: data.ecogScore ?? undefined,
+            karnofskyScore: data.karnofskyScore ?? undefined,
         };
     }
 

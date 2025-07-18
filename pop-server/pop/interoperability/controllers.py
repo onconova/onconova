@@ -1,26 +1,25 @@
-import pghistory
 import hashlib
 import json
+from datetime import datetime
 from enum import Enum
 from typing import Any
-from datetime import datetime
-from ninja_extra.pagination import paginate
-from ninja_extra.ordering import ordering
-from ninja_extra import api_controller, ControllerBase, route, status
-from ninja_extra.exceptions import APIException
 
+import pghistory
+import pop.oncology.schemas as oncology_schemas
 from django.conf import settings
 from django.db import transaction
 from django.shortcuts import get_object_or_404
-
+from ninja_extra import ControllerBase, api_controller, route, status
+from ninja_extra.exceptions import APIException
+from ninja_extra.ordering import ordering
+from ninja_extra.pagination import paginate
 from pop.core.auth import permissions as perms
-from pop.core.utils import find_uuid_across_models
 from pop.core.auth.token import XSessionTokenAuth
 from pop.core.schemas import ModifiedResource as ModifiedResourceSchema
-import pop.oncology.schemas as oncology_schemas
-from pop.oncology.models import PatientCase
-from pop.interoperability.schemas import PatientCaseBundle, ExportMetadata
+from pop.core.utils import COMMON_HTTP_ERRORS, find_uuid_across_models
 from pop.interoperability.parsers import BundleParser
+from pop.interoperability.schemas import ExportMetadata, PatientCaseBundle
+from pop.oncology.models import PatientCase
 
 
 class ConflictingClinicalIdentifierException(APIException):
@@ -50,6 +49,7 @@ class InteroperabilityController(ControllerBase):
         response={
             200: Any,
             404: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanManageCases, perms.CanExportData],
         operation_id="exportResource",
@@ -82,6 +82,7 @@ class InteroperabilityController(ControllerBase):
         response={
             200: str,
             404: None,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="resolveResourceId",
@@ -96,6 +97,7 @@ class InteroperabilityController(ControllerBase):
         path="/bundles/{caseId}",
         response={
             200: PatientCaseBundle,
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanExportData],
         operation_id="exportPatientCaseBundle",
@@ -107,14 +109,18 @@ class InteroperabilityController(ControllerBase):
 
     @route.post(
         path="/bundles",
-        response={201: ModifiedResourceSchema, 422: None},
+        response={
+            201: ModifiedResourceSchema,
+            422: None,
+            **COMMON_HTTP_ERRORS,
+        },
         permissions=[perms.CanManageCases],
         operation_id="importPatientCaseBundle",
     )
     def import_case_bundle(
         self, bundle: PatientCaseBundle, conflict: ConflictResolution = None
     ):
-        
+
         conflicting_case = PatientCase.objects.filter(
             pseudoidentifier=bundle.pseudoidentifier
         ).first()

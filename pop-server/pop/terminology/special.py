@@ -1,21 +1,21 @@
+from typing import List
+
 from pop.terminology.digestors import (
-    TerminologyDigestor,
-    NCITDigestor,
     EnsemblExonsDigestor,
-)
-from pop.terminology.utils import CodedConcept
-from pop.terminology.utils import (
-    parent_to_children,
-    request_http_get,
-    ensure_within_string_limits,
+    NCITDigestor,
+    TerminologyDigestor,
 )
 from pop.terminology.models import AntineoplasticAgent, Gene, GeneExon
-from typing import List, Optional
+from pop.terminology.utils import (
+    CodedConcept,
+    ensure_within_string_limits,
+    request_http_get,
+)
 from tqdm import tqdm
 
 
 class DrugCodedConcept(CodedConcept):
-    therapy_category: Optional[str] = None
+    therapy_category: str | None = None
 
 
 class NCITAntineoplasticAgentsSubsetDigestor(TerminologyDigestor):

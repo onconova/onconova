@@ -31,6 +31,7 @@ class GenomicVariantController(ControllerBase):
         path="",
         response={
             200: Paginated[GenomicVariantSchema],
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getGenomicVariants",

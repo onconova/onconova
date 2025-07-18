@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import Any, Iterator, List, Optional, Tuple, Union
+from typing import Any, Iterator, List, Tuple, Union
 
 from django.db.models import Exists, OuterRef, Q
 from ninja import Field, Schema
@@ -10,6 +10,7 @@ from pop.core.serialization.metaclasses import (
     ModelGetSchema,
     SchemaConfig,
 )
+from pop.core.types import Nullable
 from pop.core.utils import camel_to_snake
 from pop.interoperability.schemas import ExportMetadata
 from pop.oncology import models as oncology_models
@@ -147,14 +148,14 @@ class CohortCreateSchema(ModelCreateSchema):
     Schema for creating a new cohort, including cohort logic definitions.
     """
 
-    includeCriteria: Optional[CohortRuleset] = Field(
+    includeCriteria: Nullable[CohortRuleset] = Field(
         default=None,
         title="Inclusion critera",
         description="Logic rules to filter and constrain the cases to be included in the cohort",
         alias="include_criteria",
         validation_alias=AliasChoices("includeCriteria", "include_criteria"),
     )
-    excludeCriteria: Optional[CohortRuleset] = Field(
+    excludeCriteria: Nullable[CohortRuleset] = Field(
         default=None,
         title="Exclusion critera",
         description="Logic rules to filter and constrain the cases to be excluded from the cohort",
@@ -169,7 +170,7 @@ class CohortFilters(create_filters_schema(schema=CohortSchema, name="CohortFilte
     Additional filters for cohort listings.
     """
 
-    createdBy: Optional[str] = Field(
+    createdBy: Nullable[str] = Field(
         None, description="Filter for a particular cohort creator by its username"
     )
 
@@ -189,7 +190,7 @@ class CohortTraitAverage(Schema):
     average: float = Field(
         title="Average", description="The mean value for the cohort trait."
     )
-    standardDeviation: Optional[float] = Field(
+    standardDeviation: Nullable[float] = Field(
         default=None,
         title="Standard Deviation",
         description="The standard deviation for the cohort trait, if applicable.",
@@ -230,14 +231,36 @@ class CohortTraitCounts(Schema):
 
 
 class CohortTraits(Schema):
-
-    age: CohortTraitMedian
-    dataCompletion: CohortTraitMedian
-    overallSurvival: Optional[CohortTraitMedian]
-    genders: List[CohortTraitCounts]
-    neoplasticSites: List[CohortTraitCounts]
-    therapyLines: List[CohortTraitCounts]
-    consentStatus: List[CohortTraitCounts]
+    age: CohortTraitMedian = Field(
+        ..., title="Age", description="Median age of individuals in the cohort."
+    )
+    dataCompletion: CohortTraitMedian = Field(
+        ...,
+        title="Data Completion",
+        description="Median percentage of completed data per patient.",
+    )
+    overallSurvival: Nullable[CohortTraitMedian] = Field(
+        title="Overall Survival",
+        description="Median overall survival time in the cohort, if available.",
+    )
+    genders: List[CohortTraitCounts] = Field(
+        ..., title="Genders", description="Distribution of genders within the cohort."
+    )
+    neoplasticSites: List[CohortTraitCounts] = Field(
+        ...,
+        title="Neoplastic Sites",
+        description="Distribution of neoplastic (tumor) sites in the cohort.",
+    )
+    therapyLines: List[CohortTraitCounts] = Field(
+        ...,
+        title="Therapy Lines",
+        description="Distribution of therapy lines received by patients in the cohort.",
+    )
+    consentStatus: List[CohortTraitCounts] = Field(
+        ...,
+        title="Consent Status",
+        description="Distribution of consent statuses for data use among cohort participants.",
+    )
 
 
 class CohortContribution(Schema):

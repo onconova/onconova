@@ -1,21 +1,21 @@
-from datetime import datetime, date
-from typing import Optional, Union, Literal
-from pydantic import Field, AliasChoices, field_validator
-from ninja import Schema
+from datetime import date, datetime
+from typing import Literal, Union
 
-from pop.oncology import models as orm
-from pop.core.types import Age, AgeBin, Array
-from pop.core.serialization.metaclasses import (
-    ModelGetSchema,
-    ModelCreateSchema,
-    SchemaConfig,
-)
+from ninja import Schema
 from pop.core.anonymization import (
     REDACTED_STRING,
     AnonymizationConfig,
-    anonymize_personal_date,
     anonymize_by_redacting_string,
+    anonymize_personal_date,
 )
+from pop.core.serialization.metaclasses import (
+    ModelCreateSchema,
+    ModelGetSchema,
+    SchemaConfig,
+)
+from pop.core.types import Age, AgeBin, Array, Nullable
+from pop.oncology import models as orm
+from pydantic import AliasChoices, Field, field_validator
 
 
 class PatientCaseSchema(ModelGetSchema):
@@ -28,14 +28,14 @@ class PatientCaseSchema(ModelGetSchema):
         description="Date of birth of the patient",
         validation_alias=AliasChoices("dateOfBirth", "date_of_birth"),
     )
-    overallSurvival: Optional[float] = Field(
+    overallSurvival: Nullable[float] = Field(
         None,
         title="Overall survival",
         alias="overall_survival",
         description="Overall survival of the patient since diagnosis",
         validation_alias=AliasChoices("overallSurvival", "overall_survival"),
     )
-    ageAtDiagnosis: Optional[Union[int, Age, AgeBin]] = Field(
+    ageAtDiagnosis: Nullable[Union[int, Age, AgeBin]] = Field(
         None,
         title="Age at diagnosis",
         description="Approximate age of the patient in years at the time of the initial diagnosis",
@@ -83,11 +83,11 @@ class PatientCaseDataCompletionStatusSchema(Schema):
     status: bool = Field(
         description="Boolean indicating whether the data category has been marked as completed"
     )
-    username: Optional[str] = Field(
+    username: Nullable[str] = Field(
         default=None,
         description="Username of the person who marked the category as completed",
     )
-    timestamp: Optional[datetime] = Field(
+    timestamp: Nullable[datetime] = Field(
         default=None,
         description="Username of the person who marked the category as completed",
     )

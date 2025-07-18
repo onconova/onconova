@@ -1,15 +1,13 @@
-from typing import Optional
-
 from ninja import Field, Schema
-from pydantic import AliasChoices
-
 from pop.core.auth import models as orm
+from pop.core.serialization.factory import create_filters_schema
 from pop.core.serialization.metaclasses import (
-    ModelGetSchema,
     ModelCreateSchema,
+    ModelGetSchema,
     SchemaConfig,
 )
-from pop.core.serialization.factory import create_filters_schema
+from pop.core.types import Nullable
+from pydantic import AliasChoices
 
 
 class UserPasswordReset(Schema):
@@ -101,7 +99,7 @@ class UserSchema(ModelGetSchema):
         alias="is_provided",
         validation_alias=AliasChoices("isProvided", "is_provided"),
     )
-    provider: Optional[str] = Field(
+    provider: Nullable[str] = Field(
         default=None,
         title="Provider",
         description="The external authentication provider, if applicable.",
@@ -142,29 +140,29 @@ class UserCreateSchema(ModelCreateSchema):
 class UserProfileSchema(Schema):
     """Schema for user profile data."""
 
-    firstName: Optional[str] = Field(
+    firstName: Nullable[str] = Field(
         title="First Name",
         description="The user's given name.",
         alias="first_name",
         validation_alias=AliasChoices("firstName", "first_name"),
     )
-    lastName: Optional[str] = Field(
+    lastName: Nullable[str] = Field(
         title="Last Name",
         description="The user's surname.",
         alias="last_name",
         validation_alias=AliasChoices("lastName", "last_name"),
     )
-    organization: Optional[str] = Field(
+    organization: Nullable[str] = Field(
         default=None,
         title="Organization",
         description="The user's affiliated organization.",
     )
-    department: Optional[str] = Field(
+    department: Nullable[str] = Field(
         default=None,
         title="Department",
         description="The user's department within the organization.",
     )
-    title: Optional[str] = Field(
+    title: Nullable[str] = Field(
         default=None, title="Job Title", description="The user's job title or position."
     )
     email: str = Field(

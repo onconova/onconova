@@ -1,7 +1,7 @@
 import inspect
 from abc import ABC
 from functools import wraps
-from typing import Any, Callable, Optional, Union, overload
+from typing import Any, Callable, Union, overload
 
 from django.db.models import Model as DjangoModel
 from django.db.models import QuerySet, Value
@@ -25,7 +25,7 @@ class AnonymizationBase(ABC):
             description="Whether to anonymize the data or not (requires elevated permissions)",
         )
 
-    def __init__(self, *, pass_parameter: Optional[str] = None, **kwargs: Any) -> None:
+    def __init__(self, *, pass_parameter: str | None = None, **kwargs: Any) -> None:
         self.pass_parameter = pass_parameter
 
     def anonymize_queryset(

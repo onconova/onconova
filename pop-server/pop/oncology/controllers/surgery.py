@@ -26,6 +26,7 @@ class SurgeryController(ControllerBase):
         path="",
         response={
             200: Paginated[SurgerySchema],
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getSurgeries",

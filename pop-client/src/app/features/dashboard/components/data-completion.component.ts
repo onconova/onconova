@@ -4,10 +4,7 @@ import { RatingModule } from 'primeng/rating';
 import { AvatarModule } from 'primeng/avatar';
 import { AvatarGroupModule } from 'primeng/avatargroup';
 import { SkeletonModule } from 'primeng/skeleton';
-import { EntityStatisticsSchema, DashboardService, PatientCaseDataCategories, CasesPerMonthSchema } from 'pop-api-client';
-import { UserBadgeComponent } from 'src/app/shared/components/user-badge/user-badge.component';
-import { CancerIconComponent } from 'src/app/shared/components/cancer-icon/cancer-icon.component';
-import { Observable } from 'rxjs';
+import { DashboardService, PatientCaseDataCategories, CountsPerMonth } from 'pop-api-client';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { rxResource } from '@angular/core/rxjs-interop';
@@ -113,19 +110,19 @@ export class DataCompletionStatsComponent {
         }
     });
 
-    initChart(data: CasesPerMonthSchema[]) {
+    initChart(data: CountsPerMonth[]) {
         const documentStyle = getComputedStyle(document.documentElement);
         const textColorSecondary = documentStyle.getPropertyValue('--p-text-muted-color');
         const surfaceBorder = documentStyle.getPropertyValue('--p-content-border-color');
 
         this.chartData = { 
-            labels: data.map((item:CasesPerMonthSchema) => {
+            labels: data.map((item:CountsPerMonth) => {
                 const date = new Date(item.month)
                 return date.toLocaleString('default', { month: 'short', year: 'numeric' });
             }),
             datasets: [{
                 label: 'Completion',
-                data: data.map((item:CasesPerMonthSchema) => item.cumulativeCount/(this.totalCategories * this.data.value()!.totalCases) * 100),
+                data: data.map((item:CountsPerMonth) => item.cumulativeCount/(this.totalCategories * this.data.value()!.totalCases) * 100),
                 fill: true,
                 tension: 0.5,
                 borderColor: documentStyle.getPropertyValue('--p-primary-500'),

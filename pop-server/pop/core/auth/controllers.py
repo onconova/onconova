@@ -1,5 +1,5 @@
 import json
-from typing import Literal, Optional
+from typing import Literal
 
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
@@ -18,6 +18,7 @@ from pop.core.auth.token import XSessionTokenAuth
 from pop.core.history.schemas import HistoryEvent
 from pop.core.schemas import ModifiedResource as ModifiedResourceSchema
 from pop.core.schemas import Paginated
+from pop.core.types import Nullable
 from pop.core.utils import COMMON_HTTP_ERRORS
 from pydantic import AliasChoices, Field
 
@@ -29,8 +30,8 @@ class UserCredentials(Schema):
 
 class UserProviderClientToken(Schema):
     client_id: str
-    id_token: Optional[str] = None
-    access_token: Optional[str] = None
+    id_token: Nullable[str] = None
+    access_token: Nullable[str] = None
 
 
 class UserProviderToken(Schema):
@@ -40,12 +41,12 @@ class UserProviderToken(Schema):
 
 
 class AuthenticationMeta(Schema):
-    sessionToken: Optional[str] = Field(
+    sessionToken: Nullable[str] = Field(
         default=None,
         alias="session_token",
         validation_alias=AliasChoices("sessionToken", "session_token"),
     )
-    accessToken: Optional[str] = Field(
+    accessToken: Nullable[str] = Field(
         default=None,
         alias="access_token",
         validation_alias=AliasChoices("accessToken", "access_token"),
@@ -74,8 +75,10 @@ class AuthController(ControllerBase):
         operation_id="login",
         openapi_extra=dict(security=[]),
     )
-    @paginate
     def login(self, credentials: UserCredentials):
+        """
+        Login a user using basic authorization via username/password to obtain session token and/or access token.
+        """
         view = resolve("/api/allauth/app/v1/auth/login")
         response = view.func(self.context.request)
         if response.status_code != 200:
@@ -88,7 +91,6 @@ class AuthController(ControllerBase):
         operation_id="loginWithProviderToken",
         openapi_extra=dict(security=[]),
     )
-    @paginate
     def login_with_provider_token(self, credentials: UserProviderToken):
         view = resolve("/api/allauth/app/v1/auth/provider/token")
         response = view.func(self.context.request)
@@ -109,8 +111,8 @@ class UsersController(ControllerBase):
         response={200: Paginated[UserSchema], **COMMON_HTTP_ERRORS},
         operation_id="getUsers",
     )
-    @paginate
-    @ordering
+    @paginate()
+    @ordering()
     def get_all_users_matching_the_query(self, query: Query[UserFilters]):  # type: ignore
         queryset = get_user_model().objects.all()
         return query.filter(queryset)
@@ -186,7 +188,7 @@ class UsersController(ControllerBase):
         permissions=[perms.CanViewUsers],
         operation_id="getUserEvents",
     )
-    @paginate
+    @paginate()
     def get_user_events(self, userId: str):
         user = get_object_or_404(User, id=userId)
         return Events.objects.filter(pgh_context__username=user.username).order_by(

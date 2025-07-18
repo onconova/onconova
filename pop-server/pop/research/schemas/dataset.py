@@ -1,35 +1,26 @@
-from typing import Tuple, Optional, Union, Any, List, Type, get_args
-from enum import Enum
 from datetime import datetime
+from enum import Enum
+from typing import Any, List, Tuple, Type, Union, get_args
 
 from django.db.models import Q
-
-from ninja import Schema, Field
-from pydantic import (
-    AliasChoices,
-    Field,
-    create_model,
-    ConfigDict,
-    field_validator,
-    BaseModel as PydanticBaseModel,
-)
-
-from pop.core.utils import is_optional, is_list
+from ninja import Field, Schema
 from pop.core.measures import Measure
 from pop.core.schemas import CodedConcept as CodedConceptSchema
-from pop.interoperability.schemas import ExportMetadata
 from pop.core.serialization import transforms as tfs
 from pop.core.serialization.factory import create_filters_schema
 from pop.core.serialization.metaclasses import (
-    ModelGetSchema,
     ModelCreateSchema,
+    ModelGetSchema,
     SchemaConfig,
 )
-
+from pop.core.types import Nullable
+from pop.core.utils import is_list, is_optional
+from pop.interoperability.schemas import ExportMetadata
 from pop.oncology import schemas as oncology_schemas
-
 from pop.research.models import dataset as orm
-
+from pydantic import AliasChoices
+from pydantic import BaseModel as PydanticBaseModel
+from pydantic import ConfigDict, Field, create_model, field_validator
 
 # Dynamically generate Enum from oncology schemas (excluding 'GenomicSignature')
 DataResource = Enum(
@@ -50,7 +41,7 @@ class DatasetRule(Schema):
     Attributes:
         resource (DataResource): The resource (model type) this rule applies to.
         field (str): Dot-separated path to the target field within the resource.
-        transform (Optional[Union[str, Tuple[str, Any]]]): Optional transformation or expression to apply.
+        transform (Nullable[Union[str, Tuple[str, Any]]]): Nullable transformation or expression to apply.
     """
 
     resource: DataResource = Field(  # type: ignore
@@ -62,10 +53,10 @@ class DatasetRule(Schema):
         description="Dot-separated path of the field within the resource (e.g. 'medications.drug').",
     )
 
-    transform: Optional[Union[str, Tuple[str, Any]]] = Field(
+    transform: Nullable[str | Tuple[str, Any]] = Field(
         default=None,
         title="Transform",
-        description="Optional transform expression or mapping applied to the field's value.",
+        description="Nullable transform expression or mapping applied to the field's value.",
     )
 
 
@@ -79,7 +70,7 @@ class Dataset(ModelGetSchema):
         title="Rules",
         description="List of composition rules that define the dataset's structure.",
     )
-    lastExport: Optional[datetime] = Field(
+    lastExport: Nullable[datetime] = Field(
         default=None,
         title="Last Export",
         description="The datetime of the last export of this dataset",
@@ -126,7 +117,7 @@ class DatasetFilters(DatasetFiltersBase):
     Additional query filters for datasets.
     """
 
-    createdBy: Optional[str] = Field(
+    createdBy: Nullable[str] = Field(
         default=None,
         title="Created By",
         description="Filter datasets by the creator's username.",
@@ -182,7 +173,7 @@ def _create_partial_schema(schema: Type[Schema]) -> Type[Schema]:
                 tfs.GetCodedConceptSystem,
             ]
             new_fields[field_name] = (
-                Optional[Union[str, List[Optional[str]]]],
+                Nullable[str | List[Nullable[str]]],
                 Field(
                     default=None,
                     validation_alias=AliasChoices(
@@ -195,17 +186,17 @@ def _create_partial_schema(schema: Type[Schema]) -> Type[Schema]:
             )
         elif "Measure" in str(annotation):
             new_fields[field_name] = (
-                Optional[Measure],
+                Nullable[Measure],
                 Field(default=None, validation_alias=model_field.validation_alias),
             )
         elif "Period" in str(annotation):
             new_fields[field_name] = (
-                Optional[str],
+                Nullable[str],
                 Field(default=None, validation_alias=model_field.validation_alias),
             )
         else:
             new_fields[field_name] = (
-                Optional[annotation],
+                Nullable[annotation],
                 Field(default=None, validation_alias=model_field.validation_alias),
             )
 
@@ -242,122 +233,122 @@ partial_schemas = {
 class PatientCaseDataset(partial_schemas["PatientCase"]):
 
     pseudoidentifier: str = Field(title="Pseudoidentifier")
-    neoplasticEntities: Optional[List[partial_schemas["NeoplasticEntity"]]] = Field(  # type: ignore
+    neoplasticEntities: Nullable[List[partial_schemas["NeoplasticEntity"]]] = Field(  # type: ignore
         default=None,
         validation_alias=AliasChoices(
             "neoplasticEntities", "neoplastic_entities_resources"
         ),
     )
-    tnmStagings: Optional[List[partial_schemas["TNMStaging"]]] = Field(  # type: ignore
+    tnmStagings: Nullable[List[partial_schemas["TNMStaging"]]] = Field(  # type: ignore
         default=None,
         validation_alias=AliasChoices("tnmStagings", "tnm_stagings_resources"),
     )
-    figoStagings: Optional[List[partial_schemas["TNMStaging"]]] = Field(  # type: ignore
+    figoStagings: Nullable[List[partial_schemas["TNMStaging"]]] = Field(  # type: ignore
         default=None,
         validation_alias=AliasChoices("figoStagings", "figo_stagings_resources"),
     )
-    binetStagings: Optional[List[partial_schemas["BinetStaging"]]] = Field(  # type: ignore
+    binetStagings: Nullable[List[partial_schemas["BinetStaging"]]] = Field(  # type: ignore
         default=None,
         validation_alias=AliasChoices("binetStagings", "binet_stagings_resources"),
     )
-    raiStagings: Optional[List[partial_schemas["RaiStaging"]]] = Field(  # type: ignore
+    raiStagings: Nullable[List[partial_schemas["RaiStaging"]]] = Field(  # type: ignore
         default=None,
         validation_alias=AliasChoices("raiStagings", "rai_stagings_resources"),
     )
-    breslowStagings: Optional[List[partial_schemas["BreslowDepth"]]] = Field(  # type: ignore
+    breslowStagings: Nullable[List[partial_schemas["BreslowDepth"]]] = Field(  # type: ignore
         default=None,
         validation_alias=AliasChoices("breslowStagings", "breslow_depths_resources"),
     )
-    clarkStagings: Optional[List[partial_schemas["ClarkStaging"]]] = Field(  # type: ignore
+    clarkStagings: Nullable[List[partial_schemas["ClarkStaging"]]] = Field(  # type: ignore
         default=None,
         validation_alias=AliasChoices("clarkStagings", "clark_stagings_resources"),
     )
-    issStagings: Optional[List[partial_schemas["ISSStaging"]]] = Field(  # type: ignore
+    issStagings: Nullable[List[partial_schemas["ISSStaging"]]] = Field(  # type: ignore
         default=None,
         validation_alias=AliasChoices("issStagings", "iss_stagings_resources"),
     )
-    rissStagings: Optional[List[partial_schemas["RISSStaging"]]] = Field(  # type: ignore
+    rissStagings: Nullable[List[partial_schemas["RISSStaging"]]] = Field(  # type: ignore
         default=None,
         validation_alias=AliasChoices("rissStagings", "riss_stagings_resources"),
     )
-    inssStagings: Optional[List[partial_schemas["INSSStage"]]] = Field(  # type: ignore
+    inssStagings: Nullable[List[partial_schemas["INSSStage"]]] = Field(  # type: ignore
         default=None,
         validation_alias=AliasChoices("inssStagings", "inss_stagings_resources"),
     )
-    inrgssStagings: Optional[List[partial_schemas["INRGSSStage"]]] = Field(  # type: ignore
+    inrgssStagings: Nullable[List[partial_schemas["INRGSSStage"]]] = Field(  # type: ignore
         default=None,
         validation_alias=AliasChoices("inrgssStagings", "inrgss_stagings_resources"),
     )
-    gleasonStagings: Optional[List[partial_schemas["GleasonGrade"]]] = Field(  # type: ignore
+    gleasonStagings: Nullable[List[partial_schemas["GleasonGrade"]]] = Field(  # type: ignore
         default=None,
         validation_alias=AliasChoices("gleasonStagings", "gleason_grades_resources"),
     )
-    rhabdomyosarcomaGroups: Optional[List[partial_schemas["RhabdomyosarcomaClinicalGroup"]]] = Field(  # type: ignore
+    rhabdomyosarcomaGroups: Nullable[List[partial_schemas["RhabdomyosarcomaClinicalGroup"]]] = Field(  # type: ignore
         default=None,
         validation_alias=AliasChoices(
             "rhabdomyosarcomaGroups", "rhabdomyosarcoma_clinical_groups_resources"
         ),
     )
-    wilmsStagings: Optional[List[partial_schemas["WilmsStage"]]] = Field(  # type: ignore
+    wilmsStagings: Nullable[List[partial_schemas["WilmsStage"]]] = Field(  # type: ignore
         default=None,
         validation_alias=AliasChoices("wilmsStagings", "wilms_stagings_resources"),
     )
-    lymphomaStagings: Optional[List[partial_schemas["LymphomaStaging"]]] = Field(  # type: ignore
+    lymphomaStagings: Nullable[List[partial_schemas["LymphomaStaging"]]] = Field(  # type: ignore
         default=None,
         validation_alias=AliasChoices(
             "lymphomaStagings", "lymphoma_stagings_resources"
         ),
     )
-    tumorMarkers: Optional[List[partial_schemas["TumorMarker"]]] = Field(  # type: ignore
+    tumorMarkers: Nullable[List[partial_schemas["TumorMarker"]]] = Field(  # type: ignore
         default=None,
         validation_alias=AliasChoices("tumorMarkers", "tumor_markers_resources"),
     )
-    riskAssessments: Optional[List[partial_schemas["RiskAssessment"]]] = Field(  # type: ignore
+    riskAssessments: Nullable[List[partial_schemas["RiskAssessment"]]] = Field(  # type: ignore
         default=None,
         validation_alias=AliasChoices("riskAssessments", "risk_assessments_resources"),
     )
-    therapyLines: Optional[List[partial_schemas["TherapyLine"]]] = Field(  # type: ignore
+    therapyLines: Nullable[List[partial_schemas["TherapyLine"]]] = Field(  # type: ignore
         default=None,
         validation_alias=AliasChoices("therapyLines", "therapy_lines_resources"),
     )
-    systemicTherapies: Optional[List[partial_schemas["SystemicTherapy"]]] = Field(  # type: ignore
+    systemicTherapies: Nullable[List[partial_schemas["SystemicTherapy"]]] = Field(  # type: ignore
         default=None,
         validation_alias=AliasChoices(
             "systemicTherapies", "systemic_therapies_resources"
         ),
     )
-    surgeries: Optional[List[partial_schemas["Surgery"]]] = Field(  # type: ignore
+    surgeries: Nullable[List[partial_schemas["Surgery"]]] = Field(  # type: ignore
         default=None, validation_alias=AliasChoices("surgeries", "surgeries_resources")
     )
-    radiotherapies: Optional[List[partial_schemas["Radiotherapy"]]] = Field(  # type: ignore
+    radiotherapies: Nullable[List[partial_schemas["Radiotherapy"]]] = Field(  # type: ignore
         default=None,
         validation_alias=AliasChoices("radiotherapies", "radiotherapies_resources"),
     )
-    adverseEvents: Optional[List[partial_schemas["AdverseEvent"]]] = Field(  # type: ignore
+    adverseEvents: Nullable[List[partial_schemas["AdverseEvent"]]] = Field(  # type: ignore
         default=None,
         validation_alias=AliasChoices("adverseEvents", "adverse_events_resources"),
     )
-    treatmentResponses: Optional[List[partial_schemas["TreatmentResponse"]]] = Field(  # type: ignore
+    treatmentResponses: Nullable[List[partial_schemas["TreatmentResponse"]]] = Field(  # type: ignore
         default=None,
         validation_alias=AliasChoices(
             "treatmentResponses", "treatment_responses_resources"
         ),
     )
-    performanceStatus: Optional[List[partial_schemas["PerformanceStatus"]]] = Field(  # type: ignore
+    performanceStatus: Nullable[List[partial_schemas["PerformanceStatus"]]] = Field(  # type: ignore
         default=None,
         validation_alias=AliasChoices(
             "performanceStatus", "performance_status_resources"
         ),
     )
-    comorbidities: Optional[List[partial_schemas["ComorbiditiesAssessment"]]] = Field(  # type: ignore
+    comorbidities: Nullable[List[partial_schemas["ComorbiditiesAssessment"]]] = Field(  # type: ignore
         default=None,
         validation_alias=AliasChoices("comorbidities", "comorbidities_resources"),
     )
-    genomicVariants: Optional[List[partial_schemas["GenomicVariant"]]] = Field(  # type: ignore
+    genomicVariants: Nullable[List[partial_schemas["GenomicVariant"]]] = Field(  # type: ignore
         default=None,
         validation_alias=AliasChoices("genomicVariants", "genomic_variants_resources"),
     )
-    genomicSignatures: Optional[
+    genomicSignatures: Nullable[
         List[
             Union[
                 partial_schemas["TumorMutationalBurden"],  # type: ignore
@@ -371,27 +362,27 @@ class PatientCaseDataset(partial_schemas["PatientCase"]):
     ] = Field(  # type: ignore
         default=None,
     )
-    vitals: Optional[List[partial_schemas["Vitals"]]] = Field(  # type: ignore
+    vitals: Nullable[List[partial_schemas["Vitals"]]] = Field(  # type: ignore
         default=None, validation_alias=AliasChoices("vitals", "vitals_resources")
     )
-    lifestyles: Optional[List[partial_schemas["Lifestyle"]]] = Field(  # type: ignore
+    lifestyles: Nullable[List[partial_schemas["Lifestyle"]]] = Field(  # type: ignore
         default=None,
         validation_alias=AliasChoices("lifestyles", "lifestyles_resources"),
     )
-    familyHistory: Optional[List[partial_schemas["FamilyHistory"]]] = Field(  # type: ignore
+    familyHistory: Nullable[List[partial_schemas["FamilyHistory"]]] = Field(  # type: ignore
         default=None,
         validation_alias=AliasChoices("familyHistory", "family_histories_resources"),
     )
-    vitals: Optional[List[partial_schemas["Vitals"]]] = Field(  # type: ignore
+    vitals: Nullable[List[partial_schemas["Vitals"]]] = Field(  # type: ignore
         default=None, validation_alias=AliasChoices("vitals", "vitals_resources")
     )
-    unspecifiedTumorBoards: Optional[List[partial_schemas["UnspecifiedTumorBoard"]]] = Field(  # type: ignore
+    unspecifiedTumorBoards: Nullable[List[partial_schemas["UnspecifiedTumorBoard"]]] = Field(  # type: ignore
         default=None,
         validation_alias=AliasChoices(
             "unspecifiedtumorboards", "unspecified_tumor_boards_resources"
         ),
     )
-    molecularTumorBoards: Optional[List[partial_schemas["UnspecifiedTumorBoard"]]] = Field(  # type: ignore
+    molecularTumorBoards: Nullable[List[partial_schemas["UnspecifiedTumorBoard"]]] = Field(  # type: ignore
         default=None,
         validation_alias=AliasChoices(
             "molecularTumorBoards", "molecular_tumor_boards_resources"

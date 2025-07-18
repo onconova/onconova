@@ -96,20 +96,20 @@ export class GenomicVariantFormComponent extends AbstractFormBase {
             assessmentDate: data.assessmentDate!,
             genes: data.genes!,
             genePanel: data.genePanel!,            
-            assessment: data.assessment,            
-            confidence: data.confidence,            
+            assessment: data.assessment ?? undefined,            
+            confidence: data.confidence ?? undefined,            
             analysisMethod: data.analysisMethod!,   
-            clinicalRelevance: data.clinicalRelevance,   
-            dnaHgvs: data.dnaHgvs,   
-            rnaHgvs: data.rnaHgvs,   
-            proteinHgvs: data.proteinHgvs,   
-            molecularConsequence: data.molecularConsequence,   
-            clinvar: data.clinvar,    
-            alleleFrequency: data.alleleFrequency,   
-            copyNumber: data.copyNumber,   
-            alleleDepth: data.alleleDepth,   
-            zygosity: data.zygosity,   
-            inheritance: data.inheritance        
+            clinicalRelevance: data.clinicalRelevance ?? undefined,   
+            dnaHgvs: data.dnaHgvs ?? undefined,   
+            rnaHgvs: data.rnaHgvs ?? undefined,   
+            proteinHgvs: data.proteinHgvs ?? undefined,   
+            molecularConsequence: data.molecularConsequence ?? undefined,   
+            clinvar: data.clinvar ?? undefined,    
+            alleleFrequency: data.alleleFrequency ?? undefined,   
+            copyNumber: data.copyNumber ?? undefined,   
+            alleleDepth: data.alleleDepth ?? undefined,   
+            zygosity: data.zygosity ?? undefined,   
+            inheritance: data.inheritance ?? undefined        
         };
     }
     
@@ -166,7 +166,7 @@ export class GenomicVariantFormComponent extends AbstractFormBase {
         const schema = openApiSchema.components.schemas.GenomicVariantCreate;
 
         const properties = schema.properties as Record<string, any>;
-        const propertySchema = properties?.[propertyName]?.anyOf?.[0];
+        const propertySchema = properties?.[propertyName];
         
         if (!propertySchema) {
             console.error(`Property '${propertyName}' not found in schema`);
