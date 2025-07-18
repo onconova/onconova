@@ -2,10 +2,9 @@ import { Component, effect, inject } from '@angular/core';
 
 import { SkeletonModule } from 'primeng/skeleton';
 
-import { DataPlatformStatisticsSchema, DashboardService, CasesPerMonthSchema } from 'pop-api-client';
+import { DashboardService, CountsPerMonth } from 'pop-api-client';
 import { ChartModule } from 'primeng/chart';
 import { LayoutService } from 'src/app/core/layout/app.layout.service';
-import { map, Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { DataSummaryCounterComponent } from "./data-summary-counter.component";
 import { rxResource } from '@angular/core/rxjs-interop';
@@ -66,19 +65,19 @@ export class DataSummaryComponent {
         }
     });
 
-    initChart(data: CasesPerMonthSchema[]) {
+    initChart(data: CountsPerMonth[]) {
         const documentStyle = getComputedStyle(document.documentElement);
         const textColorSecondary = documentStyle.getPropertyValue('--p-text-muted-color');
         const surfaceBorder = documentStyle.getPropertyValue('--p-content-border-color');
 
         this.chartData = { 
-            labels: data.map((item:CasesPerMonthSchema) => {
+            labels: data.map((item:CountsPerMonth) => {
                 const date = new Date(item.month)
                 return date.toLocaleString('default', { month: 'short', year: 'numeric' });
             }),
             datasets: [{
                 label: 'Cases',
-                data: data.map((item:CasesPerMonthSchema) => item.cumulativeCount),
+                data: data.map((item:CountsPerMonth) => item.cumulativeCount),
                 fill: true,
                 tension: 0.5,
                 borderColor: documentStyle.getPropertyValue('--p-primary-500'),

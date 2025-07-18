@@ -160,10 +160,10 @@ export class SystemicTherapyFormComponent extends AbstractFormBase {
                 start: typeof data.period == 'string' ? data.period.split(' - ')[0] : data.period!.start,
                 end: typeof data.period == 'string' ? data.period.split(' - ')[1] : data.period!.end,
             },
-            adjunctiveRole: data.isAdjunctive ? data.adjunctiveRole : null,
+            adjunctiveRole: data.isAdjunctive ? data.adjunctiveRole! : undefined,
             cycles: data.cycles!,
             intent: data.intent!,
-            terminationReason: data.terminationReason,
+            terminationReason: data.terminationReason ?? undefined,
         };
     }
     private constructMedicationPayloads(): SystemicTherapyMedicationCreate[] {

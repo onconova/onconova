@@ -1,15 +1,15 @@
+from collections import defaultdict
+from dataclasses import dataclass
+from typing import get_origin
+
+import pghistory
 from django.db import transaction
 from django.db.models import Model as DjangoModel
-from pop.oncology import schemas
-from pop.core.auth.models import User
-from collections import defaultdict
-from pop.oncology import models
 from ninja import Schema
-import pghistory
+from pop.core.auth.models import User
 from pop.core.auth.schemas import UserSchema
 from pop.interoperability.schemas import PatientCaseBundle
-from typing import get_origin, Optional
-from dataclasses import dataclass
+from pop.oncology import models, schemas
 
 
 @dataclass
@@ -120,7 +120,11 @@ class BundleParser:
         return self.key_map[external_key]
 
     def resolve_foreign_keys(self, schema_instance: Schema) -> Schema:
-        for field_name in [field for field in schema_instance.model_fields if field not in ['externalSourceId']]:
+        for field_name in [
+            field
+            for field in schema_instance.model_fields
+            if field not in ["externalSourceId"]
+        ]:
             if field_name.endswith("Id"):
                 external_key = getattr(schema_instance, field_name)
                 if external_key:
@@ -141,7 +145,11 @@ class BundleParser:
         return schema_instance
 
     def import_history_events(self, orm_instance, resourceId):
-        events = [event for event in self.bundle.history if str(event.resourceId) == str(resourceId)]
+        events = [
+            event
+            for event in self.bundle.history
+            if str(event.resourceId) == str(resourceId)
+        ]
         for event in events:
             # Import the actor of the event
             user = self.get_or_create_user(event.user)
@@ -149,36 +157,38 @@ class BundleParser:
             event_instance = orm_instance.events.create(
                 pgh_obj=orm_instance,
                 pgh_label=event.category,
-                pgh_context=dict(
-                    username=user.username
-            ))
+                pgh_context=dict(username=user.username),
+            )
             # Override the automated timestamp on the event
-            orm_instance.events.filter(pk=event_instance.pk).update(pgh_created_at=event.timestamp)
+            orm_instance.events.filter(pk=event_instance.pk).update(
+                pgh_created_at=event.timestamp
+            )
         # Add a manual event for the importing of the data
         pghistory.create_event(orm_instance, label="import")
 
     def import_resource(
-        self, resource: Schema, instance: Optional[DjangoModel] = None, **fields
+        self, resource: Schema, instance: DjangoModel | None = None, **fields
     ) -> DjangoModel:
-        # Get the model-create schema for the resource 
-        CreateSchema = getattr(
-            schemas, f"{resource.__class__.__name__}CreateSchema"
-        )
+        # Get the model-create schema for the resource
+        CreateSchema = getattr(schemas, f"{resource.__class__.__name__}CreateSchema")
         # Filter out related events from the bundle's history
-        events = [event for event in self.bundle.history if str(event.resourceId) == str(resource.id)]
+        events = [
+            event
+            for event in self.bundle.history
+            if str(event.resourceId) == str(resource.id)
+        ]
         # Resolve any foreign keys in the resource
         resource = self.resolve_foreign_keys(resource)
         resourceId = resource.id
         # Create the database entry for the resource
         orm_instance = CreateSchema.model_validate(resource).model_dump_django(
-            instance=instance,
-            **fields
+            instance=instance, **fields
         )
         # Delete the create event that just happened
-        orm_instance.events.latest('pgh_created_at').delete()
+        orm_instance.events.latest("pgh_created_at").delete()
         # Update the external-to-internal foreign key map
         self.update_key_map(orm_instance, resource)
-        self.import_history_events(orm_instance, resourceId)           
+        self.import_history_events(orm_instance, resourceId)
         return orm_instance
 
     def import_bundle(self, case=None) -> models.PatientCase:
@@ -186,7 +196,11 @@ class BundleParser:
         with transaction.atomic():
             # Import the patient case
             case_schema = schemas.PatientCaseSchema.model_validate(self.bundle)
-            imported_case = self.import_resource(case_schema, instance=case, pseudoidentifier=self.bundle.pseudoidentifier)
+            imported_case = self.import_resource(
+                case_schema,
+                instance=case,
+                pseudoidentifier=self.bundle.pseudoidentifier,
+            )
             # Import all other resources related to the case
             for list_field in self.list_fields:
                 for resource in getattr(self.bundle, list_field):

@@ -40,6 +40,7 @@ class ComorbiditiesAssessmentController(ControllerBase):
         path="",
         response={
             200: Paginated[ComorbiditiesAssessmentSchema],
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getComorbiditiesAssessments",

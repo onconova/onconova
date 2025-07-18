@@ -1,43 +1,107 @@
 from datetime import date
-from typing import Any, Dict, List, Literal, Optional, Union
+from typing import List
 
 from ninja import Field, Schema
 from pop.core.schemas import CodedConcept
+from pop.core.types import Nullable
 from pydantic import ConfigDict
 
 
-class DataPlatformStatisticsSchema(Schema):
-    cases: int
-    primarySites: int
-    projects: int
-    cohorts: int
-    entries: int
-    mutations: int
-    clinicalCenters: int
-    contributors: int
+class DataPlatformStatistics(Schema):
+    cases: int = Field(
+        ...,
+        title="Patient Cases",
+        description="Total number of unique patient cases in the data platform.",
+    )
+    primarySites: int = Field(
+        ...,
+        title="Primary Sites",
+        description="Number of distinct primary anatomical sites represented.",
+    )
+    projects: int = Field(
+        ..., title="Projects", description="Total number of research projects."
+    )
+    cohorts: int = Field(
+        ..., title="Cohorts", description="Number of defined cohorts in the platform."
+    )
+    entries: int = Field(
+        ...,
+        title="Data Entries",
+        description="Total number of individual data entries recorded.",
+    )
+    mutations: int = Field(
+        ...,
+        title="Mutations",
+        description="Total number of genetic mutations documented across all cases.",
+    )
+    clinicalCenters: int = Field(
+        ...,
+        title="Clinical Centers",
+        description="Number of clinical centers contributing data.",
+    )
+    contributors: int = Field(
+        ...,
+        title="Contributors",
+        description="Total number of individual data contributors.",
+    )
 
 
-class CasesPerMonthSchema(Schema):
-    month: date
-    cumulativeCount: int
+class CountsPerMonth(Schema):
+    month: date = Field(
+        ...,
+        title="Month",
+        description="The month (as date) representing the period of data aggregation.",
+    )
+    cumulativeCount: int = Field(
+        ...,
+        title="Cumulative Case Count",
+        description="Total number of entries accumulated up to and including the given month.",
+    )
 
 
-class EntityStatisticsSchema(Schema):
-    population: Optional[int] = None
-    dataCompletionMedian: Optional[float] = None
-    topographyCode: Optional[str] = None
-    topographyGroup: Optional[str] = None
-    model_config = ConfigDict(title="EntityStatistics")
+class EntityStatistics(Schema):
+    population: Nullable[int] = None
+    dataCompletionMedian: Nullable[float] = None
+    topographyCode: Nullable[str] = None
+    topographyGroup: Nullable[str] = None
 
 
 class IncompleteCategory(Schema):
-    category: str
-    cases: int
-    affectedSites: List[CodedConcept]
+    category: str = Field(
+        ...,
+        title="Incomplete Category",
+        description="The data category with cases where it is incomplete.",
+    )
+    cases: int = Field(
+        ...,
+        title="Affected Cases",
+        description="Number of cases affected with the incomplete data category.",
+    )
+    affectedSites: List[CodedConcept] = Field(
+        ...,
+        title="Affected Sites",
+        description="List of anatomical sites affected by this data incompleteness.",
+    )
 
 
 class DataCompletionStatistics(Schema):
-    totalCases: int
-    overallCompletion: float
-    mostIncompleteCategories: List[IncompleteCategory]
-    completionOverTime: List
+    totalCases: int = Field(
+        ...,
+        title="Total Cases",
+        description="Total number of patient cases analyzed for data completeness.",
+    )
+    overallCompletion: float = Field(
+        ...,
+        title="Overall Completion (%)",
+        description="Overall percentage of data categories completed across all cases.",
+    )
+    mostIncompleteCategories: List[IncompleteCategory] = Field(
+        ...,
+        title="Most Incomplete Categories",
+        description="List of the most common categories with missing data.",
+    )
+    completionOverTime: List[CountsPerMonth] = Field(
+        ...,
+        title="Completion Over Time",
+        description="Historical trend of cumulative data completeness by month.",
+    )

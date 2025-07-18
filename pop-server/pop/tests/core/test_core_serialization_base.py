@@ -1,17 +1,18 @@
 import unittest
-from typing import Optional
 from datetime import datetime
 from uuid import uuid4
-from pydantic import Field
-from django.db.models import Model, CharField, IntegerField
-from pop.core.anonymization import AnonymizationMixin, REDACTED_STRING
-from pop.core.serialization.mixins import OrmMetadataMixin
+
+from django.db.models import CharField, IntegerField, Model
+from pop.core.anonymization import REDACTED_STRING, AnonymizationMixin
 from pop.core.serialization.metaclasses import (
-    ModelGetSchema,
     ModelCreateSchema,
+    ModelGetSchema,
     SchemaConfig,
 )
+from pop.core.serialization.mixins import OrmMetadataMixin
+from pop.core.types import Nullable
 from pop.tests.models import UntrackedMockBaseModel
+from pydantic import Field
 
 
 class TestOrmMetadataMixin(unittest.TestCase):
@@ -107,8 +108,8 @@ class TestSchemaAnonymization(unittest.TestCase):
         config = SchemaConfig(model=UntrackedMockBaseModel)
 
     class TestGetSchema(ModelGetSchema, AnonymizationMixin):
-        identifier: Optional[str] = Field(default=None)
-        date: Optional[datetime] = Field(default=None)
+        identifier: Nullable[str] = Field(default=None)
+        date: Nullable[datetime] = Field(default=None)
         caseId: str = Field(default="test")
         config = SchemaConfig(
             model=UntrackedMockBaseModel,

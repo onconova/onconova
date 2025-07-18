@@ -166,7 +166,7 @@ export class RadiotherapyFormComponent extends AbstractFormBase {
             },
             sessions: data.sessions!,
             intent: data.intent!,
-            terminationReason: data.terminationReason,
+            terminationReason: data.terminationReason ?? undefined,
         };
     }
     private dosagePayloads(): RadiotherapyDosageCreate[] {

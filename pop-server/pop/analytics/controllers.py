@@ -13,10 +13,10 @@ from django.db.models import (
 from django.db.models.functions import Cast, TruncMonth
 from ninja_extra import ControllerBase, api_controller, route
 from pop.analytics.schemas import (
-    CasesPerMonthSchema,
+    CountsPerMonth,
     DataCompletionStatistics,
-    DataPlatformStatisticsSchema,
-    EntityStatisticsSchema,
+    DataPlatformStatistics,
+    EntityStatistics,
     IncompleteCategory,
 )
 from pop.core.aggregates import Median
@@ -33,11 +33,11 @@ class DashboardController(ControllerBase):
 
     @route.get(
         path="/stats",
-        response={200: DataPlatformStatisticsSchema, **COMMON_HTTP_ERRORS},
+        response={200: DataPlatformStatistics, **COMMON_HTTP_ERRORS},
         operation_id="getFullCohortStatistics",
     )
     def get_full_cohort_statistics(self):
-        return DataPlatformStatisticsSchema(
+        return DataPlatformStatistics(
             cases=oncological_models.PatientCase.objects.count(),
             primarySites=oncological_models.NeoplasticEntity.objects.select_properties(
                 "topography_group"
@@ -63,7 +63,7 @@ class DashboardController(ControllerBase):
 
     @route.get(
         path="/primary-site-stats",
-        response={200: List[EntityStatisticsSchema], **COMMON_HTTP_ERRORS},
+        response={200: List[EntityStatistics], **COMMON_HTTP_ERRORS},
         operation_id="getPrimarySiteStatistics",
     )
     def get_primary_site_statistics(self):
@@ -88,7 +88,7 @@ class DashboardController(ControllerBase):
                 neoplastic_entities__relationship=oncological_models.NeoplasticEntityRelationship.PRIMARY
             )
             statistics.append(
-                EntityStatisticsSchema(
+                EntityStatistics(
                     population=entity_cohort.count(),
                     dataCompletionMedian=entity_cohort.aggregate(
                         Median("data_completion_rate")
@@ -102,7 +102,7 @@ class DashboardController(ControllerBase):
 
     @route.get(
         path="/cases-over-time",
-        response={200: List[CasesPerMonthSchema], **COMMON_HTTP_ERRORS},
+        response={200: List[CountsPerMonth], **COMMON_HTTP_ERRORS},
         operation_id="getCasesOverTime",
     )
     def get_cases_over_time(self):

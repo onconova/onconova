@@ -128,7 +128,8 @@ export class CohortQueryBuilderComponent implements ControlValueAccessor {
         // Get the schema definition of the entity from the OpenAPISpecification object
         const schemas = OpenAPISpecification.components.schemas
         // Get a list of all fields/properties in that schema
-        const properties = schemas[entity].properties || {};
+        const schema = schemas[entity];
+        const properties = schema.properties || {};
         // Iterate over each property
         return Object.entries(properties).filter(
             ([propertyKey,_]) => !ignoredFields.includes(propertyKey)
@@ -142,7 +143,7 @@ export class CohortQueryBuilderComponent implements ControlValueAccessor {
                 }
                 
                 let isArray: boolean = false;
-                const nullable = property.anyOf && property.anyOf[property.anyOf.length-1].type === 'null'
+                const nullable = !schema.required.includes(propertyKey) || (property.anyOf && property.anyOf[property.anyOf.length-1].type === 'null')
                 if (property.anyOf) {
                     property = property.anyOf[0];
                 } 
@@ -187,18 +188,14 @@ export class CohortQueryBuilderComponent implements ControlValueAccessor {
                     extras['options'] = propertyEnum.map((option: any) => ({ value: option, label: option }));
                     propertyType = 'enum';
                 }
-                console.log( `${entity}.${propertyKey} 0`, property)
-                console.log( `${entity}.${propertyKey} 1`, propertyType)
                 if (propertyType == 'string' && property.format) {
                     propertyType = property.format
                 }
-                console.log( `${entity}.${propertyKey} 2`, propertyType)
                 if (propertyType == 'Measure') {
                     extras['measureType'] = property['x-measure'];
                     extras['defaultUnit'] = property['x-default-unit'];
                 }
                 propertyType = (isArray ? "Multi" : "") + propertyType;
-                console.log( `${entity}.${propertyKey} 3`, propertyType)
                 // Create a field object and add it to the array
                 return {
                     name: title,

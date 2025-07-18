@@ -110,10 +110,10 @@ export class NeoplasticEntityFormComponent extends AbstractFormBase{
       relationship: data.relationship!,
       assertionDate: data.assertionDate!,
       topography: data.topography!,
-      relatedPrimaryId: data.relatedPrimary,
+      relatedPrimaryId: data.relatedPrimary ?? undefined,
       morphology: data.morphology!,
-      laterality: data.laterality,
-      differentitation: data.differentiation,
+      laterality: data.laterality ?? undefined,
+      differentitation: data.differentiation ?? undefined,
     };
   }
 

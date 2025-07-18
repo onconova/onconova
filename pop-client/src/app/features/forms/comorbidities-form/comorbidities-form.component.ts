@@ -88,10 +88,10 @@ export class ComorbiditiesAssessmentFormComponent extends AbstractFormBase {
       caseId: this.caseId(),
       indexConditionId: data.indexCondition!,
       date: data.date!,
-      panel: data.panel,
+      panel: data.panel || undefined,
       // Use panel form state if present; fallback to form control values
-      presentConditions: panelData ? panelData.present : data.presentConditions,
-      absentConditions: panelData ? panelData.absent : data.absentConditions,
+      presentConditions: (panelData ? panelData.present : data.presentConditions) ?? undefined,
+      absentConditions: (panelData ? panelData.absent : data.absentConditions) ?? undefined,
     };
   }
 

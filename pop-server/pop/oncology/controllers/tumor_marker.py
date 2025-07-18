@@ -33,6 +33,7 @@ class TumorMarkerController(ControllerBase):
         path="",
         response={
             200: Paginated[TumorMarkerSchema],
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getTumorMarkers",

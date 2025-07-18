@@ -105,8 +105,8 @@ export class PatientFormComponent extends AbstractFormBase {
     return {
       gender: data.general!.gender!,
       dateOfBirth: data.general!.dateOfBirth! as string,
-      dateOfDeath: !data.general!.isAlive ? data.general!.dateOfDeath : null,
-      causeOfDeath: !data.general!.isAlive ? data.general!.causeOfDeath: null,
+      dateOfDeath: !data.general!.isAlive ? data.general!.dateOfDeath! : undefined,
+      causeOfDeath: !data.general!.isAlive ? data.general!.causeOfDeath!: undefined,
       clinicalCenter: data.identification!.clinicalCenter!,
       clinicalIdentifier: data.identification!.clinicalIdentifier!,
       consentStatus: data.consent!.consentStatus!,

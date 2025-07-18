@@ -30,6 +30,7 @@ class TreatmentResponseController(ControllerBase):
         path="",
         response={
             200: Paginated[TreatmentResponseSchema],
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getTreatmentResponses",

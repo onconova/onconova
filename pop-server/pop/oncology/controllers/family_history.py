@@ -30,6 +30,7 @@ class FamilyHistoryController(ControllerBase):
         path="",
         response={
             200: Paginated[FamilyHistorySchema],
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getFamilyHistories",

@@ -96,10 +96,10 @@ export class SurgeryFormComponent extends AbstractFormBase {
             targetedEntitiesIds: data.targetedEntities!,
             procedure: data.procedure!,
             intent: data.intent!,
-            bodysite: data.bodysite,
-            bodysiteQualifier: data.bodysiteQualifier,
-            bodysiteLaterality: data.bodysiteLaterality,
-            outcome: data.outcome,
+            bodysite: data.bodysite ?? undefined,
+            bodysiteQualifier: data.bodysiteQualifier ?? undefined,
+            bodysiteLaterality: data.bodysiteLaterality ?? undefined,
+            outcome: data.outcome ?? undefined,
         };
     }
 

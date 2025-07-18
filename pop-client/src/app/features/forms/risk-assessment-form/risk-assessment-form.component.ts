@@ -87,7 +87,7 @@ export class RiskAssessmentFormComponent extends AbstractFormBase {
       date: data.date!,
       methodology: data.methodology!,
       risk: data.risk!,
-      score: data.score,
+      score: data.score ?? undefined,
     };
   }
 

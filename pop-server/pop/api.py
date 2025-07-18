@@ -1,54 +1,45 @@
+from ninja import Redoc
 from ninja_extra import NinjaExtraAPI
-
+from pop.analytics.controllers import DashboardController
 from pop.core.auth.controllers import AuthController, UsersController
 from pop.core.measures.controllers import MeasuresController
-from pop.terminology.controllers import TerminologyController
-from pop.research.controllers.project import ProjectController
+from pop.interoperability.controllers import InteroperabilityController
 from pop.oncology.controllers import (
-    PatientCaseController,
-    NeoplasticEntityController,
-    StagingController,
-    TumorMarkerController,
-    RiskAssessmentController,
-    SystemicTherapyController,
-    SystemicTherapyController,
-    SurgeryController,
-    TherapyLineController,
-    RadiotherapyController,
-    PerformanceStatusController,
-    LifestyleController,
+    AdverseEventController,
     ComorbiditiesAssessmentController,
     FamilyHistoryController,
-    VitalsController,
-    GenomicVariantController,
     GenomicSignatureController,
-    AdverseEventController,
+    GenomicVariantController,
+    LifestyleController,
+    MolecularTherapeuticRecommendationController,
+    NeoplasticEntityController,
+    OthersController,
+    PatientCaseController,
+    PerformanceStatusController,
+    RadiotherapyController,
+    RiskAssessmentController,
+    StagingController,
+    SurgeryController,
+    SystemicTherapyController,
+    TherapyLineController,
     TreatmentResponseController,
     TumorBoardController,
-    MolecularTherapeuticRecommendationController,
-    OthersController,
+    TumorMarkerController,
+    VitalsController,
 )
-from pop.interoperability.controllers import (
-    InteroperabilityController,
-)
-from pop.research.controllers.cohort import CohortsController
 from pop.research.controllers.analysis import CohortAnalysisController
-from pop.research.controllers.dataset import (
-    DatasetsController,
-)
-from pop.analytics.controllers import (
-    DashboardController,
-)
+from pop.research.controllers.cohort import CohortsController
+from pop.research.controllers.dataset import DatasetsController
+from pop.research.controllers.project import ProjectController
+from pop.terminology.controllers import TerminologyController
 
 api = NinjaExtraAPI(
     title="POP API",
     description="""
 Welcome to the Precision Oncology Platform API — a secure, standards-based interface designed to facilitate the exchange, management, and 
-analysis of research data related to cancer genomics, clinical records, and associated metadata. This API provides an extensive set of 
-RESTful endpoints enabling authorized users to perform full CRUD (Create, Read, Update, Delete) operations on various resources within the platform’s data ecosystem.
+analysis of research data related to cancer genomics, clinical records, and associated metadata. This API provides an extensive set of RESTful endpoints enabling authorized users to perform full CRUD (Create, Read, Update, Delete) operations on various resources within the platform’s data ecosystem.
 
-The primary objective of this API is to support precision oncology research by enabling interoperability between data systems, 
-promoting data sharing among research institutions, and streamlining workflows for clinical and genomic data management in a secure, authenticated environment.
+The primary objective of this API is to support precision oncology research by enabling interoperability between data systems, promoting data sharing among research institutions, and streamlining workflows for clinical and genomic data management in a secure, authenticated environment.
 
 ### Authentication
 To ensure the security and integrity of cancer research data, **all API requests require proper authentication**.
@@ -60,6 +51,9 @@ This includes endpoints for user login, logout, password management, and token r
 managing session tokens, please refer to the [AllAuth API documentation](/api/allauth/openapi.html).
 
 **Important:** Unauthorized requests or those missing valid authentication tokens will receive an `HTTP 401 Unauthorized` response.
+
+### Terminologies 
+Many resources take objects of the type `CodedConcept` to represent concepts from coded terminologies. Each property of the type `CodedConcept` in a schema will have an associated `x-terminology` attribute. The full list of `CodedConcept` objects allowed for specific resource properties can be retrieved through the [terminology endpoint](#tag/Terminology/operation/getTerminologyConcepts) by passing the `x-terminology` value as the `terminologyName` parameter. 
 
 ### Terms and Conditions
 By accessing and using this website, you agree to comply with and be bound by the following terms and conditions. The content provided on this API is 
@@ -90,6 +84,12 @@ modify, merge, publish, distribute, sublicense, and/or sell copies of the softwa
                 url="https://github.com/precisionmedicineinitiative/POP/blob/main/LICENSE",
             )
         )
+    ),
+    docs=Redoc(
+        settings={
+            "showExtensions": ["x-terminology"],
+            "generateCodeSamples": {"languages": [{"lang": "curl"}]},
+        }
     ),
 )
 api.register_controllers(

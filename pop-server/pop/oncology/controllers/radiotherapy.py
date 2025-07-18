@@ -41,6 +41,7 @@ class RadiotherapyController(ControllerBase):
         path="",
         response={
             200: Paginated[RadiotherapySchema],
+            **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getRadiotherapies",
