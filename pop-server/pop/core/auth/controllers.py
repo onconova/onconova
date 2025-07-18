@@ -74,8 +74,10 @@ class AuthController(ControllerBase):
         operation_id="login",
         openapi_extra=dict(security=[]),
     )
-    @paginate
     def login(self, credentials: UserCredentials):
+        """
+        Login a user using basic authorization via username/password to obtain session token and/or access token.
+        """
         view = resolve("/api/allauth/app/v1/auth/login")
         response = view.func(self.context.request)
         if response.status_code != 200:
@@ -88,7 +90,6 @@ class AuthController(ControllerBase):
         operation_id="loginWithProviderToken",
         openapi_extra=dict(security=[]),
     )
-    @paginate
     def login_with_provider_token(self, credentials: UserProviderToken):
         view = resolve("/api/allauth/app/v1/auth/provider/token")
         response = view.func(self.context.request)
