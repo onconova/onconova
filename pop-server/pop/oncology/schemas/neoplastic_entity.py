@@ -1,18 +1,18 @@
-from pop.oncology import models as orm
-from typing import Optional
-from pop.core.serialization.metaclasses import (
-    ModelGetSchema,
-    ModelCreateSchema,
-    SchemaConfig,
-)
 from pop.core.anonymization import AnonymizationConfig
 from pop.core.schemas import CodedConcept as CodedConceptSchema
-from pydantic import Field, AliasChoices
+from pop.core.serialization.metaclasses import (
+    ModelCreateSchema,
+    ModelGetSchema,
+    SchemaConfig,
+)
+from pop.core.types import Nullable
+from pop.oncology import models as orm
+from pydantic import AliasChoices, Field
 
 
 class NeoplasticEntitySchema(ModelGetSchema):
 
-    topographyGroup: Optional[CodedConceptSchema] = Field(
+    topographyGroup: Nullable[CodedConceptSchema] = Field(
         None,
         title="Topographical group",
         alias="topography_group",

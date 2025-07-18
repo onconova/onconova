@@ -1,8 +1,10 @@
 from datetime import datetime
-from typing import Optional, Dict, Any
 from enum import Enum
+from typing import Any, Dict
+
 from ninja import Schema
-from pydantic import Field, AliasChoices
+from pop.core.types import Nullable
+from pydantic import AliasChoices, Field
 
 
 class HistoryEventCategory(str, Enum):
@@ -47,17 +49,17 @@ class HistoryEvent(Schema):
         alias="pgh_created_at",
         validation_alias=AliasChoices("timestamp", "pgh_created_at"),
     )
-    user: Optional[str] = Field(
+    user: Nullable[str] = Field(
         default=None,
         title="User",
         description="Username of the user that triggered the event, if applicable",
     )
-    url: Optional[str] = Field(
+    url: Nullable[str] = Field(
         default=None,
         title="Endpoint",
         description="Endpoint URL through which the event was triggered, if applicable",
     )
-    resource: Optional[str] = Field(
+    resource: Nullable[str] = Field(
         default=None,
         title="Resource",
         description="Resource involved in the event, if applicable",
@@ -66,11 +68,11 @@ class HistoryEvent(Schema):
         title="Data snapshopt",
         description="Data snapshopt at the time of the event",
     )
-    differential: Optional[Dict] = Field(
+    differential: Nullable[Dict] = Field(
         title="Data differential",
         description="Data changes introduced by the event, if applicable",
     )
-    context: Optional[Dict] = Field(
+    context: Nullable[Dict] = Field(
         title="Context",
         description="Context sorrounding the event",
         alias="pgh_context",
@@ -89,7 +91,7 @@ class HistoryEvent(Schema):
             Optional[str]: The resource if present.
         """
         if isinstance(obj, dict):
-            return obj.get('resource')
+            return obj.get("resource")
         return obj.pgh_obj_model.split(".")[-1]
 
     @staticmethod
@@ -104,7 +106,7 @@ class HistoryEvent(Schema):
             Optional[str]: The resource if present.
         """
         if isinstance(obj, dict):
-            return obj.get('url')
+            return obj.get("url")
         return obj.pgh_context.get("url")
 
     @staticmethod
@@ -119,7 +121,7 @@ class HistoryEvent(Schema):
             Optional[str]: The username if present.
         """
         if isinstance(obj, dict):
-            return obj.get('user')
+            return obj.get("user")
         return obj.pgh_context.get("username")
 
     @staticmethod
@@ -134,7 +136,7 @@ class HistoryEvent(Schema):
             Optional[HistoryEventCategory]: The corresponding event category.
         """
         if isinstance(obj, dict):
-            return obj.get('category')
+            return obj.get("category")
         return {
             "create": HistoryEventCategory.CREATE,
             "update": HistoryEventCategory.UPDATE,
@@ -156,7 +158,7 @@ class HistoryEvent(Schema):
             Dict[str, Any]: The data snapshot.
         """
         if isinstance(obj, dict):
-            return obj.get('snapshot')
+            return obj.get("snapshot")
         return obj.pgh_data
 
     @staticmethod
@@ -171,7 +173,7 @@ class HistoryEvent(Schema):
             Optional[Dict[str, Any]]: The data changes if present.
         """
         if isinstance(obj, dict):
-            return obj.get('differential')
+            return obj.get("differential")
         return obj.pgh_diff
 
     @classmethod
@@ -193,7 +195,7 @@ class HistoryEvent(Schema):
             @staticmethod
             def resolve_snapshot(obj):
                 if isinstance(obj, dict):
-                    return obj.get('snapshot')
+                    return obj.get("snapshot")
                 # Create a new instance of the model based on snapshot data to automatically resolve foreign keys
                 try:
                     instance = schema.get_orm_model()(
@@ -209,7 +211,7 @@ class HistoryEvent(Schema):
             @staticmethod
             def resolve_differential(obj):
                 if isinstance(obj, dict):
-                    return obj.get('differential')
+                    return obj.get("differential")
                 if obj.pgh_diff:
                     return schema.model_construct(**obj.pgh_diff).model_dump(
                         exclude_defaults=True

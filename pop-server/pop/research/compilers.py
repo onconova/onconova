@@ -1,24 +1,14 @@
 import inspect
 from dataclasses import dataclass, field
-from typing import List, Dict, Tuple, Optional, Union, Dict
+from typing import Dict, List, Tuple
 
-from django.db.models.functions import JSONObject
 from django.contrib.postgres.aggregates import ArrayAgg
-from django.db.models import (
-    Expression,
-    F,
-    Case,
-    When,
-    Subquery,
-    OuterRef,
-    QuerySet,
-    Model as DjangoModel,
-    Exists,
-    Value,
-)
-
-from pop.core.models import BaseModel
+from django.db.models import Case, Exists, Expression, F
+from django.db.models import Model as DjangoModel
+from django.db.models import OuterRef, QuerySet, Subquery, Value, When
+from django.db.models.functions import JSONObject
 from pop.core.measures import MeasurementField
+from pop.core.models import BaseModel
 from pop.oncology.models import PatientCase
 from pop.research.schemas.dataset import DatasetRule
 
@@ -94,7 +84,7 @@ class DatasetRuleProcessor:
             )
         return schema_field_info.alias or self.schema_field
 
-    def _get_transformer(self, transform: Optional[Union[str, tuple]]):
+    def _get_transformer(self, transform: str | tuple | None):
         """Fetches transformation function if specified, otherwise defaults."""
         if not transform:
             return None

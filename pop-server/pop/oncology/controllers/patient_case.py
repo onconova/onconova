@@ -1,11 +1,10 @@
 from enum import Enum
-from typing import Optional
 
 import pghistory.models
 from django.conf import settings
 from django.db.models import Exists, OuterRef, Q
 from django.shortcuts import get_object_or_404
-from ninja import Query
+from ninja import Field, Query
 from ninja_extra import ControllerBase, api_controller, route
 from ninja_extra.ordering import ordering
 from ninja_extra.pagination import paginate
@@ -15,6 +14,7 @@ from pop.core.auth.token import XSessionTokenAuth
 from pop.core.history.schemas import HistoryEvent
 from pop.core.schemas import ModifiedResource as ModifiedResourceSchema
 from pop.core.schemas import Paginated
+from pop.core.types import Nullable
 from pop.core.utils import COMMON_HTTP_ERRORS
 from pop.oncology.models import NeoplasticEntity, PatientCase, PatientCaseDataCompletion
 from pop.oncology.schemas import (
@@ -32,8 +32,16 @@ class PatientCaseIdentifier(str, Enum):
 
 
 class PatientCaseFilters(PatientCaseFiltersBase):
-    primarySite: Optional[str] = None
-    morphology: Optional[str] = None
+    primarySite: Nullable[str] = Field(
+        default=None,
+        title="Primary site",
+        description="Primary site - Filters for matching primary topography code.",
+    )
+    morphology: Nullable[str] = Field(
+        default=None,
+        title="Morphology",
+        description="Morphology - Filters for matching primary morphology code.",
+    )
 
     def filter_primarySite(self, value: bool) -> Q:
         return (
@@ -81,7 +89,7 @@ class PatientCaseController(ControllerBase):
     def get_all_patient_cases_matching_the_query(
         self,
         query: Query[PatientCaseFilters],
-        idSearch: Optional[str] = None,
+        idSearch: str | None = None,
     ):  # type: ignore
         queryset = PatientCase.objects.all()
         if idSearch:

@@ -6,7 +6,6 @@ import subprocess
 import sys
 from collections import defaultdict
 from datetime import datetime
-from typing import Optional
 
 from django.conf import settings
 from pop.terminology.utils import (
@@ -489,10 +488,10 @@ class EnsemblExonsDigestor(TerminologyDigestor):
 
     class GeneExon(BaseModel):
         rank: int
-        coding_dna_start: Optional[int] = None
-        coding_dna_end: Optional[int] = None
-        coding_genomic_start: Optional[int] = None
-        coding_genomic_end: Optional[int] = None
+        coding_dna_start: int | None = None
+        coding_dna_end: int | None = None
+        coding_genomic_start: int | None = None
+        coding_genomic_end: int | None = None
 
     def __init__(self, verbose=True):
         super().__init__(verbose)

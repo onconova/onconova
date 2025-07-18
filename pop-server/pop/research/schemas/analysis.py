@@ -1,14 +1,15 @@
 import math
-from collections import Counter, OrderedDict
+from collections import Counter
 from datetime import datetime
 from statistics import NormalDist
-from typing import Dict, List, Optional, Self
+from typing import Dict, List, Self
 
-from django.db.models import F, Max, Min, OuterRef, Subquery, Value
+from django.db.models import F, OuterRef, Subquery, Value
 from django.db.models.functions import Coalesce
 from django.db.models.query import QuerySet
 from ninja import Field, Schema
-from pop.core.anonymization import anonymize, anonymize_age
+from pop.core.anonymization import anonymize_age
+from pop.core.types import Nullable
 from pop.oncology.models import (
     GenomicVariant,
     PatientCase,
@@ -18,7 +19,7 @@ from pop.oncology.models import (
 )
 from pop.research.models import Cohort
 from pop.research.schemas.cohort import CohortTraitCounts
-from pydantic import AliasChoices, RootModel
+from pydantic import AliasChoices
 
 
 class AnalysisMetadata(Schema):
@@ -38,7 +39,7 @@ class AnalysisMetadata(Schema):
 
 class AnalysisMetadataMixin:
 
-    metadata: Optional[AnalysisMetadata] = Field(
+    metadata: AnalysisMetadata | None = Field(
         default=None,
         title="Metadata",
         description="Metadata for the Kaplan-Meier curve.",
@@ -77,7 +78,7 @@ class KaplanMeierCurve(Schema, AnalysisMetadataMixin):
     @classmethod
     def calculate(
         cls,
-        survivals: List[Optional[float]],
+        survivals: List[float | None],
         confidence_level: float = 0.95,
     ) -> Self:
         """
@@ -85,7 +86,7 @@ class KaplanMeierCurve(Schema, AnalysisMetadataMixin):
         and initializes a Kaplan-Meier curve.
 
         Args:
-            survivals (List[Optional[float]]): Array containing the number of months survived for each
+            survivals (List[float | None]): Array containing the number of months survived for each
                 patient.
             confidence_level (float): Confidence level for the confidence interval (0.95 default).
 
@@ -174,7 +175,7 @@ class OncoplotVariant(Schema):
         alias="is_pathogenic",
         validation_alias=AliasChoices("hgvsExpression", "hgvs_expression"),
     )
-    isPathogenic: Optional[bool] = Field(
+    isPathogenic: Nullable[bool] = Field(
         alias="is_pathogenic",
         validation_alias=AliasChoices("isPathogenic", "is_pathogenic"),
     )

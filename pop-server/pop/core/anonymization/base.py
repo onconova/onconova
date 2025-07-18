@@ -1,13 +1,11 @@
 from datetime import date, datetime, timedelta
-from typing import ClassVar, Union, List, Tuple, Optional, Self, Dict, Callable, Type
+from typing import Callable, ClassVar, Dict, List, Self, Tuple, Type, Union
 
 from django.conf import settings
-
-from pydantic import Field, model_validator, BaseModel
-from pydantic.dataclasses import dataclass
-
-from pop.core.utils import hash_to_range, is_datetime, is_period
 from pop.core.types import Age, AgeBin
+from pop.core.utils import hash_to_range, is_datetime, is_period
+from pydantic import BaseModel, Field, model_validator
+from pydantic.dataclasses import dataclass
 
 REDACTED_STRING = "*************"
 AVERAGE_MONTH = 30.436875
@@ -207,12 +205,12 @@ class AnonymizationMixin:
 
     # Anonymization metadata
     __anonymization_fields__: ClassVar[Tuple[str, ...]] = ()
-    __anonymization_key__: ClassVar[Optional[str]] = None
+    __anonymization_key__: ClassVar[str | None] = None
     __anonymization_functions__: ClassVar[Dict[str, Callable]] = {}
 
     @classmethod
     def _setup(
-        cls, model_class: Type[BaseModel], config: Optional[AnonymizationConfig] = None
+        cls, model_class: Type[BaseModel], config: AnonymizationConfig | None = None
     ):
         if config:
             model_class.__anonymization_fields__ = (

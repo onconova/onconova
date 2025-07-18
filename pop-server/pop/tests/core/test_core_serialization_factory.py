@@ -1,5 +1,4 @@
-from typing import List, Optional
-from uuid import UUID
+from typing import List
 
 from django.db import models as django_models
 from django.db.models import CharField, ForeignKey, ManyToManyField

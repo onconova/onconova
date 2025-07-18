@@ -1,14 +1,14 @@
 from datetime import datetime
-from typing import Any, List, Tuple, Dict, Optional, Union, Type
+from typing import Any, Dict, List, Optional, Tuple, Type, Union
 
-from ninja.schema import ResolverMetaclass, Field
-from pydantic.dataclasses import dataclass
-from pydantic import AliasChoices
-
-from pop.core.models import BaseModel as OrmBaseModel
+from ninja.schema import Field, ResolverMetaclass
 from pop.core.anonymization import AnonymizationConfig, AnonymizationMixin
-from pop.core.serialization.factory import create_schema
+from pop.core.models import BaseModel as OrmBaseModel
 from pop.core.serialization.base import BaseSchema
+from pop.core.serialization.factory import create_schema
+from pop.core.types import Nullable
+from pydantic import AliasChoices
+from pydantic.dataclasses import dataclass
 
 # Track whether the base ModelSchema classes have been declared
 _is_modelschema_class_defined = False
@@ -21,12 +21,14 @@ GET_SCHEMA_FIELDS = (
     ("description", str, Field(description="Human-readable description")),
 )
 
+
 # Fields to automatically include when for event-tracked resources
 METADATA_FIELDS = (
     (
         "createdAt",
-        Optional[datetime],
+        Nullable[datetime],
         Field(
+            default=None,
             description="Date-time when the resource was created",
             alias="created_at",
             validation_alias=AliasChoices("createdAt", "created_at"),
@@ -34,7 +36,7 @@ METADATA_FIELDS = (
     ),
     (
         "updatedAt",
-        Optional[datetime],
+        Nullable[datetime],
         Field(
             default=None,
             description="Date-time when the resource was last updated",
@@ -44,8 +46,9 @@ METADATA_FIELDS = (
     ),
     (
         "createdBy",
-        Optional[str],
+        Nullable[str],
         Field(
+            default=None,
             description="Username of the user who created the resource",
             alias="created_by",
             validation_alias=AliasChoices("createdBy", "created_by"),
@@ -53,7 +56,7 @@ METADATA_FIELDS = (
     ),
     (
         "updatedBy",
-        Optional[List[str]],
+        Nullable[List[str]],
         Field(
             default=None,
             description="Usernames of the users who have updated the resource",

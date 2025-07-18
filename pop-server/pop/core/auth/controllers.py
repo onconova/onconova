@@ -1,5 +1,5 @@
 import json
-from typing import Literal, Optional
+from typing import Literal
 
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
@@ -18,6 +18,7 @@ from pop.core.auth.token import XSessionTokenAuth
 from pop.core.history.schemas import HistoryEvent
 from pop.core.schemas import ModifiedResource as ModifiedResourceSchema
 from pop.core.schemas import Paginated
+from pop.core.types import Nullable
 from pop.core.utils import COMMON_HTTP_ERRORS
 from pydantic import AliasChoices, Field
 
@@ -29,8 +30,8 @@ class UserCredentials(Schema):
 
 class UserProviderClientToken(Schema):
     client_id: str
-    id_token: Optional[str] = None
-    access_token: Optional[str] = None
+    id_token: Nullable[str] = None
+    access_token: Nullable[str] = None
 
 
 class UserProviderToken(Schema):
@@ -40,12 +41,12 @@ class UserProviderToken(Schema):
 
 
 class AuthenticationMeta(Schema):
-    sessionToken: Optional[str] = Field(
+    sessionToken: Nullable[str] = Field(
         default=None,
         alias="session_token",
         validation_alias=AliasChoices("sessionToken", "session_token"),
     )
-    accessToken: Optional[str] = Field(
+    accessToken: Nullable[str] = Field(
         default=None,
         alias="access_token",
         validation_alias=AliasChoices("accessToken", "access_token"),

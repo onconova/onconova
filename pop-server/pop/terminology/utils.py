@@ -1,8 +1,9 @@
-from collections import defaultdict
-import os
 import csv
+import os
+from collections import defaultdict
+from typing import List, TextIO, Tuple, Union
+
 import requests
-from typing import List, Optional, TextIO, Tuple, Union
 from pydantic import BaseModel, Field
 
 _cache = {}
@@ -36,14 +37,14 @@ class CodedConcept(BaseModel):
         properties (dict): A dictionary of additional properties for the concept.
     """
 
-    system: Optional[str] = Field(default=None)
+    system: str | None = Field(default=None)
     code: str = Field()
-    display: Optional[str] = Field(default=None)
-    definition: Optional[str] = Field(default=None)
-    version: Optional[str] = Field(default=None)
-    parent: Optional[str] = Field(default=None)
+    display: str | None = Field(default=None)
+    definition: str | None = Field(default=None)
+    version: str | None = Field(default=None)
+    parent: str | None = Field(default=None)
     synonyms: List[str] = Field(default=[])
-    properties: Optional[dict] = Field(default=None)
+    properties: dict | None = Field(default=None)
 
     def __hash__(self):
         return hash(self.__repr__())
@@ -71,17 +72,17 @@ def parent_to_children(codesystem: dict) -> dict:
         return _cache[id(codesystem)]
     mapping = defaultdict(list)
     for concept in codesystem.values():
-        if concept.parent and '|' in concept.parent:
-            for subparent in concept.parent.split('|'):
-                mapping[subparent].append(concept)    
+        if concept.parent and "|" in concept.parent:
+            for subparent in concept.parent.split("|"):
+                mapping[subparent].append(concept)
         else:
             mapping[concept.parent].append(concept)
     _cache[id(codesystem)] = mapping
     return mapping
 
 
-from typing import Generator, Dict, Any
 from collections import defaultdict
+from typing import Any, Dict, Generator
 
 
 def parse_OBO_file(file) -> Generator[Dict[str, Any], None, None]:

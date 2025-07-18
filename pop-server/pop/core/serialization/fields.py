@@ -1,46 +1,44 @@
-from typing import get_args, List, Tuple, Optional, Annotated, TypeAlias, Union
-
-from typing_extensions import TypeAliasType
 import enum
 import warnings
-from uuid import UUID
 from datetime import date, datetime
 from functools import partial
+from typing import List, Tuple, Union, get_args
+from uuid import UUID
+
+from django.contrib.auth import get_user_model
 from django.contrib.postgres.fields import (
-    DateRangeField,
+    ArrayField,
     BigIntegerRangeField,
+    DateRangeField,
     IntegerRangeField,
 )
-from django.db.models.fields import Field as DjangoField
 from django.db.models import CharField
-from django.contrib.auth import get_user_model
-from django.contrib.postgres.fields import ArrayField
-
-from ninja.orm.fields import TYPES as BASE_TYPES, title_if_lower
-
-from pydantic import AliasChoices, BaseModel as PydanticBaseModel, constr, UUID4
+from django.db.models.fields import Field as DjangoField
+from ninja.orm.fields import TYPES as BASE_TYPES
+from ninja.orm.fields import title_if_lower
+from pop.core.measures import Measure
+from pop.core.measures.fields import MeasurementField
+from pop.core.schemas import CodedConcept as CodedConceptSchema
+from pop.core.schemas import Period as PeriodSchema
+from pop.core.schemas import Range as RangeSchema
+from pop.core.serialization import filters as schema_filters
+from pop.core.types import Array, Nullable, Username
+from pop.core.utils import (
+    camel_to_snake,
+    is_enum,
+    is_list,
+    is_literal,
+    is_optional,
+    is_union,
+    to_camel_case,
+)
+from pop.terminology.models import CodedConcept as CodedConceptModel
+from pydantic import UUID4, AliasChoices
+from pydantic import BaseModel as PydanticBaseModel
+from pydantic import constr
 from pydantic.fields import FieldInfo
 from pydantic_core import PydanticUndefined  # type: ignore
-
-from pop.terminology.models import CodedConcept as CodedConceptModel
-from pop.core.schemas import (
-    CodedConcept as CodedConceptSchema,
-    Period as PeriodSchema,
-    Range as RangeSchema,
-)
-from pop.core.measures import Measure
-from pop.core.serialization import filters as schema_filters
-from pop.core.utils import (
-    is_list,
-    is_optional,
-    is_literal,
-    is_enum,
-    to_camel_case,
-    camel_to_snake,
-    is_union,
-)
-from pop.core.measures.fields import MeasurementField
-from pop.core.types import Username, Array
+from typing_extensions import TypeAliasType
 
 UserModel = get_user_model()
 
@@ -89,7 +87,7 @@ def get_schema_field(
         **extras,
     )
     if field_info.default is None:
-        python_type = Optional[python_type]
+        python_type = Nullable[python_type]
     return resolver_fcn, serialization_alias, (python_type, field_info)
 
 

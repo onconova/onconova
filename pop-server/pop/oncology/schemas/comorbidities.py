@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List
 
 from ninja import Field, Schema
 from pop.core.anonymization import AnonymizationConfig
@@ -8,12 +8,13 @@ from pop.core.serialization.metaclasses import (
     ModelGetSchema,
     SchemaConfig,
 )
+from pop.core.types import Nullable
 from pop.oncology import models as orm
 from pydantic import AliasChoices
 
 
 class ComorbiditiesAssessmentSchema(ModelGetSchema):
-    score: Optional[int | float] = Field(
+    score: Nullable[int | float] = Field(
         default=None, alias="score", description="Comorbidity score"
     )
     config = SchemaConfig(
@@ -28,7 +29,7 @@ class ComorbiditiesAssessmentCreateSchema(ModelCreateSchema):
 
 class ComorbidityPanelCategory(Schema):
     label: str = Field(description="Label of the comorbidity panel category")
-    default: Optional[CodedConceptSchema] = Field(
+    default: Nullable[CodedConceptSchema] = Field(
         None, description="Default choice for category"
     )
     conditions: List[CodedConceptSchema] = Field(
