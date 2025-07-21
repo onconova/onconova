@@ -897,7 +897,12 @@ def fake_complete_case():
             models.PatientCaseDataCompletion.PatientCaseDataCategories
         ):
             if random.randint(0, 100) > 45:
-                PatientCaseDataCompletionFactory.create(
+                completion = PatientCaseDataCompletionFactory.create(
                     **basic, category=category.value
                 )
+                event = completion.events.get(pgh_label="create")
+                event.pgh_created_at = faker.date_between(
+                    datetime(2020, 1, 1).date(), datetime.now().date()
+                )
+                event.save()
     return case
