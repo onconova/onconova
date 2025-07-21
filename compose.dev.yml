@@ -22,7 +22,8 @@ services:
         build:
           target: development
         volumes:
-          - ./pop-client/src:/app/src
+          - ./pop-client/src/app:/app/src/app
+          - ./pop-client/src/assets:/app/src/assets
           - ./pop-client/openapi.json:/app/openapi.json
           - ${CLIENT_PLUGINS_PATH:-./pop-client/src/plugins}:/app/src/plugins
 

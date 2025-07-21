@@ -27,6 +27,9 @@ RUN update-ca-certificates
 # Install dependencies for headless Chromium browser
 RUN apt-get update && apt-get install -y libxkbcommon-x11-0 libgbm-dev && apt-get clean
 
+# Install dependencies for headless Chromium browser
+RUN apt-get update && apt-get install -y gettext && apt-get clean
+
 # Install Java for running OpenAPI Generator
 RUN apt-get update && apt-get install -y default-jre curl && apt-get clean
 
@@ -35,12 +38,15 @@ RUN npm run generate:api:client java
 
 RUN npm cache clean --force
 
+RUN chmod +x /app/entrypoint.sh
+
 ########################################
 # DEVLEOPMENT
 # Serve application for development
 ########################################
 FROM angular-base AS development
 # Serve angular application
+ENTRYPOINT ["/app/entrypoint.sh", "--files", "/app/src/environments/env.js", "--files", "/app/src/plugins/plugins.env.js"]
 CMD ["ng", "serve", "--host", "0.0.0.0", "--port", "80", "--disable-host-check", "--configuration", "development"]
 
 ########################################
@@ -58,4 +64,6 @@ RUN ng build --output-path dist/client --configuration production
 FROM nginx:1.23.3-alpine AS production
 COPY --from=builder /app/dist/client /usr/share/nginx/html
 COPY ./nginx.conf /etc/nginx/conf.d/default.conf
+ENTRYPOINT [ "/app/entrypoint.sh", "--files", "/usr/share/nginx/html/assets/env.js /usr/share/nginx/html/assets/plugins.env.js"]
+CMD ["--cmd", "nginx -g 'daemon off;'"]
 EXPOSE 80
