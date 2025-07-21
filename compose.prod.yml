@@ -21,12 +21,13 @@ services:
     pop-client:
         container_name: "${COMPOSE_PROJECT_NAME}-client"
         restart: unless-stopped
+        env_file: .env
         build:
             context: pop-client
+            additional_contexts: 
+                - plugins=${CLIENT_PLUGINS_PATH:-./pop-client/src/plugins}
             dockerfile: Dockerfile
             target: production
-        volumes:
-            - ${CLIENT_PLUGINS_PATH:-./pop-client/src/plugins}:/app/src/plugins
 
     pop-docs:
         container_name: "${COMPOSE_PROJECT_NAME}-docs"

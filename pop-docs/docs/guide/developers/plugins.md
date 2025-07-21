@@ -97,7 +97,6 @@ Use a plugin when you need to:
     Once set, restarting the client container will make the Angular application automatically discover and load your plugins.
 
 
-
     *Example*: Install the custom dashboard plugin located in `./myplugins`.
 
     ```bash
@@ -115,6 +114,8 @@ Use a plugin when you need to:
         This route file defines how your custom plugin routes integrate with the POP application routing system.
         Without it, your plugins won’t be registered or accessible within the client.
 
+
+    For **production**, build the client container anew with the `CLIENT_PLUGINS_PATH` variable set to build the container along the plugins. 
 
 ## Integrating with Microservices
 

@@ -12,6 +12,9 @@ ARG ROOT_CA_CERTIFICATES=
 # Copy all source files
 COPY . .
 
+# Copy the plugins source files if exist
+COPY --from=plugins . /app/src/plugins/
+
 # Install the Angular CLI
 RUN npm install -g @angular/cli
 RUN npm install --force
