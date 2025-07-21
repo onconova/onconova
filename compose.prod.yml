@@ -1,3 +1,4 @@
+name: pop
 services:
     pop-server:
         container_name: "${COMPOSE_PROJECT_NAME}-server"

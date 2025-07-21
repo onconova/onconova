@@ -1,6 +1,7 @@
+name: pop-dev
 services:
     pop-server:
-        container_name: "${COMPOSE_PROJECT_NAME}-dev-server"
+        container_name: "${COMPOSE_PROJECT_NAME}-server"
         extends:
           file: compose.prod.yml
           service: pop-server
@@ -14,7 +15,7 @@ services:
 
 
     pop-client:
-        container_name: "${COMPOSE_PROJECT_NAME}-dev-client"
+        container_name: "${COMPOSE_PROJECT_NAME}-client"
         extends:
           file: compose.prod.yml
           service: pop-client
@@ -38,7 +39,7 @@ services:
 
     pop-nginx:
         image: nginx:1.23        
-        container_name: "${COMPOSE_PROJECT_NAME}-dev-nginx"
+        container_name: "${COMPOSE_PROJECT_NAME}-nginx"
         extends:
           file: compose.prod.yml
           service: pop-nginx
@@ -54,7 +55,7 @@ services:
 
     pop-postgres:
         image: postgres:13-alpine
-        container_name: "${COMPOSE_PROJECT_NAME}-dev-postgres"
+        container_name: "${COMPOSE_PROJECT_NAME}-postgres"
         extends:
           file: compose.prod.yml
           service: pop-postgres   
