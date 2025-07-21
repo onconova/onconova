@@ -187,7 +187,7 @@ class User(AbstractUser):
 
     def save(self, *args, **kwargs):
         if self.is_superuser:
-            self.access_level = 6
+            self.access_level = 4
         super().save(*args, **kwargs)
 
     class Meta:

@@ -77,3 +77,13 @@ class TestUserModel(TestCase):
 
         self.assertTrue(admin_user.is_system_admin)
         self.assertTrue(admin_user.can_manage_users)
+
+    def test_superuser_permissions(self):
+        """Ensure admin users have all permissions."""
+        super_user = self.admin_user
+        super_user.access_level = None 
+        super_user.is_superuser=True
+        super_user.save()
+
+        self.assertTrue(super_user.is_system_admin)
+        self.assertTrue(super_user.can_manage_users)
