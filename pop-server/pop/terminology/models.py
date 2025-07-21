@@ -909,8 +909,3 @@ class CancerRiskAssessmentMethod(CodedConcept):
 class CancerRiskAssessmentClassification(CodedConcept):
     valueset = "https://simplifier.net/pop/ValueSets/pop-cancer-risk-assessment-values"
     description = "Classification of cancer risk assessment"
-
-
-class OncoTreeCancerClassification(CodedConcept):
-    codesystem = "http://oncotree.mskcc.org/fhir/CodeSystem/snapshot"
-    description = "Cancer classification by OncoTree"

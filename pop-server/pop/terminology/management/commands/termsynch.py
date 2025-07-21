@@ -99,7 +99,8 @@ class Command(BaseCommand):
         total_synchronized = 0
         failed = []
         for valueset_model in valueset_models:
-
+            if valueset_model._meta.proxy:
+                continue
             try:
                 collect_codedconcept_terminology(
                     valueset_model,
