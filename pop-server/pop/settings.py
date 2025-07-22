@@ -6,6 +6,11 @@ from pathlib import Path
 import pghistory
 from corsheaders.defaults import default_headers
 
+
+def secure_url(address: str):
+    return f"https://{address}"
+
+
 # Project base directory path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -22,24 +27,26 @@ DEBUG = os.getenv("ENVIRONMENT") == "development"
 # ----------------------------------------------------------------
 
 # Django secret key for cryptographic signing
-SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
+SECRET_KEY = os.getenv("POP_SERVER_ENCRYPTION_KEY")
 # Data anonymization secret key
-ANONYMIZATION_SECRET_KEY = os.getenv("ANONYMIZATION_SECRET_KEY")
+ANONYMIZATION_SECRET_KEY = os.getenv("POP_SERVER_ANONYMIZATION_KEY")
 
 # ----------------------------------------------------------------
 # NETWORK
 # ----------------------------------------------------------------
 
-# Hosts the app is allowed to serve
-ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "").split(",")
+POP_REVERSE_PROXY_ADDRESS = (
+    f'{os.getenv("POP_REVERSE_PROXY_HOST")}:{os.getenv("POP_REVERSE_PROXY_PORT")}'
+)
+POP_SERVER_ADDRESS = os.getenv("POP_SERVER_ADDRESS") or POP_REVERSE_PROXY_ADDRESS
+POP_CLIENT_ADDRESS = os.getenv("POP_CLIENT_ADDRESS") or POP_REVERSE_PROXY_ADDRESS
+POP_DOCS_ADDRESS = os.getenv("POP_DOCS_ADDRESS") or POP_REVERSE_PROXY_ADDRESS
+
+# Controls which domains can make HTTP requests to the server.
+ALLOWED_HOSTS = os.getenv("POP_SERVER_ALLOWED_HOSTS", "").split(",")
 if os.getenv("ENVIRONMENT") == "development":
-    ALLOWED_HOSTS = ALLOWED_HOSTS + [socket.gethostbyname(socket.gethostname())]
-# Port the app is allowed to serve
-HOST_PORT = os.getenv("WEBAPP_HTTPS_PORT")
-# Host of the client application
-WEBAPP_HOST = os.getenv("WEBAPP_HOST")
-# Name of the providing organization (internal use)
-HOST_ORGANIZATION = os.getenv("ORGANIZATION_NAME")
+    ALLOWED_HOSTS.append(socket.gethostbyname(socket.gethostname()))
+
 # URL config module
 ROOT_URLCONF = "pop.urls"
 
@@ -53,8 +60,16 @@ CORS_ORIGIN_ALLOW_ALL = False
 CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "DELETE"]
 # Allows credentials with CORS requests
 CORS_ALLOW_CREDENTIALS = True
-# Explicitly allowed CORS origins
-CORS_ALLOWED_ORIGINS = [f"https://{WEBAPP_HOST}"]
+# Controls which web origins (domains) are allowed to make cross-origin AJAX requests to your Django API.
+CORS_ALLOWED_ORIGINS = os.getenv("POP_SERVER_CORS_ALLOWED_ORIGINS", "").split(",") + [
+    secure_url(address)
+    for address in [
+        POP_REVERSE_PROXY_ADDRESS,
+        POP_SERVER_ADDRESS,
+        POP_CLIENT_ADDRESS,
+        POP_DOCS_ADDRESS,
+    ]
+]
 # Allowed headers in CORS requests (required for authentication)
 CORS_ALLOW_HEADERS = (
     *default_headers,
@@ -128,7 +143,7 @@ INSTALLED_APPS = [
 # Middleware stack
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    'pop.core.middleware.AuditLogMiddleware',
+    "pop.core.middleware.AuditLogMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -218,11 +233,11 @@ SOCIALACCOUNT_PROVIDERS = {
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.getenv("POSTGRES_DATABASE"),
-        "USER": os.getenv("POSTGRES_USER"),
-        "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
-        "HOST": os.getenv("POSTGRES_HOST"),
-        "PORT": os.getenv("POSTGRES_PORT"),
+        "NAME": os.getenv("POP_POSTGRES_DATABASE"),
+        "USER": os.getenv("POP_POSTGRES_USER"),
+        "PASSWORD": os.getenv("POP_POSTGRES_PASSWORD"),
+        "HOST": os.getenv("POP_POSTGRES_HOST"),
+        "PORT": os.getenv("POP_POSTGRES_PORT"),
     },
 }
 
@@ -280,59 +295,59 @@ USE_TZ = False  # Do not make datetimes timezone-aware by default
 
 # Logger settings
 LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'audit_logfmt': {
-            'format': (
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "audit_logfmt": {
+            "format": (
                 'timestamp="%(asctime)s" level=%(levelname)s user.username="%(username)s" user.id="%(user_id)s" user.level=%(access_level)s '
                 'request.ip="%(ip)s" request.agent="%(user_agent)s" request.method=%(method)s request.path="%(path)s" '
-                'response.status=%(status_code)s response.duration=%(duration)s '
+                "response.status=%(status_code)s response.duration=%(duration)s "
                 'request.data="%(request_data)s" response.data="%(response_data)s"'
             ),
-            'datefmt': '%Y-%m-%d %H:%M:%S%z',
+            "datefmt": "%Y-%m-%d %H:%M:%S%z",
         },
-        'error_verbose': {
-            'format': (
-                '[%(asctime)s] %(levelname)s in %(module)s: %(message)s\n'
-                '%(exc_info)s'
+        "error_verbose": {
+            "format": (
+                "[%(asctime)s] %(levelname)s in %(module)s: %(message)s\n"
+                "%(exc_info)s"
             ),
-            'datefmt': '%Y-%m-%d %H:%M:%S',
+            "datefmt": "%Y-%m-%d %H:%M:%S",
         },
     },
-    'handlers': {
-        'audit_file': {
-            'level': 'INFO',
+    "handlers": {
+        "audit_file": {
+            "level": "INFO",
             "class": "logging.handlers.TimedRotatingFileHandler",
             "when": "midnight",
             "filename": "/app/logs/logfile.log",
-            'formatter': 'audit_logfmt',
+            "formatter": "audit_logfmt",
             "backupCount": 31,
         },
-        'audit_console': {
-            'level': 'INFO',
-            'class': 'logging.StreamHandler',
-            'formatter': 'audit_logfmt',
+        "audit_console": {
+            "level": "INFO",
+            "class": "logging.StreamHandler",
+            "formatter": "audit_logfmt",
         },
-        'error_file': {
-            'level': 'ERROR',
+        "error_file": {
+            "level": "ERROR",
             "class": "logging.handlers.TimedRotatingFileHandler",
             "when": "midnight",
             "filename": "/app/logs/error.log",
-            'formatter': 'error_verbose',
+            "formatter": "error_verbose",
             "backupCount": 31,
         },
     },
-    'loggers': {
-        'audit': {
-            'handlers': ['audit_file', 'audit_console'],
-            'level': 'INFO',
-            'propagate': False,
+    "loggers": {
+        "audit": {
+            "handlers": ["audit_file", "audit_console"],
+            "level": "INFO",
+            "propagate": False,
         },
-        'error': {
-            'handlers': ['error_file'],
-            'level': 'ERROR',
-            'propagate': False,
+        "error": {
+            "handlers": ["error_file"],
+            "level": "ERROR",
+            "propagate": False,
         },
     },
 }

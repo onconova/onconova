@@ -43,8 +43,8 @@ services:
         restart: unless-stopped
         volumes:
             - ./nginx.conf:/etc/nginx/conf.d/default.conf
-            - ${HOST_SSL_CERTIFICATE_BUNDLE}:/etc/nginx/ssl/cert_host.pem
-            - ${HOST_SSL_CERTIFICATE_PRIVATE_KEY}:/etc/nginx/ssl/cert_host.key      
+            - ${POP_REVERSE_PROXY_SSL_CERTIFICATE_BUNDLE}:/etc/nginx/ssl/cert_host.pem
+            - ${POP_REVERSE_PROXY_SSL_CERTIFICATE_PRIVATE_KEY}:/etc/nginx/ssl/cert_host.key      
             - pop_static_volume:/app/static
             - pop_media_volume:/app/media
             - pop_logs_volume:/app/logs
@@ -52,8 +52,8 @@ services:
             - 80
             - 443
         ports:
-            - "${WEBAPP_HTTPS_PORT:-443}:443"
-            - "${WEBAPP_HTTP_PORT:-80}:80"
+            - "${POP_REVERSE_PROXY_HTTPS_PORT:-443}:443"
+            - "${POP_REVERSE_PROXY_HTTP_PORT:-80}:80"
         env_file: .env
         depends_on:
             - pop-postgres
@@ -69,16 +69,16 @@ services:
             - pop_postgres_volume:/var/lib/postgresql/data/
         env_file: .env
         environment:
-            - POSTGRES_DB=${POSTGRES_DATABASE}
-            - POSTGRES_USER=${POSTGRES_USER}
-            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-            - PGPORT=${POSTGRES_PORT}
+            - POSTGRES_DB=${POP_POSTGRES_DATABASE}
+            - POSTGRES_USER=${POP_POSTGRES_USER}
+            - POSTGRES_PASSWORD=${POP_POSTGRES_PASSWORD}
+            - PGPORT=${POP_POSTGRES_PORT}
         expose:
-            - ${POSTGRES_PORT}
+            - ${POP_POSTGRES_PORT}
         ports:
-            - ${POSTGRES_PORT}
+            - ${POP_POSTGRES_PORT}
         command: 
-            - -p ${POSTGRES_PORT}      
+            - -p ${POP_POSTGRES_PORT}      
 
 
 volumes:

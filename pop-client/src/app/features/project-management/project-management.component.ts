@@ -314,8 +314,7 @@ export class ProjectManagementComponent {
                 ethicsApprovalNumber: this.project.value()?.ethicsApprovalNumber,
                 members: members
             } as ProjectCreate
-        console.log(payload)
-            this.#projectsService.updateProjectById({
+        this.#projectsService.updateProjectById({
             projectId: this.projectId(),
             projectCreate: payload
         }).subscribe({

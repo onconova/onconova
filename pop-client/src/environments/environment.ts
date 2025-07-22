@@ -1,4 +1,8 @@
+import { dynamicEnv } from './dynamic-env';
 
-export const environment = {
+export const environment: any = {
   production: true,
+  apiServerBasePath: dynamicEnv.popServerAddress ? `https://${dynamicEnv.popServerAddress}` : `${window.location.protocol}//${window.location.host}`,
+  docsServerBasePath: dynamicEnv.docsServerAddress ? `https://${dynamicEnv.docsServerAddress}` : `${window.location.protocol}//${window.location.host}`,
+  organizationName: dynamicEnv.organizationName
 };

@@ -104,7 +104,6 @@ export class DataCompletionStatsComponent {
         this.#layoutService.config.theme();
         this.#layoutService.config.darkMode();
         const data = this.data.value()?.completionOverTime;
-        console.log('data', data)
         if (data) {
             this.initChart(data);
         }
@@ -129,7 +128,6 @@ export class DataCompletionStatsComponent {
                 backgroundColor: documentStyle.getPropertyValue('--p-primary-color-transparent'),
             }]
         }
-        console.log(this.chartData)
     
         this.chartOptions = {
             responsive: true,

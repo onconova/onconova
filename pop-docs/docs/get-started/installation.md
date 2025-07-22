@@ -62,8 +62,8 @@ Follow these steps to install and set up POP from its source code.
     - Update the `.env` file with your configuration settings:
         - Set the absolute paths to your SSL certificates:
             ```bash
-            HOST_SSL_CERTIFICATE_BUNDLE='/path/to/fullchain.pem'
-            HOST_SSL_CERTIFICATE_PRIVATE_KEY='/path/to/privkey.pem'
+            POP_REVERSE_PROXY_SSL_CERTIFICATE_BUNDLE='/path/to/fullchain.pem'
+            POP_REVERSE_PROXY_SSL_CERTIFICATE_PRIVATE_KEY='/path/to/privkey.pem'
             ```
 
         - Set the correct Docker compose file.
@@ -135,7 +135,7 @@ Follow these steps to install and set up POP from its source code.
 
     Open your browser and visit:
     ```
-    https://${WEBAPP_HOST}:${WEBAPP_HTTPS_PORT}/
+    https://${POP_REVERSE_PROXY_HOST}:${POP_REVERSE_PROXY_HTTPS_PORT}/
     ```
     Verify that the login page loads correctly. If so, the POP components have been successfully installed. 
 
@@ -194,9 +194,9 @@ Before using POP, the database must be configured and populated with required cl
             ```bash
             docker compose run \
                 -v /absolute/path/to/SnomedCT_International*.zip:/app/data/snomed.zip \
-                -e SNOMED_ZIPFILE_PATH='/app/data/snomed.zip' \
+                -e POP_SNOMED_ZIPFILE_PATH='/app/data/snomed.zip' \
                 -v /absolute/path/to/Loinc_*.**.zip:/app/data/loinc.zip \
-                -e LOINC_ZIPFILE_PATH='/app/data/loinc.zip' \
+                -e POP_LOINC_ZIPFILE_PATH='/app/data/loinc.zip' \
                 pop-server python manage.py termsynch
             ```
 
@@ -205,9 +205,9 @@ Before using POP, the database must be configured and populated with required cl
             ```bash
             docker compose run \
                 -v /absolute/path/to/SnomedCT_International*.zip:/app/data/snomed.zip \
-                -e SNOMED_ZIPFILE_PATH='/app/data/snomed.zip' \
+                -e POP_SNOMED_ZIPFILE_PATH='/app/data/snomed.zip' \
                 -v /absolute/path/to/Loinc_*.**.zip:/app/data/loinc.zip \
-                -e LOINC_ZIPFILE_PATH='/app/data/loinc.zip' 
+                -e POP_LOINC_ZIPFILE_PATH='/app/data/loinc.zip' 
                 -e http_proxy='http://<username>:<password>@<hostname>:<port>' \
                 -e https_proxy='http://<username>:<password>@<hostname>:<port>' \
                 -e ROOT_CA_CERTIFICATES='./etc/certs/root-ca-certificates.pem' \

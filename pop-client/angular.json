@@ -28,9 +28,23 @@
             ],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
+            "scripts": [
+              "src/environments/env.js",
+              "src/plugins/plugins.env.js"
+            ],
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              {
+                "glob": "env.js",
+                "input": "src/environments",
+                "output": "assets"
+              },
+              {
+                "glob": "plugins.env.js",
+                "input": "src/plugins",
+                "output": "assets"
+              }
             ],
             "styles": [
               "src/styles.scss",
@@ -84,6 +98,7 @@
             }
           },
           "defaultConfiguration": "development"
+          
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
@@ -103,7 +118,17 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              {
+                "glob": "env.js",
+                "input": "app/src/environments/",
+                "output": "/assets/"
+              },
+              {
+                "glob": "plugins.env.js",
+                "input": "app/src/plugins/",
+                "output": "/assets/"
+              }
             ],
             "styles": [
               "src/styles.scss"
