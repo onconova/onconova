@@ -64,6 +64,8 @@ RUN ng build --output-path dist/client --configuration production
 FROM nginx:1.23.3-alpine AS production
 COPY --from=builder /app/dist/client /usr/share/nginx/html
 COPY ./nginx.conf /etc/nginx/conf.d/default.conf
-ENTRYPOINT [ "/app/entrypoint.sh", "--files", "/usr/share/nginx/html/assets/env.js /usr/share/nginx/html/assets/plugins.env.js"]
-CMD ["--cmd", "nginx -g 'daemon off;'"]
+COPY ./entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
+ENTRYPOINT ["/bin/sh", "/app/entrypoint.sh", "--files", "/usr/share/nginx/html/assets/env.js", "--files", "/usr/share/nginx/html/assets/plugins.env.js"]
+CMD ["nginx", "-g", "daemon off;"]
 EXPOSE 80

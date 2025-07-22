@@ -34,7 +34,17 @@
             ],
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              {
+                "glob": "env.js",
+                "input": "src/environments",
+                "output": "assets"
+              },
+              {
+                "glob": "plugins.env.js",
+                "input": "src/plugins",
+                "output": "assets"
+              }
             ],
             "styles": [
               "src/styles.scss",

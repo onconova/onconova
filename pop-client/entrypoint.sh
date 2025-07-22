@@ -1,7 +1,7 @@
-#!/bin/bash
+#!/bin/sh
 set -e
 
-ENVIRONMENT_FILES=()
+ENVIRONMENT_FILES=""
 
 while [ "$#" -gt 0 ]; do
   case "$1" in
@@ -11,7 +11,7 @@ while [ "$#" -gt 0 ]; do
         echo "Error: --files requires a file path"
         exit 1
       fi
-      ENVIRONMENT_FILES+=("$1")
+      ENVIRONMENT_FILES="$ENVIRONMENT_FILES $1"
       shift
       ;;
     *)
@@ -20,7 +20,7 @@ while [ "$#" -gt 0 ]; do
   esac
 done
 
-for ENVIRONMENT_FILE in "${ENVIRONMENT_FILES[@]}"; do
+for ENVIRONMENT_FILE in $ENVIRONMENT_FILES; do
   if [ ! -f "$ENVIRONMENT_FILE" ]; then
     echo "Warning: Template file '$ENVIRONMENT_FILE' not found! Skipping."
     continue
