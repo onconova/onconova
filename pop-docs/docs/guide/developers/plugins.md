@@ -1,36 +1,43 @@
-The Precision Oncology Platform (POP) supports a plugin architecture for extending the Angular client without modifying the core platform codebase. This enables institutions and developers to add custom views, dashboards, visualizations, or workflows tailored to their needs — while keeping the core client clean, maintainable, and upgradeable.
+The Precision Oncology Platform (POP) supports a plugin architecture for extending the Angular client **without modifying the core platform codebase**. This enables institutions and developers to add custom views, dashboards, visualizations, or workflows tailored to their needs — while keeping the core client clean, maintainable, and upgradeable.
 
 This page explains what plugins are, how to develop them, and how to integrate them into POP.
 
+---
+
 ## What Are POP Plugins?
 
-A *plugin* is a standalone Angular component or feature module that:
+A *POP plugin* is a standalone Angular component or feature module that:
 
 - Extends or customizes the POP client.
 - Is developed separately from core platform features.
 - Can add new routes, components, or override existing views.
 - Optionally consumes APIs from POP itself or from institution-specific microservices.
 
-**Plugins allow you to build institution-specific functionality without altering the core client code.**
 
+> **Why use plugins?**  
+> Plugins let you introduce custom, institution-specific functionality *without touching the core client code.*
+
+---
 
 ## When to Use a Plugin
 Use a plugin when you need to:
 
-- Add institution-specific dashboards or reports.
-- Integrate visualizations from a local microservice.
+- Add institution-specific dashboards, reports, or visualizations.
+- Integrate with a local microservice (e.g., data providers or analytics tools).
 - Customize or extend core workflows (e.g., adding new panels to existing dashboards).
-- Provide internal utilities or admin tools visible only to authorized users.
+- Provide internal tools or admin panels for authorized users only.
 
-!!! danger  
+!!! danger "Avoid Polluting the Core"
 
-    Never hardcode institution-specific functionality directly into the core platform.
+    Never hardcode institution-specific functionality into the core POP platform. Always isolate it in a plugin.
+
+---
 
 ## How to Develop a Plugin
 
-1. **Create a plugins directory**
+1. **Create a Plugins Directory**
 
-    Create a new directory where all POP plugins will reside. 
+    Start by creating a directory to hold **all your plugins**' files:
 
     *Example*:
     ```bash
@@ -48,7 +55,7 @@ Use a plugin when you need to:
         import { Component } from '@angular/core';
         import { CommonModule } from '@angular/common';
         import { Card } from 'primeng/card';
-
+        import { pluginsConfig } from '../plugins.env.js'
         import { DashboardComponent } from 'src/app/features/dashboard/dashboard.component';
 
         @Component({
@@ -68,11 +75,29 @@ Use a plugin when you need to:
         ],
         })
         export class MyCustomDashboardComponent {
-            public newContent = 'This is a new panel!!'
+            public newContent = `This is a new panel for ${pluginsConfig.myCustomVariable}!!`
         }
     ```
 
- 3. **Add or Override a Route**
+ 4. **Setup runtime environmental variables** (Optional)
+
+    The POP client allows dynamic injection of environment variables at runtime using the `plugins.env.js` file. 
+
+    *Example*: Setting the `myCustomVariable` variable at runtime 
+    ```js
+    pluginsConfig = {
+        myCustomVariable: '${MY_CUSTOM_PLUGIN_VARIABLE}'
+    }
+    ```
+    These values will be substituted at runtime using environment variables from the container or `.env` file.
+
+    !!! warning "Do Not Expose Sensitive Secrets"
+
+        Any value injected into the frontend will be accessible by end users in the browser. Never include secrets or sensitive values — use secure APIs instead.
+
+
+
+ 5. **Add or Override a Route**
    
     To add your plugin into the client’s routing, add or override a route in a `plugins.route.ts` file.
 
@@ -89,33 +114,45 @@ Use a plugin when you need to:
     ];
     ```
 
-3. **Installing the plugins**
+6. **Installing the plugins**
 
-    To integrate your plugin into the POP client, you need to configure the client to load your plugin directory at runtime.
+    Plugins are mounted into the POP client by specifying the plugin directory via the CLIENT_PLUGINS_PATH environment variable.
 
-    This is done by setting the `CLIENT_PLUGINS_PATH` environment variable to point to the directory containing your plugin code.
-    Once set, restarting the client container will make the Angular application automatically discover and load your plugins.
+    === "Development"
+    
+        Mount your plugin into a local development container:
+        
+        *Example*: Install the custom dashboard plugin located in `./myplugins`.
 
-
-    *Example*: Install the custom dashboard plugin located in `./myplugins`.
-
-    ```bash
-    CLIENT_PLUGINS_PATH=./myplugins
-    docker compose up pop-client
-    ```
-
-    This command starts the POP client container, instructing it to look for plugin components and route definitions in the `./myplugins` directory.
-
-
-    !!! important
-
-        For the plugin installation to work properly, the `plugins.route.ts` file **must be located inside the same directory** specified by `CLIENT_PLUGINS_PATH`.
-
-        This route file defines how your custom plugin routes integrate with the POP application routing system.
-        Without it, your plugins won’t be registered or accessible within the client.
+        ```bash
+        CLIENT_PLUGINS_PATH=./myplugins
+        docker compose up pop-client
+        ```
+    
+        This command starts the POP client container, instructing it to look for plugin components and route definitions in the `./myplugins` directory.
 
 
-    For **production**, build the client container anew with the `CLIENT_PLUGINS_PATH` variable set to build the container along the plugins. 
+    === "Production"
+    
+        Once `CLIENT_PLUGINS_PATH` has been set, the production-ready client container must be built anew to bundle the plugin files into the client webserver image. 
+
+        *Example*: Install the custom dashboard plugin located in `./myplugins`.
+
+        ```bash
+        CLIENT_PLUGINS_PATH=./myplugins
+        docker compose up --build pop-client
+        ```
+    
+        This command will first build the the POP client container including the plugins, instructing it to look for plugin components and route definitions in the `./myplugins` directory.
+
+    !!! important "Required Files"
+        The plugin directory **must contain both** `plugins.route.ts` and `plugins.env.js` (if used).  
+        - `plugins.route.ts` defines how your plugin integrates with the routing system.  
+        - `plugins.env.js` injects runtime configuration into your components.
+
+
+By following this pattern, institutions can safely extend the POP client to meet local needs without compromising the integrity, maintainability, or upgradability of the core platform.
+
 
 ## Integrating with Microservices
 
