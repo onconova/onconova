@@ -266,21 +266,6 @@ class PatientCaseController(ControllerBase):
     tags=["Patient Cases"],
 )
 class OthersController(ControllerBase):
-    @route.get(
-        path="/default-clinical-center",
-        response={
-            200: str,
-            **COMMON_HTTP_ERRORS,
-            501: None,
-        },
-        operation_id="getDefaultClinicalCenter",
-    )
-    def get_default_clinical_center(self):  # type: ignore
-        clinical_center = getattr(settings, "HOST_ORGANIZATION", None)
-        if clinical_center:
-            return 200, clinical_center
-        else:
-            return 501, None
 
     @route.get(
         path="/clinical-centers",

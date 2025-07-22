@@ -1,6 +1,7 @@
-import { dynamicEnv} from './dynamic-env';
+import { dynamicEnv } from './dynamic-env';
 
 export const environment: any = {
   production: true,
+  apiServerBasePath: `https://${dynamicEnv.apiServerHost}:${dynamicEnv.apiServerPort}` || '${window.location.protocol}//${window.location.host}',
   organizationName: dynamicEnv.organizationName
 };

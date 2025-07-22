@@ -38,8 +38,6 @@ if os.getenv("ENVIRONMENT") == "development":
 HOST_PORT = os.getenv("WEBAPP_HTTPS_PORT")
 # Host of the client application
 WEBAPP_HOST = os.getenv("WEBAPP_HOST")
-# Name of the providing organization (internal use)
-HOST_ORGANIZATION = os.getenv("ORGANIZATION_NAME")
 # URL config module
 ROOT_URLCONF = "pop.urls"
 
@@ -128,7 +126,7 @@ INSTALLED_APPS = [
 # Middleware stack
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    'pop.core.middleware.AuditLogMiddleware',
+    "pop.core.middleware.AuditLogMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -280,59 +278,59 @@ USE_TZ = False  # Do not make datetimes timezone-aware by default
 
 # Logger settings
 LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'audit_logfmt': {
-            'format': (
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "audit_logfmt": {
+            "format": (
                 'timestamp="%(asctime)s" level=%(levelname)s user.username="%(username)s" user.id="%(user_id)s" user.level=%(access_level)s '
                 'request.ip="%(ip)s" request.agent="%(user_agent)s" request.method=%(method)s request.path="%(path)s" '
-                'response.status=%(status_code)s response.duration=%(duration)s '
+                "response.status=%(status_code)s response.duration=%(duration)s "
                 'request.data="%(request_data)s" response.data="%(response_data)s"'
             ),
-            'datefmt': '%Y-%m-%d %H:%M:%S%z',
+            "datefmt": "%Y-%m-%d %H:%M:%S%z",
         },
-        'error_verbose': {
-            'format': (
-                '[%(asctime)s] %(levelname)s in %(module)s: %(message)s\n'
-                '%(exc_info)s'
+        "error_verbose": {
+            "format": (
+                "[%(asctime)s] %(levelname)s in %(module)s: %(message)s\n"
+                "%(exc_info)s"
             ),
-            'datefmt': '%Y-%m-%d %H:%M:%S',
+            "datefmt": "%Y-%m-%d %H:%M:%S",
         },
     },
-    'handlers': {
-        'audit_file': {
-            'level': 'INFO',
+    "handlers": {
+        "audit_file": {
+            "level": "INFO",
             "class": "logging.handlers.TimedRotatingFileHandler",
             "when": "midnight",
             "filename": "/app/logs/logfile.log",
-            'formatter': 'audit_logfmt',
+            "formatter": "audit_logfmt",
             "backupCount": 31,
         },
-        'audit_console': {
-            'level': 'INFO',
-            'class': 'logging.StreamHandler',
-            'formatter': 'audit_logfmt',
+        "audit_console": {
+            "level": "INFO",
+            "class": "logging.StreamHandler",
+            "formatter": "audit_logfmt",
         },
-        'error_file': {
-            'level': 'ERROR',
+        "error_file": {
+            "level": "ERROR",
             "class": "logging.handlers.TimedRotatingFileHandler",
             "when": "midnight",
             "filename": "/app/logs/error.log",
-            'formatter': 'error_verbose',
+            "formatter": "error_verbose",
             "backupCount": 31,
         },
     },
-    'loggers': {
-        'audit': {
-            'handlers': ['audit_file', 'audit_console'],
-            'level': 'INFO',
-            'propagate': False,
+    "loggers": {
+        "audit": {
+            "handlers": ["audit_file", "audit_console"],
+            "level": "INFO",
+            "propagate": False,
         },
-        'error': {
-            'handlers': ['error_file'],
-            'level': 'ERROR',
-            'propagate': False,
+        "error": {
+            "handlers": ["error_file"],
+            "level": "ERROR",
+            "propagate": False,
         },
     },
 }

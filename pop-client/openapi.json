@@ -45363,46 +45363,6 @@
         ]
       }
     },
-    "/api/v1/others/default-clinical-center": {
-      "get": {
-        "operationId": "getDefaultClinicalCenter",
-        "summary": "Get Default Clinical Center",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "title": "Response",
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          },
-          "501": {
-            "description": "Not Implemented"
-          }
-        },
-        "tags": [
-          "Patient Cases"
-        ],
-        "security": [
-          {
-            "XSessionTokenAuth": []
-          }
-        ]
-      }
-    },
     "/api/v1/others/clinical-centers": {
       "get": {
         "operationId": "getClinicalCenters",

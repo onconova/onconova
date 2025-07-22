@@ -13,6 +13,7 @@ import { Fluid } from 'primeng/fluid';
 import { StepperModule } from 'primeng/stepper';
 import { InputTextModule } from 'primeng/inputtext';
 import { AutoCompleteModule } from 'primeng/autocomplete';
+import { environment } from 'src/environments/environment';
 
 import { AbstractFormBase } from '../abstract-form-base.component';
 import { 
@@ -60,7 +61,7 @@ export class PatientFormComponent extends AbstractFormBase {
   // Define the form
   public form = this.#fb.group({
     identification: this.#fb.nonNullable.group({
-      clinicalCenter: this.#fb.control<string | null>(null, Validators.required),
+      clinicalCenter: this.#fb.control<string | null>(environment.organizationName, Validators.required),
       clinicalIdentifier: this.#fb.control<string | null>(null, Validators.required),
     }),
     general: this.#fb.nonNullable.group({
@@ -79,10 +80,9 @@ export class PatientFormComponent extends AbstractFormBase {
   readonly #onInitialDataChangeEffect = effect((): void => {
     const data = this.initialData();
     if (!data) return;
-  
     this.form.patchValue({
       identification: {
-        clinicalCenter: data.clinicalCenter ?? null,
+        clinicalCenter: data.clinicalCenter ?? environment.organizationName,
         clinicalIdentifier: data.clinicalIdentifier ?? null,
       },
       general: {
@@ -112,17 +112,6 @@ export class PatientFormComponent extends AbstractFormBase {
       consentStatus: data.consent!.consentStatus!,
     };
   }
-  // Get the default clinical center through the API
-  public defaultClinicalCenter = rxResource({
-    request: () => ({}),
-    loader: ({request}) => this.#caseService.getDefaultClinicalCenter().pipe(map(center => {
-      const ClinicalCenterControl = this.form.get('identification')?.get('clinicalCenter');
-      if (ClinicalCenterControl) {
-        ClinicalCenterControl.setValue(center);
-        ClinicalCenterControl.updateValueAndValidity();
-      }
-    }))
-  })
   // Dynamically react to changes to the clinical center input query and search for matching centers
   public clinicalCenterQuery = signal<string>('');
   public clinicalCenters = rxResource({
