@@ -16,6 +16,7 @@ import { JDENTICON_CONFIG } from "ngx-jdenticon";
 import { provideNgxCountAnimations } from "ngx-count-animation";
 import { UnauthorizedInterceptor } from './core/auth/interceptors/unauthorized.interceptor';
 import { AppConfigService } from './app.config.service';
+import { environment } from 'src/environments/environment';
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -47,7 +48,7 @@ export const appConfig: ApplicationConfig = {
                 }
             }
         }),  
-        { provide: BASE_PATH, useValue: `${window.location.protocol}//${window.location.host}`},
+        { provide: BASE_PATH, useValue: environment.apiServerBasePath },
         { provide: JDENTICON_CONFIG, useValue: {
             hues: [0, 0],
             lightness: {

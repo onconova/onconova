@@ -52,7 +52,7 @@ Follow these steps to install and set up the Precision Oncology Platform (POP) o
     ```
 
     - Update the .env file with your configuration settings:
-        - Provide the paths to the host SSL certificates in `HOST_SSL_CERTIFICATE_BUNDLE` and `HOST_SSL_CERTIFICATE_PRIVATE_KEY`.
+        - Provide the paths to the host SSL certificates in `POP_REVERSE_PROXY_SSL_CERTIFICATE_BUNDLE` and `POP_REVERSE_PROXY_SSL_CERTIFICATE_PRIVATE_KEY`.
 
         - Set `COMPOSE_FILE=compose.prod.yml` for production environments.
 
@@ -61,7 +61,7 @@ Follow these steps to install and set up the Precision Oncology Platform (POP) o
     docker compose up
     ```
 
-5. **Access the Web App** - Navigate to `https://${WEBAPP_HOST}:${WEBAPP_HTTPS_PORT}/` in your browser to ensure the login page is rendered correctly.
+5. **Access the Web App** - Navigate to `https://${POP_REVERSE_PROXY_HOST}:${POP_REVERSE_PROXY_HTTPS_PORT}/` in your browser to ensure the login page is rendered correctly.
  
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -89,9 +89,9 @@ Follow these steps to install and set up the Precision Oncology Platform (POP) o
     ```bash
     docker compose run \
         -v /absolute/path/to/SnomedCT_International*.zip:/app/data/snomed.zip \
-        -e SNOMED_ZIPFILE_PATH='/app/data/snomed.zip' \
+        -e POP_SNOMED_ZIPFILE_PATH='/app/data/snomed.zip' \
         -v /absolute/path/to/Loinc_*.**.zip:/app/data/loinc.zip \
-        -e LOINC_ZIPFILE_PATH='/app/data/loinc.zip' \
+        -e POP_LOINC_ZIPFILE_PATH='/app/data/loinc.zip' \
         pop-server python manage.py termsynch
     ```
 

@@ -48,7 +48,7 @@ class TerminologyDigestor:
     """
 
     PATH: str = os.path.join(
-        settings.BASE_DIR, os.environ.get("EXTERNAL_DATA_DIR", "external_data")
+        settings.BASE_DIR, os.environ.get("POP_EXTERNAL_DATA_DIR", "external_data")
     )
     FILENAME: str
     CANONICAL_URL: str

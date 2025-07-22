@@ -38,29 +38,36 @@ In production environments (e.g., on a cloud server or container orchestration p
 
 The following variables control the different configurable aspects of the POP components.
 
-| Variable                          | Description |
-|:----------------------------------|:------------|
-| `COMPOSE_FILE`                    | Specifies which Docker Compose file to use (development or production). |
-| `HOST_SSL_CERTIFICATE_BUNDLE`     | Path to the SSL certificate bundle for the host. |
-| `HOST_SSL_CERTIFICATE_PRIVATE_KEY`| Path to the SSL private key for the host. |
-| `WEBAPP_HOST`                     | Domain or hostname where the POP web application will be served. |
-| `WEBAPP_HTTPS_PORT`               | External HTTPS port for POP web application connections. |
-| `WEBAPP_HTTP_PORT`                | External HTTP port for POP web application connections. |
-| `ORGANIZATION_NAME`               | Name of the organization or healthcare provider deploying POP. |
-| `ANONYMIZATION_SECRET_KEY`        | Secret key for anonymizing protected healthcare information (PHI). |
-| `DJANGO_SECRET_KEY`               | Secret key used by Django to cryptographically sign sensitive data. |
-| `DJANGO_ALLOWED_HOSTS`            | Comma-separated list of allowed hosts to serve the POP server. Typically matches `WEBAPP_HOST`. |
-| `EXTERNAL_DATA_DIR`               | Path within the server container for temporary files used by terminology connectors. |
-| `POSTGRES_DATABASE`               | Name of the PostgreSQL database for POP. |
-| `POSTGRES_USER`                   | PostgreSQL admin username for POP. |
-| `POSTGRES_PASSWORD`               | Password for the PostgreSQL database user. |
-| `POSTGRES_HOST`                   | Hostname of the PostgreSQL database server. |
-| `POSTGRES_PORT`                   | Exposed port of the PostgreSQL database server. |
-| `CLIENT_PLUGINS_PATH` *(optional)*  | Path to directory containing POP client plugins to install on service start. |
-| `POP_GOOGLE_CLIENT_ID` *(optional)* | Google OIDC client ID for SSO. |
-| `POP_GOOGLE_SECRET` *(optional)*    | Google OIDC secret for SSO. |
-| `POP_MICROSOFT_CLIENT_ID` *(optional)* | Microsoft OIDC client ID for SSO. |
-| `POP_MICROSOFT_TENANT_ID` *(optional)* | Microsoft OIDC client secret for SSO. |
-| `POP_MICROSOFT_SECRET` *(optional)* | Microsoft OIDC tenant ID for SSO. |
+| Variable                                         | Description |
+|:------------------------------------------------|:------------|
+| `COMPOSE_FILE`                                  | Specifies which Docker Compose file to use (`compose.dev.yml` or `compose.prod.yml`). |
+| `POP_HOSTING_ORGANIZATION`                      | Name of the organization or healthcare provider deploying POP. |
+| `POP_REVERSE_PROXY_HOST`                        | Hostname or IP address of the server hosting the POP reverse proxy. |
+| `POP_REVERSE_PROXY_HTTPS_PORT`                  | HTTPS port exposed by the POP reverse proxy. |
+| `POP_REVERSE_PROXY_HTTP_PORT`                   | HTTP port exposed by the POP reverse proxy. |
+| `POP_REVERSE_PROXY_SSL_CERTIFICATE_BUNDLE`      | Path to the SSL certificate bundle for the reverse proxy. |
+| `POP_REVERSE_PROXY_SSL_CERTIFICATE_PRIVATE_KEY` | Path to the SSL private key for the reverse proxy. |
+| `POP_SERVER_ADDRESS` *(optional)*               | Address (`host:port`) of the POP server. Defaults to the reverse proxy address if unset. |
+| `POP_SERVER_ANONYMIZATION_KEY`                  | Secret key for anonymizing protected healthcare information (PHI). |
+| `POP_SERVER_ENCRYPTION_KEY`                     | Secret key used by the server to cryptographically sign sensitive user data. |
+| `POP_SERVER_ALLOWED_HOSTS`                      | Comma-separated list of allowed `HOST` headers for incoming requests to the server. |
+| `POP_SERVER_CORS_ALLOWED_ORIGINS`               | Comma-separated list of allowed CORS origins (used for AJAX requests). |
+| `POP_CLIENT_WEBSERVER_ADDRESS` *(optional)*     | Address (`host:port`) of the POP client webserver. Defaults to the reverse proxy address if unset. |
+| `POP_CLIENT_PLUGINS_PATH` *(optional)*          | Path to the directory containing client-side plugin source code. |
+| `POP_DOCS_WEBSERVER_ADDRESS` *(optional)*       | Address (`host:port`) of the documentation server. Defaults to the reverse proxy address if unset. |
+| `POP_EXTERNAL_DATA_DIR`                         | Path to the directory containing external terminology data used by the POP system. |
+| `POP_LOINC_ZIPFILE_PATH`                        | Path to the LOINC terminology ZIP file used by the terminology connector. |
+| `POP_SNOMED_ZIPFILE_PATH`                       | Path to the SNOMED terminology ZIP file used by the terminology connector. |
+| `POP_GOOGLE_CLIENT_ID` *(optional)*             | Google OIDC client ID for Single Sign-On (SSO). |
+| `POP_GOOGLE_SECRET` *(optional)*                | Google OIDC secret key for Single Sign-On (SSO). |
+| `POP_MICROSOFT_CLIENT_ID` *(optional)*          | Microsoft OIDC client ID for Single Sign-On (SSO). |
+| `POP_MICROSOFT_TENANT_ID` *(optional)*          | Microsoft OIDC tenant ID for Single Sign-On (SSO). |
+| `POP_MICROSOFT_SECRET` *(optional)*             | Microsoft OIDC secret key for Single Sign-On (SSO). |
+| `POP_POSTGRES_DATABASE`                             | Name of the PostgreSQL database used by POP. |
+| `POP_POSTGRES_USER`                                 | Username for the PostgreSQL database user. |
+| `POP_POSTGRES_PASSWORD`                             | Password for the PostgreSQL database user. |
+| `POP_POSTGRES_HOST`                                 | Hostname or container name of the PostgreSQL server. |
+| `POP_POSTGRES_PORT`                                 | Port exposed by the PostgreSQL server. |
+
 
 Be sure to update environment variable values according to your deployment infrastructure and security requirements before starting the application.

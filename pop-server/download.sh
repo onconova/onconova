@@ -32,7 +32,7 @@ if [ -n "$https_proxy" ]; then
 fi
 
 TERMINOLOGY=$1
-DATA_DIR=$EXTERNAL_DATA_DIR
+DATA_DIR=$POP_EXTERNAL_DATA_DIR
 
 mkdir -p $DATA_DIR
 
@@ -245,11 +245,11 @@ process_loinc() {
 	echo ""
 	echo "Processing LOINC files"
 	echo "-----------------------------------"
-  if [ ! -f $LOINC_ZIPFILE_PATH ]; then
-      echo -e "ERROR FILE NOT FOUND:\nPlease download the LOINC_*.zip file from (requires a LOINC login):\n\n\thttps://loinc.org/download/loinc-complete/ \n\nand specify the location of the zip file with the LOINC_ZIPFILE_PATH variable.\n"
+  if [ ! -f $POP_LOINC_ZIPFILE_PATH ]; then
+      echo -e "ERROR FILE NOT FOUND:\nPlease download the LOINC_*.zip file from (requires a LOINC login):\n\n\thttps://loinc.org/download/loinc-complete/ \n\nand specify the location of the zip file with the POP_LOINC_ZIPFILE_PATH variable.\n"
       exit 1
   fi  
-  unzip $LOINC_ZIPFILE_PATH -d $TEMP_DIR 
+  unzip $POP_LOINC_ZIPFILE_PATH -d $TEMP_DIR 
   mv $TEMP_DIR/AccessoryFiles/LinguisticVariants/deDE15LinguisticVariant.csv $DATA_DIR/loinc_deDE15.csv
   mv $TEMP_DIR/AccessoryFiles/LinguisticVariants/frFR18LinguisticVariant.csv $DATA_DIR/loinc_frFR18.csv
   mv $TEMP_DIR/AccessoryFiles/LinguisticVariants/itIT16LinguisticVariant.csv $DATA_DIR/loinc_itIT16.csv
@@ -269,12 +269,12 @@ process_snomedct() {
 	echo ""
 	echo "Processing SNOMED-CT files"
 	echo "-----------------------------------"
-  if [ ! -f $SNOMED_ZIPFILE_PATH ]; then
-      echo -e "ERROR FILE NOT FOUND:\nPlease download the SNOMEDCT_International_*.zip file from (requires a LOINC login):\n\n\thttps://mlds.ihtsdotools.org/#/viewReleases/viewRelease/167 \n\nand specify the location of the zip file with the SNOMED_ZIPFILE_PATH variable.\n"
+  if [ ! -f $POP_SNOMED_ZIPFILE_PATH ]; then
+      echo -e "ERROR FILE NOT FOUND:\nPlease download the SNOMEDCT_International_*.zip file from (requires a LOINC login):\n\n\thttps://mlds.ihtsdotools.org/#/viewReleases/viewRelease/167 \n\nand specify the location of the zip file with the POP_SNOMED_ZIPFILE_PATH variable.\n"
       exit 1
   fi  
   mkdir $TEMP_DIR
-  unzip $SNOMED_ZIPFILE_PATH -d $DATA_DIR
+  unzip $POP_SNOMED_ZIPFILE_PATH -d $DATA_DIR
   mv $DATA_DIR/SnomedCT_*/* $TEMP_DIR
   mv $TEMP_DIR/Snapshot/Terminology/sct2_Description_Snapshot-en_INT_* $DATA_DIR/snomedct.tsv 
   mv $TEMP_DIR/Snapshot/Terminology/sct2_Relationship_Snapshot_INT_* $DATA_DIR/snomedct_relations.tsv
