@@ -1,1 +1,3 @@
-coreConfig = {};
+coreConfig = {
+    organizationName: '${ORGANIZATION_NAME}'
+};

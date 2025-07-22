@@ -28,19 +28,13 @@
             ],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
+            "scripts": [
+              "src/environments/env.js",
+              "src/plugins/plugins.env.js"
+            ],
             "assets": [
               "src/favicon.ico",
-              "src/assets",
-              {
-                "glob": "env.js",
-                "input": "app/src/environments/",
-                "output": "src/assets/"
-              },
-              {
-                "glob": "plugins.env.js",
-                "input": "app/src/plugins/",
-                "output": "src/assets/"
-              }
+              "src/assets"
             ],
             "styles": [
               "src/styles.scss",

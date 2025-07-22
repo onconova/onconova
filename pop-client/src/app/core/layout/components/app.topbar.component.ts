@@ -11,7 +11,6 @@ import { GetFullNamePipe } from 'src/app/shared/pipes/full-name.pipe';
 import { GetNameAcronymPipe } from 'src/app/shared/pipes/name-acronym.pipe';
 
 import { InlineSVGModule } from 'ng-inline-svg-2';
-
 import { Avatar } from 'primeng/avatar';
 import { Menu } from 'primeng/menu';
 import { Button } from 'primeng/button';
@@ -46,7 +45,7 @@ import { Divider } from 'primeng/divider';
                         Precision Oncology Platform
                     </div>
                     <div class="layout-topbar-version">
-                        Release {{version}}{{ isProduction ? '' : '-development' }}
+                        {{ organizationName }}
                     </div>
                 </div>
             </a>
@@ -116,6 +115,7 @@ export class AppTopBarComponent {
         
     // Other component properties
     public readonly logo = this.#layoutService.logo;
+    public readonly organizationName = environment.organizationName;
     public readonly darkMode = this.#layoutService.config.darkMode;
     public readonly isProduction: boolean = environment.production;
     public readonly isSidebarVisible = computed(() => this.#layoutService.isProfileSidebarVisible);
