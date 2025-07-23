@@ -1,6 +1,6 @@
 name: pop
 services:
-    pop-server:
+    server:
         container_name: "${COMPOSE_PROJECT_NAME}-server"
         restart: unless-stopped
         build:
@@ -11,25 +11,22 @@ services:
             - 8000
         volumes:
             - ./pop-server:/app/src
-            - pop_static_volume:/app/static
-            - pop_media_volume:/app/media
-            - pop_logs_volume:/app/logs
         env_file: .env
         depends_on:
-            - pop-postgres
+            - database
 
-    pop-client:
+    client:
         container_name: "${COMPOSE_PROJECT_NAME}-client"
         restart: unless-stopped
         env_file: .env
         build:
             context: pop-client
             additional_contexts: 
-                - plugins=${CLIENT_PLUGINS_PATH:-./pop-client/src/plugins}
+                - plugins=${POP_CLIENT_PLUGINS_PATH:-./pop-client/src/plugins}
             dockerfile: Dockerfile
             target: production
 
-    pop-docs:
+    docs:
         container_name: "${COMPOSE_PROJECT_NAME}-docs"
         restart: unless-stopped
         build:
@@ -37,17 +34,14 @@ services:
             dockerfile: Dockerfile
             target: production     
 
-    pop-nginx:
+    reverse-proxy:
         image: nginx:1.23        
         container_name: "${COMPOSE_PROJECT_NAME}-nginx"
         restart: unless-stopped
         volumes:
             - ./nginx.conf:/etc/nginx/conf.d/default.conf
             - ${POP_REVERSE_PROXY_SSL_CERTIFICATE_BUNDLE}:/etc/nginx/ssl/cert_host.pem
-            - ${POP_REVERSE_PROXY_SSL_CERTIFICATE_PRIVATE_KEY}:/etc/nginx/ssl/cert_host.key      
-            - pop_static_volume:/app/static
-            - pop_media_volume:/app/media
-            - pop_logs_volume:/app/logs
+            - ${POP_REVERSE_PROXY_SSL_CERTIFICATE_PRIVATE_KEY}:/etc/nginx/ssl/cert_host.key 
         expose:
             - 80
             - 443
@@ -56,17 +50,17 @@ services:
             - "${POP_REVERSE_PROXY_HTTP_PORT:-80}:80"
         env_file: .env
         depends_on:
-            - pop-postgres
-            - pop-server
-            - pop-client
-            - pop-docs
+            - database
+            - server
+            - client
+            - docs
 
-    pop-postgres:
+    database:
         image: postgres:13-alpine
         container_name: "${COMPOSE_PROJECT_NAME}-postgres"
         restart: unless-stopped
         volumes:
-            - pop_postgres_volume:/var/lib/postgresql/data/
+            - postgresql-data:/var/lib/postgresql/data/
         env_file: .env
         environment:
             - POSTGRES_DB=${POP_POSTGRES_DATABASE}
@@ -80,9 +74,5 @@ services:
         command: 
             - -p ${POP_POSTGRES_PORT}      
 
-
 volumes:
-    pop_postgres_volume:
-    pop_media_volume:
-    pop_static_volume:
-    pop_logs_volume:
+    postgresql-data:

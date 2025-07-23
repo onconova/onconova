@@ -2,6 +2,8 @@ import hashlib
 import inspect
 import math
 import re
+import os
+import errno
 from datetime import datetime
 from enum import Enum
 from typing import Any, Literal, Optional, Union, get_args, get_origin
@@ -426,3 +428,15 @@ def std(data, ddof=0):
     mean = sum(data) / n
     variance = sum((x - mean) ** 2 for x in data) / (n - ddof)
     return math.sqrt(variance)
+
+def mkdir_p(path):
+    """http://stackoverflow.com/a/600612/190597 (tzot)"""
+    try:
+        os.makedirs(path, exist_ok=True)  # Python>3.2
+    except TypeError:
+        try:
+            os.makedirs(path)
+        except OSError as exc: # Python >2.5
+            if exc.errno == errno.EEXIST and os.path.isdir(path):
+                pass
+            else: raise
