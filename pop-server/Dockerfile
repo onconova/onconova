@@ -89,6 +89,10 @@ WORKDIR /app/src
 # Copy only necessary source files
 COPY . .
 
+# Set permissions and use non-root user
+RUN adduser appuser && chown -R appuser /app
+USER appuser
+
 # Start the devlopment live-server
 EXPOSE 8000
 CMD ["python", "manage.py",  "runserver_plus", "0.0.0.0:8000"]
@@ -108,6 +112,10 @@ COPY --from=builder-base $VIRTUAL_ENV $VIRTUAL_ENV
 # Copy only necessary source files
 WORKDIR /app/src
 COPY . .
+
+# Set permissions and use non-root user
+RUN adduser appuser && chown -R appuser /app
+USER appuser
 
 # Start the production-ready Gunicon webserver
 EXPOSE 8000

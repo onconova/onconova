@@ -42,6 +42,10 @@ RUN npm run generate:api:client java
 
 RUN npm cache clean --force
 
+# Create a non-root user and switch to it
+RUN useradd -m appuser && chown -R appuser /app
+USER appuser
+
 RUN chmod +x /app/entrypoint.sh
 
 ########################################
@@ -66,9 +70,16 @@ RUN ng build --output-path dist/client --configuration production
 # Nginx for serving built app files
 ########################################
 FROM nginx:1.23.3-alpine AS production
+
+# Prepare the Nginx webserver files
 COPY --from=builder /app/dist/client /usr/share/nginx/html
 COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 COPY ./entrypoint.sh /app/entrypoint.sh
+
+# Set permissions and use non-root user
+RUN adduser -D appuser && chown -R appuser /usr/share/nginx/html /app
+USER appuser
+
 RUN chmod +x /app/entrypoint.sh
 ENTRYPOINT ["/bin/sh", "/app/entrypoint.sh", "--files", "/usr/share/nginx/html/assets/env.js", "--files", "/usr/share/nginx/html/assets/plugins.env.js"]
 CMD ["nginx", "-g", "daemon off;"]
