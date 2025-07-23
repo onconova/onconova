@@ -8,7 +8,6 @@ from django.utils.deprecation import MiddlewareMixin
 from ninja_extra.logger import request_logger
 
 SENSITIVE_KEYS = ["password", "token", "secret", "access_token", "identity_token"]
-
 audit_logger = logging.getLogger("audit")
 
 
@@ -27,6 +26,7 @@ class AuditLogMiddleware:
             int(user.access_level) if user and user.is_authenticated else -1
         )
         username = str(user.username) if user and user.is_authenticated else "anonymous"
+        endpoint = request.get_full_path()
         audit_logger.info(
             "",
             extra={
@@ -36,11 +36,11 @@ class AuditLogMiddleware:
                 "ip": self.get_client_ip(request),
                 "method": request.method,
                 "duration": processing_time,
-                "path": request.get_full_path(),
+                "path": endpoint,
                 "status_code": response.status_code,
                 "user_agent": request.META.get("HTTP_USER_AGENT", "")[:100],
-                "request_data": self.compress_b64(self.get_request_data(request)),
-                "response_data": self.compress_b64(self.get_response_data(response)),
+                "request_data": self.compress_b64(self.get_request_data(request)) if 'openapi.json' not in endpoint else '[openapi.json]',
+                "response_data": self.compress_b64(self.get_response_data(response)) if 'openapi.json' not in endpoint else '[openapi.json]',
             },
         )
         return response
