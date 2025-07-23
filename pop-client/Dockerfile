@@ -27,8 +27,8 @@ RUN update-ca-certificates
 # Install Debian packages
 RUN apt-get update && apt-get install -y \
     # Dependencies for headless Chromium browser
-    libxkbcommon-x11-0=1.0.* \ 
-    libgbm-dev=20.3.* \ 
+    libxkbcommon-x11-0 \ 
+    libgbm-dev \ 
     # Dependencies for entrypoint.sh
     gettext=0.21-* \
     # Dependencies for OpenAPI Generator 

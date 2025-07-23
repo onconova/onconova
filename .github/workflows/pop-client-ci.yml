@@ -43,5 +43,5 @@ jobs:
       - name: Build client service
         run: docker compose build client
 
-      - name: Run tests with pytest
+      - name: Run tests with Karma
         run: docker compose run --rm client npm run test:ci
