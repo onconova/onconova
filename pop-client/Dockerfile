@@ -36,9 +36,6 @@ RUN npm run generate:api:client java
 # Copy all source files
 COPY . ./
 
-# Copy the plugins source files if exist
-COPY --from=plugins . /app/src/plugins/
-
 # Clean up local files
 RUN  apt-get clean && rm -rf /var/lib/apt/lists/* && npm cache clean --force
 
@@ -71,6 +68,10 @@ CMD ["ng", "serve", "--host", "0.0.0.0", "--port", "80", "--disable-host-check",
 # Build the production-ready application
 ########################################
 FROM angular-base AS builder
+
+# Copy the plugins source files if exist
+COPY --from=plugins . /app/src/plugins/
+
 # Creating angular build
 RUN ng build --output-path dist/client --configuration production
 
