@@ -1,6 +1,14 @@
-# Node
-node_modules/
-npm-debug.log
+
+# Build folders
+node_modules
+generated
+build
+dist
+typings
+tsd_typings
+coverage
+__build__
+__server_build__
 
 # Git
 .git
