@@ -1,6 +1,7 @@
 import os
 import socket
 import tomllib
+from pop.core.utils import mkdir_p
 from pathlib import Path
 
 import pghistory
@@ -293,10 +294,12 @@ USE_TZ = False  # Do not make datetimes timezone-aware by default
 # LOGGING
 # ----------------------------------------------------------------
 
+# Ensure logs directory exists
+mkdir_p('/app/logs')
 # Logger settings
 LOGGING = {
     "version": 1,
-    "disable_existing_loggers": False,
+    "disable_existing_loggers": True,
     "formatters": {
         "audit_logfmt": {
             "format": (
