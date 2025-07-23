@@ -126,7 +126,7 @@ Use a plugin when you need to:
 
         ```bash
         CLIENT_PLUGINS_PATH=./myplugins
-        docker compose up pop-client
+        docker compose up client
         ```
     
         This command starts the POP client container, instructing it to look for plugin components and route definitions in the `./myplugins` directory.
@@ -140,7 +140,7 @@ Use a plugin when you need to:
 
         ```bash
         CLIENT_PLUGINS_PATH=./myplugins
-        docker compose up --build pop-client
+        docker compose up --build client
         ```
     
         This command will first build the the POP client container including the plugins, instructing it to look for plugin components and route definitions in the `./myplugins` directory.

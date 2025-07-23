@@ -122,11 +122,11 @@ Follow these steps to install and set up POP from its source code.
     >>> docker compose ps
 
     CONTAINER ID   IMAGE                COMMAND                  NAMES
-    ************   nginx:1.23           "/docker-entrypoint.…"   pop-nginx
+    ************   nginx:1.23           "/docker-entrypoint.…"   pop-reverse-proxy
     ************   pop-client           "docker-entrypoint.s…"   pop-client
     ************   pop-server           "python manage.py ru…"   pop-server
     ************   pop-docs             "mkdocs serve -a 0.0…"   pop-docs
-    ************   postgres:13-alpine   "docker-entrypoint.s…"   pop-postgres
+    ************   postgres:13-alpine   "docker-entrypoint.s…"   pop-database
     ```
 
 
@@ -155,7 +155,7 @@ Before using POP, the database must be configured and populated with required cl
     Run the following command to apply the database migrations and ensure all tables are set up:
 
     ```bash
-    docker compose run pop-server python manage.py migrate
+    docker compose run server python manage.py migrate
     ```
 
     See the [Database Migrations Guide](../guide/database/migrations.md) for details.
@@ -165,7 +165,7 @@ Before using POP, the database must be configured and populated with required cl
     Create a technical superuser for platform administration:
 
     ```bash
-    docker compose run pop-server python manage.py createsuperuser --username admin
+    docker compose run server python manage.py createsuperuser --username admin
     ```
 
 3. **Populate the Terminology Tables**
@@ -197,7 +197,7 @@ Before using POP, the database must be configured and populated with required cl
                 -e POP_SNOMED_ZIPFILE_PATH='/app/data/snomed.zip' \
                 -v /absolute/path/to/Loinc_*.**.zip:/app/data/loinc.zip \
                 -e POP_LOINC_ZIPFILE_PATH='/app/data/loinc.zip' \
-                pop-server python manage.py termsynch
+                server python manage.py termsynch
             ```
 
         === "With proxy and/or root certificates"
@@ -211,7 +211,7 @@ Before using POP, the database must be configured and populated with required cl
                 -e http_proxy='http://<username>:<password>@<hostname>:<port>' \
                 -e https_proxy='http://<username>:<password>@<hostname>:<port>' \
                 -e ROOT_CA_CERTIFICATES='./etc/certs/root-ca-certificates.pem' \
-                pop-server python manage.py termsynch
+                server python manage.py termsynch
             ```
 
         **Notes:**
@@ -250,7 +250,7 @@ After completing these steps and successfully installing POP you can run the fol
 
     After setting up and populating terminologies:
     ```bash
-    docker compose exec pop-db pg_dump -U <db_user> <db_name> > initial_pop_backup.sql
+    docker compose exec database pg_dump -U <db_user> <db_name> > initial_pop_backup.sql
     ```
     Store this backup in a secure location to quickly restore a clean state if needed.
 

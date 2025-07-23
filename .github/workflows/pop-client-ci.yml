@@ -29,7 +29,7 @@ jobs:
           ENV_POP_POSTGRES_PORT: 5435
           ENV_POP_POSTGRES_USER: 'postgres'
           ENV_POP_POSTGRES_PASSWORD: 'postgres_secret'
-          ENV_POP_POSTGRES_HOST: 'pop-postgres'
+          ENV_POP_POSTGRES_HOST: 'database'
           ENV_POP_SERVER_ANONYMIZATION_KEY: 'anonymization_secret_key'
           ENV_POP_SERVER_ALLOWED_HOSTS: 'localhost'
           ENV_POP_SERVER_CORS_ALLOWED_ORIGINS: 'https://localhost'
@@ -40,8 +40,8 @@ jobs:
           ENV_POP_CLIENT_PLUGINS_PATH: './pop-client/src/plugins'
           
 
-      - name: Build pop-client service
-        run: docker compose build pop-client
+      - name: Build client service
+        run: docker compose build client
 
       - name: Run tests with pytest
-        run: docker compose run --rm pop-client npm run test:ci
+        run: docker compose run --rm client npm run test:ci

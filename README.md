@@ -69,12 +69,12 @@ Follow these steps to install and set up the Precision Oncology Platform (POP) o
 
 1. **Apply migrations** - Run the following command to apply the database migrations and ensure all tables are set up:
     ```bash
-    docker compose run pop-server python manage.py migrate
+    docker compose run server python manage.py migrate
     ```
 
 2. **Create a Superuser Account** - Create a superuser to start administrating the server and client applications:
     ```bash
-    docker compose run pop-server python manage.py createsuperuser --username admin
+    docker compose run server python manage.py createsuperuser --username admin
     ```
 
 3. **Import the terminologies**. 
@@ -92,7 +92,7 @@ Follow these steps to install and set up the Precision Oncology Platform (POP) o
         -e POP_SNOMED_ZIPFILE_PATH='/app/data/snomed.zip' \
         -v /absolute/path/to/Loinc_*.**.zip:/app/data/loinc.zip \
         -e POP_LOINC_ZIPFILE_PATH='/app/data/loinc.zip' \
-        pop-server python manage.py termsynch
+        server python manage.py termsynch
     ```
 
     *Note:* If your machine is behind a corporate proxy and/or with root CA certificates add the following arguments to the command:
@@ -105,7 +105,7 @@ Follow these steps to install and set up the Precision Oncology Platform (POP) o
         -e http_proxy='http://<username>:<password>@<hostname>:<port>' \
         -e https_proxy='http://<username>:<password>@<hostname>:<port>' \
         -e ROOT_CA_CERTIFICATES='./etc/certs/root_ca_certificates.pem' \
-        pop-server python manage.py termsynch
+        server python manage.py termsynch
     ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

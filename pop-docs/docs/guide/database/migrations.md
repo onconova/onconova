@@ -40,7 +40,7 @@ Migrations ensure that:
 When updating POP to a newer version or after developing new features, the POP database might be out-of-date with the migrations. 
 To apply pending migrations and synchronize the database schema with the latest migration files:
 ```bash
-docker compose run pop-server python manage.py migrate
+docker compose run server python manage.py migrate
 ```
 
 This will:
@@ -55,17 +55,17 @@ This will:
 
 To see which migrations have been applied and which are pending:
 ```bash
-docker compose run pop-server python manage.py showmigrations
+docker compose run server python manage.py showmigrations
 ```
 
 ## For developers
 
 ### Creating New Migrations
 
-Whenever you change a model in the `pop-server` application (e.g., add a new field, remove a column, or create a new model), you must generate a new migration file.
+Whenever you change a model in the `server` application (e.g., add a new field, remove a column, or create a new model), you must generate a new migration file.
 
 ```bash
-docker compose run pop-server python manage.py makemigrations
+docker compose run server python manage.py makemigrations
 ```
 This will:
 
