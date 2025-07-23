@@ -40,7 +40,7 @@ RUN python -m venv $VIRTUAL_ENV
 
 # Install pstcopg2 Linux dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
-	libpq-dev \
+	libpq-dev=15.* \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Setup work directory
@@ -55,10 +55,10 @@ FROM python-base AS builder-base
 
 # Install essential Linux dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
-	gcc \
-	python3-dev \
-	iputils-ping \
-	curl \
+	gcc=4:12.2.* \
+	python3-dev=3.11.* \
+	iputils-ping=3:* \
+	curl=7.88.* \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install Poetry

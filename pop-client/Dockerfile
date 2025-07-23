@@ -24,14 +24,18 @@ COPY ${ROOT_CA_CERTIFICATES} /usr/local/share/ca-certificates/corporate-ca.crt
 # Update the system's CA certificates bundle
 RUN update-ca-certificates
 
-# Install dependencies for headless Chromium browser
-RUN apt-get update && apt-get install -y libxkbcommon-x11-0 libgbm-dev && apt-get clean
-
-# Install dependencies for headless Chromium browser
-RUN apt-get update && apt-get install -y gettext && apt-get clean
-
-# Install Java for running OpenAPI Generator
-RUN apt-get update && apt-get install -y default-jre curl && apt-get clean
+# Install Debian packages
+RUN apt-get update && apt-get install -y \
+    # Dependencies for headless Chromium browser
+    libxkbcommon-x11-0=1.0.* \ 
+    libgbm-dev=20.3.* \ 
+    # Dependencies for entrypoint.sh
+    gettext=0.21-* \
+    # Dependencies for OpenAPI Generator 
+    default-jre=2:1.* \
+    curl=7.74.* \
+    # Clean up local files
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Generate the POP API client package
 RUN npm run generate:api:client java
