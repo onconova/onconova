@@ -125,7 +125,7 @@ export class ComorbiditiesAssessmentFormComponent extends AbstractFormBase {
 
   // Resource to load related neoplastic entities for a case
   public relatedEntities = rxResource({
-    request: () => ({caseId: this.caseId(), limit: 100}),
+    request: () => ({caseId: this.caseId()}),
     loader: ({request}) => this.#neoplasticEntitiesService.getNeoplasticEntities(request).pipe(map(data => data.items)),
   }); 
   

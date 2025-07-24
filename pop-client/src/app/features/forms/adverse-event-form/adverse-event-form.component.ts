@@ -228,7 +228,7 @@ export class AdverseEventFormComponent extends AbstractFormBase {
     
     // All potiential suspected causes of the adverse event
     public relatedSuspectedCauses = rxResource({
-        request: () => ({caseId: this.caseId(), limit: 100}),
+        request: () => ({caseId: this.caseId()}),
         loader: ({request}) => forkJoin([
             this.#systemicTherapiesService.getSystemicTherapies(request).pipe(map((response) => response.items)),
             this.#systemicTherapiesService.getSystemicTherapies(request).pipe(map((response) => response.items.flatMap(therapy => {

@@ -2,7 +2,7 @@
     <form  [formGroup]="form" (ngSubmit)="submitFormData()">
 
         <div class="field">
-            <label for="date" class="form-label">Date</label>
+            <label for="date" class="form-label required">Date</label>
             <pop-datepicker 
                 formControlName="date"
             />
