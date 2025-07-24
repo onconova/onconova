@@ -140,12 +140,9 @@ class SchemaFactory(NinjaSchemaFactory):
                 continue
             if field_name in [
                 "description",
-                "createdAt",
                 "createdBy",
                 "updatedBy",
-                "updatedAt",
                 "externalSourceId",
-                "externalSource",
                 "anonymized",
             ]:
                 continue

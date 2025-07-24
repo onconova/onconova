@@ -322,12 +322,9 @@ def get_schema_field_filters(field_name: str, field: FieldInfo):
         for subfield_name, subfield in annotation.model_fields.items():
             if subfield_name in [
                 "description",
-                "createdAt",
                 "createdBy",
                 "updatedBy",
-                "updatedAt",
                 "externalSourceId",
-                "externalSource",
             ]:
                 continue
             subfield_filters.extend(
