@@ -1,4 +1,3 @@
-
 <div class="flex">
     <div>
         <h6 class="mb-0">Data Hub</h6>
@@ -17,7 +16,6 @@
             }
         </div>
     </div>    
-    
     <p-button
         icon="pi pi-question-circle"
         label="Tutorial" 
@@ -35,78 +33,78 @@
                 <div class="flex flex-wrap row-gap-3 gap-2 align-items-center">
                     <p-iconfield class="">
                         <p-inputicon styleClass="pi pi-search"/>
-                        <input type="text" pInputText placeholder="Search by ID" [(ngModel)]="searchQuery"/>
+                        <input type="text" pInputText placeholder="Search by ID" [(ngModel)]="queryParams.idSearch"/>
                     </p-iconfield>
-                    <pop-popover-filter-button [(ngModel)]="selectedAgeRange" label="Age" [selectionLabelFcn]="showAgeRangeFilter">
-                        <ng-template #popoverContent let-filter="formControl">
+                    <pop-popover-filter-button [value]="queryParams.age" label="Age" [selectionLabelFcn]="showAgeRangeFilter">
+                        <ng-template #popoverContent let-internalValue>
                             <div class="p-2">
                                 <div class="text-muted mb-3">Select an age range:</div>
                                 <p-slider [range]="true" [min]="0" [max]="100" [step]="5" styleClass="w-20rem"
-                                    [ngModel]="filter?.value"
-                                    (ngModelChange)="filter?.setValue($event)"/>
+                                    [(ngModel)]="queryParams.age" (ngModelChange)="internalValue.set($event)"/>
                             </div>
                         </ng-template>
                     </pop-popover-filter-button>
 
-                    <pop-popover-filter-button [(ngModel)]="selectedDataCompletionRange" label="Data Completion" [selectionLabelFcn]="showDataCompletionFilter">
-                        <ng-template #popoverContent let-filter="formControl">
+                    <pop-popover-filter-button [value]="queryParams.dataCompletion" label="Data Completion" [selectionLabelFcn]="showDataCompletionFilter">
+                        <ng-template #popoverContent let-internalValue>
                             <div class="p-2">
                                 <div class="text-muted mb-3">Select an completion percentage range:</div>
                                 <p-slider [range]="true" [min]="0" [max]="100" [step]="5" styleClass="w-20rem"
-                                    [ngModel]="filter?.value"
-                                    (ngModelChange)="filter?.setValue($event)"/>
+                                    [(ngModel)]="queryParams.dataCompletion" (ngModelChange)="internalValue.set($event)"/>
                             </div>
                         </ng-template>
                     </pop-popover-filter-button>
 
-                    <pop-popover-filter-button [(ngModel)]="selectedPrimarySite" label="Primary site" [selectionLabelFcn]="showSelectedCodedFilter">
-                        <ng-template #popoverContent let-filter="formControl">
+                    <pop-popover-filter-button [value]="queryParams.primarySite" label="Primary site" [selectionLabelFcn]="showSelectedCodedFilter">
+                        <ng-template #popoverContent let-internalValue>
                             <div class="p-2">
                                 <div class="text-muted mb-3">Select a primary site:</div>
                                 <pop-concept-selector
                                     terminology="CancerTopographyGroup"
-                                    [ngModel]="filter?.value"
-                                    (ngModelChange)="filter?.setValue($event)"/>
+                                    [(ngModel)]="queryParams.primarySite"
+                                    [returnCode]="true"
+                                    (selected)="internalValue.set($event)"/>
                             </div>
                         </ng-template>
                     </pop-popover-filter-button>
 
                     
-                    <pop-popover-filter-button [(ngModel)]="selectedMorphology" label="Morphology" [selectionLabelFcn]="showSelectedCodedFilter">
-                        <ng-template #popoverContent let-filter="formControl">
+                    <pop-popover-filter-button [value]="queryParams.morphology" label="Morphology" [selectionLabelFcn]="showSelectedCodedFilter">
+                        <ng-template #popoverContent let-internalValue>
                             <div class="p-2">
-                                <div class="text-muted mb-3">Select a primary site:</div>
+                                <div class="text-muted mb-3">Select a primary morphology:</div>
                                 <pop-concept-selector
                                     terminology="CancerMorphologyPrimary"
-                                    [ngModel]="filter?.value"
-                                    (ngModelChange)="filter?.setValue($event)"/>
+                                    [(ngModel)]="queryParams.morphology"
+                                    [returnCode]="true"
+                                    (selected)="internalValue.set($event)"/>
                             </div>
                         </ng-template>
                     </pop-popover-filter-button>
 
-                    <pop-popover-filter-button [(ngModel)]="selectedGender" label="Gender" [selectionLabelFcn]="showSelectedCodedFilter">
-                        <ng-template #popoverContent let-filter="formControl">
+                    <pop-popover-filter-button [value]="queryParams.gender" label="Gender" [selectionLabelFcn]="showSelectedCodedFilter">
+                        <ng-template #popoverContent let-internalValue>
                             <div class="p-2">
                                 <div class="text-muted mb-3">Select a gender:</div>
                                 <pop-concept-selector
                                     terminology="AdministrativeGender"
-                                    [ngModel]="filter?.value"
-                                    (ngModelChange)="filter?.setValue($event)"/>
+                                    [(ngModel)]="queryParams.gender"
+                                    [returnCode]="true"
+                                    (selected)="internalValue.set($event)"/>
                             </div>
                         </ng-template>
                     </pop-popover-filter-button>
 
-                    <pop-popover-filter-button [(ngModel)]="selectedVitalStatus" label="Vital status" [selectionLabelFcn]="showSelectedChoiceFilter">
-                        <ng-template #popoverContent let-filter="formControl">
+                    <pop-popover-filter-button [value]="queryParams.deceased" label="Vital status" [selectionLabelFcn]="showSelectedVitalStatusFilter">
+                        <ng-template #popoverContent let-internalValue>
                             <div class="p-2">
                                 <div class="text-muted mb-3">Select a vital status:</div>
                                 <p-selectbutton 
-                                    [options]="vitalStatusChoices" optionLabel="label" aria-labelledby="basic"
-                                    [ngModel]="filter?.value"
-                                    (ngModelChange)="filter?.setValue($event)"/>
+                                    [options]="vitalStatusChoices" optionLabel="label" optionValue="value" 
+                                    [(ngModel)]="queryParams.deceased" (ngModelChange)="internalValue.set($event)"/>
                             </div>
                         </ng-template>
-                    </pop-popover-filter-button>
+                    </pop-popover-filter-button> 
                 </div>
             </div>
     </ng-template>
@@ -148,14 +146,13 @@
         </div>        
         <div class="case-search-sorting flex flex align-items-center text-muted ml-4">
             <span class="text-muted mr-2">Sort by </span>
-            <p-select [(ngModel)]="orderingField" [options]="orderingFields" size="small" optionLabel="label" optionValue="value"></p-select>
-            <p-select [(ngModel)]="orderingDirection" [options]="orederingDirections" size="small" optionLabel="label" optionValue="value"></p-select>
+            <p-select [(ngModel)]="queryParams.sort" [options]="orderingOptions" size="small" optionLabel="label" optionValue="value" styleClass="w-15rem"></p-select>
         </div>
     </ng-template>
     
     <ng-template #end>
         <div class="layout-buttons">
-            <p-selectbutton [(ngModel)]="layout" [options]="['list', 'grid']" [allowEmpty]="false">
+            <p-selectbutton [(ngModel)]="queryParams.layout" [options]="['list', 'grid']" [allowEmpty]="false">
                 <ng-template #item let-item>
                     <i class="pi " [ngClass]="{ 'pi-bars': item === 'list', 'pi-table': item === 'grid' }"></i>
                 </ng-template>
@@ -165,55 +162,16 @@
 </p-toolbar>
 
 
-<p-dataView
-    styleClass="pop-case-search-dataview"
-    [value]="cases.value() || [1,2,3]"
-    [paginator]="true" 
-    [rows]="pagination().limit" 
-    [layout]="layout()"
-    sortField="createdAt"
-    lazy="true"
-    [rowsPerPageOptions]="pageSizeChoices"
-    [totalRecords]="totalCases()"
-    (onLazyLoad)="pagination.set({limit: $event.rows, offset: $event.first})"
-    class="no-background">
-
-    <ng-template #list let-data>
-        <p-table [value]="data" styleClass="mt-3">
-            <ng-template pTemplate="header">
-                <tr>
-                    <th>Case</th>
-                    <th class="text-center">Diagnosis</th>
-                    <th class="text-center">Contributors</th>
-                    <th class="text-center">Created</th>
-                    <th class="text-center">Last Updated</th>
-                    <th class="text-center">Completion</th>
-                    <th class="text-center">Consent</th>
-                    <th></th>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-case>
-                <tr pop-case-search-item 
-                    @fadeAnimation
-                    layout="row"
-                    [case]="case"
-                    (onDelete)="cases.reload()"
-                    ></tr>
-            </ng-template>
-        </p-table>
-    </ng-template>    
-    <ng-template #grid let-data>
-        <div class="grid mt-3" >
-            @if (cases.hasValue()) {
-                @for (case of data; track case.id; let first = $first) {
-                    <div class="col p-2 m-auto">
-                        <pop-case-search-item 
-                        @fadeAnimation
-                        [case]="case"
-                        (onDelete)="cases.reload()"/>
-                    </div>                
-                }
-            } @else if (cases.isLoading()) {
+@if (cases.isLoading()) {
+    <p-dataView
+        styleClass="pop-case-search-dataview"
+        [value]="[1,2,3]"
+        [paginator]="true" 
+        layout="grid"
+        [rowsPerPageOptions]="pageSizeChoices"
+        class="no-background">
+        <ng-template #grid let-data>
+            <div class="grid mt-3" >
                 @for (_ of [].constructor(15); track $index; let first = $first;) { 
                     <div class="col p-2">
                         <div class="pop-case-search-item-card placeholder" @fadeAnimation>
@@ -234,9 +192,62 @@
                         </div>
                     </div>
                 }
-            } @else if (cases.error()) {
-                <div>An error ocurred while loading the cases</div>
-            }
-        </div>
-    </ng-template>
-</p-dataView>
+            </div>
+        </ng-template>
+    </p-dataView>
+} @else if (cases.hasValue()) {
+    <p-dataView
+        styleClass="pop-case-search-dataview"
+        [value]="cases.value()"
+        [paginator]="true" 
+        [rows]="queryParams.limit()" 
+        [first]="queryParams.offset()" 
+        [layout]="queryParams.layout()"
+        sortField="createdAt"
+        [showJumpToPageDropdown]="true"
+        lazy="true"
+        [rowsPerPageOptions]="pageSizeChoices"
+        [totalRecords]="totalCases()"
+        (onPage)="queryParams.limit.set($event.rows); queryParams.offset.set($event.first)"
+        class="no-background">
+
+        <ng-template #list let-data>
+            <p-table [value]="data" styleClass="mt-3">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Case</th>
+                        <th class="">Diagnosis</th>
+                        <th class="text-center">Contributors</th>
+                        <th class="text-center">Created</th>
+                        <th class="text-center">Last Updated</th>
+                        <th class="text-center">Completion</th>
+                        <th class="text-center">Consent</th>
+                        <th></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-case>
+                    <tr pop-case-search-item 
+                        @fadeAnimation
+                        layout="row"
+                        [case]="case"
+                        (onDelete)="cases.reload()"
+                        ></tr>
+                </ng-template>
+            </p-table>
+        </ng-template>    
+        <ng-template #grid let-data>
+            <div class="grid mt-3" >
+                @for (case of data; track case.id; let first = $first) {
+                    <div class="col p-2 m-auto">
+                        <pop-case-search-item 
+                        @fadeAnimation
+                        [case]="case"
+                        (onDelete)="cases.reload()"/>
+                    </div>                
+                }
+            </div>
+        </ng-template>
+    </p-dataView>
+} @else if (cases.error()) {
+    <div>An error ocurred while loading the cases</div>
+}

@@ -1,4 +1,4 @@
-import { Component, Input, forwardRef, inject, OnInit, OnChanges, SimpleChanges, input, computed, signal, effect } from '@angular/core';
+import { Component, Input, forwardRef, inject, OnInit, OnChanges, SimpleChanges, input, computed, signal, effect, output } from '@angular/core';
 import { ControlValueAccessor, FormControl, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Observable, catchError, first, map, of } from 'rxjs';
 
@@ -42,6 +42,7 @@ export class ConceptSelectorComponent implements ControlValueAccessor {
     conceptsLimit = input<number>(50);
     widget = input<'autocomplete' | 'radio' | 'selectbutton'>('autocomplete');
     returnCode = input<boolean>(false);
+    selected = output<CodedConcept>();
 
     readonly #terminologyService = inject(TerminologyService);
     readonly #messageService = inject(MessageService);
@@ -81,20 +82,16 @@ export class ConceptSelectorComponent implements ControlValueAccessor {
                 this.#terminologyService.getTerminologyConcepts({terminologyName: this.terminology(), codes: this.multiple() ? value : [value]}).pipe(first()).subscribe({
                     next: (response) => {
                         if (this.multiple()) {
-                            this.formControl.patchValue(
-                                value.map((val: string) => response.items.find(c => c.code === val))
-                            );
+                            value = value.map((val: string) => response.items.find(c => c.code === val));
                         } else {
-                            this.formControl.patchValue(response.items.find(c => c.code === value));
+                            value = response.items.find(c => c.code === value);
                         }
-                    },
+                        this.formControl.patchValue(value);
+                    }
                 })
-            } else {
-                this.formControl.patchValue(value);
             }
-        } else {
-            this.formControl.patchValue(value);
-        }
+        } 
+        this.formControl.patchValue(value);
     }
 
     registerOnChange(fn: any): void {
@@ -108,6 +105,7 @@ export class ConceptSelectorComponent implements ControlValueAccessor {
             } else {
                 fn(val);
             }
+            this.selected.emit(val)
         });
     }
 

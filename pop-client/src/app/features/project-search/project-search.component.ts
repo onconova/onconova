@@ -1,5 +1,5 @@
-import { Component, computed, inject, input, OnInit, Signal, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, computed, effect, inject, input, linkedSignal, OnInit, Signal, signal } from '@angular/core';
+import { CommonModule, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { UsersService, User, UserCreate, ProjectsService, Project, ProjectStatusChoices, GetAllProjectHistoryEventsRequestParams, GetProjectsRequestParams } from 'pop-api-client';
@@ -9,7 +9,7 @@ import { CardModule } from 'primeng/card';
 import { ModalFormHeaderComponent } from 'src/app/features/forms/modal-form-header.component';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { GraduationCap, User as UserIcon } from 'lucide-angular';
-import { rxResource } from '@angular/core/rxjs-interop';
+import { rxResource, toSignal } from '@angular/core/rxjs-interop';
 import { MessageService } from 'primeng/api';
 import { UserFormComponent } from 'src/app/core/admin/forms/user-form/user-form.component';
 import { Skeleton } from 'primeng/skeleton';
@@ -32,6 +32,7 @@ import { SelectButton } from 'primeng/selectbutton';
 import { driver } from 'driver.js';
 import TourDriverConfig from './project-search.tour';
 import { Select } from 'primeng/select';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
     selector: 'pop-project-search',
@@ -71,23 +72,35 @@ export class ProjectSearchComponent {
     // Reactive input properties
     public readonly member = input<string | null>();
     
-
-    
     // Injected services
     readonly #projectsService = inject(ProjectsService);
     readonly #authService = inject(AuthService)
     readonly #messageService = inject(MessageService); 
     readonly #dialogservice = inject(DialogService);
+    readonly #activatedRoute = inject(ActivatedRoute);
+    readonly #router = inject(Router);
+    readonly #location = inject(Location);
+
+    // Query parameters
+    readonly #inputQueryParams = toSignal(this.#activatedRoute.queryParams);
+    protected readonly queryParams = {
+        sort:  linkedSignal(() => this.#inputQueryParams()?.['sort'] || '-createdAt'),
+        limit: linkedSignal(() => this.#inputQueryParams()?.['limit'] || this.pageSizeChoices[0]),
+        offset:  linkedSignal(() => this.#inputQueryParams()?.['offset'] || 0),
+        layout:  linkedSignal(() => this.#inputQueryParams()?.['layout'] || 'grid'),
+        status:  linkedSignal(() => this.#inputQueryParams()?.['status'] || undefined),
+        title:  linkedSignal(() => this.#inputQueryParams()?.['title']) || undefined,
+    }
 
     // Resources
     public projects = rxResource({
         request: () => ({
-            titleContains: this.searchQuery() || undefined, 
             membersUsername: this.member() || undefined,  
-            status: this.selectedStatus()?.value || undefined,
-            limit: this.pagination().limit, 
-            offset: this.pagination().offset,
-            ordering: this.ordering() || '-createdAt',
+            titleContains: this.queryParams.title(), 
+            status: this.queryParams.status(),
+            limit: this.queryParams.limit(), 
+            offset: this.queryParams.offset(),
+            ordering: this.queryParams.sort(),
         } as GetProjectsRequestParams),
         loader: ({request}) => this.#projectsService.getProjects(request).pipe(
             tap(page => this.totalProjects.set(page.count)),
@@ -100,17 +113,13 @@ export class ProjectSearchComponent {
     })
 
     // Computed properties
-    public searchQuery = signal<string>('');
-    public selectedStatus = signal<any>('');
     public readonly currentUser = computed(() => this.#authService.user());
     public readonly isPersonalPage = computed(() => this.member() !== undefined);
     
     // Pagination and search settings
     public readonly pageSizeChoices: number[] = [12, 24, 36, 48];
-    public pagination = signal({limit: this.pageSizeChoices[0], offset: 0});
     public layout: Signal<'grid' | 'list'> = signal('grid');
     public totalProjects= signal(0);
-    public currentOffset: number = 0;
 
     protected projectStatusChoices: any[] = [
         {label: 'Planned', value: ProjectStatusChoices.Planned},
@@ -118,20 +127,34 @@ export class ProjectSearchComponent {
         {label: 'Completed', value: ProjectStatusChoices.Completed},
         {label: 'Aborted', value: ProjectStatusChoices.Aborted},
     ];
-    protected orderingFields = [
-        {label: 'Creation date', value: 'createdAt'},
-        {label: 'Last Updated', value: 'updatedAt'},
-        {label: 'Title', value: 'title'},
-        {label: 'Status', value: 'status'},
+    protected orderingOptions = [
+        {label: 'Newest', value: '-createdAt'},
+        {label: 'Oldest', value: 'createdAt'},
+        {label: 'Newest updates', value: '-updatedAt'},
+        {label: 'Oldest updates', value: 'updatedAt'},
+        {label: 'Project title - A to Z', value: '-title'},
+        {label: 'Project title - Z to A', value: 'title'},
+        {label: 'Status - A to Z', value: '-status'},
+        {label: 'Status - Z to A', value: 'status'},
     ]
-    protected orederingDirections = [
-        {label: 'Descending', value: '-'},
-        {label: 'Ascending', value: ''},
-    ]
-    protected orderingField = signal<string>(this.orderingFields[0].value)
-    protected orderingDirection = signal<string>(this.orederingDirections[0].value)
-    protected ordering = computed(() => this.orderingDirection() + this.orderingField()) 
     protected tour = TourDriverConfig;
+
+    #updateRouteParameters = effect(() => {
+        const urlTree = this.#router.createUrlTree([], {
+        relativeTo: this.#activatedRoute,
+        queryParams: {
+            title: this.queryParams.title() || undefined,
+            sort: this.queryParams.sort() !== '-createdAt' ? this.queryParams.sort() : undefined,
+            limit: this.queryParams.limit() !== this.pageSizeChoices[0] ? this.queryParams.sort() : undefined,
+            layout: this.queryParams.layout() !== 'grid' ? this.queryParams.layout() : undefined,
+            offset: this.queryParams.offset() || undefined,
+            status: this.queryParams.status() || undefined,
+        },
+        queryParamsHandling: 'merge',
+        });
+        //Update route with Query Params
+        this.#location.go(urlTree.toString());
+    })
 
     // Modal form config
     #modalFormConfig = computed( () => ({
@@ -175,8 +198,8 @@ export class ProjectSearchComponent {
         })    
     }
     
-    showSelectedChoiceFilter(choice: {label: string, value: any}): string {
-        return choice.label
+    showSelectedChoiceFilter(choice: string): string {
+        return choice[0].toUpperCase() + choice.slice(1)
     }
 
     startTour() {

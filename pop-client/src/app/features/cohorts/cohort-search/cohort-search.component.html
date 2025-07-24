@@ -26,7 +26,7 @@
         <div class="cohort-search-filters flex gap-2">
             <p-iconfield>
                 <p-inputicon styleClass="pi pi-search"/>
-                <input type="text" pInputText placeholder="Search by Title" [(ngModel)]="searchQuery"/>
+                <input type="text" pInputText placeholder="Search by Title" [(ngModel)]="queryParams.title"/>
             </p-iconfield>
         </div>  
     </ng-template>
@@ -65,14 +65,13 @@
         </div>        
         <div class="case-search-sorting flex flex align-items-center text-muted ml-4">
             <span class="text-muted mr-2">Sort by </span>
-            <p-select [(ngModel)]="orderingField" [options]="orderingFields" size="small" optionLabel="label" optionValue="value"></p-select>
-            <p-select [(ngModel)]="orderingDirection" [options]="orderingDirections" size="small" optionLabel="label" optionValue="value"></p-select>
+            <p-select [(ngModel)]="queryParams.sort" [options]="orderingChoices" size="small" optionLabel="label" optionValue="value"></p-select>
         </div>
     </ng-template>
 
     <ng-template #end>
         <div class="layout-buttons">
-            <p-selectbutton [(ngModel)]="layout" [options]="['list', 'grid']" [allowEmpty]="false">
+            <p-selectbutton [(ngModel)]="queryParams.layout" [options]="['list', 'grid']" [allowEmpty]="false">
                 <ng-template #item let-item>
                     <i class="pi " [ngClass]="{ 'pi-bars': item === 'list', 'pi-table': item === 'grid' }"></i>
                 </ng-template>
@@ -107,13 +106,13 @@
     styleClass="pop-cohort-search-dataview"
     [value]="cohorts.value() || undefined"
     [paginator]="true" 
-    [rows]="pagination().limit" 
-    [layout]="layout()"
-    sortField="createdAt"
-    lazy="true"
+    [rows]="queryParams.limit()" 
+    [first]="queryParams.offset()" 
+    [layout]="queryParams.layout()"
+    [lazy]="true"
     [rowsPerPageOptions]="pageSizeChoices"
     [totalRecords]="totalCohorts()"
-    (onLazyLoad)="pagination.set({limit: $event.rows, offset: $event.first})"
+    (onLazyLoad)="queryParams.limit.set($event.rows); queryParams.offset.set($event.first);"
     class="no-background">
 
 

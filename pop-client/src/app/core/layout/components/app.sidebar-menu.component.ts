@@ -51,7 +51,8 @@ export class AppSidebarMenuComponent {
                     { 
                         label: 'My Contributions', 
                         icon: 'pi pi-fw pi-bookmark', 
-                        routerLink: ['/cases/search/', this.currenUser()?.username],
+                        routerLink: ['/cases/search'],
+                        queryParams: { contributor: this.currenUser()?.username },
                         disabled: this.#accessLevel() == 0,
                     },
                     { 
@@ -87,7 +88,8 @@ export class AppSidebarMenuComponent {
                     { 
                         label: 'My Cohorts', 
                         icon: 'pi pi-fw pi-bookmark', 
-                        routerLink: ['/cohorts/search/', this.currenUser()?.username],
+                        routerLink: ['/cohorts/search'],
+                        queryParams: { contributor: this.currenUser()?.username },
                         disabled: this.#accessLevel() == 0,
                     },
                 ]

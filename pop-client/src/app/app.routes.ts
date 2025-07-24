@@ -39,17 +39,14 @@ const appRoutes: Routes = [
             { path: 'cases', 
                 children: [
                     { path: 'search', loadComponent: () => import('./features/cases/case-search/case-search.component').then(m => m.CaseSearchComponent), title: 'Search cases - POP'},
-                    { path: 'search/:manager', loadComponent: () => import('./features/cases/case-search/case-search.component').then(m => m.CaseSearchComponent), title: 'My cases - POP' },
                     { path: 'management/:pseudoidentifier',  loadComponent: () => import('./features/cases/case-manager/case-manager.component').then(m => m.CaseManagerComponent) , title: 'Case management - POP'},
                     { path: 'import', loadComponent: () => import('./features/cases/case-importer/case-importer.component').then(m => m.CaseImporterComponent), title: 'Import cases - POP' },
                 ]
             },
             { path: 'cohorts', 
                 children: [
-                    { path: ':cohortId/management', loadComponent: () => import('./features/cohorts/cohort-manager/cohort-manager.component').then(m => m.CohortBuilderComponent), title: 'Cohort management - POP' },
                     { path: 'search', loadComponent: () => import('./features/cohorts/cohort-search/cohort-search.component').then(m => m.CohortSearchComponent), title: 'Search cohorts - POP'},
-                    { path: 'search/:author', loadComponent: () => import('./features/cohorts/cohort-search/cohort-search.component').then(m => m.CohortSearchComponent), title: 'My cohorts - POP' },
-
+                    { path: ':cohortId/management', loadComponent: () => import('./features/cohorts/cohort-manager/cohort-manager.component').then(m => m.CohortBuilderComponent), title: 'Cohort management - POP' },
                 ]
             },
             { path: 'projects', 

@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, contentChild, forwardRef, inject, input, Signal, TemplateRef, ViewEncapsulation } from '@angular/core';
+import { Component, contentChild, effect, forwardRef, inject, input, linkedSignal, signal, Signal, TemplateRef, ViewEncapsulation, WritableSignal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { ControlValueAccessor, FormControl, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Button } from 'primeng/button';
 import { ButtonGroup } from 'primeng/buttongroup';
@@ -16,14 +17,14 @@ import { Popover } from 'primeng/popover';
         },
     ],
     template: `
-        @if (formControl.value) {
+        @if (internalValue()) {
             <p-buttongroup styleClass='selected-filter-button-group'>
                 <p-button type="button" 
                     severity="secondary"
-                    [label]="selectionLabelFcn()(formControl.value)" 
+                    [label]="selectionLabelFcn()(internalValue())" 
                     (onClick)="popover.toggle($event)" 
                 />
-                <p-button styleClass='selected-filter-remove-button' icon="pi pi-times" severity="secondary" (onClick)="formControl.setValue(undefined)"/>
+                <p-button styleClass='selected-filter-remove-button' icon="pi pi-times" severity="secondary" (onClick)="value().set(undefined)"/>
             </p-buttongroup>
             } @else {
                 <p-button type="button" 
@@ -39,7 +40,7 @@ import { Popover } from 'primeng/popover';
             <p-popover #popover>
                 <ng-container 
                     [ngTemplateOutlet]="popoverContent()"
-                    [ngTemplateOutletContext]="{formControl: formControl}"
+                    [ngTemplateOutletContext]="{ $implicit: internalValue }"
                 ></ng-container>    
             </p-popover>
     `,
@@ -52,28 +53,13 @@ import { Popover } from 'primeng/popover';
 
     ]
 })
-export class PopoverFilterButtonComponent implements ControlValueAccessor {
+export class PopoverFilterButtonComponent {
 
     readonly label = input.required<string>()
     readonly selectionLabelFcn = input.required<CallableFunction>()
-    readonly popoverContent = contentChild.required<TemplateRef<any>>('popoverContent', { descendants: false });
-
-  // Form control to track the value
-  public formControl = new FormControl<any | undefined>(undefined);
-    
-  // Write value from the parent component into this component's form control
-  writeValue(value: any): void {
-    this.formControl.setValue(value);
-  }
-
-  // Register on change function to propagate changes to the parent form
-  registerOnChange(fn: any): void {
-    this.formControl.valueChanges.subscribe((val) => fn(val));
-  }
-
-  // Register on touched function to mark the form as touched when the user interacts with it
-  registerOnTouched(fn: any): void {
-    this.formControl.valueChanges.subscribe(val => fn(val));
-  }
+    readonly popoverContent = contentChild.required<TemplateRef<{$implicit: WritableSignal<any>}>>('popoverContent', { descendants: false });
+    readonly value = input.required<WritableSignal<any>>()
+    internalValue = linkedSignal<any>(() => this.value()())
+    public formControl = new FormControl<any  | undefined>(undefined);
 
 }

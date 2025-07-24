@@ -25,23 +25,23 @@
         (onClick)="startTour()"/>
 </div>
 
-<p-toolbar styleClass="my-3 border-transparent shadow-2">
+<p-toolbar styleClass="mt-3 border-transparent shadow-2 mb-0">
 
     <ng-template #start>
             <div class="project-search-filters flex gap-2 ">
                 <p-iconfield>
                     <p-inputicon styleClass="pi pi-search"/>
-                    <input type="text" pInputText placeholder="Search by Title" [(ngModel)]="searchQuery"/>
+                    <input type="text" pInputText placeholder="Search by Title" [(ngModel)]="queryParams.title"/>
                 </p-iconfield>
 
-                <pop-popover-filter-button [(ngModel)]="selectedStatus" label="Status" [selectionLabelFcn]="showSelectedChoiceFilter">
-                    <ng-template #popoverContent let-filter="formControl">
+                <pop-popover-filter-button [value]="queryParams.status" label="Status" [selectionLabelFcn]="showSelectedChoiceFilter">
+                    <ng-template #popoverContent let-internalValue>
                         <div class="p-2">
                             <div class="text-muted mb-3">Select a project status:</div>
                             <p-selectbutton 
-                                [options]="projectStatusChoices" optionLabel="label"  aria-labelledby="basic"
-                                [ngModel]="filter?.value"
-                                (ngModelChange)="filter?.setValue($event)"/>
+                                [options]="projectStatusChoices" optionLabel="label" optionValue="value"  aria-labelledby="basic"
+                                [(ngModel)]="queryParams.status"
+                                (ngModelChange)="internalValue.set($event)"/>
                         </div>
                     </ng-template>
                 </pop-popover-filter-button>
@@ -81,14 +81,13 @@
         </div>        
         <div class="case-search-sorting flex flex align-items-center text-muted ml-4">
             <span class="text-muted mr-2">Sort by </span>
-            <p-select [(ngModel)]="orderingField" [options]="orderingFields" size="small" optionLabel="label" optionValue="value"></p-select>
-            <p-select [(ngModel)]="orderingDirection" [options]="orederingDirections" size="small" optionLabel="label" optionValue="value"></p-select>
+            <p-select [(ngModel)]="queryParams.sort" [options]="orderingOptions" size="small" optionLabel="label" optionValue="value" styleClass="w-15rem"></p-select>
         </div>
     </ng-template>
 
     <ng-template #end>
         <div class="layout-buttons">
-            <p-selectbutton [(ngModel)]="layout" [options]="['list', 'grid']" [allowEmpty]="false">
+            <p-selectbutton [(ngModel)]="queryParams.layout" [options]="['list', 'grid']" [allowEmpty]="false">
                 <ng-template #item let-item>
                     <i class="pi " [ngClass]="{ 'pi-bars': item === 'list', 'pi-table': item === 'grid' }"></i>
                 </ng-template>
@@ -104,13 +103,13 @@
     styleClass="pop-case-search-dataview"
     [value]="projects.value() || [1,2,3,4,5,6,7,8,9,10, 12]"
     [paginator]="true" 
-    [rows]="pagination().limit" 
-    sortField="createdAt"
-    [layout]="layout()"
+    [rows]="queryParams.limit()"
+    [first]="queryParams.offset()" 
+    [layout]="queryParams.layout()"
     lazy="true"
     [rowsPerPageOptions]="pageSizeChoices"
     [totalRecords]="totalProjects()"
-    (onLazyLoad)="pagination.set({limit: $event.rows, offset: $event.first})"
+    (onLazyLoad)="queryParams.limit.set($event.rows); queryParams.offset.set($event.first);"
     class="no-background">
 
     <ng-template #list let-data>
