@@ -1,6 +1,6 @@
 import { Component, Input,inject, Output, EventEmitter, input, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Observable, first, map} from 'rxjs';
+import { EMPTY, Observable, expand, first, map, reduce} from 'rxjs';
 import { rxResource } from '@angular/core/rxjs-interop';
 
 import { Panel } from 'primeng/panel';
@@ -78,8 +78,23 @@ export class CaseManagerPanelComponent {
     public currentUser = computed(() => this.#authService.user());
     public isCompleted = computed(() => this.dataCompletionStatus.value()?.status);
     public data = rxResource({
-        request: () => ({caseId: this.caseId(), anonymized: this.anonymized()}),
-        loader: ({request}) => this.service().get(request).pipe(map(response => response.items)),
+        request: () => ({caseId: this.caseId(), anonymized: this.anonymized(), offset: 0, limit: 20}),
+        loader: ({request}) => this.service().get(request).pipe(
+            expand((response: any) => {    
+                const nextOffset = request.offset + request.limit;
+                // Check if there are more entries
+                if (nextOffset < response.count) {
+                    const nextRequest = { ...request, offset: nextOffset };
+                    request = nextRequest; 
+                    return this.service().get(nextRequest);
+                } else {
+                    // No more entries, complete the stream
+                    return EMPTY;
+                }
+            }),
+            map(response => response.items),    
+            reduce((allItems, items) => allItems.concat(items), [] as any[])
+        )
     });
 
     #modalFormConfig = computed( () => ({
