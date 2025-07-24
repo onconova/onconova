@@ -174,7 +174,12 @@ export class CaseManagerPanelComponent {
                 resourceId: data.id,
                 initialData: data
             },
-            ...this.#modalFormConfig()
+            ...this.#modalFormConfig(),
+            data: {
+                title: this.title(),
+                subtitle: 'Update an existing entry',
+                icon: this.icon(),
+            },
         })
         this.reloadDataIfClosedAndSaved(this.#modalFormRef)
     }
