@@ -53,7 +53,6 @@ const valueTypeMap = {
 
 @Component({
     selector: 'tumor-marker-form',
-    styleUrl: './tumor-marker-form.component.css',
     templateUrl: './tumor-marker-form.component.html',
     encapsulation: ViewEncapsulation.None,
     imports: [
@@ -151,7 +150,7 @@ export class TumorMarkerFormComponent extends AbstractFormBase {
 
   // All analytes supported by the platform
   public analytes = rxResource({
-    request: () => ({terminologyName: 'TumorMarkerAnalyte'}),
+    request: () => ({terminologyName: 'TumorMarkerAnalyte', limit: 50}),
     loader: ({request}) => this.#terminologyService.getTerminologyConcepts(request).pipe(map(response => response.items)),
   }) 
 
