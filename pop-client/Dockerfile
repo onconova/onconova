@@ -85,11 +85,7 @@ COPY --from=builder /app/dist/client /usr/share/nginx/html
 COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 COPY ./entrypoint.sh /app/entrypoint.sh
 
-# Set permissions and use non-root user
-RUN adduser -D appuser && chown -R appuser /usr/share/nginx/html /app
-
 RUN chmod +x /app/entrypoint.sh
 ENTRYPOINT ["/bin/sh", "/app/entrypoint.sh", "--files", "/usr/share/nginx/html/assets/env.js", "--files", "/usr/share/nginx/html/assets/plugins.env.js"]
-USER appuser
 CMD ["nginx", "-g", "daemon off;"]
 EXPOSE 80
