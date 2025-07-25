@@ -18,7 +18,7 @@ RUN update-ca-certificates
 RUN npm install -g @angular/cli
 
 # Install project dependencies
-COPY package.json ./
+COPY package*.json ./
 RUN npm install --force
 
 # Install Debian packages
