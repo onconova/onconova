@@ -42,7 +42,7 @@ RUN  apt-get clean && rm -rf /var/lib/apt/lists/* && npm cache clean --force
 RUN chmod +x /app/entrypoint.sh
 
 # Create a non-root user and switch to it
-RUN useradd -m appuser && chown appuser /app /app/src
+RUN useradd -m appuser && chown appuser /app && chown -R appuser /app/src
 USER appuser
 
 
@@ -58,10 +58,9 @@ RUN apt-get update && apt-get install -y \
     libgbm-dev=20.3.* \ 
     chromium=120.0.* \
     chromium-driver=120.0.*
-USER appuser
 # Serve angular application
 ENTRYPOINT ["/app/entrypoint.sh", "--files", "/app/src/environments/env.js", "--files", "/app/src/plugins/plugins.env.js"]
-CMD ["ng", "serve", "--host", "0.0.0.0", "--port", "80", "--disable-host-check", "--configuration", "development"]
+CMD ["ng", "serve", "--host", "0.0.0.0", "--port", "80", "--configuration", "development"]
 
 ########################################
 # BUILDER
@@ -88,9 +87,9 @@ COPY ./entrypoint.sh /app/entrypoint.sh
 
 # Set permissions and use non-root user
 RUN adduser -D appuser && chown -R appuser /usr/share/nginx/html /app
-USER appuser
 
 RUN chmod +x /app/entrypoint.sh
 ENTRYPOINT ["/bin/sh", "/app/entrypoint.sh", "--files", "/usr/share/nginx/html/assets/env.js", "--files", "/usr/share/nginx/html/assets/plugins.env.js"]
+USER appuser
 CMD ["nginx", "-g", "daemon off;"]
 EXPOSE 80
