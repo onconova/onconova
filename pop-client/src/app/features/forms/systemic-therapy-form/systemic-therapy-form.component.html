@@ -1,28 +1,26 @@
 <p-fluid>
     <form  [formGroup]="form" (ngSubmit)="submitFormData()">
 
-        <div class="flex flex-wrap">
 
-            <div class="field">
-                <label class="form-label required">Treatment period</label>
-                <pop-datepicker 
-                    formControlName="period"
-                    selectionMode="range"
-                    placeholder="DD/MM/YYYY - DD/MM/YYYY"
-                />
-                <pop-form-control-error controlName="period"></pop-form-control-error>
-            </div>
+        <div class="field">
+            <label class="form-label required">Treatment period</label>
+            <pop-datepicker 
+                formControlName="period"
+                selectionMode="range"
+                placeholder="DD/MM/YYYY - DD/MM/YYYY"
+            />
+            <pop-form-control-error controlName="period"></pop-form-control-error>
+        </div>
 
 
-            <div class="field ml-5 w-25">
-                <label class="form-label required">Cycles</label>
-                <p-inputnumber 
-                formControlName="cycles"
-                placeholder="Enter value" 
-                useGrouping="false"
-                suffix=" cycle(s)"/>
-                <pop-form-control-error controlName="cycles"></pop-form-control-error>
-            </div>
+        <div class="field">
+            <label class="form-label required">Cycles</label>
+            <p-inputnumber 
+            formControlName="cycles"
+            placeholder="Enter value" 
+            useGrouping="false"
+            suffix=" cycle(s)"/>
+            <pop-form-control-error controlName="cycles"></pop-form-control-error>
         </div>
 
         <div class="field">
@@ -45,19 +43,19 @@
 
         <div class="field">
             <label class="form-label required">Intent</label>
-            <pop-radio-select  
-            formControlName="intent"
-            [choices]="intentChoices"
-            class="flex flex-wrap gap-4"/>
+            <p-selectbutton 
+                formControlName="intent"
+                [options]="intentChoices"
+                class="flex"/>
             <pop-form-control-error controlName="intent"></pop-form-control-error>
         </div>
 
         <div class="field">
             <label class="form-label required">Therapeutic role</label>
-            <pop-radio-select  
-            formControlName="isAdjunctive"
-            [choices]="roleChoices"
-            class="flex flex-wrap gap-4"/>
+            <p-selectbutton
+                formControlName="isAdjunctive"
+                [options]="roleChoices"
+                class="flex"/>
             <pop-form-control-error controlName="isAdjunctive"></pop-form-control-error>
         </div>
 

@@ -25,6 +25,7 @@ import {
 
 import { AbstractFormBase } from '../abstract-form-base.component';
 import { rxResource } from '@angular/core/rxjs-interop';
+import { SelectButton } from 'primeng/selectbutton';
 
 @Component({
     selector: 'treatment-response-form',
@@ -38,7 +39,7 @@ import { rxResource } from '@angular/core/rxjs-interop';
         ButtonModule,
         ConceptSelectorComponent,
         MultiReferenceSelectComponent,
-        RadioSelectComponent,
+        SelectButton,
         FormControlErrorComponent,
     ]
 })
@@ -100,9 +101,9 @@ export class TreatmentResponseFormComponent extends AbstractFormBase {
     }) 
     
     // Human readable choices for UI elements
-    public readonly interpretationChoices: RadioChoice[] = [
-        {name: 'Interpreted', value: true},
-        {name: 'Reported', value: false},
+    public readonly interpretationChoices = [
+        {label: 'Interpreted', value: true},
+        {label: 'Reported', value: false},
     ]
 
 

@@ -27,21 +27,24 @@ import { AbstractFormBase } from '../abstract-form-base.component';
 import { EmptyObject } from 'chart.js/dist/types/basic';
 import { rxResource, toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
+import { SelectButton } from "primeng/selectbutton";
 
 @Component({
     selector: 'neoplastic-entity-form',
     templateUrl: './neoplastic-entity-form.component.html',
     imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        FormsModule,
-        DatePickerComponent,
-        Fluid,
-        Select,
-        ButtonModule,
-        ConceptSelectorComponent,
-        FormControlErrorComponent,
-    ]
+      CommonModule,
+      ReactiveFormsModule,
+      FormsModule,
+      DatePickerComponent,
+      Fluid,
+      SelectButton,
+      Select,
+      ButtonModule,
+      ConceptSelectorComponent,
+      FormControlErrorComponent,
+      SelectButton
+  ]
 })
 export class NeoplasticEntityFormComponent extends AbstractFormBase{
 

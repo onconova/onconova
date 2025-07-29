@@ -26,11 +26,13 @@ export class UnauthorizedInterceptor implements HttpInterceptor {
             if (request.url.includes(URLs.SESSIONS)) {
                 // User has manually logged out
                 this.#messageService.add({ severity: 'success', summary: 'Logout', detail: 'Successfully logged out' });
+                // Returning EMPTY here prevents further error propagation since logout is a valid, handled case.
                 return EMPTY;
             }
             if (request.url.includes(URLs.PROVIDER_TOKEN) && error.error?.meta.session_token) {
                 // User is signing in for first time but lacks certain data
                 this.#messageService.add({ severity: 'info', summary: 'Signup', detail: 'Additional information required to sign you up' });
+                // Returning throwError here allows the error to propagate so the signup flow can handle it.
                 return throwError(() => error);
             } else {
                 // Session is no longer valid
@@ -40,6 +42,8 @@ export class UnauthorizedInterceptor implements HttpInterceptor {
         }
         else if (error.status === 500) {  
             this.#messageService.add({ severity: 'error', summary: `Server Error (HTTP 500)`, detail: error.message , sticky: true });          
+            // Suppress further error propagation for 500 errors
+            return EMPTY;
         }
         console.error(error)
         return throwError(() => error);

@@ -50,7 +50,7 @@ describe('APIAuthInterceptor', () => {
     http.get(`${basePath}/api/users`).subscribe();
 
     const req = httpMock.expectOne(`${basePath}/api/users`);
-    expect(req.request.headers.get('X-SESSION-TOKEN')).toBe('mock-session-token');
+    expect(req.request.headers.get('X-Session-Token')).toBe('mock-session-token');
     req.flush({});
   });
 
@@ -58,7 +58,7 @@ describe('APIAuthInterceptor', () => {
     http.get(`${basePath}/assets/logo.png`).subscribe();
 
     const req = httpMock.expectOne(`${basePath}/assets/logo.png`);
-    expect(req.request.headers.has('X-SESSION-TOKEN')).toBeFalse();
+    expect(req.request.headers.has('X-Session-Token')).toBeFalse();
     req.flush({});
   });
 
@@ -67,7 +67,7 @@ describe('APIAuthInterceptor', () => {
     http.get(`${basePath}/api/data`).subscribe();
 
     const req = httpMock.expectOne(`${basePath}/api/data`);
-    expect(req.request.headers.has('X-SESSION-TOKEN')).toBeFalse();
+    expect(req.request.headers.has('X-Session-Token')).toBeFalse();
     req.flush({});
   });
 });

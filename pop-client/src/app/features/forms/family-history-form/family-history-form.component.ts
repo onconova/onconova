@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, input } from '@angular/core';
+import { Component, effect, inject, input } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -19,29 +19,28 @@ import {
 import { 
   ConceptSelectorComponent, 
   DatePickerComponent,
-  FormControlErrorComponent ,
-  RadioChoice,
-  RadioSelectComponent,
+  FormControlErrorComponent,
 } from '../../../shared/components';
 
 import { AbstractFormBase } from '../abstract-form-base.component';
+import { SelectButton } from "primeng/selectbutton";
 
 @Component({
     selector: 'family-history-form',
     templateUrl: './family-history-form.component.html',
     imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        FormsModule,
-        DatePickerComponent,
-        Fluid,
-        InputNumber,
-        ButtonModule,
-        ToggleSwitchModule,
-        ConceptSelectorComponent,
-        RadioSelectComponent,
-        FormControlErrorComponent,
-    ]
+    CommonModule,
+    ReactiveFormsModule,
+    FormsModule,
+    DatePickerComponent,
+    Fluid,
+    InputNumber,
+    ButtonModule,
+    ToggleSwitchModule,
+    ConceptSelectorComponent,
+    FormControlErrorComponent,
+    SelectButton
+]
 })
 export class FamilyHistoryFormComponent extends AbstractFormBase {
 
@@ -108,10 +107,10 @@ export class FamilyHistoryFormComponent extends AbstractFormBase {
     }
   })
 
-  public readonly contributedToDeathChoices : RadioChoice[] = [
-      {name: 'Unknown', value: null},
-      {name: 'Yes', value: true},
-      {name: 'False', value: false},
+  public readonly contributedToDeathChoices = [
+      {label: 'Unknown', value: null},
+      {label: 'Yes', value: true},
+      {label: 'No', value: false},
   ]
 
 

@@ -8,16 +8,16 @@ import { BASE_PATH } from 'pop-api-client';
 export class APIAuthInterceptor implements HttpInterceptor {
   
     #authService = inject(AuthService);
-    #BASE_PATH: string = inject(BASE_PATH);
+    #basePath: string = inject(BASE_PATH).replace(/\/+$/, ''); // Remove trailing slashes
 
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        const isApiUrl = request.url.startsWith(`${this.#BASE_PATH}/api`);
+        const isApiUrl = request.url.startsWith(`${this.#basePath}/api`);
         const apiSessionToken = this.#authService.sessionToken();
         if (isApiUrl && apiSessionToken) {
             request = request.clone({
                 setHeaders: {
-                    'X-SESSION-TOKEN': apiSessionToken,
+                    'X-Session-Token': apiSessionToken,
                 },
             });
         }

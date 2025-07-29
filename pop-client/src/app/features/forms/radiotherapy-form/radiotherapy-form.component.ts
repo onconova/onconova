@@ -36,6 +36,7 @@ import {
 } from '../../../shared/components';
 
 import { AbstractFormBase } from '../abstract-form-base.component';
+import { SelectButton } from 'primeng/selectbutton';
 
 @Component({
     selector: 'radiotherapy-form',
@@ -49,11 +50,11 @@ import { AbstractFormBase } from '../abstract-form-base.component';
         Fluid,
         InputNumber,
         ButtonModule,
+        SelectButton,
         Fieldset,
         MeasureInputComponent,
         ConceptSelectorComponent,
         MultiReferenceSelectComponent,
-        RadioSelectComponent,
         FormControlErrorComponent,
     ]
 })
@@ -196,9 +197,9 @@ export class RadiotherapyFormComponent extends AbstractFormBase {
     })
 
     // Choices for UI elements
-    public readonly intentChoices: RadioChoice[] = [
-        {name: 'Curative', value: RadiotherapyIntentChoices.Curative},
-        {name: 'Palliative', value: RadiotherapyIntentChoices.Palliative},
+    public readonly intentChoices = [
+        {label: 'Curative', value: RadiotherapyIntentChoices.Curative},
+        {label: 'Palliative', value: RadiotherapyIntentChoices.Palliative},
     ]
 
     public addSetting() {

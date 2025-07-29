@@ -11,6 +11,7 @@ import { MessageService } from 'primeng/api';
 
 import { TerminologyService, CodedConcept, PaginatedCodedConcept } from 'pop-api-client';
 import { rxResource } from '@angular/core/rxjs-interop';
+import { Skeleton } from "primeng/skeleton";
 
 @Component({
     selector: 'pop-concept-selector',
@@ -23,13 +24,15 @@ import { rxResource } from '@angular/core/rxjs-interop';
         },
     ],
     imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        AutoCompleteModule,
-        RadioButton,
-        SelectButton,
-    ]
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    AutoCompleteModule,
+    RadioButton,
+    Skeleton,
+    SelectButton,
+    Skeleton
+]
 })
 export class ConceptSelectorComponent implements ControlValueAccessor {
 

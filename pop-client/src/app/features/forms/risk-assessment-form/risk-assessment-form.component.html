@@ -27,12 +27,13 @@
             <pop-form-control-error controlName="methodology"></pop-form-control-error>
         </div>
 
-        <div class="field">
+        <div class="field flex flex-column">
             <label class="form-label required">Risk</label>
             <pop-concept-selector 
                 terminology="CancerRiskAssessmentClassification"
                 [showSynonyms]="false"
-                formControlName="risk"/>
+                formControlName="risk"
+                widget="selectbutton"/>
             <pop-form-control-error controlName="risk"></pop-form-control-error>
         </div>
 
