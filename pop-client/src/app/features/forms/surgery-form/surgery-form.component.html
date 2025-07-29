@@ -19,10 +19,10 @@
       
         <div class="field">
             <label class="form-label required">Intent</label>
-            <pop-radio-select  
-            formControlName="intent"
-            [choices]="intentChoices"
-            class="flex flex-wrap gap-4"/>
+            <p-selectbutton
+                formControlName="intent"
+                [options]="intentChoices"
+                class="flex"/>
             <pop-form-control-error controlName="intent"></pop-form-control-error>
         </div>
 
@@ -55,21 +55,23 @@
             <pop-form-control-error controlName="bodysiteQualifier"></pop-form-control-error>
         </div>
 
-        <div class="field">
+        <div class="field flex flex-column">
             <label class="form-label">Location laterality</label>
             <pop-concept-selector 
                 formControlName="bodysiteLaterality"
                 terminology="LateralityQualifier"
+                widget="selectbutton"
                 [showSynonyms]="false"/>
             <pop-form-control-error controlName="bodysiteLaterality"></pop-form-control-error>
         </div>
 
 
-        <div class="field">
+        <div class="field flex flex-column">
             <label class="form-label">Outcome</label>
             <pop-concept-selector 
                 formControlName="outcome"
                 terminology="ProcedureOutcome"
+                widget="selectbutton"
                 [showSynonyms]="false"/>
             <pop-form-control-error controlName="outcome"></pop-form-control-error>
         </div>

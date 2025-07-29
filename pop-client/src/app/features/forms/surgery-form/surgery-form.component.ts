@@ -28,6 +28,7 @@ import {
 
 import { AbstractFormBase } from '../abstract-form-base.component';
 import { map } from 'rxjs';
+import { SelectButton } from 'primeng/selectbutton';
 
 @Component({
     selector: 'surgery-form',
@@ -37,12 +38,12 @@ import { map } from 'rxjs';
         ReactiveFormsModule,
         FormsModule,
         SelectModule,
+        SelectButton,
         DatePickerComponent,
         Fluid,
         ButtonModule,
         MultiReferenceSelectComponent,
         ConceptSelectorComponent,
-        RadioSelectComponent,
         FormControlErrorComponent,
     ]
 })
@@ -110,8 +111,8 @@ export class SurgeryFormComponent extends AbstractFormBase {
     }) 
 
     // Human readable choices for UI elements
-    public readonly intentChoices: RadioChoice[] = [
-        {name: 'Curative', value: SurgeryIntentChoices.Curative},
-        {name: 'Palliative', value: SurgeryIntentChoices.Palliative},
+    public readonly intentChoices = [
+        {label: 'Curative', value: SurgeryIntentChoices.Curative},
+        {label: 'Palliative', value: SurgeryIntentChoices.Palliative},
     ]
 }

@@ -61,13 +61,17 @@
       <label [for]="concept.code" class="ml-2">{{ concept.display }}</label>
     </div>    
   }
-} @else if (widget() === 'selectbutton' && concepts.hasValue()) {
+} @else if (widget() === 'selectbutton') {
+  @if (concepts.isLoading()) {
+    <p-skeleton height="2.5rem" width="100%"/>   
+  } @else if (concepts.hasValue()) {
     <p-selectbutton 
         [options]="concepts.value() || []"
         optionLabel="display"
         [attr.disabled]="disabled()"
         [disabled]="disabled()"
         [formControl]="formControl"/>
+  }
 }
 
 

@@ -18,9 +18,9 @@
             <pop-form-control-error controlName="relationship"></pop-form-control-error>
         </div>
 
-        <div class="field">
+        <div class="field flex align-items-center">
             <p-toggleswitch formControlName="hadCancer" />
-            <label class="form-label required ml-2 mb-3">Relative has a history of cancer</label>
+            <label class="form-label required ml-2 mb-0">Relative has a history of cancer</label>
             <pop-form-control-error controlName="hadCancer"></pop-form-control-error>
         </div>
 
@@ -54,10 +54,10 @@
 
             <div class="field">
                 <label class="form-label">Did the cancer contribute to the relative's death?</label>
-                <pop-radio-select  
+                <p-selectbutton
                     formControlName="contributedToDeath"
-                    [choices]="contributedToDeathChoices"
-                    class="flex flex-wrap gap-4"/>
+                    [options]="contributedToDeathChoices"
+                    class="flex"/>
                 <pop-form-control-error controlName="contributedToDeath"></pop-form-control-error>
             </div>
         }

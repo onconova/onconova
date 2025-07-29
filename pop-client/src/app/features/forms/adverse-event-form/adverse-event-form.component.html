@@ -36,7 +36,7 @@
                         </div>    
                     }
                 } @else {
-                    Please select an adverse event first
+                    <span class="text-muted">Please select an adverse event first</span>
                 }
             </div>
             <pop-form-control-error controlName="grade"></pop-form-control-error>
@@ -109,7 +109,7 @@
                         <pop-radio-select  
                         formControlName="category"
                         [choices]="mitigationCategoryChoices"
-                        class="flex flex-column gap-1"/>
+                        class="flex flex-column gap-3 mt-2"/>
                     </div>        
                     
                     <div class="field">
@@ -138,11 +138,12 @@
                         }
                     </div>
 
-                    <div class="field">
+                    <div class="field flex flex-column">
                         <label class="form-label">Management</label>
                         <pop-concept-selector 
                             formControlName="management"
                             terminology="AdverseEventMitigationManagement"
+                            widget="selectbutton"
                             [showSynonyms]="false"/>
                     </div>
                     

@@ -44,11 +44,11 @@
             <pop-form-control-error controlName="recist"></pop-form-control-error>
         </div>
 
-        <div class="field">
+        <div class="field flex flex-column">
             <label class="form-label required">Was the RECIST value interpreted or reported?</label>
-            <pop-radio-select
+            <p-selectbutton
                 formControlName="recistInterpreted"
-                [choices]="interpretationChoices"/>
+                [options]="interpretationChoices"/>
             <pop-form-control-error controlName="recistInterpreted"></pop-form-control-error>
         </div>
 

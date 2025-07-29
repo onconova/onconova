@@ -35,21 +35,21 @@
                     <pop-form-control-error controlName="tumorMutationalBurdenValue"></pop-form-control-error>
                 </div>
         
-                <div class="field">
+                <div class="field flex flex-column">
                     <label class="form-label">Status</label>
-                    <pop-radio-select  
+                    <p-selectButton
                         formControlName="tumorMutationalBurdenStatus"
-                        [choices]="tumorMutationalBurdernStatusChoices"
-                        class="flex flex-wrap gap-4"/>
+                        [options]="tumorMutationalBurdernStatusChoices"/>
                     <pop-form-control-error controlName="tumorMutationalBurdenStatus"></pop-form-control-error>
                 </div>
             }
             @case (genomicSignatureTypes.MicrosatelliteInstability) {
-                <div class="field">
+                <div class="field flex flex-column">
                     <label class="form-label required">Value</label>
                     <pop-concept-selector 
                         formControlName="microsatelliteInstabilityValue"
                         terminology="MicrosatelliteInstabilityState"
+                        widget="selectbutton"
                         [showSynonyms]="false"/>    
                     <pop-form-control-error controlName="microsatelliteInstabilityValue"></pop-form-control-error>
                 </div>
@@ -81,12 +81,11 @@
                         [maxFractionDigits]="3"/>
                     <pop-form-control-error controlName="homologousRecombinationDeficiencyValue"></pop-form-control-error>
                 </div>
-                <div class="field">
+                <div class="field flex flex-column">
                     <label class="form-label">Interpretation</label>
-                    <pop-radio-select  
+                    <p-selectButton 
                         formControlName="homologousRecombinationDeficiencyInterpretation"
-                        [choices]="homologousRecombinationDeficiencyInterpretationChoices"
-                        class="flex flex-wrap gap-4"/>
+                        [options]="homologousRecombinationDeficiencyInterpretationChoices"/>
                     <pop-form-control-error controlName="homologousRecombinationDeficiencyInterpretation"></pop-form-control-error>
                 </div>
             }
