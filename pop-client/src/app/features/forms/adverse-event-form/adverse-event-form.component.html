@@ -59,8 +59,11 @@
                 <label for="date" class="form-label required">Date when the event was resolved</label>
                 <pop-datepicker 
                     formControlName="dateResolved"/>
-                <pop-form-control-error controlName="dateResolved"></pop-form-control-error>
+                <pop-form-control-error controlName="dateResolved" [customErrors]="{dateResolvedAfterDate: 'Resolution date cannot be before the date of the event.'}"></pop-form-control-error>
             </div>    
+            @if (form.errors?.['dateResolvedAfterDate']) {
+                <div class="text-danger mt-2" style="color:#e24c4c">{{ 'Resolution date cannot be before the date of the event.' }}</div>
+            }
         }
 
         <div formArrayName="suspectedCauses">
