@@ -1,15 +1,17 @@
-import pghistory
 import re
+
+import pghistory
 from django.conf import settings
 from django.test import TestCase
-from pop.tests import common, factories
-from pop.oncology.models import PatientCase
-from pop.interoperability.schemas import PatientCaseBundle
-from pop.core.history.schemas import HistoryEvent
 from parameterized import parameterized
+from pop.core.history.schemas import HistoryEvent
+from pop.interoperability.schemas import PatientCaseBundle
+from pop.oncology.models import PatientCase
+from pop.tests import common, factories
+from pop.tests.common import GET_HTTP_SCENARIOS, ApiControllerTestMixin
 
 
-class TestInteroperabilityController(common.ApiControllerTestMixin, TestCase):
+class TestInteroperabilityController(ApiControllerTestMixin, TestCase):
     controller_path = "/api/v1/interoperability"
 
     @classmethod
@@ -26,10 +28,13 @@ class TestInteroperabilityController(common.ApiControllerTestMixin, TestCase):
             cohort = factories.CohortFactory()
             cohort.cases.add(cls.case)
             cls.bundle = PatientCaseBundle.model_validate(cls.case)
-            cls.bundle.history = [HistoryEvent.model_validate(event) for event in cls.bundle.resolve_history(cls.case)]
+            cls.bundle.history = [
+                HistoryEvent.model_validate(event)
+                for event in cls.bundle.resolve_history(cls.case)
+            ]
             cls.payload = cls.bundle.model_dump(mode="json")
 
-    @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
+    @parameterized.expand(GET_HTTP_SCENARIOS)
     def test_export_resource(self, scenario, config):
         response = self.call_api_endpoint(
             "GET", f"/resources/{self.entity.id}", **config
@@ -45,7 +50,7 @@ class TestInteroperabilityController(common.ApiControllerTestMixin, TestCase):
                 "Event not properly registered",
             )
 
-    @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
+    @parameterized.expand(GET_HTTP_SCENARIOS)
     def test_resolve_resource_id(self, scenario, config):
         response = self.call_api_endpoint(
             "GET", f"/resources/{self.entity.id}/description", **config
@@ -54,7 +59,7 @@ class TestInteroperabilityController(common.ApiControllerTestMixin, TestCase):
             self.assertEqual(response.status_code, 200)
             self.assertEqual(self.entity.description, response.json())
 
-    @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
+    @parameterized.expand(GET_HTTP_SCENARIOS)
     def test_export_bundle(self, scenario, config):
         response = self.call_api_endpoint("GET", f"/bundles/{self.case.id}", **config)
         if scenario == "HTTPS Authenticated":
@@ -159,4 +164,5 @@ class TestInteroperabilityController(common.ApiControllerTestMixin, TestCase):
             use_https=True,
             access_level=4,
         )
+        self.assertEqual(response.status_code, 422)
         self.assertEqual(response.status_code, 422)

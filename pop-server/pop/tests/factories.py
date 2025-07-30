@@ -1,30 +1,30 @@
-import factory
-from factory.fuzzy import FuzzyChoice, FuzzyText
-import faker
 import random
 import string
-import pghistory
+import sys
 from datetime import datetime, timedelta
+
+import factory
+import faker as fakerModule
+import pghistory
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth.models import Group
+from factory.fuzzy import FuzzyChoice, FuzzyText
 from psycopg.types.range import Range as PostgresRange
 
-from django.contrib.auth.models import Group
-from django.contrib.auth.hashers import make_password
-
 import pop.core.measures as measures
-from pop.core.auth.models import User
 import pop.oncology.models as models
 import pop.research.models.cohort as cohorts_models
 import pop.research.models.project as projects_models
 import pop.terminology.models as terminology
-
-import sys
+from pop.core.auth.models import User
+from pop.oncology.models.comorbidities import ComorbiditiesPanel
 
 
 def is_running_pytest():
     return "pytest" in sys.modules
 
 
-faker = faker.Faker()
+faker = fakerModule.Faker()
 
 
 class TerminologyFactory(factory.django.DjangoModelFactory):
@@ -32,7 +32,9 @@ class TerminologyFactory(factory.django.DjangoModelFactory):
         django_get_or_create = ("code", "system")
 
 
-def make_terminology_factory(terminology, code_iterator=None):
+def make_terminology_factory(
+    terminology: type[terminology.CodedConcept], code_iterator=None
+) -> factory.SubFactory | factory.LazyFunction | None:
     if not code_iterator:
         code_iterator = [f"{terminology.__name__.lower()}-code-{n+1}" for n in range(4)]
     display_iterator = [
@@ -71,7 +73,11 @@ def make_m2m_terminology_factory(field, terminology_model, min=1, max=2):
                 (
                     terminology.get_factory()()
                     if isinstance(terminology, factory.SubFactory)
-                    else terminology.function()
+                    else (
+                        terminology.function()
+                        if isinstance(terminology, factory.LazyFunction)
+                        else None
+                    )
                 )
                 for _ in range(random.randint(min, max))
             ]
@@ -662,7 +668,7 @@ class ComorbiditiesAssessmentFactory(factory.django.DjangoModelFactory):
     case = factory.SubFactory(PatientCaseFactory)
     date = factory.LazyFunction(faker.date)
     index_condition = factory.SubFactory(PrimaryNeoplasticEntityFactory)
-    panel = FuzzyChoice(models.ComorbiditiesPanel)
+    panel = FuzzyChoice(ComorbiditiesPanel)
     absent_conditions = factory.post_generation(
         make_m2m_terminology_factory(
             "absent_conditions", terminology.ICD10Condition, min=0, max=4

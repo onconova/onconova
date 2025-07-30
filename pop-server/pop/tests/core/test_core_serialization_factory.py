@@ -24,7 +24,7 @@ class TestGetSchemaField(TestCase):
         )
         field.is_relation = True
         field.related_model = model
-        field.concrete = False
+        field.concrete = False  # type: ignore
         return field
 
     def _assert_naming_and_aliases(
@@ -39,93 +39,89 @@ class TestGetSchemaField(TestCase):
 
     def test_non_relation_field_with_default_value(self):
         field = CharField(max_length=255, default="test_default", name="test_field")
-        _, schema_field_name, (python_type, field_info) = get_schema_field(field)
+        definition = get_schema_field(field)
         self._assert_naming_and_aliases(
-            schema_field_name, field_info, "testField", "test_field"
+            definition.name, definition.field_info, "testField", "test_field"
         )
-        self.assertEqual(python_type, str)
-        self.assertEqual(field_info.default, "test_default")
+        self.assertEqual(definition.python_type, str)
+        self.assertEqual(definition.field_info.default, "test_default")
 
     def test_non_relation_field_without_default_value(self):
         field = CharField(max_length=255, name="test_field")
-        _, schema_field_name, (python_type, field_info) = get_schema_field(field)
+        definition = get_schema_field(field)
         self._assert_naming_and_aliases(
-            schema_field_name, field_info, "testField", "test_field"
+            definition.name, definition.field_info, "testField", "test_field"
         )
-        self.assertEqual(python_type, str)
-        self.assertEqual(field_info.default, PydanticUndefined)
+        self.assertEqual(definition.python_type, str)
+        self.assertEqual(definition.field_info.default, PydanticUndefined)
 
     def test_charfield_with_choices(self):
         choices = [("a", "optionA"), ("b", "optionB")]
         field = CharField(max_length=255, name="test_field", choices=choices)
-        _, schema_field_name, (python_type, field_info) = get_schema_field(field)
+        definition = get_schema_field(field)
         self._assert_naming_and_aliases(
-            schema_field_name, field_info, "testField", "test_field"
+            definition.name, definition.field_info, "testField", "test_field"
         )
         self.assertEqual(
-            [e.value for e in python_type], [choice[0] for choice in choices]
+            [e.value for e in definition.python_type], [choice[0] for choice in choices]
         )
-        self.assertEqual(field_info.default, PydanticUndefined)
+        self.assertEqual(definition.field_info.default, PydanticUndefined)
 
     def test_relation_field_with_expand_true(self):
         field = self._create_foreign_key_field(model=MockModel)
-        _, schema_field_name, (python_type, field_info) = get_schema_field(
-            field, expand="MockModel"
-        )
+        definition = get_schema_field(field, expand="MockModel")
         self._assert_naming_and_aliases(
-            schema_field_name, field_info, "testField", "test_field"
+            definition.name, definition.field_info, "testField", "test_field"
         )
-        self.assertEqual(field_info.default, PydanticUndefined)
+        self.assertEqual(definition.field_info.default, PydanticUndefined)
 
     def test_relation_field_with_expand_false(self):
         field = self._create_foreign_key_field(model=MockModel)
-        _, schema_field_name, (python_type, field_info) = get_schema_field(field)
+        definition = get_schema_field(field)
         self._assert_naming_and_aliases(
-            schema_field_name, field_info, "testFieldId", "test_field"
+            definition.name, definition.field_info, "testFieldId", "test_field"
         )
-        self.assertEqual(python_type, str)
-        self.assertEqual(field_info.default, PydanticUndefined)
+        self.assertEqual(definition.python_type, str)
+        self.assertEqual(definition.field_info.default, PydanticUndefined)
 
     def test_relation_field_with_optional_true(self):
         field = self._create_foreign_key_field(model=MockModel)
-        _, schema_field_name, (python_type, field_info) = get_schema_field(
-            field, optional=True
-        )
+        definition = get_schema_field(field, optional=True)
         self._assert_naming_and_aliases(
-            schema_field_name, field_info, "testFieldId", "test_field"
+            definition.name, definition.field_info, "testFieldId", "test_field"
         )
-        self.assertEqual(python_type, Nullable[str])
-        self.assertEqual(field_info.default, None)
+        self.assertEqual(definition.python_type, Nullable[str])
+        self.assertEqual(definition.field_info.default, None)
 
     def test_relation_field_with_nullable_true(self):
         field = self._create_foreign_key_field(model=MockModel, null=True)
-        _, schema_field_name, (python_type, field_info) = get_schema_field(field)
+        definition = get_schema_field(field)
         self._assert_naming_and_aliases(
-            schema_field_name, field_info, "testFieldId", "test_field"
+            definition.name, definition.field_info, "testFieldId", "test_field"
         )
-        self.assertEqual(python_type, Nullable[str])
-        self.assertEqual(field_info.default, None)
+        self.assertEqual(definition.python_type, Nullable[str])
+        self.assertEqual(definition.field_info.default, None)
 
     def test_coded_concept_field(self):
         field = self._create_foreign_key_field(model=MockCodedConcept)
-        _, schema_field_name, (python_type, field_info) = get_schema_field(field)
+        definition = get_schema_field(field)
         self._assert_naming_and_aliases(
-            schema_field_name, field_info, "testField", "test_field"
+            definition.name, definition.field_info, "testField", "test_field"
         )
-        self.assertEqual(python_type, CodedConceptSchema)
-        self.assertEqual(field_info.default, PydanticUndefined)
+        self.assertEqual(definition.python_type, CodedConceptSchema)
+        self.assertEqual(definition.field_info.default, PydanticUndefined)
 
     def test_many_to_many_field(self):
         field = ManyToManyField(MockModel, name="test_fields")
         field.is_relation = True
         field.related_model = MockModel
-        field.concrete = False
-        _, schema_field_name, (python_type, field_info) = get_schema_field(field)
+        field.concrete = False  # type: ignore
+        definition = get_schema_field(field)
         self._assert_naming_and_aliases(
-            schema_field_name, field_info, "testFieldsIds", "test_fields"
+            definition.name, definition.field_info, "testFieldsIds", "test_fields"
         )
-        self.assertEqual(python_type, List[str])
-        self.assertEqual(field_info.default, [])
+        self.assertEqual(definition.python_type, List[str])
+        self.assertEqual(definition.field_info.default_factory, list)
 
 
 class TestCreateFiltersSchema(TestCase):

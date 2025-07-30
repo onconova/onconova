@@ -1,12 +1,13 @@
 from django.test import TestCase
-from pop.tests.factories import make_terminology_factory
+
 from pop.terminology.models import AdministrativeGender as MockCodedConcept
+from pop.tests.factories import make_terminology_factory
 
 
 class TestDescendsFromLookup(TestCase):
 
     def setUp(self):
-        factory = make_terminology_factory(MockCodedConcept).get_factory()
+        factory = make_terminology_factory(MockCodedConcept).get_factory()  # type: ignore
         self.concept = factory()
         self.parent = factory()
         self.uncle = factory()
@@ -32,4 +33,5 @@ class TestDescendsFromLookup(TestCase):
         self.assertTrue(self.concept in query)
         self.assertTrue(self.parent not in query)
         self.assertTrue(self.uncle not in query)
+        self.assertTrue(self.grandparent not in query)
         self.assertTrue(self.grandparent not in query)

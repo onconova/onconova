@@ -1,8 +1,9 @@
 from datetime import datetime, timedelta
 from uuid import UUID, uuid4
+
 from pop.core.models import BaseModel
-from pop.tests.models import MockBaseModel
 from pop.tests.common import AbstractModelMixinTestCase
+from pop.tests.models import MockBaseModel
 
 
 class BaseModelTestCase(AbstractModelMixinTestCase):
@@ -10,26 +11,33 @@ class BaseModelTestCase(AbstractModelMixinTestCase):
 
     def test_init_with_id(self):
         id = uuid4()
-        instance = self.model(id=id)
-        self.assertEqual(instance.id, id)
+        obj = self.model(id=id)
+        self.assertEqual(obj.id, id)
 
     def test_init_without_id(self):
-        instance = self.model()
-        self.assertIsInstance(instance.id, UUID)
+        obj = self.model()
+        self.assertIsInstance(obj.id, UUID)
 
     def test_description_not_implemented(self):
-        instance = self.model()
+        obj = self.model()
         with self.assertRaises(NotImplementedError):
-            str(instance)
+            obj.description
 
     def test_created_at_annotation(self):
         before_create = datetime.now() - timedelta(minutes=1)
-        instance = MockBaseModel.objects.create(id=uuid4())
-        self.assertGreater(instance.created_at, before_create)
-        self.assertIsNone(instance.updated_at)
+        obj = MockBaseModel.objects.create(id=uuid4())
+        self.assertIsNotNone(obj.created_at)
+        self.assertGreater(obj.created_at, before_create)  # type: ignore
+        self.assertIsNone(obj.updated_at)
 
     def test_updated_at_annotation(self):
-        instance = MockBaseModel.objects.create(id=uuid4())
-        instance.external_source = "test"
-        instance.save()
-        self.assertGreaterEqual(instance.updated_at, instance.created_at)
+        obj = MockBaseModel.objects.create(id=uuid4())
+        obj.external_source = "test"
+        obj.save()
+        self.assertGreaterEqual(obj.updated_at, obj.created_at)  # type: ignore
+
+    def test_base_model_inherits_fields(self):
+        obj = self.model()
+        assert obj.id is not None
+        assert obj.external_source is None
+        assert obj.external_source_id is None

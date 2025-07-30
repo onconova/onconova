@@ -1,10 +1,12 @@
 from datetime import date
 from functools import partial
-from typing import List, Tuple, Optional, Union, Type, Callable, Any
+from typing import Any, Callable, List, Optional, Tuple, Type, Union
 
-from django.db.models import Q, QuerySet, Model as DjangoModel, Count
+from django.db.models import Count
+from django.db.models import Model as DjangoModel
+from django.db.models import Q, QuerySet
 from django.db.models.expressions import RawSQL
-from ninja import Schema, FilterSchema
+from ninja import FilterSchema, Schema
 from pydantic import BaseModel
 from pydantic.fields import FieldInfo
 
@@ -18,7 +20,7 @@ class FilterBaseSchema(FilterSchema):
     - Field-specific filter resolution via method naming conventions.
     """
 
-    _queryset_model: Type[DjangoModel] = None
+    _queryset_model: Type[DjangoModel] | None = None
 
     def filter(self, queryset: QuerySet) -> QuerySet:
         """
@@ -79,7 +81,7 @@ class DjangoFilter:
     """
 
     name: str = ""
-    lookup: str = None
+    lookup: str = ""
     description: str = ""
     value_type: type
     negative: bool = False
@@ -462,7 +464,7 @@ FLOAT_FILTERS = (
 class EqualsBooleanFilter(DjangoFilter):
     name = ""
     lookup = "exact"
-    description = ("Filter for yes/no statement",)
+    description = "Filter for yes/no statement"
     value_type = bool
 
 
@@ -472,7 +474,7 @@ BOOLEAN_FILTERS = (EqualsBooleanFilter,)
 class EqualsEnumFilter(DjangoFilter):
     name = ""
     lookup = "exact"
-    description = ("Filter for single value choice",)
+    description = "Filter for single value choice"
     value_type = str
 
 
@@ -485,7 +487,7 @@ class NotEqualsEnumFilter(EqualsEnumFilter):
 class AnyOfEnumFilter(DjangoFilter):
     name = "anyOf"
     lookup = "in"
-    description = ("Filter for subset of value choices",)
+    description = "Filter for subset of value choices"
     value_type = List[str]
 
 
@@ -884,7 +886,7 @@ USER_REFERENCE_FILTERS = (
 )
 
 
-__all__ = (
+ALL_FILTERS = (
     *STRING_FILTERS,
     *DATE_FILTERS,
     *PERIOD_FILTERS,

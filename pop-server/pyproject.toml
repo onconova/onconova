@@ -96,3 +96,6 @@ omit = [
   "**/migrations/*"
 ]
 
+[tool.isort]
+skip = ["__init__.py"]
+profile = "black"
