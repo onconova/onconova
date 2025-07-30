@@ -1,12 +1,12 @@
-from pop.core.schemas import CodedConcept as CodedConceptSchema
+from django.db.models import F
 from pop.core.auth.schemas import UserSchema
 from pop.core.measures.schemas import Measure
-from django.db.models import F
+from pop.core.schemas import CodedConcept as CodedConceptSchema
 
 
 class DjangoTransform:
     name: str = ""
-    lookup: str = None
+    lookup: str = ""
     description: str = ""
     value_type: type
 

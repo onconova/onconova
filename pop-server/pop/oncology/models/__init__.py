@@ -1,22 +1,55 @@
-from .patient_case import *
-from .neoplastic_entity import *
-from .treatment_response import *
-from .staging import *
-from .tumor_marker import *
-from .risk_assessment import *
-from .systemic_therapy import *
-from .surgery import *
-from .radiotherapy import *
-from .therapy_line import *
-from .performance_status import *
-from .tumor_board import *
-from .adverse_event import *
-from .lifestyle import *
-from .family_history import *
-from .comorbidities import *
-from .vitals import *
-from .genomic_variant import *
-from .genomic_signature import *
+from .patient_case import PatientCase, PatientCaseDataCompletion
+from .neoplastic_entity import NeoplasticEntity
+from .treatment_response import TreatmentResponse
+from .systemic_therapy import SystemicTherapy, SystemicTherapyMedication
+from .radiotherapy import Radiotherapy, RadiotherapyDosage, RadiotherapySetting
+from .surgery import Surgery
+from .therapy_line import TherapyLine
+from .adverse_event import (
+    AdverseEvent,
+    AdverseEventMitigation,
+    AdverseEventSuspectedCause,
+)
+from .comorbidities import ComorbiditiesAssessment
+from .family_history import FamilyHistory
+from .genomic_signature import (
+    AneuploidScore,
+    GenomicSignature,
+    HomologousRecombinationDeficiency,
+    LossOfHeterozygosity,
+    MicrosatelliteInstability,
+    TumorMutationalBurden,
+    TumorNeoantigenBurden,
+)
+from .genomic_variant import GenomicVariant
+from .lifestyle import Lifestyle
+from .performance_status import PerformanceStatus
+from .risk_assessment import RiskAssessment
+from .staging import (
+    BinetStaging,
+    BreslowDepth,
+    ClarkStaging,
+    FIGOStaging,
+    GleasonGrade,
+    INRGSSStage,
+    INSSStage,
+    ISSStaging,
+    LymphomaStaging,
+    RaiStaging,
+    RhabdomyosarcomaClinicalGroup,
+    RISSStaging,
+    Staging,
+    TNMStaging,
+    WilmsStage,
+)
+from .tumor_board import (
+    MolecularTherapeuticRecommendation,
+    MolecularTumorBoard,
+    TumorBoard,
+    UnspecifiedTumorBoard,
+)
+from .tumor_marker import TumorMarker
+from .vitals import Vitals
 
 MODELS = (
     # Patient case
@@ -88,4 +121,53 @@ MODELS = (
     AneuploidScore,
 )
 
-__all__ = [model.__name__ for model in MODELS]
+__all__ = [
+    "PatientCase",
+    "PatientCaseDataCompletion",
+    "NeoplasticEntity",
+    "Staging",
+    "TNMStaging",
+    "FIGOStaging",
+    "BinetStaging",
+    "RaiStaging",
+    "BreslowDepth",
+    "ClarkStaging",
+    "ISSStaging",
+    "RISSStaging",
+    "GleasonGrade",
+    "INSSStage",
+    "INRGSSStage",
+    "WilmsStage",
+    "RhabdomyosarcomaClinicalGroup",
+    "LymphomaStaging",
+    "TumorMarker",
+    "RiskAssessment",
+    "TreatmentResponse",
+    "TherapyLine",
+    "SystemicTherapy",
+    "SystemicTherapyMedication",
+    "PerformanceStatus",
+    "Surgery",
+    "Radiotherapy",
+    "RadiotherapyDosage",
+    "RadiotherapySetting",
+    "Lifestyle",
+    "ComorbiditiesAssessment",
+    "FamilyHistory",
+    "TumorBoard",
+    "MolecularTumorBoard",
+    "UnspecifiedTumorBoard",
+    "MolecularTherapeuticRecommendation",
+    "AdverseEvent",
+    "AdverseEventSuspectedCause",
+    "AdverseEventMitigation",
+    "Vitals",
+    "GenomicVariant",
+    "GenomicSignature",
+    "TumorMutationalBurden",
+    "MicrosatelliteInstability",
+    "LossOfHeterozygosity",
+    "HomologousRecombinationDeficiency",
+    "TumorNeoantigenBurden",
+    "AneuploidScore",
+]

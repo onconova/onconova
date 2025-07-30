@@ -1,10 +1,10 @@
+from datetime import datetime
+from unittest.mock import MagicMock
+
+import pop.core.serialization.filters as f
 from django.test import TestCase
 from parameterized import parameterized
-from datetime import datetime
-
-from unittest.mock import MagicMock
-from pop.tests.models import MockModel, OptionsEnum, MockCodedConcept
-import pop.core.serialization.filters as f
+from pop.tests.models import MockCodedConcept, MockModel, OptionsEnum
 
 
 class TestDjangoFilters(TestCase):
@@ -84,8 +84,10 @@ class TestDjangoFilters(TestCase):
             filtered_queryset.count() == 1,
             "Filter failed to limit the queryset to a single result (multiple found).",
         )
+        match = filtered_queryset.first()
+        assert match is not None, "Filter did not match any entries in the queryset."
         self.assertEqual(
-            filtered_queryset.first().pk,
+            match.pk,
             expected,
             "Filter failed to match the correct entry in the queryset.",
         )

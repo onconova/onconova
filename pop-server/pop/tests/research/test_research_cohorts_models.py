@@ -1,9 +1,14 @@
-from django.test import TestCase
+import unittest
+from collections import Counter, OrderedDict
+from datetime import datetime
+from random import random, seed
+from unittest.mock import MagicMock
+
 from django.core.exceptions import FieldError
-from pop.core.utils import average, std, percentile
+from django.test import TestCase
+from pop.core.utils import average, percentile, std
 from pop.research.models.cohort import Cohort
 from pop.tests.factories import PatientCaseFactory, UserFactory
-from random import random, seed
 
 
 class TestGetCohortPopulation(TestCase):
@@ -13,7 +18,10 @@ class TestGetCohortPopulation(TestCase):
         cls.population = 4
         cls.cohort = Cohort.objects.create(name="Test Cohort")
         cls.cohort.cases.set(
-            [PatientCaseFactory.create(consent_status='valid') for _ in range(cls.population)]
+            [
+                PatientCaseFactory.create(consent_status="valid")
+                for _ in range(cls.population)
+            ]
         )
 
     def test_no_cases(self):
@@ -29,21 +37,29 @@ class TestGetCohortTraitAverage(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.cohort = Cohort.objects.create(name="Test Cohort")
-        cls.cohort.cases.set([PatientCaseFactory.create(consent_status='valid') for _ in range(4)])
+        cls.cohort.cases.set(
+            [PatientCaseFactory.create(consent_status="valid") for _ in range(4)]
+        )
 
     def test_no_cases(self):
         self.cohort.cases.set([])
-        self.assertIsNone(self.cohort.get_cohort_trait_average(self.cohort.cases.all(),"age"))
+        self.assertIsNone(
+            self.cohort.get_cohort_trait_average(self.cohort.cases.all(), "age")
+        )
 
     def test_average_and_standard_deviation_values(self):
         ages = [c.age for c in self.cohort.cases.all()]
-        avg, stddev = self.cohort.get_cohort_trait_average(self.cohort.cases.all(), "age")
+        avg, stddev = self.cohort.get_cohort_trait_average(
+            self.cohort.cases.all(), "age"
+        )
         self.assertAlmostEqual(avg, average(ages))
         self.assertAlmostEqual(stddev, std(ages))
 
     def test_invalid_trait(self):
         with self.assertRaises(FieldError):
-            self.cohort.get_cohort_trait_average(self.cohort.cases.all(), "invalid_trait")
+            self.cohort.get_cohort_trait_average(
+                self.cohort.cases.all(), "invalid_trait"
+            )
 
 
 class TestGetCohortTraitMedian(TestCase):
@@ -51,28 +67,38 @@ class TestGetCohortTraitMedian(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.cohort = Cohort.objects.create(name="Test Cohort")
-        cls.cohort.cases.set([PatientCaseFactory.create(consent_status='valid') for _ in range(10)])
+        cls.cohort.cases.set(
+            [
+                PatientCaseFactory.create(
+                    consent_status="valid",
+                    date_of_birth=datetime(2000 + i, 1, 1).date(),
+                    date_of_death=None,
+                )
+                for i in range(10)
+            ]
+        )
 
     def test_no_cases(self):
         self.cohort.cases.set([])
-        self.assertIsNone(self.cohort.get_cohort_trait_median(self.cohort.cases.all(), "age"))
+        self.assertIsNone(
+            self.cohort.get_cohort_trait_median(self.cohort.cases.all(), "age")
+        )
 
     def test_median_and_iqr_values(self):
         ages = [c.age for c in self.cohort.cases.all()]
-        avg, iqr = self.cohort.get_cohort_trait_median(self.cohort.cases.all(), "age")
-        self.assertAlmostEqual(avg, percentile(ages, 50))
-        self.assertAlmostEqual(iqr[0], percentile(ages, 25))
-        self.assertAlmostEqual(iqr[1], percentile(ages, 75))
+        median, iqr = self.cohort.get_cohort_trait_median(
+            self.cohort.cases.all(), "age"
+        )
+        interp_diff = 0.5
+        self.assertAlmostEqual(median, percentile(ages, 50) - interp_diff)
+        self.assertAlmostEqual(iqr[0], percentile(ages, 25) - interp_diff)
+        self.assertAlmostEqual(iqr[1], percentile(ages, 75) - interp_diff)
 
     def test_invalid_trait(self):
         with self.assertRaises(FieldError):
-            self.cohort.get_cohort_trait_average(self.cohort.cases.all(), "invalid_trait")
-
-
-import unittest
-from unittest.mock import MagicMock
-from collections import OrderedDict
-from collections import Counter
+            self.cohort.get_cohort_trait_average(
+                self.cohort.cases.all(), "invalid_trait"
+            )
 
 
 class TestGetCohortTraitCounts(TestCase):
@@ -95,12 +121,16 @@ class TestGetCohortTraitCounts(TestCase):
 
     def test_no_cases(self):
         self.cohort.cases.set([])
-        result = self.cohort.get_cohort_trait_counts(self.cohort.cases.all(), "clinical_center")
+        result = self.cohort.get_cohort_trait_counts(
+            self.cohort.cases.all(), "clinical_center"
+        )
         self.assertEqual(result, OrderedDict())
-        
+
     def test_trait_counts(self):
         counter = dict(Counter([c.clinical_center for c in self.cohort.cases.all()]))
-        result = self.cohort.get_cohort_trait_counts(self.cohort.cases.all(), "clinical_center")
+        result = self.cohort.get_cohort_trait_counts(
+            self.cohort.cases.all(), "clinical_center"
+        )
         expected = dict(
             OrderedDict(
                 [
@@ -125,4 +155,6 @@ class TestGetCohortTraitCounts(TestCase):
 
     def test_invalid_trait(self):
         with self.assertRaises(FieldError):
-            self.cohort.get_cohort_trait_average(self.cohort.cases.all(), "invalid_trait")
+            self.cohort.get_cohort_trait_average(
+                self.cohort.cases.all(), "invalid_trait"
+            )

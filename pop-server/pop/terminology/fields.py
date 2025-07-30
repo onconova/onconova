@@ -1,6 +1,5 @@
-from django.db import models
 from django.core.exceptions import FieldError
-
+from django.db import models
 from pop.terminology.models import CodedConcept
 
 
@@ -13,7 +12,7 @@ class CodedConceptField(object):
 
     def __new__(
         cls,
-        terminology: CodedConcept,
+        terminology: CodedConcept | None,
         multiple: bool = False,
         null: bool = False,
         _to=None,

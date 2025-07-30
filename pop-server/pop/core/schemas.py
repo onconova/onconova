@@ -23,7 +23,7 @@ class ModifiedResource(Schema):
     Represents a resource that was modified in the system.
     """
 
-    id: UUID = Field(description="Unique identifier of the modified resource.")
+    id: UUID = Field(description="Unique identifier (UUID4) of the modified resource.")
     description: Nullable[str] = Field(
         default=None,
         description="A human-readable description of the modified resource.",

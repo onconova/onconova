@@ -1,17 +1,18 @@
 import unittest
-from typing import Union, Type, List, Literal, Union
 from enum import Enum
+from typing import List, Literal, Type, Union
+
 from pop.core.utils import (
-    is_optional,
-    is_list,
-    is_enum,
-    is_literal,
-    to_camel_case,
     average,
-    std,
-    percentile,
-    median,
     hash_to_range,
+    is_enum,
+    is_list,
+    is_literal,
+    is_optional,
+    median,
+    percentile,
+    std,
+    to_camel_case,
 )
 
 
@@ -243,4 +244,4 @@ class TestHashToRange(unittest.TestCase):
         input_str = 123
         secret = "secret_key"
         with self.assertRaises(TypeError):
-            hash_to_range(input_str, secret)
+            hash_to_range(input_str, secret)  # type: ignore

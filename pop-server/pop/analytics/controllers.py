@@ -12,6 +12,7 @@ from django.db.models import (
 )
 from django.db.models.functions import Cast, TruncMonth
 from ninja_extra import ControllerBase, api_controller, route
+
 from pop.analytics.schemas import (
     CountsPerMonth,
     DataCompletionStatistics,
@@ -23,6 +24,7 @@ from pop.core.aggregates import Median
 from pop.core.auth.token import XSessionTokenAuth
 from pop.core.utils import COMMON_HTTP_ERRORS
 from pop.oncology import models as oncological_models
+from pop.oncology.models.neoplastic_entity import NeoplasticEntityRelationship
 from pop.research.models.cohort import Cohort
 from pop.research.models.project import Project
 from pop.terminology.models import CancerTopographyGroup
@@ -42,9 +44,7 @@ class DashboardController(ControllerBase):
             primarySites=oncological_models.NeoplasticEntity.objects.select_properties(
                 "topography_group"
             )
-            .filter(
-                relationship=oncological_models.NeoplasticEntityRelationship.PRIMARY
-            )
+            .filter(relationship=NeoplasticEntityRelationship.PRIMARY)
             .distinct("topography_group")
             .count(),
             entries=sum([model.objects.count() for model in oncological_models.MODELS]),
@@ -71,9 +71,7 @@ class DashboardController(ControllerBase):
             oncological_models.NeoplasticEntity.objects.select_properties(
                 "topography_group"
             )
-            .filter(
-                relationship=oncological_models.NeoplasticEntityRelationship.PRIMARY
-            )
+            .filter(relationship=NeoplasticEntityRelationship.PRIMARY)
             .values("topography_group__code", "topography_group__display")
             .distinct()
         )
@@ -85,7 +83,7 @@ class DashboardController(ControllerBase):
             entity_cohort = oncological_models.PatientCase.objects.filter(
                 neoplastic_entities__topography__code__contains=entity_code
             ).filter(
-                neoplastic_entities__relationship=oncological_models.NeoplasticEntityRelationship.PRIMARY
+                neoplastic_entities__relationship=NeoplasticEntityRelationship.PRIMARY
             )
             statistics.append(
                 EntityStatistics(

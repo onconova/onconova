@@ -1,23 +1,24 @@
+from unittest.mock import MagicMock, patch
+
 import pghistory
-from unittest.mock import patch, MagicMock
-from django.test import TestCase, Client
+from django.test import Client, TestCase
 from faker import Faker
-from pop.tests import common, factories
+from parameterized import parameterized
 from pop.core.auth.models import User
 from pop.core.auth.schemas import (
-    UserSchema,
     UserCreateSchema,
-    UserProfileSchema,
     UserPasswordReset,
+    UserProfileSchema,
+    UserSchema,
 )
 from pop.core.history.schemas import HistoryEvent
-from parameterized import parameterized
-
 from pop.core.measures import measures
 from pop.core.measures.schemas import MeasureConversion
+from pop.tests import factories
+from pop.tests.common import GET_HTTP_SCENARIOS, HTTP_SCENARIOS, ApiControllerTestMixin
 
 
-class TestAuthController(common.ApiControllerTestMixin, TestCase):
+class TestAuthController(ApiControllerTestMixin, TestCase):
     controller_path = "/api/users"
 
     @classmethod
@@ -40,7 +41,7 @@ class TestAuthController(common.ApiControllerTestMixin, TestCase):
             content_type="application/json",
             secure=True,
         )
-        self.assertTrue(response.status_code, 200),
+        self.assertTrue(response.status_code, 200)
         self.assertIn("sessionToken", response.json())
 
     def test_login_user_with_email_password(self):
@@ -51,7 +52,7 @@ class TestAuthController(common.ApiControllerTestMixin, TestCase):
             content_type="application/json",
             secure=True,
         )
-        self.assertTrue(response.status_code, 200),
+        self.assertTrue(response.status_code, 200)
         self.assertIn("sessionToken", response.json())
 
     def test_login_user_with_provider_token(self):
@@ -80,11 +81,11 @@ class TestAuthController(common.ApiControllerTestMixin, TestCase):
                 secure=True,
             )
             mock_redirect.assert_called_once()
-            self.assertTrue(response.status_code, 200),
+            self.assertTrue(response.status_code, 200)
             self.assertIn("sessionToken", response.json())
 
 
-class TestUserController(common.ApiControllerTestMixin, TestCase):
+class TestUserController(ApiControllerTestMixin, TestCase):
     controller_path = "/api/v1/users"
 
     @classmethod
@@ -92,7 +93,7 @@ class TestUserController(common.ApiControllerTestMixin, TestCase):
         super().setUpTestData()
         cls.instance = factories.UserFactory()
 
-    @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
+    @parameterized.expand(GET_HTTP_SCENARIOS)
     def test_get_all_users(self, scenario, config):
         # Call the API endpoint
         response = self.call_api_endpoint(
@@ -108,7 +109,7 @@ class TestUserController(common.ApiControllerTestMixin, TestCase):
             result = UserSchema.model_validate(entry).model_dump()
             self.assertEqual(expected, result)
 
-    @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
+    @parameterized.expand(GET_HTTP_SCENARIOS)
     def test_get_user_by_id(self, scenario, config):
         # Call the API endpoint
         response = self.call_api_endpoint(
@@ -124,7 +125,7 @@ class TestUserController(common.ApiControllerTestMixin, TestCase):
             result = UserSchema.model_validate(entry).model_dump()
             self.assertEqual(expected, result)
 
-    @parameterized.expand(common.ApiControllerTestMixin.scenarios)
+    @parameterized.expand(HTTP_SCENARIOS)
     def test_create_user_by_id(self, scenario, config):
         json_data = UserCreateSchema.model_validate(self.instance).model_dump(
             mode="json"
@@ -139,7 +140,7 @@ class TestUserController(common.ApiControllerTestMixin, TestCase):
             new_user = User.objects.get(id=response.json()["id"])
             self.assertEqual("new_username", new_user.username)
 
-    @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
+    @parameterized.expand(GET_HTTP_SCENARIOS)
     def test_get_user_events(self, scenario, config):
         with pghistory.context(username=self.user.username):
             resource = factories.PatientCaseFactory.create()
@@ -154,7 +155,7 @@ class TestUserController(common.ApiControllerTestMixin, TestCase):
             for event in zip(events):
                 self.assertTrue(resource.events.filter(pgh_id=event[0]["id"]).exists())
 
-    @parameterized.expand(common.ApiControllerTestMixin.scenarios)
+    @parameterized.expand(HTTP_SCENARIOS)
     def test_update_user_and_access_level(self, scenario, config):
         update_schema = UserCreateSchema.model_validate(self.instance)
         update_schema.accessLevel = 4
@@ -168,12 +169,14 @@ class TestUserController(common.ApiControllerTestMixin, TestCase):
             updated_instance = User.objects.get(id=response.json()["id"])
             self.assertEqual(updated_instance.access_level, 4)
 
-    @parameterized.expand(common.ApiControllerTestMixin.scenarios)
+    @parameterized.expand(HTTP_SCENARIOS)
     def test_update_user_profile(self, scenario, config):
         new_first_name = "John"
         new_last_name = "Doe"
         json_data = UserProfileSchema(
-            firstName=new_first_name, lastName=new_last_name, email=self.instance.email
+            first_name=new_first_name,
+            last_name=new_last_name,
+            email=self.instance.email,
         ).model_dump(mode="json")
         # Call the API endpoint.
         response = self.call_api_endpoint(
@@ -185,13 +188,13 @@ class TestUserController(common.ApiControllerTestMixin, TestCase):
             self.assertEqual(updated_instance.first_name, new_first_name)
             self.assertEqual(updated_instance.last_name, new_last_name)
 
-    @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
+    @parameterized.expand(GET_HTTP_SCENARIOS)
     def test_update_own_profile(self, scenario, config):
         new_config = {**config, "access_level": 1}
         new_first_name = "John"
         new_last_name = "Doe"
         json_data = UserProfileSchema(
-            firstName=new_first_name, lastName=new_last_name, email=self.user.email
+            first_name=new_first_name, last_name=new_last_name, email=self.user.email
         ).model_dump(mode="json")
         # Call the API endpoint.
         self.call_api_endpoint(
@@ -203,7 +206,7 @@ class TestUserController(common.ApiControllerTestMixin, TestCase):
             self.assertEqual(self.user.first_name, new_first_name)
             self.assertEqual(self.user.last_name, new_last_name)
 
-    @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
+    @parameterized.expand(GET_HTTP_SCENARIOS)
     def test_update_own_password(self, scenario, config):
         new_config = {**config, "access_level": 1}
         old_password = "oldPassword123"
@@ -224,10 +227,10 @@ class TestUserController(common.ApiControllerTestMixin, TestCase):
             self.assertTrue(self.user.check_password(new_password))
 
 
-class TestMeasuresController(common.ApiControllerTestMixin, TestCase):
+class TestMeasuresController(ApiControllerTestMixin, TestCase):
     controller_path = "/api/v1/measures"
 
-    @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
+    @parameterized.expand(GET_HTTP_SCENARIOS)
     def test_get_measure_units(self, scenario, config):
         measure = measures.Volume
         # Call the API endpoint
@@ -238,7 +241,7 @@ class TestMeasuresController(common.ApiControllerTestMixin, TestCase):
             self.assertEqual(response.status_code, 200)
             self.assertEqual(list(measure.get_units().keys()), response.json())
 
-    @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
+    @parameterized.expand(GET_HTTP_SCENARIOS)
     def test_get_measure_default_units(self, scenario, config):
         measure = measures.Volume
         # Call the API endpoint
@@ -251,10 +254,10 @@ class TestMeasuresController(common.ApiControllerTestMixin, TestCase):
             self.assertEqual(response.status_code, 200)
             self.assertEqual(measure.STANDARD_UNIT, response.json())
 
-    @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
+    @parameterized.expand(GET_HTTP_SCENARIOS)
     def test_convert_units(self, scenario, config):
         measure = measures.Mass
-        data = MeasureConversion(value=1, unit="kg", newUnit="g").model_dump(
+        data = MeasureConversion(value=1, unit="kg", new_unit="g").model_dump(
             mode="json"
         )
         # Call the API endpoint

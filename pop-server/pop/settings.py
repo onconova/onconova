@@ -1,11 +1,11 @@
 import os
 import socket
 import tomllib
-from pop.core.utils import mkdir_p
 from pathlib import Path
 
 import pghistory
 from corsheaders.defaults import default_headers
+from pop.core.utils import mkdir_p
 
 
 def secure_url(address: str):
@@ -144,7 +144,6 @@ INSTALLED_APPS = [
 # Middleware stack
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    "pop.core.middleware.AuditLogMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -153,7 +152,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "allauth.usersessions.middleware.UserSessionsMiddleware",
     "pop.core.history.middleware.HistoryMiddleware",
-    "pop.core.history.middleware.APILoggingMiddleware",
+    "pop.core.history.middleware.AuditLogMiddleware",
 ]
 
 # ---------------------------------------------------------------
@@ -295,7 +294,7 @@ USE_TZ = False  # Do not make datetimes timezone-aware by default
 # ----------------------------------------------------------------
 
 # Ensure logs directory exists
-mkdir_p('/app/logs')
+mkdir_p("/app/logs")
 # Logger settings
 LOGGING = {
     "version": 1,
@@ -332,6 +331,11 @@ LOGGING = {
             "class": "logging.StreamHandler",
             "formatter": "audit_logfmt",
         },
+        "error_console": {
+            "level": "ERROR",
+            "class": "logging.StreamHandler",
+            "formatter": "error_verbose",
+        },
         "error_file": {
             "level": "ERROR",
             "class": "logging.handlers.TimedRotatingFileHandler",
@@ -348,7 +352,7 @@ LOGGING = {
             "propagate": False,
         },
         "error": {
-            "handlers": ["error_file"],
+            "handlers": ["error_file", "error_console"],
             "level": "ERROR",
             "propagate": False,
         },

@@ -1,10 +1,11 @@
-from django.db import models
+from enum import Enum
+
 import pghistory
 from django.contrib.postgres.fields import DateRangeField
+from django.db import models
+from pop.core.models import BaseModel
 from pop.terminology.fields import CodedConceptField
 from pop.terminology.models import CodedConcept
-from pop.core.models import BaseModel
-from enum import Enum
 
 
 class OptionsEnum(models.TextChoices):

@@ -1,5 +1,5 @@
-from pop.core.auth.models import User
 from django.test import TestCase
+from pop.core.auth.models import User
 
 
 class TestUserModel(TestCase):
@@ -81,8 +81,8 @@ class TestUserModel(TestCase):
     def test_superuser_permissions(self):
         """Ensure admin users have all permissions."""
         super_user = self.admin_user
-        super_user.access_level = None 
-        super_user.is_superuser=True
+        super_user.access_level = 0
+        super_user.is_superuser = True
         super_user.save()
 
         self.assertTrue(super_user.is_system_admin)

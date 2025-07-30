@@ -1,9 +1,8 @@
-import hashlib
-import inspect
-import math
-import re
-import os
 import errno
+import hashlib
+import math
+import os
+import re
 from datetime import datetime
 from enum import Enum
 from typing import Any, Literal, Optional, Union, get_args, get_origin
@@ -13,75 +12,75 @@ from django.apps import apps
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Model as DjangoModel
 from django.db.models import QuerySet
-from django.db.models.enums import ChoicesType
+from django.db.models.enums import ChoicesType  # type: ignore
 from pydantic import BaseModel, Field
 
 COMMON_HTTP_ERRORS = {401: None, 403: None, 500: None}
 
 
-def is_optional(field: type) -> bool:
+def is_optional(annotation: Any) -> bool:
     """
     Check if a field is optional, i.e. its type is a Union containing None.
 
     Args:
-        field (type): The field to check.
+        field (Any): The annotation to check.
 
     Returns:
         bool: True if the field is optional, False otherwise.
     """
-    return get_origin(field) is Union and type(None) in get_args(field)
+    return get_origin(annotation) is Union and type(None) in get_args(annotation)
 
 
-def is_union(field: type) -> bool:
+def is_union(annotation: Any) -> bool:
     """
-    Check if a field is optional, i.e. its type is a Union containing None.
+    Check if a field is a union type.
 
     Args:
-        field (type): The field to check.
+        annotation (Any): The annotation to check.
 
     Returns:
-        bool: True if the field is optional, False otherwise.
+        bool: True if the field is a union type, False otherwise.
     """
-    return get_origin(field) is Union
+    return get_origin(annotation) is Union
 
 
-def is_list(field):
+def is_list(annotation: Any) -> bool:
     """
     Check if a field is a list.
 
     Args:
-        field (type): The field to check.
+        annotation (Any): The annotation to check.
 
     Returns:
         bool: True if the field is a list, False otherwise.
     """
-    return get_origin(field) is list
+    return get_origin(annotation) is list
 
 
-def is_enum(field: type) -> bool:
+def is_enum(annotation: Any) -> bool:
     """
     Check if a field is an enumeration.
 
     Args:
-        field (type): The field to check.
+        annotation (Any): The annotation to check.
 
     Returns:
         bool: True if the field is an enumeration, False otherwise.
     """
-    return field.__class__ is type(Enum) or type(field) is ChoicesType
+    return annotation.__class__ is type(Enum) or type(annotation) is ChoicesType
 
 
-def is_literal(field: type) -> bool:
+def is_literal(annotation: Any) -> bool:
     """
     Check if a field is a literal value, i.e. its type is a Literal.
 
     Args:
-        field (type): The field to check.
+        annotation (Any): The annotation to check.
 
     Returns:
         bool: True if the field is a literal value, False otherwise.
     """
-    return get_origin(field) is Literal
+    return get_origin(annotation) is Literal
 
 
 def to_camel_case(string: str) -> str:
@@ -158,41 +157,6 @@ def _get_deepest_args(tp: Any) -> list:
     return deepest_args
 
 
-def get_all_models_from_field(
-    field: Field, issubclass_of: type = BaseModel
-) -> BaseModel:
-    """
-    Returns a generator of all models that are nested in a given field.
-
-    Args:
-        field (Field): The field to traverse.
-        issubclass_of (type, optional): Filter results to only include classes
-            that are subclasses of this type. Defaults to BaseModel.
-
-    Yields:
-        BaseModel: A model that is nested in the given field.
-    """
-
-    return (
-        arg
-        for arg in _get_deepest_args(field.annotation)
-        if inspect.isclass(arg) and issubclass(arg, issubclass_of)
-    )
-
-
-def get_related_model_from_field(field: Field) -> Optional[BaseModel]:
-    """
-    Return the first model that is nested in a given field.
-
-    Args:
-        field (Field): The field to traverse.
-
-    Returns:
-        Optional[BaseModel]: The first model that is nested in the given field.
-    """
-    return next(get_all_models_from_field(field), None)
-
-
 def find_uuid_across_models(
     search_uuid: Union[str, UUID], using: str = "default", app_label=None
 ) -> Optional[DjangoModel]:
@@ -219,7 +183,7 @@ def find_uuid_across_models(
             continue
 
 
-def revert_multitable_model(instance: DjangoModel, eventId: str) -> DjangoModel:
+def revert_multitable_model(instance: Any, eventId: str) -> BaseModel:
     """
     Revert a multi-table Django model to a specific history event.
 
@@ -232,6 +196,10 @@ def revert_multitable_model(instance: DjangoModel, eventId: str) -> DjangoModel:
     :return: The reverted instance.
     :raises ObjectDoesNotExist: If no matching history event exists.
     """
+    if not hasattr(instance, "events") or not hasattr(instance, "parent_events"):
+        raise ValueError(
+            "The instance must have 'events' and 'parent_events' attributes for multi-table history."
+        )
     # Get multi-table events
     parent_event = instance.parent_events.filter(pgh_id=eventId).first()
     if parent_event:
@@ -342,31 +310,31 @@ def hash_to_range(input_str: str, secret: str, low: int = -90, high: int = 90) -
     return mapped_value
 
 
-def percentile(data, q):
+def percentile(data, percentile):
     """
     Pure Python percentile function
-    Supports single q value (0-100)
+    Supports single percentile value (0-100)
     """
     if not data:
         raise ValueError("Cannot compute percentile of empty data")
 
-    if not (0 <= q <= 100):
+    if not (0 <= percentile <= 100):
         raise ValueError("Percentile must be between 0 and 100")
 
     sorted_data = sorted(data)
     n = len(sorted_data)
-    rank = (q / 100) * (n - 1)
+    rank = (percentile / 100) * (n - 1)
     lower_idx = int(math.floor(rank))
     upper_idx = int(math.ceil(rank))
 
     if lower_idx == upper_idx:
-        return sorted_data[int(rank)]
+        return sorted_data[lower_idx]
 
     lower_value = sorted_data[lower_idx]
     upper_value = sorted_data[upper_idx]
     weight = rank - lower_idx
 
-    return lower_value + weight * (upper_value - lower_value)
+    return (upper_value + lower_value) / 2
 
 
 def average(data, weights=None):
@@ -429,14 +397,29 @@ def std(data, ddof=0):
     variance = sum((x - mean) ** 2 for x in data) / (n - ddof)
     return math.sqrt(variance)
 
-def mkdir_p(path):
+
+def mkdir_p(path) -> None:
+    """
+    Create a directory and all intermediate-level directories needed to contain it.
+
+    This function attempts to mimic the behavior of the Unix command `mkdir -p`.
+    If the directory already exists, no exception is raised. Compatible with both
+    Python 2 and Python 3.
+
+    Args:
+        path (str): The directory path to create.
+
+    Raises:
+        OSError: If the directory cannot be created and does not already exist.
+    """
     """http://stackoverflow.com/a/600612/190597 (tzot)"""
     try:
         os.makedirs(path, exist_ok=True)  # Python>3.2
     except TypeError:
         try:
             os.makedirs(path)
-        except OSError as exc: # Python >2.5
+        except OSError as exc:  # Python >2.5
             if exc.errno == errno.EEXIST and os.path.isdir(path):
                 pass
-            else: raise
+            else:
+                raise

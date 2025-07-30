@@ -35,7 +35,7 @@ CohortQueryEntity = Enum(
 # Dynamically create an Enum from available filter class names
 CohortQueryFilter = Enum(
     "CohortQueryFilter",
-    {filter.__name__: filter.__name__ for filter in filters_module.__all__},
+    {filter.__name__: filter.__name__ for filter in filters_module.ALL_FILTERS},
     type=str,
 )
 
