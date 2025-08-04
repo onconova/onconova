@@ -60,7 +60,7 @@ RUN apt-get update && apt-get install -y \
     chromium-driver=120.0.*
 # Serve angular application
 ENTRYPOINT ["/app/entrypoint.sh", "--files", "/app/src/environments/env.js", "--files", "/app/src/plugins/plugins.env.js"]
-CMD ["ng", "serve", "--host", "0.0.0.0", "--port", "80", "--configuration", "development"]
+CMD ["ng", "serve", "--host", "0.0.0.0", "--port", "80", "--configuration", "development", "--disable-host-check"]
 
 ########################################
 # BUILDER
@@ -84,8 +84,8 @@ FROM nginx:1.23.3-alpine AS production
 COPY --from=builder /app/dist/client /usr/share/nginx/html
 COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 COPY ./entrypoint.sh /app/entrypoint.sh
-
 RUN chmod +x /app/entrypoint.sh
-ENTRYPOINT ["/bin/sh", "/app/entrypoint.sh", "--files", "/usr/share/nginx/html/assets/env.js", "--files", "/usr/share/nginx/html/assets/plugins.env.js"]
+
+ENTRYPOINT ["/bin/sh", "/app/entrypoint.sh", "--files", "/usr/share/nginx/html/assets/env.js", "--files", "/usr/share/nginx/html/assets/plugins.env.js", "--files", "/usr/share/nginx/html/index.html"]
 CMD ["nginx", "-g", "daemon off;"]
 EXPOSE 80

@@ -1,4 +1,4 @@
-import { dynamicEnv} from './dynamic-env';
+const dynamicEnv = (window as any).coreConfig || {}
 
 export const environment: any = {
   production: false,
