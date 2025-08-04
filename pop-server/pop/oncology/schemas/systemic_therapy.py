@@ -25,9 +25,14 @@ class SystemicTherapyMedicationCreateSchema(ModelCreateSchema):
 
 class SystemicTherapySchema(ModelGetSchema):
     medications: List[SystemicTherapyMedicationSchema] = Field(
+        title="Medications",
         description="Medications administered during the systemic therapy"
     )
-    duration: Measure = Field(title="Duration", description="Duration of treatment")
+    duration: Measure = Field(
+        title="Duration", 
+        description="Duration of treatment", 
+        json_schema_extra={'x-measure': 'Time'}
+    )
     config = SchemaConfig(
         model=orm.SystemicTherapy,
         anonymization=AnonymizationConfig(fields=["period"], key="caseId"),

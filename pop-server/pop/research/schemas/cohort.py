@@ -10,12 +10,13 @@ from pop.core.serialization.metaclasses import (
     ModelGetSchema,
     SchemaConfig,
 )
+from pop.core.measures import get_measure_db_value
 from pop.core.types import Nullable
 from pop.core.utils import camel_to_snake
 from pop.interoperability.schemas import ExportMetadata
 from pop.oncology import models as oncology_models
 from pop.research.models import cohort as orm
-from pydantic import AliasChoices
+from pydantic import AliasChoices, field_validator
 
 
 class RulesetCondition(str, Enum):
@@ -57,6 +58,16 @@ class CohortRuleFilter(Schema):
         title="Value",
         description="Filter value to be applied to the field using the rule's oprerator",
     )
+    
+    @property 
+    def db_value(self):
+        value = self.value
+        if isinstance(value, dict):
+            if 'unit' in value and 'value' in value:
+                return get_measure_db_value(value=value['value'], unit=value['unit'])
+            elif 'start' in value and 'end' in value:
+                return (value['start'], value['end'])
+        return value  
 
     @property
     def db_field(self):
@@ -89,9 +100,7 @@ class CohortRule(Schema):
         subquery = Q()
         for filter in self.filters:
             operator = getattr(filters_module, filter.operator, None)
-            field = filter.db_field
-            subquery = subquery & operator.get_query(field, filter.value, model)
-
+            subquery = subquery & operator.get_query(filter.db_field, filter.db_value, model)
         if model is oncology_models.PatientCase:
             yield subquery
         else:
@@ -171,7 +180,7 @@ class CohortFilters(create_filters_schema(schema=CohortSchema, name="CohortFilte
     """
 
     createdBy: Nullable[str] = Field(
-        None, description="Filter for a particular cohort creator by its username"
+        None, title="Created by", description="Filter for a particular cohort creator by its username"
     )
 
     def filter_createdBy(self, value: str) -> Q:

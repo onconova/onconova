@@ -25,16 +25,7 @@ class MeasuresController(ControllerBase):
         if measure is None:
             return 404, None
         units = []
-        if issubclass(measure, MeasureBase):
-            units = list(measure.get_units())
-        elif issubclass(measure, BidimensionalMeasure):
-            primaries = list(measure.PRIMARY_DIMENSION.get_units())  # type: ignore
-            references = list(measure.REFERENCE_DIMENSION.get_units())  # type: ignore
-            units = [
-                f"{primary}__{reference}"
-                for primary in primaries
-                for reference in references
-            ]
+        units = list(measure.get_units())
         return 200, units
 
     @route.get(

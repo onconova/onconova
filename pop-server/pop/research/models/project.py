@@ -116,7 +116,11 @@ class ProjectDataManagerGrant(BaseModel):
         related_name="data_management_grants",
     )
     project = models.ForeignKey(
-        "Project", on_delete=models.CASCADE, related_name="edit_permissions"
+        to="Project", 
+        on_delete=models.CASCADE, 
+        related_name="edit_permissions",
+        verbose_name=_("Project"),
+        help_text=_("Project under which the permission is granted"),
     )
     revoked = models.BooleanField(
         verbose_name=_("Revoked"),

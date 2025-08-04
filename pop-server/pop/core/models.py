@@ -37,7 +37,7 @@ class UntrackedBaseModel(models.Model):
     # All subclasses must be compatible with this manager.
     objects = QueryablePropertiesManager()
 
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.UUIDField(primary_key=True, help_text=_("Unique identifier of the resource (UUID v4)."), default=uuid.uuid4, editable=False)
     external_source = models.CharField(
         verbose_name=_("External data source"),
         help_text=_("The digital source of the data, relevant for automated data"),

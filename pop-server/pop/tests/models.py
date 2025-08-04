@@ -1,7 +1,7 @@
 from enum import Enum
 
 import pghistory
-from django.contrib.postgres.fields import DateRangeField
+from django.contrib.postgres.fields import DateRangeField, IntegerRangeField
 from django.db import models
 from pop.core.models import BaseModel
 from pop.terminology.fields import CodedConceptField
@@ -36,6 +36,7 @@ class MockModel(models.Model):
     enum_field = models.CharField(null=True, choices=OptionsEnum)
     bool_field = models.BooleanField(null=True)
     period_field = DateRangeField(null=True)
+    range_field = IntegerRangeField(null=True)
     float_field = models.FloatField(null=True)
     coded_concept_field = CodedConceptField(
         null=True, _to=MockCodedConcept, terminology=None

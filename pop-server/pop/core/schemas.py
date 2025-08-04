@@ -1,31 +1,33 @@
 from datetime import date, datetime
 from enum import Enum
-from typing import Any, Dict, List, Union
+from typing import Any, Dict, List, Union, TypeVar
 from uuid import UUID
 
 from ninja import Schema
-from ninja_extra.schemas import NinjaPaginationResponseSchema
+from ninja_extra.schemas import NinjaPaginationResponseSchema, field_validator
 from pop.core.types import Nullable
 from psycopg.types.range import Range as PostgresRange
 from pydantic import AliasChoices, Field, model_validator
 
 
+T = TypeVar("T")
+
 class Paginated(NinjaPaginationResponseSchema):
     """
     Standard paginated response schema.
     """
-
     pass
 
-
+    
 class ModifiedResource(Schema):
     """
     Represents a resource that was modified in the system.
     """
 
-    id: UUID = Field(description="Unique identifier (UUID4) of the modified resource.")
+    id: UUID = Field(title='ID',description="Unique identifier (UUID4) of the modified resource.")
     description: Nullable[str] = Field(
         default=None,
+        title='Description',
         description="A human-readable description of the modified resource.",
     )
 
@@ -36,22 +38,28 @@ class CodedConcept(Schema):
     """
 
     code: str = Field(
+        title='Code',
         description="Unique code within a coding system that identifies a concept."
     )
     system: str = Field(
+        title='System',
         description="Canonical URL of the code system defining the concept."
     )
     display: Nullable[str] = Field(
+        title='Display',
         default=None, description="Human-readable description of the concept."
     )
     version: Nullable[str] = Field(
+        title='Version',
         default=None, description="Release version of the code system, if applicable."
     )
     synonyms: Nullable[List[str]] = Field(
         default=None,
+        title='Synonyms',
         description="List of synonyms or alternative representations of the concept.",
     )
     properties: Nullable[Dict[str, Any]] = Field(
+        title='Properties',
         default=None, description="Additional properties associated with the concept."
     )
 
@@ -61,9 +69,13 @@ class Range(Schema):
     Represents a numeric or comparable range between two values.
     """
 
-    start: Nullable[int | float] = Field(description="The lower bound of the range.")
+    start: Nullable[int | float] = Field(
+        title='Start', 
+        description="The lower bound of the range."
+    )
     end: Nullable[int | float] = Field(
         default=None,
+        title='End',
         description="The upper bound of the range. If not provided, assumed unbounded.",
     )
 
@@ -95,9 +107,15 @@ class Period(Schema):
     """
 
     start: Nullable[date] = Field(
-        default=None, description="The start date of the period."
+        default=None,
+        title="Start", 
+        description="The start date of the period."
     )
-    end: Nullable[date] = Field(default=None, description="The end date of the period.")
+    end: Nullable[date] = Field(
+        default=None, 
+        title='End', 
+        description="The end date of the period."
+    )
 
     @model_validator(mode="before")
     def parse_period(cls, obj):

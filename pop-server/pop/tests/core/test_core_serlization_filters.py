@@ -50,6 +50,7 @@ class TestDjangoFilters(TestCase):
             float_field=2.5,
             enum_field=OptionsEnum.OPTIONA,
             bool_field=True,
+            range_field=(0, 5),
             period_field=(datetime(2000, 1, 1).date(), datetime(2009, 12, 12).date()),
             coded_concept_field=conceptA,
         )
@@ -63,6 +64,7 @@ class TestDjangoFilters(TestCase):
             float_field=5.5,
             enum_field=OptionsEnum.OPTIONB,
             bool_field=False,
+            range_field=(6, 10),
             period_field=(datetime(2010, 1, 1).date(), datetime(2020, 1, 1).date()),
             coded_concept_field=conceptB,
         )
@@ -245,3 +247,31 @@ class TestDjangoFilters(TestCase):
     )
     def test_period_filtering(self, FilterClass, value, expected):
         self.assert_filtering("period_field", FilterClass, value, expected)
+
+    @parameterized.expand(
+        [
+            (
+                f.OverlapsRangeFilter,
+                (0,2),
+                "instanceA",
+            ),
+            (
+                f.NotOverlapsRangeFilter,
+                (0,2),
+                "instanceB",
+            ),
+            (
+                f.ContainsRangeFilter,
+                (1,3),
+                "instanceA",
+            ),
+            (
+                f.NotContainsRangeFilter,
+                (1,3),
+                "instanceB",
+            ),
+        ],
+        name_func=parameterized_filter_test_name,
+    )
+    def test_range_filtering(self, FilterClass, value, expected):
+        self.assert_filtering("range_field", FilterClass, value, expected)

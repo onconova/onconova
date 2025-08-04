@@ -25,6 +25,7 @@
     --p-primary-200-semitransparent: color-mix(in srgb, var(--p-primary-200), transparent 20%);
 
     --p-divider-text-color: light-dark(var(--p-surface-400),var(--p-surface-500));
+    --p-tooltip-color: var(--p-surface-content);
 }
 
 html {

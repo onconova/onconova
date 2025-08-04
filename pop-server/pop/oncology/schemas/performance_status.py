@@ -13,17 +13,21 @@ from pydantic import AliasChoices, Field
 class PerformanceStatusSchema(ModelGetSchema):
     ecogInterpretation: Nullable[CodedConceptSchema] = Field(
         default=None,
+        title="ECOG Interpreation",
         description="Official interpretation of the ECOG score",
         alias="ecog_interpretation",
         validation_alias=AliasChoices("ecogInterpretation", "ecog_interpretation"),
+        json_schema_extra={'x-terminology': 'ECOGPerformanceStatusInterpretation'},
     )
     karnofskyInterpretation: Nullable[CodedConceptSchema] = Field(
         default=None,
+        title="Karnofsky Interpreation",
         description="Official interpretation of the Karnofsky score",
         alias="karnofsky_interpretation",
         validation_alias=AliasChoices(
             "karnofskyInterpretation", "karnofsky_interpretation"
         ),
+        json_schema_extra={'x-terminology': 'KarnofskyPerformanceStatusInterpretation'},
     )
     config = SchemaConfig(
         model=orm.PerformanceStatus,

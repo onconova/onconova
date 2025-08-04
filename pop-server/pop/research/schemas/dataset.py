@@ -46,7 +46,7 @@ class DatasetRule(Schema):
 
     resource: DataResource = Field(  # type: ignore
         title="Resource", description="The oncology resource this rule references."
-    )  # type: ignore
+    ) 
 
     field: str = Field(
         title="Field",

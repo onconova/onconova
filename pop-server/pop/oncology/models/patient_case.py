@@ -155,7 +155,7 @@ class PatientCase(BaseModel):
     )
     gender = termfields.CodedConceptField(
         verbose_name=_("Gender"),
-        help_text=_("Gender for administrative purposes"),
+        help_text=_("Gender of the patient for legal/administrative purposes"),
         terminology=terminologies.AdministrativeGender,
     )
     race = termfields.CodedConceptField(
@@ -174,6 +174,9 @@ class PatientCase(BaseModel):
     )
     gender_identity = termfields.CodedConceptField(
         verbose_name=_("Gender identity"),
+        help_text=_(
+            "The patient's innate sense of their gender as reported"
+        ),
         terminology=terminologies.GenderIdentity,
         null=True,
         blank=True,

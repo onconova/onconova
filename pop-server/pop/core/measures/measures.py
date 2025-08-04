@@ -5,7 +5,6 @@ from measurement.base import (
 from measurement.measures import Mass, Volume as VolumeBase, Distance
 from sympy import S, Symbol
 
-
 class Measure(MeasureBase):
 
     @property
@@ -39,6 +38,14 @@ class Measure(MeasureBase):
 
 class BidimensionalMeasure(BidimensionalMeasureBase):
 
+    @classmethod
+    def get_units(cls): 
+        return [
+            f"{primary}__{reference}"
+            for primary in list(cls.PRIMARY_DIMENSION.get_units())
+            for reference in  list(cls.REFERENCE_DIMENSION.get_units())
+        ]
+        
     @property
     def unit(self):
         return "%s__%s" % (
@@ -89,7 +96,7 @@ class BidimensionalMeasure(BidimensionalMeasureBase):
         return f"{round(self.primary.value,2)} {primary_unit}/{reference_unit}"
 
 
-def get_measurement(measure, value, unit=None, original_unit=None):
+def get_measurement(value, measure=None, unit=None, original_unit=None):
     """
     Creates a measurement object with the specified value and unit.
 
@@ -102,6 +109,11 @@ def get_measurement(measure, value, unit=None, original_unit=None):
     Returns:
         Measure: An instance of the measure class with the specified value and unit.
     """
+    if not measure and not unit and not original_unit: 
+        raise ValueError('Either measure, original_unit, or unit must be provided.')
+    if not measure and (unit or original_unit): 
+        from pop.core.measures import ALL_MEASURES
+        measure = next((measure for measure in ALL_MEASURES if (unit or original_unit) in measure.get_units()))
     # If unit is not specified use the class' standard unit
     unit = unit or measure.STANDARD_UNIT
     # Construct measurement
@@ -111,6 +123,11 @@ def get_measurement(measure, value, unit=None, original_unit=None):
     if isinstance(m, BidimensionalMeasure):
         m.reference.value = 1
     return m
+
+
+def get_measure_db_value(value, unit):
+    measurement = get_measurement(value=value, unit=unit)
+    return getattr(measurement, measurement.STANDARD_UNIT)
 
 
 class Temperature(Measure):

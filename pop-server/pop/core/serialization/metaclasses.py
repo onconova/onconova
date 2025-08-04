@@ -18,7 +18,7 @@ CREATE_IGNORED_FIELDS = ("id",)
 
 # Fields to automatically include when for get-type resources
 GET_SCHEMA_FIELDS = (
-    ("description", str, Field(description="Human-readable description")),
+    ("description", str, Field(title="Description", description="Human-readable description")),
 )
 
 
@@ -29,6 +29,7 @@ METADATA_FIELDS = (
         Nullable[datetime],
         Field(
             default=None,
+            title="Created at", 
             description="Date-time when the resource was created",
             alias="created_at",
             validation_alias=AliasChoices("createdAt", "created_at"),
@@ -39,6 +40,7 @@ METADATA_FIELDS = (
         Nullable[datetime],
         Field(
             default=None,
+            title="Updated at", 
             description="Date-time when the resource was last updated",
             alias="updated_at",
             validation_alias=AliasChoices("updatedAt", "updated_at"),
@@ -49,6 +51,7 @@ METADATA_FIELDS = (
         Nullable[str],
         Field(
             default=None,
+            title="Created by", 
             description="Username of the user who created the resource",
             alias="created_by",
             validation_alias=AliasChoices("createdBy", "created_by"),
@@ -59,6 +62,7 @@ METADATA_FIELDS = (
         Nullable[List[str]],
         Field(
             default=None,
+            title="Updated by", 
             description="Usernames of the users who have updated the resource",
             alias="updated_by",
             validation_alias=AliasChoices("updatedBy", "updated_by"),

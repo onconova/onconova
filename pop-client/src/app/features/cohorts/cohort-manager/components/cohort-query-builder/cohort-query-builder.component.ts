@@ -123,94 +123,110 @@ export class CohortQueryBuilderComponent implements ControlValueAccessor {
         ),
     } 
 
-    getEntityFields(entity: DataResource): Field[] {
-        const ignoredFields: string[] = ['description', 'caseId', 'id','createdAt','updatedAt', 'createdBy', 'updatedBy', 'externalSourceId', 'anonymized']
-        // Get the schema definition of the entity from the OpenAPISpecification object
-        const schemas = OpenAPISpecification.components.schemas
-        // Get a list of all fields/properties in that schema
-        const schema = schemas[entity];
-        const properties = schema.properties || {};
-        // Iterate over each property
-        return Object.entries(properties).filter(
-            ([propertyKey,_]) => !ignoredFields.includes(propertyKey)
-        ).flatMap(
-            ([propertyKey,property]): Field | Field[] => {
-                let title: string = property.title; 
-                let description: string = property.description; 
-                let extras: {[key: string]: string} = {};
-                if (property.hasOwnProperty('x-terminology')) {
-                    extras['terminology'] = property['x-terminology'];
-                }
-                
-                let isArray: boolean = false;
-                const nullable = !schema.required.includes(propertyKey) || (property.anyOf && property.anyOf[property.anyOf.length-1].type === 'null')
-                if (property.anyOf) {
-                    property = property.anyOf[0];
-                } 
-                if (property.items) {
-                    property = property.items;                    
-                    isArray = true;
-                }
-                let propertyType: string;
-                if (property.type === undefined) {
-                  if (property.$ref) propertyType = property.$ref.split('/').pop();
-                  else if (property.allOf) propertyType = property.allOf[0].$ref.split('/').pop();
-                  else propertyType = property.type;
-                } else {
-                    propertyType = property.type;
-                }        
-                
-                // Handle nested resources
-                if ([
-                    DataResource.SystemicTherapyMedication,
-                    DataResource.RadiotherapyDosage,
-                    DataResource.RadiotherapySetting,
-                    DataResource.AdverseEventMitigation,
-                    DataResource.AdverseEventSuspectedCause,
-                    DataResource.MolecularTherapeuticRecommendation,
-
-                ].includes(propertyType as DataResource)) {
-                    return this.getEntityFields(propertyType as DataResource).map((nested_field: Field) => ({
-                        name: `${property.title} - ${nested_field.name}`,
-                        entity: entity,
-                        value: `${entity}.${propertyKey}.${nested_field.value?.split('.').pop()}`,
-                        options: nested_field.options,
-                        type: nested_field.type,
-                        operators: nested_field.operators,
-                        description: nested_field.description,
-                    }))
-                }
-
-                // Determine any selection options if the property has an enumeration
-                // @ts-ignore
-                let propertyEnum = property.enum || schemas[propertyType]?.enum;
-                if (propertyEnum) {
-                    extras['options'] = propertyEnum.map((option: any) => ({ value: option, label: option }));
-                    propertyType = 'enum';
-                }
-                if (propertyType == 'string' && property.format) {
-                    propertyType = property.format
-                }
-                if (propertyType == 'Measure') {
-                    extras['measureType'] = property['x-measure'];
-                    extras['defaultUnit'] = property['x-default-unit'];
-                }
-                propertyType = (isArray ? "Multi" : "") + propertyType;
-                // Create a field object and add it to the array
-                return {
-                    name: title,
-                    entity: entity,
-                    value: `${entity}.${propertyKey}`,
-                    type: propertyType,
-                    operators: [
-                      ...(nullable ? [CohortQueryFilter.IsNullFilter] : []),
-                      ...this.getTypeFilterOperators(propertyType),
-                    ],
-                    description: description,
-                    ...extras,
-                }
-        }) as Field[];
+  getEntityFields(entity: DataResource): Field[] {
+    const IGNORED_FIELDS: string[] = [
+        'description', 'caseId', 'id', 'createdAt', 'updatedAt',
+        'createdBy', 'updatedBy', 'externalSourceId', 'anonymized'
+    ];
+    const NESTED_RESOURCES: DataResource[] = [
+      DataResource.SystemicTherapyMedication,
+      DataResource.RadiotherapyDosage,
+      DataResource.RadiotherapySetting,
+      DataResource.AdverseEventMitigation,
+      DataResource.AdverseEventSuspectedCause,
+      DataResource.MolecularTherapeuticRecommendation,
+    ]
+    // Get the schema definition of the entity from the OAS object
+    const schemas = OpenAPISpecification.components.schemas;
+    const schema = schemas?.[entity];
+    if (!schema) {
+        throw new Error(`Schema not found for resource: ${entity}`);
     }
+    // Get a list of all fields/properties in that schema
+    const properties = schema.properties || {};
+
+    // --- Main property loop ---
+    return Object.entries(properties)
+      .filter(([propertyKey,_]) => !IGNORED_FIELDS.includes(propertyKey))
+      .filter(([_,property]) => !property.const)
+      .flatMap(
+        ([propertyKey, property]): Field | Field[] => {
+            let extras: {[key: string]: string} = {};
+            let actual = property;
+            if (actual.hasOwnProperty('x-terminology')) {
+                extras['terminology'] = property['x-terminology'];
+            }
+            // Determine nullability
+            const isNullable = !schema.required.includes(propertyKey) || (actual.anyOf && actual.anyOf[actual.anyOf.length-1].type === 'null');            
+
+            // Handle nullable and composition
+            if (actual.anyOf) {
+              actual = actual.anyOf.find((p: any) => p.type !== 'null') || actual.anyOf[0];
+            } 
+            if (actual.allOf) {
+              actual = actual.allOf[0];
+            } 
+            const isArray = !!actual.items;
+            if (isArray) {
+                actual = actual.items;         
+            }
+
+
+            let propertyType: string;
+            if (actual.type === undefined) {
+              if (actual.$ref) propertyType = actual.$ref.split('/').pop();
+              else if (actual.allOf) propertyType = actual.allOf[0].$ref.split('/').pop();
+              else propertyType = actual.type;
+            } else {
+                propertyType = actual.type;
+            }        
+            
+            // Handle nested resources
+            if (NESTED_RESOURCES.includes(propertyType as DataResource)) {
+                return this.getEntityFields(propertyType as DataResource).map((nested_field: Field) => ({
+                    name: `${property.title} - ${nested_field.name}`,
+                    description: nested_field.description,
+                    entity: entity,
+                    value: `${entity}.${propertyKey}.${nested_field.value?.split('.').pop()}`,
+                    options: nested_field.options,
+                    type: nested_field.type,
+                    operators: nested_field.operators,
+                    terminology: nested_field.terminology,
+                    measureType: nested_field.measureType,
+                    defaultUnit: nested_field.defaultUnit,
+                }))
+            }
+
+            // Determine any selection options if the property has an enumeration
+            // @ts-ignore
+            let propertyEnum = actual.enum || schemas[propertyType]?.enum;
+            if (propertyEnum) {
+                extras['options'] = propertyEnum.map((option: any) => ({ value: option, label: option }));
+                propertyType = 'enum';
+            }
+            if (propertyType == 'string' && actual.format) {
+                propertyType = actual.format
+            }
+            if (propertyType == 'Measure') {
+                extras['measureType'] = property['x-measure'];
+                extras['defaultUnit'] = property['x-default-unit'];
+            }
+            propertyType = (isArray ? "Multi" : "") + propertyType;
+            // Create a field object and add it to the array
+            return {
+                name: property.title,
+                description: property.description,
+                entity: entity,
+                value: `${entity}.${propertyKey}`,
+                type: propertyType,
+                operators: [
+                  ...(isNullable ? [CohortQueryFilter.IsNullFilter] : []),
+                  ...this.getTypeFilterOperators(propertyType),
+                ],
+                ...extras,
+            }
+    }) as Field[];
+  }
 
 
 
@@ -292,7 +308,7 @@ export class CohortQueryBuilderComponent implements ControlValueAccessor {
                     if (toInternal) {
                         filter.field = `${rule.entity}.${filter.field}`
                     } else {
-                        filter.field = filter.field.split('.').pop();
+                        filter.field = filter.field.split('.').slice(1).join('.');
                     }
                 }
                 return filter
@@ -685,7 +701,7 @@ export class CohortQueryBuilderComponent implements ControlValueAccessor {
         } else if ((item as Rule).filters) {
           item.filters.forEach(
             (filter: RuleFilter) => {
-              if (!filter.operator || !filter.value) {
+              if (!filter.operator || (filter.value==undefined || filter.value == null)) {
                 errorStore.push(new Error());
               }
             }
@@ -795,6 +811,15 @@ export class CohortQueryBuilderComponent implements ControlValueAccessor {
                     CohortQueryFilter.OnOrAfterDateFilter,
                     CohortQueryFilter.OnDateFilter,
                     CohortQueryFilter.NotOnDateFilter,
+                ]
+            case 'Range':
+                return [ 
+                    CohortQueryFilter.OverlapsRangeFilter,
+                    CohortQueryFilter.NotOverlapsRangeFilter,
+                    CohortQueryFilter.ContainsRangeFilter,
+                    CohortQueryFilter.NotContainsRangeFilter,
+                    CohortQueryFilter.ContainedByRangeFilter,
+                    CohortQueryFilter.NotContainedByRangeFilter
                 ]
             case 'Period':
                 return [ 

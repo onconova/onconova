@@ -12,7 +12,7 @@ from pop.core.anonymization import AnonymizationConfig
 
 
 class UnspecifiedTumorBoardSchema(ModelGetSchema):
-    category: Literal[TumorBoardSpecialties.UNSPECIFIED] = TumorBoardSpecialties.UNSPECIFIED  # type: ignore
+    category: Literal[TumorBoardSpecialties.UNSPECIFIED] = Field(TumorBoardSpecialties.UNSPECIFIED, title="Category", description="Tumor board discriminator category")
     config = SchemaConfig(
         model=orm.UnspecifiedTumorBoard,
         exclude=["tumor_board"],
@@ -21,7 +21,7 @@ class UnspecifiedTumorBoardSchema(ModelGetSchema):
 
 
 class UnspecifiedTumorBoardCreateSchema(ModelCreateSchema):
-    category: Literal[TumorBoardSpecialties.UNSPECIFIED] = TumorBoardSpecialties.UNSPECIFIED  # type: ignore
+    category: Literal[TumorBoardSpecialties.UNSPECIFIED] = Field(TumorBoardSpecialties.UNSPECIFIED, title="Category", description="Tumor board discriminator category")
     config = SchemaConfig(model=orm.UnspecifiedTumorBoard, exclude=["tumor_board"])
 
 
@@ -38,8 +38,9 @@ class MolecularTherapeuticRecommendationCreateSchema(ModelCreateSchema):
 
 
 class MolecularTumorBoardSchema(ModelGetSchema):
-    category: Literal[TumorBoardSpecialties.MOLECULAR] = TumorBoardSpecialties.MOLECULAR  # type: ignore
+    category: Literal[TumorBoardSpecialties.MOLECULAR] = Field(TumorBoardSpecialties.MOLECULAR, title="Category", description="Tumor board discriminator category")
     therapeuticRecommendations: List[MolecularTherapeuticRecommendationSchema] = Field(
+        title='Therapeutic Recommendations',
         description="Therapeutic recommendations of the molecular tumor board",
         alias="therapeutic_recommendations",
         validation_alias=AliasChoices(
@@ -54,5 +55,5 @@ class MolecularTumorBoardSchema(ModelGetSchema):
 
 
 class MolecularTumorBoardCreateSchema(ModelCreateSchema):
-    category: Literal[TumorBoardSpecialties.MOLECULAR] = TumorBoardSpecialties.MOLECULAR  # type: ignore
+    category: Literal[TumorBoardSpecialties.MOLECULAR] = Field(TumorBoardSpecialties.MOLECULAR, title="Category", description="Tumor board discriminator category")
     config = SchemaConfig(model=orm.MolecularTumorBoard, exclude=["tumor_board"])

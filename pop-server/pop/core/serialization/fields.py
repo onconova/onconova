@@ -127,8 +127,10 @@ def get_schema_field(
     Returns:
         SchemaFieldDefinition: The generated schema field definition with type, alias, and resolver.
     """
+    description = None
     is_array_field = isinstance(field, ArrayField)
     if is_array_field:
+        description = getattr(field, 'help_text', None)
         field = field.base_field
     if field.is_relation:
         info = process_relation_field(field, exclude_related_fields, expand)
@@ -143,6 +145,7 @@ def get_schema_field(
         default=info.default,
         default_factory=info.default_factory,
         optional=optional,
+        description=description,
         **info.extras,
     )
     # Determine nullability based on field options or explicit optional parameter
@@ -390,6 +393,7 @@ def create_field_info(
     optional: bool = False,
     expanded: bool = False,
     default_factory: Optional[Callable[[], Any]] = None,
+    description: str | None = None,
     **json_schema_extra: Any,
 ) -> FieldInfo:
     """
@@ -421,7 +425,7 @@ def create_field_info(
         default = None
 
     title = None
-    description = getattr(field, "help_text", None)
+    description = description or getattr(field, "help_text", None)
     if getattr(field, "verbose_name", None):
         title = title_if_lower(field.verbose_name)
     return FieldInfo(
@@ -446,6 +450,7 @@ FILTERS_MAP = {
     date: schema_filters.DATE_FILTERS,
     datetime: schema_filters.DATE_FILTERS,
     PeriodSchema: schema_filters.PERIOD_FILTERS,
+    RangeSchema: schema_filters.RANGE_FILTERS,
     int: schema_filters.INTEGER_FILTERS,
     float: schema_filters.FLOAT_FILTERS,
     Measure: schema_filters.FLOAT_FILTERS,
@@ -573,6 +578,7 @@ def get_schema_field_filters(
                 python_type=filter.value_type,
                 field_info=FieldInfo(
                     default=None,
+                    title=filter.name or filter.__name__,
                     description=f"{field_title} - {filter.description}",
                 ),
                 resolver_fcn=filter.generate_query_expression(
