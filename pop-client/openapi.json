@@ -17423,6 +17423,28 @@
           },
           {
             "in": "query",
+            "name": "cycles.not.exists",
+            "schema": {
+              "description": "Cycles - Filter for entries without a value",
+              "title": "not.exists",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "Cycles - Filter for entries without a value"
+          },
+          {
+            "in": "query",
+            "name": "cycles.exists",
+            "schema": {
+              "description": "Cycles - Filter for entries with a value",
+              "title": "exists",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "Cycles - Filter for entries with a value"
+          },
+          {
+            "in": "query",
             "name": "cycles.lessThan",
             "schema": {
               "description": "Cycles - Filter for entries with values less than the specified value",
@@ -64549,7 +64571,6 @@
           "id",
           "caseId",
           "period",
-          "cycles",
           "intent",
           "isAdjunctive",
           "description"
@@ -73337,6 +73358,16 @@
             "title": "not.containedBy",
             "type": "array"
           },
+          "cycles.not.exists": {
+            "description": "Cycles - Filter for entries without a value",
+            "title": "not.exists",
+            "type": "boolean"
+          },
+          "cycles.exists": {
+            "description": "Cycles - Filter for entries with a value",
+            "title": "exists",
+            "type": "boolean"
+          },
           "cycles.lessThan": {
             "description": "Cycles - Filter for entries with values less than the specified value",
             "title": "lessThan",
@@ -73925,7 +73956,6 @@
         "required": [
           "caseId",
           "period",
-          "cycles",
           "intent"
         ],
         "title": "SystemicTherapyCreate",
