@@ -87,7 +87,7 @@ modify, merge, publish, distribute, sublicense, and/or sell copies of the softwa
     ),
     docs=Redoc(
         settings={
-            "showExtensions": ["x-terminology"],
+            "showExtensions": ["x-terminology", "x-measure", "x-default-unit"],
             "generateCodeSamples": {"languages": [{"lang": "curl"}]},
         }
     ),

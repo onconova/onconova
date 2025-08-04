@@ -28,7 +28,11 @@ class RadiotherapySettingCreateSchema(ModelCreateSchema):
 
 
 class RadiotherapySchema(ModelGetSchema):
-    duration: Measure = Field(title="Duration", description="Duration of treatment")
+    duration: Measure = Field(
+        title="Duration", 
+        description="Duration of treatment", 
+        json_schema_extra={'x-measure': 'Time'}
+    )
     dosages: List[RadiotherapyDosageSchema] = Field(
         description="Radiation doses administered during the radiotherapy"
     )

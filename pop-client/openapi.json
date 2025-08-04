@@ -63246,7 +63246,8 @@
           "duration": {
             "$ref": "#/components/schemas/Measure",
             "description": "Duration of treatment",
-            "title": "Duration"
+            "title": "Duration",
+            "x-measure": "Time"
           },
           "dosages": {
             "description": "Radiation doses administered during the radiotherapy",
@@ -64125,7 +64126,8 @@
           "duration": {
             "$ref": "#/components/schemas/Measure",
             "description": "Duration of treatment",
-            "title": "Duration"
+            "title": "Duration",
+            "x-measure": "Time"
           },
           "id": {
             "description": "",
@@ -65528,7 +65530,8 @@
               }
             ],
             "description": "Bodymass index of the patient",
-            "title": "Body mass index"
+            "title": "Body mass index",
+            "x-measure": "MassPerArea"
           },
           "id": {
             "description": "",
@@ -92021,30 +92024,46 @@
             "title": "Genomicvariants",
             "type": "array"
           },
-          "genomicSignatures": {
+          "tumorMutationalBurdens": {
             "items": {
-              "anyOf": [
-                {
-                  "$ref": "#/components/schemas/TumorMutationalBurdenPartial"
-                },
-                {
-                  "$ref": "#/components/schemas/MicrosatelliteInstabilityPartial"
-                },
-                {
-                  "$ref": "#/components/schemas/LossOfHeterozygosityPartial"
-                },
-                {
-                  "$ref": "#/components/schemas/HomologousRecombinationDeficiencyPartial"
-                },
-                {
-                  "$ref": "#/components/schemas/TumorNeoantigenBurdenPartial"
-                },
-                {
-                  "$ref": "#/components/schemas/AneuploidScorePartial"
-                }
-              ]
+              "$ref": "#/components/schemas/TumorMutationalBurdenPartial"
             },
-            "title": "Genomicsignatures",
+            "title": "Tumormutationalburdens",
+            "type": "array"
+          },
+          "microsatelliteInstabilities": {
+            "items": {
+              "$ref": "#/components/schemas/MicrosatelliteInstabilityPartial"
+            },
+            "title": "Microsatelliteinstabilities",
+            "type": "array"
+          },
+          "lossesOfHeterozygosity": {
+            "items": {
+              "$ref": "#/components/schemas/LossOfHeterozygosityPartial"
+            },
+            "title": "Lossesofheterozygosity",
+            "type": "array"
+          },
+          "homologousRecombinationDeficiencies": {
+            "items": {
+              "$ref": "#/components/schemas/HomologousRecombinationDeficiencyPartial"
+            },
+            "title": "Homologousrecombinationdeficiencies",
+            "type": "array"
+          },
+          "tumorNeoantigenBurdens": {
+            "items": {
+              "$ref": "#/components/schemas/TumorNeoantigenBurdenPartial"
+            },
+            "title": "Tumorneoantigenburdens",
+            "type": "array"
+          },
+          "aneuploidScores": {
+            "items": {
+              "$ref": "#/components/schemas/AneuploidScorePartial"
+            },
+            "title": "Aneuploidscores",
             "type": "array"
           },
           "vitals": {

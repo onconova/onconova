@@ -18,6 +18,7 @@ class VitalsSchema(ModelGetSchema):
         description="Bodymass index of the patient",
         alias="body_mass_index",
         validation_alias=AliasChoices("bodyMassIndex", "body_mass_index"),
+        json_schema_extra={'x-measure': 'MassPerArea'}
     )
     config = SchemaConfig(
         model=orm.Vitals,
