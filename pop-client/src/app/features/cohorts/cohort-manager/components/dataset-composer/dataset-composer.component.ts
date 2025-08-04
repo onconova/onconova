@@ -290,12 +290,40 @@ export class DatasetComposerComponent {
         this.#confirmationService.confirm({
             accept: () => {
                 this.processing.set(true);
-                this.#messageService.add({ severity: 'info', summary: 'Downloading', detail: 'Please wait for the download to begin...' })
+                this.#messageService.add({
+                    severity: 'info',
+                    summary: 'Processing',
+                    detail: 'Preparing your dataset for download. This may take a moment...',
+                    sticky: true
+                });
+
+                // Periodic wait message setup
+                let waitMessageInterval: any;
+                let waitMessageCount = 0;
+
+                waitMessageInterval = setInterval(() => {
+                    waitMessageCount++;
+                    this.#messageService.add({
+                        severity: 'info',
+                        summary: 'Still Working',
+                        detail: `We're still working on your dataset. Large datasets may take longer to process. (${waitMessageCount * 15} seconds elapsed)`,
+                        sticky: true
+                    });
+                }, 15000); // every 10 seconds
+
                 this.#cohortService.exportCohortDataset({
                     cohortId: this.cohort().id,
                     datasetId: this.form.value.datasetId!,
                 }).pipe(first()).subscribe({
                     next: (data: any) => {
+                        clearInterval(waitMessageInterval);
+                        this.#messageService.clear()
+                        this.#messageService.add({
+                            severity: 'info',
+                            summary: 'Downloading',
+                            detail: 'Your file is ready! Preparing download...',
+                            sticky: true
+                        });
                         switch (mode) {
                             case 'tree':
                                 this.#downloadService.downloadAsJson(data);
@@ -309,16 +337,29 @@ export class DatasetComposerComponent {
                         }
                     },
                     complete: () => {
-                        this.#messageService.add({ severity: 'success', summary: 'Success', detail: 'Dataset downloaded successfully' })
+                        clearInterval(waitMessageInterval);
+                        this.#messageService.clear()
+                        this.#messageService.add({
+                            severity: 'success',
+                            summary: 'Download Complete',
+                            detail: 'Your dataset was downloaded successfully.'
+                        });
                         this.processing.set(false)
                     },
                     error: (error) => {
-                        this.#messageService.add({ severity: 'error', summary: 'Dataset download failed', detail: error.error.detail })
+                        clearInterval(waitMessageInterval);
+                        this.#messageService.clear()
+                        this.#messageService.add({
+                            severity: 'error',
+                            summary: 'Download Failed',
+                            detail: `We were unable to process your dataset. Error: ${error.error.detail}`,
+                            sticky: true
+                        });
                         this.processing.set(false)
                     },
                 });
             }
-        })
+        });
     }
 
 }   
