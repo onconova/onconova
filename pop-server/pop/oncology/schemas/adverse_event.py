@@ -32,11 +32,13 @@ class AdverseEventMitigationCreateSchema(ModelCreateSchema):
 
 class AdverseEventSchema(ModelGetSchema):
     suspectedCauses: List[AdverseEventSuspectedCauseSchema] = Field(
+        title="Suspected causes",
         description="Suspected causes of the adverse event",
         alias="suspected_causes",
         validation_alias=AliasChoices("suspectedCauses", "suspected_causes"),
     )
     mitigations: List[AdverseEventMitigationSchema] = Field(
+        title="Mitigations",
         description="Mitigations of the adverse event",
     )
     config = SchemaConfig(

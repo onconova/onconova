@@ -15,7 +15,10 @@ from pydantic import AliasChoices
 
 class ComorbiditiesAssessmentSchema(ModelGetSchema):
     score: Nullable[int | float] = Field(
-        default=None, alias="score", description="Comorbidity score"
+        default=None, 
+        title="Score",
+        description="Comorbidity score",
+        alias="score",
     )
     config = SchemaConfig(
         model=orm.ComorbiditiesAssessment,
@@ -28,17 +31,25 @@ class ComorbiditiesAssessmentCreateSchema(ModelCreateSchema):
 
 
 class ComorbidityPanelCategory(Schema):
-    label: str = Field(description="Label of the comorbidity panel category")
+    label: str = Field(title="Label", description="Label of the comorbidity panel category")
     default: Nullable[CodedConceptSchema] = Field(
-        None, description="Default choice for category"
+        default=None, 
+        title="Default", 
+        description="Default choice for category"
     )
     conditions: List[CodedConceptSchema] = Field(
+        title="Conditions", 
         description="List of conditions included in the panel category"
     )
 
 
 class ComorbiditiesPanel(Schema):
-    name: str = Field(description="Comorbidity panel name")
+    name: str = Field(
+        title="Name", 
+        description="Comorbidity panel name"
+    )
     categories: List[ComorbidityPanelCategory] = Field(
-        None, description="Comorbidity panel categories"
+        default=None, 
+        title="Categories", 
+        description="Comorbidity panel categories"
     )

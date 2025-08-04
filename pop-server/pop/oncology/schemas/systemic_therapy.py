@@ -25,6 +25,7 @@ class SystemicTherapyMedicationCreateSchema(ModelCreateSchema):
 
 class SystemicTherapySchema(ModelGetSchema):
     medications: List[SystemicTherapyMedicationSchema] = Field(
+        title="Medications",
         description="Medications administered during the systemic therapy"
     )
     duration: Measure = Field(

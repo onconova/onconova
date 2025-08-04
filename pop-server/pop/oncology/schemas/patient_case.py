@@ -81,13 +81,16 @@ class PatientCaseCreateSchema(ModelCreateSchema):
 
 class PatientCaseDataCompletionStatusSchema(Schema):
     status: bool = Field(
+        title="Status",
         description="Boolean indicating whether the data category has been marked as completed"
     )
     username: Nullable[str] = Field(
+        title="Username",
         default=None,
         description="Username of the person who marked the category as completed",
     )
     timestamp: Nullable[datetime] = Field(
         default=None,
+        title="Timestamp",
         description="Username of the person who marked the category as completed",
     )

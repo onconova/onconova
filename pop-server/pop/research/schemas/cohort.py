@@ -180,7 +180,7 @@ class CohortFilters(create_filters_schema(schema=CohortSchema, name="CohortFilte
     """
 
     createdBy: Nullable[str] = Field(
-        None, description="Filter for a particular cohort creator by its username"
+        None, title="Created by", description="Filter for a particular cohort creator by its username"
     )
 
     def filter_createdBy(self, value: str) -> Q:

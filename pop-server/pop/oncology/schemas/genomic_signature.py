@@ -1,4 +1,4 @@
-from ninja import Schema
+from ninja import Field
 from typing import Literal
 
 from pop.oncology import models as orm
@@ -12,7 +12,7 @@ from pop.core.anonymization import AnonymizationConfig
 
 
 class GenomicSignatureSchema(ModelGetSchema):
-    category: GenomicSignatureTypes
+    category: GenomicSignatureTypes = Field(title="Category", description="Genomic signature discriminator category")
     config = SchemaConfig(
         model=orm.GenomicSignature,
         anonymization=AnonymizationConfig(fields=["date"], key="caseId"),
@@ -20,7 +20,7 @@ class GenomicSignatureSchema(ModelGetSchema):
 
 
 class TumorMutationalBurdenSchema(ModelGetSchema):
-    category: Literal[GenomicSignatureTypes.TUMOR_MUTATIONAL_BURDEN] = GenomicSignatureTypes.TUMOR_MUTATIONAL_BURDEN  # type: ignore
+    category: Literal[GenomicSignatureTypes.TUMOR_MUTATIONAL_BURDEN] = Field(default=GenomicSignatureTypes.TUMOR_MUTATIONAL_BURDEN, title="Category", description="Genomic signature discriminator category")
     config = SchemaConfig(
         model=orm.TumorMutationalBurden,
         exclude=["genomic_signature"],
@@ -29,14 +29,14 @@ class TumorMutationalBurdenSchema(ModelGetSchema):
 
 
 class TumorMutationalBurdenCreateSchema(ModelCreateSchema):
-    category: Literal[GenomicSignatureTypes.TUMOR_MUTATIONAL_BURDEN] = GenomicSignatureTypes.TUMOR_MUTATIONAL_BURDEN  # type: ignore
+    category: Literal[GenomicSignatureTypes.TUMOR_MUTATIONAL_BURDEN] = Field(GenomicSignatureTypes.TUMOR_MUTATIONAL_BURDEN, title="Category", description="Genomic signature discriminator category")
     config = SchemaConfig(
         model=orm.TumorMutationalBurden, exclude=["genomic_signature"]
     )
 
 
 class MicrosatelliteInstabilitySchema(ModelGetSchema):
-    category: Literal[GenomicSignatureTypes.MICROSATELLITE_INSTABILITY] = GenomicSignatureTypes.MICROSATELLITE_INSTABILITY  # type: ignore
+    category: Literal[GenomicSignatureTypes.MICROSATELLITE_INSTABILITY] = Field(GenomicSignatureTypes.MICROSATELLITE_INSTABILITY, title="Category", description="Genomic signature discriminator category")
     config = SchemaConfig(
         model=orm.MicrosatelliteInstability,
         exclude=["genomic_signature"],
@@ -45,14 +45,14 @@ class MicrosatelliteInstabilitySchema(ModelGetSchema):
 
 
 class MicrosatelliteInstabilityCreateSchema(ModelCreateSchema):
-    category: Literal[GenomicSignatureTypes.MICROSATELLITE_INSTABILITY] = GenomicSignatureTypes.MICROSATELLITE_INSTABILITY  # type: ignore
+    category: Literal[GenomicSignatureTypes.MICROSATELLITE_INSTABILITY] = Field(GenomicSignatureTypes.MICROSATELLITE_INSTABILITY, title="Category", description="Genomic signature discriminator category")
     config = SchemaConfig(
         model=orm.MicrosatelliteInstability, exclude=["genomic_signature"]
     )
 
 
 class LossOfHeterozygositySchema(ModelGetSchema):
-    category: Literal[GenomicSignatureTypes.LOSS_OF_HETEROZYGOSITY] = GenomicSignatureTypes.LOSS_OF_HETEROZYGOSITY  # type: ignore
+    category: Literal[GenomicSignatureTypes.LOSS_OF_HETEROZYGOSITY] = Field(GenomicSignatureTypes.LOSS_OF_HETEROZYGOSITY, title="Category", description="Genomic signature discriminator category")
     config = SchemaConfig(
         model=orm.LossOfHeterozygosity,
         exclude=["genomic_signature"],
@@ -61,12 +61,12 @@ class LossOfHeterozygositySchema(ModelGetSchema):
 
 
 class LossOfHeterozygosityCreateSchema(ModelCreateSchema):
-    category: Literal[GenomicSignatureTypes.LOSS_OF_HETEROZYGOSITY] = GenomicSignatureTypes.LOSS_OF_HETEROZYGOSITY  # type: ignore
+    category: Literal[GenomicSignatureTypes.LOSS_OF_HETEROZYGOSITY] = Field(GenomicSignatureTypes.LOSS_OF_HETEROZYGOSITY, title="Category", description="Genomic signature discriminator category")
     config = SchemaConfig(model=orm.LossOfHeterozygosity, exclude=["genomic_signature"])
 
 
 class HomologousRecombinationDeficiencySchema(ModelGetSchema):
-    category: Literal[GenomicSignatureTypes.HOMOLOGOUS_RECOMBINATION_DEFICIENCY] = GenomicSignatureTypes.HOMOLOGOUS_RECOMBINATION_DEFICIENCY  # type: ignore
+    category: Literal[GenomicSignatureTypes.HOMOLOGOUS_RECOMBINATION_DEFICIENCY] = Field(GenomicSignatureTypes.HOMOLOGOUS_RECOMBINATION_DEFICIENCY, title="Category", description="Genomic signature discriminator category")
     config = SchemaConfig(
         model=orm.HomologousRecombinationDeficiency,
         exclude=["genomic_signature"],
@@ -75,14 +75,14 @@ class HomologousRecombinationDeficiencySchema(ModelGetSchema):
 
 
 class HomologousRecombinationDeficiencyCreateSchema(ModelCreateSchema):
-    category: Literal[GenomicSignatureTypes.HOMOLOGOUS_RECOMBINATION_DEFICIENCY] = GenomicSignatureTypes.HOMOLOGOUS_RECOMBINATION_DEFICIENCY  # type: ignore
+    category: Literal[GenomicSignatureTypes.HOMOLOGOUS_RECOMBINATION_DEFICIENCY] = Field(GenomicSignatureTypes.HOMOLOGOUS_RECOMBINATION_DEFICIENCY, title="Category", description="Genomic signature discriminator category")
     config = SchemaConfig(
         model=orm.HomologousRecombinationDeficiency, exclude=["genomic_signature"]
     )
 
 
 class TumorNeoantigenBurdenSchema(ModelGetSchema):
-    category: Literal[GenomicSignatureTypes.TUMOR_NEOANTIGEN_BURDEN] = GenomicSignatureTypes.TUMOR_NEOANTIGEN_BURDEN  # type: ignore
+    category: Literal[GenomicSignatureTypes.TUMOR_NEOANTIGEN_BURDEN] = Field(GenomicSignatureTypes.TUMOR_NEOANTIGEN_BURDEN, title="Category", description="Genomic signature discriminator category")
     config = SchemaConfig(
         model=orm.TumorNeoantigenBurden,
         exclude=["genomic_signature"],
@@ -91,14 +91,14 @@ class TumorNeoantigenBurdenSchema(ModelGetSchema):
 
 
 class TumorNeoantigenBurdenCreateSchema(ModelCreateSchema):
-    category: Literal[GenomicSignatureTypes.TUMOR_NEOANTIGEN_BURDEN] = GenomicSignatureTypes.TUMOR_NEOANTIGEN_BURDEN  # type: ignore
+    category: Literal[GenomicSignatureTypes.TUMOR_NEOANTIGEN_BURDEN] = Field(GenomicSignatureTypes.TUMOR_NEOANTIGEN_BURDEN, title="Category", description="Genomic signature discriminator category")
     config = SchemaConfig(
         model=orm.TumorNeoantigenBurden, exclude=["genomic_signature"]
     )
 
 
 class AneuploidScoreSchema(ModelGetSchema):
-    category: Literal[GenomicSignatureTypes.ANEUPLOID_SCORE] = GenomicSignatureTypes.ANEUPLOID_SCORE  # type: ignore
+    category: Literal[GenomicSignatureTypes.ANEUPLOID_SCORE] = Field(GenomicSignatureTypes.ANEUPLOID_SCORE, title="Category", description="Genomic signature discriminator category")
     config = SchemaConfig(
         model=orm.AneuploidScore,
         exclude=["genomic_signature"],
@@ -107,5 +107,5 @@ class AneuploidScoreSchema(ModelGetSchema):
 
 
 class AneuploidScoreCreateSchema(ModelCreateSchema):
-    category: Literal[GenomicSignatureTypes.ANEUPLOID_SCORE] = GenomicSignatureTypes.ANEUPLOID_SCORE  # type: ignore
+    category: Literal[GenomicSignatureTypes.ANEUPLOID_SCORE] = Field(GenomicSignatureTypes.ANEUPLOID_SCORE, title="Category", description="Genomic signature discriminator category")
     config = SchemaConfig(model=orm.AneuploidScore, exclude=["genomic_signature"])

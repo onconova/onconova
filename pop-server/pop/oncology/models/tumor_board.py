@@ -143,6 +143,7 @@ class MolecularTumorBoard(TumorBoard):
     )
     reviewed_reports = ArrayField(
         verbose_name="Reviewed genomics reports",
+        help_text=_("List of genomic reports reviewed during the board meeting."),
         base_field=models.CharField(
             max_length=500,
         ),

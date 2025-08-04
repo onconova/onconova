@@ -34,9 +34,11 @@ class RadiotherapySchema(ModelGetSchema):
         json_schema_extra={'x-measure': 'Time'}
     )
     dosages: List[RadiotherapyDosageSchema] = Field(
+        title="Dosages",
         description="Radiation doses administered during the radiotherapy"
     )
     settings: List[RadiotherapySettingSchema] = Field(
+        title="Settings",
         description="Settings of the radiotherapy irradiation procedure"
     )
     config = SchemaConfig(
