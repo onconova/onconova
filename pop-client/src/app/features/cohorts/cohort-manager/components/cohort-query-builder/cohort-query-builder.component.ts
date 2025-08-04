@@ -700,7 +700,7 @@ export class CohortQueryBuilderComponent implements ControlValueAccessor {
         } else if ((item as Rule).filters) {
           item.filters.forEach(
             (filter: RuleFilter) => {
-              if (!filter.operator || !filter.value) {
+              if (!filter.operator || (filter.value==undefined || filter.value == null)) {
                 errorStore.push(new Error());
               }
             }
