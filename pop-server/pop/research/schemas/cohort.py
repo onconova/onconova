@@ -62,8 +62,11 @@ class CohortRuleFilter(Schema):
     @property 
     def db_value(self):
         value = self.value
-        if isinstance(value, dict) and value.get('unit') and value.get('value'):
-            return get_measure_db_value(value=value['value'], unit=value['unit'])
+        if isinstance(value, dict):
+            if 'unit' in value and 'value' in value:
+                return get_measure_db_value(value=value['value'], unit=value['unit'])
+            elif 'start' in value and 'end' in value:
+                return (value['start'], value['end'])
         return value  
 
     @property
