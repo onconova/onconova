@@ -231,6 +231,9 @@ export class CohortBuilderComponent {
                 this.cohort.reload()
                 this.cohortTraits.reload()                
             },
+            complete: () => {
+                this.submittingCohort.set(false);
+            },
             error: (error) => {
                 this.#messageService.add({ severity: 'error', summary: 'Error while updating', detail: error.error.detail });
                 this.submittingCohort.set(false);
