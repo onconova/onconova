@@ -298,7 +298,7 @@ mkdir_p("/app/logs")
 # Logger settings
 LOGGING = {
     "version": 1,
-    "disable_existing_loggers": True,
+    "disable_existing_loggers": not DEBUG,
     "formatters": {
         "audit_logfmt": {
             "format": (
