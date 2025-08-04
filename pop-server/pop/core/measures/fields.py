@@ -111,7 +111,7 @@ class MeasurementField(FloatField):
         if len(parts) != 2:
             return None
         value, unit = float(parts[0]), parts[1]
-        measure = get_measurement(self.measurement, value=value, unit=unit)
+        measure = get_measurement(measure=self.measurement, value=value, unit=unit)
         return measure
 
     def to_python(self, value):
