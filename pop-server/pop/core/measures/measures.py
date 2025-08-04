@@ -38,11 +38,12 @@ class Measure(MeasureBase):
 
 class BidimensionalMeasure(BidimensionalMeasureBase):
 
-    def get_units(self): 
+    @classmethod
+    def get_units(cls): 
         return [
             f"{primary}__{reference}"
-            for primary in list(self.PRIMARY_DIMENSION.get_units())
-            for reference in  list(self.REFERENCE_DIMENSION.get_units())
+            for primary in list(cls.PRIMARY_DIMENSION.get_units())
+            for reference in  list(cls.REFERENCE_DIMENSION.get_units())
         ]
         
     @property
