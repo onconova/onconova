@@ -174,17 +174,9 @@ class KarnofskyPerformanceStatusInterpretation(CodedConcept):
 
 class TreatmentTerminationReason(CodedConcept):
     valueset = (
-        "http://hl7.org/fhir/us/mcode/ValueSet/mcode-treatment-termination-reason-vs"
+        "https://simplifier.net/pop/ValueSets/pop-treatment-termination-reason"
     )
     description = "Values used to describe the reasons for stopping a treatment or episode of care."
-    extension_concepts = [
-        CodedConceptSchema(
-            code="182992009",
-            system="http://snomed.info/sct",
-            display="Treatment completed",
-            version="http://snomed.info/sct/900000000000207008",
-        ),
-    ]
 
     def __str__(self):
         return f"{self.display.split(' (')[0]}"
