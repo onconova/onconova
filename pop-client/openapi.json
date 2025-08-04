@@ -9167,29 +9167,29 @@
             "in": "query",
             "name": "stage",
             "schema": {
-              "description": "stage - Filter for a matching concept code",
+              "description": "Stage - Filter for a matching concept code",
               "title": "Stage",
               "type": "string"
             },
             "required": false,
-            "description": "stage - Filter for a matching concept code"
+            "description": "Stage - Filter for a matching concept code"
           },
           {
             "in": "query",
             "name": "stage.not",
             "schema": {
-              "description": "stage - Filter for a mismatching concept code",
+              "description": "Stage - Filter for a mismatching concept code",
               "title": "Stage.Not",
               "type": "string"
             },
             "required": false,
-            "description": "stage - Filter for a mismatching concept code"
+            "description": "Stage - Filter for a mismatching concept code"
           },
           {
             "in": "query",
             "name": "stage.anyOf",
             "schema": {
-              "description": "stage - Filter for a matching set of concept codes",
+              "description": "Stage - Filter for a matching set of concept codes",
               "items": {
                 "type": "string"
               },
@@ -9197,13 +9197,13 @@
               "type": "array"
             },
             "required": false,
-            "description": "stage - Filter for a matching set of concept codes"
+            "description": "Stage - Filter for a matching set of concept codes"
           },
           {
             "in": "query",
             "name": "stage.not.anyOf",
             "schema": {
-              "description": "stage - Filter for a mismmatching set of concept codes",
+              "description": "Stage - Filter for a mismmatching set of concept codes",
               "items": {
                 "type": "string"
               },
@@ -9211,18 +9211,18 @@
               "type": "array"
             },
             "required": false,
-            "description": "stage - Filter for a mismmatching set of concept codes"
+            "description": "Stage - Filter for a mismmatching set of concept codes"
           },
           {
             "in": "query",
             "name": "stage.descendantsOf",
             "schema": {
-              "description": "stage - Filter for all child concepts of a given concepts code",
+              "description": "Stage - Filter for all child concepts of a given concepts code",
               "title": "Stage.Descendantsof",
               "type": "string"
             },
             "required": false,
-            "description": "stage - Filter for all child concepts of a given concepts code"
+            "description": "Stage - Filter for all child concepts of a given concepts code"
           },
           {
             "in": "query",
@@ -60089,10 +60089,6 @@
             "title": "Stagingdomain",
             "type": "string"
           },
-          "stage": {
-            "$ref": "#/components/schemas/CodedConcept",
-            "description": "The value of the Binet stage"
-          },
           "id": {
             "description": "",
             "format": "uuid",
@@ -60136,6 +60132,13 @@
             "type": "array",
             "x-expanded": false
           },
+          "stage": {
+            "$ref": "#/components/schemas/CodedConcept",
+            "description": "The value of the Binet stage",
+            "title": "Binet Stage",
+            "x-expanded": false,
+            "x-terminology": "BinetStage"
+          },
           "description": {
             "description": "Human-readable description",
             "title": "Description",
@@ -60168,10 +60171,10 @@
           }
         },
         "required": [
-          "stage",
           "id",
           "caseId",
           "date",
+          "stage",
           "description"
         ],
         "title": "BinetStaging",
@@ -60192,7 +60195,10 @@
             "type": "string"
           },
           "stage": {
-            "$ref": "#/components/schemas/CodedConcept"
+            "$ref": "#/components/schemas/CodedConcept",
+            "description": "The value of the Binet stage",
+            "title": "Breslow Stage",
+            "x-terminology": "BreslowDepthStage"
           },
           "id": {
             "description": "",
@@ -64727,7 +64733,7 @@
           },
           "stage": {
             "$ref": "#/components/schemas/CodedConcept",
-            "description": "The information determined as a result of making the observation, if the information has a simple value",
+            "description": "The classification of the TNM stage",
             "title": "TNM Stage",
             "x-expanded": false,
             "x-terminology": "TNMStage"
@@ -68221,17 +68227,17 @@
             "type": "array"
           },
           "stage": {
-            "description": "stage - Filter for a matching concept code",
+            "description": "Stage - Filter for a matching concept code",
             "title": "Stage",
             "type": "string"
           },
           "stage.not": {
-            "description": "stage - Filter for a mismatching concept code",
+            "description": "Stage - Filter for a mismatching concept code",
             "title": "Stage.Not",
             "type": "string"
           },
           "stage.anyOf": {
-            "description": "stage - Filter for a matching set of concept codes",
+            "description": "Stage - Filter for a matching set of concept codes",
             "items": {
               "type": "string"
             },
@@ -68239,7 +68245,7 @@
             "type": "array"
           },
           "stage.not.anyOf": {
-            "description": "stage - Filter for a mismmatching set of concept codes",
+            "description": "Stage - Filter for a mismmatching set of concept codes",
             "items": {
               "type": "string"
             },
@@ -68247,7 +68253,7 @@
             "type": "array"
           },
           "stage.descendantsOf": {
-            "description": "stage - Filter for all child concepts of a given concepts code",
+            "description": "Stage - Filter for all child concepts of a given concepts code",
             "title": "Stage.Descendantsof",
             "type": "string"
           },
@@ -69614,7 +69620,7 @@
           },
           "stage": {
             "$ref": "#/components/schemas/CodedConcept",
-            "description": "The information determined as a result of making the observation, if the information has a simple value",
+            "description": "The classification of the TNM stage",
             "title": "TNM Stage",
             "x-expanded": false,
             "x-terminology": "TNMStage"
@@ -90258,20 +90264,6 @@
             "title": "Stagingdomain",
             "type": "string"
           },
-          "stage": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "items": {
-                  "type": "string"
-                },
-                "type": "array"
-              }
-            ],
-            "title": "Stage"
-          },
           "id": {
             "format": "uuid",
             "title": "Id",
@@ -90302,6 +90294,20 @@
             },
             "title": "Stagedentitiesids",
             "type": "array"
+          },
+          "stage": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              }
+            ],
+            "title": "Stage"
           },
           "description": {
             "title": "Description",

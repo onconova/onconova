@@ -123,7 +123,7 @@ class TNMStaging(Staging):
     stage = termfields.CodedConceptField(
         verbose_name=_("TNM Stage"),
         help_text=_(
-            "The information determined as a result of making the observation, if the information has a simple value"
+            "The classification of the TNM stage"
         ),
         terminology=terminologies.TNMStage,
     )

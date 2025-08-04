@@ -16,7 +16,7 @@ class StagingSchema(ModelGetSchema):
     stagingDomain: StagingDomain = Field(
         title="Staging domain", description="Group or type of staging"
     )
-    stage: CodedConceptSchema = Field(description="Classification of the stage")
+    stage: CodedConceptSchema = Field(title='Stage', description="Classification of the stage")
     config = SchemaConfig(
         model=orm.Staging,
         anonymization=AnonymizationConfig(fields=["date"], key="caseId"),
@@ -53,9 +53,6 @@ class FIGOStagingCreateSchema(ModelCreateSchema):
 
 class BinetStagingSchema(ModelGetSchema):
     stagingDomain: Literal[StagingDomain.BINET] = StagingDomain.BINET  # type: ignore
-    stage: CodedConceptSchema = Field(
-        description="The value of the Binet stage"
-    )
     config = SchemaConfig(
         model=orm.BinetStaging,
         exclude=["staging"],
@@ -84,7 +81,9 @@ class RaiStagingCreateSchema(ModelCreateSchema):
 
 class BreslowDepthSchema(ModelGetSchema):
     stagingDomain: Literal[StagingDomain.BRESLOW] = StagingDomain.BRESLOW  # type: ignore
-    stage: CodedConceptSchema
+    stage: CodedConceptSchema = Field(
+        title='Breslow Stage', description="The value of the Binet stage", json_schema_extra={'x-terminology': 'BreslowDepthStage'}
+    )
     config = SchemaConfig(
         model=orm.BreslowDepth,
         exclude=["staging"],
