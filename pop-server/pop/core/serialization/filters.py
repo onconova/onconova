@@ -886,10 +886,61 @@ USER_REFERENCE_FILTERS = (
 )
 
 
+class OverlapsRangeFilter(DjangoFilter):
+    name = "overlaps"
+    lookup = "overlap"
+    description = "Filter for entries overlapping with the range"
+    value_type = Tuple[int | float , int | float]
+
+
+class NotOverlapsRangeFilter(OverlapsRangeFilter):
+    name = "not.overlaps"
+    description = "Filter for entries not overlapping with the range"
+    negative = True
+
+
+class ContainsRangeFilter(DjangoFilter):
+    name = "contains"
+    lookup = "contains"
+    description = "Filter for entries containing the range"
+    value_type = Tuple[int | float, int | float]
+
+
+class NotContainsRangeFilter(ContainsRangeFilter):
+    name = "not.contains"
+    description = "Filter for entries not containing the range"
+    negative = True
+
+
+class ContainedByRangeFilter(DjangoFilter):
+    name = "containedBy"
+    lookup = "contained_by"
+    description = "Filter for entries whose Range are contined by the range"
+    value_type = Tuple[int | float, int | float]
+
+
+class NotContainedByRangeFilter(ContainedByRangeFilter):
+    name = "not.containedBy"
+    description = "Filter for entries whose Range are not contined by the range"
+    negative = True
+
+
+RANGE_FILTERS = (
+    OverlapsRangeFilter,
+    NotOverlapsRangeFilter,
+    ContainsRangeFilter,
+    NotContainsRangeFilter,
+    ContainedByRangeFilter,
+    NotContainedByRangeFilter,
+)
+
+
+
 ALL_FILTERS = (
     *STRING_FILTERS,
     *DATE_FILTERS,
     *PERIOD_FILTERS,
+    *RANGE_FILTERS,
     *INTEGER_FILTERS,
     *FLOAT_FILTERS,
     *BOOLEAN_FILTERS,

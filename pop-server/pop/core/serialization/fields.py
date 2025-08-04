@@ -446,6 +446,7 @@ FILTERS_MAP = {
     date: schema_filters.DATE_FILTERS,
     datetime: schema_filters.DATE_FILTERS,
     PeriodSchema: schema_filters.PERIOD_FILTERS,
+    RangeSchema: schema_filters.RANGE_FILTERS,
     int: schema_filters.INTEGER_FILTERS,
     float: schema_filters.FLOAT_FILTERS,
     Measure: schema_filters.FLOAT_FILTERS,

@@ -38360,6 +38360,216 @@
           },
           {
             "in": "query",
+            "name": "dnaChangePositionRange.overlaps",
+            "schema": {
+              "description": "DNA change range - Filter for entries overlapping with the range",
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "anyOf": [
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "number"
+                    }
+                  ]
+                },
+                {
+                  "anyOf": [
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "number"
+                    }
+                  ]
+                }
+              ],
+              "title": "Dnachangepositionrange.Overlaps",
+              "type": "array"
+            },
+            "required": false,
+            "description": "DNA change range - Filter for entries overlapping with the range"
+          },
+          {
+            "in": "query",
+            "name": "dnaChangePositionRange.not.overlaps",
+            "schema": {
+              "description": "DNA change range - Filter for entries not overlapping with the range",
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "anyOf": [
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "number"
+                    }
+                  ]
+                },
+                {
+                  "anyOf": [
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "number"
+                    }
+                  ]
+                }
+              ],
+              "title": "Dnachangepositionrange.Not.Overlaps",
+              "type": "array"
+            },
+            "required": false,
+            "description": "DNA change range - Filter for entries not overlapping with the range"
+          },
+          {
+            "in": "query",
+            "name": "dnaChangePositionRange.contains",
+            "schema": {
+              "description": "DNA change range - Filter for entries containing the range",
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "anyOf": [
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "number"
+                    }
+                  ]
+                },
+                {
+                  "anyOf": [
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "number"
+                    }
+                  ]
+                }
+              ],
+              "title": "Dnachangepositionrange.Contains",
+              "type": "array"
+            },
+            "required": false,
+            "description": "DNA change range - Filter for entries containing the range"
+          },
+          {
+            "in": "query",
+            "name": "dnaChangePositionRange.not.contains",
+            "schema": {
+              "description": "DNA change range - Filter for entries not containing the range",
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "anyOf": [
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "number"
+                    }
+                  ]
+                },
+                {
+                  "anyOf": [
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "number"
+                    }
+                  ]
+                }
+              ],
+              "title": "Dnachangepositionrange.Not.Contains",
+              "type": "array"
+            },
+            "required": false,
+            "description": "DNA change range - Filter for entries not containing the range"
+          },
+          {
+            "in": "query",
+            "name": "dnaChangePositionRange.containedBy",
+            "schema": {
+              "description": "DNA change range - Filter for entries whose Range are contined by the range",
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "anyOf": [
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "number"
+                    }
+                  ]
+                },
+                {
+                  "anyOf": [
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "number"
+                    }
+                  ]
+                }
+              ],
+              "title": "Dnachangepositionrange.Containedby",
+              "type": "array"
+            },
+            "required": false,
+            "description": "DNA change range - Filter for entries whose Range are contined by the range"
+          },
+          {
+            "in": "query",
+            "name": "dnaChangePositionRange.not.containedBy",
+            "schema": {
+              "description": "DNA change range - Filter for entries whose Range are not contined by the range",
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "anyOf": [
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "number"
+                    }
+                  ]
+                },
+                {
+                  "anyOf": [
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "number"
+                    }
+                  ]
+                }
+              ],
+              "title": "Dnachangepositionrange.Not.Containedby",
+              "type": "array"
+            },
+            "required": false,
+            "description": "DNA change range - Filter for entries whose Range are not contined by the range"
+          },
+          {
+            "in": "query",
             "name": "dnaChangeType.not.exists",
             "schema": {
               "description": "DNA change type - Filter for entries without a value",
@@ -81739,6 +81949,180 @@
             "title": "Dnachangepositionrange.Exists",
             "type": "boolean"
           },
+          "dnaChangePositionRange.overlaps": {
+            "description": "DNA change range - Filter for entries overlapping with the range",
+            "maxItems": 2,
+            "minItems": 2,
+            "prefixItems": [
+              {
+                "anyOf": [
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ]
+              },
+              {
+                "anyOf": [
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ]
+              }
+            ],
+            "title": "Dnachangepositionrange.Overlaps",
+            "type": "array"
+          },
+          "dnaChangePositionRange.not.overlaps": {
+            "description": "DNA change range - Filter for entries not overlapping with the range",
+            "maxItems": 2,
+            "minItems": 2,
+            "prefixItems": [
+              {
+                "anyOf": [
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ]
+              },
+              {
+                "anyOf": [
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ]
+              }
+            ],
+            "title": "Dnachangepositionrange.Not.Overlaps",
+            "type": "array"
+          },
+          "dnaChangePositionRange.contains": {
+            "description": "DNA change range - Filter for entries containing the range",
+            "maxItems": 2,
+            "minItems": 2,
+            "prefixItems": [
+              {
+                "anyOf": [
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ]
+              },
+              {
+                "anyOf": [
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ]
+              }
+            ],
+            "title": "Dnachangepositionrange.Contains",
+            "type": "array"
+          },
+          "dnaChangePositionRange.not.contains": {
+            "description": "DNA change range - Filter for entries not containing the range",
+            "maxItems": 2,
+            "minItems": 2,
+            "prefixItems": [
+              {
+                "anyOf": [
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ]
+              },
+              {
+                "anyOf": [
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ]
+              }
+            ],
+            "title": "Dnachangepositionrange.Not.Contains",
+            "type": "array"
+          },
+          "dnaChangePositionRange.containedBy": {
+            "description": "DNA change range - Filter for entries whose Range are contined by the range",
+            "maxItems": 2,
+            "minItems": 2,
+            "prefixItems": [
+              {
+                "anyOf": [
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ]
+              },
+              {
+                "anyOf": [
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ]
+              }
+            ],
+            "title": "Dnachangepositionrange.Containedby",
+            "type": "array"
+          },
+          "dnaChangePositionRange.not.containedBy": {
+            "description": "DNA change range - Filter for entries whose Range are not contined by the range",
+            "maxItems": 2,
+            "minItems": 2,
+            "prefixItems": [
+              {
+                "anyOf": [
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ]
+              },
+              {
+                "anyOf": [
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ]
+              }
+            ],
+            "title": "Dnachangepositionrange.Not.Containedby",
+            "type": "array"
+          },
           "dnaChangeType.not.exists": {
             "description": "DNA change type - Filter for entries without a value",
             "title": "Dnachangetype.Not.Exists",
@@ -89298,6 +89682,12 @@
           "NotContainsPeriodFilter",
           "ContainedByPeriodFilter",
           "NotContainedByPeriodFilter",
+          "OverlapsRangeFilter",
+          "NotOverlapsRangeFilter",
+          "ContainsRangeFilter",
+          "NotContainsRangeFilter",
+          "ContainedByRangeFilter",
+          "NotContainedByRangeFilter",
           "LessThanIntegerFilter",
           "LessThanOrEqualIntegerFilter",
           "GreaterThanIntegerFilter",

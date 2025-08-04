@@ -154,6 +154,12 @@
                                     [disabled]="disabled"
                                     placeholder="Enter a query"/>
                                 }
+                                @case('Range') {                                  
+                                  <pop-range-input
+                                      [(ngModel)]="filter.value"
+                                      (ngModelChange)="changeInput()"
+                                      [disabled]="disabled"/>
+                                }
                                 @case ('Period') {
                                   <pop-datepicker 
                                     [(ngModel)]="filter.value"
@@ -232,7 +238,7 @@
                                   @let requiresRange = ['NotBetweenFloatFilter', 'BetweenFloatFilter'].includes(filter.operator);
                                   @if (requiresRange) {
                                       <pop-range-input
-                                          [(range)]="filter.value"
+                                          [(ngModel)]="filter.value"
                                           (ngModelChange)="changeInput()"
                                           [disabled]="disabled"/>
                                   } @else {
@@ -252,7 +258,7 @@
                                   @let requiresRange = ['NotBetweenIntegerFilter', 'BetweenIntegerFilter'].includes(filter.operator);
                                   @if (requiresRange) {
                                       <pop-range-input
-                                          [(range)]="filter.value"
+                                          [(ngModel)]="filter.value"
                                           (ngModelChange)="changeInput()"
                                           [disabled]="disabled"/>
                                   } @else {

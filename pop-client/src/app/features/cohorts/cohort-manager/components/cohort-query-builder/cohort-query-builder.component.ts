@@ -811,6 +811,15 @@ export class CohortQueryBuilderComponent implements ControlValueAccessor {
                     CohortQueryFilter.OnDateFilter,
                     CohortQueryFilter.NotOnDateFilter,
                 ]
+            case 'Range':
+                return [ 
+                    CohortQueryFilter.OverlapsRangeFilter,
+                    CohortQueryFilter.NotOverlapsRangeFilter,
+                    CohortQueryFilter.ContainsRangeFilter,
+                    CohortQueryFilter.NotContainsRangeFilter,
+                    CohortQueryFilter.ContainedByRangeFilter,
+                    CohortQueryFilter.NotContainedByRangeFilter
+                ]
             case 'Period':
                 return [ 
                     CohortQueryFilter.OverlapsPeriodFilter,

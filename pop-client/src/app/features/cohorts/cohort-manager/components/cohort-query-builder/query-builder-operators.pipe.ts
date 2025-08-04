@@ -47,6 +47,18 @@ function mapOperator(operator: string): string {
             return 'Is contained by';
         case CohortQueryFilter.NotContainedByPeriodFilter:
             return 'Is not contained by';
+        case CohortQueryFilter.OverlapsRangeFilter:
+            return 'Overlaps with';
+        case CohortQueryFilter.NotOverlapsRangeFilter:
+            return 'Does not overlap with';
+        case CohortQueryFilter.ContainsRangeFilter:
+            return 'Contains';
+        case CohortQueryFilter.NotContainsRangeFilter:
+            return 'Does not contain';
+        case CohortQueryFilter.ContainedByRangeFilter:
+            return 'Is contained by';
+        case CohortQueryFilter.NotContainedByRangeFilter:
+            return 'Is not contained by';
         case CohortQueryFilter.LessThanIntegerFilter:
             return 'Is less than'
         case CohortQueryFilter.LessThanOrEqualIntegerFilter:
