@@ -148,6 +148,7 @@ export class CohortQueryBuilderComponent implements ControlValueAccessor {
     // --- Main property loop ---
     return Object.entries(properties)
       .filter(([propertyKey,_]) => !IGNORED_FIELDS.includes(propertyKey))
+      .filter(([_,property]) => !property.const)
       .flatMap(
         ([propertyKey, property]): Field | Field[] => {
             let extras: {[key: string]: string} = {};
