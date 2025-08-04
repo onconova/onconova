@@ -9,7 +9,7 @@ import { Skeleton } from 'primeng/skeleton';
         class="pop-cancer-icon" 
         [setSVGAttributes]="{style: 'margin: auto; display: block;', height: height(), width: width()}"
         (onSVGInserted)="loadingSVG.set(false)" 
-        style="display: {{loadingSVG() ? 'none' : 'block'}}">
+        [style.display]="loadingSVG() ? 'none' : 'block'">
     </div>
     @if (loadingSVG()) {
         <p-skeleton [height]="height()" [width]="width()"/>
@@ -68,8 +68,9 @@ export class CancerIconComponent {
         if (!this.topography()) {
             return this.#defaultIcon
         } 
+        const topographyCode = this.topography().split('.')[0];
         let icon = Object.entries(this.#icons).find(
-            ([filename, topographies]) => topographies.includes(this.topography().split('.')[0])
+            ([, topographies]) => topographies.includes(topographyCode)
         )       
         if (!icon) {
             return this.#defaultIcon

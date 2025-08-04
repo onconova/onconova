@@ -1,412 +1,11 @@
-import pghistory
-import pghistory.models
-
 from django.test import TestCase
-from django.db.models import Model
-
-from pop.oncology import models, schemas
-from pop.tests import factories, common
-from pop.core.serialization.metaclasses import ModelGetSchema, ModelCreateSchema
-from copy import deepcopy
 from parameterized import parameterized
-import pytest
+from pop.oncology import models, schemas
+from pop.tests import common, factories
+from pop.tests.common import CrudApiControllerTestCase
 
 
-class ApiControllerTextMixin(common.ApiControllerTestMixin):
-    FACTORY: factories.factory.django.DjangoModelFactory
-    MODEL: Model
-    SCHEMA: ModelGetSchema
-    CREATE_SCHEMA: ModelCreateSchema
-    history_tracked: bool = True
-
-    @classmethod
-    def setUpTestData(cls):
-        super().setUpTestData()
-        # Ensure class settings are iterable
-        cls.FACTORY = (
-            [cls.FACTORY] if not isinstance(cls.FACTORY, list) else cls.FACTORY
-        )
-        cls.SUBTESTS = len(cls.FACTORY)
-        cls.MODEL = (
-            [cls.MODEL] * cls.SUBTESTS if not isinstance(cls.MODEL, list) else cls.MODEL
-        )
-        cls.SCHEMA = (
-            [cls.SCHEMA] * cls.SUBTESTS
-            if not isinstance(cls.SCHEMA, list)
-            else cls.SCHEMA
-        )
-        cls.CREATE_SCHEMA = (
-            [cls.CREATE_SCHEMA] * cls.SUBTESTS
-            if not isinstance(cls.CREATE_SCHEMA, list)
-            else cls.CREATE_SCHEMA
-        )
-        cls.INSTANCE = []
-        cls.CREATE_PAYLOAD = []
-        cls.UPDATE_PAYLOAD = []
-        for factory, schema in zip(cls.FACTORY, cls.CREATE_SCHEMA):
-            with pghistory.context(username=cls.user.username):
-                instance1, instance2 = factory.create_batch(2)
-                cls.INSTANCE.append(instance1)
-                cls.CREATE_PAYLOAD.append(
-                    schema.model_validate(instance1).model_dump(mode="json")
-                )
-                cls.UPDATE_PAYLOAD.append(
-                    schema.model_validate(instance2).model_dump(mode="json")
-                )
-                instance2.delete()
-
-    def _remove_key_recursive(self, dictionary, keys_to_remove):
-        """
-        Recursively removes a key from a dictionary that contains lists.
-
-        Args:
-            dictionary (dict): The dictionary to remove the key from.
-            key_to_remove (str): The key to remove.
-
-        Returns:
-            dict: The updated dictionary with the key removed.
-        """
-
-        def __remove_key_recursive(d, key_to_remove):
-            for key, value in list(d.items()):
-                if key == key_to_remove:
-                    del d[key]
-                elif isinstance(value, dict):
-                    __remove_key_recursive(value, key_to_remove)
-                elif isinstance(value, list):
-                    for item in value:
-                        if isinstance(item, dict):
-                            __remove_key_recursive(item, key_to_remove)
-            return d
-
-        for key_to_remove in keys_to_remove:
-            dictionary = __remove_key_recursive(dictionary, key_to_remove)
-        return dictionary
-
-    @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
-    def test_get_all(self, scenario, config):
-        for i in range(self.SUBTESTS):
-            can_be_anonymized = hasattr(self.SCHEMA[i], "anonymized")
-            instance = self.INSTANCE[i]
-            # Call the API endpoint
-            response = self.call_api_endpoint(
-                "GET", self.get_route_url(instance), anonymized=False, **config
-            )
-            with self.subTest(i=i):
-                # Assert response content
-                if scenario == "HTTPS Authenticated":
-                    self.assertEqual(response.status_code, 200)
-                    if "items" in response.json():
-                        entry = next(
-                            (
-                                item
-                                for item in response.json()["items"]
-                                if str(instance.id) == item["id"]
-                            )
-                        )
-                    else:
-                        entry = response.json()[0]
-                    expected = self.SCHEMA[i].model_validate(instance).model_dump()
-                    result = self.SCHEMA[i].model_validate(entry).model_dump()
-                    if self.history_tracked:
-                        expected["createdAt"] = expected["createdAt"].replace(
-                            microsecond=0
-                        )
-                        result["createdAt"] = result["createdAt"].replace(microsecond=0)
-                    self.assertDictEqual(expected, result)
-
-                    if can_be_anonymized:
-                        anonymized_response = self.call_api_endpoint(
-                            "GET",
-                            self.get_route_url(instance),
-                            anonymized=True,
-                            **config,
-                        )
-                        self.assertEqual(anonymized_response.status_code, 200)
-                        if "items" in response.json():
-                            anonymized_entry = next(
-                                (
-                                    item
-                                    for item in anonymized_response.json()["items"]
-                                    if str(instance.id) == item["id"]
-                                )
-                            )
-                        else:
-                            anonymized_entry = anonymized_response.json()[0]
-                        anonymized_result = (
-                            self.SCHEMA[i].model_validate(anonymized_entry).model_dump()
-                        )
-                        if self.history_tracked:
-                            anonymized_result["createdAt"] = anonymized_result[
-                                "createdAt"
-                            ].replace(microsecond=0)
-                        self.assertNotEqual(result, anonymized_result)
-
-                self.MODEL[i].objects.all().delete()
-
-    @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
-    def test_get_by_id(self, scenario, config):
-        for i in range(self.SUBTESTS):
-            can_be_anonymized = hasattr(self.SCHEMA[i], "anonymized")
-            instance = self.INSTANCE[i]
-            # Call the API endpoint
-            response = self.call_api_endpoint(
-                "GET", self.get_route_url_with_id(instance), anonymized=False, **config
-            )
-            with self.subTest(i=i):
-                # Assert response content
-                if scenario == "HTTPS Authenticated":
-                    self.assertEqual(response.status_code, 200)
-                    expected = self.SCHEMA[i].model_validate(instance).model_dump()
-                    result = self.SCHEMA[i].model_validate(response.json()).model_dump()
-                    if self.history_tracked:
-                        expected["createdAt"] = expected["createdAt"].replace(
-                            microsecond=0
-                        )
-                        result["createdAt"] = result["createdAt"].replace(microsecond=0)
-                    self.assertDictEqual(result, expected)
-
-                    if can_be_anonymized:
-                        anonymized_response = self.call_api_endpoint(
-                            "GET",
-                            self.get_route_url_with_id(instance),
-                            anonymized=True,
-                            **config,
-                        )
-                        self.assertEqual(anonymized_response.status_code, 200)
-                        anonymized_result = (
-                            self.SCHEMA[i]
-                            .model_validate(anonymized_response.json())
-                            .model_dump()
-                        )
-                        if self.history_tracked:
-                            anonymized_result["createdAt"] = anonymized_result[
-                                "createdAt"
-                            ].replace(microsecond=0)
-                        self.assertNotEqual(result, anonymized_result)
-
-                self.MODEL[i].objects.all().delete()
-
-    @parameterized.expand(common.ApiControllerTestMixin.scenarios)
-    def test_delete(self, scenario, config):
-        for i in range(self.SUBTESTS):
-            instance = self.INSTANCE[i]
-            # Call the API endpoint
-            response = self.call_api_endpoint(
-                "DELETE", self.get_route_url_with_id(instance), **config
-            )
-            with self.subTest(i=i):
-                # Assert response content
-                if scenario == "HTTPS Authenticated":
-                    self.assertEqual(response.status_code, 204)
-                    self.assertFalse(
-                        self.MODEL[i].objects.filter(id=instance.id).exists()
-                    )
-                    # Assert audit trail
-                    if self.history_tracked:
-                        self.assertTrue(
-                            pghistory.models.Events.objects.filter(
-                                pgh_obj_id=instance.id, pgh_label="delete"
-                            ).exists(),
-                            "Event not properly registered",
-                        )
-                self.MODEL[i].objects.all().delete()
-
-    @parameterized.expand(common.ApiControllerTestMixin.scenarios)
-    def test_create(self, scenario, config):
-        for i, (instance, payload, model) in enumerate(
-            zip(self.INSTANCE, self.CREATE_PAYLOAD, self.MODEL)
-        ):
-            instance.delete()
-            # Call the API endpoint.
-            response = self.call_api_endpoint(
-                "POST", self.get_route_url(instance), data=payload, **config
-            )
-            with self.subTest(i=i):
-                # Assert response content
-                if scenario == "HTTPS Authenticated":
-                    created_id = response.json()["id"]
-                    created_instance = model.objects.filter(id=created_id).first()
-                    self.assertIsNotNone(
-                        created_instance, "Resource has not been created"
-                    )
-                    # Assert audit trail
-                    if self.history_tracked:
-                        self.assertEqual(
-                            self.user.username,
-                            created_instance.created_by,
-                            "Unexpected creator user.",
-                        )
-                        self.assertTrue(
-                            created_instance.events.filter(pgh_label="create").exists(),
-                            "Event not properly registered",
-                        )
-                model.objects.all().delete()
-
-    @parameterized.expand(common.ApiControllerTestMixin.scenarios)
-    def test_update(self, scenario, config):
-        if not getattr(self, "HAS_UPDATE_ENDPOINT", True):
-            pytest.skip("No relevant endpoint")
-        for i in range(self.SUBTESTS):
-            instance = self.INSTANCE[i]
-            payload = self.UPDATE_PAYLOAD[i]
-            with self.subTest(i=i):
-                # Call the API endpoint
-                response = self.call_api_endpoint(
-                    "PUT", self.get_route_url_with_id(instance), data=payload, **config
-                )
-                # Assert response content
-                if scenario == "HTTPS Authenticated":
-                    updated_id = response.json()["id"]
-                    self.assertEqual(response.status_code, 200)
-                    updated_instance = (
-                        self.MODEL[i].objects.filter(id=updated_id).first()
-                    )
-                    self.assertIsNotNone(
-                        updated_instance, "The updated instance does not exist"
-                    )
-                    self.assertNotEqual(
-                        [
-                            getattr(instance, field.name)
-                            for field in self.MODEL[i]._meta.concrete_fields
-                        ],
-                        [
-                            getattr(updated_instance, field.name)
-                            for field in self.MODEL[i]._meta.concrete_fields
-                        ],
-                    )
-                    # Assert audit trail
-                    if self.history_tracked:
-                        if updated_instance.updated_by:
-                            self.assertIn(
-                                self.user.username,
-                                updated_instance.updated_by,
-                                "The updating user is not registered",
-                            )
-                        self.assertTrue(
-                            pghistory.models.Events.objects.filter(
-                                pgh_obj_id=instance.id, pgh_label="update"
-                            ).exists(),
-                            "Event not properly registered",
-                        )
-                self.MODEL[i].objects.all().delete()
-
-    @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
-    def test_get_all_history_events(self, scenario, config):
-        for i in range(self.SUBTESTS):
-            if not hasattr(self.MODEL[i], "pgh_event_model"):
-                pytest.skip("Non-tracked model")
-            instance = self.INSTANCE[i]
-            # Call the API endpoint
-            response = self.call_api_endpoint(
-                "GET", self.get_route_url_history(instance), **config
-            )
-            with self.subTest(i=i):
-                # Assert response content
-                if scenario == "HTTPS Authenticated":
-                    self.assertEqual(response.status_code, 200)
-                    entry = next((item for item in response.json()["items"]))
-                    self.assertEqual(entry["category"], "create")
-                    self.assertEqual(entry["user"], self.user.username)
-                    self.assertEqual(entry["snapshot"]["id"], str(instance.id))
-                self.MODEL[i].objects.all().delete()
-
-    @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
-    def test_get_history_events_by_id(self, scenario, config):
-        for i in range(self.SUBTESTS):
-            if not hasattr(self.MODEL[i], "pgh_event_model"):
-                pytest.skip("Non-tracked model")
-            instance = self.INSTANCE[i]
-            if hasattr(instance, "parent_events"):
-                event = instance.parent_events.first()
-            else:
-                event = instance.events.first()
-            # Call the API endpoint
-            response = self.call_api_endpoint(
-                "GET", self.get_route_url_history_with_id(instance, event), **config
-            )
-            with self.subTest(i=i):
-                # Assert response content
-                if scenario == "HTTPS Authenticated":
-                    self.assertEqual(response.status_code, 200)
-                    entry = response.json()
-                    self.assertEqual(entry["id"], event.pgh_id)
-                    self.assertEqual(entry["user"], event.pgh_context["username"])
-                    self.assertEqual(entry["snapshot"]["id"], str(instance.id))
-                self.MODEL[i].objects.all().delete()
-
-    @parameterized.expand(common.ApiControllerTestMixin.scenarios)
-    def test_revert_changes(self, scenario, config):
-        for i in range(self.SUBTESTS):
-            if not hasattr(self.MODEL[i], "pgh_event_model"):
-                pytest.skip("Non-tracked model")
-            original_instance = self.INSTANCE[i]
-            original_instance = (
-                self.MODEL[i].objects.filter(pk=original_instance.pk).first()
-            )
-            payload = self.UPDATE_PAYLOAD[i]
-            updated_instance = (
-                self.CREATE_SCHEMA[i]
-                .model_validate(payload)
-                .model_dump_django(instance=deepcopy(original_instance))
-            )
-            if hasattr(original_instance, "parent_events"):
-                insert_event = original_instance.parent_events.filter(
-                    pgh_label="create"
-                ).first()
-            else:
-                insert_event = original_instance.events.filter(
-                    pgh_label="create"
-                ).first()
-            response = self.call_api_endpoint(
-                "PUT",
-                self.get_route_url_history_revert(original_instance, insert_event),
-                **config,
-            )
-            with self.subTest(i=i):
-                # Assert response content
-                if scenario == "HTTPS Authenticated":
-                    updated_id = response.json()["id"]
-                    reverted_instance = (
-                        self.MODEL[i].objects.filter(id=updated_id).first()
-                    )
-                    self.assertIsNotNone(
-                        reverted_instance, "The updated instance does not exist"
-                    )
-                    self.assertNotEqual(
-                        [
-                            getattr(original_instance, field.name)
-                            for field in self.MODEL[i]._meta.concrete_fields
-                        ],
-                        [
-                            getattr(updated_instance, field.name)
-                            for field in self.MODEL[i]._meta.concrete_fields
-                        ],
-                    )
-                    self.assertNotEqual(
-                        [
-                            getattr(reverted_instance, field.name)
-                            for field in self.MODEL[i]._meta.concrete_fields
-                        ],
-                        [
-                            getattr(updated_instance, field.name)
-                            for field in self.MODEL[i]._meta.concrete_fields
-                        ],
-                    )
-                    self.assertEqual(
-                        [
-                            getattr(reverted_instance, field.name)
-                            for field in self.MODEL[i]._meta.concrete_fields
-                        ],
-                        [
-                            getattr(original_instance, field.name)
-                            for field in self.MODEL[i]._meta.concrete_fields
-                        ],
-                    )
-                self.MODEL[i].objects.all().delete()
-
-
-class TestPatientCaseController(ApiControllerTextMixin, TestCase):
+class TestPatientCaseController(CrudApiControllerTestCase):
     controller_path = "/api/v1/patient-cases"
     FACTORY = factories.PatientCaseFactory
     MODEL = models.PatientCase
@@ -414,7 +13,7 @@ class TestPatientCaseController(ApiControllerTextMixin, TestCase):
     CREATE_SCHEMA = schemas.PatientCaseCreateSchema
 
 
-class TestNeoplastcEntityController(ApiControllerTextMixin, TestCase):
+class TestNeoplasticEntityController(CrudApiControllerTestCase):
     controller_path = "/api/v1/neoplastic-entities"
     FACTORY = factories.PrimaryNeoplasticEntityFactory
     MODEL = models.NeoplasticEntity
@@ -422,7 +21,7 @@ class TestNeoplastcEntityController(ApiControllerTextMixin, TestCase):
     CREATE_SCHEMA = schemas.NeoplasticEntityCreateSchema
 
 
-class TestStagingController(ApiControllerTextMixin, TestCase):
+class TestStagingController(CrudApiControllerTestCase):
     controller_path = "/api/v1/stagings"
     FACTORY = [
         factories.TNMStagingFactory,
@@ -439,7 +38,7 @@ class TestStagingController(ApiControllerTextMixin, TestCase):
     CREATE_SCHEMA = [schemas.TNMStagingCreateSchema, schemas.FIGOStagingCreateSchema]
 
 
-class TestTumorMarkerController(ApiControllerTextMixin, TestCase):
+class TestTumorMarkerController(CrudApiControllerTestCase):
     controller_path = "/api/v1/tumor-markers"
     FACTORY = factories.TumorMarkerTestFactory
     MODEL = models.TumorMarker
@@ -447,7 +46,7 @@ class TestTumorMarkerController(ApiControllerTextMixin, TestCase):
     CREATE_SCHEMA = schemas.TumorMarkerCreateSchema
 
 
-class TestRiskAssessmentController(ApiControllerTextMixin, TestCase):
+class TestRiskAssessmentController(CrudApiControllerTestCase):
     controller_path = "/api/v1/risk-assessments"
     FACTORY = factories.RiskAssessmentFactory
     MODEL = models.RiskAssessment
@@ -455,7 +54,7 @@ class TestRiskAssessmentController(ApiControllerTextMixin, TestCase):
     CREATE_SCHEMA = schemas.RiskAssessmentCreateSchema
 
 
-class TestSystemicTherapyController(ApiControllerTextMixin, TestCase):
+class TestSystemicTherapyController(CrudApiControllerTestCase):
     controller_path = "/api/v1/systemic-therapies"
     FACTORY = factories.SystemicTherapyFactory
     MODEL = models.SystemicTherapy
@@ -463,7 +62,7 @@ class TestSystemicTherapyController(ApiControllerTextMixin, TestCase):
     CREATE_SCHEMA = schemas.SystemicTherapyCreateSchema
 
 
-class TestSystemicTherapyMedicationController(ApiControllerTextMixin, TestCase):
+class TestSystemicTherapyMedicationController(CrudApiControllerTestCase):
     controller_path = "/api/v1/systemic-therapies"
     FACTORY = factories.SystemicTherapyMedicationFactory
     MODEL = models.SystemicTherapyMedication
@@ -488,7 +87,7 @@ class TestSystemicTherapyMedicationController(ApiControllerTextMixin, TestCase):
         return f"/{instance.systemic_therapy.id}/medications/{instance.id}/history/events/{event.pgh_id}/reversion"
 
 
-class TestSurgeryController(ApiControllerTextMixin, TestCase):
+class TestSurgeryController(CrudApiControllerTestCase):
     controller_path = "/api/v1/surgeries"
     FACTORY = factories.SurgeryFactory
     MODEL = models.Surgery
@@ -496,7 +95,7 @@ class TestSurgeryController(ApiControllerTextMixin, TestCase):
     CREATE_SCHEMA = schemas.SurgeryCreateSchema
 
 
-class TestRadiotherapyController(ApiControllerTextMixin, TestCase):
+class TestRadiotherapyController(CrudApiControllerTestCase):
     controller_path = "/api/v1/radiotherapies"
     FACTORY = factories.RadiotherapyFactory
     MODEL = models.Radiotherapy
@@ -504,7 +103,7 @@ class TestRadiotherapyController(ApiControllerTextMixin, TestCase):
     CREATE_SCHEMA = schemas.RadiotherapyCreateSchema
 
 
-class TestRadiotherapyDosageController(ApiControllerTextMixin, TestCase):
+class TestRadiotherapyDosageController(CrudApiControllerTestCase):
     controller_path = "/api/v1/radiotherapies"
     FACTORY = factories.RadiotherapyDosageFactory
     MODEL = models.RadiotherapyDosage
@@ -527,7 +126,7 @@ class TestRadiotherapyDosageController(ApiControllerTextMixin, TestCase):
         return f"/{instance.radiotherapy.id}/dosages/{instance.id}/history/events/{event.pgh_id}/reversion"
 
 
-class TestRadiotherapySettingController(ApiControllerTextMixin, TestCase):
+class TestRadiotherapySettingController(CrudApiControllerTestCase):
     controller_path = "/api/v1/radiotherapies"
     FACTORY = factories.RadiotherapySettingFactory
     MODEL = models.RadiotherapySetting
@@ -550,7 +149,7 @@ class TestRadiotherapySettingController(ApiControllerTextMixin, TestCase):
         return f"/{instance.radiotherapy.id}/settings/{instance.id}/history/events/{event.pgh_id}/reversion"
 
 
-class TestTreatmentResponseController(ApiControllerTextMixin, TestCase):
+class TestTreatmentResponseController(CrudApiControllerTestCase):
     controller_path = "/api/v1/treatment-responses"
     FACTORY = factories.TreatmentResponseFactory
     MODEL = models.TreatmentResponse
@@ -558,7 +157,7 @@ class TestTreatmentResponseController(ApiControllerTextMixin, TestCase):
     CREATE_SCHEMA = schemas.TreatmentResponseCreateSchema
 
 
-class TestAdverseEventController(ApiControllerTextMixin, TestCase):
+class TestAdverseEventController(CrudApiControllerTestCase):
     controller_path = "/api/v1/adverse-events"
     FACTORY = factories.AdverseEventFactory
     MODEL = models.AdverseEvent
@@ -566,7 +165,7 @@ class TestAdverseEventController(ApiControllerTextMixin, TestCase):
     CREATE_SCHEMA = schemas.AdverseEventCreateSchema
 
 
-class TestAdverseEventSuspectedCauseController(ApiControllerTextMixin, TestCase):
+class TestAdverseEventSuspectedCauseController(CrudApiControllerTestCase):
     controller_path = "/api/v1/adverse-events"
     FACTORY = factories.AdverseEventSuspectedCauseFactory
     MODEL = models.AdverseEventSuspectedCause
@@ -589,7 +188,7 @@ class TestAdverseEventSuspectedCauseController(ApiControllerTextMixin, TestCase)
         return f"/{instance.adverse_event.id}/suspected-causes/{instance.id}/history/events/{event.pgh_id}/reversion"
 
 
-class TestAdverseEventMitigationController(ApiControllerTextMixin, TestCase):
+class TestAdverseEventMitigationController(CrudApiControllerTestCase):
     controller_path = "/api/v1/adverse-events"
     FACTORY = factories.AdverseEventMitigationFactory
     MODEL = models.AdverseEventMitigation
@@ -612,7 +211,7 @@ class TestAdverseEventMitigationController(ApiControllerTextMixin, TestCase):
         return f"/{instance.adverse_event.id}/mitigations/{instance.id}/history/events/{event.pgh_id}/reversion"
 
 
-class TestGenomicVariantController(ApiControllerTextMixin, TestCase):
+class TestGenomicVariantController(CrudApiControllerTestCase):
     controller_path = "/api/v1/genomic-variants"
     FACTORY = factories.GenomicVariantFactory
     MODEL = models.GenomicVariant
@@ -620,7 +219,7 @@ class TestGenomicVariantController(ApiControllerTextMixin, TestCase):
     CREATE_SCHEMA = schemas.GenomicVariantCreateSchema
 
 
-class TestTumorBoardController(ApiControllerTextMixin, TestCase):
+class TestTumorBoardController(CrudApiControllerTestCase):
     controller_path = "/api/v1/tumor-boards"
     FACTORY = [
         factories.TumorBoardFactory,
@@ -640,9 +239,7 @@ class TestTumorBoardController(ApiControllerTextMixin, TestCase):
     ]
 
 
-class TestMolecularTherapeuticRecommendationController(
-    ApiControllerTextMixin, TestCase
-):
+class TestMolecularTherapeuticRecommendationController(CrudApiControllerTestCase):
     controller_path = "/api/v1/molecular-tumor-boards"
     FACTORY = factories.MolecularTherapeuticRecommendationFactory
     MODEL = models.MolecularTherapeuticRecommendation
@@ -665,7 +262,7 @@ class TestMolecularTherapeuticRecommendationController(
         return f"/{instance.molecular_tumor_board.id}/therapeutic-recommendations/{instance.id}/history/events/{event.pgh_id}/reversion"
 
 
-class TestTherapyLineController(ApiControllerTextMixin, TestCase):
+class TestTherapyLineController(CrudApiControllerTestCase):
     controller_path = "/api/v1/therapy-lines"
     FACTORY = factories.TherapyLineFactory
     MODEL = models.TherapyLine
@@ -673,7 +270,7 @@ class TestTherapyLineController(ApiControllerTextMixin, TestCase):
     CREATE_SCHEMA = schemas.TherapyLineCreateSchema
 
 
-class TestPerformanceStatusController(ApiControllerTextMixin, TestCase):
+class TestPerformanceStatusController(CrudApiControllerTestCase):
     controller_path = "/api/v1/performance-status"
     FACTORY = factories.PerformanceStatusFactory
     MODEL = models.PerformanceStatus
@@ -681,7 +278,7 @@ class TestPerformanceStatusController(ApiControllerTextMixin, TestCase):
     CREATE_SCHEMA = schemas.PerformanceStatusCreateSchema
 
 
-class TestLifestyleController(ApiControllerTextMixin, TestCase):
+class TestLifestyleController(CrudApiControllerTestCase):
     controller_path = "/api/v1/lifestyles"
     FACTORY = factories.LifestyleFactory
     MODEL = models.Lifestyle
@@ -689,7 +286,7 @@ class TestLifestyleController(ApiControllerTextMixin, TestCase):
     CREATE_SCHEMA = schemas.LifestyleCreateSchema
 
 
-class TestFamilyHistoryController(ApiControllerTextMixin, TestCase):
+class TestFamilyHistoryController(CrudApiControllerTestCase):
     controller_path = "/api/v1/family-histories"
     FACTORY = factories.FamilyHistoryFactory
     MODEL = models.FamilyHistory
@@ -697,7 +294,7 @@ class TestFamilyHistoryController(ApiControllerTextMixin, TestCase):
     CREATE_SCHEMA = schemas.FamilyHistoryCreateSchema
 
 
-class TestVitalsController(ApiControllerTextMixin, TestCase):
+class TestVitalsController(CrudApiControllerTestCase):
     controller_path = "/api/v1/vitals"
     FACTORY = factories.VitalsFactory
     MODEL = models.Vitals
@@ -705,7 +302,7 @@ class TestVitalsController(ApiControllerTextMixin, TestCase):
     CREATE_SCHEMA = schemas.VitalsCreateSchema
 
 
-class TestComorbiditiesAssessmentController(ApiControllerTextMixin, TestCase):
+class TestComorbiditiesAssessmentController(CrudApiControllerTestCase):
     controller_path = "/api/v1/comorbidities-assessments"
     FACTORY = factories.ComorbiditiesAssessmentFactory
     MODEL = models.ComorbiditiesAssessment
@@ -728,7 +325,7 @@ class TestComorbiditiesAssessmentController(ApiControllerTextMixin, TestCase):
             self.assertEqual(len(response.json()["categories"]), 16)
 
 
-class TestGenomicSignatureController(ApiControllerTextMixin, TestCase):
+class TestGenomicSignatureController(CrudApiControllerTestCase):
     controller_path = "/api/v1/genomic-signatures"
     FACTORY = [
         factories.TumorMutationalBurdenFactory,

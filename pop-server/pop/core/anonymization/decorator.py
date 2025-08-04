@@ -1,7 +1,7 @@
 import inspect
 from abc import ABC
 from functools import wraps
-from typing import Any, Callable, Union, overload
+from typing import Any, Callable, Iterable, Union, overload
 
 from django.db.models import Model as DjangoModel
 from django.db.models import QuerySet, Value
@@ -16,7 +16,11 @@ from pop.core.auth import permissions
 
 
 class AnonymizationBase(ABC):
-    InputSource = Query(...)
+    """
+    Base class for implementing anonymization logic in data access layers.
+    """
+
+    InputSource = Query(...)  # type: ignore
 
     class Input(Schema):
         anonymized: bool = Field(
@@ -30,28 +34,57 @@ class AnonymizationBase(ABC):
 
     def anonymize_queryset(
         self,
-        queryset: QuerySet,
+        data: DjangoModel | Schema | Iterable[DjangoModel],
         anonymized: bool = True,
         **params: Any,
     ) -> Any:
-        user = params["request"].user
+        """
+        Anonymizes the provided data (QuerySet, DjangoModel, or Schema) based on the user's permissions and the `anonymized` flag.
+
+        Parameters:
+            data (QuerySet | DjangoModel | Schema): The data to be anonymized. Can be a Django QuerySet, a Django model instance, or a Schema object.
+            anonymized (bool, optional): If True, the data will be marked as anonymized. If False, checks if the user has permission to access non-anonymized data. Defaults to True.
+            **params (Any): Additional parameters. Must include 'request' containing the HTTP request object.
+
+        Returns:
+            Any: The anonymized data, with an 'anonymized' attribute or annotation set to True if applicable.
+
+        Raises:
+            HttpError: If the 'request' parameter is missing or if the user lacks permission to access non-anonymized data.
+        """
+        request = params.get("request")
+        if request is None:
+            raise HttpError(400, "Request object is missing in parameters")
+        user = request.user
         if not anonymized and not permissions.CanManageCases().check_user_permission(
             user
         ):
             raise HttpError(403, "Permission denied to access pseudonymized data")
 
         if anonymized:
-            if isinstance(queryset, (DjangoModel, Schema)):
-                queryset.anonymized = True
-            elif isinstance(queryset, (tuple, list)):
-                for res in queryset:
-                    res.anonymized = True
+            if isinstance(data, (DjangoModel, Schema)):
+                setattr(data, "anonymized", True)
+            elif isinstance(data, QuerySet):
+                data = data.annotate(anonymized=Value(True))
+            elif isinstance(data, (tuple, list)):
+                for res in data:
+                    setattr(res, "anonymized", True)
             else:
-                queryset = queryset.annotate(anonymized=Value(True))
-        return queryset
+                pass
+        return data
 
 
 class AnonymizationOperation:
+    """
+    AnonymizationOperation is a decorator class that wraps a view function
+    to apply anonymization logic to its output.
+
+    This class is designed to integrate with a view function, intercept its output
+    (typically a queryset), and apply an anonymization process before returning the result.
+    It supports injecting anonymization parameters into the view function and ensures
+    compatibility with frameworks that use request or controller objects.
+    """
+
     def __init__(
         self,
         *,
@@ -92,10 +125,9 @@ class AnonymizationOperation:
 
             queryset = self.view_func(request_or_controller, *args, **func_kwargs)
 
-            if hasattr(request_or_controller, "context") and isinstance(
-                request_or_controller.context, RouteContext
-            ):
-                request = request_or_controller.context.request
+            context = getattr(request_or_controller, "context", None)
+            if context and isinstance(context, RouteContext):
+                request = context.request
                 assert request, "Request object is None"
             else:
                 request = request_or_controller

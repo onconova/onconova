@@ -82,11 +82,11 @@ class SchemaConfig:
     """
 
     model: Any
-    anonymization: Optional[AnonymizationConfig] = None
-    schema_name: Optional[str] = None
-    fields: Optional[Union[List[str], Tuple[str]]] = None
-    exclude: Optional[Union[List[str], Tuple[str]]] = None
-    expand: Optional[Dict] = None
+    anonymization: AnonymizationConfig | None = None
+    schema_name: str | None = None
+    fields: List[str] | Tuple[str] | None = None
+    exclude: List[str] | Tuple[str] | None = None
+    expand: Dict | None = None
 
 
 class ModelSchemaMetaclassBase(ResolverMetaclass):
@@ -108,7 +108,7 @@ class ModelSchemaMetaclassBase(ResolverMetaclass):
         **kwargs,
     ):
         # Extract the metaclass configuration from the namespace
-        metaclass_config = namespace.pop("config", None)
+        metaclass_config: SchemaConfig = namespace.pop("config", None)
 
         # Construct base metaclass
         cls = super().__new__(
@@ -154,19 +154,19 @@ class ModelSchemaMetaclassBase(ResolverMetaclass):
                     + ("Create" if issubclass(base, ModelCreateSchema) else "")
                 )
 
-                bases = [cls]
+                schema_bases: List[object] = [cls]
                 if metaclass_config.anonymization:
-                    bases.append(AnonymizationMixin)
+                    schema_bases.append(AnonymizationMixin)
 
                 # Construct the schema from the model dynamically
                 model_schema = create_schema(
                     metaclass_config.model,
                     name=schema_name,
-                    fields=metaclass_config.fields,
+                    fields=list(metaclass_config.fields or []),
                     exclude=exclude,
                     expand=metaclass_config.expand,
                     custom_fields=custom_fields,
-                    bases=bases,
+                    bases=tuple(schema_bases),
                 )
                 model_schema.__doc__ = cls.__doc__
 

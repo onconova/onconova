@@ -1,9 +1,9 @@
-from django.test import TestCase
-from parameterized import parameterized
 from datetime import datetime
 
-from pop.tests.models import MockModel, OptionsEnum, MockCodedConcept
 import pop.core.serialization.transforms as t
+from django.test import TestCase
+from parameterized import parameterized
+from pop.tests.models import MockCodedConcept, MockModel, OptionsEnum
 
 
 class TestDjangoTransforms(TestCase):
@@ -39,6 +39,7 @@ class TestDjangoTransforms(TestCase):
         expression = TransformationClass.generate_annotation_expression(field, value)
         filtered_queryset = MockModel.objects.annotate(transform=expression)
         value = filtered_queryset.values("transform").first()
+        assert value is not None, "No value returned from the queryset."
         self.assertEqual(
             value["transform"],
             expected,

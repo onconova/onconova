@@ -7,6 +7,8 @@ from ninja import Query
 from ninja_extra import ControllerBase, api_controller, route
 from ninja_extra.ordering import ordering
 from ninja_extra.pagination import paginate
+from typing_extensions import TypeAliasType
+
 from pop.core.anonymization import anonymize
 from pop.core.auth import permissions as perms
 from pop.core.auth.token import XSessionTokenAuth
@@ -14,7 +16,10 @@ from pop.core.history.schemas import HistoryEvent
 from pop.core.schemas import ModifiedResource as ModifiedResourceSchema
 from pop.core.schemas import Paginated
 from pop.core.utils import COMMON_HTTP_ERRORS, revert_multitable_model
-from pop.oncology.models import GenomicSignature, GenomicSignatureTypes
+from pop.oncology.models.genomic_signature import (
+    GenomicSignature,
+    GenomicSignatureTypes,
+)
 from pop.oncology.schemas import (
     AneuploidScoreCreateSchema,
     AneuploidScoreSchema,
@@ -30,7 +35,6 @@ from pop.oncology.schemas import (
     TumorNeoantigenBurdenCreateSchema,
     TumorNeoantigenBurdenSchema,
 )
-from typing_extensions import TypeAliasType
 
 RESPONSE_SCHEMAS = (
     MicrosatelliteInstabilitySchema,

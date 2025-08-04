@@ -3,6 +3,8 @@ from enum import Enum
 from typing import Any, Dict
 
 from ninja import Schema
+from pop.core.models import BaseModel, UntrackedBaseModel
+from pop.core.serialization.base import BaseSchema
 from pop.core.types import Nullable
 from pydantic import AliasChoices, Field
 
@@ -177,7 +179,7 @@ class HistoryEvent(Schema):
         return obj.pgh_diff
 
     @classmethod
-    def bind_schema(cls, schema: Schema):
+    def bind_schema(cls, schema: BaseSchema):
         """
         Dynamically bind a specific Pydantic schema to the history event.
 
@@ -193,12 +195,12 @@ class HistoryEvent(Schema):
 
         class HistoryEventWithSchema(cls):
             @staticmethod
-            def resolve_snapshot(obj):
+            def resolve_snapshot(obj: Any) -> dict | None:
                 if isinstance(obj, dict):
                     return obj.get("snapshot")
                 # Create a new instance of the model based on snapshot data to automatically resolve foreign keys
                 try:
-                    instance = schema.get_orm_model()(
+                    instance: BaseModel | UntrackedBaseModel = schema.get_orm_model()(
                         **{key: val for key, val in obj.pgh_data.items()}
                     )
                     # Cast to model schema

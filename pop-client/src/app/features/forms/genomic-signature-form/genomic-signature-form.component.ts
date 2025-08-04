@@ -35,6 +35,7 @@ import {
 } from '../../../shared/components';
 
 import { AbstractFormBase } from '../abstract-form-base.component';
+import { SelectButton } from "primeng/selectbutton";
 
 export type AnyGenomicSignatureCreate = TumorMutationalBurdenCreate | 
     MicrosatelliteInstabilityCreate |
@@ -48,18 +49,19 @@ export type AnyGenomicSignatureCreate = TumorMutationalBurdenCreate |
     selector: 'genomic-signature-form',
     templateUrl: './genomic-signature-form.component.html',
     imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        FormsModule,
-        SelectModule,
-        DatePickerComponent,
-        Fluid,
-        InputNumber,
-        ButtonModule,
-        ConceptSelectorComponent,
-        RadioSelectComponent,
-        FormControlErrorComponent,
-    ]
+    CommonModule,
+    ReactiveFormsModule,
+    FormsModule,
+    SelectModule,
+    SelectButton,
+    DatePickerComponent,
+    Fluid,
+    InputNumber,
+    ButtonModule,
+    ConceptSelectorComponent,
+    FormControlErrorComponent,
+    SelectButton
+]
 })
 export class GenomicSignatureFormComponent extends AbstractFormBase {
 
@@ -114,16 +116,16 @@ export class GenomicSignatureFormComponent extends AbstractFormBase {
         { name: 'Aneuploid Score (AS)', value: GenomicSignatureTypes.AneuploidScore },
         { name: 'Tumor neoantigen burden (TNB)', value: GenomicSignatureTypes.TumorNeoantigenBurden },
     ];
-    public readonly tumorMutationalBurdernStatusChoices : RadioChoice[] = [
-        { name: 'High', value: TumorMutationalBurdenStatusChoices.High},
-        { name: 'Intermediate', value: TumorMutationalBurdenStatusChoices.Intermediate},
-        { name: 'Low', value: TumorMutationalBurdenStatusChoices.Low},
-        { name: 'Indeterminate', value: TumorMutationalBurdenStatusChoices.Indeterminate},
+    public readonly tumorMutationalBurdernStatusChoices = [
+        { label: 'High', value: TumorMutationalBurdenStatusChoices.High},
+        { label: 'Intermediate', value: TumorMutationalBurdenStatusChoices.Intermediate},
+        { label: 'Low', value: TumorMutationalBurdenStatusChoices.Low},
+        { label: 'Indeterminate', value: TumorMutationalBurdenStatusChoices.Indeterminate},
     ];
-    public readonly homologousRecombinationDeficiencyInterpretationChoices : RadioChoice[] = [
-        { name: 'Positive', value: HomologousRecombinationDeficiencyInterpretationChoices.Positive},
-        { name: 'Negative', value: HomologousRecombinationDeficiencyInterpretationChoices.Negative},
-        { name: 'Indeterminate', value: HomologousRecombinationDeficiencyInterpretationChoices.Indeterminate},
+    public readonly homologousRecombinationDeficiencyInterpretationChoices = [
+        { label: 'Positive', value: HomologousRecombinationDeficiencyInterpretationChoices.Positive},
+        { label: 'Negative', value: HomologousRecombinationDeficiencyInterpretationChoices.Negative},
+        { label: 'Indeterminate', value: HomologousRecombinationDeficiencyInterpretationChoices.Indeterminate},
     ];
 
     // Function to prepare API payload from form data

@@ -1,5 +1,5 @@
 import { Component, computed, effect, inject, input, Pipe, PipeTransform} from '@angular/core';
-import { FormBuilder, Validators, FormArray, FormGroup } from '@angular/forms';
+import { FormBuilder, Validators, FormArray, FormGroup, ValidatorFn, ValidationErrors, AbstractControl } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { forkJoin, map } from 'rxjs';
@@ -122,6 +122,16 @@ export class AdverseEventFormComponent extends AbstractFormBase {
     #deletedMitigations: string[] = [];
     #deletedSuspectedCauses: string[] = [];
 
+
+    dateResolvedAfterDateValidator: ValidatorFn = (control: AbstractControl<any, any>): ValidationErrors | null => {
+        const date = control.get('date')?.value;
+        const dateResolved = control.get('dateResolved')?.value;
+        if (dateResolved && date && new Date(dateResolved) < new Date(date)) {
+            return { dateResolvedAfterDate: true };
+        }
+        return null;
+    };
+
     // Define the main form
     public form = this.#fb.group({
         date: this.#fb.control<string | null>(null, Validators.required),
@@ -131,7 +141,9 @@ export class AdverseEventFormComponent extends AbstractFormBase {
         dateResolved: this.#fb.control<string | null>(null),
         suspectedCauses: this.#fb.array<FormGroup>([]),
         mitigations: this.#fb.array<FormGroup>([]),
-      });
+      }, {
+        validators: [this.dateResolvedAfterDateValidator]
+    });
 
     readonly #onInitialDataChangeEffect = effect((): void => {
         const data = this.initialData();
@@ -307,26 +319,27 @@ export class AdverseEventFormComponent extends AbstractFormBase {
     }
 
 
-        #suspectedSystemicTherapiesIds = computed( () => this.relatedSuspectedCauses.value()!.filter((entry) => this.#isSystemicTherapy(entry))?.map((entry) => entry.id))
-        #suspectedMedicationsIds = computed( () => this.relatedSuspectedCauses.value()!.filter((entry) => this.#isSystemicTherapyMedication(entry))?.map((entry) => entry.id))
-        #suspectedSurgeriesIds = computed( () => this.relatedSuspectedCauses.value()!.filter((entry) => this.#isSurgery(entry))?.map((entry) => entry.id))
-        #suspectedRadiotherapiesIds = computed( () => this.relatedSuspectedCauses.value()!.filter((entry) => this.#isRadiotherapy(entry))?.map((entry) => entry.id))
-        #isSystemicTherapy(obj: any): obj is SystemicTherapy {
-            return typeof obj === 'object' && obj !== null
-              && obj.hasOwnProperty('medications') && obj.hasOwnProperty('period');
-        }
-        #isSystemicTherapyMedication(obj: any): obj is SystemicTherapyMedication {
-            return typeof obj === 'object' && obj !== null
-            && obj.hasOwnProperty('drug') && obj.hasOwnProperty('route');
-        }
-        #isSurgery(obj: any): obj is Surgery {
-            return typeof obj === 'object' && obj !== null
-            && obj.hasOwnProperty('date') && obj.hasOwnProperty('procedure');
-        }
-        #isRadiotherapy(obj: any): obj is Radiotherapy {
-            return typeof obj === 'object' && obj !== null
-            && obj.hasOwnProperty('dosages') && obj.hasOwnProperty('settings');
-        }
-    
+    #suspectedSystemicTherapiesIds = computed( () => this.relatedSuspectedCauses.value()!.filter((entry) => this.#isSystemicTherapy(entry))?.map((entry) => entry.id))
+    #suspectedMedicationsIds = computed( () => this.relatedSuspectedCauses.value()!.filter((entry) => this.#isSystemicTherapyMedication(entry))?.map((entry) => entry.id))
+    #suspectedSurgeriesIds = computed( () => this.relatedSuspectedCauses.value()!.filter((entry) => this.#isSurgery(entry))?.map((entry) => entry.id))
+    #suspectedRadiotherapiesIds = computed( () => this.relatedSuspectedCauses.value()!.filter((entry) => this.#isRadiotherapy(entry))?.map((entry) => entry.id))
+    #isSystemicTherapy(obj: any): obj is SystemicTherapy {
+        return typeof obj === 'object' && obj !== null
+            && obj.hasOwnProperty('medications') && obj.hasOwnProperty('period');
+    }
+    #isSystemicTherapyMedication(obj: any): obj is SystemicTherapyMedication {
+        return typeof obj === 'object' && obj !== null
+        && obj.hasOwnProperty('drug') && obj.hasOwnProperty('route');
+    }
+    #isSurgery(obj: any): obj is Surgery {
+        return typeof obj === 'object' && obj !== null
+        && obj.hasOwnProperty('date') && obj.hasOwnProperty('procedure');
+    }
+    #isRadiotherapy(obj: any): obj is Radiotherapy {
+        return typeof obj === 'object' && obj !== null
+        && obj.hasOwnProperty('dosages') && obj.hasOwnProperty('settings');
+    }
+
+
 
 }

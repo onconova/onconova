@@ -1,5 +1,5 @@
 from datetime import date, datetime, timedelta
-from typing import Callable, ClassVar, Dict, List, Self, Tuple, Type, Union
+from typing import Any, Callable, ClassVar, Dict, List, Tuple, Type, Union
 
 from django.conf import settings
 from pop.core.types import Age, AgeBin
@@ -12,7 +12,7 @@ AVERAGE_MONTH = 30.436875
 MAX_DATE_SHIFT = round(6 * AVERAGE_MONTH)
 
 
-def anonymize_by_redacting_string(original_value: str) -> str:
+def anonymize_by_redacting_string(original_value: Any) -> str:
     """
     Anonymizes a string by returning a redacted string.
 
@@ -26,9 +26,9 @@ def anonymize_by_redacting_string(original_value: str) -> str:
 
 
 def anonymize_clinically_relevant_date(
-    original_date: Union[date, datetime, str],
+    original_date: date | datetime | str,
     case_id: str,
-) -> Union[date, datetime]:
+) -> date | datetime:
     """
     Anonymizes a date by shifting it by a random amount between -6 and 6 months.
 
@@ -91,7 +91,7 @@ def anonymize_age(age: Age) -> AgeBin:
     raise ValueError(f"Age {age} is out of valid range")
 
 
-def anonymize_personal_date(original_date: Union[datetime, date, str]) -> date:
+def anonymize_personal_date(original_date: datetime | date | str) -> date:
     """
     Anonymize a date by returning only the year.
 
@@ -117,7 +117,7 @@ def anonymize_personal_date(original_date: Union[datetime, date, str]) -> date:
         raise TypeError(f"Unsupported type: {type(original_date)}")
 
 
-def anonymize_value(value, case_id):
+def anonymize_value(value: Any, case_id: str) -> Any:
     """
     Anonymize a value by replacing it with a suitable placeholder.
 
@@ -210,7 +210,9 @@ class AnonymizationMixin:
 
     @classmethod
     def _setup(
-        cls, model_class: Type[BaseModel], config: AnonymizationConfig | None = None
+        cls,
+        model_class: type,
+        config: AnonymizationConfig | None = None,
     ):
         if config:
             model_class.__anonymization_fields__ = (
@@ -221,7 +223,7 @@ class AnonymizationMixin:
             model_class.__anonymization_functions__ = config.functions
 
     @model_validator(mode="after")
-    def anonymize_data(self) -> Self:
+    def anonymize_data(self) -> Any:
         # If schema is not set to be anonymized, just return current validated state
         if not self.anonymized:
             return self
@@ -250,7 +252,7 @@ class AnonymizationMixin:
 
     def anonymize_value(self, value):
         """Hook for per-instance anonymization logic."""
-        return anonymize_value(value, self.__anonymization_key__)
+        return anonymize_value(value, self.__anonymization_key__ or "")
 
     def __post_anonymization_hook__(self):
         """

@@ -1,6 +1,7 @@
 import { inject, Component, OnDestroy, input, signal, effect} from '@angular/core';
 import { InjectionToken } from '@angular/core';
 import { ValidationErrors, AbstractControl, ControlContainer } from '@angular/forms';
+import { Message } from 'primeng/message';
 import { Subscription, distinctUntilChanged, merge } from 'rxjs';
 
 export const DEFAULT_ERRORS = {
@@ -25,9 +26,10 @@ export const FORM_ERRORS = new InjectionToken('FORM_ERRORS', {
 
 @Component({
     selector: 'pop-form-control-error',
+    imports: [Message],
     template: `
       @if (message()) {
-        <div class="text-danger mt-2" style="color:#e24c4c">{{ message() }}</div>
+        <p-message class="mt-2" severity="error">{{ message() }}></p-message>
       }
     `,
 })

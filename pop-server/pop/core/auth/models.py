@@ -1,17 +1,17 @@
 import uuid
-import pghistory
-from django.db import models
-from django.db.models import Case, When, Q, Min, Exists, OuterRef
-from django.db.models.functions import Concat
-from django.core.validators import MinValueValidator, MaxValueValidator
-from django.utils.translation import gettext_lazy as _
-from django.contrib.auth.models import AbstractUser, UserManager
 
+import pghistory
+from django.contrib.auth.models import AbstractUser, UserManager
+from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db import models
+from django.db.models import Case, Exists, Min, OuterRef, Q, When
+from django.db.models.functions import Concat
+from django.utils.translation import gettext_lazy as _
 from queryable_properties.managers import QueryablePropertiesManager
 from queryable_properties.properties import (
+    AnnotationGetterMixin,
     AnnotationProperty,
     MappingProperty,
-    AnnotationGetterMixin,
     QueryableProperty,
 )
 
@@ -53,6 +53,7 @@ class User(AbstractUser):
         PLATFORM_MANAGER = "Platform Manager"
         SYSTEM_ADMIN = "System Administrator"
 
+    @staticmethod
     def construct_permission_field_from_access_level(min_access_level, action):
         return AnnotationProperty(
             verbose_name=_(f"Can {action}"),
@@ -193,7 +194,7 @@ class User(AbstractUser):
     class Meta:
         constraints = [
             models.CheckConstraint(
-                condition=Q(access_level__gte=0) & Q(access_level__lte=4),
-                name="access_level_must_be_between_1_and_4",
+                check=Q(access_level__gte=0) & Q(access_level__lte=4),
+                name="access_level_must_be_between_0_and_4",
             )
         ]

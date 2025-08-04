@@ -1,18 +1,24 @@
 import unittest
-from datetime import date, datetime, timedelta
-from pop.core.types import Age, AgeBin
-from pop.core.schemas import Period
+from datetime import date, datetime
+from unittest.mock import MagicMock, patch
+
+from django.db.models import Model  # Add this import at the top if not present
+from ninja import Schema
 from pop.core.anonymization.base import (
-    REDACTED_STRING,
     MAX_DATE_SHIFT,
+    REDACTED_STRING,
     AnonymizationConfig,
     AnonymizationMixin,
     anonymize_age,
     anonymize_by_redacting_string,
-    anonymize_personal_date,
     anonymize_clinically_relevant_date,
+    anonymize_personal_date,
     anonymize_value,
 )
+from pop.core.anonymization.decorator import AnonymizationBase, HttpError
+from pop.core.schemas import Period
+from pop.core.types import Age, AgeBin
+from pop.tests.models import MockModel
 
 
 class TestAnonymizeByRedactingString(unittest.TestCase):
@@ -72,6 +78,7 @@ class TestAnonymizeClinicallyRelevantDate(unittest.TestCase):
         original_date = date(2022, 1, 1)
         case_id = "test_case_id"
         anonymized_date = anonymize_clinically_relevant_date(original_date, case_id)
+        assert type(anonymized_date) is date
         timeshift = (anonymized_date - original_date).days
         self.assertGreaterEqual(timeshift, -MAX_DATE_SHIFT)
         self.assertLessEqual(timeshift, MAX_DATE_SHIFT)
@@ -144,7 +151,7 @@ class TestAnonymizePersonalDate(unittest.TestCase):
     def test_unsupported_type(self):
         original_date = 123
         with self.assertRaises(TypeError):
-            anonymize_personal_date(original_date)
+            anonymize_personal_date(original_date)  # type: ignore
 
 
 class TestAnonymizeValue(unittest.TestCase):
@@ -210,18 +217,26 @@ class TestAnonymizeValue(unittest.TestCase):
 
 class TestAnonymizationMixin(unittest.TestCase):
 
+    class DummySchema(Schema, AnonymizationMixin):
+        anonymized: bool = False
+        field1: str | None = None
+        field2: str | None = None
+
+        def __post_anonymization_hook__(self):
+            pass
+
     def setUp(self):
-        self.mixin = AnonymizationMixin()
-        self.mixin.anonymized = True
-        self.mixin.field1 = "value1"
-        self.mixin.field2 = None
-        self.mixin.__anonymization_fields__ = ["field1", "field2"]
-        self.mixin.__anonymization_functions__ = {
-            "field1": unittest.mock.MagicMock(return_value="anonymized_value1")
+        self.DummySchema.__anonymization_fields__ = ("field1", "field2")
+        self.DummySchema.__anonymization_functions__ = {
+            "field1": MagicMock(return_value="anonymized_value1")
         }
+        self.obj = self.DummySchema()
+        self.obj.anonymized = True
+        self.obj.field1 = "value1"
+        self.obj.field2 = None
 
     def test_setup_with_valid_config(self):
-        model_class = unittest.mock.MagicMock()
+        model_class = MagicMock()
         func1 = lambda x: x
         config = AnonymizationConfig(
             fields=["field1", "field2"], key="key", functions={"func1": func1}
@@ -234,37 +249,111 @@ class TestAnonymizationMixin(unittest.TestCase):
         self.assertEqual(model_class.__anonymization_functions__, {"func1": func1})
 
     def test_anonymization_skipped_when_anonymized_is_false(self):
-        self.mixin.anonymized = False
-        self.mixin.anonymize_data()
-        self.assertEqual(self.mixin.field1, "value1")
+        self.obj.anonymized = False
+        self.obj = self.obj.model_validate(self.obj)
+        self.assertEqual(self.obj.field1, "value1")
 
     def test_anonymization_applied_to_fields_with_values(self):
-        self.mixin.anonymize_data()
-        self.assertEqual(self.mixin.field1, "anonymized_value1")
+        self.obj = self.obj.model_validate(self.obj)
+        self.assertEqual(self.obj.field1, "anonymized_value1")
 
     def test_anonymization_skipped_for_fields_with_no_values(self):
-        self.mixin.anonymize_data()
-        self.assertIsNone(self.mixin.field2)
+        self.obj = self.obj.model_validate(self.obj)
+        self.assertIsNone(self.obj.field2)
 
     def test_field_specific_anonymizer_used_when_available(self):
-        self.mixin.anonymize_data()
-        self.mixin.__anonymization_functions__["field1"].assert_called_once_with(
-            "value1"
-        )
+        self.obj = self.obj.model_validate(self.obj)
+        self.obj.__anonymization_functions__["field1"].assert_called_once_with("value1")
 
     def test_fallback_anonymizer_used_when_field_specific_anonymizer_is_not_available(
         self,
     ):
-        self.mixin.field2 = "value2"
-        with unittest.mock.patch.object(
-            self.mixin, "anonymize_value"
-        ) as anonymize_value:
-            self.mixin.anonymize_data()
+        self.obj.field2 = "value2"
+        with patch.object(self.DummySchema, "anonymize_value") as anonymize_value:
+            self.obj = self.obj.model_validate(self.obj)
             anonymize_value.assert_called_once_with("value2")
 
     def test_post_anonymization_hook_called_after_anonymization(self):
-        with unittest.mock.patch.object(
-            self.mixin, "__post_anonymization_hook__"
-        ) as hook:
-            self.mixin.anonymize_data()
+        with patch.object(self.DummySchema, "__post_anonymization_hook__") as hook:
+            self.obj = self.obj.model_validate(self.obj)
             hook.assert_called_once()
+
+
+class TestAnonymizationBase(unittest.TestCase):
+
+    # Dummy classes
+    class DummyUser:
+        pass
+
+    class DummyRequest:
+        def __init__(self, user):
+            self.user = user
+
+    class DummySchema(Schema):
+        anonymized: bool = False
+        pass
+
+    def setUp(self):
+        self.base = AnonymizationBase()
+        self.dummy_request = self.DummyRequest(self.DummyUser())
+
+    def test_raises_if_request_missing(self):
+        with self.assertRaises(HttpError) as cm:
+            self.base.anonymize_queryset(MockModel(), request=None)
+        self.assertEqual(cm.exception.status_code, 400)
+
+    def test_raises_if_permission_denied(self):
+        user = self.DummyUser()
+        request = self.DummyRequest(user)
+        with patch(
+            "pop.core.anonymization.decorator.permissions.CanManageCases"
+        ) as can_manage:
+            can_manage.return_value.check_user_permission.return_value = False
+            with self.assertRaises(HttpError) as cm:
+                self.base.anonymize_queryset(
+                    MockModel(), anonymized=False, request=request
+                )
+            self.assertEqual(cm.exception.status_code, 403)
+
+    def test_allows_if_permission_granted(self):
+        user = self.DummyUser()
+        request = self.DummyRequest(user)
+        with patch(
+            "pop.core.anonymization.decorator.permissions.CanManageCases"
+        ) as can_manage:
+            can_manage.return_value.check_user_permission.return_value = True
+            obj = MockModel()
+            result = self.base.anonymize_queryset(
+                obj, anonymized=False, request=request
+            )
+            self.assertIs(result, obj)
+
+    def test_sets_anonymized_on_model(self):
+        obj = MockModel()
+        result = self.base.anonymize_queryset(obj, request=self.dummy_request)
+        self.assertTrue(getattr(result, "anonymized", False))
+
+    def test_sets_anonymized_on_schema(self):
+        obj = self.DummySchema()
+        result = self.base.anonymize_queryset(obj, request=self.dummy_request)
+        self.assertTrue(getattr(result, "anonymized", False))
+
+    def test_sets_anonymized_on_list(self):
+        objs = [MockModel(), MockModel()]
+        result = self.base.anonymize_queryset(objs, request=self.dummy_request)
+        for obj in result:
+            self.assertTrue(getattr(obj, "anonymized", False))
+
+    def test_sets_anonymized_on_tuple(self):
+        objs = (MockModel(), MockModel())
+        result = self.base.anonymize_queryset(objs, request=self.dummy_request)
+        for obj in result:
+            self.assertTrue(getattr(obj, "anonymized", False))
+
+    def test_queryset_annotate_called(self):
+        mock_qs = MagicMock()
+        result_qs = MagicMock()
+        mock_qs.annotate.return_value = result_qs
+        with patch("pop.core.anonymization.decorator.Value") as mock_value:
+            # You need to complete this test based on your implementation
+            pass

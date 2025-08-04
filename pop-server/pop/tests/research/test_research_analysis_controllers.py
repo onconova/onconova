@@ -2,10 +2,11 @@ import pop.research.schemas.analysis as schemas
 from django.test import TestCase
 from parameterized import parameterized
 from pop.terminology.models import AntineoplasticAgent
-from pop.tests import common, factories
+from pop.tests import factories
+from pop.tests.common import GET_HTTP_SCENARIOS, HTTP_SCENARIOS, ApiControllerTestMixin
 
 
-class TestCohortAnalysisController(common.ApiControllerTestMixin, TestCase):
+class TestCohortAnalysisController(ApiControllerTestMixin, TestCase):
     controller_path = "/api/v1/cohorts"
 
     @classmethod
@@ -20,7 +21,7 @@ class TestCohortAnalysisController(common.ApiControllerTestMixin, TestCase):
             )
         cls.cohort.cases.set([factories.fake_complete_case() for _ in range(20)])
 
-    @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
+    @parameterized.expand(GET_HTTP_SCENARIOS)
     def test_get_cohort_property_distribution(self, scenario, config):
         # Call the API endpoint
         response = self.call_api_endpoint(
@@ -38,7 +39,7 @@ class TestCohortAnalysisController(common.ApiControllerTestMixin, TestCase):
                 result.metadata.cohortPopulation, self.cohort.cases.count()
             )
 
-    @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
+    @parameterized.expand(GET_HTTP_SCENARIOS)
     def test_get_cohort_overall_survival_curve(self, scenario, config):
         # Call the API endpoint
         response = self.call_api_endpoint(
@@ -58,7 +59,7 @@ class TestCohortAnalysisController(common.ApiControllerTestMixin, TestCase):
             self.assertGreater(len(result.lowerConfidenceBand), 0)
             self.assertGreater(len(result.upperConfidenceBand), 0)
 
-    @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
+    @parameterized.expand(GET_HTTP_SCENARIOS)
     def test_get_cohort_line_progression_free_survival_curve(self, scenario, config):
         therapyLine = "PLoT1"
         # Call the API endpoint
@@ -81,7 +82,7 @@ class TestCohortAnalysisController(common.ApiControllerTestMixin, TestCase):
             self.assertGreater(len(result.lowerConfidenceBand), 0)
             self.assertGreater(len(result.upperConfidenceBand), 0)
 
-    @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
+    @parameterized.expand(GET_HTTP_SCENARIOS)
     def test_get_cohort_oncoplot_dataset(self, scenario, config):
         # Call the API endpoint
         response = self.call_api_endpoint(
@@ -102,7 +103,7 @@ class TestCohortAnalysisController(common.ApiControllerTestMixin, TestCase):
             self.assertGreater(len(result.cases), 0)
             self.assertGreater(len(result.variants), 0)
 
-    @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
+    @parameterized.expand(GET_HTTP_SCENARIOS)
     def test_get_cohort_line_progression_free_survival_by_categories(
         self, scenario, config
     ):
@@ -124,7 +125,7 @@ class TestCohortAnalysisController(common.ApiControllerTestMixin, TestCase):
             )
             self.assertIn("Others", result.survivals)
 
-    @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
+    @parameterized.expand(GET_HTTP_SCENARIOS)
     def test_get_cohort_line_property_distribution(self, scenario, config):
         therapyLine = "PLoT1"
         # Call the API endpoint

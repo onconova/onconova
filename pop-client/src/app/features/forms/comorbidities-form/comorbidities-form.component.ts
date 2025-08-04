@@ -27,6 +27,7 @@ import {
 } from '../../../shared/components';
 
 import { AbstractFormBase } from '../abstract-form-base.component';
+import { SelectButton } from 'primeng/selectbutton';
 
 @Component({
     selector: 'comorbidities-form',
@@ -38,6 +39,7 @@ import { AbstractFormBase } from '../abstract-form-base.component';
         DatePickerComponent,
         Fluid,
         Select,
+        SelectButton,
         ToggleSwitchModule,
         ButtonModule,
         ConceptSelectorComponent,

@@ -33,6 +33,7 @@ import {
 
 import { AbstractFormBase } from '../abstract-form-base.component';
 import { map } from 'rxjs';
+import { SelectButton } from 'primeng/selectbutton';
 
 @Component({
     selector: 'systemic-therapy-form',
@@ -45,6 +46,7 @@ import { map } from 'rxjs';
         Fluid,
         InputNumber,
         ButtonModule,
+        SelectButton,
         Fieldset,
         MeasureInputComponent,
         ConceptSelectorComponent,
@@ -190,13 +192,13 @@ export class SystemicTherapyFormComponent extends AbstractFormBase {
     }) 
 
     // Human readable choices for UI elements
-    public readonly intentChoices: RadioChoice[] = [
-        {name: 'Curative', value: SystemicTherapyIntentChoices.Curative},
-        {name: 'Palliative', value: SystemicTherapyIntentChoices.Palliative},
+    public readonly intentChoices = [
+        {label: 'Curative', value: SystemicTherapyIntentChoices.Curative},
+        {label: 'Palliative', value: SystemicTherapyIntentChoices.Palliative},
     ]
-    public readonly roleChoices: RadioChoice[] = [
-        {name: 'Primary', value: false},
-        {name: 'Adjunctive', value: true},
+    public readonly roleChoices = [
+        {label: 'Primary', value: false},
+        {label: 'Adjunctive', value: true},
     ]
     public readonly dosageTypeChoices: RadioChoice[] = [
         {name: 'Mass', value: 'Mass'},

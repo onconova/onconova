@@ -1,14 +1,21 @@
-from pop.tests.oncology.test_oncology_controllers import ApiControllerTextMixin
-from django.test import TestCase
-from pop.core.utils import average, std, percentile
-from pop.research import models
-from pop.research import schemas
-from pop.tests import factories, common
-from parameterized import parameterized
 from collections import Counter
+from datetime import datetime
+
+from django.test import TestCase
+from parameterized import parameterized
+
+from pop.core.utils import average, percentile, std
+from pop.research import models, schemas
+from pop.tests import factories
+from pop.tests.common import (
+    GET_HTTP_SCENARIOS,
+    HTTP_SCENARIOS,
+    ApiControllerTestMixin,
+    CrudApiControllerTestCase,
+)
 
 
-class TestCohortController(ApiControllerTextMixin, TestCase):
+class TestCohortController(CrudApiControllerTestCase):
     controller_path = "/api/v1/cohorts"
     FACTORY = factories.CohortFactory
     MODEL = models.Cohort
@@ -78,7 +85,7 @@ class TestCohortController(ApiControllerTextMixin, TestCase):
         )
 
 
-class TestCohortTraitsController(common.ApiControllerTestMixin, TestCase):
+class TestCohortTraitsController(ApiControllerTestMixin, TestCase):
     controller_path = "/api/v1/cohorts"
 
     @classmethod
@@ -86,9 +93,18 @@ class TestCohortTraitsController(common.ApiControllerTestMixin, TestCase):
         super().setUpTestData()
         cls.trait = "age"
         cls.cohort = factories.CohortFactory.create()
-        cls.cohort.cases.set([factories.PatientCaseFactory.create(consent_status='valid') for _ in range(10)])
+        cls.cohort.cases.set(
+            [
+                factories.PatientCaseFactory.create(
+                    consent_status="valid",
+                    date_of_birth=datetime(2000 + i, 1, 1).date(),
+                    date_of_death=None,
+                )
+                for i in range(10)
+            ]
+        )
 
-    @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
+    @parameterized.expand(GET_HTTP_SCENARIOS)
     def test_get_cohort_traits_statistics(self, scenario, config):
         # Call the API endpoint
         response = self.call_api_endpoint("GET", f"/{self.cohort.id}/traits", **config)
@@ -98,9 +114,13 @@ class TestCohortTraitsController(common.ApiControllerTestMixin, TestCase):
 
             # Assert median age in response
             values = [getattr(case, "age") for case in self.cohort.valid_cases.all()]
+            interp_diff = 0.5
             expected = schemas.cohort.CohortTraitMedian(
-                median=percentile(values, 50),
-                interQuartalRange=(percentile(values, 25), percentile(values, 75)),
+                median=percentile(values, 50) - interp_diff,
+                interQuartalRange=(
+                    percentile(values, 25) - interp_diff,
+                    percentile(values, 75) - interp_diff,
+                ),
             ).model_dump()
             result = schemas.cohort.CohortTraits.model_validate(
                 response.json()
@@ -108,7 +128,9 @@ class TestCohortTraitsController(common.ApiControllerTestMixin, TestCase):
             self.assertDictEqual(result, expected)
 
             # Assert gender counts in response
-            counter = Counter([case.gender.display for case in self.cohort.valid_cases.all()])
+            counter = Counter(
+                [case.gender.display for case in self.cohort.valid_cases.all()]
+            )
             expected = [
                 schemas.cohort.CohortTraitCounts(
                     category=category,
@@ -126,7 +148,7 @@ class TestCohortTraitsController(common.ApiControllerTestMixin, TestCase):
             self.assertEqual(result, expected)
 
 
-class TestDatasetController(ApiControllerTextMixin, TestCase):
+class TestDatasetController(CrudApiControllerTestCase):
     controller_path = "/api/v1/datasets"
     FACTORY = factories.DatasetFactory
     MODEL = models.Dataset
@@ -196,7 +218,7 @@ class TestDatasetController(ApiControllerTextMixin, TestCase):
         )
 
 
-class TestProjectController(ApiControllerTextMixin, TestCase):
+class TestProjectController(CrudApiControllerTestCase):
     controller_path = "/api/v1/projects"
     FACTORY = factories.ProjectFactory
     MODEL = models.Project
@@ -234,7 +256,7 @@ class TestProjectController(ApiControllerTextMixin, TestCase):
         )
 
 
-class TestProjectDataManagerController(ApiControllerTextMixin, TestCase):
+class TestProjectDataManagerController(CrudApiControllerTestCase):
     controller_path = "/api/v1/projects"
     FACTORY = factories.ProjectDataManagerGrantFactory
     MODEL = models.ProjectDataManagerGrant
@@ -258,10 +280,10 @@ class TestProjectDataManagerController(ApiControllerTextMixin, TestCase):
     def get_route_url_history_revert(self, instance, event):
         return f"/{instance.project.id}/members/{instance.member.id}/data-management/grants/{instance.id}/history/events/{event.pgh_id}/reversion"
 
-    @parameterized.expand(common.ApiControllerTestMixin.scenarios)
+    @parameterized.expand(HTTP_SCENARIOS)
     def test_delete(self, scenario, config):
-        for i in range(self.SUBTESTS):
-            instance = self.INSTANCE[i]
+        for i in range(self.subtests):
+            instance = self.instances[i]
             config = {**config, "expected_responses": (201, 403, 401, 301)}
             # Call the API endpoint
             response = self.call_api_endpoint(
@@ -271,9 +293,9 @@ class TestProjectDataManagerController(ApiControllerTextMixin, TestCase):
                 # Assert response content
                 if scenario == "HTTPS Authenticated":
                     self.assertEqual(response.status_code, 201)
-                    instance = self.MODEL[i].objects.filter(id=instance.id).first()
+                    instance = self.models[i].objects.filter(id=instance.id).first()
                     self.assertIsNotNone(instance)
-                    self.assertTrue(instance.revoked)
+                    self.assertTrue(instance.revoked)  # type: ignore
 
     @parameterized.expand(
         [

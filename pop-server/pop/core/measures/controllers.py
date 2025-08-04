@@ -1,11 +1,11 @@
 from typing import List
-from ninja_extra import route, api_controller, ControllerBase
 
-from measurement.base import MeasureBase, BidimensionalMeasure
+from measurement.base import BidimensionalMeasure, MeasureBase
+from ninja_extra import ControllerBase, api_controller, route
 
 from pop.core.auth.token import XSessionTokenAuth
-from pop.core.measures.schemas import MeasureConversion, Measure
 from pop.core.measures import measures
+from pop.core.measures.schemas import Measure, MeasureConversion
 
 
 @api_controller(
@@ -28,8 +28,8 @@ class MeasuresController(ControllerBase):
         if issubclass(measure, MeasureBase):
             units = list(measure.get_units())
         elif issubclass(measure, BidimensionalMeasure):
-            primaries = list(measure.PRIMARY_DIMENSION.get_units())
-            references = list(measure.REFERENCE_DIMENSION.get_units())
+            primaries = list(measure.PRIMARY_DIMENSION.get_units())  # type: ignore
+            references = list(measure.REFERENCE_DIMENSION.get_units())  # type: ignore
             units = [
                 f"{primary}__{reference}"
                 for primary in primaries

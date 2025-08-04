@@ -18,16 +18,14 @@ export class AuthGuard implements CanActivate {
      * @returns A promise that resolves to true if the user can access the route, false otherwise.
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
-        return new Promise( (resolve, reject) => {
-            // If the user is authenticated, we allow access to the route.
-            if (this.#auth.isAuthenticated()) {
-                resolve(true)
-            } else {
-                // Otherwise, redirect the user to the login page, passing the current route as a query parameter.
-                this.#router.navigate(['auth/login'], { queryParams: { next: state.url } });
-                // We don't want to let the user access the route, so we resolve to false.
-                resolve(false)
-            }                     
-        })    
+        // If the user is authenticated, we allow access to the route.
+        if (this.#auth.isAuthenticated()) {
+            return Promise.resolve(true);
+        } else {
+            // Otherwise, redirect the user to the login page, passing the current route as a query parameter.
+            this.#router.navigate(['auth/login'], { queryParams: { next: state.url } });
+            // We don't want to let the user access the route, so we resolve to false.
+            return Promise.resolve(false);
+        }
     }
 }

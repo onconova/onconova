@@ -1,13 +1,12 @@
 import uuid
-from django.db import models
-from django.db.models import Q, Min, Max
-from django.utils.translation import gettext_lazy as _
+
 from django.contrib.postgres.aggregates import ArrayAgg
+from django.db import models
+from django.db.models import Max, Min, Q
 from django.db.models.fields.json import KeyTextTransform
-
-
-from queryable_properties.properties import AnnotationProperty
+from django.utils.translation import gettext_lazy as _
 from queryable_properties.managers import QueryablePropertiesManager
+from queryable_properties.properties import AnnotationProperty
 
 # Import models from submodules to be discoverable by Django
 from .auth.models import *
@@ -15,20 +14,27 @@ from .auth.models import *
 
 class UntrackedBaseModel(models.Model):
     """
-    A base model class that provides common fields and methods for all models.
-
-    This class provides common fields and methods that are used by all models in
-    the application. The fields provided by this class include a unique identifier,
-    creation and modification times, and the users who created and modified the
-    data. The methods provided by this class include a description property that
-    returns a human-readable description of the model instance, and a method to
-    generate a unique identifier for a model instance.
+    Abstract base model providing common fields and behaviors for models that are not tracked by Django's built-in mechanisms.
+    This model uses a custom manager (`QueryablePropertiesManager`) and includes fields for external data source tracking.
 
     Attributes:
-        auto_id: A unique identifier for the model instance.
-        id: A human-readable identifier for the model instance.
+        objects (QueryablePropertiesManager): The default manager for querying model instances.
+        id (UUIDField): Primary key, automatically generated UUID.
+        external_source (CharField): Optional. The digital source of the data, useful for automated data imports.
+        external_source_id (CharField): Optional. The identifier of the data at the external source.
+
+    Meta:
+        abstract (bool): Indicates that this model is abstract and should not be used to create any database table.
+
+    Properties:
+        description (str): Human-readable description of the model instance. Must be implemented by subclasses.
+
+    Methods:
+        __str__(): Returns the description of the instance, or a fallback string if not implemented.
     """
 
+    # NOTE: This model uses QueryablePropertiesManager as the default manager.
+    # All subclasses must be compatible with this manager.
     objects = QueryablePropertiesManager()
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -52,29 +58,38 @@ class UntrackedBaseModel(models.Model):
 
     @property
     def description(self):
-        """
-        A human-readable description of the model instance.
+        """A human-readable description of the model instance.
 
-        This property should be implemented by subclasses to provide a human-readable
-        description of the model instance. The description should be a string that is
-        suitable for display to users.
-
-        Returns:
-            str: A human-readable description of the model instance.
+        Subclasses must implement this property to provide a string suitable for display to users.
         """
         raise NotImplementedError("Subclasses must implement the description property")
 
     def __str__(self):
-        return self.description
+        try:
+            return self.description
+        except NotImplementedError:
+            return f"{self.__class__.__name__} instance (description not implemented)"
 
 
 class BaseModel(UntrackedBaseModel):
+    """
+    Abstract base model that provides annotated properties for tracking creation and update metadata.
+
+    Attributes:
+        created_at (AnnotationProperty): The earliest creation timestamp from related events with label "create".
+        updated_at (AnnotationProperty): The latest update timestamp from related events with label "update".
+        created_by (AnnotationProperty): The username associated with the creation event.
+        updated_by (AnnotationProperty): A list of distinct usernames associated with update events.
+
+    Note:
+        This model is abstract and should be inherited by other models to include audit fields.
+    """
 
     created_at = AnnotationProperty(
-        annotation=Min(f"events__pgh_created_at", filter=Q(events__pgh_label="create")),
+        annotation=Min("events__pgh_created_at", filter=Q(events__pgh_label="create")),
     )
     updated_at = AnnotationProperty(
-        annotation=Max(f"events__pgh_created_at", filter=Q(events__pgh_label="update")),
+        annotation=Max("events__pgh_created_at", filter=Q(events__pgh_label="update")),
     )
     created_by = AnnotationProperty(
         annotation=Min(

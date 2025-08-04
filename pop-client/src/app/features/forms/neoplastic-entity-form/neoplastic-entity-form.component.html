@@ -1,9 +1,9 @@
 <p-fluid>
     <form  [formGroup]="form" (ngSubmit)="submitFormData()">
 
-        <div class="field">
+        <div class="field flex flex-column">
             <label for="relationship" class="form-label required">Neoplastic relation category</label>
-            <p-select 
+            <p-selectbutton 
             [options]="relationshipOptions" 
             formControlName="relationship"
             optionLabel="name" 
@@ -50,12 +50,13 @@
             <pop-form-control-error controlName="morphology"></pop-form-control-error>
         </div>
 
-        <div class="field">
+        <div class="field flex flex-column">
             <label for="laterality" class="form-label">Laterality</label>
             <pop-concept-selector 
                 terminology="LateralityQualifier"
                 [showSynonyms]="false"
-                formControlName="laterality"/>
+                formControlName="laterality"
+                widget="selectbutton"/>
             <pop-form-control-error controlName="laterality"></pop-form-control-error>
         </div>
 

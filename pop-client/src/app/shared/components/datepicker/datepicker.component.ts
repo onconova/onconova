@@ -4,6 +4,7 @@ import { CommonModule, formatDate} from '@angular/common';
 import { DatePicker, DatePickerTypeView} from 'primeng/datepicker';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DateMaskDirective } from '../../directives/date-mask-directive';
+import { Message } from 'primeng/message';
 
 @Component({
     selector: 'pop-datepicker',
@@ -18,10 +19,23 @@ import { DateMaskDirective } from '../../directives/date-mask-directive';
             [selectionMode]="selectionMode()"
             [minDate]="minDate"
             [maxDate]="maxDate"
+            [keepInvalid]="true"
             dataType="string"
             appendTo="body"
             dateMask 
             />
+        @if (formControl.errors?.['invalidDate']) {
+            <p-message severity="error" text="Invalid date"></p-message>
+        }
+        @if (formControl.errors?.['invalidPeriod']) {
+            <p-message severity="error" text="Period's start date must be before end date"></p-message>
+        }
+        @if (formControl.errors?.['tooFarInThePast']) {
+            <p-message severity="error" text="Date too far in the past"></p-message>
+        }
+        @if (formControl.errors?.['tooFarInTheFuture']) {
+            <p-message severity="error" text="Date cannot be in the future"></p-message>
+        }
     `,
     providers: [
         {
@@ -32,6 +46,7 @@ import { DateMaskDirective } from '../../directives/date-mask-directive';
     ],
     imports: [
         CommonModule,
+        Message,
         FormsModule,
         ReactiveFormsModule,
         DatePicker,
@@ -85,13 +100,16 @@ export class DatePickerComponent implements ControlValueAccessor {
                 // Convert user-friendly format -> ISO for range
                 const dates = val.includes(' - ') ? val.split(' - ') : val;
                 if (dates.length === 2) {
+
                     const isoStart = this.parseToISO(dates[0]);
                     const isoEnd = this.parseToISO(dates[1]);
+                    this.validatePeriod(isoStart, isoEnd);
                     this.onChange({ start: isoStart, end: isoEnd });
                 }
             } else {
                 // Convert user-friendly format -> ISO for single date
                 const isoDate = this.parseToISO(val);
+                this.validateDate(isoDate);
                 this.onChange(isoDate);
             }
         });
@@ -125,6 +143,39 @@ export class DatePickerComponent implements ControlValueAccessor {
                 return `${year}-${month}-01`;
             default:
                 return dateStr
+        }
+    }
+
+
+    validateDate(value: string) {
+        const date = new Date(value);
+        const validDate = isFinite(date.getTime());
+
+        if (validDate) {
+            const tooFarInThePast = date.getTime() < this.minDate.getTime();
+            const tooFarInTheFuture = date.getTime() > this.maxDate.getTime();
+            if (tooFarInThePast) {
+                this.formControl.setErrors({'tooFarInThePast': true});
+            }
+            if (tooFarInTheFuture) {
+                this.formControl.setErrors({'tooFarInTheFuture': true});
+            } 
+        } else {
+            this.formControl.setErrors({'invalidDate': true});
+        }
+    }
+
+    validatePeriod(start: string, end: string) {
+        this.validateDate(start);
+        this.validateDate(end);
+        const startDate = new Date(start);
+        const endDate = new Date(end);
+
+        if (startDate && endDate) {
+            const invalidPeriod = startDate.getTime() > endDate.getTime();
+            if (invalidPeriod) {
+                this.formControl.setErrors({'invalidPeriod': true});
+            }
         }
     }
 }
