@@ -833,14 +833,12 @@ class TumorBoardRecommendation(CodedConcept):
 class MolecularTumorBoardRecommendation(TumorBoardRecommendation):
     class MolecularTumorBoardRecommendationManager(models.Manager):
         def get_queryset(self):
-            # Apply filtering criteria for MolecularTumorBoardRecommendation
             return (
                 super()
                 .get_queryset()
                 .filter(
-                    # Example filter: Add your specific filtering conditions here
                     code__in=["LA14020-4", "LA14021-2", "LA14022-0"]
-                )
+                ).distinct("code")
             )
 
     objects = MolecularTumorBoardRecommendationManager()
