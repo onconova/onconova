@@ -207,8 +207,8 @@ export class CohortQueryBuilderComponent implements ControlValueAccessor {
                 propertyType = actual.format
             }
             if (propertyType == 'Measure') {
-                extras['measureType'] = actual['x-measure'];
-                extras['defaultUnit'] = actual['x-default-unit'];
+                extras['measureType'] = property['x-measure'];
+                extras['defaultUnit'] = property['x-default-unit'];
             }
             propertyType = (isArray ? "Multi" : "") + propertyType;
             // Create a field object and add it to the array
