@@ -323,8 +323,13 @@ class TNMStagingMethod(CodedConcept):
     def transform(cls, concept):
         label = concept.display
         label = (
-            label.replace("American Joint Committee on Cancer,", "AJCC")
+            label.replace("American Joint Committee on Cancer", "AJCC")
+            .replace("American Joint Commission on Cancer", "AJCC")
+            .replace(", ", " ")
+            .replace("Cancer Staging Manual", "Staging Manual")
             .replace(" (tumor staging)", "")
+            .replace(" version", "edition")
+            .replace(" tumor staging system", "")
             .replace(" neoplasm staging system", "")
         )
         label = label.replace(
