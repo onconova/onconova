@@ -5,7 +5,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 @Component({
     selector: 'pop-range-input',
     template: `
-        <div class="p-fluid p-grid flex gap-3 align-items-center">
+        <div class="p-fluid p-grid flex gap-1 align-items-center">
             <div class="p-col">
                 <span class="p-float-label">
                     <p-inputnumber
