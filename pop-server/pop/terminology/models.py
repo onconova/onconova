@@ -811,23 +811,6 @@ class CancerTreatmentResponse(CodedConcept):
 class TumorBoardRecommendation(CodedConcept):
     valueset = "https://simplifier.net/pop/ValueSets/pop-tumor-board-recommendations"
     description = "Codes representing  tumor board  recommendations"
-    extension_concepts = [
-        CodedConceptSchema(
-            code="LA14020-4",
-            system="http://loinc.org/",
-            display="Genetic counseling recommended",
-        ),
-        CodedConceptSchema(
-            code="LA14021-2",
-            system="http://loinc.org/",
-            display="Confirmatory testing recommended",
-        ),
-        CodedConceptSchema(
-            code="LA14022-0",
-            system="http://loinc.org/",
-            display="Additional testing recommended",
-        ),
-    ]
 
 
 class MolecularTumorBoardRecommendation(TumorBoardRecommendation):
@@ -838,7 +821,7 @@ class MolecularTumorBoardRecommendation(TumorBoardRecommendation):
                 .get_queryset()
                 .filter(
                     code__in=["LA14020-4", "LA14021-2", "LA14022-0"]
-                ).distinct("code")
+                )
             )
 
     objects = MolecularTumorBoardRecommendationManager()
