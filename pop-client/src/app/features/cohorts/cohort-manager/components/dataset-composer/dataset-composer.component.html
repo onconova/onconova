@@ -3,8 +3,8 @@
         <p-fieldset legend="Dataset Defintion" styleClass="my-auto mr-3 pb-0" class="w-full">
             <div class="flex flex-wrap row-gap-3">
                 <div class="flex flex-column mr-3 gap-3">
-                    <div class="flex gap-2">
-                        <p-button icon="pi pi-sync" label="Load Dataset" styleClass="load-dataset-button" severity="secondary" (onClick)="datasetSelect.toggle($event);"/>
+                    <div class="flex gap-1">
+                        <p-button icon="pi pi-sync" [disabled]="processing()" label="Load Dataset" styleClass="load-dataset-button" severity="secondary" (onClick)="datasetSelect.toggle($event);"/>
                         <p-popover #datasetSelect>
                             <div class="flex flex-col gap-4">
                                 <div>
@@ -22,7 +22,7 @@
                             </div>
                         </p-popover>
 
-                        <p-button icon="pi pi-eraser" label="Reset" severity="secondary" (onClick)="resetDataset()"/>
+                        <p-button icon="pi pi-eraser" [disabled]="processing()" label="Reset" severity="secondary" (onClick)="resetDataset()"/>
                     </div>
                     <p-button 
                         icon="pi pi-cloud-upload" 
@@ -37,11 +37,11 @@
                 <form [formGroup]="form" class="dataset-metadata-form">
                     <div class="field">
                         <label class="form-label required mr-3">Title</label>
-                        <input type="text" pInputText formControlName="title" />
+                        <input type="text" pInputText formControlName="title" [disabled]="processing()" />
                     </div>
                     <div class="field">
                             <label class="form-label required mr-3">Description</label>
-                            <input type="text" pInputText class="w-20rem" formControlName="summary" />
+                            <input type="text" pInputText class="w-20rem" formControlName="summary" [disabled]="processing()" />
                     </div>
                 </form>
                 <div class="ml-auto my-auto">

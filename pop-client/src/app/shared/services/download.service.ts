@@ -82,7 +82,7 @@ export class DownloadService {
 
     private flattenObject(obj: any, parentKey = ''): any[] {
         let rows: any[] = [{}];
-        
+        if (!obj) return rows
         Object.entries(obj).forEach(([key, value]) => {
             const newKey = parentKey ? `${parentKey}.${key}` : key;
             

@@ -348,19 +348,41 @@ class PatientCaseDataset(partial_schemas["PatientCase"]):
         default=None,
         validation_alias=AliasChoices("genomicVariants", "genomic_variants_resources"),
     )
-    genomicSignatures: Nullable[
-        List[
-            Union[
-                partial_schemas["TumorMutationalBurden"],  # type: ignore
-                partial_schemas["MicrosatelliteInstability"],  # type: ignore
-                partial_schemas["LossOfHeterozygosity"],  # type: ignore
-                partial_schemas["HomologousRecombinationDeficiency"],  # type: ignore
-                partial_schemas["TumorNeoantigenBurden"],  # type: ignore
-                partial_schemas["AneuploidScore"],  # type: ignore
-            ]
-        ]
-    ] = Field(  # type: ignore
+    tumorMutationalBurdens: Nullable[List[partial_schemas["TumorMutationalBurden"]]] = Field(  # type: ignore
         default=None,
+        validation_alias=AliasChoices(
+            "tumorMutationalBurdens", "tumor_mutational_burdens_resources"
+        ),
+    )
+    microsatelliteInstabilities: Nullable[List[partial_schemas["MicrosatelliteInstability"]]] = Field(  # type: ignore
+        default=None,
+        validation_alias=AliasChoices(
+            "microsatelliteInstabilities", "microsatellite_instabilities_resources"
+        ),
+    )
+    lossesOfHeterozygosity: Nullable[List[partial_schemas["LossOfHeterozygosity"]]] = Field(  # type: ignore
+        default=None,
+        validation_alias=AliasChoices(
+            "lossesOfHeterozygosity", "losses_of_heterozygosity_resources"
+        ),
+    )
+    homologousRecombinationDeficiencies: Nullable[List[partial_schemas["HomologousRecombinationDeficiency"]]] = Field(  # type: ignore
+        default=None,
+        validation_alias=AliasChoices(
+            "homologousRecombinationDeficiencies", "homologous_recombination_deficiencies_resources"
+        ),
+    )
+    tumorNeoantigenBurdens: Nullable[List[partial_schemas["TumorNeoantigenBurden"]]] = Field(  # type: ignore
+        default=None,
+        validation_alias=AliasChoices(
+            "tumorNeoantigenBurdens", "tumor_neoantigen_burdens_resources"
+        ),
+    )
+    aneuploidScores: Nullable[List[partial_schemas["AneuploidScore"]]] = Field(  # type: ignore
+        default=None,
+        validation_alias=AliasChoices(
+            "aneuploidScores", "aneuploid_scores_resources"
+        ),
     )
     vitals: Nullable[List[partial_schemas["Vitals"]]] = Field(  # type: ignore
         default=None, validation_alias=AliasChoices("vitals", "vitals_resources")
@@ -379,7 +401,7 @@ class PatientCaseDataset(partial_schemas["PatientCase"]):
     unspecifiedTumorBoards: Nullable[List[partial_schemas["UnspecifiedTumorBoard"]]] = Field(  # type: ignore
         default=None,
         validation_alias=AliasChoices(
-            "unspecifiedtumorboards", "unspecified_tumor_boards_resources"
+            "unspecifiedTumorBoards", "unspecified_tumor_boards_resources"
         ),
     )
     molecularTumorBoards: Nullable[List[partial_schemas["UnspecifiedTumorBoard"]]] = Field(  # type: ignore
