@@ -147,7 +147,7 @@ class DatasetRuleProcessor:
             return ""
         if self.parent_model:
             if not self.resource_model.__bases__[0] == BaseModel:
-                return self.resource_model._meta.verbose_name_plural.replace(" ", "_")
+                return self.resource_model._meta.verbose_name_plural.replace(" ", "_").lower()
             else:
                 return self.parent_related_name
         else:
