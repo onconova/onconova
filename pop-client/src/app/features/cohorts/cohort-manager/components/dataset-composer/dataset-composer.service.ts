@@ -3,6 +3,16 @@ import { DataResource } from "pop-api-client";
 import { TreeNode } from "primeng/api";
 import OpenAPISpecification from "../../../../../../../openapi.json";
 
+type OpenAPIProperty = {
+    type?: string;
+    $ref?: string;
+    anyOf?: OpenAPIProperty[];
+    oneOf?: OpenAPIProperty[];
+    allOf?: OpenAPIProperty[];
+    items?: OpenAPIProperty;
+    // ...other OpenAPI fields
+};
+
 @Injectable({
   providedIn: 'root'
 })
@@ -64,50 +74,104 @@ export class DatasetComposeService {
         this.constructResourceTreeNode(DataResource.Vitals, 'Vitals'),
     ]
     
-    
-        private constructResourceTreeNode(resource: DataResource, label: string, options: {children?: any[], exclude?: string[], isRoot?: boolean} = {children: [], exclude: [], isRoot: true}){
+    private constructResourceTreeNode(
+        resource: DataResource, 
+        label: string, 
+        options: { children?: any[], exclude?: string[], isRoot?: boolean } = {}
+    ): TreeNode {
+            // Ensure all option defaults are set even if options is partially passed
+            options = {
+                children: [],
+                exclude: [],
+                isRoot: true,
+                ...options
+            }
+            // Helper to resolve OpenAPI schema property type
+            const resolvePropertyType = (property: OpenAPIProperty | undefined | null): string => {
+                if (!property) return 'unknown';
+
+                // Handle composition keywords: anyOf, oneOf, allOf
+                if (property.anyOf) {
+                    // Prefer first non-null type, fallback to first element
+                    const nonNull = property.anyOf.find(p => p.type !== 'null');
+                    if (nonNull) return resolvePropertyType(nonNull);
+                    return resolvePropertyType(property.anyOf[0]);
+                }
+
+                if (property.oneOf) {
+                    return resolvePropertyType(property.oneOf[0]);
+                }
+
+                if (property.allOf) {
+                    // OpenAPI allOf can merge multiple schemas, but for type display, show first
+                    return resolvePropertyType(property.allOf[0]);
+                }
+
+                // Handle array types
+                if (property.items) {
+                    return resolvePropertyType(property.items);
+                }
+
+                // Handle $ref
+                if (property.$ref) {
+                    const refName = property.$ref.split('/').pop();
+                    return refName ?? 'unknown';
+                }
+
+                // Fall back to type
+                if (property.type) {
+                    return property.type;
+                }
+
+                return 'unknown';
+            };
+
             // Get the schema definition of the entity from the OpenAPISpecification object
-            const schemas = OpenAPISpecification.components.schemas
+            const schemas = OpenAPISpecification.components.schemas;
+            const schema = schemas?.[resource];
+            if (!schema) {
+                throw new Error(`Schema not found for resource: ${resource}`);
+            }
+
             // Get a list of all fields/properties in that resource
             const properties = schemas[resource].properties || {};
+                            
+            // Items to exclude from tree
+            const metadataFields = new Set(this.createMetadataItems('').map(item => item.field));
+            const extraExcludes = new Set(['caseId', 'description', 'anonymized', ...(options.exclude ?? [])]);
+
+            // Build property nodes
             const propertyNodes = Object.entries(properties)
-                .filter(
-                    ([propertyKey,_]) => !this.createMetadataItems('').map(
-                        item => item['field']).includes(propertyKey) && !['caseId', 'description','anonymized'].includes(propertyKey)
-                ).flatMap(
-                    ([propertyKey,property]:[string, any]) => {
-                        const title: string = property.title
-                        const description: string = property.description
-                        if (property.anyOf && property.anyOf[property.anyOf.length-1].type === 'null') {
-                            property = property.anyOf[0];
-                        }
-                        if (property.items) {
-                            property = property.items;       
-                        }
-    
-                        let propertyType: string;
-                        if (property.type === undefined && property.$ref) {
-                            propertyType = property.$ref.split('/').pop();
-                        } else {
-                            propertyType = property.type;
-                        }     
-                        return this.createTreeNode(resource, title, propertyKey, propertyType, description);
-                    }
+                .filter(([propertyKey]) => 
+                    !metadataFields.has(propertyKey) && !extraExcludes.has(propertyKey)
                 )
-                    
-            const isRoot =  options?.isRoot ?? true
-            const treeNode = {
-                key: resource, 
-                label: label, 
-                children: isRoot ? [
+                .map(([propertyKey, property]: [string, any]) => {
+                    const title: string = property.title ?? propertyKey;
+                    const description: string = property.description ?? '';
+                    const propertyType: string = resolvePropertyType(property);
+                    return this.createTreeNode(resource, title, propertyKey, propertyType, description);
+                });
+                        
+            // Compose children for the tree node
+            let children: any[] = [];
+            if (options.isRoot) {
+                children = [
                     {key: `${resource}-properties`, label: "Properties", children: propertyNodes.filter(
                         ((item: any) => !resource.includes(item.field) && !options?.exclude?.includes(item.field))
                     )},
-                    {key: `${resource}-metadata`, label: "Metadata", children: this.createMetadataItems(resource)},
-                ] : propertyNodes
+                    ...(options?.children || []), 
+                    {key: `${resource}-metadata`, label: "Metadata", children: this.createMetadataItems(resource)}
+                ]
+            } else {
+                children = propertyNodes
             }
-            treeNode.children = isRoot ? [treeNode.children[0], ...(options?.children || []), treeNode.children[1]] : treeNode.children
-            return treeNode
+
+            // Returning the tree node object
+            return {
+                key: resource,
+                label: label,
+                children
+            } as TreeNode;
         }
     
         private createTreeNode(resource: string, label: string, field: string, type: string, description: string | null = null) {
