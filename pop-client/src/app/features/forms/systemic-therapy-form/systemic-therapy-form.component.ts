@@ -82,7 +82,7 @@ export class SystemicTherapyFormComponent extends AbstractFormBase {
         period: this.#fb.control<Period | string | null>(null, Validators.required),
         targetedEntities: this.#fb.control<string[] | null>(null, Validators.required),
         drugs: this.#fb.nonNullable.control<CodedConcept[]>([], Validators.required),
-        cycles: this.#fb.control<number | null>(null, Validators.required),
+        cycles: this.#fb.control<number | null>(null),
         intent: this.#fb.control<SystemicTherapyIntentChoices | null>(null, Validators.required),
         isAdjunctive: this.#fb.control<boolean>(false, Validators.required),
         adjunctiveRole: this.#fb.control<CodedConcept | null>(null),

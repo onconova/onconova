@@ -174,17 +174,9 @@ class KarnofskyPerformanceStatusInterpretation(CodedConcept):
 
 class TreatmentTerminationReason(CodedConcept):
     valueset = (
-        "http://hl7.org/fhir/us/mcode/ValueSet/mcode-treatment-termination-reason-vs"
+        "https://simplifier.net/pop/ValueSets/pop-treatment-termination-reason"
     )
     description = "Values used to describe the reasons for stopping a treatment or episode of care."
-    extension_concepts = [
-        CodedConceptSchema(
-            code="182992009",
-            system="http://snomed.info/sct",
-            display="Treatment completed",
-            version="http://snomed.info/sct/900000000000207008",
-        ),
-    ]
 
     def __str__(self):
         return f"{self.display.split(' (')[0]}"
@@ -323,8 +315,13 @@ class TNMStagingMethod(CodedConcept):
     def transform(cls, concept):
         label = concept.display
         label = (
-            label.replace("American Joint Committee on Cancer,", "AJCC")
+            label.replace("American Joint Committee on Cancer", "AJCC")
+            .replace("American Joint Commission on Cancer", "AJCC")
+            .replace(", ", " ")
+            .replace("Cancer Staging Manual", "Staging Manual")
             .replace(" (tumor staging)", "")
+            .replace(" version", "edition")
+            .replace(" tumor staging system", "")
             .replace(" neoplasm staging system", "")
         )
         label = label.replace(
@@ -814,34 +811,15 @@ class CancerTreatmentResponse(CodedConcept):
 class TumorBoardRecommendation(CodedConcept):
     valueset = "https://simplifier.net/pop/ValueSets/pop-tumor-board-recommendations"
     description = "Codes representing  tumor board  recommendations"
-    extension_concepts = [
-        CodedConceptSchema(
-            code="LA14020-4",
-            system="http://loinc.org/",
-            display="Genetic counseling recommended",
-        ),
-        CodedConceptSchema(
-            code="LA14021-2",
-            system="http://loinc.org/",
-            display="Confirmatory testing recommended",
-        ),
-        CodedConceptSchema(
-            code="LA14022-0",
-            system="http://loinc.org/",
-            display="Additional testing recommended",
-        ),
-    ]
 
 
 class MolecularTumorBoardRecommendation(TumorBoardRecommendation):
     class MolecularTumorBoardRecommendationManager(models.Manager):
         def get_queryset(self):
-            # Apply filtering criteria for MolecularTumorBoardRecommendation
             return (
                 super()
                 .get_queryset()
                 .filter(
-                    # Example filter: Add your specific filtering conditions here
                     code__in=["LA14020-4", "LA14021-2", "LA14022-0"]
                 )
             )

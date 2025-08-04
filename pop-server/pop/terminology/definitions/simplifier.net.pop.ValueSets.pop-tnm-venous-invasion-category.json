@@ -12,6 +12,10 @@
                 "version": "http://snomed.info/sct/900000000000207008/version/20240301",
                 "concept": [
                     {
+                        "code": "6510002",
+                        "display": "VX stage"
+                    },
+                    {
                         "code": "40223008",
                         "display": "V0 stage"
                     },

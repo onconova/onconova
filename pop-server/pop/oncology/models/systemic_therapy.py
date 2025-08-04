@@ -73,6 +73,8 @@ class SystemicTherapy(BaseModel):
         help_text=_(
             "The total number of treatment cycles during the treatment period."
         ),
+        null=True,
+        blank=True,
     )
     intent = models.CharField(
         verbose_name=_("Intent"),

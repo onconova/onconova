@@ -25,6 +25,8 @@ class TestInteroperabilityController(ApiControllerTestMixin, TestCase):
             )
             cls.case.save()
             cls.case.refresh_from_db()
+            cls.entity.save()
+            cls.entity.refresh_from_db()
             cohort = factories.CohortFactory()
             cohort.cases.add(cls.case)
             cls.bundle = PatientCaseBundle.model_validate(cls.case)
