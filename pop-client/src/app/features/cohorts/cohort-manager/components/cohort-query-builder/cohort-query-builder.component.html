@@ -81,11 +81,11 @@
                         appendTo="body"/>
                   </div>
         
-                  <ul class="q-filters-container">
+                  <ul class="q-filters-container my-auto flex flex-column gap-2">
                     @for (filter of rule.filters; track $index;) {
                       @let field = config.fields[filter.field];
                       @if (field) {
-                        <li class="flex flex-wrap gap-3 ml-0 mt-2">          
+                        <li class="flex flex-wrap gap-3 ml-0 ">          
                           <!-- Filter field selector -->
                           <p-select 
                             [options]="getFields(rule.entity)" 
