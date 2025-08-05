@@ -26,7 +26,7 @@ export interface RadioChoice {
                                 @if (groupedEvents.timestamp.end) {
                                     {{ groupedEvents.timestamp?.end | date }}
                                 } @else {
-                                    ongoing
+                                    Ongoing
                                 }
                             } @else {
                                 {{ groupedEvents.timestamp | date }}

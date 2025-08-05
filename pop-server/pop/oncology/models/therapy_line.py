@@ -1,5 +1,5 @@
 import pghistory
-
+import datetime
 from django.db import models
 from django.db.models import Q, Min, Max, Func, Case, When, Value, F, Subquery, OuterRef
 from django.db.models.functions import (
@@ -211,7 +211,10 @@ class TherapyLine(BaseModel):
             )
 
         def overlap(period1, period2):
-            return period1.upper >= period2.lower and period2.upper >= period1.lower
+            # If either period is ongoing, treat its upper bound as infinitely far in the future
+            p1_upper = period1.upper if period1.upper is not None else datetime.date.max
+            p2_upper = period2.upper if period2.upper is not None else datetime.date.max
+            return p1_upper >= period2.lower and p2_upper >= period1.lower
 
         # Delete all existing therapy lines to assign them anew
         case.therapy_lines.all().delete()
@@ -356,6 +359,7 @@ class TherapyLine(BaseModel):
                         for drug in SACT.drugs
                     ]
                 )
+                
             ) and not is_anti_hormonal(previous_SACT):
                 assign_therapy_to_new_line()
                 continue

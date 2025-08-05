@@ -1,8 +1,8 @@
 import pghistory
 
 from django.db import models
-from django.db.models import ExpressionWrapper, Value, Func, F, Q, When, Case
-from django.db.models.functions import Coalesce
+from django.db.models import ExpressionWrapper, Value, Func, F, Q, When, Case, Max
+from django.db.models.functions import Coalesce, Now, Cast
 from django.contrib.postgres.aggregates import StringAgg
 import django.contrib.postgres.fields as postgres
 from django.utils.translation import gettext_lazy as _
@@ -47,7 +47,7 @@ class SystemicTherapy(BaseModel):
         verbose_name=_("Duration of treatment"),
         annotation=ExpressionWrapper(
             Func(
-                Func(F("period"), function="upper", output_field=models.DateField())
+                Coalesce(Func(F("period"), function="upper", output_field=models.DateField()), Cast(Now(),output_field=models.DateField()), output_field=models.DateField())
                 - Func(F("period"), function="lower", output_field=models.DateField()),
                 function="EXTRACT",
                 template="EXTRACT(EPOCH FROM %(expressions)s)",

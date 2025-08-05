@@ -199,6 +199,14 @@ class SystemicTherapyModelTest(TestCase):
         self.assertEqual(
             self.therapy.duration, measures.Time(day=expected_duration.days)
         )
+        
+    def test_therapy_duration_ongoing(self):
+        self.therapy.period = PostgresRange(self.therapy.period.lower, None)
+        self.therapy.save()
+        expected_duration = datetime.now().date() - self.therapy.period.lower
+        self.assertEqual(
+            self.therapy.duration, measures.Time(day=expected_duration.days)
+        )
 
     def test_therapy_drugs_combination_is_correctly_annotated(self):
         self.med1 = factories.SystemicTherapyMedicationFactory.create(
@@ -219,6 +227,14 @@ class RadiotherapyModelTest(TestCase):
 
     def test_radiotherapy_duration_is_correctly_annotated(self):
         expected_duration = self.therapy.period.upper - self.therapy.period.lower
+        self.assertEqual(
+            self.therapy.duration, measures.Time(day=expected_duration.days)
+        )
+        
+    def test_radiotherapy_duration_ongoing(self):
+        self.therapy.period = PostgresRange(self.therapy.period.lower, None)
+        self.therapy.save()
+        expected_duration = datetime.now().date() - self.therapy.period.lower
         self.assertEqual(
             self.therapy.duration, measures.Time(day=expected_duration.days)
         )

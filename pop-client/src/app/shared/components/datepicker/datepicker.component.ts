@@ -74,8 +74,8 @@ export class DatePickerComponent implements ControlValueAccessor {
         if (value?.start || value?.end) {
             // Range selection: Convert ISO -> User-friendly format
             const start_date = new Date(value.start);
-            const end_date = new Date(value.end);
-            const displayValue = `${this.formatDateToDisplayFormat(start_date)} - ${this.formatDateToDisplayFormat(end_date)}`;
+            const end_date = value.end ? new Date(value.end) : null;
+            const displayValue = `${this.formatDateToDisplayFormat(start_date)} - ${end_date ? this.formatDateToDisplayFormat(end_date) : ''}`;
             this.formControl.setValue(displayValue, { emitEvent: false });
         } else if (value) {
             // Single date: Convert ISO -> User-friendly format
@@ -99,6 +99,11 @@ export class DatePickerComponent implements ControlValueAccessor {
             if (this.selectionMode() === 'range') {
                 // Convert user-friendly format -> ISO for range
                 const dates = val.includes(' - ') ? val.split(' - ') : val;
+                if (dates.length === 1) {
+                    const isoStart = this.parseToISO(dates[0]);
+                    this.validateDate(isoStart);
+                    this.onChange({ start: isoStart, end: null });
+                }
                 if (dates.length === 2) {
 
                     const isoStart = this.parseToISO(dates[0]);
