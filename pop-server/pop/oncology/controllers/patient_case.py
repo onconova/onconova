@@ -261,7 +261,7 @@ class PatientCaseController(ControllerBase):
 
 
 @api_controller(
-    "others",
+    "autocomplete",
     auth=[XSessionTokenAuth()],
     tags=["Patient Cases"],
 )

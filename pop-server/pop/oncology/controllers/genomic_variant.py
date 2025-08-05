@@ -1,4 +1,5 @@
 import pghistory
+from typing import List
 from django.shortcuts import get_object_or_404
 from ninja import Query
 from ninja.schema import Field, Schema
@@ -127,3 +128,23 @@ class GenomicVariantController(ControllerBase):
     ):
         instance = get_object_or_404(GenomicVariant, id=genomicVariantId)
         return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()
+
+
+@api_controller(
+    "autocomplete",
+    auth=[XSessionTokenAuth()],
+    tags=["Genomic Variants"],
+)
+class GenePanelController(ControllerBase):
+
+    @route.get(
+        path="/gene-panels",
+        response={200: List[str], **COMMON_HTTP_ERRORS},
+        permissions=[perms.CanViewCases],
+        operation_id="getAllGenomicPanels",
+    )
+    def gell_all_genomic_panels(self, query: str = ''):
+        variants = GenomicVariant.objects.all()
+        if query:
+            variants = variants.filter(gene_panel__icontains=query)
+        return 200, variants.values_list('gene_panel', flat=True).distinct()

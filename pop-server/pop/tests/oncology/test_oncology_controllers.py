@@ -218,6 +218,14 @@ class TestGenomicVariantController(CrudApiControllerTestCase):
     SCHEMA = schemas.GenomicVariantSchema
     CREATE_SCHEMA = schemas.GenomicVariantCreateSchema
 
+    @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
+    def test_get_gene_panels(self, scenario, config):
+        self.controller_path = '/api/v1/autocomplete'
+        factories.GenomicVariantFactory.create_batch(20)
+        response = self.call_api_endpoint("GET", f"/gene-panels", **config)
+        if scenario == "HTTPS Authenticated":
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(response.json(), list(models.GenomicVariant.objects.values_list('gene_panel', flat=True).distinct()))
 
 class TestTumorBoardController(CrudApiControllerTestCase):
     controller_path = "/api/v1/tumor-boards"

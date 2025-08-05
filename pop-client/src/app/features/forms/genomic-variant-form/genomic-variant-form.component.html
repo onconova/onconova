@@ -11,12 +11,12 @@
         </div>
 
         <div class="field">
-            <label class="form-label">Gene panel</label>
-            <input type="text" 
-                pInputText 
-                formControlName="genePanel" 
-                placeholder="Enter a value, e.g. FoundationOneCDx"
-                />           
+            <label class="form-label">Gene panel</label>      
+            <p-autocomplete 
+                placeholder="Enter a panel name, e.g. FoundationOneCDx" 
+                formControlName="genePanel"  
+                [suggestions]="genePanels.value() || []" 
+                (completeMethod)="genePanelQuery.set($event.query)" />
             <small class="help-text">Commercial or official name of the gene panel used in the test to detect this variant.</small>
             <pop-form-control-error controlName="genePanel"></pop-form-control-error>
         </div>

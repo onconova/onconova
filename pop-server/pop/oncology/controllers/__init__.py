@@ -18,7 +18,7 @@ from .tumor_board import (
     TumorBoardController,
     MolecularTherapeuticRecommendationController,
 )
-from .genomic_variant import GenomicVariantController
+from .genomic_variant import GenomicVariantController, GenePanelController
 from .genomic_signature import GenomicSignatureController
 
 __all__ = (
@@ -34,6 +34,7 @@ __all__ = (
     LifestyleController,
     FamilyHistoryController,
     GenomicVariantController,
+    GenePanelController,
     GenomicSignatureController,
     TherapyLineController,
     ComorbiditiesAssessmentController,

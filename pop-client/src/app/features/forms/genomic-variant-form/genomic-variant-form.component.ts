@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, input} from '@angular/core';
+import { Component, computed, effect, inject, input, signal} from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -31,6 +31,8 @@ import {
 import { AbstractFormBase } from '../abstract-form-base.component';
 import { Fieldset } from 'primeng/fieldset';
 import { Divider } from 'primeng/divider';
+import { rxResource } from '@angular/core/rxjs-interop';
+import { AutoComplete } from 'primeng/autocomplete';
 
 @Component({
     selector: 'genomic-variant-form',
@@ -39,6 +41,7 @@ import { Divider } from 'primeng/divider';
         CommonModule,
         ReactiveFormsModule,
         FormsModule,
+        AutoComplete,
         SelectModule,
         DatePickerComponent,
         SelectButton,
@@ -161,6 +164,12 @@ export class GenomicVariantFormComponent extends AbstractFormBase {
         {name: 'Uncertain significance', value: GenomicVariantClinicalRelevanceChoices.UncertainSignificance},
     ]
 
+    // Dynamically react to changes to the clinical center input query and search for matching centers
+    public genePanelQuery = signal<string>('');
+    public genePanels = rxResource({
+        request: () => ({query: this.genePanelQuery()}),
+        loader: ({request}) => this.#genomicVariantsService.getAllGenomicPanels(request)
+    })
 
     private extractRegexPattern(propertyName: string): string {
         const schema = openApiSchema.components.schemas.GenomicVariantCreate;

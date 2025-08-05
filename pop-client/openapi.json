@@ -42820,6 +42820,57 @@
         ]
       }
     },
+    "/api/v1/autocomplete/gene-panels": {
+      "get": {
+        "operationId": "getAllGenomicPanels",
+        "summary": "Gell All Genomic Panels",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "query",
+            "schema": {
+              "default": "",
+              "title": "Query",
+              "type": "string"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "title": "Response",
+                  "type": "array"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "tags": [
+          "Genomic Variants"
+        ],
+        "security": [
+          {
+            "XSessionTokenAuth": []
+          }
+        ]
+      }
+    },
     "/api/v1/genomic-signatures": {
       "get": {
         "operationId": "getGenomicSignatures",
@@ -56977,7 +57028,7 @@
         ]
       }
     },
-    "/api/v1/others/clinical-centers": {
+    "/api/v1/autocomplete/clinical-centers": {
       "get": {
         "operationId": "getClinicalCenters",
         "summary": "Get Clinical Centers",
