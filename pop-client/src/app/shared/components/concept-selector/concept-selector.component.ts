@@ -46,7 +46,7 @@ export class ConceptSelectorComponent implements ControlValueAccessor {
     widget = input<'autocomplete' | 'radio' | 'selectbutton'>('autocomplete');
     returnCode = input<boolean>(false);
     selected = output<CodedConcept>();
-
+    suggestions: CodedConcept[] = [];
     readonly #terminologyService = inject(TerminologyService);
     readonly #messageService = inject(MessageService);
 
@@ -71,6 +71,7 @@ export class ConceptSelectorComponent implements ControlValueAccessor {
             }),
             map((response: PaginatedCodedConcept) => {
                 this.terminologySize.set(response.count);
+                this.suggestions = response.items;
                 return response.items
             }
         )), 

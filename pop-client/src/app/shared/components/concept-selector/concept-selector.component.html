@@ -6,7 +6,7 @@
     [attr.disabled]="disabled()"
     [disabled]="disabled()"
     [forceSelection]="true"
-    [suggestions]="concepts.value() || []"
+    [suggestions]="suggestions"
     (completeMethod)="query.set($event.query); concepts.reload()"
     [multiple]="multiple()"
     [unique]="true"
@@ -28,7 +28,7 @@
           @if (showSynonyms()) {
             <div [ngClass]="concept.synonyms.length > 5 ? 'coded-concept-synonyms-faded' : ''">
                 @for (synonym of concept.synonyms; track $index;) {
-                  <div>
+                  <div class="text-muted">
                     <b>syn.</b>
                     <span class="ml-1">
                       {{ (synonym.length>100)? (synonym  | slice:0:15)+'...':(synonym ) }}
