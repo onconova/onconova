@@ -294,6 +294,14 @@
             <p-tabpanel value="4">          
                 @if (cohortHistory.value(); as history) {
                     <p-card>
+                        <h5>Recent changes</h5>
+                        <p-paginator [style]="{'justify-content': 'left'}" 
+                            (onPageChange)="cohortHistoryPagination.limit.set($event.rows!); cohortHistoryPagination.offset.set($event.first!);" 
+                            [first]="cohortHistoryPagination.offset()" 
+                            [rows]="cohortHistoryPagination.limit()" 
+                            [totalRecords]="totalHistoryEntries()" 
+                            [rowsPerPageOptions]="[10, 20, 30]" 
+                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"/>
                         <p-timeline [value]="history" class="pop-cohort-manager-history">
                             <ng-template pTemplate="content" let-event>
                                 <div class="flex mb-4" >

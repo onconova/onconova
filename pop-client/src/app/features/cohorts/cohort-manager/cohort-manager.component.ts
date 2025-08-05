@@ -39,6 +39,7 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { Select, SelectModule } from 'primeng/select';
 import { SelectButton } from 'primeng/selectbutton';
 import { TableModule } from 'primeng/table';
+import { Paginator } from 'primeng/paginator';
 
 
 @Component({
@@ -47,6 +48,7 @@ import { TableModule } from 'primeng/table';
     imports: [
         CommonModule,
         FormsModule,
+        Paginator,
         ReactiveFormsModule,
         LucideAngularModule,
         CohortGraphsComponent,
@@ -128,9 +130,14 @@ export class CohortBuilderComponent {
 
     public cohortPopulation = computed<number | undefined>(()=> this.cohort.value()?.population)
     public cohortNonEmpty = computed<boolean>(()=> this.cohortPopulation() ? (this.cohortPopulation()! > 0) : false)
+    public cohortHistoryPagination = {limit: signal(10), offset: signal(0)}
+    public totalHistoryEntries = signal(0)
     public cohortHistory = rxResource({
-        request: () => ({cohortId: this.currentCohortId()}),
-        loader: ({request}) => this.#cohortsService.getAllCohortHistoryEvents(request).pipe(map(response=>response.items))
+        request: () => ({cohortId: this.currentCohortId(), limit: this.cohortHistoryPagination.limit(), offset: this.cohortHistoryPagination.offset(), ordering: '-pgh_created_at'}),
+        loader: ({request}) => this.#cohortsService.getAllCohortHistoryEvents(request).pipe(map(response=>{
+            this.totalHistoryEntries.set(response.count)
+            return response.items
+        }))
     })
     
     public currentCohortId = computed<string>(() => this.cohort.hasValue() ? this.cohort.value()!.id : this.cohortId())
@@ -201,9 +208,10 @@ export class CohortBuilderComponent {
     revertCohortDefinition(old: Cohort, timestamp: string) {
         try {
             this.cohortControl.setValue({
-                name: old?.name,
+                name: this.cohortControl.value.name,
                 includeCriteria: old?.includeCriteria || null,
-                excludeCriteria: old?.excludeCriteria || null
+                excludeCriteria: old?.excludeCriteria || null,
+                project: this.cohortControl.value.project,
             })
             this.#messageService.add({ severity: 'success', summary: 'Changes applied', detail: 'Applied previous cohort defintion snapshot changes from ' + timestamp })
         } catch (error) {
