@@ -139,7 +139,7 @@ export class CohortBuilderComponent {
             return response.items
         }))
     })
-    
+    public cohortTitle = computed<string | undefined>(()=> this.cohort.value()?.name)
     public currentCohortId = computed<string>(() => this.cohort.hasValue() ? this.cohort.value()!.id : this.cohortId())
 
 

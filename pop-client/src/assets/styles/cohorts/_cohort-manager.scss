@@ -1,14 +1,18 @@
 
 
 .pop-cohort-manager-header {
-    margin: 1rem 0;
-    margin-bottom: 2rem;
     & .p-chip{
         background-color: color-mix(in srgb, var(--p-primary-500), transparent 80%) !important;
     }
     & .p-chip,.p-chip-icon {
         color: light-dark(var(--p-primary-700), var(--p-primary-300)) !important;
     }
+}
+
+.pop-cohort-manager-summary {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
 pop-cohort-trait-panel {
