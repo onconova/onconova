@@ -9,6 +9,8 @@ from django.db.models import (
     OuterRef,
     Subquery,
     Window,
+    Exists,
+    Subquery
 )
 from django.db.models.functions import Cast, TruncMonth
 from ninja_extra import ControllerBase, api_controller, route
@@ -77,13 +79,17 @@ class DashboardController(ControllerBase):
         )
         statistics = []
         for entity in primary_entities:
-            entity_code, entity_display = entity.get(
+            entity_code = entity.get(
                 "topography_group__code"
-            ), entity.get("topography_group__display")
+            )
             entity_cohort = oncological_models.PatientCase.objects.filter(
-                neoplastic_entities__topography__code__contains=entity_code
-            ).filter(
-                neoplastic_entities__relationship=NeoplasticEntityRelationship.PRIMARY
+                Exists(
+                    oncological_models.NeoplasticEntity.objects.filter(
+                        relationship=NeoplasticEntityRelationship.PRIMARY,
+                        topography__code__contains=entity_code,
+                        case_id=OuterRef('pk')
+                    )
+                )                
             )
             statistics.append(
                 EntityStatistics(
@@ -92,7 +98,7 @@ class DashboardController(ControllerBase):
                         Median("data_completion_rate")
                     ).get("data_completion_rate__median"),
                     topographyCode=entity_code,
-                    topographyGroup=entity_display,
+                    topographyGroup=entity.get("topography_group__display"),
                 )
             )
         statistics.sort(key=lambda x: x.population, reverse=True)

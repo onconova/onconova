@@ -9,6 +9,7 @@ import { CancerIconComponent } from 'src/app/shared/components/cancer-icon/cance
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { rxResource } from '@angular/core/rxjs-interop';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
     selector: 'pop-primary-entities-table',
@@ -21,6 +22,7 @@ import { rxResource } from '@angular/core/rxjs-interop';
         RatingModule,
         TableModule,
         SkeletonModule,
+        RouterLink,
     ],
     template: `
         @if (entityStatistics.isLoading()) {
@@ -43,7 +45,7 @@ import { rxResource } from '@angular/core/rxjs-interop';
                 </ng-template>
             </p-table>
         } @else {
-            <p-table [value]="entityStatistics.value() || []" [paginator]="true" [rows]="5">
+            <p-table [value]="entityStatistics.value() || []" [paginator]="true" [rows]="5" selectionMode="single">
                 <ng-template #header>
                     <tr>
                         <th>Primary site</th>
@@ -52,7 +54,7 @@ import { rxResource } from '@angular/core/rxjs-interop';
                     </tr>
                 </ng-template>
                 <ng-template #body let-entity>
-                    <tr>
+                    <tr class="cursor-pointer" [routerLink]="['/cases/search']" [queryParams]="{primarySite: entity.topographyCode}">
                         <td class="flex">
                             <pop-cancer-icon [topography]="entity.topographyCode"/>
                             <div class="ml-3 my-auto">{{ entity.topographyGroup }}</div>
@@ -60,9 +62,11 @@ import { rxResource } from '@angular/core/rxjs-interop';
                         <td class="font-semibold text-center"> 
                             <div>{{ entity.population }}</div>
                         </td>
-                        <td class="flex align-items-center my-auto">
-                            <p-rating class="ml-auto" title="{{entity.dataCompletionMedian}}% median completion" [ngModel]="entity.dataCompletionMedian/20" [readonly]="true" />
-                            <span class="text-muted ml-2 mr-auto">({{entity.dataCompletionMedian}}%)</span>
+                        <td >
+                            <div class="flex align-items-center my-auto">
+                                <p-rating class="ml-auto" title="{{entity.dataCompletionMedian}}% median completion" [ngModel]="entity.dataCompletionMedian/20" [readonly]="true" />
+                                <span class="text-muted ml-2 mr-auto">({{entity.dataCompletionMedian}}%)</span>
+                            </div>
                         </td>
                     </tr>
                 </ng-template>
