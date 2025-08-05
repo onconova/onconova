@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 
 import { AuthGuard } from './core/auth/guards/auth.guard';
 import { pluginRoutes } from '../plugins/plugins.routes';
+import { CaseResolver } from './features/cases/case-manager/case-manager.resolver';
 
 
 function mergeRoutes(baseRoutes: Routes, overrideRoutes: Routes): Routes {
@@ -39,7 +40,7 @@ const appRoutes: Routes = [
             { path: 'cases', 
                 children: [
                     { path: 'search', loadComponent: () => import('./features/cases/case-search/case-search.component').then(m => m.CaseSearchComponent), title: 'Search cases - POP'},
-                    { path: 'management/:pseudoidentifier',  loadComponent: () => import('./features/cases/case-manager/case-manager.component').then(m => m.CaseManagerComponent) , title: 'Case management - POP'},
+                    { path: 'management/:pseudoidentifier',  loadComponent: () => import('./features/cases/case-manager/case-manager.component').then(m => m.CaseManagerComponent) , title: 'Case management - POP', resolve: { caseId: CaseResolver }},
                     { path: 'import', loadComponent: () => import('./features/cases/case-importer/case-importer.component').then(m => m.CaseImporterComponent), title: 'Import cases - POP' },
                 ]
             },

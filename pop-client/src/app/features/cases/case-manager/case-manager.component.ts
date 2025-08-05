@@ -1,7 +1,7 @@
 import { Component, inject, input, computed, contentChild, TemplateRef, signal  } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { map, tap } from 'rxjs'; 
 
 import { AvatarModule } from 'primeng/avatar';
@@ -113,7 +113,10 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 export class CaseManagerComponent {
 
     public additionalCaseActionButtons = contentChild<TemplateRef<any> >('additionalCaseActionButtons', { descendants: false });
-  
+    
+    readonly #route = inject(ActivatedRoute);
+    protected readonly caseId = this.#route.snapshot.data['caseId'];
+
     // Injected dependencies
     public location = inject(Location);
     readonly #authService = inject(AuthService);
@@ -278,19 +281,19 @@ export class CaseManagerComponent {
     // Case properties
     public pseudoidentifier = input.required<string>();
     public case$ = rxResource({
-        request: () => ({caseId: this.pseudoidentifier(), anonymized: this.anonymized(), type: PatientCaseIdentifier.Pseudoidentifier}),
+        request: () => ({caseId: this.caseId, anonymized: this.anonymized()}),
         loader: ({request}) => this.#caseService.getPatientCaseById(request).pipe(
             tap(response => this.totalCompletion = response.dataCompletionRate)
         )
     })
-    public primaryEntity$ = rxResource({
-        request: () => ({caseId: this.case$.value()?.id, relationship: 'primary', limit: 1}),
+    public primaryEntity = rxResource({
+        request: () => ({caseId: this.caseId, relationship: 'primary', limit: 1}),
         loader: ({request}) => this.#neoplasticEntitiesService.getNeoplasticEntities(request).pipe(
             map(data => data.items.length ? data.items[0] : null)
         )
     })
-    public latestStaging$ = rxResource({
-        request: () => ({caseId: this.case$.value()?.id, limit: 1}),
+    public latestStaging = rxResource({
+        request: () => ({caseId: this.caseId, limit: 1}),
         loader: ({request}) => this.#stagingsService.getStagings(request).pipe(
             map(data => data.items.length ? data.items[0] : null)
         )

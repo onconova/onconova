@@ -48,17 +48,17 @@
         <p-divider layout="vertical"></p-divider>
         <div class="my-auto">
                 <div class="flex">
-                    @if (primaryEntity$.value(); as primaryEntity) {
-                        <pop-cancer-icon class="my-auto mr-1" [topography]="primaryEntity.topography.code"/>
+                    @if (primaryEntity.value(); as value) {
+                        <pop-cancer-icon class="my-auto mr-1" [topography]="value.topography.code"/>
                     }
                     <div>
                         <small class="text-muted">Primary site</small>
-                        @if (primaryEntity$.isLoading()) {
+                        @if (primaryEntity.isLoading()) {
                             <p-skeleton width="8rem" height="1.5rem" />
                         } @else {
                             <div>
-                                @if (primaryEntity$.value(); as primaryEntity) {
-                                    {{ primaryEntity.topography.display }}
+                                @if (primaryEntity.value(); as value) {
+                                    {{ value.topography.display }}
                                 } @else {
                                     -
                                 }
@@ -67,12 +67,12 @@
                     </div>
                 </div>
                 <small class="text-muted">Morphology</small>
-                @if (primaryEntity$.isLoading()) {
+                @if (primaryEntity.isLoading()) {
                     <p-skeleton width="8rem" height="1.5rem" />
                 }  @else {
                     <div>
-                        @if (primaryEntity$.value(); as primaryEntity) {
-                            {{ primaryEntity.morphology.display }}
+                        @if (primaryEntity.value(); as value) {
+                            {{ value.morphology.display }}
                         } @else {
                             -
                         }
@@ -84,15 +84,15 @@
             <div class="text-left">
                 <small class="text-muted">Latest staging</small>
                 <div>
-                    @if (case$.value(); as case) {
-                        @if (latestStaging$.value(); as latestStaging) {
-                            {{ latestStaging.description }}
+                    @if (latestStaging.isLoading()) {
+                        <p-skeleton width="8rem" height="1.5rem" />
+                    } @else {
+                        @if (latestStaging.value(); as value) {
+                            {{ value.description }}
                         } @else {
                             -
                         }
-                    } @else {
-                        <p-skeleton width="8rem" height="1.5rem" />
-                    }      
+                    } 
                 </div>
             </div> 
     
@@ -156,11 +156,7 @@
                 <small class="text-muted">Clinical Identifier</small>
                 <div>
                     @if (case$.value(); as case) {
-                        @if (currentUser().canManageCases) {
-                            {{ case.clinicalIdentifier}}
-                        } @else {
-                            <span class="opacity-50">🞸🞸🞸🞸🞸🞸🞸</span>
-                        }
+                        {{ case.clinicalIdentifier}}
                     } @else {
                         <p-skeleton width="8rem" height="1.5rem" />
                     }
@@ -244,7 +240,6 @@
     </div>
     
     <!-- Case content -->
-    @if (case$.value(); as case) {
         <div class="grid"> 
             <div class="col-12 md:col-6 lg:col-4">
     
@@ -253,7 +248,7 @@
                     <pop-case-manager-panel
                         title="Neoplastic Entities"
                         [icon]="icons.neoplasticEntities"
-                        [caseId]="case.id"
+                        [caseId]="caseId"
                         [anonymized]="anonymized()"
                         (onCompletionChange)="updateCompletion($event)"
                         [formComponent]="NeoplasticEntityFormComponent"
@@ -265,7 +260,7 @@
                     <pop-case-manager-panel
                         title="Stagings"
                         [icon]="icons.stagings"
-                        [caseId]="case.id"
+                        [caseId]="caseId"
                         [anonymized]="anonymized()"
                         (onCompletionChange)="updateCompletion($event)"
                         [formComponent]="StagingFormComponent"
@@ -277,7 +272,7 @@
                     <pop-case-manager-panel
                         title="Risk Assessments"
                         [icon]="icons.riskAssessments"
-                        [caseId]="case.id"
+                        [caseId]="caseId"
                         [anonymized]="anonymized()"
                         (onCompletionChange)="updateCompletion($event)"
                         [formComponent]="RiskAssessmentFormComponent"
@@ -289,7 +284,7 @@
                     <pop-case-manager-panel
                         title="Tumor Markers"
                         [icon]="icons.tumorMarkers"
-                        [caseId]="case.id"
+                        [caseId]="caseId"
                         [anonymized]="anonymized()"
                         (onCompletionChange)="updateCompletion($event)"
                         [formComponent]="TumorMarkerFormComponent"
@@ -304,7 +299,7 @@
                     <pop-case-manager-panel
                         title="Genomic Variants"
                         [icon]="icons.genomicVariants"
-                        [caseId]="case.id"
+                        [caseId]="caseId"
                         [anonymized]="anonymized()"
                         (onCompletionChange)="updateCompletion($event)"
                         [formComponent]="GenomicVariantFormComponent"
@@ -316,7 +311,7 @@
                     <pop-case-manager-panel
                         title="Genomic Signatures"
                         [icon]="icons.genomicSignatures"
-                        [caseId]="case.id"
+                        [caseId]="caseId"
                         [anonymized]="anonymized()"
                         (onCompletionChange)="updateCompletion($event)"
                         [formComponent]="GenomicSignatureFormComponent"
@@ -334,7 +329,7 @@
                     <pop-case-manager-panel
                         title="Systemic Treatments"
                         [icon]="icons.systemicTherapies"
-                        [caseId]="case.id"
+                        [caseId]="caseId"
                         [anonymized]="anonymized()"
                         (onCompletionChange)="updateCompletion($event)"
                         [formComponent]="SystemicTherapyFormComponent"
@@ -346,7 +341,7 @@
                     <pop-case-manager-panel
                         title="Surgical Procedures"
                         [icon]="icons.surgeries"
-                        [caseId]="case.id"
+                        [caseId]="caseId"
                         [anonymized]="anonymized()"
                         (onCompletionChange)="updateCompletion($event)"
                         [formComponent]="SurgeryFormComponent"
@@ -358,7 +353,7 @@
                     <pop-case-manager-panel
                         title="Radiotherapies"
                         [icon]="icons.radiotherapies"
-                        [caseId]="case.id"
+                        [caseId]="caseId"
                         [anonymized]="anonymized()"
                         (onCompletionChange)="updateCompletion($event)"
                         [formComponent]="RadiotherapyFormComponent"
@@ -371,7 +366,7 @@
                     <pop-case-manager-panel
                         title="Lifestyle"
                         [icon]="icons.lifestyle"
-                        [caseId]="case.id"
+                        [caseId]="caseId"
                         [anonymized]="anonymized()"
                         (onCompletionChange)="updateCompletion($event)"
                         [formComponent]="LifestyleFormComponent"
@@ -383,7 +378,7 @@
                     <pop-case-manager-panel
                         title="Familiy History"
                         [icon]="icons.familyHistory"
-                        [caseId]="case.id"
+                        [caseId]="caseId"
                         [anonymized]="anonymized()"
                         (onCompletionChange)="updateCompletion($event)"
                         [formComponent]="FamilyHistoryFormComponent"
@@ -395,7 +390,7 @@
                     <pop-case-manager-panel
                         title="Comorbidities"
                         [icon]="icons.comorbidities"
-                        [caseId]="case.id"
+                        [caseId]="caseId"
                         [anonymized]="anonymized()"
                         (onCompletionChange)="updateCompletion($event)"
                         [formComponent]="ComorbiditiesAssessmentFormComponent"
@@ -407,7 +402,7 @@
                     <pop-case-manager-panel
                         title="Vitals"
                         [icon]="icons.vitals"
-                        [caseId]="case.id"
+                        [caseId]="caseId"
                         [anonymized]="anonymized()"
                         (onCompletionChange)="updateCompletion($event)"
                         [formComponent]="VitalsFormComponent"
@@ -424,7 +419,7 @@
                     <pop-case-manager-panel
                         title="Tumor Boards"
                         [icon]="icons.tumorBoards"
-                        [caseId]="case.id"
+                        [caseId]="caseId"
                         [anonymized]="anonymized()"
                         (onCompletionChange)="updateCompletion($event)"
                         [category]="PatientCaseDataCategories.TumorBoardReviews"
@@ -436,7 +431,7 @@
                     <pop-case-manager-panel
                         title="Adverse Events"
                         [icon]="icons.adverseEvents"
-                        [caseId]="case.id"
+                        [caseId]="caseId"
                         [anonymized]="anonymized()"
                         (onCompletionChange)="updateCompletion($event)"
                         [category]="PatientCaseDataCategories.AdverseEvents"
@@ -448,7 +443,7 @@
                     <pop-case-manager-panel
                         title="Treatment Responses"
                         [icon]="icons.treatmentResponses"
-                        [caseId]="case.id"
+                        [caseId]="caseId"
                         [anonymized]="anonymized()"
                         (onCompletionChange)="updateCompletion($event)"
                         [category]="PatientCaseDataCategories.TherapyResponses"
@@ -460,7 +455,7 @@
                     <pop-case-manager-panel
                         title="Performance Status"
                         [icon]="icons.performanceStatus"
-                        [caseId]="case.id"
+                        [caseId]="caseId"
                         [anonymized]="anonymized()"
                         (onCompletionChange)="updateCompletion($event)"
                         [formComponent]="PerformanceStatusFormComponent"
@@ -469,19 +464,6 @@
                 </p-fieldset>
             </div>
         </div>
-    } @else {
-        <div class="grid">
-            @for (n of [].constructor(6); track $index) {
-                <div class="col-12 md:col-6 lg:col-4">
-                    <p-skeleton width="10rem" height="2rem" styleClass="mt-4" />
-                    <p-skeleton height="5rem" styleClass="mt-3"/>
-                    <p-skeleton height="5rem" styleClass="mt-3"/>
-                    <p-skeleton height="5rem" styleClass="mt-3"/>
-                    <p-skeleton height="5rem" styleClass="mt-3"/>
-                </div>            
-            }
-        </div>
-    }
 }
 
 
