@@ -263,8 +263,9 @@ pop-cohort-query-builder {
     }
     & .q-condition-select .p-select-label {
         font-size: .9rem;
-        background: var(--p-button-primary-background);
-        color: var(--p-button-primary-color) !important;
+        border: solid 1px var(--p-button-primary-background);
+        color: var(--p-primary-color) !important;
+        background: var(--p-content-background);
         padding: .25rem .75rem !important;
         border-radius: 5rem;
         display: flex;
@@ -290,8 +291,9 @@ pop-cohort-query-builder {
     left: -55px;
     top: calc(50% - .75rem);
     font-size: .9rem;
-    background: var(--p-button-primary-background);
-    color: var(--p-button-primary-color) !important;
+    border: solid 1px var(--p-button-primary-background);
+    color: var(--p-primary-color) !important;
+    background: var(--p-content-background);
     padding: 0.25rem .5rem;
     border-radius: 6.5rem;
     z-index: 6;

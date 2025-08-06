@@ -10,43 +10,27 @@ import { TableModule } from 'primeng/table';
 @Component({
     imports: [
         CommonModule,
-        Card,
-        Avatar,
         LucideAngularModule,
         Skeleton,
         TableModule,
     ],
-    selector: 'pop-cohort-trait-panel',
+    selector: 'pop-cohort-trait',
     template: `
-    <p-card class="flex" styleClass="border border-surface shadow-none">
-            <div class="flex flex gap-2">
-
-                <div class="mr-1 my-auto">
-                    <p-avatar class="cohort-statistics-avatar mr-0" size="large" shape="circle" [style]="{ 'background-color': 'var(--p-primary-color)', color: '#ffffff', scale: '.9'}">
-                        <lucide-angular class="cohort-search-item-icon" [img]="icon()"></lucide-angular>
-                    </p-avatar>
-                </div>
-
-                <div class="flex flex-column">
-                    <div class="text-muted mb-1">{{ title() }}</div>
-                    <div class="flex">
-                        <div>
-                            @if (loading()) {
-                                <p-skeleton width="10rem" height="1.5rem"/>
-                            } @else if (valid()) { 
-                                <ng-content></ng-content>
-                            } @else {
-                                -
-                            }                     
-                        </div>                 
-                    </div>
-                </div>
+        <div class="grid mb-1">
+            <div class="text-muted text-small col-12 md:col-4">{{ title() }}</div>
+            <div class="col-12 md:col">
+                @if (loading()) {
+                    <p-skeleton width="10rem" height="1rem"/>
+                } @else if (valid()) { 
+                    <ng-content></ng-content>
+                } @else {
+                    -
+                }                     
+            </div>                 
         </div>
-    </p-card>
     `
 })
 export class CohortTraitPanel{
-    public icon = input.required<LucideIconData>();
     public title = input.required<string>(); 
     public loading = input<boolean>(false); 
     public valid = input<boolean | null>(true); 

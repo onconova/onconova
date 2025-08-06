@@ -40,6 +40,7 @@ import { Select, SelectModule } from 'primeng/select';
 import { SelectButton } from 'primeng/selectbutton';
 import { TableModule } from 'primeng/table';
 import { Paginator } from 'primeng/paginator';
+import { Avatar } from 'primeng/avatar';
 
 
 @Component({
@@ -66,6 +67,7 @@ import { Paginator } from 'primeng/paginator';
         SelectModule,
         SelectButton,
         TableModule,
+        Avatar,
         TimelineModule,
         Divider,
         ToolbarModule,
@@ -131,6 +133,7 @@ export class CohortBuilderComponent {
     public cohortPopulation = computed<number | undefined>(()=> this.cohort.value()?.population)
     public cohortNonEmpty = computed<boolean>(()=> this.cohortPopulation() ? (this.cohortPopulation()! > 0) : false)
     public cohortHistoryPagination = {limit: signal(10), offset: signal(0)}
+    public cohortAuthors = computed(()=> new Set<string | undefined>([this.cohort.value()?.createdBy, ...(this.cohort.value()?.updatedBy || [])]))
     public totalHistoryEntries = signal(0)
     public cohortHistory = rxResource({
         request: () => ({cohortId: this.currentCohortId(), limit: this.cohortHistoryPagination.limit(), offset: this.cohortHistoryPagination.offset(), ordering: '-pgh_created_at'}),
@@ -139,7 +142,7 @@ export class CohortBuilderComponent {
             return response.items
         }))
     })
-    
+    public cohortTitle = computed<string | undefined>(()=> this.cohort.value()?.name)
     public currentCohortId = computed<string>(() => this.cohort.hasValue() ? this.cohort.value()!.id : this.cohortId())
 
 
