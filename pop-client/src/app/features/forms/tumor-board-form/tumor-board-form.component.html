@@ -29,9 +29,9 @@
             <pop-form-control-error controlName="relatedEntities"></pop-form-control-error>
         </div>
 
-
+        
         <div class="field">
-            <label class="form-label">Board recommendation(s)</label>
+            <label class="form-label">General board recommendation(s)</label>
             <pop-concept-selector 
                 formControlName="recommendations"
                 [terminology]="form.value.category == 'molecular' ? 'MolecularTumorBoardRecommendation' :'TumorBoardRecommendation'"
