@@ -33,6 +33,11 @@
   
   <!-- Query tree -->
   <div #treeContainer (transitionend)="transitionEnd($event)" [ngClass]="['q-tree-container', data.collapsed ? 'q-collapsed' : '']">
+    @if (data && data.rules.length === 0) {
+      <div class="q-empty-ruleset-message text-muted">
+        No rules defined
+      </div>
+    }
     @if (data && data.rules) {
       <ul class="q-tree">
         @for (rule of data.rules; track $index; let i = $index; let last = $last) {

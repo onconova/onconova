@@ -13,10 +13,10 @@ const TourDriverConfig: Config = {
             title: "Change the Cohort's Title",
             description: 'You can change the title of this cohort by clicking this button.', 
         }},
-        { element: '.cohort-manager-stats', popover: { 
+        { element: '.pop-cohort-manager-summary', popover: { 
             side: "right", align: 'start', 
-            title: "Cohort Statistics",
-            description: 'A collection of aggregated statistics that will update as the cohort is updated. Uncertainties are shown for certain values as interquartile ranges.', 
+            title: "Cohort Summary",
+            description: 'A collection of information and aggregated statistics that will update as the cohort is updated. Uncertainties are shown for certain values as interquartile ranges.', 
         }},
         { element: '.cohort-manager-cohort-definition', popover: { 
             side: "right", align: 'start', 

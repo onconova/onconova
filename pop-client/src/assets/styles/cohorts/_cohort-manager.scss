@@ -13,6 +13,16 @@
     display: flex;
     align-items: center;
     flex-wrap: wrap;
+    @media screen and (min-width: 768px) {
+        .pop-cohort-manager-summary-details .md\:col-6:first-of-type {
+            border-right: solid 1px var(--p-divider-border-color);
+            padding-left: 1rem;
+        }
+        .pop-cohort-manager-summary-details .md\:col-6:not(:first-of-type) {
+            padding-left: 1.5rem;
+        }
+    }
+
 }
 
 pop-cohort-trait-panel {
@@ -26,7 +36,11 @@ pop-cohort-trait-panel {
 
 .pop-cohort-criteria-panel {
     & .p-panel {
-        border: none !important;        
+        border: none !important;
+        background: var(--p-card-background);
+        color: var(--p-card-color);
+        box-shadow: var(--p-card-shadow);
+        border-radius: var(--p-card-border-radius);      
     }
 }
 

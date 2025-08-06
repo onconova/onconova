@@ -21,6 +21,8 @@ import { AuthService } from "src/app/core/auth/services/auth.service";
 import { ResolveResourcePipe } from "src/app/shared/pipes/resolve-resource.pipe";
 import { Popover } from "primeng/popover";
 import { UserSelectorComponent } from "src/app/shared/components/user-selector/user-selector.component";
+import { Divider } from "primeng/divider";
+import { Card } from "primeng/card";
 
 interface ProjectMember extends User {
     authorization: ProjectDataManagerGrant
@@ -38,7 +40,9 @@ interface ProjectMember extends User {
         CommonModule,
         Skeleton,
         UserBadgeComponent,
+        Divider,
         Popover,
+        Card,
         ConfirmDialog,
         ToggleSwitch,
         TagModule,

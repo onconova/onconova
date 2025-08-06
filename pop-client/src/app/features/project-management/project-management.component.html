@@ -1,353 +1,327 @@
 
-<div class="text-sm text-muted mt-3">
+<div class="text-sm font-bold text-muted">
     Project
 </div>
 <div>
     @if (project.isLoading()) {
         <p-skeleton width="100%" height="2rem"/>
     } @else {
-        @let status = parseStatus(project.value()!.status!);
-        <div class="flex">
-            <h3 class="my-0 mr-2">{{ project.value()!.title }}</h3>    
-            <p-tag [value]="status.value" [severity]="status.severity"/>    
-        </div>
-    }
-</div>
-
-<div class="flex gap-4">
-    <div>
-        <div class="text-sm text-muted mt-3">
-            Project leader
-        </div>
-        <div>
-            @if (project.isLoading()) {
-                <p-skeleton width="10rem" height="2rem"/>
-            } @else {
-                <pop-user-badge [username]="project.value()!.leader" [showName]="true"/>
-            }
-        </div>
-    </div>
-    
-        <div>
-        <div class="text-sm text-muted mt-3 mb-1">
-            Created
-        </div>
-        <div>
-            @if (project.isLoading()) {
-                <p-skeleton width="10rem" height="2rem"/>
-            } @else {                
-                {{ (project.value()!.createdAt | date) ?? '-'  }}
-            }
-        </div>
-    </div>
-    <div>
-        <div class="text-sm text-muted mt-3 mb-1">
-            Last updated
-        </div>
-        <div>
-            @if (project.isLoading()) {
-                <p-skeleton width="10rem" height="2rem"/>
-            } @else {                
-                {{ (project.value()!.updatedAt | date) ?? '-'  }}
-            }
-        </div>
-    </div>
-</div>
-
-
-<div class="text-sm text-muted mt-2">
-    Summary
-</div>
-<div class="mb-5">
-    @if (project.isLoading()) {
-        <p-skeleton width="100%" height="4rem"/>
-    } @else {
-        <p>{{ project.value()!.summary }}</p>
+        <h1 class="my-0 mr-2">{{ project.value()!.title }}</h1>      
     }
 </div>
 
 
-<h6 class="font-semibold mb-0">Project members</h6>
-<div class="flex align-items-center mb-2">
-    <div class="text-muted">
-        A list of all users that are part of this project (including the project leader).
+<h4 class="mb-1">Summary</h4>
+<p-divider layout="horizontal" class="mt-0"/>
+<p-card>
+    <div class="text-sm text-muted mt-3">
+        Project ID
     </div>
-    <p-button 
-        icon="pi pi-plus" 
-        label="Add member" 
-        id="add-member-button" 
-        class="ml-auto" 
-        severity="primary" 
-        (onClick)="addMemberSelect.toggle($event);" 
-        [disabled]="!canEditAuthorizations()"/>
-</div>
-<p-popover #addMemberSelect>
-    <div class="flex flex-col gap-4">
+    <div>
+        @if (project.isLoading()) {
+            <p-skeleton width="10rem" height="2rem"/>
+        } @else {
+            <span class="text-monospace text-sm">
+                {{ project.value()?.id }}
+            </span> 
+        }
+    </div>
+    <div class="flex gap-4">
         <div>
-            <span class="font-medium block mb-2">Select a user to add as a member:</span>
-            <pop-user-selector [(ngModel)]="selectedUser"/>
-            <div class="w-12 mt-3">
-                <p-button label="Confirm" (onClick)="addMember(selectedUser()!); addMemberSelect.toggle($event)" styleClass="w-7 mr-2" [disabled]="!selectedUser()"/>
-                <p-button label="Cancel" (onClick)="selectedUser.set(''); addMemberSelect.toggle($event)" styleClass="w-4" severity="secondary" [outlined]="true"/>
+            <div class="text-sm text-muted mt-3">
+                Project Leader
+            </div>
+            <div>
+                @if (project.isLoading()) {
+                    <p-skeleton width="10rem" height="2rem"/>
+                } @else {
+                    <pop-user-badge [username]="project.value()!.leader" [showName]="true"/>
+                }
+            </div>
+        </div>
+
+        <div>
+            <div class="text-sm text-muted mt-3 mb-1">
+                Status
+            </div>
+            <div>
+                @if (project.isLoading()) {
+                    <p-skeleton width="10rem" height="2rem"/>
+                } @else {
+                    @let status = parseStatus(project.value()!.status!);
+                    <p-tag [value]="status.value" [severity]="status.severity"/>   
+                }
             </div>
         </div>
     </div>
-</p-popover>
 
-<p-table 
-    [value]="members.value() ?? membersPlaceholder"
-    sortField="fullName"
-    >
-    <ng-template #header>
+    <div class="flex gap-4 mb-2">
+        
+        <div>
+            <div class="text-sm text-muted mt-3 mb-1">
+                Ethic Approval
+            </div>
+            <div>
+                @if (project.isLoading()) {
+                    <p-skeleton width="10rem" height="2rem"/>
+                } @else {                
+                    {{ project.value()!.ethicsApprovalNumber }}
+                }
+            </div>
+        </div>
+        <div>
+                <div class="text-sm text-muted mt-3 mb-1">
+                    Created
+                </div>
+                <div>
+                    @if (project.isLoading()) {
+                        <p-skeleton width="10rem" height="2rem"/>
+                    } @else {                
+                        {{ (project.value()!.createdAt | date) ?? '-'  }}
+                    }
+                </div>
+        </div>
+        <div>
+            <div class="text-sm text-muted mt-3 mb-1">
+                Last updated
+            </div>
+            <div>
+                @if (project.isLoading()) {
+                    <p-skeleton width="10rem" height="2rem"/>
+                } @else {                
+                    {{ (project.value()!.updatedAt | date) ?? '-'  }}
+                }
+            </div>
+        </div>
+    </div>
 
-        <tr>
-            <th colspan="3">Member</th>
-            <th colspan="4">Data Management</th>
-        </tr>
-        <tr>
-            <th>Name</th>
-            <th>Role</th>
-            <th>Joined</th>
-
-            <th>Status</th>
-            <th>Authorization granted by</th>
-            <th>Validity</th>
-            <th>Actions</th>
-        </tr>
-    </ng-template>
-    <ng-template #body let-member>
-        @if (members.isLoading()) {
-            <tr>
-                <td><p-skeleton height="2rem" width="100%"/></td>
-                <td><p-skeleton height="2rem" width="100%"/></td>
-                <td><p-skeleton height="2rem" width="100%"/></td>
-                <td><p-skeleton height="2rem" width="100%"/></td>
-                <td><p-skeleton height="2rem" width="100%"/></td>
-                <td><p-skeleton height="2rem" width="100%"/></td>
-                <td><p-skeleton height="2rem" width="100%"/></td>
-            </tr>
+    <div class="text-sm text-muted mt-2">
+        Description
+    </div>
+    <div class="mb-5">
+        @if (project.isLoading()) {
+            <p-skeleton width="100%" height="4rem"/>
         } @else {
-            <tr>
-                <td><i class="pi pi-user text-primary mr-2"></i>{{member.fullName}}</td>
-                <td><span class="text-muted"><i class="pi pi-lock"></i> {{member.accessLevel}}</span> - {{member.role}}</td>
-                <td>
-                    -
-                </td>
-                <td>
-                    @if (member.canManageCases) {
-                        <p-tag value="Authorized" severity="success"/>
-                    } @else {
-                        <p-tag value="Unauthorized" severity="danger"/>   
-                    }
-                </td>
-                <td>
-                    @if (member.authorization; as authorization) {
-                        <div>
-                            <pop-user-badge [username]="authorization.grantedBy" [showName]="true"/>
-                        </div>
-                        <div class="text-muted text-sm authorization-granter-subtitle">
-                            on {{ authorization.createdAt | date }}
-                        </div>
-                    } @else if (member.accessLevel >= 4) {
-                        <span class="text-muted">System</span>
-                    } @else {
-                        <span class="text-muted">-</span>
-                    }
-                </td>
-                <td>
-                    @if (member.authorization; as authorization) {
-                        <div> 
-                            {{authorization.validityPeriod.start | date}}
-                            -
-                            {{authorization.validityPeriod.end | date}}
-                        </div>
-                        <div class="text-muted text-sm">
-                            @if (authorization.revoked) {
-                                Revoked
-                            } @else {
-                                {{ getValidityPeriodAnnotation(authorization.validityPeriod) }}
-                            }
-                        </div>
-                    } @else if (member.accessLevel >= 4) {
-                        <span class="text-muted">Always</span>
-                    } @else {
-                        <span class="text-muted">-</span>
-                    }
-                </td>
-                <td>
-                    <p-menu #menu [model]="(dynamicMenuItems$ | async)!" (onShow)="getMemberMenuItems(member)" [popup]="true" appendTo="body" [tabindex]="undefined"/>
-                    <p-button (click)="menu.toggle($event)" icon="pi pi-ellipsis-v" [disabled]="!canEditAuthorizations() "/>
-                </td>
-            </tr>
+            <p>{{ project.value()!.summary }}</p>
         }
-    </ng-template>
-</p-table>
+    </div>
+</p-card>
 
-<h6 class="font-semibold">Cohorts</h6>
-<p-dataView
-    styleClass="pop-case-search-dataview"
-    [value]="cohorts.value() || [1,2,3,4,5,6,7,8,9,10, 12]"
-    [paginator]="true" 
-    [rows]="cohortsPagination().limit" 
-    layout="grid"
-    sortField="createdAt"
-    lazy="true"
-    [rowsPerPageOptions]="cohortsPageSizeChoices"
-    [totalRecords]="totalCohorts()"
-    (onLazyLoad)="cohortsPagination.set({limit: $event.rows, offset: $event.first})"
-    class="no-background">
 
-    <ng-template #grid let-cohortsPage>
-        <div class="grid mt-3" >
-            @for (cohort of cohortsPage; track $index; let first = $first) {
-                <div class="col p-2">
-                    @if (cohorts.isLoading()) {
-                        <div class="pop-project-search-item-card placeholder">
-                            <div class="flex my-3">
-                                <p-skeleton width="4rem" height="4rem"/>
-                                <div class="flex flex-column mx-3">
-                                    <p-skeleton width="10rem" height="1.5rem" class="mb-2 mt-3" />    
-                                    <p-skeleton width="15rem" height="1.5rem"/>      
-                                </div>
-                            </div>
-                            <div class="mb-3 mt-4">
-                                <p-skeleton width="100%" height="2rem"/>
-                            </div>
-                            <div class="my-3 mb-5">
-                                <p-skeleton width="100%" height="2rem"/>
-                            </div>
-                            <p-skeleton class="my-3 ml-auto"  width="20rem" height="2rem"/>      
-                        </div>
-                    } @else {
-                        <pop-cohort-search-item 
-                            [cohort]="cohort"/>                              
-                    }
+
+<h4 class="mb-1">Members</h4>
+<p-divider layout="horizontal" class="mt-0"/>
+
+<p-card styleClass="pt-1">
+    <p-popover #addMemberSelect>
+        <div class="flex flex-col gap-4">
+            <div>
+                <span class="font-medium block mb-2">Select a user to add as a member:</span>
+                <pop-user-selector [(ngModel)]="selectedUser"/>
+                <div class="w-12 mt-3">
+                    <p-button label="Confirm" (onClick)="addMember(selectedUser()!); addMemberSelect.toggle($event)" styleClass="w-7 mr-2" [disabled]="!selectedUser()"/>
+                    <p-button label="Cancel" (onClick)="selectedUser.set(''); addMemberSelect.toggle($event)" styleClass="w-4" severity="secondary" [outlined]="true"/>
                 </div>
-            }
+            </div>
         </div>
-    </ng-template>
-</p-dataView>
+    </p-popover>
 
+    <p-table 
+        [value]="members.value() ?? membersPlaceholder"
+        sortField="fullName"
+        >
+        <ng-template #header>
 
-<h6 class="font-semibold">Datasets</h6>
-<p-dataView
-    styleClass="pop-case-search-dataview"
-    [value]="datasets.value() || [1,2,3,4,5,6,7,8,9,10, 12]"
-    [paginator]="true" 
-    [rows]="cohortsPagination().limit" 
-    layout="grid"
-    sortField="createdAt"
-    lazy="true"
-    [rowsPerPageOptions]="datasetsPageSizeChoices"
-    [totalRecords]="totalDatasets()"
-    (onLazyLoad)="datasetsPagination.set({limit: $event.rows, offset: $event.first})"
-    class="no-background mb-5">
+            <tr>
+                <th colspan="2" class="pt-0">Member</th>
+                <th colspan="3" class="pt-0">Data Management</th>
+                <th colspan="1" class="pt-0">
+                    <p-button 
+                        icon="pi pi-plus" 
+                        label="Add member" 
+                        id="add-member-button" 
+                        class="ml-auto" 
+                        severity="primary" 
+                        (onClick)="addMemberSelect.toggle($event);" 
+                        [disabled]="!canEditAuthorizations()"/>
+                </th>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <th>Role</th>
 
-    <ng-template #grid let-datasetspage>
-        <div class="grid mt-3" >
-            @for (dataset of datasetspage; track $index; let first = $first) {
-                <div class="col p-2">
-                    @if (datasets.isLoading()) {
-                        <div class="pop-project-search-item-card placeholder">
-                            <div class="flex my-3">
-                                <p-skeleton width="4rem" height="4rem"/>
-                                <div class="flex flex-column mx-3">
-                                    <p-skeleton width="10rem" height="1.5rem" class="mb-2 mt-3" />    
-                                    <p-skeleton width="15rem" height="1.5rem"/>      
-                                </div>
+                <th>Status</th>
+                <th>Authorization granted by</th>
+                <th>Validity</th>
+                <th>Actions</th>
+            </tr>
+        </ng-template>
+        <ng-template #body let-member>
+            @if (members.isLoading()) {
+                <tr>
+                    <td><p-skeleton height="2rem" width="100%"/></td>
+                    <td><p-skeleton height="2rem" width="100%"/></td>
+                    <td><p-skeleton height="2rem" width="100%"/></td>
+                    <td><p-skeleton height="2rem" width="100%"/></td>
+                    <td><p-skeleton height="2rem" width="100%"/></td>
+                    <td><p-skeleton height="2rem" width="100%"/></td>
+                </tr>
+            } @else {
+                <tr>
+                    <td><i class="pi pi-user text-primary mr-2"></i>{{member.fullName}}@if(member.username == project.value()?.leader){<p-tag value="Leader" severity="secondary" class="ml-2"/>}</td>
+                    <td><span class="text-muted"><i class="pi pi-lock"></i> {{member.accessLevel}}</span> - {{member.role}}</td>
+                    <td>
+                        @if (member.canManageCases) {
+                            <p-tag value="Authorized" severity="success"/>
+                        } @else {
+                            <p-tag value="Unauthorized" severity="danger"/>   
+                        }
+                    </td>
+                    <td>
+                        @if (member.authorization; as authorization) {
+                            <div>
+                                <pop-user-badge [username]="authorization.grantedBy" [showName]="true"/>
                             </div>
-                            <div class="mb-3 mt-4">
-                                <p-skeleton width="100%" height="2rem"/>
+                            <div class="text-muted text-sm authorization-granter-subtitle">
+                                on {{ authorization.createdAt | date }}
                             </div>
-                            <div class="my-3 mb-5">
-                                <p-skeleton width="100%" height="2rem"/>
+                        } @else if (member.accessLevel >= 4) {
+                            <span class="text-muted">System</span>
+                        } @else {
+                            <span class="text-muted">-</span>
+                        }
+                    </td>
+                    <td>
+                        @if (member.authorization; as authorization) {
+                            <div> 
+                                {{authorization.validityPeriod.start | date}}
+                                -
+                                {{authorization.validityPeriod.end | date}}
                             </div>
-                            <p-skeleton class="my-3 ml-auto"  width="20rem" height="2rem"/>      
-                        </div>
-                    } @else {
-                                                    
-                            <div class="pop-cohort-search-item-card mb-2">        
-                                
-                                <div class="flex flex-column mb-3 ">
-                                    <small class="text-muted mb-1">Title</small>
-                                    <div class="flex my-auto gap-1">
-                                        <div class="my-auto text-xl">
-                                            {{ dataset.name }}               
-                                        </div>
-                                    </div>
-                                </div>            
-                                <div class="flex flex-column mb-3 ">
-                                    <small class="text-muted mb-1">Description</small>
-                                    <div class="flex my-auto gap-1">
-                                        <div class="my-auto">
-                                            {{ dataset.summary }}               
-                                        </div>
-                                    </div>
-                                </div>     
-                                <div class="flex gap-3">
-                                    <div class="flex flex-column mb-3 ">
-                                        <small class="text-muted mb-1">Data points</small>
-                                        <div class="flex my-auto gap-1">
-                                            <div class="my-auto">
-                                                {{ dataset.rules.length }}               
-                                            </div>
-                                        </div>
-                                    </div>        
-                                    <div class="flex flex-column mb-3 ">
-                                        <small class="text-muted mb-1">Exports</small>
-                                        <div class="flex my-auto gap-1">
-                                            <div class="my-auto">
-                                                {{ dataset.totalExports }}               
-                                            </div>
-                                        </div>
-                                    </div>          
-                                    <div class="flex flex-column mb-3 ">
-                                        <small class="text-muted mb-1">Last export</small>
-                                        <div class="flex my-auto gap-1">
-                                            <div class="my-auto">
-                                                {{ dataset.lastExport | date }}               
-                                            </div>
-                                        </div>
-                                    </div>         
-                                </div>   
-                                    <div class="flex flex-column mb-3 ">
-                                        <small class="text-muted mb-1">Related cohorts</small>
-                                        <div class="flex my-auto gap-1">
-                                            @if ( dataset.cohortsIds.length > 0) {
-                                                <ul class="pl-4 my-1">
-                                                    @for (cohortId of dataset.cohortsIds; track $index) {
-                                                        <li>{{cohorts.value()?.find(matchCohort(cohortId))?.name}}</li>
-                                                    }
-                                                </ul>
-                                            } @else {
-                                                -
-                                            }    
-                                        </div>
-                                    </div>         
-                                
-                                <div class="flex gap-3">
-                                    <!-- Metadata -->
-                                    <div class="flex flex-column">
-                                        <small class="text-muted mb-1">Created</small>
-                                        <div class="flex my-auto gap-1">
-                                            <div>{{ (dataset.createdAt | date) || '-' }}</div>
-                                        </div>
-                                    </div>
-                                    <div class="flex flex-column">
-                                        <small class="text-muted mb-1">Last updated</small>
-                                        <div class="flex my-auto gap-1">
-                                            <div>{{ (dataset.updatedAt | date) || '-' }}</div>
-                                        </div>
-                                    </div>      
-                                </div>      
-                            </div>      
-                    }
-                </div>
+                            <div class="text-muted text-sm">
+                                @if (authorization.revoked) {
+                                    Revoked
+                                } @else {
+                                    {{ getValidityPeriodAnnotation(authorization.validityPeriod) }}
+                                }
+                            </div>
+                        } @else if (member.accessLevel >= 4) {
+                            <span class="text-muted">Always</span>
+                        } @else {
+                            <span class="text-muted">-</span>
+                        }
+                    </td>
+                    <td>
+                        <p-menu #menu [model]="(dynamicMenuItems$ | async)!" (onShow)="getMemberMenuItems(member)" [popup]="true" appendTo="body" [tabindex]="undefined"/>
+                        <p-button (click)="menu.toggle($event)" icon="pi pi-ellipsis-v" [disabled]="!canEditAuthorizations() "/>
+                    </td>
+                </tr>
             }
-        </div>
-    </ng-template>
-</p-dataView>
+        </ng-template>
+    </p-table>
+</p-card>
 
+
+
+<h4 class="mb-1">Cohorts</h4>
+<p-divider layout="horizontal" class="mt-0"/>
+<p-card>
+    <p-dataView
+        styleClass="pop-case-search-dataview"
+        [value]="cohorts.value() || [1,2,3,4,5,6,7,8,9,10, 12]"
+        [paginator]="true" 
+        [rows]="cohortsPagination().limit" 
+        layout="list"
+        sortField="createdAt"
+        lazy="true"
+        [rowsPerPageOptions]="cohortsPageSizeChoices"
+        [totalRecords]="totalCohorts()"
+        (onLazyLoad)="cohortsPagination.set({limit: $event.rows, offset: $event.first})"
+        class="no-background">
+
+        <ng-template #list let-data>
+            <p-table [value]="data" styleClass="mt-3">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Title</th>
+                        <th class="text-center">Population</th>
+                        <th>Project</th>
+                        <th>Predominant Topography</th>
+                        <th>Median Age</th>
+                        <th>Median Completion</th>
+                        <th class="text-center">Created</th>
+                        <th class="text-center">Last Updated</th>
+                        <th></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-cohort>
+                    <tr pop-cohort-search-item 
+                        layout="row"
+                        [cohort]="cohort"
+                        ></tr>
+                </ng-template>
+            </p-table>
+        </ng-template>    
+    </p-dataView>
+</p-card>
+
+<h4 class="mb-1">Datasets</h4>
+<p-divider layout="horizontal" class="mt-0"/>
+<p-card>
+    <p-dataView
+        styleClass="pop-case-search-dataview"
+        [value]="datasets.value() || [1,2,3,4,5,6,7,8,9,10, 12]"
+        [paginator]="true" 
+        [rows]="cohortsPagination().limit" 
+        layout="list"
+        sortField="createdAt"
+        lazy="true"
+        [rowsPerPageOptions]="datasetsPageSizeChoices"
+        [totalRecords]="totalDatasets()"
+        (onLazyLoad)="datasetsPagination.set({limit: $event.rows, offset: $event.first})"
+        class="no-background mb-5">
+
+        <ng-template #list let-data>
+            <p-table [value]="data" styleClass="mt-3">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th class="text-center">Data Points</th>
+                        <th class="text-center">Exports</th>
+                        <th class="text-center">Last Export</th>
+                        <th>Related Cohorts</th>
+                        <th class="text-center">Created</th>
+                        <th class="text-center">Last Updated</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-dataset>
+                    <tr>
+                        <td>{{ dataset.name }}</td>
+                        <td>{{ dataset.summary | slice:0:30 }}</td>
+                        <td class="text-center">{{ dataset.rules?.length }}</td>
+                        <td class="text-center">{{ dataset.totalExports }}</td>
+                        <td class="text-center">{{ dataset.lastExport | date }}</td>
+                        <td>
+                            @if (dataset.cohortsIds?.length > 0) {
+                                <ul class="pl-0 ml-3 my-1">
+                                    @for (cohortId of dataset.cohortsIds; track $index) {
+                                        <li>{{cohorts.value()?.find(matchCohort(cohortId))?.name}}</li>
+                                    }
+                                </ul>
+                            } @else {
+                                -
+                            }    
+                        </td>
+                        <td class="text-center">{{ (dataset.createdAt | date) || '-' }}</td>
+                        <td class="text-center">{{ (dataset.updatedAt | date) || '-' }}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </ng-template>    
+
+    </p-dataView>
+</p-card>
 
 
 
