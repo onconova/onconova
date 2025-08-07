@@ -1,6 +1,7 @@
 from ninja import Redoc
 from ninja_extra import NinjaExtraAPI
 from pop.analytics.controllers import DashboardController
+from pop.core.healthcheck import HealthCheckController
 from pop.core.auth.controllers import AuthController, UsersController
 from pop.core.measures.controllers import MeasuresController
 from pop.interoperability.controllers import InteroperabilityController
@@ -94,6 +95,7 @@ modify, merge, publish, distribute, sublicense, and/or sell copies of the softwa
     ),
 )
 api.register_controllers(
+    HealthCheckController,
     AuthController,
     UsersController,
     ProjectController,
