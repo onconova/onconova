@@ -69,7 +69,7 @@ export class ProjectFormComponent extends AbstractFormBase{
         status: this.#fb.nonNullable.control<ProjectStatusChoices>(ProjectStatusChoices.Planned, Validators.required),
         clinicalCenters: this.#fb.nonNullable.control<string[]>([environment.organizationName], Validators.required),
         leader: this.#fb.nonNullable.control<string>('', Validators.required),
-        members: this.#fb.nonNullable.control<string[]>([], Validators.required),
+        members: this.#fb.control<string[] | null>(null, Validators.required),
         ethicsApprovalNumber: this.#fb.nonNullable.control<string>('', Validators.required),
     })
     readonly #onInitialDataChangeEffect = effect((): void => {
@@ -81,7 +81,7 @@ export class ProjectFormComponent extends AbstractFormBase{
             clinicalCenters: data.clinicalCenters ?? [environment.organizationName],
             leader: data.leader ?? '',
             status: data.status ?? ProjectStatusChoices.Planned,
-            members: data.members?.filter(user => user !== data.leader) ?? [],
+            members: data.members?.filter(user => user !== data.leader) ?? null,
             ethicsApprovalNumber: data.ethicsApprovalNumber ?? '',
         });
     });
@@ -95,7 +95,7 @@ export class ProjectFormComponent extends AbstractFormBase{
             clinicalCenters: data.clinicalCenters!,
             leader: data.leader!,
             status: data.status!,
-            members: [data.leader!, ...data.members!],
+            members: [data.leader!, ...(data.members || [])],
             ethicsApprovalNumber: data.ethicsApprovalNumber!,
         };
     }

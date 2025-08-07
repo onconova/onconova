@@ -29,7 +29,7 @@ export const FORM_ERRORS = new InjectionToken('FORM_ERRORS', {
     imports: [Message],
     template: `
       @if (message()) {
-        <p-message class="mt-2" severity="error">{{ message() }}></p-message>
+        <p-message class="mt-2" severity="error">{{ message() }}</p-message>
       }
     `,
 })
