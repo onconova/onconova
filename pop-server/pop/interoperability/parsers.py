@@ -182,7 +182,7 @@ class BundleParser:
         resourceId = resource.id
         # Create the database entry for the resource
         orm_instance = CreateSchema.model_validate(resource).model_dump_django(
-            instance=instance, **fields
+            instance=instance, **fields, external_source='External POP', external_sourceId=resourceId
         )
         # Delete the create event that just happened
         orm_instance.events.latest("pgh_created_at").delete()
