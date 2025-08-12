@@ -32,7 +32,7 @@ img {
   display: grid;
   grid-template-columns: 45% 50%;
   place-items: center;
-  gap: 50px;
+  gap: 2rem;
   /* background: rgb(67, 69, 112);
   background: radial-gradient(
     circle,
@@ -40,7 +40,7 @@ img {
     rgba(35, 36, 57, 1) 60%
   ); */
   overflow: hidden;
-  padding: 130px 80px;
+  padding: 0 3rem;
 }
 
 .description {
@@ -441,12 +441,12 @@ input[type="email"]:focus {
   }
   .home {
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr;
+    grid-template-rows: 1fr;
     grid-template-areas:
       "userscolorcontainer"
       "description";
     gap: 30px;
-    padding: 90px 80px 70px;
+    padding: 0 3rem;
   }
 
   .users-color-container {
