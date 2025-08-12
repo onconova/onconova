@@ -2,14 +2,14 @@
 name = "pop-server"
 version = "0.4.0"
 description = "The Precision Oncology Program (POP) is a joint at the University Hospital Zurich (USZ) to capture clinical data from oncology patients in a structured manner. The final aim of the project is to enable aggregated data analysis interactively."
-readme = "README.md"
+readme = "../README.md"
 license = "MIT"
 authors = ["Luis Fabregas-Ibanez <Luis.Fabregas-Ibanez@usz.ch>"]
 classifiers = [
   "Development Status :: 4 - Beta",
   "Programming Language :: Python"
 ]
-packages = [{include = "pop-server"}]
+packages = [{include = "pop"}]
 
 
 [build-system]
@@ -33,7 +33,6 @@ django-pghistory = "3.5.5"
 measurement = "3.2.2"
 requests = "2.32.0"
 requests-oauthlib = "2.0.0"
-fhir-resources = "7.1.0" 
 cachetools = "5.5.0"
 tqdm = "4.67.0"
 jwt = "1.3.1"

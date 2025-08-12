@@ -1,13 +1,15 @@
 import csv
 import os
 from collections import defaultdict
-from typing import List, TextIO, Tuple, Union
+from typing import List, TextIO, Tuple, Mapping
+from pop.terminology.schemas import CodedConcept
 
 import requests
 from pydantic import BaseModel, Field
 
 _cache = {}
 
+CodeSystemMap = Mapping[str, CodedConcept]
 
 # Custom function to print with color
 def printRed(skk):
@@ -22,35 +24,7 @@ def printYellow(skk):
     print("\033[93m {}\033[00m".format(skk))
 
 
-class CodedConcept(BaseModel):
-    """
-    Class representing a single concept in a codesystem.
-
-    Attributes:
-        system (str): The URL of the codesystem in which the concept is defined.
-        code (str): The code for the concept in the codesystem.
-        display (str): The human-readable name of the concept.
-        definition (str): The formal definition of the concept.
-        version (str): The version of the codesystem.
-        parent (str): The code of the parent concept.
-        synonyms (List[str]): A list of synonyms for the concept.
-        properties (dict): A dictionary of additional properties for the concept.
-    """
-
-    system: str | None = Field(default=None)
-    code: str = Field()
-    display: str | None = Field(default=None)
-    definition: str | None = Field(default=None)
-    version: str | None = Field(default=None)
-    parent: str | None = Field(default=None)
-    synonyms: List[str] = Field(default=[])
-    properties: dict | None = Field(default=None)
-
-    def __hash__(self):
-        return hash(self.__repr__())
-
-
-def parent_to_children(codesystem: dict) -> dict:
+def parent_to_children(codesystem: CodeSystemMap) -> Mapping[str, List[CodedConcept]]:
     """
     Preprocesses the codesystem to create a mapping from parent codes to their children.
 
@@ -139,7 +113,7 @@ def parse_OBO_file(file) -> Generator[Dict[str, Any], None, None]:
 
 def get_dictreader_and_size(
     file: TextIO, has_header: bool = True, verbose: bool = True
-) -> Tuple[List[Dict[str, str]], int]:
+) -> Tuple[csv.DictReader | List[Dict[str,str]], int]:
     """
     Get a DictReader for a file and the total number of rows. Accepts `.csv`, `.tsv`, and `.obo` files.
 
@@ -251,7 +225,7 @@ def ensure_list(val: Any) -> List[Any]:
     return val
 
 
-def request_http_get(api_url: str, raw: bool = False) -> Union[Dict[str, Any], str]:
+def request_http_get(api_url: str, raw: bool = False) -> Any:
     """
     Make a GET request to an API endpoint, parse the JSON response, and return the parsed JSON data.
 
@@ -284,10 +258,11 @@ def request_http_get(api_url: str, raw: bool = False) -> Union[Dict[str, Any], s
     session = requests.Session()
 
     # Set up the proxy with authentication
-    proxies = {
-        "http": os.environ.get("http_proxy", default=None),
-        "https": os.environ.get("https_proxy", default=None),
-    }
+    proxies = {}
+    if http_proxy := os.environ.get("http_proxy", default=None):
+        proxies['http'] = http_proxy
+    if https_proxy := os.environ.get("https_proxy", default=None):
+        proxies['http'] = https_proxy
     session.proxies = proxies
     # Set up the basic authentication for the API
     if api_username and api_password:

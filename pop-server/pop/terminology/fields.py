@@ -19,19 +19,20 @@ class CodedConceptField(object):
         *args,
         **kwargs,
     ):
+        reference = _to or f"terminology.{terminology.__name__ if terminology else 'Unknown'}"
         if multiple:
             return models.ManyToManyField(
-                to=_to or f"terminology.{terminology.__name__}",
+                to=reference,
                 related_name="+",
                 *args,
                 **kwargs,
             )
         else:
             return models.ForeignKey(
-                to=_to or f"terminology.{terminology.__name__}",
+                to=reference,
                 on_delete=models.PROTECT,
                 related_name="+",
-                null=null,
+                null=null, # type: ignore
                 *args,
                 **kwargs,
             )

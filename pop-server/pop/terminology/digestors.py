@@ -8,8 +8,8 @@ from collections import defaultdict
 from datetime import datetime
 
 from django.conf import settings
+from pop.terminology.schemas import CodedConcept
 from pop.terminology.utils import (
-    CodedConcept,
     ensure_list,
     ensure_within_string_limits,
     get_dictreader_and_size,
@@ -150,7 +150,7 @@ class NCITDigestor(TerminologyDigestor):
             display=display,
             definition=row["definition"],
             parent=parents,
-            synonyms=[synonym for synonym in synonyms[1:]],
+            synonyms=[synonym for synonym in synonyms[1:] if synonym],
             system=self.CANONICAL_URL,
         )
 
@@ -502,7 +502,7 @@ class EnsemblExonsDigestor(TerminologyDigestor):
         for gene, exons in self.exons.items():
             # Adjust the the cDNA position from the position in the gene reference sequence to position in the cDNA
             gene_coding_dna_region_start = min(
-                [exon.coding_dna_start for exon in exons if exon.coding_dna_start] or 0
+                [exon.coding_dna_start for exon in exons if exon.coding_dna_start] or [0]
             )
             if gene_coding_dna_region_start:
                 for exon in exons:
@@ -519,13 +519,18 @@ class EnsemblExonsDigestor(TerminologyDigestor):
     def _digest_concept_row(self, row):
         gene = row["gene"]
         # Add the concept
+        exon_rank = row["exon_rank"]
+        coding_dna_start = row["cdna_coding_start"]
+        coding_dna_end = row["cdna_coding_end"]
+        coding_genomic_start = row["genomic_coding_start"]
+        coding_genomic_end = row["genomic_coding_end"]
         self.exons[gene].append(
             self.GeneExon(
-                rank=row["exon_rank"],
-                coding_dna_start=row["cdna_coding_start"] or None,
-                coding_dna_end=row["cdna_coding_end"] or None,
-                coding_genomic_start=row["genomic_coding_start"] or None,
-                coding_genomic_end=row["genomic_coding_end"] or None,
+                rank=int(exon_rank),
+                coding_dna_start=int(coding_dna_start) if coding_dna_start else None,
+                coding_dna_end=int(coding_dna_end) if coding_dna_end else None,
+                coding_genomic_start=int(coding_genomic_start) if coding_genomic_start else None,
+                coding_genomic_end=int(coding_genomic_end) if coding_genomic_end else None,
             )
         )
 
@@ -603,12 +608,10 @@ class UCUMDigestor(TerminologyDigestor):
     def _digest_concept_row(self, row):
         code = row["UCUM_CODE"]
         display = row["Description"]
-        self.concepts.append(
-            CodedConcept(
-                code=code,
-                display=display,
-                system=self.CANONICAL_URL,
-            )
+        self.concepts[code] = CodedConcept(
+            code=code,
+            display=display,
+            system=self.CANONICAL_URL,
         )
 
 

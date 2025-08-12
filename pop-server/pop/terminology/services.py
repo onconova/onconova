@@ -3,16 +3,16 @@ import requests
 import json
 import os
 import cachetools.func
-from collections import defaultdict
-from fhir.resources.R4B.valueset import (
-    ValueSet as ValueSetSchema,
+from pop.terminology.fhir import (
+    ValueSet,
     ValueSetComposeInclude,
+     CodeSystem as CodeSystem,
 )
-from fhir.resources.R4B.codesystem import CodeSystem as CodeSystemSchema
 from pop.terminology.models import CodedConcept as CodedConceptModel
 from pop.terminology.digestors import DIGESTORS
+from pop.terminology.schemas import CodedConcept
 from pop.terminology.utils import (
-    CodedConcept,
+    CodeSystemMap,
     request_http_get,
     parent_to_children,
     printYellow,
@@ -49,7 +49,7 @@ class FilterOperator(str, Enum):
     EXISTS = "exists"
 
 
-def download_canonical_url(canonical_url: str) -> str:
+def download_canonical_url(canonical_url: str) -> dict:
     """
     Download the content from a canonical URL.
 
@@ -90,7 +90,7 @@ def download_canonical_url(canonical_url: str) -> str:
 
 
 @cachetools.func.lru_cache(maxsize=128)
-def download_codesystem(canonical_url: str) -> List[CodedConcept]:
+def download_codesystem(canonical_url: str) -> CodeSystemMap:
     """
     Downloads and digests a code system from the given canonical URL.
 
@@ -98,7 +98,7 @@ def download_codesystem(canonical_url: str) -> List[CodedConcept]:
         canonical_url (str): The canonical URL of the code system to download.
 
     Returns:
-        List[CodedConcept]: A list of CodedConcept objects representing the
+       CodeSystemMap: A mapping of codes to CodedConcept objects representing the
             concepts in the downloaded code system.
     """
     # Check if any of the built-in digestors match the given canonical URL
@@ -122,9 +122,9 @@ def download_codesystem(canonical_url: str) -> List[CodedConcept]:
         try:
             codesystem_json = download_canonical_url(canonical_url)
         except requests.exceptions.HTTPError:
-            return None
+            return {}
         # Parse the code system FHIR structure
-        codesystem = CodeSystemSchema.parse_obj(codesystem_json)
+        codesystem = CodeSystem.parse_obj(codesystem_json)
         # Add concepts in the code system
         concepts = {
             concept.code: CodedConcept(
@@ -169,13 +169,13 @@ def download_valueset(canonical_url: str) -> List[CodedConcept]:
     print(f"• Resolving and downloading canonical URL: {canonical_url}")
     valueset_json = download_canonical_url(canonical_url)
     # Parse the response
-    valuesetdef = ValueSetSchema.parse_obj(valueset_json)
+    valuesetdef = ValueSet.parse_obj(valueset_json)
     print(f"• Expanding ValueSet <{valuesetdef.name}>...")
     # Expand the valueset definition
     return expand_valueset(valuesetdef)
 
 
-def expand_valueset(valuesetdef: ValueSetSchema) -> List[CodedConcept]:
+def expand_valueset(valuesetdef: ValueSet) -> List[CodedConcept]:
     """
     Expands a ValueSet definition to a list of CodedConcepts.
 
@@ -187,7 +187,7 @@ def expand_valueset(valuesetdef: ValueSetSchema) -> List[CodedConcept]:
     https://hl7.org/fhir/valueset.html#expansion
 
     Args:
-        valuesetdef (ValueSetSchema): The ValueSet definition to expand.
+        valuesetdef (ValueSet): The ValueSet definition to expand.
 
     Returns:
         List[CodedConcept]: A list of expanded CodedConcept objects.
@@ -197,6 +197,10 @@ def expand_valueset(valuesetdef: ValueSetSchema) -> List[CodedConcept]:
     if valuesetdef.expansion and valuesetdef.expansion.contains:
         # Iterate through the existing expansion and add to concepts list
         for concept in valuesetdef.expansion.contains:
+            if not concept.code:
+                raise ValueError(
+                    "The valueset definition expansion has a concept without a code."
+                )            
             concepts.append(
                 CodedConcept(
                     code=concept.code,
@@ -300,6 +304,8 @@ def follow_valueset_composition_rule(
     # Step 2: Process referenced value sets
     if rule.valueSet:
         for n, canonical_url in enumerate(rule.valueSet):
+            if not canonical_url:
+                continue
             # Download and collect the referenced valueset's concepts
             referenced_valueset_concepts = download_valueset(canonical_url)
             # Compute intersection if multiple value sets are referenced
@@ -374,20 +380,21 @@ def collect_codedconcept_terminology(
         if getattr(CodedConceptModel, "valueset", None):
             concepts = download_valueset(CodedConceptModel.valueset)
         else:
-            concepts = download_codesystem(CodedConceptModel.codesystem).values()
+            concepts = list(download_codesystem(CodedConceptModel.codesystem).values())
 
     for concept in CodedConceptModel.extension_concepts:
         concepts.append(concept)
     print(f"\n✓ Collected a total of {len(concepts)} concepts.")
 
-    if hasattr(CodedConceptModel, "transform"):
-        for concept in tqdm(
-            concepts, total=len(concepts), desc="• Transforming displays"
-        ):
-            if concept and concept.display:
+    for concept in tqdm(
+        concepts, total=len(concepts), desc="• Postprocessing concepts"
+    ):
+        if concept: 
+            concept = CodedConceptModel._concept_postprocessing(concept)
+            if concept.display:
                 concept.synonyms.append(concept.display)
-                concept = CodedConceptModel.transform(concept)
-
+                concept.display = CodedConceptModel._concept_display_postprocessing(concept.display)
+                
     # Keep track of the update process
     new_concepts = 0
     updated_concepts = 0
@@ -423,7 +430,7 @@ def collect_codedconcept_terminology(
                 code=concept.parent, system=concept.system
             ).first()
             if parent:
-                child.parent = parent
+                child.parent = parent # type: ignore
                 child.save()
     print("✓ - All concepts written into the database")
     # Delete dangling concepts

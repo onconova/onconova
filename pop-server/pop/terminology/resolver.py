@@ -134,7 +134,7 @@ class CanonicalUrlResolver:
             str: The URL that can be used to download the corresponding ValueSet or CodeSystem resource.
         """
         # Validate the input canonical_url
-        if not urllib.parse.urlparse(canonical_url).scheme:
+        if not urllib.parse.urlparse(canonical_url).scheme: # type: ignore
             raise ValueError("Invalid URL: " + canonical_url)
 
         url_resolvers = {

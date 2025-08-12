@@ -1,13 +1,13 @@
 from typing import List
-
+from collections import defaultdict
 from pop.terminology.digestors import (
     EnsemblExonsDigestor,
     NCITDigestor,
     TerminologyDigestor,
 )
 from pop.terminology.models import AntineoplasticAgent, Gene, GeneExon
+from pop.terminology.schemas import CodedConcept
 from pop.terminology.utils import (
-    CodedConcept,
     ensure_within_string_limits,
     request_http_get,
 )
@@ -23,6 +23,14 @@ class NCITAntineoplasticAgentsSubsetDigestor(TerminologyDigestor):
     LABEL = "ncit-antineoplastic"
     FILENAME = "ncit_antineoplastic.tsv"
 
+    def digest(self, *args, **kwargs) -> dict[str,str]:
+        self.designations = defaultdict(list)
+        self.concepts = {}
+        self._digest_concepts()
+        for code, synonyms in self.designations.items():
+            self.concepts[code].synonyms = synonyms
+        return self.concepts
+    
     def _digest_concept_row(self, row: dict[str, str]) -> None:
         """
         Processes a single row of drug to drug class mapping.
@@ -60,7 +68,7 @@ def expand_AntineoplasticAgent_with_NCTPOT_mappings() -> List[DrugCodedConcept]:
     # Prepare the NCIT codesystem and its tree structre
     ncit_codesystem = download_codesystem(NCITDigestor.CANONICAL_URL)
     # Digest the NCTPOT maps
-    ncit_antineoplastic_drugs = (
+    ncit_antineoplastic_drugs = list(
         NCITAntineoplasticAgentsSubsetDigestor().digest().values()
     )
     # Add the concepts from the NCIT Antineoplastic agents tree
@@ -99,10 +107,10 @@ def expand_AntineoplasticAgent_with_NCTPOT_mappings() -> List[DrugCodedConcept]:
             if concept.code in category_codes:
                 concepts[concept.code].therapy_category = category
                 break
-        ancestor = ncit_codesystem.get(concept.parent)
+        ancestor = ncit_codesystem.get(concept.parent or "")
         while ancestor and ancestor.code != "C1909":
             concepts[ancestor.code] = ancestor
-            ancestor = ncit_codesystem.get(ancestor.parent)
+            ancestor = ncit_codesystem.get(ancestor.parent or "")
         print(f'\r• Added entry for {concept.display}... {" "*100}', end="")
     return list(concepts.values())
 
@@ -141,7 +149,7 @@ class CTCAETermsDigestor(TerminologyDigestor):
 
 
 def expand_ctcae_terms() -> List[CodedConcept]:
-    return CTCAETermsDigestor().digest().values()
+    return list(CTCAETermsDigestor().digest().values())
 
 
 def add_gene_exons():

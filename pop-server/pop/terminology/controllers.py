@@ -15,8 +15,8 @@ from pop.terminology import models as terminologies
 
 
 class TerminologyFilters(Schema):
-    search_term: str = Field(None, alias="query")
-    codes: List[str] = Field(None, alias="codes")  # type: ignore
+    search_term: str | None = Field(None, alias="query")
+    codes: List[str] | None = Field(None, alias="codes") 
 
 
 def get_matching_score_expression(query, score):
@@ -31,7 +31,7 @@ def get_matching_score_expression(query, score):
 class TerminologyController(ControllerBase):
     @route.get(
         path="/{terminologyName}/concepts",
-        response={200: Paginated[CodedConceptSchema], **COMMON_HTTP_ERRORS},
+        response={200: Paginated[CodedConceptSchema], **COMMON_HTTP_ERRORS}, # type: ignore
         operation_id="getTerminologyConcepts",
     )
     @paginate()
