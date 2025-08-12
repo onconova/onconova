@@ -76,5 +76,6 @@ class TerminologyController(ControllerBase):
             )
 
         if query.codes:
+            print('QUERY', query)
             queryset = queryset.filter(code__in=query.codes).distinct()
         return queryset

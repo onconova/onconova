@@ -172,6 +172,28 @@ class NeoplasticEntityModelTest(TestCase):
         self.assertIsNone(self.metastatic_neoplasm.save())
 
 
+class RiskAssessmentModelTest(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.assessment = factories.RiskAssessmentFactory()
+
+    def test_wrong_classification_cannot_be_assigned(self):
+        with self.assertRaises(ValueError):
+            self.assessment.methodology = terminology.CancerRiskAssessmentMethod.objects.create(code='C121007', system='http://example.com') # Child-Pugh Risk
+            self.assessment.risk = terminology.CancerRiskAssessmentClassification.objects.create(code='C155844', system='http://example.com') # IMDC Favourable
+            self.assessment.save() 
+        self.assessment.refresh_from_db()
+        self.assertNotEqual(self.assessment.methodology.code, 'C121007')
+        self.assertNotEqual(self.assessment.risk.code, 'C155844')
+            
+    def test_correct_classification_can_be_assigned(self):
+        self.assessment.methodology = terminology.CancerRiskAssessmentMethod.objects.create(code='C121007', system='http://example.com') # Child-Pugh Risk
+        self.assessment.risk = terminology.CancerRiskAssessmentClassification.objects.create(code='C113692', system='http://example.com') # Child-Pugh Class B
+        self.assessment.save() 
+        self.assessment.refresh_from_db()
+        self.assertEqual(self.assessment.methodology.code, 'C121007')
+        self.assertEqual(self.assessment.risk.code, 'C113692')
 class VitalsModelTest(TestCase):
 
     @classmethod

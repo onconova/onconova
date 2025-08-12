@@ -29,12 +29,20 @@
 
         <div class="field flex flex-column">
             <label class="form-label required">Risk</label>
-            <pop-concept-selector 
-                terminology="CancerRiskAssessmentClassification"
-                [showSynonyms]="false"
-                formControlName="risk"
-                widget="selectbutton"/>
-            <pop-form-control-error controlName="risk"></pop-form-control-error>
+            @if (form.controls.methodology.value) {
+                <div class="flex flex-column gap-2">
+                    @for (classification of riskClassifications.value(); track classification.code;) {
+                    <div class="field-checkbox">
+                        <p-radiobutton [inputId]="classification.code" [value]="classification"  formControlName="risk" />
+                        <label [for]="classification.code" class="ml-2">{{ classification.display }}</label>
+                        <pop-form-control-error controlName="risk"></pop-form-control-error>
+                    </div>
+                    }
+                </div>
+                <pop-form-control-error controlName="risk"></pop-form-control-error>
+            } @else {
+                <div class="text-muted">Select a risk assessment methodology first</div>
+            }
         </div>
 
         <div class="field">
@@ -47,6 +55,7 @@
             [minFractionDigits]="1"
             [maxFractionDigits]="3"
             locale="en-US"/>
+            <div class="mt-2 text-small text-muted">The numerical score used for the classification, if relevant for the methodology and/or available.</div>
             <pop-form-control-error controlName="score"></pop-form-control-error>
         </div>
 

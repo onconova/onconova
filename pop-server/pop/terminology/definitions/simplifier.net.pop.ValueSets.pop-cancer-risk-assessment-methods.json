@@ -3,61 +3,75 @@
     "id": "pop-cancer-risk-assessment-methods",
     "url": "https://simplifier.net/pop/ValueSets/pop-cancer-risk-assessment-methods",
     "version": "0.0.1",
-    "title": "Cacner Risk Assessment Methods",
+    "title": "Cancer Risk Assessment Methods",
     "status": "draft",
-    "copyright": "This value set includes content from SNOMED CT, which is copyright \u00a9 2002+ International Health Terminology Standards Development Organisation (IHTSDO), and distributed by agreement between IHTSDO and HL7. Implementer use of SNOMED CT is not covered by this agreement",
     "compose": {
         "include": [
             {
                 "system": "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
                 "concept": [
                     {
+                        "code": "C136962",
+                        "display": "Follicular Lymphoma International Prognostic Index (FLIPI)"
+                    },
+                    {
+                        "code": "C181086",
+                        "display": "D'Amico Prostate Cancer Risk Classification"
+                    },
+                    {
+                        "code": "C127872",
+                        "display": "European Treatment Outcome Study (EUTOS) Score"
+                    },
+                    {
+                        "code": "C127873",
+                        "display": "Hasford Score"
+                    },
+                    {
+                        "code": "C127875",
+                        "display": "Sokal Score"
+                    },
+                    {
                         "code": "C155843",
-                        "display": "IMDC / HENG Score"
+                        "display": "International Metastatic Renal Cell Carcinoma Database Consortium (IMDC) Criteria"
                     },
                     {
-                        "display": "IPI Score",
-                        "code": "C161645"
+                        "code": "C161805",
+                        "display": "International Prognostic Index (IPI) Risk Group"
                     },
                     {
-                        "display": "Sokal Score",
-                        "code": "C127875"
+                        "code": "C177562",
+                        "display": "European LeukemiaNet Risk Classification"
                     },
                     {
-                        "display": "Hasford Score",
-                        "code": "C127873"
+                        "code": "C121007",
+                        "display": "Child-Pugh Clinical Classification"
                     },
                     {
-                        "display": "EUTOS",
-                        "code": "C127872"
+                        "code": "C181085",
+                        "display": "USCF Cancer of the Prostate Risk Assessment Score"
                     },
                     {
-                        "display": "D'Amico Risk Classification",
-                        "code": "C181086"
+                        "code": "C162781",
+                        "display": "Mantle Cell Lymphoma International Prognostic Index (MIPI)"
                     },
                     {
-                        "display": "ELN Risk Classification",
-                        "code": "C177562"
+                        "code": "C181084",
+                        "display": "NCCN Prostate Cancer Risk Stratification for Clinically Localized Disease"
                     },
                     {
-                        "code": "C71469",
-                        "display": "Child-Pugh Score"
+                        "code": "C177309",
+                        "display": "Seminoma IGCCC Risk Classification"
                     },
                     {
-                        "display": "CAPRA Score",
-                        "code": "C181085"
+                        "code": "C177308",
+                        "display": "Non-Seminomatous Germ Cell Tumor IGCCC Risk Classification"
+                    },
+                    {
+                        "code": "C142346",
+                        "display": "International Society of Urological Pathology Gleason Grade Group"
                     }
                 ],
                 "version": "24.06d"
-            },
-            {
-                "concept": [
-                    {
-                        "code": "414879002",
-                        "display": "Nottingham prognostic index"
-                    }
-                ],
-                "system": "http://snomed.info/sct"
             }
         ]
     },
