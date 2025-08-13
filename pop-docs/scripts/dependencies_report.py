@@ -1,7 +1,8 @@
-import toml
-import json
-import requests
 import argparse
+import json
+
+import requests
+import toml
 
 
 def parse_pyproject_dependencies(paths):
@@ -46,60 +47,85 @@ def parse_packagejson_dependencies(paths):
     return dependencies
 
 
+def _get_pypi_license(data) -> str:
+    license_field = data.get("license-expression", data.get("license", ""))
+
+    if license_field:
+        license_name = (
+            license_field
+            if isinstance(license_field, str)
+            else " + ".join(license_field)
+        )
+    check_classifiers = (
+        not license_field
+        or license_name
+        in (
+            "UNKNOWN",
+            "Dual License",
+            "",
+            None,
+        )
+        or license_name.count("\n")
+    )
+    if check_classifiers:
+        license_names = [
+            classifier.rsplit("::", 1)[1].strip()
+            for classifier in data["classifiers"]
+            if classifier.startswith("License ::")
+        ]
+        license_name = " + ".join(license_names)
+    return license_name or "Unknown"
+
+
 def fetch_pypi_info(package_name):
     url = f"https://pypi.org/pypi/{package_name}/json"
-    try:
-        response = requests.get(url, timeout=5)
-        if response.status_code == 200:
-            data = response.json()
-            info = data.get("info", {})
-            home_page = (
-                info.get("home_page") or f"https://pypi.org/project/{package_name}/"
-            )
-            return {
-                "name": package_name,
-                "description": info.get("summary", "").replace("\n", " "),
-                "version": info.get("version", ""),
-                "author": info.get("author", ""),
-                "homepage": home_page,
-                "source": "PyPI",
-            }
-        else:
-            return default_package_info(package_name, "PyPI")
-    except Exception as e:
-        return default_package_info(package_name, "PyPI", f"Error fetching info: {e}")
+    response = requests.get(url, timeout=5)
+    if response.status_code == 200:
+        data = response.json()
+        info = data.get("info", {})
+        home_page = info.get("home_page") or f"https://pypi.org/project/{package_name}/"
+        return {
+            "name": package_name,
+            "description": info.get("summary", "").replace("\n", " "),
+            "version": info.get("version", ""),
+            "license": _get_pypi_license(info),
+            "author": info.get("author", ""),
+            "homepage": home_page,
+            "source": "PyPI",
+        }
+    else:
+        return default_package_info(package_name, "PyPI")
 
 
 def fetch_npm_info(package_name):
     url = f"https://registry.npmjs.org/{package_name}"
-    try:
-        response = requests.get(url, timeout=5)
-        if response.status_code == 200:
-            data = response.json()
-            latest_version = data.get("dist-tags", {}).get("latest", "N/A")
-            latest_info = data.get("versions", {}).get(latest_version, {})
-            description = latest_info.get("description", "")
-            author_info = latest_info.get("author", {})
-            author = (
-                author_info.get("name")
-                if isinstance(author_info, dict)
-                else author_info or "N/A"
-            )
-            homepage = latest_info.get(
-                "homepage", f"https://www.npmjs.com/package/{package_name}"
-            )
-            return {
-                "name": package_name,
-                "description": description,
-                "version": latest_version,
-                "author": author,
-                "homepage": homepage,
-                "source": "NPM",
-            }
-        else:
-            return default_package_info(package_name, "NPM")
-    except Exception as e:
-        return default_package_info(package_name, "NPM", f"Error fetching info: {e}")
+    response = requests.get(url, timeout=5)
+    if response.status_code == 200:
+        data = response.json()
+        latest_version = data.get("dist-tags", {}).get("latest", "N/A")
+        latest_info = data.get("versions", {}).get(latest_version, {})
+        description = latest_info.get("description", "")
+        author_info = latest_info.get("author", {})
+        license = latest_info.get("license", "Unknown")
+        author = (
+            author_info.get("name")
+            if isinstance(author_info, dict)
+            else author_info or "N/A"
+        )
+        homepage = latest_info.get(
+            "homepage", f"https://www.npmjs.com/package/{package_name}"
+        )
+        return {
+            "name": package_name,
+            "description": description,
+            "version": latest_version,
+            "author": author,
+            "license": license,
+            "homepage": homepage,
+            "source": "NPM",
+        }
+    else:
+        return default_package_info(package_name, "NPM")
 
 
 def default_package_info(name, source, description="Not found"):
@@ -113,17 +139,18 @@ def default_package_info(name, source, description="Not found"):
         "description": description,
         "version": "N/A",
         "author": "N/A",
+        "license": "Unknown",
         "homepage": default_url,
         "source": source,
     }
 
 
 def build_markdown_table(package_infos):
-    table = "| Name | Description | Version | Author | Source |\n"
-    table += "|:------|:-------------|:---------|:--------|:---------|\n"
+    table = "| Name | Description | Version | Author | License | Source |\n"
+    table += "|:------|:-------------|:---------|:--------|:---------|:-------|\n"
     for info in sorted(package_infos, key=lambda x: x["name"].lower()):
         name_link = f"[{info['name']}]({info['homepage']})"
-        table += f"| {name_link} | {info['description']} | {info['version']} | {info['author']} | {info['source']} |\n"
+        table += f"| {name_link} | {info['description']} | {info['version']} | {info['author']} | {info['license']} | {info['source']} |\n"
     return table
 
 

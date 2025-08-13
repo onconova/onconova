@@ -6,14 +6,14 @@ This document outlines the minimum and recommended hardware, software, and netwo
 
 The table below summarizes the core system and infrastructure requirements needed to run POP reliably:
 
-| Resource      | Minimum requirements  | 
-| -------------- | --------------- | 
-| Database      | PostgreSQL 13+  | 
-| Docker Engine	| 17.05.0+  |
-| Docker Compose | 1.18.0+ |
-| CPU | 2 vCPUs	|
-| RAM | 3 GB | 
-| Storage | 5 GB |
+| Resource       | Minimum requirements |
+| -------------- | -------------------- |
+| Database       | PostgreSQL 13+       |
+| Docker Engine  | 17.05.0+             |
+| Docker Compose | 1.18.0+              |
+| CPU            | 2 vCPUs              |
+| RAM            | 3 GB                 |
+| Storage        | 5 GB                 |
 
 --- 
 
@@ -83,3 +83,17 @@ POP is a web-based platform accessed via modern browsers. The following browsers
 - Apple Safari
 
 Only the **latest stable versions** of these browsers are supported. Browsers should be configured for automatic updates to maintain compatibility and security.
+
+## Additional Requirements 
+
+### SNOMED CT International Release File
+
+To use POP with SNOMED CT clinical terminology, you must obtain a valid SNOMED CT International release file. Access to this release file requires a SNOMED CT license, which is governed by national licensing arrangements managed by SNOMED International and its member countries.
+
+- **Obtain the release file:**  
+  Visit [SNOMED International](https://www.snomed.org/snomed-ct/get-snomed-ct) to check your country's licensing status and download the International release file. Checkout the [Installation instructions](../installation.md) for further details on which files to download.
+
+- **License requirement:**  
+  You must have a valid SNOMED CT license to download and use the International release file in your POP deployment.
+
+For more information, refer to the [SNOMED CT Licensing FAQ](https://www.snomed.org/snomed-ct/get-snomed-ct/faqs).
