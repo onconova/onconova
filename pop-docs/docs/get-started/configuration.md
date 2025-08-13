@@ -55,8 +55,6 @@ The following variables control the different configurable aspects of the POP co
 | `POP_CLIENT_WEBSERVER_ADDRESS` *(optional)*     | Address (`host:port`) of the POP client webserver. Defaults to the reverse proxy address if unset. |
 | `POP_CLIENT_PLUGINS_PATH` *(optional)*          | Path to the directory containing client-side plugin source code. |
 | `POP_DOCS_WEBSERVER_ADDRESS` *(optional)*       | Address (`host:port`) of the documentation server. Defaults to the reverse proxy address if unset. |
-| `POP_EXTERNAL_DATA_DIR`                         | Path to the directory containing external terminology data used by the POP system. |
-| `POP_LOINC_ZIPFILE_PATH`                        | Path to the LOINC terminology ZIP file used by the terminology connector. |
 | `POP_SNOMED_ZIPFILE_PATH`                       | Path to the SNOMED terminology ZIP file used by the terminology connector. |
 | `POP_GOOGLE_CLIENT_ID` *(optional)*             | Google OIDC client ID for Single Sign-On (SSO). |
 | `POP_GOOGLE_SECRET` *(optional)*                | Google OIDC secret key for Single Sign-On (SSO). |

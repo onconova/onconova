@@ -1,5 +1,10 @@
-from typing import List
+import json
+import os
 from collections import defaultdict
+from typing import List
+
+from tqdm import tqdm
+
 from pop.terminology.digestors import (
     EnsemblExonsDigestor,
     NCITDigestor,
@@ -7,11 +12,7 @@ from pop.terminology.digestors import (
 )
 from pop.terminology.models import AntineoplasticAgent, Gene, GeneExon
 from pop.terminology.schemas import CodedConcept
-from pop.terminology.utils import (
-    ensure_within_string_limits,
-    request_http_get,
-)
-from tqdm import tqdm
+from pop.terminology.utils import ensure_within_string_limits, request_http_get
 
 
 class DrugCodedConcept(CodedConcept):
@@ -23,14 +24,14 @@ class NCITAntineoplasticAgentsSubsetDigestor(TerminologyDigestor):
     LABEL = "ncit-antineoplastic"
     FILENAME = "ncit_antineoplastic.tsv"
 
-    def digest(self, *args, **kwargs) -> dict[str,str]:
+    def digest(self, *args, **kwargs) -> dict[str, str]:
         self.designations = defaultdict(list)
         self.concepts = {}
         self._digest_concepts()
         for code, synonyms in self.designations.items():
             self.concepts[code].synonyms = synonyms
         return self.concepts
-    
+
     def _digest_concept_row(self, row: dict[str, str]) -> None:
         """
         Processes a single row of drug to drug class mapping.
@@ -41,26 +42,43 @@ class NCITAntineoplasticAgentsSubsetDigestor(TerminologyDigestor):
         self.concepts[row["Code"]] = row["Code"]
 
 
-def expand_AntineoplasticAgent_with_NCTPOT_mappings() -> List[DrugCodedConcept]:
+def expand_antineoplastic_agent_concepts() -> List[DrugCodedConcept]:
     """
-    Expands the AntineoplasticAgent concept with NCTPOT mappings.
+    Expands the AntineoplasticAgent concepts.
 
     Returns:
-        dict[str, DrugCodedConcept]: A dictionary of DrugCodedConcept objects expanded with NCTPOT mappings.
+        dict[str, DrugCodedConcept]: A dictionary of DrugCodedConcept objects.
     """
+    current_path = os.path.dirname(__file__)
+    cache_file = (
+        f"{current_path}/external-sources/ncit_antineoplastic_descendants.cache.json"
+    )
+    if not os.path.exists(cache_file):
+        # Create an empty cache file if it does not exist
+        with open(cache_file, "w") as f:
+            json.dump({}, f)
+    with open(cache_file, "r") as f:
+        cache = json.load(f)
 
     def _get_NCIT_descendant_codes(codes):
-        desdencant_codes = []
+        descendant_codes = []
         for code in codes:
-            desdencant_codes.extend(
-                [
+            if code in cache:
+                descendants = cache[code]
+            else:
+                # Fetch the descendants from the NCIT API
+                print(f"• Fetching descendants for {code} from NCIT API...")
+                descendants = [
                     concept["code"]
                     for concept in request_http_get(
                         f"https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/{code}/descendants?fromRecord=0&pageSize=50000&maxLevel=10000"
                     )
                 ]
-            )
-        return desdencant_codes
+                cache[code] = descendants
+                with open(cache_file, "w") as f:
+                    json.dump(cache, f, indent=2)
+            descendant_codes.extend(descendants)
+        return descendant_codes
 
     from pop.terminology.services import download_codesystem
 
@@ -72,10 +90,9 @@ def expand_AntineoplasticAgent_with_NCTPOT_mappings() -> List[DrugCodedConcept]:
         NCITAntineoplasticAgentsSubsetDigestor().digest().values()
     )
     # Add the concepts from the NCIT Antineoplastic agents tree
-    print(f"• Synchronizing antineoplastic agents...")
+    print(f"• Updating antineoplastic agent classifications...")
 
     therapy_categories = AntineoplasticAgent.TherapyCategory
-
     categories = {
         therapy_categories.IMMUNOTHERAPY: _get_NCIT_descendant_codes(
             ["C308", "C20401"]
@@ -97,6 +114,8 @@ def expand_AntineoplasticAgent_with_NCTPOT_mappings() -> List[DrugCodedConcept]:
     }
 
     # Add other NCTPOT concepts not in the NCT Antineoplastic agents tree
+
+    print(f"• Processing antineoplastic agents metadata...")
     for ncit_code in ncit_antineoplastic_drugs:
         concept = ncit_codesystem.get(ncit_code)
         if not concept:
@@ -107,11 +126,12 @@ def expand_AntineoplasticAgent_with_NCTPOT_mappings() -> List[DrugCodedConcept]:
             if concept.code in category_codes:
                 concepts[concept.code].therapy_category = category
                 break
+
         ancestor = ncit_codesystem.get(concept.parent or "")
-        while ancestor and ancestor.code != "C1909":
+        while ancestor and ancestor.code != "C1909":  # Pharmacologic Substance
             concepts[ancestor.code] = ancestor
             ancestor = ncit_codesystem.get(ancestor.parent or "")
-        print(f'\r• Added entry for {concept.display}... {" "*100}', end="")
+
     return list(concepts.values())
 
 

@@ -170,61 +170,37 @@ Before using POP, the database must be configured and populated with required cl
 
 3. **Populate the Terminology Tables**
 
-    POP uses an internal store of different terminology systems (e.g. SNOMED-CT, LOINC, ICD-10, etc.). To generate that store several external terminology artifacts must be downloaded and imported into the database. POP provides automated services that will take care of locating, downloading, and processing the different terminology artifacts. Follow these steps to achieve this.
+    POP uses an internal store of different terminology systems (e.g. SNOMED-CT, LOINC, ICD-10, etc.). To generate that store the following steps must be followed and completed.
 
-    1. **Download external dependencies**
+    3.1. **Download SNOMED CT International**
 
-        Most terminologies will be automatically downloaded and handled by the software, however access to both SNOMED-CT and LOINC require login credentials and license agreements that have to be accepted first: 
+    POP already provides most open-source terminologies in a processed form as part of its package. However, SNOMED CT International requires an additional license to use (free for academic purposes in contributing member countries). 
 
-        - *SNOMED CT*
-            - (A) Visit the [SNOMED Releases](https://mlds.ihtsdotools.org/#/viewReleases/viewRelease) page and login with (and create if necessary) your SNOMED credentials. This requires a license for SNOMED CT International (free for academic purposes in contributing countries).
-            - (B) Locate the latest SNOMED CT International Edition release. 
-            - (C) Download the `SnomedCT_InternationalRF2_PRODUCTION_***********.zip` file. This requires a user and license for SNOMED CT International (free for academic purposes in contributing countries).
+     - (A) Visit the [SNOMED Releases](https://mlds.ihtsdotools.org/#/viewReleases/viewRelease) page and login with (and create if necessary) your SNOMED credentials. 
+     - (B) Locate the latest SNOMED CT International Edition release. 
+     - (C) Download the `SnomedCT_InternationalRF2_PRODUCTION_***********.zip` file.
 
-        - *LOINC*
-            - (A) Go to the [LOINC File Access](https://loinc.org/download/loinc-complete) page and login with (and create if necessary) your LOINC credentials. 
-            - (B) Download the latest `Loinc_*.**.zip` file.
+    3.2. **Import Terminologies**
 
-    2. **Run the automatization pipeline**
+    Run the following command to populate all terminology tables in the database. 
 
-        Once you’ve downloaded the terminology files, run the following command to populate all terminology tables in the database. 
+    ```bash
+    docker compose run \
+        -v /absolute/path/to/SnomedCT_International*.zip:/app/data/snomed.zip \
+        -e POP_SNOMED_ZIPFILE_PATH='/app/data/snomed.zip' \
+        server python manage.py termsynch
+    ```
 
-        === "Normal"
+    **Notes:**
 
-            ```bash
-            docker compose run \
-                -v /absolute/path/to/SnomedCT_International*.zip:/app/data/snomed.zip \
-                -e POP_SNOMED_ZIPFILE_PATH='/app/data/snomed.zip' \
-                -v /absolute/path/to/Loinc_*.**.zip:/app/data/loinc.zip \
-                -e POP_LOINC_ZIPFILE_PATH='/app/data/loinc.zip' \
-                server python manage.py termsynch
-            ```
+    - Adjust paths and proxy details to match your environment.
+    - The process may take several minutes depending on hardware and network speeds.
+    - Track progress via console logs.
 
-        === "With proxy and/or root certificates"
+    !!! warning Watchout for errors
 
-            ```bash
-            docker compose run \
-                -v /absolute/path/to/SnomedCT_International*.zip:/app/data/snomed.zip \
-                -e POP_SNOMED_ZIPFILE_PATH='/app/data/snomed.zip' \
-                -v /absolute/path/to/Loinc_*.**.zip:/app/data/loinc.zip \
-                -e POP_LOINC_ZIPFILE_PATH='/app/data/loinc.zip' 
-                -e http_proxy='http://<username>:<password>@<hostname>:<port>' \
-                -e https_proxy='http://<username>:<password>@<hostname>:<port>' \
-                -e ROOT_CA_CERTIFICATES='./etc/certs/root-ca-certificates.pem' \
-                server python manage.py termsynch
-            ```
-
-        **Notes:**
-
-        - Adjust paths and proxy details to match your environment.
-        - The process may take several minutes depending on file sizes and network speed.
-        - Track progress via console logs.
-
-
-        !!! warning Watchout for errors
-
-            If any errors occur during terminology synchronization, the database may remain partially populated, which can cause application errors.  
-            Review logs carefully and resolve issues before using the application.
+        If any errors occur during terminology synchronization, the database may remain partially populated, which can cause application errors.  
+        Review logs carefully and resolve issues before using the application.
 
 ## Post-installation
 

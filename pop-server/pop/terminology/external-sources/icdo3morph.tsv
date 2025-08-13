@@ -1,0 +1,2273 @@
+Code	Struct	Label
+8000/0	title	"Neoplasm, benign"
+8000/0	sub	"Tumor, benign"
+8000/0	sub	"Unclassified tumor, benign"
+8000/1	title	"Neoplasm, uncertain whether benign or malignant"
+8000/1	sub	"Neoplasm, NOS"
+8000/1	sub	"Tumor, NOS"
+8000/1	sub	"Unclassified tumor, uncertain whether benign or malignant"
+8000/1	sub	"Unclassified tumor, borderline malignancy"
+8000/3	title	"Neoplasm, malignant"
+8000/3	sub	"Tumor, malignant, NOS"
+8000/3	sub	Malignancy
+8000/3	sub	Cancer
+8000/3	sub	"Unclassified tumor, malignant"
+8000/3	sub	"Blastoma, NOS"
+8000/6	title	"Neoplasm, metastatic"
+8000/6	sub	"Neoplasm, secondary"
+8000/6	sub	"Tumor, metastatic"
+8000/6	sub	"Tumor, secondary"
+8000/6	sub	Tumor embolus
+8000/9	title	"Neoplasm, malignant, uncertain whether primary or metastatic"
+8000/9	sub	"Unclassified tumor, malignant, uncertain whether primary or metastatic"
+8001/0	title	"Tumor cells, benign"
+8001/1	title	"Tumor cells, uncertain whether benign or malignant"
+8001/1	sub	"Tumor cells, NOS"
+8001/3	title	"Tumor cells, malignant"
+8002/3	title	"Malignant tumor, small cell type"
+8003/3	title	"Malignant tumor, giant cell type"
+8004/3	title	"Malignant tumor, spindle cell type"
+8004/3	sub	"Malignant tumor, fusiform cell type"
+8005/0	title	"Clear cell tumor, NOS"
+8005/3	title	"Malignant tumor, clear cell type"
+8010/0	title	"Epithelial tumor, benign"
+8010/2	title	"Carcinoma in situ, NOS"
+8010/2	sub	"Intraepithelial carcinoma, NOS"
+8010/3	title	"Carcinoma, NOS"
+8010/3	sub	"Epithelial tumor, malignant"
+8010/6	title	"Carcinoma, metastatic, NOS"
+8010/6	sub	Secondary carcinoma
+8010/9	title	Carcinomatosis
+8011/0	title	"Epithelioma, benign"
+8011/3	title	"Epithelioma, malignant"
+8011/3	sub	"Epithelioma, NOS"
+8012/3	title	"Large cell carcinoma, NOS"
+8013/3	title	Large cell neuroendocrine carcinoma
+8014/3	title	Large cell carcinoma with rhabdoid phenotype
+8015/3	title	Glassy cell carcinoma
+8020/3	title	"Carcinoma, undifferentiated, NOS"
+8021/3	title	"Carcinoma, anaplastic, NOS"
+8022/3	title	Pleomorphic carcinoma
+8030/3	title	Giant cell and spindle cell carcinoma
+8031/3	title	Giant cell carcinoma
+8032/3	title	"Spindle cell carcinoma, NOS"
+8033/3	title	Pseudosarcomatous carcinoma
+8033/3	sub	Sarcomatoid carcinoma
+8034/3	title	Polygonal cell carcinoma
+8035/3	title	Carcinoma with osteoclast-like giant cells
+8040/0	title	"Tumorlet, benign"
+8040/1	title	"Tumorlet, NOS"
+8041/3	title	"Small cell carcinoma, NOS"
+8041/3	sub	Reserve cell carcinoma
+8041/3	sub	Round cell carcinoma
+8041/3	sub	Small cell neuroendocrine carcinoma
+8042/3	title	Oat cell carcinoma
+8043/3	title	"Small cell carcinoma, fusiform cell"
+8044/3	title	"Small cell carcinoma, intermediate cell"
+8045/3	title	Combined small cell carcinoma
+8045/3	sub	Mixed small cell carcinoma
+8045/3	sub	Combined small cell-large cell carcinoma
+8045/3	sub	Combined small cell-adenocarcinoma
+8045/3	sub	Combined small cell-squamous cell carcinoma
+8046/3	title	Non-small cell carcinoma
+8050/0	title	"Papilloma, NOS"
+8050/2	title	Papillary carcinoma in situ
+8050/3	title	"Papillary carcinoma, NOS"
+8051/0	title	Verrucous papilloma
+8051/3	title	"Verrucous carcinoma, NOS"
+8051/3	sub	Condylomatous carcinoma
+8051/3	sub	Verrucous squamous cell carcinoma
+8051/3	sub	Verrucous epidermoid carcinoma
+8051/3	sub	Warty carcinoma
+8052/0	title	"Squamous cell papilloma, NOS"
+8052/0	sub	Squamous papilloma
+8052/0	sub	Keratotic papilloma
+8052/2	title	"Papillary squamous cell carcinoma,  non-invasive"
+8052/2	sub	Papillary squamous cell carcinoma in situ
+8052/3	title	Papillary squamous cell carcinoma
+8052/3	sub	Papillary epidermoid carcinoma
+8053/0	title	"Squamous cell papilloma, inverted"
+8060/0	title	Squamous papillomatosis
+8060/0	sub	"Papillomatosis, NOS"
+8070/2	title	"Squamous cell carcinoma in situ, NOS"
+8070/2	sub	"Epidermoid carcinoma in situ, NOS"
+8070/2	sub	"Intraepidermal carcinoma, NOS"
+8070/2	sub	Intraepithelial squamous cell carcinoma
+8070/3	title	"Squamous cell carcinoma, NOS"
+8070/3	sub	"Epidermoid carcinoma, NOS"
+8070/3	sub	Squamous carcinoma
+8070/3	sub	Squamous cell epithelioma
+8070/6	title	"Squamous cell carcinoma, metastatic, NOS"
+8071/3	title	"Squamous cell carcinoma, keratinizing, NOS"
+8071/3	sub	"Squamous cell carcinoma, large cell, keratinizing"
+8071/3	sub	"Epidermoid carcinoma, keratinizing"
+8072/3	title	"Squamous cell carcinoma, large cell, nonkeratinizing, NOS"
+8072/3	sub	"Squamous cell carcinoma, nonkeratinizing, NOS"
+8072/3	sub	"Epidermoid carcinoma, large cell, nonkeratinizing"
+8073/3	title	"Squamous cell carcinoma, small cell, nonkeratinizing"
+8073/3	sub	"Epidermoid carcinoma, small cell, nonkeratinizing"
+8074/3	title	"Squamous cell carcinoma, spindle cell"
+8074/3	sub	"Epidermoid carcinoma, spindle cell"
+8074/3	sub	"Squamous cell carcinoma, sarcomatoid"
+8075/3	title	"Squamous cell carcinoma, adenoid"
+8075/3	sub	"Squamous cell carcinoma, pseudoglandular"
+8075/3	sub	"Squamous cell carcinoma, acantholytic"
+8076/2	title	Squamous cell carcinoma in situ with questionable stromal invasion
+8076/2	sub	Epidermoid carcinoma in situ with questionable stromal invasion
+8076/3	title	"Squamous cell carcinoma, microinvasive"
+8077/2	title	"Squamous intraepithelial neoplasia, grade III"
+8077/2	sub	"Cervical intraepithelial neoplasia, grade III"
+8077/2	sub	"CIN III, NOS"
+8077/2	sub	CIN III with severe dysplasia
+8077/2	sub	"Vaginal intraepithelial neoplasia, grade III"
+8077/2	sub	VAIN III
+8077/2	sub	"Vulvar intraepithelial neoplasia, grade III"
+8077/2	sub	VIN III
+8077/2	sub	"Anal intraepithelial neoplasia, grade III"
+8077/2	sub	AIN III
+8078/3	title	Squamous cell carcinoma with horn formation
+8080/2	title	Queyrat erythroplasia
+8081/2	title	Bowen disease
+8081/2	sub	"Intraepidermal squamous cell carcinoma, Bowen type"
+8082/3	title	Lymphoepithelial carcinoma
+8082/3	sub	Lymphoepithelioma
+8082/3	sub	Lymphoepithelioma-like carcinoma
+8082/3	sub	Schmincke tumor
+8083/3	title	Basaloid squamous cell carcinoma
+8084/3	title	"Squamous cell carcinoma, clear cell type"
+8090/1	title	Basal cell tumor
+8090/3	title	"Basal cell carcinoma, NOS"
+8090/3	sub	Basal cell epithelioma
+8090/3	sub	Rodent ulcer
+8090/3	sub	Pigmented basal cell carcinoma
+8091/3	title	Multifocal superficial basal cell carcinoma
+8091/3	sub	Multicentric basal cell carcinoma
+8092/3	title	"Infiltrating basal cell carcinoma, NOS"
+8092/3	sub	"Infiltrating basal cell carcinoma, non-sclerosing"
+8092/3	sub	"Infiltrating basal cell carcinoma, sclerosing"
+8092/3	sub	"Basal cell carcinoma, morpheic"
+8092/3	sub	"Basal cell carcinoma, desmoplastic type"
+8093/3	title	"Basal cell carcinoma, fibroepithelial"
+8093/3	sub	Fibroepithelioma of Pinkus type
+8093/3	sub	"Fibroepithelial basal cell carcinoma, Pinkus type"
+8093/3	sub	Pinkus tumor
+8093/3	sub	"Fibroepithelioma, NOS"
+8094/3	title	Basosquamous carcinoma
+8094/3	sub	Mixed basal-squamous cell carcinoma
+8095/3	title	Metatypical carcinoma
+8096/0	title	Intraepidermal epithelioma of Jadassohn
+8097/3	title	"Basal cell carcinoma, nodular"
+8097/3	sub	"Basal cell carcinoma, micronodular"
+8098/3	title	Adenoid basal carcinoma
+8100/0	title	Trichoepithelioma
+8100/0	sub	Brooke tumor
+8100/0	sub	Epithelioma adenoides cysticum
+8101/0	title	Trichofolliculoma
+8102/0	title	Trichilemmoma
+8102/3	title	Trichilemmocarcinoma
+8102/3	sub	Trichilemmal carcinoma
+8103/0	title	Pilar tumor
+8103/0	sub	Proliferating trichilemmal cyst
+8103/0	sub	Proliferating trichilemmal tumor
+8110/0	title	"Pilomatrixoma, NOS"
+8110/0	sub	Calcifying epithelioma of Malherbe
+8110/0	sub	"Pilomatricoma, NOS"
+8110/3	title	Pilomatrix carcinoma
+8110/3	sub	"Pilomatrixoma, malignant"
+8110/3	sub	"Pilomatricoma, malignant"
+8110/3	sub	Matrical carcinoma
+8120/0	title	"Transitional cell papilloma, benign"
+8120/0	sub	Transitional papilloma
+8120/1	title	"Urothelial papilloma, NOS"
+8120/1	sub	Papilloma of bladder
+8120/1	sub	"Transitional cell papilloma, NOS"
+8120/2	title	Transitional cell carcinoma in situ
+8120/2	sub	Urothelial carcinoma in situ
+8120/3	title	"Transitional cell carcinoma, NOS"
+8120/3	sub	"Urothelial carcinoma, NOS"
+8120/3	sub	Transitional carcinoma
+8121/0	title	"Schneiderian papilloma, NOS"
+8121/0	sub	"Sinonasal papilloma, NOS"
+8121/0	sub	"Sinonasal papilloma, exophytic"
+8121/0	sub	"Sinonasal papilloma, fungiform"
+8121/0	sub	"Transitional cell papilloma, inverted, benign"
+8121/0	sub	"Transitional papilloma, inverted, benign"
+8121/1	title	"Transitional cell papilloma, inverted, NOS"
+8121/1	sub	"Transitional papilloma, inverted, NOS"
+8121/1	sub	"Schneiderian papilloma, inverted"
+8121/1	sub	Columnar cell papilloma
+8121/1	sub	Cylindrical cell papilloma
+8121/1	sub	Oncocytic Schneiderian papilloma
+8121/3	title	Schneiderian carcinoma
+8121/3	sub	Cylindrical cell carcinoma
+8122/3	title	"Transitional cell carcinoma, spindle cell"
+8122/3	sub	"Transitional cell carcinoma, sarcomatoid"
+8123/3	title	Basaloid carcinoma
+8124/3	title	Cloacogenic carcinoma
+8130/1	title	Papillary transitional cell neoplasm of low malignant potential
+8130/1	sub	Papillary urothelial neoplasm of low malignant potential
+8130/2	title	"Papillary transitional cell carcinoma,  non-invasive"
+8130/2	sub	"Papillary urothelial carcinoma, non-invasive"
+8130/3	title	Papillary transitional cell carcinoma
+8130/3	sub	Papillary urothelial carcinoma
+8131/3	title	"Transitional cell carcinoma, micropapillary"
+8140/0	title	"Adenoma, NOS"
+8140/1	title	Atypical adenoma
+8140/1	sub	"Bronchial adenoma, NOS"
+8140/2	title	"Adenocarcinoma in situ, NOS"
+8140/3	title	"Adenocarcinoma, NOS"
+8140/6	title	"Adenocarcinoma, metastatic, NOS"
+8141/3	title	Scirrhous adenocarcinoma
+8141/3	sub	Scirrhous carcinoma
+8141/3	sub	Carcinoma with productive fibrosis
+8142/3	title	Linitis plastica
+8143/3	title	Superficial spreading adenocarcinoma
+8144/3	title	"Adenocarcinoma, intestinal type"
+8144/3	sub	"Carcinoma, intestinal type"
+8145/3	title	"Carcinoma, diffuse type"
+8145/3	sub	"Adenocarcinoma, diffuse type"
+8146/0	title	Monomorphic adenoma
+8147/0	title	Basal cell adenoma
+8147/3	title	Basal cell adenocarcinoma
+8148/2	title	"Glandular intraepithelial neoplasia, grade III"
+8148/2	sub	"Prostatic intraepithelial neoplasia, grade III"
+8148/2	sub	PIN III
+8149/0	title	Canalicular adenoma
+8150/0	title	Islet cell adenoma
+8150/0	sub	"Islet cell tumor, benign"
+8150/0	sub	Nesidioblastoma
+8150/0	sub	Islet cell adenomatosis
+8150/1	title	"Islet cell tumor, NOS"
+8150/3	title	Islet cell carcinoma
+8150/3	sub	Islet cell adenocarcinoma
+8151/0	title	"Insulinoma, NOS"
+8151/0	sub	Beta cell adenoma
+8151/3	title	"Insulinoma, malignant"
+8151/3	sub	"Beta cell tumor, malignant"
+8152/1	title	"Glucagonoma, NOS"
+8152/1	sub	"Alpha cell tumor, NOS"
+8152/3	title	"Glucagonoma, malignant"
+8152/3	sub	"Alpha cell tumor, malignant"
+8153/1	title	"Gastrinoma, NOS"
+8153/1	sub	"G cell tumor, NOS"
+8153/1	sub	Gastrin cell tumor
+8153/3	title	"Gastrinoma, malignant"
+8153/3	sub	"G cell tumor, malignant"
+8153/3	sub	"Gastrin cell tumor, malignant"
+8154/3	title	Mixed islet cell and exocrine adenocarcinoma
+8154/3	sub	Mixed acinar-endocrine carcinoma
+8154/3	sub	Mixed ductal-endocrine carcinoma
+8155/1	title	"Vipoma, NOS"
+8155/3	title	"Vipoma, malignant"
+8156/1	title	"Somatostatinoma, NOS"
+8156/1	sub	"Somatostatin cell tumor, NOS"
+8156/3	title	"Somatostatinoma, malignant"
+8156/3	sub	"Somatostatin cell tumor, malignant"
+8157/1	title	"Enteroglucagonoma, NOS"
+8157/3	title	"Enteroglucagonoma, malignant"
+8160/0	title	Bile duct adenoma
+8160/0	sub	Cholangioma
+8160/3	title	Cholangiocarcinoma
+8160/3	sub	Bile duct carcinoma
+8160/3	sub	Bile duct adenocarcinoma
+8161/0	title	Bile duct cystadenoma
+8161/3	title	Bile duct cystadenocarcinoma
+8162/3	title	Klatskin tumor
+8170/0	title	Liver cell adenoma
+8170/0	sub	Hepatocellular adenoma
+8170/0	sub	"Hepatoma, benign"
+8170/3	title	"Hepatocellular carcinoma, NOS"
+8170/3	sub	Liver cell carcinoma
+8170/3	sub	Hepatocarcinoma
+8170/3	sub	"Hepatoma, malignant"
+8170/3	sub	"Hepatoma, NOS"
+8171/3	title	"Hepatocellular carcinoma, fibrolamellar"
+8172/3	title	"Hepatocellular carcinoma, scirrhous"
+8172/3	sub	Sclerosing hepatic carcinoma
+8173/3	title	"Hepatocellular carcinoma, spindle cell variant"
+8173/3	sub	"Hepatocellular carcinoma, sarcomatoid"
+8174/3	title	"Hepatocellular carcinoma, clear cell type"
+8175/3	title	"Hepatocellular carcinoma, pleomorphic type"
+8180/3	title	Combined hepatocellular carcinoma and cholangiocarcinoma
+8180/3	sub	Mixed hepatocellular and bile duct carcinoma
+8180/3	sub	Hepatocholangiocarcinoma
+8190/0	title	Trabecular adenoma
+8190/3	title	Trabecular adenocarcinoma
+8190/3	sub	Trabecular carcinoma
+8191/0	title	Embryonal adenoma
+8200/0	title	Eccrine dermal cylindroma
+8200/0	sub	Turban tumor
+8200/0	sub	Cylindroma of skin
+8200/3	title	Adenoid cystic carcinoma
+8200/3	sub	Adenocystic carcinoma
+8200/3	sub	"Cylindroma, NOS"
+8200/3	sub	"Adenocarcinoma, cylindroid"
+8200/3	sub	"Bronchial adenoma, cylindroid"
+8201/2	title	Cribriform carcinoma in situ
+8201/2	sub	"Ductal carcinoma in situ, cribriform type"
+8201/3	title	"Cribriform carcinoma, NOS"
+8201/3	sub	"Ductal carcinoma, cribriform type"
+8202/0	title	Microcystic adenoma
+8204/0	title	Lactating adenoma
+8210/0	title	"Adenomatous polyp, NOS"
+8210/0	sub	Polypoid adenoma
+8210/2	title	Adenocarcinoma in situ in adenomatous polyp
+8210/2	sub	Adenocarcinoma in situ in tubular adenoma
+8210/2	sub	Carcinoma in situ in adenomatous polyp
+8210/2	sub	Adenocarcinoma in situ in polypoid adenoma
+8210/2	sub	"Adenocarcinoma in situ in a polyp, NOS"
+8210/2	sub	"Carcinoma in situ in a polyp, NOS"
+8210/3	title	Adenocarcinoma in adenomatous polyp
+8210/3	sub	Adenocarcinoma in tubular adenoma
+8210/3	sub	Carcinoma in adenomatous polyp
+8210/3	sub	Adenocarcinoma in polypoid adenoma
+8210/3	sub	"Adenocarcinoma in a polyp, NOS"
+8210/3	sub	"Carcinoma in a polyp, NOS"
+8211/0	title	"Tubular adenoma, NOS"
+8211/3	title	Tubular adenocarcinoma
+8211/3	sub	Tubular carcinoma
+8212/0	title	Flat adenoma
+8213/0	title	Serrated adenoma
+8213/0	sub	Mixed adenomatous and hyperplastic polyp
+8214/3	title	Parietal cell carcinoma
+8214/3	sub	Parietal cell adenocarcinoma
+8215/3	title	Adenocarcinoma of anal glands
+8215/3	sub	Adenocarcinoma of anal ducts
+8220/0	title	Adenomatous polyposis coli
+8220/0	sub	Familial polyposis coli
+8220/0	sub	"Adenomatosis, NOS"
+8220/3	title	Adenocarcinoma in adenomatous polyposis coli
+8221/0	title	Multiple adenomatous polyps
+8221/3	title	Adenocarcinoma in multiple adenomatous polyps
+8230/2	title	"Ductal carcinoma in situ, solid type"
+8230/2	sub	"Intraductal carcinoma, solid type"
+8230/3	title	"Solid carcinoma, NOS"
+8230/3	sub	Solid carcinoma with mucin formation
+8230/3	sub	Solid adenocarcinoma with mucin formation
+8231/3	title	Carcinoma simplex
+8240/1	title	Carcinoid tumor of uncertain malignant potential
+8240/1	sub	"Carcinoid tumor, NOS, of appendix"
+8240/1	sub	"Carcinoid, NOS, of appendix"
+8240/1	sub	"Carcinoid tumor, argentaffin, NOS"
+8240/1	sub	"Argentaffinoma, NOS"
+8240/3	title	"Carcinoid tumor, NOS"
+8240/3	sub	"Carcinoid, NOS"
+8240/3	sub	Typical carcinoid
+8240/3	sub	"Bronchial adenoma, carcinoid"
+8241/3	title	Enterochromaffin cell carcinoid
+8241/3	sub	"Carcinoid tumor, argentaffin, malignant"
+8241/3	sub	"Argentaffinoma, malignant"
+8241/3	sub	EC cell carcinoid
+8241/3	sub	Serotonin producing carcinoid
+8242/1	title	"Enterochromaffin-like cell carcinoid, NOS"
+8242/1	sub	"ECL cell carcinoid, NOS"
+8242/3	title	"Enterochromaffin-like cell tumor, malignant"
+8242/3	sub	"ECL cell carcinoid, malignant"
+8243/3	title	Goblet cell carcinoid
+8243/3	sub	Mucocarcinoid tumor
+8243/3	sub	Mucinous carcinoid
+8244/3	title	Composite carcinoid
+8244/3	sub	Combined carcinoid and adenocarcinoma
+8244/3	sub	Mixed carcinoid-adenocarcinoma
+8245/1	title	Tubular carcinoid
+8245/3	title	Adenocarcinoid tumor
+8246/3	title	"Neuroendocrine carcinoma, NOS"
+8247/3	title	Merkel cell carcinoma
+8247/3	sub	Merkel cell tumor
+8247/3	sub	Primary cutaneous neuroendocrine carcinoma
+8248/1	title	Apudoma
+8249/3	title	Atypical carcinoid tumor
+8250/1	title	Pulmonary adenomatosis
+8250/3	title	"Bronchiolo-alveolar adenocarcinoma, NOS"
+8250/3	sub	"Bronchiolo-alveolar carcinoma, NOS"
+8250/3	sub	Bronchiolar adenocarcinoma
+8250/3	sub	Bronchiolar carcinoma
+8250/3	sub	Alveolar cell carcinoma
+8251/0	title	Alveolar adenoma
+8251/3	title	Alveolar adenocarcinoma
+8251/3	sub	Alveolar carcinoma
+8252/3	title	"Bronchiolo-alveolar carcinoma, non- mucinous"
+8252/3	sub	"Bronchiolo-alveolar carcinoma, Clara cell"
+8252/3	sub	"Bronchiolo-alveolar carcinoma, type II pneumocyte"
+8253/3	title	"Bronchiolo-alveolar carcinoma, mucinous"
+8253/3	sub	"Bronchiolo-alveolar carcinoma, goblet cell type"
+8254/3	title	"Bronchiolo-alveolar carcinoma, mixed mucinous and non-mucinous"
+8254/3	sub	"Bronchiolo-alveolar carcinoma, Clara cell and goblet cell type"
+8254/3	sub	"Bronchiolo-alveolar carcinoma, type II pneumocyte and goblet cell type"
+8254/3	sub	"Bronchiolo-alveolar carcinoma, indeterminate type"
+8255/3	title	Adenocarcinoma with mixed subtypes
+8255/3	sub	Adenocarcinoma combined with other types of carcinoma
+8260/0	title	"Papillary adenoma, NOS"
+8260/0	sub	Glandular papilloma
+8260/3	title	"Papillary adenocarcinoma, NOS"
+8260/3	sub	Papillary carcinoma of thyroid
+8260/3	sub	Papillary renal cell carcinoma
+8261/0	title	"Villous adenoma, NOS"
+8261/0	sub	Villous papilloma
+8261/2	title	Adenocarcinoma in situ in villous adenoma
+8261/3	title	Adenocarcinoma in villous adenoma
+8262/3	title	Villous adenocarcinoma
+8263/0	title	"Tubulovillous adenoma, NOS"
+8263/0	sub	Villoglandular adenoma
+8263/0	sub	Papillotubular adenoma
+8263/2	title	Adenocarcinoma in situ in tubulovillous adenoma
+8263/3	title	Adenocarcinoma in tubulovillous adenoma
+8263/3	sub	Papillotubular adenocarcinoma
+8263/3	sub	Tubulopapillary adenocarcinoma
+8264/0	title	"Papillomatosis, glandular"
+8264/0	sub	Biliary papillomatosis
+8270/0	title	Chromophobe adenoma
+8270/3	title	Chromophobe carcinoma
+8270/3	sub	Chromophobe adenocarcinoma
+8271/0	title	Prolactinoma
+8272/0	title	"Pituitary adenoma, NOS"
+8272/3	title	"Pituitary carcinoma, NOS"
+8280/0	title	Acidophil adenoma
+8280/0	sub	Eosinophil adenoma
+8280/3	title	Acidophil carcinoma
+8280/3	sub	Acidophil adenocarcinoma
+8280/3	sub	Eosinophil carcinoma
+8280/3	sub	Eosinophil adenocarcinoma
+8281/0	title	Mixed acidophil-basophil adenoma
+8281/3	title	Mixed acidophil-basophil carcinoma
+8290/0	title	Oxyphilic adenoma
+8290/0	sub	Oncocytic adenoma
+8290/0	sub	Oncocytoma
+8290/0	sub	Hurthle cell adenoma
+8290/0	sub	Hurthle cell tumor
+8290/0	sub	"Follicular adenoma, oxyphilic cell"
+8290/3	title	Oxyphilic adenocarcinoma
+8290/3	sub	Oncocytic carcinoma
+8290/3	sub	Oncocytic adenocarcinoma
+8290/3	sub	Hurthle cell carcinoma
+8290/3	sub	Hurthle cell adenocarcinoma
+8290/3	sub	"Follicular carcinoma, oxyphilic cell"
+8300/0	title	Basophil adenoma
+8300/0	sub	Mucoid cell adenoma
+8300/3	title	Basophil carcinoma
+8300/3	sub	Basophil adenocarcinoma
+8300/3	sub	Mucoid cell adenocarcinoma
+8310/0	title	Clear cell adenoma
+8310/3	title	"Clear cell adenocarcinoma, NOS"
+8310/3	sub	Clear cell carcinoma
+8310/3	sub	"Clear cell adenocarcinoma, mesonephroid"
+8311/1	title	Hypernephroid tumor
+8312/3	title	"Renal cell carcinoma, NOS"
+8312/3	sub	Renal cell adenocarcinoma
+8312/3	sub	Grawitz tumor
+8312/3	sub	Hypernephroma
+8313/0	title	Clear cell adenofibroma
+8313/0	sub	Clear cell cystadenofibroma
+8313/1	title	Clear cell adenofibroma of borderline malignancy
+8313/1	sub	Clear cell cystadenofibroma of borderline malignancy
+8313/3	title	Clear cell adenocarcinofibroma
+8313/3	sub	Clear cell cystadenocarcinofibroma
+8314/3	title	Lipid-rich carcinoma
+8315/3	title	Glycogen-rich carcinoma
+8316/3	title	Cyst-associated renal cell carcinoma
+8317/3	title	"Renal cell carcinoma, chromophobe type"
+8317/3	sub	Chromophobe cell renal carcinoma
+8318/3	title	"Renal cell carcinoma, sarcomatoid"
+8318/3	sub	"Renal cell carcinoma, spindle cell"
+8319/3	title	Collecting duct carcinoma
+8319/3	sub	Bellini duct carcinoma
+8319/3	sub	"Renal carcinoma, collecting duct type"
+8320/3	title	Granular cell carcinoma
+8320/3	sub	Granular cell adenocarcinoma
+8321/0	title	Chief cell adenoma
+8322/0	title	Water-clear cell adenoma
+8322/3	title	Water-clear cell adenocarcinoma
+8322/3	sub	Water-clear cell carcinoma
+8323/0	title	Mixed cell adenoma
+8323/3	title	Mixed cell adenocarcinoma
+8324/0	title	Lipoadenoma
+8324/0	sub	Adenolipoma
+8325/0	title	Metanephric adenoma
+8330/0	title	Follicular adenoma
+8330/1	title	Atypical follicular adenoma
+8330/3	title	"Follicular adenocarcinoma, NOS"
+8330/3	sub	"Follicular carcinoma, NOS"
+8331/3	title	"Follicular adenocarcinoma, well differentiated"
+8331/3	sub	"Follicular carcinoma, well differentiated"
+8332/3	title	"Follicular adenocarcinoma, trabecular"
+8332/3	sub	"Follicular carcinoma, trabecular"
+8332/3	sub	"Follicular adenocarcinoma, moderately differentiated"
+8332/3	sub	"Follicular carcinoma, moderately differentiated"
+8333/0	title	"Microfollicular adenoma, NOS"
+8333/0	sub	Fetal adenoma
+8333/3	title	Fetal adenocarcinoma
+8334/0	title	Macrofollicular adenoma
+8334/0	sub	Colloid adenoma
+8335/3	title	"Follicular carcinoma, minimally invasive"
+8335/3	sub	"Follicular carcinoma, encapsulated"
+8336/0	title	Hyalinizing trabecular adenoma
+8337/3	title	Insular carcinoma
+8340/3	title	"Papillary carcinoma, follicular variant"
+8340/3	sub	"Papillary adenocarcinoma, follicular variant"
+8340/3	sub	Papillary and follicular adenocarcinoma
+8340/3	sub	Papillary and follicular carcinoma
+8341/3	title	Papillary microcarcinoma
+8342/3	title	"Papillary carcinoma, oxyphilic cell"
+8343/3	title	"Papillary carcinoma, encapsulated"
+8344/3	title	"Papillary carcinoma, columnar cell"
+8344/3	sub	"Papillary carcinoma, tall cell"
+8345/3	title	Medullary carcinoma with amyloid stroma
+8345/3	sub	Parafollicular cell carcinoma
+8345/3	sub	C cell carcinoma
+8346/3	title	Mixed medullary-follicular carcinoma
+8347/3	title	Mixed medullary-papillary carcinoma
+8350/3	title	Nonencapsulated sclerosing carcinoma
+8350/3	sub	Nonencapsulated sclerosing adenocarcinoma
+8350/3	sub	Nonencapsulated sclerosing tumor
+8350/3	sub	"Papillary carcinoma, diffuse sclerosing"
+8360/1	title	Multiple endocrine adenomas
+8360/1	sub	Endocrine adenomatosis
+8361/0	title	Juxtaglomerular tumor
+8361/0	sub	Reninoma
+8370/0	title	"Adrenal cortical adenoma, NOS"
+8370/0	sub	"Adrenal cortical tumor, benign"
+8370/0	sub	"Adrenal cortical tumor, NOS"
+8370/3	title	Adrenal cortical carcinoma
+8370/3	sub	Adrenal cortical adenocarcinoma
+8370/3	sub	"Adrenal cortical tumor, malignant"
+8371/0	title	"Adrenal cortical adenoma, compact cell"
+8372/0	title	"Adrenal cortical adenoma, pigmented"
+8372/0	sub	Black adenoma
+8372/0	sub	Pigmented adenoma
+8373/0	title	"Adrenal cortical adenoma, clear cell"
+8374/0	title	"Adrenal cortical adenoma, glomerulosa cell"
+8375/0	title	"Adrenal cortical adenoma, mixed cell"
+8380/0	title	"Endometrioid adenoma, NOS"
+8380/0	sub	"Endometrioid cystadenoma, NOS"
+8380/1	title	"Endometrioid adenoma, borderline malignancy"
+8380/1	sub	"Endometrioid cystadenoma, borderline malignancy"
+8380/1	sub	Endometrioid tumor of low malignant potential
+8380/1	sub	Atypical proliferative endometrioid tumor
+8380/3	title	"Endometrioid adenocarcinoma, NOS"
+8380/3	sub	"Endometrioid carcinoma, NOS"
+8380/3	sub	Endometrioid cystadenocarcinoma
+8381/0	title	"Endometrioid adenofibroma, NOS"
+8381/0	sub	"Endometrioid cystadenofibroma, NOS"
+8381/1	title	"Endometrioid adenofibroma, borderline malignancy"
+8381/1	sub	"Endometrioid cystadenofibroma, borderline malignancy"
+8381/3	title	"Endometrioid adenofibroma, malignant"
+8381/3	sub	"Endometrioid cystadenofibroma, malignant"
+8382/3	title	"Endometrioid adenocarcinoma, secretory variant"
+8383/3	title	"Endometrioid adenocarcinoma, ciliated cell variant"
+8384/3	title	"Adenocarcinoma, endocervical type"
+8390/0	title	Skin appendage adenoma
+8390/0	sub	"Skin appendage tumor, benign"
+8390/0	sub	"Adnexal tumor, benign"
+8390/3	title	Skin appendage carcinoma
+8390/3	sub	Adnexal carcinoma
+8391/0	title	Follicular fibroma
+8391/0	sub	Trichodiscoma
+8391/0	sub	Fibrofolliculoma
+8391/0	sub	Perifollicular fibroma
+8392/0	title	Syringofibroadenoma
+8400/0	title	Sweat gland adenoma
+8400/0	sub	"Sweat gland tumor, benign"
+8400/0	sub	"Hidradenoma, NOS"
+8400/0	sub	"Syringadenoma, NOS"
+8400/1	title	"Sweat gland tumor, NOS"
+8400/3	title	Sweat gland adenocarcinoma
+8400/3	sub	Sweat gland carcinoma
+8400/3	sub	"Sweat gland tumor, malignant"
+8401/0	title	Apocrine adenoma
+8401/0	sub	Apocrine cystadenoma
+8401/3	title	Apocrine adenocarcinoma
+8402/0	title	Nodular hidradenoma
+8402/0	sub	Eccrine acrospiroma
+8402/0	sub	Clear cell hidradenoma
+8402/3	title	"Nodular hidradenoma, malignant"
+8402/3	sub	Hidradenocarcinoma
+8403/0	title	Eccrine spiradenoma
+8403/0	sub	"Spiradenoma, NOS"
+8403/3	title	Malignant eccrine spiradenoma
+8404/0	title	Hidrocystoma
+8404/0	sub	Eccrine cystadenoma
+8405/0	title	Papillary hidradenoma
+8405/0	sub	Hidradenoma papilliferum
+8406/0	title	Papillary syringadenoma
+8406/0	sub	Papillary syringocystadenoma
+8406/0	sub	Syringocystadenoma papilliferum
+8407/0	title	"Syringoma, NOS"
+8407/3	title	Sclerosing sweat duct carcinoma
+8407/3	sub	Syringomatous carcinoma
+8407/3	sub	Microcystic adnexal carcinoma
+8408/0	title	Eccrine papillary adenoma
+8408/1	title	Aggressive digital papillary adenoma
+8408/3	title	Eccrine papillary adenocarcinoma
+8408/3	sub	Digital papillary adenocarcinoma
+8409/0	title	Eccrine poroma
+8409/3	title	"Eccrine poroma, malignant"
+8409/3	sub	Porocarcinoma
+8410/0	title	Sebaceous adenoma
+8410/0	sub	Sebaceous epithelioma
+8410/3	title	Sebaceous adenocarcinoma
+8410/3	sub	Sebaceous carcinoma
+8413/3	title	Eccrine adenocarcinoma
+8420/0	title	Ceruminous adenoma
+8420/3	title	Ceruminous adenocarcinoma
+8420/3	sub	Ceruminous carcinoma
+8430/1	title	Mucoepidermoid tumor
+8430/3	title	Mucoepidermoid carcinoma
+8440/0	title	"Cystadenoma, NOS"
+8440/0	sub	"Cystoma, NOS"
+8440/3	title	"Cystadenocarcinoma, NOS"
+8441/0	title	"Serous cystadenoma, NOS"
+8441/0	sub	Serous cystoma
+8441/0	sub	Serous microcystic adenoma
+8441/3	title	"Serous cystadenocarcinoma, NOS"
+8441/3	sub	"Serous adenocarcinoma, NOS"
+8441/3	sub	"Serous carcinoma, NOS"
+8442/1	title	"Serous cystadenoma, borderline malignancy"
+8442/1	sub	"Serous tumor, NOS, of low malignant potential"
+8442/1	sub	Atypical proliferating serous tumor
+8443/0	title	Clear cell cystadenoma
+8444/1	title	Clear cell cystic tumor of borderline malignancy
+8444/1	sub	Atypical proliferating clear cell tumor
+8450/0	title	"Papillary cystadenoma, NOS"
+8450/3	title	"Papillary cystadenocarcinoma, NOS"
+8450/3	sub	Papillocystic adenocarcinoma
+8451/1	title	"Papillary cystadenoma, borderline malignancy"
+8452/1	title	Solid pseudopapillary tumor
+8452/1	sub	Papillary cystic tumor
+8452/1	sub	Solid and papillary epithelial neoplasm
+8452/1	sub	Solid and cystic tumor
+8452/3	title	Solid pseudopapillary carcinoma
+8453/0	title	Intraductal papillary-mucinous adenoma
+8453/1	title	Intraductal papillary-mucinous tumor with moderate dysplasia
+8453/2	title	"Intraductal papillary-mucinous carcinoma, non-invasive"
+8453/3	title	"Intraductal papillary-mucinous carcinoma, invasive"
+8454/0	title	Cystic tumor of atrio-ventricular node
+8460/0	title	"Papillary serous cystadenoma, NOS"
+8460/3	title	Papillary serous cystadenocarcinoma
+8460/3	sub	Papillary serous adenocarcinoma
+8460/3	sub	Micropapillary serous carcinoma
+8461/0	title	Serous surface papilloma
+8461/3	title	Serous surface papillary carcinoma
+8461/3	sub	Primary serous papillary carcinoma of peritoneum
+8462/1	title	Serous papillary cystic tumor of borderline malignancy
+8462/1	sub	"Papillary serous cystadenoma, borderline malignancy"
+8462/1	sub	Papillary serous tumor of low malignant potential
+8462/1	sub	Atypical proliferative papillary serous tumor
+8463/1	title	Serous surface papillary tumor of borderline malignancy
+8470/0	title	"Mucinous cystadenoma, NOS"
+8470/0	sub	Mucinous cystoma
+8470/0	sub	"Pseudomucinous cystadenoma, NOS"
+8470/1	title	Mucinous cystic tumor with moderate dysplasia
+8470/2	title	"Mucinous cystadenocarcinoma, non-invasive"
+8470/3	title	"Mucinous cystadenocarcinoma, NOS"
+8470/3	sub	Pseudomucinous adenocarcinoma
+8470/3	sub	"Pseudomucinous cystadenocarcinoma, NOS"
+8471/0	title	"Papillary mucinous cystadenoma, NOS"
+8471/0	sub	"Papillary pseudomucinous cystadenoma, NOS"
+8471/3	title	Papillary mucinous cystadenocarcinoma
+8471/3	sub	Papillary pseudomucinous cystadenocarcinoma
+8472/1	title	Mucinous cystic tumor of borderline malignancy
+8472/1	sub	"Mucinous cystadenoma, borderline malignancy"
+8472/1	sub	"Pseudomucinous cystadenoma, borderline malignancy"
+8472/1	sub	"Mucinous tumor, NOS, of low malignant potential"
+8472/1	sub	Atypical proliferative mucinous tumor
+8473/1	title	"Papillary mucinous cystadenoma, borderline malignancy"
+8473/1	sub	"Papillary pseudomucinous cystadenoma, borderline malignancy"
+8473/1	sub	Papillary mucinous tumor of low malignant potential
+8480/0	title	Mucinous adenoma
+8480/3	title	Mucinous adenocarcinoma
+8480/3	sub	Mucinous carcinoma
+8480/3	sub	Colloid adenocarcinoma
+8480/3	sub	Colloid carcinoma
+8480/3	sub	Gelatinous adenocarcinoma
+8480/3	sub	Gelatinous carcinoma
+8480/3	sub	Mucoid adenocarcinoma
+8480/3	sub	Mucoid carcinoma
+8480/3	sub	Mucous adenocarcinoma
+8480/3	sub	Mucous carcinoma
+8480/3	sub	Pseudomyxoma peritonei with unknown primary site
+8480/6	title	Pseudomyxoma peritonei
+8481/3	title	Mucin-producing adenocarcinoma
+8481/3	sub	Mucin-producing carcinoma
+8481/3	sub	Mucin-secreting adenocarcinoma
+8481/3	sub	Mucin-secreting carcinoma
+8482/3	title	"Mucinous adenocarcinoma, endocervical type"
+8490/3	title	Signet ring cell carcinoma
+8490/3	sub	Signet ring cell adenocarcinoma
+8490/6	title	Metastatic signet ring cell carcinoma
+8490/6	sub	Krukenberg tumor
+8500/2	title	"Intraductal carcinoma, noninfiltrating, NOS"
+8500/2	sub	"Intraductal adenocarcinoma, noninfiltrating, NOS"
+8500/2	sub	"Intraductal carcinoma, NOS"
+8500/2	sub	"Ductal carcinoma in situ, NOS"
+8500/2	sub	"DCIS, NOS"
+8500/2	sub	Ductal intraepithelial neoplasia 3
+8500/2	sub	DIN 3
+8500/3	title	"Infiltrating duct carcinoma, NOS"
+8500/3	sub	Infiltrating duct adenocarcinoma
+8500/3	sub	"Duct adenocarcinoma, NOS"
+8500/3	sub	"Duct carcinoma, NOS"
+8500/3	sub	Duct cell carcinoma
+8500/3	sub	"Ductal carcinoma, NOS"
+8501/2	title	"Comedocarcinoma, noninfiltrating"
+8501/2	sub	"Ductal carcinoma in situ, comedo type"
+8501/2	sub	"DCIS, comedo type"
+8501/3	title	"Comedocarcinoma, NOS"
+8502/3	title	Secretory carcinoma of breast
+8502/3	sub	Juvenile carcinoma of breast
+8503/0	title	Intraductal papilloma
+8503/0	sub	"Duct adenoma, NOS"
+8503/0	sub	Ductal papilloma
+8503/2	title	Noninfiltrating intraductal papillary adenocarcinoma
+8503/2	sub	Noninfiltrating intraductal papillary carcinoma
+8503/2	sub	"Intraductal papillary adenocarcinoma, NOS"
+8503/2	sub	"Intraductal papillary carcinoma, NOS"
+8503/2	sub	"Ductal carcinoma in situ, papillary"
+8503/2	sub	"DCIS, papillary"
+8503/3	title	Intraductal papillary adenocarcinoma with invasion
+8503/3	sub	Infiltrating papillary adenocarcinoma
+8503/3	sub	Infiltrating and papillary adenocarcinoma
+8504/0	title	Intracystic papillary adenoma
+8504/0	sub	Intracystic papilloma
+8504/2	title	Noninfiltrating intracystic carcinoma
+8504/3	title	"Intracystic carcinoma, NOS"
+8504/3	sub	Intracystic papillary adenocarcinoma
+8505/0	title	"Intraductal papillomatosis, NOS"
+8505/0	sub	Diffuse intraductal papillomatosis
+8506/0	title	Adenoma of nipple
+8506/0	sub	Subareolar duct papillomatosis
+8507/2	title	Intraductal micropapillary carcinoma
+8507/2	sub	"Ductal carcinoma in situ, micropapillary"
+8507/2	sub	"Intraductal carcinoma, clinging"
+8508/3	title	Cystic hypersecretory carcinoma
+8510/3	title	"Medullary carcinoma, NOS"
+8510/3	sub	Medullary adenocarcinoma
+8512/3	title	Medullary carcinoma with lymphoid stroma
+8513/3	title	Atypical medullary carcinoma
+8514/3	title	"Duct carcinoma, desmoplastic type"
+8520/2	title	"Lobular carcinoma in situ, NOS"
+8520/2	sub	"Lobular carcinoma, noninfiltrating"
+8520/2	sub	"LCIS, NOS"
+8520/3	title	"Lobular carcinoma, NOS"
+8520/3	sub	Lobular adenocarcinoma
+8851/0	title	Fibrolipoma
+8851/3	title	"Liposarcoma, well differentiated"
+8851/3	sub	"Liposarcoma, differentiated"
+8851/3	sub	Lipoma-like liposarcoma
+8851/3	sub	Sclerosing  liposarcoma
+8851/3	sub	Inflammatory liposarcoma
+8852/0	title	Fibromyxolipoma
+8852/0	sub	Myxolipoma
+8852/3	title	Myxoid liposarcoma
+8852/3	sub	Myxoliposarcoma
+8853/3	title	Round cell liposarcoma
+8854/0	title	Pleomorphic lipoma
+8854/3	title	Pleomorphic liposarcoma
+8855/3	title	Mixed liposarcoma
+8856/0	title	Intramuscular lipoma
+8856/0	sub	Infiltrating lipoma
+8856/0	sub	Infiltrating angiolipoma
+8857/0	title	Spindle cell lipoma
+8857/3	title	Fibroblastic liposarcoma
+8858/3	title	Dedifferentiated liposarcoma
+8860/0	title	Angiomyolipoma
+8861/0	title	"Angiolipoma, NOS"
+8862/0	title	Chondroid lipoma
+8870/0	title	Myelolipoma
+8880/0	title	Hibernoma
+8880/0	sub	Fetal fat cell lipoma
+8880/0	sub	Brown fat tumor
+8881/0	title	Lipoblastomatosis
+8881/0	sub	"Fetal lipoma, NOS"
+8881/0	sub	Fetal lipomatosis
+8881/0	sub	Lipoblastoma
+8890/0	title	"Leiomyoma, NOS"
+8890/0	sub	Fibroid uterus
+8890/0	sub	Fibromyoma
+8890/0	sub	Leiomyofibroma
+8890/0	sub	Plexiform leiomyoma
+8890/0	sub	Lipoleiomyoma
+8890/1	title	"Leiomyomatosis, NOS"
+8890/1	sub	Intravascular leiomyomatosis
+8890/3	title	"Leiomyosarcoma, NOS"
+8891/0	title	Epithelioid leiomyoma
+8891/0	sub	Leiomyoblastoma
+8891/3	title	Epithelioid leiomyosarcoma
+8892/0	title	Cellular leiomyoma
+8893/0	title	Bizarre leiomyoma
+8893/0	sub	Symplastic leiomyoma
+8893/0	sub	Atypical leiomyoma
+8893/0	sub	Pleomorphic leiomyoma
+8894/0	title	Angiomyoma
+8894/0	sub	Vascular leiomyoma
+8894/0	sub	Angioleiomyoma
+8894/3	title	Angiomyosarcoma
+8895/0	title	Myoma
+8895/3	title	Myosarcoma
+8896/3	title	Myxoid leiomyosarcoma
+8897/1	title	Smooth muscle tumor of uncertain malignant potential
+8897/1	sub	"Smooth muscle tumor, NOS"
+8898/1	title	Metastasizing leiomyoma
+8900/0	title	"Rhabdomyoma, NOS"
+8900/3	title	"Rhabdomyosarcoma, NOS"
+8900/3	sub	Rhabdosarcoma
+8901/3	title	"Pleomorphic rhabdomyosarcoma, adult type"
+8901/3	sub	"Pleomorphic rhabdomyosarcoma, NOS"
+8902/3	title	Mixed type rhabdomyosarcoma
+8902/3	sub	Mixed embryonal rhabdomyosarcoma and alveolar rhabdomyosarcoma
+8903/0	title	Fetal rhabdomyoma
+8904/0	title	Adult rhabdomyoma
+8904/0	sub	Glycogenic rhabdomyoma
+8905/0	title	Genital rhabdomyoma
+8910/3	title	"Embryonal rhabdomyosarcoma, NOS"
+8910/3	sub	"Embryonal rhabdomyosarcoma, pleomorphic"
+8910/3	sub	Sarcoma botryoides
+8910/3	sub	Botryoid sarcoma
+8912/3	title	Spindle cell rhabdomyosarcoma
+8920/3	title	Alveolar rhabdomyosarcoma
+8921/3	title	Rhabdomyosarcoma with ganglionic differentiation
+8921/3	sub	Ectomesenchymoma
+8930/0	title	Endometrial stromal nodule
+8930/3	title	"Endometrial stromal sarcoma, NOS"
+8930/3	sub	"Endometrial sarcoma, NOS"
+8930/3	sub	"Endometrial stromal sarcoma, high grade"
+8931/3	title	"Endometrial stromal sarcoma, low grade"
+8931/3	sub	Endolymphatic stromal myosis
+8931/3	sub	Endometrial stromatosis
+8931/3	sub	Stromal endometriosis
+8931/3	sub	"Stromal myosis, NOS"
+8932/0	title	Adenomyoma
+8932/0	sub	Atypical polypoid adenomyoma
+8933/3	title	Adenosarcoma
+8934/3	title	Carcinofibroma
+8935/0	title	"Stromal tumor, benign"
+8935/1	title	"Stromal tumor, NOS"
+8935/3	title	"Stromal sarcoma, NOS"
+9290/3	sub	Ameloblastic fibrodentinosarcoma
+9290/3	sub	Ameloblastic fibro-odontosarcoma
+9300/0	title	Adenomatoid odontogenic tumor
+9300/0	sub	Adenoameloblastoma
+9301/0	title	Calcifying odontogenic cyst
+9302/0	title	Odontogenic ghost cell tumor
+9310/0	title	"Ameloblastoma, NOS"
+9310/0	sub	"Adamantinoma, NOS"
+9310/3	title	"Ameloblastoma, malignant"
+9310/3	sub	"Adamantinoma, malignant"
+9311/0	title	Odontoameloblastoma
+9312/0	title	Squamous odontogenic tumor
+9320/0	title	Odontogenic myxoma
+9320/0	sub	Odontogenic myxofibroma
+9321/0	title	Central odontogenic fibroma
+9321/0	sub	"Odontogenic fibroma, NOS"
+9322/0	title	Peripheral odontogenic fibroma
+9330/0	title	Ameloblastic fibroma
+9330/3	title	Ameloblastic fibrosarcoma
+9330/3	sub	Ameloblastic sarcoma
+9330/3	sub	Odontogenic fibrosarcoma
+9340/0	title	Calcifying epithelial odontogenic tumor
+9340/0	sub	Pindborg tumor
+9341/1	title	Clear cell odontogenic tumor
+9342/3	title	Odontogenic carcinosarcoma
+9350/1	title	Craniopharyngioma
+9350/1	sub	Rathke pouch tumor
+9351/1	title	"Craniopharyngioma, adamantinomatous"
+9352/1	title	"Craniopharyngioma, papillary"
+9360/1	title	Pinealoma
+9361/1	title	Pineocytoma
+9362/3	title	Pineoblastoma
+9362/3	sub	Mixed pineal tumor
+9362/3	sub	Mixed pineocytoma-pineoblastoma
+9362/3	sub	Pineal parenchymal tumor of intermediate differentiation
+9362/3	sub	Transitional pineal tumor
+9363/0	title	Melanotic neuroectodermal tumor
+9363/0	sub	Retinal anlage tumor
+9363/0	sub	Melanoameloblastoma
+9363/0	sub	Melanotic progonoma
+9364/3	title	Peripheral neuroectodermal tumor
+9364/3	sub	"Neuroectodermal tumor, NOS"
+9364/3	sub	"Peripheral primitive neuroectodermal tumor, NOS"
+9364/3	sub	PPNET
+9365/3	title	Askin tumor
+9370/3	title	"Chordoma, NOS"
+9371/3	title	Chondroid chordoma
+9372/3	title	Dedifferentiated chordoma
+9373/0	title	Parachordoma
+9380/3	title	"Glioma, malignant"
+9380/3	sub	"Glioma, NOS"
+9381/3	title	Gliomatosis cerebri
+9382/3	title	Mixed glioma
+9382/3	sub	Oligoastrocytoma
+9382/3	sub	Anaplastic oligoastrocytoma
+9383/1	title	Subependymoma
+9383/1	sub	Subependymal glioma
+9383/1	sub	"Subependymal astrocytoma, NOS"
+9383/1	sub	Mixed subependymoma-ependymoma
+9384/1	title	Subependymal giant cell astrocytoma
+9390/0	title	"Choroid plexus papilloma, NOS"
+9390/1	title	Atypical choroid plexus papilloma
+9390/3	title	Choroid plexus carcinoma
+9390/3	sub	"Choroid plexus papilloma, anaplastic"
+9390/3	sub	"Choroid plexus papilloma, malignant"
+9391/3	title	"Ependymoma, NOS"
+9391/3	sub	Epithelial ependymoma
+9391/3	sub	Cellular ependymoma
+8520/3	sub	"Infiltrating lobular carcinoma, NOS"
+8521/3	title	Infiltrating ductular carcinoma
+8522/2	title	Intraductal carcinoma and lobular carcinoma in situ
+8522/3	title	Infiltrating duct and lobular carcinoma
+8522/3	sub	Lobular and ductal carcinoma
+8522/3	sub	Infiltrating duct and lobular carcinoma in situ
+8522/3	sub	Intraductal and lobular carcinoma
+8522/3	sub	Infiltrating lobular carcinoma and ductal carcinoma in situ
+8523/3	title	Infiltrating duct mixed with other types of carcinoma
+8523/3	sub	Infiltrating duct and cribriform carcinoma
+8523/3	sub	Infiltrating duct and mucinous carcinoma
+8523/3	sub	Infiltrating duct and tubular carcinoma
+8523/3	sub	Infiltrating duct and colloid carcinoma
+8524/3	title	Infiltrating lobular mixed with other types of carcinoma
+8525/3	title	Polymorphous low grade adenocarcinoma
+8525/3	sub	Terminal duct adenocarcinoma
+8530/3	title	Inflammatory carcinoma
+8530/3	sub	Inflammatory adenocarcinoma
+8540/3	title	"Paget disease, mammary"
+8540/3	sub	Paget disease of breast
+8541/3	title	Paget disease and infiltrating duct carcinoma of breast
+8542/3	title	"Paget disease, extramammary"
+8543/3	title	Paget disease and intraductal carcinoma of breast
+8550/0	title	Acinar cell adenoma
+8550/0	sub	Acinar adenoma
+8550/0	sub	Acinic cell adenoma
+8550/1	title	Acinar cell tumor
+8550/1	sub	Acinic cell tumor
+8550/3	title	Acinar cell carcinoma
+8550/3	sub	Acinic cell adenocarcinoma
+8550/3	sub	Acinar adenocarcinoma
+8550/3	sub	Acinar carcinoma
+8551/3	title	Acinar cell cystadenocarcinoma
+8560/0	title	Mixed squamous cell and glandular papilloma
+8560/3	title	Adenosquamous carcinoma
+8560/3	sub	Mixed adenocarcinoma and squamous cell carcinoma
+8560/3	sub	Mixed adenocarcinoma and epidermoid carcinoma
+8561/0	title	Adenolymphoma
+8561/0	sub	Papillary cystadenoma lymphomatosum
+8561/0	sub	Warthin tumor
+8562/3	title	Epithelial-myoepithelial carcinoma
+8570/3	title	Adenocarcinoma with squamous metaplasia
+8570/3	sub	Adenoacanthoma
+8571/3	title	Adenocarcinoma with cartilaginous and osseous metaplasia
+8571/3	sub	Adenocarcinoma with cartilaginous metaplasia
+8571/3	sub	Adenocarcinoma with osseous metaplasia
+8572/3	title	Adenocarcinoma with spindle cell metaplasia
+8573/3	title	Adenocarcinoma with apocrine metaplasia
+8573/3	sub	Carcinoma with apocrine metaplasia
+8574/3	title	Adenocarcinoma with neuroendocrine differentiation
+8574/3	sub	Carcinoma with neuroendocrine differentiation
+8575/3	title	"Metaplastic carcinoma, NOS"
+8576/3	title	Hepatoid adenocarcinoma
+8576/3	sub	Hepatoid carcinoma
+8580/0	title	"Thymoma, benign"
+8580/1	title	"Thymoma, NOS"
+8580/3	title	"Thymoma, malignant, NOS"
+8581/1	title	"Thymoma, type A, NOS"
+8581/1	sub	"Thymoma, spindle cell, NOS"
+8581/1	sub	"Thymoma, medullary, NOS"
+8581/3	title	"Thymoma, type A, malignant"
+8581/3	sub	"Thymoma, spindle cell, malignant"
+8581/3	sub	"Thymoma, medullary, malignant"
+8582/1	title	"Thymoma, type AB, NOS"
+8582/1	sub	"Thymoma, mixed type, NOS"
+8582/3	title	"Thymoma, type AB, malignant"
+8582/3	sub	"Thymoma, mixed type, malignant"
+8583/1	title	"Thymoma, type B1, NOS"
+8583/1	sub	"Thymoma, lymphocyte-rich, NOS"
+8583/1	sub	"Thymoma, lymphocytic, NOS"
+8583/1	sub	"Thymoma, predominantly cortical, NOS"
+8583/1	sub	"Thymoma, organoid, NOS"
+8583/3	title	"Thymoma, type B1, malignant"
+8583/3	sub	"Thymoma, lymphocyte-rich, malignant"
+8583/3	sub	"Thymoma, lymphocytic, malignant"
+8583/3	sub	"Thymoma, predominantly cortical, malignant"
+8583/3	sub	"Thymoma, organoid, malignant"
+8584/1	title	"Thymoma, type B2, NOS"
+8584/1	sub	"Thymoma, cortical, NOS"
+8584/3	title	"Thymoma, type B2, malignant"
+8584/3	sub	"Thymoma, cortical, malignant"
+8585/1	title	"Thymoma, type B3, NOS"
+8585/1	sub	"Thymoma, epithelial, NOS"
+8585/1	sub	"Thymoma, atypical, NOS"
+8585/3	title	"Thymoma, type B3, malignant"
+8585/3	sub	"Thymoma, epithelial, malignant"
+8585/3	sub	"Thymoma, atypical, malignant"
+8585/3	sub	Well differentiated thymic carcinoma
+8586/3	title	"Thymic carcinoma, NOS"
+8586/3	sub	"Thymoma, type C"
+8587/0	title	Ectopic hamartomatous thymoma
+8588/3	title	Spindle epithelial tumor with thymus-like element
+8588/3	sub	Spindle epithelial tumor with thymus-like differentiation
+8588/3	sub	SETTLE
+8589/3	title	Carcinoma showing thymus-like element
+8589/3	sub	Carcinoma showing thymus-like differentiation
+8589/3	sub	CASTLE
+8590/1	title	"Sex cord-gonadal stromal tumor, NOS"
+8590/1	sub	"Gonadal stromal tumor, NOS"
+8590/1	sub	Testicular stromal tumor
+8590/1	sub	Ovarian stromal tumor
+8590/1	sub	"Sex cord tumor, NOS"
+8591/1	title	"Sex cord-gonadal stromal tumor, incompletely differentiated"
+8592/1	title	"Sex cord-gonadal stromal tumor, mixed forms"
+8593/1	title	Stromal tumor with minor sex cord elements
+8600/0	title	"Thecoma, NOS"
+8600/0	sub	Theca cell tumor
+8600/3	title	"Thecoma, malignant"
+8601/0	title	"Thecoma, luteinized"
+8602/0	title	Sclerosing stromal tumor
+8610/0	title	"Luteoma, NOS"
+8610/0	sub	Luteinoma
+8620/1	title	"Granulosa cell tumor, adult type"
+8620/1	sub	"Granulosa cell tumor, NOS"
+8620/3	title	"Granulosa cell tumor, malignant"
+8620/3	sub	Granulosa cell carcinoma
+8620/3	sub	"Granulosa cell tumor, sarcomatoid"
+8621/1	title	Granulosa cell-theca cell tumor
+8621/1	sub	Theca cell-granulosa cell tumor
+8622/1	title	"Granulosa cell tumor, juvenile"
+8623/1	title	Sex cord tumor with annular tubules
+8630/0	title	"Androblastoma, benign"
+8630/0	sub	"Arrhenoblastoma, benign"
+8630/1	title	"Androblastoma, NOS"
+8630/1	sub	"Arrhenoblastoma, NOS"
+8630/3	title	"Androblastoma, malignant"
+8630/3	sub	"Arrhenoblastoma, malignant"
+8631/0	title	"Sertoli-Leydig cell tumor, well differentiated"
+8631/1	title	Sertoli-Leydig cell tumor of intermediate differentiation
+8631/1	sub	"Sertoli-Leydig cell tumor, NOS"
+8631/3	title	"Sertoli-Leydig cell tumor, poorly differentiated"
+8631/3	sub	"Sertoli-Leydig cell tumor, sarcomatoid"
+8632/1	title	Gynandroblastoma
+8633/1	title	"Sertoli-Leydig cell tumor, retiform"
+8634/1	title	"Sertoli-Leydig cell tumor, intermediate differentiation, with heterologous elements"
+8634/1	sub	"Sertoli-Leydig cell tumor, retiform, with heterologous elements"
+"8634/3
+8634/3"	title	"Sertoli-Leydig cell tumor, poorly differentiated, with heterologous elements"
+8640/1	title	"Sertoli cell tumor, NOS"
+8640/1	sub	Pick tubular adenoma
+8640/1	sub	Sertoli cell adenoma
+8640/1	sub	"Tubular androblastoma, NOS"
+8640/1	sub	Testicular adenoma
+8640/3	title	Sertoli cell carcinoma
+8641/0	title	Sertoli cell tumor with lipid storage
+8641/0	sub	Folliculome lipidique
+8641/0	sub	Tubular androblastoma with lipid storage
+8641/0	sub	Lipid-rich Sertoli cell tumor
+8642/1	title	Large cell calcifying Sertoli cell tumor
+8650/0	title	"Leydig cell tumor, benign"
+8650/0	sub	"Interstitial cell tumor, benign"
+8650/1	title	"Leydig cell tumor, NOS"
+8650/1	sub	"Interstitial cell tumor, NOS"
+8650/3	title	"Leydig cell tumor, malignant"
+8650/3	sub	"Interstitial cell tumor, malignant"
+8660/0	title	Hilus cell tumor
+8660/0	sub	Hilar cell tumor
+8670/0	title	Lipid cell tumor of ovary
+8670/0	sub	Lipoid cell tumor of ovary
+8670/0	sub	"Steroid cell tumor, NOS"
+8670/0	sub	Masculinovoblastoma
+8670/3	title	"Steroid cell tumor, malignant"
+8671/0	title	Adrenal rest tumor
+8680/0	title	"Paraganglioma, benign"
+8680/1	title	"Paraganglioma, NOS"
+8680/3	title	"Paraganglioma, malignant"
+8681/1	title	Sympathetic paraganglioma
+8682/1	title	Parasympathetic paraganglioma
+8683/0	title	Gangliocytic paraganglioma
+8690/1	title	"Glomus jugulare tumor, NOS"
+8690/1	sub	Jugular paraganglioma
+8690/1	sub	Jugulotympanic paraganglioma
+8691/1	title	Aortic body tumor
+8691/1	sub	Aortic body paraganglioma
+8691/1	sub	Aorticopulmonary paraganglioma
+8692/1	title	Carotid body tumor
+8692/1	sub	Carotid body paraganglioma
+8693/1	title	"Extra-adrenal paraganglioma, NOS"
+8693/1	sub	"Nonchromaffin paraganglioma, NOS"
+8693/1	sub	Chemodectoma
+8693/3	title	"Extra-adrenal paraganglioma, malignant"
+8693/3	sub	"Nonchromaffin paraganglioma, malignant"
+8700/0	title	"Pheochromocytoma, NOS"
+8700/0	sub	Adrenal medullary paraganglioma
+8700/0	sub	Chromaffin paraganglioma
+8700/0	sub	Chromaffin tumor
+8700/0	sub	Chromaffinoma
+8700/3	title	"Pheochromocytoma, malignant"
+8700/3	sub	"Adrenal medullary paraganglioma, malignant"
+8700/3	sub	Pheochromoblastoma
+8710/3	title	Glomangiosarcoma
+8710/3	sub	Glomoid sarcoma
+8711/0	title	"Glomus tumor, NOS"
+8711/3	title	"Glomus tumor, malignant"
+8712/0	title	Glomangioma
+8713/0	title	Glomangiomyoma
+8720/0	title	"Pigmented nevus, NOS"
+8720/0	sub	"Nevus, NOS"
+8720/0	sub	Melanocytic nevus
+8720/0	sub	Hairy nevus
+8720/2	title	Melanoma in situ
+8720/3	title	"Malignant melanoma, NOS"
+8720/3	sub	"Melanoma, NOS"
+8721/3	title	Nodular melanoma
+8722/0	title	Balloon cell nevus
+8722/3	title	Balloon cell melanoma
+8723/0	title	Halo nevus
+8723/0	sub	Regressing nevus
+8723/3	title	"Malignant melanoma, regressing"
+8725/0	title	Neuronevus
+8726/0	title	Magnocellular nevus
+8726/0	sub	"Melanocytoma, eyeball"
+8726/0	sub	"Melanocytoma, NOS"
+8727/0	title	Dysplastic nevus
+8728/0	title	Diffuse melanocytosis
+8728/1	title	Meningeal melanocytoma
+8728/3	title	Meningeal melanomatosis
+8730/0	title	Nonpigmented nevus
+8730/0	sub	Achromic nevus
+8730/3	title	Amelanotic melanoma
+8740/0	title	"Junctional nevus, NOS"
+8740/0	sub	Junction nevus
+8740/0	sub	Intraepidermal nevus
+8740/3	title	Malignant melanoma in junctional nevus
+8741/2	title	"Precancerous melanosis, NOS"
+8741/3	title	Malignant melanoma in precancerous melanosis
+8742/2	title	Lentigo maligna
+8742/2	sub	"Hutchinson melanotic freckle, NOS"
+8742/3	title	Lentigo maligna melanoma
+8742/3	sub	Malignant melanoma in Hutchinson melanotic freckle
+8743/3	title	Superficial spreading melanoma
+8744/3	title	"Acral lentiginous melanoma, malignant"
+8745/3	title	"Desmoplastic melanoma, malignant"
+8745/3	sub	"Neurotropic melanoma, malignant"
+8745/3	sub	"Desmoplastic melanoma, amelanotic"
+8746/3	title	Mucosal lentiginous melanoma
+8750/0	title	Intradermal nevus
+8750/0	sub	Dermal nevus
+8760/0	title	Compound nevus
+8760/0	sub	Dermal and epidermal nevus
+8761/0	title	Small congenital nevus
+8761/1	title	"Giant pigmented nevus, NOS"
+8761/1	sub	Intermediate and giant congenital nevus
+8761/3	title	Malignant melanoma in giant pigmented nevus
+8761/3	sub	Malignant melanoma in congenital melanocytic nevus
+8762/1	title	Proliferative dermal lesion in congenital nevus
+8770/0	title	Epithelioid and spindle cell nevus
+8770/0	sub	Juvenile nevus
+8770/0	sub	Juvenile melanoma
+8770/0	sub	Spitz nevus
+8770/0	sub	Pigmented spindle cell nevus of Reed
+8770/3	title	Mixed epithelioid and spindle cell melanoma
+8771/0	title	Epithelioid cell nevus
+8771/3	title	Epithelioid cell melanoma
+8772/0	title	"Spindle cell nevus, NOS"
+8772/3	title	"Spindle cell melanoma, NOS"
+8773/3	title	"Spindle cell melanoma, type A"
+8774/3	title	"Spindle cell melanoma, type B"
+8780/0	title	"Blue nevus, NOS"
+8780/0	sub	Jadassohn blue nevus
+8780/3	title	"Blue nevus, malignant"
+8790/0	title	Cellular blue nevus
+8800/0	title	"Soft tissue tumor, benign"
+8800/3	title	"Sarcoma, NOS"
+8800/3	sub	Soft tissue sarcoma
+8800/3	sub	"Soft tissue tumor, malignant"
+8800/3	sub	"Mesenchymal tumor, malignant"
+8800/9	title	"Sarcomatosis, NOS"
+8801/3	title	Spindle cell sarcoma
+8802/3	title	Giant cell sarcoma
+8802/3	sub	Pleomorphic cell sarcoma
+8803/3	title	Small cell sarcoma
+8803/3	sub	Round cell sarcoma
+8804/3	title	Epithelioid sarcoma
+8804/3	sub	Epithelioid cell sarcoma
+8805/3	title	Undifferentiated sarcoma
+8806/3	title	Desmoplastic small round cell tumor
+8810/0	title	"Fibroma, NOS"
+8810/1	title	Cellular fibroma
+8810/3	title	"Fibrosarcoma, NOS"
+8811/0	title	Fibromyxoma
+8811/0	sub	Myxoid fibroma
+8811/0	sub	"Myxofibroma, NOS"
+8811/3	title	Fibromyxosarcoma
+8812/0	title	Periosteal fibroma
+8812/3	title	Periosteal fibrosarcoma
+8812/3	sub	"Periosteal sarcoma, NOS"
+8813/0	title	Fascial fibroma
+8813/3	title	Fascial fibrosarcoma
+8814/3	title	Infantile fibrosarcoma
+8814/3	sub	Congenital fibrosarcoma
+8815/0	title	Solitary fibrous tumor
+8815/0	sub	Localized fibrous tumor
+8815/3	title	"Solitary fibrous tumor, malignant"
+8820/0	title	Elastofibroma
+8821/1	title	Aggressive fibromatosis
+8821/1	sub	Extra-abdominal desmoid
+8821/1	sub	"Desmoid, NOS"
+8821/1	sub	Invasive fibroma
+8822/1	title	Abdominal fibromatosis
+8822/1	sub	Abdominal desmoid
+8822/1	sub	Mesenteric fibromatosis
+8822/1	sub	Retroperitoneal fibromatosis
+8823/0	title	Desmoplastic fibroma
+8824/0	title	Myofibroma
+8824/1	title	Myofibromatosis
+8824/1	sub	Congenital generalized fibromatosis
+8824/1	sub	Infantile myofibromatosis
+8825/0	title	Myofibroblastoma
+8825/1	title	"Myofibroblastic tumor, NOS"
+8825/1	sub	Inflammatory myofibroblastic tumor
+8826/0	title	Angiomyofibroblastoma
+8827/1	title	"Myofibroblastic tumor, peribronchial"
+8827/1	sub	Congenital peribronchial myofibroblastic tumor
+8830/0	title	Benign fibrous histiocytoma
+8830/0	sub	"Fibrous histiocytoma, NOS"
+8830/0	sub	"Fibroxanthoma, NOS"
+8830/0	sub	Xanthofibroma
+8830/1	title	Atypical fibrous histiocytoma
+8830/1	sub	Atypical fibroxanthoma
+8830/3	title	Malignant fibrous histiocytoma
+8830/3	sub	"Fibroxanthoma, malignant"
+8831/0	title	"Histiocytoma, NOS"
+8831/0	sub	Deep histiocytoma
+8831/0	sub	Juvenile histiocytoma
+8831/0	sub	Reticulohistiocytoma
+8832/0	title	"Dermatofibroma, NOS"
+8832/0	sub	Sclerosing hemangioma
+8832/0	sub	"Cutaneous histiocytoma, NOS"
+8832/0	sub	Subepidermal nodular fibrosis
+8832/0	sub	Dermatofibroma lenticulare
+8832/3	title	"Dermatofibrosarcoma, NOS"
+8832/3	sub	"Dermatofibrosarcoma protuberans, NOS"
+8833/3	title	Pigmented dermatofibrosarcoma protuberans
+8833/3	sub	Bednar tumor
+8834/1	title	Giant cell fibroblastoma
+8835/1	title	Plexiform fibrohistiocytic tumor
+8836/1	title	Angiomatoid fibrous histiocytoma
+8840/0	title	"Myxoma, NOS"
+8840/3	title	Myxosarcoma
+8841/1	title	Angiomyxoma
+8841/1	sub	Aggressive angiomyxoma
+8842/0	title	Ossifying fibromyxoid tumor
+8850/0	title	"Lipoma, NOS"
+8850/1	title	Atypical lipoma/j
+8850/1	sub	Superficial well differentated liposarcoma
+8850/1	sub	Well differentiated liposarcoma of superficial soft tissue
+8850/3	title	"Liposarcoma, NOS"
+8850/3	sub	Fibroliposarcoma
+8936/0	title	"Gastrointestinal stromal tumor, benign"
+8936/0	sub	"GIST, benign"
+8936/1	title	"Gastrointestinal stromal tumor, NOS"
+8936/1	sub	"GIST, NOS"
+8936/1	sub	"Gastrointestinal stromal tumor, uncertain malignant potential"
+8936/1	sub	Gastrointestinal autonomic nerve tumor
+8936/1	sub	GANT
+8936/1	sub	Gastrointestinal pacemaker cell tumor
+8936/3	title	Gastrointestinal stromal sarcoma
+8936/3	sub	"Gastrointestinal stromal tumor, malignant"
+8936/3	sub	"GIST, malignant"
+8940/0	title	Pleomorphic adenoma
+8940/0	sub	"Mixed tumor, NOS"
+8940/0	sub	"Mixed tumor, salivary gland type, NOS"
+8940/0	sub	Chondroid syringoma
+8940/3	title	"Mixed tumor, malignant, NOS"
+8940/3	sub	"Mixed tumor, salivary gland type, malignant"
+8940/3	sub	Malignant chondroid syringoma
+8941/3	title	Carcinoma in pleomorphic adenoma
+8950/3	title	Mullerian mixed tumor
+8951/3	title	Mesodermal mixed tumor
+8959/0	title	Benign cystic nephroma
+8959/1	title	Cystic partially differentiated nephroblastoma
+8959/3	title	Malignant cystic nephroma
+8959/3	sub	Malignant multilocular cystic nephroma
+8960/1	title	Mesoblastic nephroma
+8960/3	title	"Nephroblastoma, NOS"
+8960/3	sub	Wilms tumor
+8960/3	sub	"Nephroma, NOS"
+8963/3	title	Malignant rhabdoid tumor
+8963/3	sub	Rhabdoid sarcoma
+8963/3	sub	"Rhabdoid tumor, NOS"
+8964/3	title	Clear cell sarcoma of kidney
+8965/0	title	Nephrogenic adenofibroma
+8966/0	title	Renomedullary interstitial cell tumor
+8966/0	sub	Renomedullary fibroma
+8967/0	title	Ossifying renal tumor
+8970/3	title	Hepatoblastoma
+8970/3	sub	Embryonal hepatoma
+8971/3	title	Pancreatoblastoma
+8972/3	title	Pulmonary blastoma
+8972/3	sub	Pneumoblastoma
+8973/3	title	Pleuropulmonary blastoma
+8974/1	title	Sialoblastoma
+8980/3	title	"Carcinosarcoma, NOS"
+8981/3	title	"Carcinosarcoma, embryonal"
+8982/0	title	Myoepithelioma
+8982/0	sub	Myoepithelial tumor
+8982/0	sub	Myoepithelial adenoma
+8982/3	title	Malignant myoepithelioma
+8982/3	sub	Myoepithelial carcinoma
+8983/0	title	Adenomyoepithelioma
+8990/0	title	"Mesenchymoma, benign"
+8990/1	title	"Mesenchymoma, NOS"
+8990/1	sub	Mixed mesenchymal tumor
+8990/3	title	"Mesenchymoma, malignant"
+8990/3	sub	Mixed mesenchymal sarcoma
+8991/3	title	Embryonal sarcoma
+9000/0	title	"Brenner tumor, NOS"
+9000/1	title	"Brenner tumor, borderline malignancy"
+9000/1	sub	"Brenner tumor, proliferating"
+9000/3	title	"Brenner tumor, malignant"
+9010/0	title	"Fibroadenoma, NOS"
+9011/0	title	Intracanalicular fibroadenoma
+9012/0	title	Pericanalicular fibroadenoma
+9013/0	title	"Adenofibroma, NOS"
+9013/0	sub	"Cystadenofibroma, NOS"
+9013/0	sub	Papillary adenofibroma
+9014/0	title	"Serous adenofibroma, NOS"
+9014/0	sub	"Serous cystadenofibroma, NOS"
+9014/1	title	Serous adenofibroma of borderline malignancy
+9014/1	sub	Serous cystadenofibroma of borderline malignancy
+9014/3	title	Serous adenocarcinofibroma
+9014/3	sub	Malignant serous adenofibroma
+9014/3	sub	Serous cystadenocarcinofibroma
+9014/3	sub	Malignant serous cystadenofibroma
+9015/0	title	"Mucinous adenofibroma, NOS"
+9015/0	sub	"Mucinous cystadenofibroma, NOS"
+9015/1	title	Mucinous adenofibroma of borderline malignancy
+9015/1	sub	Mucinous cystadenofibroma of borderline malignancy
+9015/3	title	Mucinous adenocarcinofibroma
+9015/3	sub	Malignant mucinous adenofibroma
+9015/3	sub	Mucinous cystadenocarcinofibroma
+9015/3	sub	Malignant mucinous cystadenofibroma
+9016/0	title	Giant fibroadenoma
+9020/0	title	"Phyllodes tumor, benign"
+9020/0	sub	"Cystosarcoma phyllodes, benign"
+9020/1	title	"Phyllodes tumor, borderline"
+9020/1	sub	"Cystosarcoma phyllodes, NOS"
+9020/1	sub	"Phyllodes tumor, NOS"
+9020/3	title	"Phyllodes tumor, malignant"
+9020/3	sub	"Cystosarcoma phyllodes, malignant"
+9030/0	title	Juvenile fibroadenoma
+9040/0	title	"Synovioma, benign"
+9040/3	title	"Synovial sarcoma, NOS"
+9040/3	sub	"Synovioma, NOS"
+9040/3	sub	"Synovioma, malignant"
+9041/3	title	"Synovial sarcoma, spindle cell"
+9041/3	sub	"Synovial sarcoma, monophasic fibrous"
+9042/3	title	"Synovial sarcoma, epithelioid cell"
+9043/3	title	"Synovial sarcoma, biphasic"
+9044/3	title	"Clear cell sarcoma, NOS"
+9044/3	sub	"Clear cell sarcoma, of tendons and aponeuroses"
+9044/3	sub	"Melanoma, malignant, of soft parts"
+9050/0	title	"Mesothelioma, benign"
+9050/3	title	"Mesothelioma, malignant"
+9050/3	sub	"Mesothelioma, NOS"
+9051/0	title	"Fibrous mesothelioma, benign"
+9051/3	title	"Fibrous mesothelioma, malignant"
+9051/3	sub	"Fibrous mesothelioma, NOS"
+9051/3	sub	Spindled mesothelioma
+9051/3	sub	Sarcomatoid mesothelioma
+9051/3	sub	Desmoplastic mesothelioma
+9052/0	title	"Epithelioid mesothelioma, benign"
+9052/0	sub	"Well differentiated papillary mesothelioma, benign"
+9052/0	sub	Mesothelial papilloma
+9052/3	title	"Epithelioid mesothelioma, malignant"
+9052/3	sub	"Epithelioid mesothelioma, NOS"
+9053/3	title	"Mesothelioma, biphasic, malignant"
+9053/3	sub	"Mesothelioma, biphasic, NOS"
+9054/0	title	"Adenomatoid tumor, NOS"
+9055/0	title	"Multicystic mesothelioma, benign"
+9055/0	sub	"Cystic mesothelioma, benign"
+9055/1	title	"Cystic mesothelioma, NOS"
+9060/3	title	Dysgerminoma
+9061/3	title	"Seminoma, NOS"
+9062/3	title	"Seminoma, anaplastic"
+9062/3	sub	Seminoma with high mitotic index
+9063/3	title	Spermatocytic seminoma
+9063/3	sub	Spermatocytoma
+9064/2	title	Intratubular malignant germ cells
+9064/2	sub	Intratubular germ cell neoplasia
+9064/3	title	Germinoma
+9064/3	sub	"Germ cell tumor, NOS"
+9065/3	title	"Germ cell tumor, nonseminomatous"
+9070/3	title	"Embryonal carcinoma, NOS"
+9070/3	sub	Embryonal adenocarcinoma
+9071/3	title	Yolk sac tumor
+9071/3	sub	Endodermal sinus tumor
+9071/3	sub	Polyvesicular vitelline tumor
+9071/3	sub	Orchioblastoma
+9071/3	sub	"Embryonal carcinoma, infantile"
+9071/3	sub	Hepatoid yolk sac tumor
+9072/3	title	Polyembryoma
+9072/3	sub	"Embryonal carcinoma, polyembryonal type"
+9073/1	title	Gonadoblastoma
+9073/1	sub	Gonocytoma
+9080/0	title	"Teratoma, benign"
+9080/0	sub	Adult cystic teratoma
+9080/0	sub	"Adult teratoma, NOS"
+9080/0	sub	"Cystic teratoma, NOS"
+9080/0	sub	"Teratoma, differentiated"
+9080/0	sub	Mature teratoma
+9080/1	title	"Teratoma, NOS"
+9080/1	sub	Solid teratoma
+9080/3	title	"Teratoma, malignant, NOS"
+9080/3	sub	Embryonal teratoma
+9080/3	sub	"Teratoblastoma, malignant"
+9080/3	sub	"Immature teratoma, malignant"
+9080/3	sub	"Immature teratoma, NOS"
+9081/3	title	Teratocarcinoma
+9081/3	sub	Mixed embryonal carcinoma and teratoma
+9082/3	title	"Malignant teratoma, undifferentiated"
+9082/3	sub	"Malignant teratoma, anaplastic"
+9083/3	title	"Malignant teratoma, intermediate"
+9084/0	title	"Dermoid cyst, NOS"
+9084/0	sub	"Dermoid, NOS"
+9084/3	title	Teratoma with malignant transformation
+9084/3	sub	Dermoid cyst with malignant transformation
+9084/3	sub	Dermoid cyst with secondary tumor
+9085/3	title	Mixed germ cell tumor
+9085/3	sub	Mixed teratoma and seminoma
+9090/0	title	"Struma ovarii, NOS"
+9090/3	title	"Struma ovarii, malignant"
+9091/1	title	Strumal carcinoid
+9091/1	sub	Struma ovarii and carcinoid
+9100/0	title	"Hydatidiform mole, NOS"
+9100/0	sub	Hydatid mole
+9100/0	sub	Complete hydatidiform mole
+9100/1	title	Invasive hydatidiform mole
+9100/1	sub	Chorioadenoma destruens
+9100/1	sub	Chorioadenoma
+9100/1	sub	"Invasive mole, NOS"
+9100/1	sub	Malignant hydatidiform mole
+9100/3	title	"Choriocarcinoma, NOS"
+9100/3	sub	Chorionepithelioma
+9100/3	sub	Chorioepithelioma
+9101/3	title	Choriocarcinoma combined with other germ cell elements
+9101/3	sub	Choriocarcinoma combined with teratoma
+9101/3	sub	Choriocarcinoma combined with embryonal carcinoma
+9102/3	title	"Malignant teratoma, trophoblastic"
+9103/0	title	Partial hydatidiform mole
+9104/1	title	Placental site trophoblastic tumor
+9105/3	title	"Trophoblastic tumor, epithelioid"
+9110/0	title	"Mesonephroma, benign"
+9110/0	sub	Mesonephric adenoma
+9110/0	sub	Wolffian duct adenoma
+9110/1	title	"Mesonephric tumor, NOS"
+9110/1	sub	Wolffian duct tumor
+9110/3	title	"Mesonephroma, malignant"
+9110/3	sub	Mesonephric adenocarcinoma
+9110/3	sub	"Mesonephroma, NOS"
+9110/3	sub	Wolffian duct carcinoma
+9120/0	title	"Hemangioma, NOS"
+9120/0	sub	"Angioma, NOS"
+9120/0	sub	Chorioangioma
+9120/3	title	Hemangiosarcoma
+9120/3	sub	Angiosarcoma
+9121/0	title	Cavernous hemangioma
+9122/0	title	Venous hemangioma
+9123/0	title	Racemose hemangioma
+9123/0	sub	Arteriovenous hemangioma
+9124/3	title	Kupffer cell sarcoma
+9125/0	title	Epithelioid hemangioma
+9125/0	sub	Histiocytoid hemangioma
+9130/0	title	"Hemangioendothelioma, benign"
+9130/1	title	"Hemangioendothelioma, NOS"
+9130/1	sub	Angioendothelioma
+9130/1	sub	Kaposiform hemangioendothelioma
+9130/3	title	"Hemangioendothelioma, malignant"
+9130/3	sub	Hemangioendothelial sarcoma
+9131/0	title	Capillary hemangioma
+9131/0	sub	Hemangioma simplex
+9131/0	sub	Infantile hemangioma
+9131/0	sub	Plexiform hemangioma
+9131/0	sub	Juvenile hemangioma
+9132/0	title	Intramuscular hemangioma
+9133/1	title	"Epithelioid hemangioendothelioma, NOS"
+9133/3	title	"Epithelioid hemangioendothelioma, malignant"
+9133/3	sub	Intravascular bronchial alveolar tumor
+9135/1	title	Endovascular papillary angioendothelioma
+9135/1	sub	Dabska tumor
+9136/1	title	Spindle cell hemangioendothelioma
+9136/1	sub	Spindle cell angioendothelioma
+9140/3	title	Kaposi sarcoma
+9140/3	sub	Multiple hemorrhagic sarcoma
+9141/0	title	Angiokeratoma
+9142/0	title	Verrucous keratotic hemangioma
+9150/0	title	"Hemangiopericytoma, benign"
+9150/1	title	"Hemangiopericytoma, NOS"
+9150/1	sub	Hemangiopericytic meningioma
+9150/3	title	"Hemangiopericytoma, malignant"
+9160/0	title	"Angiofibroma, NOS"
+9160/0	sub	Juvenile angiofibroma
+9160/0	sub	Fibrous papule of nose
+9160/0	sub	Involuting nevus
+9160/0	sub	Giant cell angiofibroma
+9160/0	sub	Cellular angiofibroma
+9161/0	title	Acquired tufted hemangioma
+9161/1	title	Hemangioblastoma
+9161/1	sub	Angioblastoma
+9170/0	title	"Lymphangioma, NOS"
+9170/0	sub	"Lymphangioendothelioma, NOS"
+9170/3	title	Lymphangiosarcoma
+9170/3	sub	Lymphangioendothelial sarcoma
+9170/3	sub	"Lymphangioendothelioma, malignant"
+9171/0	title	Capillary lymphangioma
+9172/0	title	Cavernous lymphangioma
+9173/0	title	Cystic lymphangioma
+9173/0	sub	"Hygroma, NOS"
+9173/0	sub	Cystic hygroma
+9174/0	title	Lymphangiomyoma
+9174/1	title	Lymphangiomyomatosis
+9174/1	sub	Lymphangioleiomyomatosis
+9175/0	title	Hemolymphangioma
+9180/0	title	"Osteoma, NOS"
+9180/3	title	"Osteosarcoma, NOS"
+9180/3	sub	"Osteogenic sarcoma, NOS"
+9180/3	sub	Osteochondrosarcoma
+9180/3	sub	Osteoblastic sarcoma
+9181/3	title	Chondroblastic osteosarcoma
+9182/3	title	Fibroblastic osteosarcoma
+9182/3	sub	Osteofibrosarcoma
+9183/3	title	Telangiectatic osteosarcoma
+9184/3	title	Osteosarcoma in Paget disease of bone
+9185/3	title	Small cell osteosarcoma
+9185/3	sub	Round cell osteosarcoma
+9186/3	title	Central osteosarcoma
+9186/3	sub	Conventional central osteosarcoma
+9186/3	sub	Medullary osteosarcoma
+9187/3	title	Intraosseous well differentiated osteosarcoma
+9187/3	sub	Intraosseous low grade osteosarcoma
+9191/0	title	"Osteoid osteoma, NOS"
+9192/3	title	Parosteal osteosarcoma
+9192/3	sub	Juxtacortical osteosarcoma
+9193/3	title	Periosteal osteosarcoma
+9194/3	title	High grade surface osteosarcoma
+9195/3	title	Intracortical osteosarcoma
+9200/0	title	"Osteoblastoma, NOS"
+9200/0	sub	Giant osteoid osteoma
+9200/1	title	Aggressive osteoblastoma
+9210/0	title	Osteochondroma
+9210/0	sub	Cartilaginous exostosis
+9210/0	sub	Osteocartilaginous exostosis
+9210/0	sub	Ecchondroma
+9210/1	title	"Osteochondromatosis, NOS"
+9210/1	sub	Ecchondrosis
+9220/0	title	"Chondroma, NOS"
+9220/0	sub	Enchondroma
+9220/1	title	"Chondromatosis, NOS"
+9220/3	title	"Chondrosarcoma, NOS"
+9220/3	sub	Fibrochondrosarcoma
+9221/0	title	Juxtacortical chondroma
+9221/0	sub	Periosteal chondroma
+9221/3	title	Juxtacortical chondrosarcoma
+9221/3	sub	Periosteal chondrosarcoma
+9230/0	title	"Chondroblastoma, NOS"
+9230/0	sub	Chondromatous giant cell tumor
+9230/0	sub	Codman tumor
+9230/3	title	"Chondroblastoma, malignant"
+9231/3	title	Myxoid chondrosarcoma
+9240/3	title	Mesenchymal chondrosarcoma
+9241/0	title	Chondromyxoid fibroma
+9242/3	title	Clear cell chondrosarcoma
+9243/3	title	Dedifferentiated chondrosarcoma
+9250/1	title	"Giant cell tumor of bone, NOS"
+9250/1	sub	"Osteoclastoma, NOS"
+9250/3	title	"Giant cell tumor of bone, malignant"
+9250/3	sub	"Osteoclastoma, malignant"
+9250/3	sub	Giant cell sarcoma of bone
+9251/1	title	"Giant cell tumor of soft parts, NOS"
+9251/3	title	Malignant giant cell tumor of soft parts
+9252/0	title	Tenosynovial giant cell tumor
+9252/0	sub	Fibrous histiocytoma of tendon sheath
+9252/0	sub	Giant cell tumor of tendon sheath
+9252/3	title	Malignant tenosynovial giant cell tumor
+9252/3	sub	"Giant cell tumor of tendon sheath, malignant"
+9260/3	title	Ewing sarcoma
+9260/3	sub	Ewing tumor
+9261/3	title	Adamantinoma of long bones
+9261/3	sub	Tibial adamantinoma
+9262/0	title	Ossifying fibroma
+9262/0	sub	Fibro-osteoma
+9262/0	sub	Osteofibroma
+9270/0	title	"Odontogenic tumor, benign"
+9270/1	title	"Odontogenic tumor, NOS"
+9270/3	title	"Odontogenic tumor, malignant"
+9270/3	sub	Odontogenic carcinoma
+9270/3	sub	Odontogenic sarcoma
+9270/3	sub	Primary intraosseous carcinoma
+9270/3	sub	Ameloblastic carcinoma
+9271/0	title	Ameloblastic fibrodentinoma
+9271/0	sub	Dentinoma
+9272/0	title	"Cementoma, NOS"
+9272/0	sub	Periapical cemental dysplasia
+9272/0	sub	Periapical cemento-osseous dysplasia
+9273/0	title	"Cementoblastoma, benign"
+9274/0	title	Cementifying fibroma
+9274/0	sub	Cemento-ossifying fibroma
+9275/0	title	Gigantiform cementoma
+9275/0	sub	Florid osseous dysplasia
+9280/0	title	"Odontoma, NOS"
+9281/0	title	Compound odontoma
+9282/0	title	Complex odontoma
+9290/0	title	Ameloblastic fibro-odontoma
+9290/0	sub	Fibroameloblastic odontoma
+9290/3	title	Ameloblastic odontosarcoma
+9391/3	sub	Clear cell ependymoma
+9391/3	sub	Tanycytic ependymoma
+9392/3	title	"Ependymoma, anaplastic"
+9392/3	sub	Ependymoblastoma
+9393/3	title	Papillary ependymoma
+9394/1	title	Myxopapillary ependymoma
+9400/3	title	"Astrocytoma, NOS"
+9400/3	sub	Astrocytic glioma
+9400/3	sub	Astroglioma
+9400/3	sub	Diffuse astrocytoma
+9400/3	sub	"Astrocytoma, low grade"
+9400/3	sub	"Diffuse astrocytoma, low grade"
+9400/3	sub	Cystic astrocytoma
+9401/3	title	"Astrocytoma, anaplastic"
+9410/3	title	Protoplasmic astrocytoma
+9411/3	title	Gemistocytic astrocytoma
+9411/3	sub	Gemistocytoma
+9412/1	title	Desmoplastic infantile astrocytoma
+9412/1	sub	Desmoplastic infantile ganglioglioma
+9413/0	title	Dysembryoplastic neuroepithelial tumor
+9420/3	title	Fibrillary astrocytoma
+9420/3	sub	Fibrous astrocytoma
+9421/1	title	Pilocytic astrocytoma
+9421/1	sub	Piloid astrocytoma
+9421/1	sub	Juvenile astrocytoma
+9421/1	sub	"Spongioblastoma, NOS"
+9423/3	title	Polar spongioblastoma
+9423/3	sub	Spongioblastoma polare
+9423/3	sub	Primitive polar spongioblastoma
+9424/3	title	Pleomorphic xanthoastrocytoma
+9430/3	title	Astroblastoma
+9440/3	title	"Glioblastoma, NOS"
+9440/3	sub	Glioblastoma multiforme
+9440/3	sub	Spongioblastoma multiforme
+9441/3	title	Giant cell glioblastoma
+9441/3	sub	Monstrocellular sarcoma
+9442/1	title	Gliofibroma
+9442/3	title	Gliosarcoma
+9442/3	sub	Glioblastoma with sarcomatous component
+9444/1	title	Chordoid glioma
+9444/1	sub	Chordoid glioma of third ventricle
+9450/3	title	"Oligodendroglioma, NOS"
+9451/3	title	"Oligodendroglioma, anaplastic"
+9460/3	title	Oligodendroblastoma
+9470/3	title	"Medulloblastoma, NOS"
+9470/3	sub	Melanotic medulloblastoma
+9471/3	title	Desmoplastic nodular medulloblastoma
+9471/3	sub	Desmoplastic medulloblastoma
+9471/3	sub	Circumscribed arachnoidal cerebellar sarcoma
+9472/3	title	Medullomyoblastoma
+9473/3	title	"Primitive neuroectodermal tumor, NOS"
+9473/3	sub	"PNET, NOS"
+9473/3	sub	"Central primitive neuroectodermal tumor, NOS"
+9473/3	sub	CPNET
+9473/3	sub	Supratentorial PNET
+9474/3	title	Large cell medulloblastoma
+9480/3	title	"Cerebellar sarcoma, NOS"
+9490/0	title	Ganglioneuroma
+9490/3	title	Ganglioneuroblastoma
+9491/0	title	Ganglioneuromatosis
+9492/0	title	Gangliocytoma
+9493/0	title	Dysplastic gangliocytoma of cerebellum (Lhermitte-Duclos)
+9500/3	title	"Neuroblastoma, NOS"
+9500/3	sub	Sympathicoblastoma
+9500/3	sub	Central neuroblastoma
+9501/0	title	"Medulloepithelioma, benign"
+9501/0	sub	"Diktyoma, benign"
+9501/3	title	"Medulloepithelioma, NOS"
+9501/3	sub	"Diktyoma, malignant"
+9502/0	title	"Teratoid medulloepithelioma, benign"
+9502/3	title	Teratoid medulloepithelioma
+9503/3	title	"Neuroepithelioma, NOS"
+9504/3	title	Spongioneuroblastoma
+9505/1	title	"Ganglioglioma, NOS"
+9505/1	sub	Glioneuroma
+9505/1	sub	Neuroastrocytoma
+9505/3	title	"Ganglioglioma, anaplastic"
+9506/1	title	Central neurocytoma
+9506/1	sub	Neurocytoma
+9506/1	sub	Cerebellar liponeurocytoma
+9506/1	sub	Lipomatous medulloblastoma
+9506/1	sub	Neurolipocytoma
+9506/1	sub	Medullocytoma
+9507/0	title	Pacinian tumor
+9508/3	title	Atypical teratoid/rhabdoid tumor
+9510/0	title	Retinocytoma
+9510/3	title	"Retinoblastoma, NOS"
+9511/3	title	"Retinoblastoma, differentiated"
+9512/3	title	"Retinoblastoma, undifferentiated"
+9513/3	title	"Retinoblastoma, diffuse"
+9514/1	title	"Retinoblastoma, spontaneously regressed"
+9520/3	title	Olfactory neurogenic tumor
+9521/3	title	Olfactory neurocytoma
+9521/3	sub	Esthesioneurocytoma
+9522/3	title	Olfactory neuroblastoma
+9522/3	sub	Esthesioneuroblastoma
+9523/3	title	Olfactory neuroepithelioma
+9523/3	sub	Esthesioneuroepithelioma
+9530/0	title	"Meningioma, NOS"
+9530/0	sub	Microcystic meningioma
+9530/0	sub	Secretory meningioma
+9530/0	sub	Lymphoplasmacyte-rich meningioma
+9530/0	sub	Metaplastic meningioma
+9530/1	title	"Meningiomatosis, NOS"
+9530/1	sub	Diffuse meningiomatosis
+9530/1	sub	Multiple meningiomas
+9530/3	title	"Meningioma, malignant"
+9530/3	sub	"Meningioma, anaplastic"
+9530/3	sub	Leptomeningeal sarcoma
+9530/3	sub	Meningeal sarcoma
+9530/3	sub	Meningothelial sarcoma
+9531/0	title	Meningothelial meningioma
+9531/0	sub	Endotheliomatous meningioma
+9531/0	sub	Syncytial meningioma
+9532/0	title	Fibrous meningioma
+9532/0	sub	Fibroblastic meningioma
+9533/0	title	Psammomatous meningioma
+9534/0	title	Angiomatous meningioma
+9535/0	title	Hemangioblastic meningioma
+9535/0	sub	Angioblastic meningioma
+9537/0	title	Transitional meningioma
+9537/0	sub	Mixed meningioma
+9538/1	title	Clear cell meningioma
+9538/1	sub	Chordoid meningioma
+9538/3	title	Papillary meningioma
+9538/3	sub	Rhabdoid meningioma
+9539/1	title	Atypical meningioma
+9539/3	title	Meningeal sarcomatosis
+9540/0	title	"Neurofibroma, NOS"
+9540/1	title	"Neurofibromatosis, NOS"
+9540/1	sub	Multiple neurofibromatosis
+9540/1	sub	Von Recklinghausen disease
+9540/1	sub	Recklinghausen disease
+9540/3	title	Malignant peripheral nerve sheath tumor
+9540/3	sub	"MPNST, NOS"
+9540/3	sub	Neurofibrosarcoma
+9540/3	sub	Neurogenic sarcoma
+9540/3	sub	Neurosarcoma
+9540/3	sub	MPNST with glandular differentiation
+9540/3	sub	Epithelioid MPNST
+9540/3	sub	MPNST with mesenchymal differentiation
+9540/3	sub	Melanotic MPNST
+9540/3	sub	Melanotic psammomatous MPNST
+9541/0	title	Melanotic neurofibroma
+9550/0	title	Plexiform neurofibroma
+9550/0	sub	Plexiform neuroma
+9560/0	title	"Neurilemoma, NOS"
+9560/0	sub	"Schwannoma, NOS"
+9560/0	sub	Neurinoma
+9560/0	sub	Acoustic neuroma
+9560/0	sub	Pigmented schwannoma
+9560/0	sub	Melanotic schwannoma
+9560/0	sub	Plexiform schwannoma
+9560/0	sub	Cellular schwannoma
+9560/0	sub	Degenerated schwannoma
+9560/0	sub	Ancient schwannoma
+9560/0	sub	Psammomatous schwannoma
+9560/1	title	Neurinomatosis
+9560/3	title	"Neurilemoma, malignant"
+9560/3	sub	"Malignant schwannoma, NOS"
+9560/3	sub	Neurilemosarcoma
+9561/3	title	Malignant peripheral nerve sheath tumor with rhabdomyoblastic differentiation
+9561/3	sub	MPNST with rhabdomyoblastic differentiation
+9561/3	sub	"Triton tumor, malignant"
+9561/3	sub	Malignant schwannoma with rhabdomyoblastic differentiation
+9562/0	title	Neurothekeoma
+9562/0	sub	Nerve sheath myxoma
+9570/0	title	"Neuroma, NOS"
+9571/0	title	"Perineurioma, NOS"
+9571/0	sub	Intraneural perineurioma
+9571/0	sub	Soft tissue perineurioma
+9571/3	title	"Perineurioma, malignant"
+9571/3	sub	Perineural MPNST
+9580/0	title	"Granular cell tumor, NOS"
+9580/0	sub	"Granular cell myoblastoma, NOS"
+9580/3	title	"Granular cell tumor, malignant"
+9580/3	sub	"Granular cell myoblastoma, malignant"
+9581/3	title	Alveolar soft part sarcoma
+9582/0	title	Granular cell tumor of the sellar region
+9590/3	title	"Malignant lymphoma, NOS"
+9590/3	sub	"Lymphoma, NOS"
+9590/3	sub	Microglioma
+9591/3	title	"Malignant lymphoma, non-Hodgkin, NOS"
+9591/3	sub	"Non-Hodgkin lymphoma, NOS"
+9591/3	sub	"B cell lymphoma, NOS"
+9591/3	sub	"Malignant lymphoma, non-cleaved cell, NOS"
+9591/3	sub	"Malignant lymphoma, diffuse, NOS"
+9591/3	sub	"Malignant lymphoma, lymphocytic, intermediate differentiation, nodular"
+9591/3	sub	"Malignant lymphoma, small cell, noncleaved, diffuse"
+9591/3	sub	"Malignant lymphoma, undifferentiated cell, non-Burkitt"
+9591/3	sub	"Malignant lymphoma, undifferentiated cell type, NOS"
+9591/3	sub	"Lymphosarcoma, NOS"
+9591/3	sub	"Lymphosarcoma, diffuse"
+9591/3	sub	"Reticulum cell sarcoma, NOS"
+9591/3	sub	"Reticulum cell sarcoma, diffuse"
+9591/3	sub	"Reticulosarcoma, NOS"
+9591/3	sub	"Reticulosarcoma, diffuse"
+9591/3	sub	"Malignant lymphoma, small cleaved cell, diffuse"
+9591/3	sub	"Malignant lymphoma, lymphocytic, poorly differentiated, diffuse"
+9591/3	sub	"Malignant lymphoma, small cleaved cell, NOS"
+9591/3	sub	"Malignant lymphoma, cleaved cell, NOS"
+9596/3	title	Composite Hodgkin and non-Hodgkin lymphoma
+9650/3	title	"Hodgkin lymphoma, NOS"
+9650/3	sub	"Hodgkin disease, NOS"
+9650/3	sub	"Malignant lymphoma, Hodgkin"
+9651/3	title	"Hodgkin lymphoma, lymphocyte-rich"
+9651/3	sub	"Classical Hodgkin lymphoma, lymphocyte- rich"
+9651/3	sub	"Hodgkin disease, lymphocyte predominance, NOS"
+9651/3	sub	"Hodgkin disease, lymphocytic-histiocytic predominance"
+9651/3	sub	"Hodgkin disease, lymphocyte predominance, diffuse"
+9652/3	title	"Hodgkin lymphoma, mixed cellularity, NOS"
+9652/3	sub	"Classical Hodgkin lymphoma, mixed cellularity, NOS"
+9653/3	title	"Hodgkin lymphoma, lymphocyte depletion, NOS"
+9653/3	sub	"Classical Hodgkin lymphoma, lymphocyte depletion, NOS"
+9654/3	title	"Hodgkin lymphoma, lymphocyte depletion, diffuse fibrosis"
+9654/3	sub	"Classical Hodgkin lymphoma, lymphocyte depletion, diffuse fibrosis"
+9655/3	title	"Hodgkin lymphoma, lymphocyte depletion, reticular"
+9655/3	sub	"Classical Hodgkin lymphoma, lymphocyte depletion, reticular"
+9659/3	title	"Hodgkin lymphoma, nodular lymphocyte predominance"
+9659/3	sub	"Hodgkin lymphoma, lymphocyte predominance, nodular"
+9659/3	sub	"Hodgkin paragranuloma, NOS"
+9659/3	sub	"Hodgkin paragranuloma, nodular"
+9661/3	title	Hodgkin granuloma
+9662/3	title	Hodgkin sarcoma
+9663/3	title	"Hodgkin lymphoma, nodular sclerosis, NOS"
+9663/3	sub	"Classical Hodgkin lymphoma, nodular sclerosis, NOS"
+9663/3	sub	"Hodgkin disease, nodular sclerosis, NOS"
+9664/3	title	"Hodgkin lymphoma, nodular sclerosis, cellular phase"
+9664/3	sub	"Classical Hodgkin lymphoma, nodular sclerosis, cellular phase"
+9665/3	title	"Hodgkin lymphoma, nodular sclerosis,  grade 1"
+9665/3	sub	"Classical Hodgkin lymphoma, nodular sclerosis, grade 1"
+9665/3	sub	"Hodgkin disease, nodular sclerosis, lymphocyte predominance"
+9665/3	sub	"Hodgkin disease, nodular sclerosis, mixed cellularity"
+9667/3	title	"Hodgkin lymphoma, nodular sclerosis,  grade 2"
+9667/3	sub	"Classical Hodgkin lymphoma, nodular sclerosis, grade 2"
+9667/3	sub	"Hodgkin disease, nodular sclerosis, lymphocyte depletion"
+9667/3	sub	"Hodgkin disease, nodular sclerosis, syncytial variant"
+9670/3	title	"Malignant lymphoma, small B lymphocytic, NOS"
+9670/3	sub	"Malignant lymphoma, small lymphocytic, NOS"
+9670/3	sub	"Malignant lymphoma, lymphocytic, well differentiated, diffuse"
+9670/3	sub	"Malignant lymphoma, lymphocytic, NOS"
+9670/3	sub	"Malignant lymphoma, lymphocytic, diffuse, NOS"
+9670/3	sub	"Malignant lymphoma, small cell, NOS"
+9670/3	sub	"Malignant lymphoma, small lymphocytic, diffuse"
+9670/3	sub	"Malignant lymphoma, small cell diffuse"
+9671/3	title	"Malignant lymphoma, lymphoplasmacytic"
+9671/3	sub	"Malignant lymphoma, lymphoplasmacytoid"
+9671/3	sub	Immunocytoma
+9671/3	sub	"Malignant lymphoma, plasmacytoid"
+9671/3	sub	Plasmacytic lymphoma
+9673/3	title	Mantle cell lymphoma
+9673/3	sub	Mantle zone lymphoma
+9673/3	sub	"Malignant lymphoma, lymphocytic, intermediate differentiation, diffuse"
+9673/3	sub	"Malignant lymphoma, centrocytic"
+9673/3	sub	Malignant lymphomatous polyposis
+9675/3	title	"Malignant lymphoma, mixed small and large cell, diffuse"
+9675/3	sub	"Malignant lymphoma, mixed lymphocytic-histiocytic, diffuse"
+9675/3	sub	"Malignant lymphoma, mixed cell type, diffuse"
+9675/3	sub	"Malignant lymphoma, centroblastic- centrocytic,  NOS"
+9675/3	sub	"Malignant lymphoma, centroblastic- centrocytic, diffuse"
+9678/3	title	Primary effusion lymphoma
+9679/3	title	Mediastinal large B-cell lymphoma
+9679/3	sub	Thymic large B-cell lymphoma
+9680/3	title	"Malignant lymphoma, large B-cell, diffuse, NOS"
+9680/3	sub	"Diffuse large B-cell lymphoma, NOS"
+9680/3	sub	"Malignant lymphoma, large cell, NOS"
+9680/3	sub	"Malignant lymphoma, large B-cell, NOS"
+9680/3	sub	"Malignant lymphoma, histiocytic, NOS"
+9680/3	sub	"Malignant lymphoma, histiocytic, diffuse"
+9680/3	sub	"Malignant lymphoma, large cell, cleaved and noncleaved"
+9680/3	sub	"Malignant lymphoma, large cell, diffuse, NOS"
+9680/3	sub	"Malignant lymphoma, large cleaved cell, NOS"
+9680/3	sub	"Malignant lymphoma, large cell, cleaved, diffuse"
+9680/3	sub	"Malignant lymphoma, large cell, cleaved, NOS"
+9680/3	sub	"Malignant lymphoma, large cell,  noncleaved, diffuse"
+9680/3	sub	"Malignant lymphoma, large cell, noncleaved, NOS"
+9680/3	sub	"Malignant lymphoma, noncleaved, diffuse, NOS"
+9680/3	sub	"Malignant lymphoma, noncleaved, NOS"
+9680/3	sub	"Malignant lymphoma, large B-cell, diffuse, centroblastic, NOS"
+9680/3	sub	"Malignant lymphoma, centroblastic, NOS"
+9680/3	sub	"Malignant lymphoma, centroblastic, diffuse"
+9680/3	sub	Intravascular large B-cell lymphoma
+9680/3	sub	Intravascular B-cell lymphoma
+9680/3	sub	Angioendotheliomatosis
+9680/3	sub	Angiotropic lymphoma
+9680/3	sub	T-cell rich large B-cell lymphoma
+9680/3	sub	Histiocyte-rich large B-cell lymphoma
+9680/3	sub	T-cell rich/histiocyte-rich large B-cell lymphoma
+9680/3	sub	Anaplastic large B-cell lymphoma
+9684/3	title	"Malignant lymphoma, large B-cell, diffuse, immunoblastic, NOS"
+9684/3	sub	"Malignant lymphoma, immunoblastic, NOS"
+9684/3	sub	Immunoblastic sarcoma
+9684/3	sub	"Malignant lymphoma, large cell, immunoblastic"
+9684/3	sub	Plasmablastic lymphoma
+9687/3	title	"Burkitt lymphoma, NOS"
+9687/3	sub	Burkitt tumor
+9687/3	sub	"Malignant lymphoma, undifferentiated, Burkitt type"
+9687/3	sub	"Malignant lymphoma, small noncleaved, Burkitt type"
+9687/3	sub	Burkitt-like lymphoma
+9689/3	title	Splenic marginal zone B-cell lymphoma
+9689/3	sub	"Splenic marginal zone lymphoma, NOS"
+9689/3	sub	Splenic lymphoma with villous lymphocytes
+9690/3	title	"Follicular lymphoma, NOS"
+9690/3	sub	"Malignant lymphoma, follicular, NOS"
+9690/3	sub	"Malignant lymphoma, follicle center, follicular"
+9690/3	sub	"Malignant lymphoma, follicle center, NOS"
+9690/3	sub	"Malignant lymphoma, centroblastic- centrocytic, follicular"
+9690/3	sub	"Malignant lymphoma, nodular, NOS"
+9690/3	sub	"Malignant lymphoma, lymphocytic, nodular, NOS"
+9691/3	title	"Follicular lymphoma, grade 2"
+9691/3	sub	"Malignant lymphoma, mixed small cleaved and large cell, follicular"
+9691/3	sub	"Malignant lymphoma, mixed lymphocytic-histiocytic, nodular"
+9691/3	sub	"Malignant lymphoma, mixed cell type, follicular"
+9691/3	sub	"Malignant lymphoma, mixed cell type, nodular"
+9695/3	title	"Follicular lymphoma, grade 1"
+9695/3	sub	"Malignant lymphoma, small cleaved cell, follicular"
+9695/3	sub	"Follicular lymphoma, small cleaved cell"
+9695/3	sub	"Malignant lymphoma, lymphocytic, poorly differentiated, nodular"
+9698/3	title	"Follicular lymphoma, grade 3"
+9698/3	sub	"Malignant lymphoma, large cell, follicular, NOS"
+9698/3	sub	"Malignant lymphoma, large cell, noncleaved, follicular"
+9698/3	sub	"Malignant lymphoma, histiocytic, nodular"
+9698/3	sub	"Malignant lymphoma, noncleaved cell, follicular, NOS"
+9698/3	sub	"Malignant lymphoma, large cleaved cell, follicular"
+9698/3	sub	"Malignant lymphoma, centroblastic, follicular"
+9698/3	sub	"Malignant lymphoma, lymphocytic, well differentiated, nodular"
+9699/3	title	"Marginal zone B-cell lymphoma, NOS"
+9699/3	sub	"Marginal zone lymphoma, NOS"
+9699/3	sub	Mucosal-associated lymphoid tissue lymphoma
+9699/3	sub	MALT lymphoma
+9699/3	sub	Bronchial-associated lymphoid tissue lymphoma
+9699/3	sub	BALT lymphoma
+9699/3	sub	Skin-associated lymphoid tissue lymphoma
+9699/3	sub	SALT lymphoma
+9699/3	sub	Monocytoid B-cell lymphoma
+9699/3	sub	Nodal marginal zone lymphoma
+9700/3	title	Mycosis fungoides
+9700/3	sub	Pagetoid reticulosis
+9701/3	title	Sezary syndrome
+9701/3	sub	Sezary disease
+9702/3	title	"Mature T-cell lymphoma, NOS"
+9702/3	sub	"Peripheral T-cell lymphoma, NOS"
+9702/3	sub	"T-cell lymphoma, NOS"
+9702/3	sub	"Peripheral T-cell lymphoma, pleomorphic small cell"
+9702/3	sub	"Peripheral T-cell lymphoma, pleomorphic medium and large cell"
+9702/3	sub	"Peripheral T-cell lymphoma, large cell"
+9702/3	sub	T-zone lymphoma
+9702/3	sub	Lymphoepithelioid lymphoma
+9702/3	sub	Lennert lymphoma
+9705/3	title	Angioimmunoblastic T-cell lymphoma
+9705/3	sub	"Peripheral T-cell lymphoma, AILD (Angioimmunoblastic"
+9705/3	sub	Angioimmunoblastic lymphoma
+9708/3	title	Subcutaneous panniculitis-like T-cell lymphoma
+9709/3	title	"Cutaneous T-cell lymphoma, NOS"
+9709/3	sub	"Cutaneous lymphoma, NOS"
+9714/3	title	"Anaplastic large cell lymphoma, T cell and Null cell type"
+9714/3	sub	Large cell (Ki-1+) lymphoma
+9714/3	sub	"Anaplastic large cell lymphoma, NOS"
+9714/3	sub	"Anaplastic large cell lymphoma, CD30+"
+9716/3	title	Hepatosplenic  (gamma-delta) cell lymphoma
+9717/3	title	Intestinal T-cell lymphoma
+9717/3	sub	Enteropathy type intestinal T-cell lymphoma
+9717/3	sub	Enteropathy associated T-cell lymphoma
+9718/3	title	Primary cutaneous CD30+ T-cell lymphoproliferative disorder
+9718/3	sub	Lymphomatoid papulosis
+9718/3	sub	Primary cutaneous anaplastic large cell lymphoma
+9718/3	sub	Primary cutaneous CD30+ large T-cell lymphoma
+9719/3	title	"NK/T-cell lymphoma, nasal and nasal-type"
+9719/3	sub	T/NK-cell lymphoma
+9719/3	sub	Angiocentric T-cell lymphoma
+9719/3	sub	"Malignant reticulosis, NOS"
+9719/3	sub	Malignant midline reticulosis
+9719/3	sub	Polymorphic reticulosis
+9727/3	title	"Precursor cell lymphoblastic lymphoma, NOS"
+9727/3	sub	"Malignant lymphoma, lymphoblastic, NOS"
+9727/3	sub	"Malignant lymphoma, convoluted cell"
+9727/3	sub	Lymphoblastoma
+9728/3	title	Precursor B-cell lymphoblastic lymphoma
+9729/3	title	Precursor T-cell lymphoblastic lymphoma
+9731/3	title	"Plasmacytoma, NOS"
+9731/3	sub	Plasmacytoma of bone
+9731/3	sub	Plasma cell tumor
+9731/3	sub	Solitary myeloma
+9731/3	sub	Solitary plasmacytoma
+9732/3	title	Multiple myeloma
+9732/3	sub	"Myeloma, NOS"
+9732/3	sub	Myelomatosis
+9732/3	sub	Plasma cell myeloma
+9733/3	title	Plasma cell leukemia
+9733/3	sub	Plasmacytic leukemia
+9734/3	title	"Plasmacytoma, extramedullary (not occurring in bone)"
+9740/1	title	"Mastocytoma, NOS"
+9740/1	sub	"Mast cell tumor, NOS"
+9740/3	title	Mast cell sarcoma
+9740/3	sub	Malignant mast cell tumor
+9740/3	sub	Malignant mastocytoma
+9741/3	title	Malignant mastocytosis
+9741/3	sub	Systemic tissue mast cell disease
+9742/3	title	Mast cell leukemia
+9750/3	title	Malignant histiocytosis
+9750/3	sub	Histiocytic medullary reticulosis
+9751/1	title	"Langerhans cell histiocytosis, NOS"
+9751/1	sub	Langerhans cell granulomatosis
+9751/1	sub	"Histiocytosis X, NOS"
+9752/1	title	"Langerhans cell histiocytosis, unifocal"
+9752/1	sub	"Langerhans cell granulomatosis, unifocal"
+9752/1	sub	"Langerhans cell histiocytosis, mono-ostotic"
+9752/1	sub	Eosinophilic granuloma
+9753/1	title	"Langerhans cell histiocytosis, multifocal"
+9753/1	sub	"Langerhans cell histiocytosis, poly-ostotic"
+9753/1	sub	Hand-Schuller-Christian disease
+9754/3	title	"Langerhans cell histiocytosis, disseminated"
+9754/3	sub	"Langerhans cell histiocytosis, generalized"
+9754/3	sub	Letterer-Siwe disease
+9754/3	sub	Acute progressive histiocytosis X
+9754/3	sub	Nonlipid reticuloendotheliosis
+9755/3	title	Histiocytic sarcoma
+9755/3	sub	True histiocytic lymphoma
+9756/3	title	Langerhans cell sarcoma
+9757/3	title	Interdigitating dendritic cell sarcoma
+9757/3	sub	Interdigitating cell sarcoma
+9757/3	sub	"Dendritic cell sarcoma, NOS"
+9758/3	title	Follicular dendritic cell sarcoma
+9758/3	sub	Follicular dendritic cell tumor
+9760/3	title	"Immunoproliferative disease, NOS"
+9761/3	title	Waldenstrom macroglobulinemia
+9762/3	title	"Heavy chain disease, NOS"
+9762/3	sub	Alpha heavy chain disease
+9762/3	sub	Mu heavy chain disease
+9762/3	sub	Gamma heavy chain disease
+9762/3	sub	Franklin disease
+9764/3	title	Immunoproliferative small intestinal  disease
+9764/3	sub	Mediterranean lymphoma
+9765/1	title	Monoclonal gammopathy of undetermined significance
+9765/1	sub	MGUS
+9765/1	sub	"Monoclonal gammopathy, NOS"
+9766/1	title	Angiocentric immunoproliferative lesion
+9766/1	sub	Lymphoid granulomatosis
+9767/1	title	Angioimmunoblastic lymphadenopathy (AIC)
+9767/1	sub	Immunoblastic lymphadenopathy (IBL) [obs]
+9768/1	title	T-gamma lymphoproliferative disease
+9769/1	title	Immunoglobulin deposition disease
+9769/1	sub	Systemic light chain disease
+9769/1	sub	Primary amyloidosis
+9800/3	title	"Leukemia, NOS"
+9800/3	sub	"Subacute leukemia, NOS"
+9800/3	sub	"Chronic leukemia, NOS"
+9800/3	sub	"Aleukemic leukemia, NOS"
+9801/3	title	"Acute leukemia, NOS"
+9801/3	sub	Blast cell leukemia
+9801/3	sub	Undifferentiated leukemia
+9801/3	sub	Stem cell leukemia
+9805/3	title	Acute biphenotypic leukemia
+9805/3	sub	Acute mixed lineage leukemia
+9805/3	sub	Acute bilineal leukemia
+9820/3	title	"Lymphoid leukemia, NOS"
+9820/3	sub	"Lymphocytic leukemia, NOS"
+9820/3	sub	"Lymphatic leukemia, NOS"
+9820/3	sub	Subacute lymphoid leukemia
+9820/3	sub	Subacute lymphocytic leukemia
+9820/3	sub	Subacute lymphatic leukemia
+9820/3	sub	Aleukemic lymphoid leukemia
+9820/3	sub	Aleukemic lymphocytic leukemia
+9820/3	sub	Aleukemic lymphatic leukemia
+9820/3	sub	Lymphosarcoma cell leukemia
+9823/3	title	B-cell chronic lymphocytic leukemia/small lymphocytic lymphoma
+9823/3	sub	"Chronic lymphocytic leukemia, B-cell type"
+9823/3	sub	Chronic lymphocytic leukemia
+9823/3	sub	Chronic lymphoid leukemia
+9823/3	sub	Chronic lymphatic leukemia
+9826/3	title	Burkitt cell leukemia
+9826/3	sub	"Acute leukemia, Burkitt type"
+9826/3	sub	B-ALL
+9826/3	sub	FAB L3
+9826/3	sub	"Acute lymphoblastic leukemia, mature B-cell type"
+9827/3	title	Adult T-cell leukemia/lymphoma (HTLV-1 positive)
+9827/3	sub	Adult T-cell lymphoma/leukemia
+9827/3	sub	Adult T-cell lymphoma
+9827/3	sub	Adult T-cell leukemia
+9831/1	title	T-cell large granular lymphocytic leukemia
+9831/1	sub	T-cell large granular lymphocytosis
+9831/1	sub	NK-cell large granular lymphocytic leukemia
+9831/1	sub	"Large granular lymphocytosis, NOS"
+9832/3	title	"Prolymphocytic leukemia, NOS"
+9833/3	title	"Prolymphocytic leukemia, B-cell type"
+9834/3	title	"Prolymphocytic leukemia, T-cell type"
+9835/3	title	"Precursor cell lymphoblastic leukemia, NOS"
+9835/3	sub	"Precursor cell lymphoblastic leukemia, not phenotyped"
+9835/3	sub	"Acute lymphoblastic leukemia, NOS"
+9835/3	sub	"Acute lymphoblastic leukemia, precursor-cell type"
+9835/3	sub	"Acute lymphoblastic leukemia-lymphoma, NOS"
+9835/3	sub	Acute lymphocytic leukemia
+9835/3	sub	Acute lymphoid leukemia
+9835/3	sub	Acute lymphatic leukemia
+9835/3	sub	"Lymphoblastic leukemia, NOS"
+9835/3	sub	FAB L1
+9835/3	sub	"Acute lymphoblastic leukemia, L2 type, NOS"
+9835/3	sub	FAB L2
+9836/3	title	Precursor B-cell lymphoblastic leukemia
+9836/3	sub	Pro-B ALL
+9836/3	sub	Common precursor B ALL
+9836/3	sub	Pre-B ALL
+9836/3	sub	Pre-pre-B ALL
+9836/3	sub	Common ALL
+9836/3	sub	c-ALL
+9837/3	title	Precursor T-cell lymphoblastic leukemia
+9837/3	sub	Pro-T ALL
+9837/3	sub	Pre-T ALL
+9837/3	sub	Cortical T ALL
+9837/3	sub	Mature T ALL
+9840/3	title	"Acute myeloid leukemia, M6 type"
+9840/3	sub	Acute erythroid leukemia
+9840/3	sub	M6A
+9840/3	sub	M6B
+9840/3	sub	Erythroleukemia
+9840/3	sub	FAB M6
+9840/3	sub	AML M6
+9840/3	sub	"Erythremic myelosis, NOS"
+9840/3	sub	Acute erythremia
+9840/3	sub	Di Guglielmo disease
+9840/3	sub	Acute erythremic myelosis
+9860/3	title	"Myeloid leukemia, NOS"
+9860/3	sub	"Non-lymphocytic leukemia, NOS"
+9860/3	sub	"Granulocytic leukemia, NOS"
+9860/3	sub	"Myelogenous leukemia, NOS"
+9860/3	sub	"Myelomonocytic leukemia, NOS"
+9860/3	sub	"Myelocytic leukemia, NOS"
+9860/3	sub	Subacute myeloid leukemia
+9860/3	sub	Subacute granulocytic leukemia
+9860/3	sub	Subacute myelogenous leukemia
+9860/3	sub	Aleukemic myeloid leukemia
+9860/3	sub	Aleukemic granulocytic leukemia
+9860/3	sub	Aleukemic myelogenous leukemia
+9860/3	sub	Eosinophilic leukemia
+9860/3	sub	"Monocytic leukemia, NOS"
+9860/3	sub	Subacute monocytic leukemia
+9860/3	sub	Chronic monocytic leukemia
+9860/3	sub	Aleukemic monocytic leukemia
+9861/3	title	"Acute myeloid leukemia, NOS"
+9861/3	sub	Acute non-lymphocytic leukemia
+9861/3	sub	Acute granulocytic leukemia
+9861/3	sub	Acute myelogenous leukemia
+9861/3	sub	Acute myelocytic leukemia
+9863/3	title	"Chronic myeloid leukemia, NOS"
+9863/3	sub	"Chronic granulocytic leukemia, NOS"
+9863/3	sub	"Chronic myelogenous leukemia, NOS"
+9863/3	sub	"Chronic myelocytic leukemia, NOS"
+9866/3	title	Acute promyelocytic leukemia
+9866/3	sub	"Acute promyelocytic leukemia, PML/RAR- alpha"
+9866/3	sub	"Acute myeloid leukemia, t(15:17)(q22"
+9866/3	sub	"Acute myeloid leukemia, PML/RAR-alpha"
+9866/3	sub	"Acute promyelocytic leukemia, NOS"
+9866/3	sub	FAB M3
+9867/3	title	Acute myelomonocytic leukemia
+9867/3	sub	FAB M4
+9870/3	title	Acute basophilic leukemia
+9871/3	title	Acute myeloid leukemia with abnormal marrow eosinophils
+9871/3	sub	"Acute myeloid leukemia, inv(16)(p13;q22)"
+9871/3	sub	"Acute myeloid leukemia, t(16;16)(p13;q11)"
+9871/3	sub	"Acute myeloid leukemia, CBF-beta/MYH11"
+9871/3	sub	Acute myelomonocytic leukemia with abnormal eosinophils
+9871/3	sub	FAB M4Eo
+9872/3	title	"Acute myeloid leukemia, minimal differentiation"
+9872/3	sub	Acute myeloblastic leukemia
+9872/3	sub	FAB M0
+9873/3	title	Acute myeloid leukemia without maturation
+9873/3	sub	FAB M1
+9874/3	title	Acute myeloid leukemia with maturation
+9874/3	sub	"FAB M2, NOS"
+9875/3	title	"Chronic myelogenous leukemia, BCR/ABL  positive"
+9875/3	sub	"Chronic myelogenous leukemia, Philadelphia chromosome (Ph1) positive"
+9875/3	sub	"Chronic myelogenous leukemia, t(9"
+9875/3	sub	"Chronic granulocytic leukemia, Philadelphia chromosome (Ph1) positive"
+9875/3	sub	"Chronic granulocytic leukemia, t(9"
+9875/3	sub	"Chronic granulocytic leukemia, BCR/ABL"
+9876/3	title	"Atypical chronic myeloid leukemia, BCR/ABL negative"
+9876/3	sub	"Atypical chronic myeloid leukemia, Philadelphia chromosome (Ph1) negative"
+9891/3	title	Acute monocytic leukemia
+9891/3	sub	Acute monoblastic leukemia
+9891/3	sub	"Monoblastic leukemia, NOS"
+9891/3	sub	FAB M5
+9895/3	title	Acute myeloid leukemia with multilineage dysplasia
+9895/3	sub	Acute myeloid leukemia with prior myelodysplastic syndrome
+9895/3	sub	Acute myeloid leukemia without prior myelodysplastic syndrome
+9896/3	title	"Acute myeloid leukemia, t(8"
+9896/3	sub	"Acute myeloid leukemia, AML1(CBF- alpha)/ETO"
+9896/3	sub	"FAB M2, t(8"
+9896/3	sub	"FAB M2, AML1(CBF-alpha)/ETO"
+9897/3	title	"Acute myeloid leukemia, 11q23 abnormalities"
+9897/3	sub	"Acute myeloid leukemia, MLL"
+9910/3	title	Acute megakaryoblastic leukemia
+9910/3	sub	Megakaryocytic leukemia
+9910/3	sub	FAB M7
+9920/3	title	"Therapy-related acute myeloid leukemia, NOS"
+9920/3	sub	"Therapy-related acute myeloid leukemia, alkylating agent related"
+9920/3	sub	"Therapy-related acute myeloid leukemia, epipodophyllotoxin-related"
+9930/3	title	Myeloid sarcoma
+9930/3	sub	Granulocytic sarcoma
+9930/3	sub	Chloroma
+9931/3	title	Acute panmyelosis with myelofibrosis
+9931/3	sub	"Acute panmyelosis, NOS"
+9931/3	sub	Acute myelofibrosis
+9931/3	sub	"Acute myelosclerosis, NOS"
+9931/3	sub	Malignant myelosclerosis
+9940/3	title	Hairy cell leukemia
+9940/3	sub	Hairy cell leukemia variant
+9940/3	sub	Leukemic reticuloendotheliosis
+9945/3	title	"Chronic myelomonocytic leukemia, NOS"
+9945/3	sub	"Chronic myelomonocytic leukemia, Type I"
+9945/3	sub	"Chronic myelomonocytic leukemia, Type II"
+9945/3	sub	Chronic myelomonocytic leukemia in transformation
+9946/3	title	Juvenile myelomonocytic leukemia
+9946/3	sub	Juvenile chronic myelomonocytic leukemia
+9948/3	title	Aggressive NK-cell leukemia
+9950/3	title	Polycythemia vera
+9950/3	sub	Polycythemia rubra vera
+9950/3	sub	Proliferative polycythemia
+9950/3	sub	Chronic erythremia
+9960/3	title	"Chronic myeloproliferative disease, NOS"
+9960/3	sub	Chronic myeloproliferative disorder
+9961/3	title	Myelosclerosis with myeloid metaplasia
+9961/3	sub	Myelofibrosis as a result of myeloproliferative disease
+9961/3	sub	Chronic idiopathic myelofibrosis
+9961/3	sub	Agnogenic myeloid metaplasia
+9961/3	sub	Megakaryocytic myelosclerosis
+9961/3	sub	Myelofibrosis with myeloid metaplasia
+9962/3	title	Essential thrombocythemia
+9962/3	sub	Idiopathic thrombocythemia
+9962/3	sub	Essential hemorrhagic thrombocythemia
+9962/3	sub	Idiopathic hemorrhagic thrombocythemia
+9963/3	title	Chronic neutrophilic leukemia
+9964/3	title	Hypereosinophilic syndrome
+9964/3	sub	Chronic eosinophilic leukemia
+9970/1	title	"Lymphoproliferative disorder, NOS"
+9970/1	sub	"Lymphoproliferative disease, NOS"
+9975/1	title	"Myeloproliferative disease, NOS"
+9980/3	title	Refractory anemia
+9980/3	sub	Refractory anemia without sideroblasts
+9982/3	title	Refractory anemia with sideroblasts
+9982/3	sub	Refractory anemia with ringed sideroblasts
+9982/3	sub	RARS
+9983/3	title	Refractory anemia with excess blasts
+9983/3	sub	RAEB
+9983/3	sub	RAEB I
+9983/3	sub	RAEB II
+9984/3	title	Refractory anemia with excess blasts in transformation
+9984/3	sub	RAEB-T
+9985/3	title	Refractory cytopenia with multilineage dysplasia
+9986/3	title	Myelodysplastic syndrome with 5q deletion (5q-) syndrome
+9987/3	title	"Therapy-related myelodysplastic syndrome, NOS"
+9987/3	sub	"Therapy-related myelodysplastic syndrome, alkylating agent related"
+9987/3	sub	"Therapy-related myelodysplastic syndrome, epipodophyllotoxin-related"
+9989/3	title	"Myelodysplastic syndrome, NOS"
+9989/3	sub	Preleukemia
+9989/3	sub	Preleukemic syndrome

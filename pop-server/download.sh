@@ -32,7 +32,7 @@ if [ -n "$https_proxy" ]; then
 fi
 
 TERMINOLOGY=$1
-DATA_DIR=$POP_EXTERNAL_DATA_DIR
+DATA_DIR=./pop/terminology/external-sources
 
 mkdir -p $DATA_DIR
 
@@ -207,13 +207,13 @@ download_icd10pcs() {
 
 download_ncit() {
 	# Local variables
-	DOWNLOAD_URL=https://evs.nci.nih.gov/ftp1/NCI_Thesaurus/archive/24.09e_Release/Thesaurus_24.09e.FLAT.zip
+	DOWNLOAD_URL=https://evs.nci.nih.gov/ftp1/NCI_Thesaurus/archive/2024/24.09e_Release/Thesaurus_24.09e.FLAT.zip
 	DOWNLOAD_FILE=$DATA_DIR/ncit.zip
 	PROCESSED_FILE=$DATA_DIR/ncit.tsv
 	echo ""
 	echo "Downloading NCI Thesaurus files"
 	echo "-----------------------------------"
-  wget $WGET_PROXY_OPTIONS -O $DOWNLOAD_FILE $DOWNLOAD_URL
+  # wget $WGET_PROXY_OPTIONS -O $DOWNLOAD_FILE $DOWNLOAD_URL
   unzip $DOWNLOAD_FILE
   echo -e "code\\tconcept IRI	parents	synonyms\\tdefinition\\tdisplay name\\tconcept status\\tsemantic type\\tconcept in subset" > $PROCESSED_FILE
   cat Thesaurus.txt >> $PROCESSED_FILE

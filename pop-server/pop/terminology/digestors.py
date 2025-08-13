@@ -8,6 +8,9 @@ from collections import defaultdict
 from datetime import datetime
 
 from django.conf import settings
+from pydantic import BaseModel
+from tqdm import tqdm
+
 from pop.terminology.schemas import CodedConcept
 from pop.terminology.utils import (
     ensure_list,
@@ -15,8 +18,6 @@ from pop.terminology.utils import (
     get_dictreader_and_size,
     get_file_location,
 )
-from pydantic import BaseModel
-from tqdm import tqdm
 
 # Expand size limit to load heavy CSV files
 csv.field_size_limit(sys.maxsize)
@@ -48,7 +49,8 @@ class TerminologyDigestor:
     """
 
     PATH: str = os.path.join(
-        settings.BASE_DIR, os.environ.get("POP_EXTERNAL_DATA_DIR", "external_data")
+        settings.BASE_DIR,
+        "pop/terminology/external-sources",
     )
     FILENAME: str
     CANONICAL_URL: str
@@ -502,7 +504,8 @@ class EnsemblExonsDigestor(TerminologyDigestor):
         for gene, exons in self.exons.items():
             # Adjust the the cDNA position from the position in the gene reference sequence to position in the cDNA
             gene_coding_dna_region_start = min(
-                [exon.coding_dna_start for exon in exons if exon.coding_dna_start] or [0]
+                [exon.coding_dna_start for exon in exons if exon.coding_dna_start]
+                or [0]
             )
             if gene_coding_dna_region_start:
                 for exon in exons:
@@ -529,8 +532,12 @@ class EnsemblExonsDigestor(TerminologyDigestor):
                 rank=int(exon_rank),
                 coding_dna_start=int(coding_dna_start) if coding_dna_start else None,
                 coding_dna_end=int(coding_dna_end) if coding_dna_end else None,
-                coding_genomic_start=int(coding_genomic_start) if coding_genomic_start else None,
-                coding_genomic_end=int(coding_genomic_end) if coding_genomic_end else None,
+                coding_genomic_start=(
+                    int(coding_genomic_start) if coding_genomic_start else None
+                ),
+                coding_genomic_end=(
+                    int(coding_genomic_end) if coding_genomic_end else None
+                ),
             )
         )
 

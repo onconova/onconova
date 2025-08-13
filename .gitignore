@@ -18,8 +18,9 @@ secrets.json
 # Bash utils
 pip-proxy.sh
 
-# Terminology artifacts
-.external/
+# SNOMED CT Terminology artifacts
+**/.external
+**/external-sources/snomed*
 
 # Migrations
 */migrations/
