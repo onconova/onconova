@@ -1,36 +1,34 @@
-import cachetools
-import requests
 import json
 import os
-import cachetools.func
-from pop.terminology.fhir import (
-    ValueSet,
-    ValueSetComposeInclude,
-     CodeSystem as CodeSystem,
-)
-from pop.terminology.models import CodedConcept as CodedConceptModel
-from pop.terminology.digestors import DIGESTORS
-from pop.terminology.schemas import CodedConcept
-from pop.terminology.utils import (
-    CodeSystemMap,
-    request_http_get,
-    parent_to_children,
-    printYellow,
-    printGreen,
-    printRed,
-)
-from pop.terminology.resolver import resolve_canonical_url
-from pop.terminology.special import (
-    expand_AntineoplasticAgent_with_NCTPOT_mappings,
-    expand_ctcae_terms,
-    add_gene_exons,
-)
 from enum import Enum
 from typing import List, Type
+
+import cachetools
+import cachetools.func
+import requests
 from tqdm import tqdm
 
 # Generate absolute path to artifacts folder
 from pop.settings import BASE_DIR
+from pop.terminology.digestors import DIGESTORS
+from pop.terminology.fhir import CodeSystem as CodeSystem
+from pop.terminology.fhir import ValueSet, ValueSetComposeInclude
+from pop.terminology.models import CodedConcept as CodedConceptModel
+from pop.terminology.resolver import resolve_canonical_url
+from pop.terminology.schemas import CodedConcept
+from pop.terminology.special import (
+    add_gene_exons,
+    expand_antineoplastic_agent_concepts,
+    expand_ctcae_terms,
+)
+from pop.terminology.utils import (
+    CodeSystemMap,
+    parent_to_children,
+    printGreen,
+    printRed,
+    printYellow,
+    request_http_get,
+)
 
 artifacts_path = os.path.join(BASE_DIR, "pop/apps/valuesets/artifacts/")
 
@@ -200,7 +198,7 @@ def expand_valueset(valuesetdef: ValueSet) -> List[CodedConcept]:
             if not concept.code:
                 raise ValueError(
                     "The valueset definition expansion has a concept without a code."
-                )            
+                )
             concepts.append(
                 CodedConcept(
                     code=concept.code,
@@ -364,7 +362,7 @@ def collect_codedconcept_terminology(
 
     # Determine which valueset model to synchronize and compile concepts accordingly
     special_composer_function = {
-        "AntineoplasticAgent": expand_AntineoplasticAgent_with_NCTPOT_mappings,
+        "AntineoplasticAgent": expand_antineoplastic_agent_concepts,
         "AdverseEventTerm": expand_ctcae_terms,
     }
     if CodedConcept_name in special_composer_function:
@@ -389,12 +387,14 @@ def collect_codedconcept_terminology(
     for concept in tqdm(
         concepts, total=len(concepts), desc="• Postprocessing concepts"
     ):
-        if concept: 
+        if concept:
             concept = CodedConceptModel._concept_postprocessing(concept)
             if concept.display:
                 concept.synonyms.append(concept.display)
-                concept.display = CodedConceptModel._concept_display_postprocessing(concept.display)
-                
+                concept.display = CodedConceptModel._concept_display_postprocessing(
+                    concept.display
+                )
+
     # Keep track of the update process
     new_concepts = 0
     updated_concepts = 0
@@ -430,7 +430,7 @@ def collect_codedconcept_terminology(
                 code=concept.parent, system=concept.system
             ).first()
             if parent:
-                child.parent = parent # type: ignore
+                child.parent = parent  # type: ignore
                 child.save()
     print("✓ - All concepts written into the database")
     # Delete dangling concepts
