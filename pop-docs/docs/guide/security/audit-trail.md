@@ -1,10 +1,9 @@
-The Precision Oncology Platform (POP) provides a transparent and robust auditing system to track all changes to clinical and research data within the platform. This ensures traceability, accountability, and data integrity — crucial for compliance in sensitive healthcare and research environments.
+The Precision Oncology Platform (POP) provides a transparent and robust auditing system to track all changes to clinical and research data within the platform. This ensures traceability, accountability, and data integrity, crucial for compliance in sensitive healthcare and research environments.
 
 ## How Events are Tracked
 
 ### Data Changes
-Ever
-y operation performed on a data resource — whether a **create**, **update**, or **delete** — is automatically logged at the database level using **PostgreSQL triggers**.
+Every operation performed on a data resource, whether a **create**, **update**, or **delete**, is automatically logged at the database level using **PostgreSQL triggers**.
 
 Whenever a change occurs:
 
@@ -36,9 +35,9 @@ This includes:
 - The timestamp of the export.
 - The user who initiated the export.
 - A list of datapoints or cases included in the export.
-- Other metadata requuired to recreate the exported dataset 
+- Other metadata required to recreate the exported dataset 
 
-This ensures traceability of how and when sensitive data leaves the system — a key requirement for most clinical research data governance frameworks.
+This ensures traceability of how and when sensitive data leaves the system, a key requirement for most clinical research data governance frameworks.
 
 
 ### Public Audit Trail Access

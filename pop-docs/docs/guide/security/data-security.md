@@ -16,7 +16,7 @@ Failing to properly manage sensitive data can result in:
 
 !!! note
 
-    **Each site is accountable for maintaining a compliant environment**. No software is inherently compliant; compliance depends on the environment in which it’s implemented. This includes the policies, procedures, and infrastructure managed by each study team and institution. Decisions about server settings, security, data backups, and user access are the responsibility of each organization — not defined by POP itself. 
+    **Each site is accountable for maintaining a compliant environment**. No software is inherently compliant; compliance depends on the environment in which it’s implemented. This includes the policies, procedures, and infrastructure managed by each study team and institution. Decisions about server settings, security, data backups, and user access are the responsibility of each organization, not defined by POP itself. 
 
 ---
 

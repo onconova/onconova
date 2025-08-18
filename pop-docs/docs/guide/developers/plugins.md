@@ -1,4 +1,4 @@
-The Precision Oncology Platform (POP) supports a plugin architecture for extending the Angular client **without modifying the core platform codebase**. This enables institutions and developers to add custom views, dashboards, visualizations, or workflows tailored to their needs — while keeping the core client clean, maintainable, and upgradeable.
+The Precision Oncology Platform (POP) supports a plugin architecture for extending the Angular client **without modifying the core platform codebase**. This enables institutions and developers to add custom views, dashboards, visualizations, or workflows tailored to their needs, while keeping the core client clean, maintainable, and upgradeable.
 
 This page explains what plugins are, how to develop them, and how to integrate them into POP.
 
@@ -93,7 +93,7 @@ Use a plugin when you need to:
 
     !!! warning "Do Not Expose Sensitive Secrets"
 
-        Any value injected into the frontend will be accessible by end users in the browser. Never include secrets or sensitive values — use secure APIs instead.
+        Any value injected into the frontend will be accessible by end users in the browser. Never include secrets or sensitive values, use secure APIs instead.
 
 
 

@@ -1,4 +1,4 @@
-Thank you for your interest in contributing to the Precision Oncology Platform (POP)! POP is an open-source project that relies on collaboration from the community — developers, clinicians, data scientists, and institutions — to improve and extend its capabilities.
+Thank you for your interest in contributing to the Precision Oncology Platform (POP)! POP is an open-source project that relies on collaboration from the community (developers, clinicians, data scientists, and institutions) to improve and extend its capabilities.
 
 This guide explains how you can propose changes, what types of contributions are welcome, and the processes in place to ensure quality, security, and maintainability.
 
@@ -8,7 +8,7 @@ There are two main categories of contributions:
 
 ### Core Platform Contributions
 
-Changes that affect the **core functionality of POP** — including backend models, APIs, frontend components, security layers, and shared infrastructure.
+Changes that affect the **core functionality of POP**, including backend models, APIs, frontend components, security layers, and shared infrastructure.
 
 Examples:
 
@@ -53,7 +53,20 @@ This keeps the core platform clean, maintainable, and institution-agnostic while
 
 2. **Set Up Your Development Environment**
 
-    - Follow the [Installation Guide](../../get-started/installation.md) to set up POP locally for development using Docker Compose.
+    - Follow the [Installation Guide](../../get-started/installation.md) to set up POP for local development using Docker Compose.
+
+        !!! important "Development Docker Compose"
+
+            Use the `compose.dev.yml` file for development. You can specify it directly when starting the containers:
+            ```sh
+            docker compose -f compose.dev.yml up --build -d
+            ```
+            or set the environment variable:
+            ```sh
+            export COMPOSE_FILE=compose.dev.yml
+            ```
+
+        The development containers are configured to mount your local source code into the container. Any changes you make to your code are immediately reflected inside the container, automatically restarting the server or client as needed. This enables live development without requiring you to install all dependencies on your local machine.
 
 3. **Create a Feature Branch**
 
@@ -76,13 +89,30 @@ This keeps the core platform clean, maintainable, and institution-agnostic while
     - Use environment variables and configuration files for deploy-time settings.
 
 5. **Test Thoroughly**
+    
+    - POP includes a comprehensive test suite to ensure all components function as intended. The testing strategy varies depending on whether you are working on the server, the client, or both.
 
-    - Run unit tests and integration tests.
-    - Add new tests for new functionality.
-    - Verify Docker containers build and run cleanly.
-    - Test frontend and backend functionality locally.
+        === "Testing the Server"
 
-6. **Submit a Pull Request**
+            Run server-side unit tests using [Pytest](https://docs.pytest.org/en/stable/) within the Docker container:
+            ```sh
+            docker compose run --rm server pytest -W ignore
+            ```
+            These tests cover backend models, API endpoints, and core logic. Before submitting changes, verify that all tests pass and consider adding new tests for any new features or bug fixes.
+
+        === "Testing the Client"
+
+            Execute client-side Angular unit tests:
+            ```sh
+            docker compose run --rm client npm run test:ci
+            ```
+            Automated tests validate UI components, services, and client logic. In addition to running these tests, manually test the application (especially any new or modified components) on your development instance to confirm expected behavior and usability.
+
+    - If any tests fail, review your changes and address issues before submitting your PR. Any modifications to the test suite should be well-justified, documented in your PR, and performed with care to maintain coverage and reliability.
+
+    - For significant changes, consider writing integration or end-to-end tests to ensure that new features work seamlessly with existing functionality.
+
+1. **Submit a Pull Request**
 
     - Provide a clear, informative description:
 
@@ -92,6 +122,9 @@ This keeps the core platform clean, maintainable, and institution-agnostic while
         + Testing steps performed.
 
     - Label the PR appropriately.
+
+    - Wait for the automated testing pipeline to complete. The PR can only be merged if all test complete succesfully. 
+ 
 
 ### Code Review & Approval
 All contributions must be reviewed and approved by a POP core development team member before being merged.

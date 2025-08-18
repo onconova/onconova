@@ -123,7 +123,7 @@ Both are integrated using Django-AllAuth’s social account providers. To enable
 
 !!! note "Client-only"
 
-    OIDC authentication is enabled exclusively for client-side authentication in POP. API requests must be authenticated either via a traditional login or with an OIDC access token. Importantly, no provider credentials are uploaded to or stored within the POP server — identity verification is handled entirely through the client’s interaction with the identity provider.
+    OIDC authentication is enabled exclusively for client-side authentication in POP. API requests must be authenticated either via a traditional login or with an OIDC access token. Importantly, no provider credentials are uploaded to or stored within the POP server, identity verification is handled entirely through the client’s interaction with the identity provider.
 
 
 

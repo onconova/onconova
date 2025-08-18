@@ -1,7 +1,3 @@
-<a name="readme-top"></a>
-
-<!-- PROJECT LOGO -->
-
 <br />
 <div align="center">
     <a href="https://github.com/luisfabib/pop">
@@ -13,8 +9,15 @@
 [![license](https://img.shields.io/github/license/luisfabib/pop.svg)](https://github.com/luisfabib/pop/blob/main/LICENSE)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/y/luisfabib/pop)
 
+![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+![Django](https://img.shields.io/badge/django-%23092E20.svg?style=for-the-badge&logo=django&logoColor=white)
+![Angular](https://img.shields.io/badge/angular-%23DD0031.svg?style=for-the-badge&logo=angular&logoColor=white)
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
+
+
   <p align="center">
-    The Precision Oncology Platform (POP) is an open-source project aimed at capturing and structuring clinical data from oncology patients, while enabling interactive aggregated data analysis.
+    The Precision Oncology Platform (POP) is an open-source project aimed at capturing and structuring cancer-related clinical data, while enabling interactive aggregated data analysis.
     <br />
     <br />
     <a href="https://luisfabib.github.io/pop "><strong>Explore the docs »</strong></a>
@@ -26,107 +29,40 @@
   </p>
 </div>
 
-# Installation 
 
-Follow these steps to install and set up the Precision Oncology Platform (POP) on a Linux-based machine:
+## Features
 
-1. **Clone the repository** - Download the code repository navigate to the project's directory
-    ```bash
-    git clone https://github.com/luisfabib/pop.git
-    cd pop
-    ```
-   
-2. **Setup Host SSL Certificates** - Create or get a host SSL certificate and private key (e.g. `localhost.pem` and `localhost.key.pem` for local hosting). 
+ **🖥️ API Server**  
+    Robust CRUD API for clinical resources, designed with the OpenAPI 3.1 standard for seamless data manipulation and exchange.
 
-    *Tip:* For local hosting you can generate the certificates using `certbot`:
-    ```bash 
-    sudo certbot certonly --standalone --preferred-challenges http -d localhost -d localhost
-    ``` 
-    
+**🌐 Web Client**  
+    Modern Angular-based interface for intuitive interaction with clinical data and API endpoints.
 
-3. **Configure the environment** - Setup the environment variables to configure the installation to your machine and its network.
+**📋 Structured Data Collection**  
+    Streamlined capture of research data in standardized formats, securely stored in a relational PostgreSQL database.
 
-    - Copy the contents of `.env.sample` to new `.env` file.
-    ```bash
-    cp .env.sample .env
-    ```
+**📊 Interactive Data Exploration**  
+    Powerful cohort creation, real-time filtering, and visualization tools for dynamic data analysis.
 
-    - Update the .env file with your configuration settings:
-        - Provide the paths to the host SSL certificates in `POP_REVERSE_PROXY_SSL_CERTIFICATE_BUNDLE` and `POP_REVERSE_PROXY_SSL_CERTIFICATE_PRIVATE_KEY`.
+**🔒 Data Protection**  
+    Automated anonymization features to help ensure compliance with data privacy regulations.
 
-        - Set `COMPOSE_FILE=compose.prod.yml` for production environments.
+**🚀 Effortless Deployment**  
+    Fully Dockerized architecture for quick setup and reliable production deployment.
 
-4. **Build and Run the Containers** - The following command will build the images and start the containers containing the application:
-    ```bash
-    docker compose up
-    ```
+**🧩 Extensible & Customizable**  
+    Plugin system enables institution-specific enhancements without altering the core platform.
 
-5. **Access the Web App** - Navigate to `https://${POP_REVERSE_PROXY_HOST}:${POP_REVERSE_PROXY_HTTPS_PORT}/` in your browser to ensure the login page is rendered correctly.
- 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+## Installation
 
-## First-time setup of the server
+Checkout the [Installation Guide](https://luisfabib.github.io/pop/get-started/installation/) for detailed setup instructions.
 
-1. **Apply migrations** - Run the following command to apply the database migrations and ensure all tables are set up:
-    ```bash
-    docker compose run server python manage.py migrate
-    ```
+If you need help, consult the [FAQ](https://luisfabib.github.io/pop/get-started/faq/) or [open an issue](https://github.com/luisfabib/pop/issues).
 
-2. **Create a Superuser Account** - Create a superuser to start administrating the server and client applications:
-    ```bash
-    docker compose run server python manage.py createsuperuser --username admin
-    ```
+### Prerequisites
 
-3. **Import the terminologies**. 
-    
-    POP uses an internal store of different terminology systems (e.g. SNOMED-CT, LOINC, ICD-10, etc.). To generate that store several external terminology artifacts must be downloaded and imported into the database. Follow these steps to achieve that:
+See the [requirements](https://luisfabib.github.io/pop/get-started/requirements/) for supported platforms and dependencies.
 
-    3.1 **Download external dependencies** - Most terminologies will be automatically downloaded and handled by the software, however both SNOMED-CT and LOINC require login credentials and license agreements that have to be accepted first: 
-      - Go to `https://mlds.ihtsdotools.org/#/viewReleases/viewRelease/167` and download `SnomedCT_InternationalRF2_PRODUCTION_***********.zip`. This requires a user and license for SNOMED CT International (free for academic purposes in contributing countries).
-      - Go to `https://loinc.org/download/loinc-complete/` and download `Loinc_*.**.zip`. This requires a LOINC user (free).
-
-    3.2 **Generate the terminology store** - Once you’ve downloaded the terminology files, run the following command to synchronize them:
-    ```bash
-    docker compose run \
-        -v /absolute/path/to/SnomedCT_International*.zip:/app/data/snomed.zip \
-        -e POP_SNOMED_ZIPFILE_PATH='/app/data/snomed.zip' \
-        -v /absolute/path/to/Loinc_*.**.zip:/app/data/loinc.zip \
-        -e POP_LOINC_ZIPFILE_PATH='/app/data/loinc.zip' \
-        server python manage.py termsynch
-    ```
-
-    *Note:* If your machine is behind a corporate proxy and/or with root CA certificates add the following arguments to the command:
-    ```bash
-    # Copy certificates
-    cp <local/path/to/root_ca_certificates.pem> ./pop-server/etc/certs/root_ca_certificates.pem
-    # Create store with proxy settings setup
-    docker compose run \
-        ...
-        -e http_proxy='http://<username>:<password>@<hostname>:<port>' \
-        -e https_proxy='http://<username>:<password>@<hostname>:<port>' \
-        -e ROOT_CA_CERTIFICATES='./etc/certs/root_ca_certificates.pem' \
-        server python manage.py termsynch
-    ```
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-## Building images behind a corporate proxy and with root CA certificates
-
-To ensure that the images are built properly
-
-1. Copy root CA certificate to server build context
-    ```bash
-    cp <local/path/to/root_ca_certificates.pem> ./pop-server/etc/certs/root_ca_certificates.pem
-    ```
-
-2. Build all images through proxy and with trusted root CA certificates
-    ```bash
-    docker compose build \
-        --build-arg http_proxy='http://<username>:<password>@<hostname>:<port>' \
-        --build-arg https_proxy='http://<username>:<password>@<hostname>:<port>' \
-        --build-arg ROOT_CA_CERTIFICATES='./etc/certs/root_ca_certificates.pem'
-    ```
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- CONTRIBUTING -->
 ## Contributing
@@ -135,18 +71,38 @@ Contributions are what make the open source community such an amazing place to l
 
 If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
 
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/amazing_feature`)
-3. Commit your Changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the Branch (`git push origin feature/amazing_feature`)
-5. Open a Pull Request (PR)
+### Development Setup
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+Follow the [Installation Guide](../../get-started/installation.md) to set up POP for local development using Docker Compose.
 
+Use the `compose.dev.yml` file for development. You can specify it directly when starting the containers:
+```sh
+docker compose -f compose.dev.yml up --build -d
+```
+or set the environment variable:
+```sh
+export COMPOSE_FILE=compose.dev.yml
+```
+
+The development containers are configured to mount your local source code into the container. Any changes you make to your code are immediately reflected inside the container, automatically restarting the server or client as needed. This enables live development without requiring you to install all dependencies on your local machine.
+
+### Testing
+
+POP includes a comprehensive test suite to ensure all components function as intended. The testing strategy varies depending on whether you are working on the server, the client, or both.
+
+Run server-side unit tests using [Pytest](https://docs.pytest.org/en/stable/) within the Docker container:
+```sh
+docker compose run --rm server pytest -W ignore
+```
+These tests cover backend models, API endpoints, and core logic. Before submitting changes, verify that all tests pass and consider adding new tests for any new features or bug fixes.
+
+Execute client-side Angular unit tests:
+```sh
+docker compose run --rm client npm run test:ci
+```
+Automated tests validate UI components, services, and client logic. In addition to running these tests, manually test the application (especially any new or modified components) on your development instance to confirm expected behavior and usability.
 
 <!-- LICENSE -->
 ## License
 
-Distributed under the MIT License. See ![LICENSE](https://github.com/luisfabib/pop?tab=MIT-1-ov-file) for more information.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+Distributed under the MIT License. See [LICENSE](https://github.com/luisfabib/pop?tab=MIT-1-ov-file) for more information.

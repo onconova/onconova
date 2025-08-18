@@ -8,7 +8,7 @@ Below are answers to common questions about installing, configuring, and using t
 
 
 #### Is POP free to use?
-Yes — POP is released as an open-source project under the MIT License. You are free to use, modify, and distribute it under the terms of this license.
+Yes, POP is released as an open-source project under the MIT License. You are free to use, modify, and distribute it under the terms of this license.
 
 --- 
 
@@ -20,13 +20,13 @@ Yes, POP is designed for production environments. However, you should carefully 
 
 
 #### Does POP support Single Sign-On (SSO)?
-Yes — POP integrates with the Django-AllAuth authentication framework and provides built-in SSO support for Google and Microsoft. See the [Authentication guide](guide/security/authentication.md) for integration instructions.
+Yes, POP integrates with the Django-AllAuth authentication framework and provides built-in SSO support for Google and Microsoft. See the [Authentication guide](guide/security/authentication.md) for integration instructions.
 
 --- 
 
 
 #### Can I export data from POP for my research?
-Yes — users with sufficient access (typically Project Managers or higher) can export anonymized or pseudonymized patient case data, depending on their access level and project permissions. See [Access Control](guide/security/permissions.md) for details.
+Yes, users with sufficient access (typically Project Managers or higher) can export anonymized or pseudonymized patient case data, depending on their access level and project permissions. See [Access Control](guide/security/permissions.md) for details.
 
 --- 
 
@@ -42,7 +42,7 @@ Cohort creation is limited to the scope of research projects. If you are not a m
 
 
 #### Do I need an ethics approval to use this platform for a research project?
-Yes — if your use of the Precision Oncology Platform (POP) involves handling clinical data, even in anonymized or pseudonymized form, you are typically required to obtain approval from your institution’s ethics committee or institutional review board (IRB) before starting your research project.
+Yes, if your use of the Precision Oncology Platform (POP) involves handling clinical data, even in anonymized or pseudonymized form, you are typically required to obtain approval from your institution’s ethics committee or institutional review board (IRB) before starting your research project.
 
 While POP provides technical safeguards for data protection and privacy, ethical oversight is essential to:
 
@@ -60,7 +60,7 @@ While POP provides technical safeguards for data protection and privacy, ethical
 
 
 #### Can I share exported data from POP with external collaborators?
-Technically, yes — POP’s data export functionality is designed to produce interoperable, standards-compliant data that can be easily shared between institutions or research partners.
+Technically, yes, POP’s data export functionality is designed to produce interoperable, standards-compliant data that can be easily shared between institutions or research partners.
 
 However, whether you may share exported data depends entirely on your ethics approval, institutional policies, and data protection regulations:
 
@@ -72,7 +72,7 @@ However, whether you may share exported data depends entirely on your ethics app
 
 
 #### Do I need patient consent to include their data in POP?
-Yes. Before patient data can be included in POP — whether for clinical documentation, research, or data analysis — appropriate patient consent must be obtained in accordance with local laws, institutional policies, and ethical guidelines.
+Yes. Before patient data can be included in POP, whether for clinical documentation, research, or data analysis, appropriate patient consent must be obtained in accordance with local laws, institutional policies, and ethical guidelines.
 
 Important considerations:
 

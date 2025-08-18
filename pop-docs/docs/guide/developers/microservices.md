@@ -8,7 +8,7 @@ A POP microservice is a lightweight, standalone service that:
 
 - **Interacts with POP via its public API** for reading or writing data.
 - **Optionally exposes its own API** for client-side plugins or external tools to consume.
-- **Never interacts directly with the POP database** — all communication must go through the platform’s API to preserve auditability, access control, and data integrity.
+- **Never interacts directly with the POP database**, all communication must go through the platform’s API to preserve auditability, access control, and data integrity.
 
 ## When to Build a Microservice
 

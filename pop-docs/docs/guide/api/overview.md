@@ -6,7 +6,7 @@ An **API (Application Programming Interface)** is a set of rules and protocols t
 In simpler terms:
 
 - **For non-technical users:** Think of it like a waiter in a restaurant. You (the user) tell the waiter (API) what you want, the waiter takes your request to the kitchen (the server/database), and then brings the result back to you.
-- **In POP:** The API allows external systems, scripts, or applications to securely interact with the POP database — retrieving information or submitting new data — without directly accessing the database itself.
+- **In POP:** The API allows external systems, scripts, or applications to securely interact with the POP database, retrieving information or submitting new data without directly accessing the database itself.
 
 APIs are commonly used to:
 
@@ -45,11 +45,13 @@ You can automatically generate fully functional, typed client libraries in a var
 - **Postman (for importing and testing)**
 
 Supported languages and frameworks include:
+
 - Python (e.g. `python-requests`, `pydantic`, `fastapi-clients`)
 - JavaScript / TypeScript (e.g. `axios`, `fetch` clients)
 - Java, C#, Go, Ruby, and others
 
 This allows developers to:
+
 - Avoid manual implementation of API requests and models.
 - Automatically enforce request/response validation and typing.
 - Stay synchronized with evolving API schemas through regeneration.
@@ -72,10 +74,11 @@ The POP API follows a **semantic versioning strategy** with clearly defined majo
 
 - `v1` indicates the current major API version.
 - Changes to the database schema are mapped to versioned API changes based on their impact:
-  - **Non-breaking additions** (e.g., new optional fields, new endpoints) are applied to the current version.
-  - **Breaking changes** (e.g., removing fields, changing required parameters, altering response structures) trigger the release of a **new major API version** (e.g., `v2`).
+    * **Non-breaking additions** (e.g., new optional fields, new endpoints) are applied to the current version.
+    * **Breaking changes** (e.g., removing fields, changing required parameters, altering response structures) trigger the release of a **new major API version** (e.g., `v2`).
 
 This ensures that:
+
 - Existing integrations targeting `/api/v1/` remain stable and functional, even as the underlying database evolves.
 - Integrators can migrate to newer API versions on their own schedule, without being forced to update immediately.
 

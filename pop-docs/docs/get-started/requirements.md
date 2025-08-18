@@ -91,7 +91,7 @@ Only the **latest stable versions** of these browsers are supported. Browsers sh
 To use POP with SNOMED CT clinical terminology, you must obtain a valid SNOMED CT International release file. Access to this release file requires a SNOMED CT license, which is governed by national licensing arrangements managed by SNOMED International and its member countries.
 
 - **Obtain the release file:**  
-  Visit [SNOMED International](https://www.snomed.org/snomed-ct/get-snomed-ct) to check your country's licensing status and download the International release file. Checkout the [Installation instructions](../installation.md) for further details on which files to download.
+  Visit [SNOMED International](https://www.snomed.org/snomed-ct/get-snomed-ct) to check your country's licensing status and download the International release file. Checkout the [Installation instructions](./installation.md) for further details on which files to download.
 
 - **License requirement:**  
   You must have a valid SNOMED CT license to download and use the International release file in your POP deployment.
