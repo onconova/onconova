@@ -57,7 +57,7 @@
                     ({{ (cohortPopulation() || 0) - totalInvalidCases()}} valid)
                 </div>
             }
-            @else {
+            @else if (cohortTraits.isLoading()) {
                 <p-skeleton height="1rem" width="6rem"/>
             }
             <div class="">Cases</div>
@@ -78,7 +78,7 @@
                         }
                     </pop-cohort-trait>
 
-                    <pop-cohort-trait  title="Case ID" [loading]="loading()">
+                    <pop-cohort-trait  title="Cohort ID" [loading]="loading()">
                         @if (cohort.value(); as value) {
                             <span class="text-monospace text-sm">
                                 {{ value.id }}
@@ -119,20 +119,20 @@
                     <pop-cohort-trait  title="Predominant Gender" [loading]="loading() || cohortTraits.isLoading()" [valid]="cohort && cohortNonEmpty()">
                         @if (cohortTraits.value()?.genders; as genders) {
                             @let predominantGender = getPredominantCount(genders);
-                            {{ predominantGender.category }}
                             @if (predominantGender.percentage !== null) {
-                                {{ predominantGender.percentage | number:'1.0-1' }}%
+                                {{ predominantGender.percentage | number:'1.0-1' }}% 
                             }
+                            {{ predominantGender.category }}
                         }
                     </pop-cohort-trait>
 
                     <pop-cohort-trait  title="Predominant Site" [loading]="loading() || cohortTraits.isLoading()" [valid]="cohort && cohortNonEmpty()">
                         @if (cohortTraits.value()?.neoplasticSites; as neoplasticSites) {
                             @let predominantSite = getPredominantCount(neoplasticSites);
-                            {{ predominantSite.category }}
                             @if (predominantSite.percentage !== null) {
-                                {{ predominantSite.percentage | number:'1.0-1' }}%
+                                {{ predominantSite.percentage | number:'1.0-1' }}% 
                             }
+                            {{ predominantSite.category }}
                         }
                     </pop-cohort-trait>
 
