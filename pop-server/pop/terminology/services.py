@@ -261,7 +261,7 @@ def follow_valueset_composition_rule(
             if rule.concept:
                 if codesystem:
                     system_concepts.extend(
-                        [codesystem.get(concept.code) for concept in rule.concept]
+                        [codesystem.get(concept.code, CodedConcept(code=concept.code, display=concept.display, system=rule.system) if concept.display else None) for concept in rule.concept]
                     )
                 else:
                     system_concepts.extend(
@@ -454,7 +454,7 @@ def collect_codedconcept_terminology(
     # Notify successful operation
     if new_concepts > 0:
         printGreen(
-            f"✓ - Succesfully synchronized {new_concepts} concepts in the <{CodedConcept_name}> model table. \t\t\t"
+            f"✓ - Succesfully create {new_concepts} new concepts in the <{CodedConcept_name}> model table. \t\t\t"
         )
     if deleted_dangling_concepts > 0:
         printGreen(
@@ -467,10 +467,6 @@ def collect_codedconcept_terminology(
     if len(dangling_concepts) > 0 and not prune_dangling:
         printYellow(
             f"⬤ - Ignored {len(dangling_concepts)} dangling concepts already present in the <{CodedConcept_name}> model table. \t\t\t"
-        )
-    if (len(concepts) - new_concepts - updated_concepts) > 0:
-        printYellow(
-            f"⬤ - Ignored {len(concepts) - new_concepts - updated_concepts} collected concepts already present in the <{CodedConcept_name}> model table. \t\t\t"
         )
     if len(concepts) == 0:
         printRed(
