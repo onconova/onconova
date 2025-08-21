@@ -4,6 +4,9 @@ import os
 import re
 import subprocess
 import sys
+import glob
+import shutil
+import zipfile
 from collections import defaultdict
 from datetime import datetime
 
@@ -63,16 +66,45 @@ class TerminologyDigestor:
 
         Args:
             verbose (bool, optional): Whether to print progress messages. Defaults to True.
-        """
+        """        
         try:
             self.file_location = get_file_location(self.PATH, self.FILENAME)
-        except FileNotFoundError:
-            print(
-                f"\nFile {self.PATH}/{self.FILENAME} not found. Attempting download..."
-            )
-            cmd = f"chmod +x download.sh && ./download.sh {self.LABEL}"
-            process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
-            process.wait()
+        except FileNotFoundError:                        
+            # Unzip into DATA_DIR
+            zip_file_path = os.environ.get('POP_SNOMED_ZIPFILE_PATH','')
+            if not zip_file_path or not os.path.isfile(zip_file_path):
+                print("ERROR FILE NOT FOUND:\nPlease download the SNOMEDCT_International_*.zip file from (requires a login and license):\nand specify the location of the zip file with the POP_SNOMED_ZIPFILE_PATH variable.\n")
+                sys.exit(1)
+            with zipfile.ZipFile(zip_file_path) as zip_ref:
+                zip_ref.extractall(self.PATH)
+
+            # Move files into TEMP_DIR
+            print('• Unpacking SNOMED CT files...')
+            temp_dir = os.path.join(os.path.basename(zip_file_path), '.snomed')
+            os.makedirs(temp_dir, exist_ok=True)
+            snomed_dirs = glob.glob(os.path.join(self.PATH, 'SnomedCT_*'))
+            for snomed_dir in snomed_dirs:
+                for item in os.listdir(snomed_dir):
+                    src = os.path.join(snomed_dir, item)
+                    dst = os.path.join(temp_dir, item)
+                    shutil.move(src, dst)
+
+            # Move description and relationship files
+            desc_src_pattern = os.path.join(temp_dir, 'Snapshot', 'Terminology', 'sct2_Description_Snapshot-en_INT_*')
+            desc_files = glob.glob(desc_src_pattern)
+            if desc_files:
+                shutil.move(desc_files[0], os.path.join(self.PATH, 'snomedct.tsv'))
+
+            rel_src_pattern = os.path.join(temp_dir, 'Snapshot', 'Terminology', 'sct2_Relationship_Snapshot_INT_*')
+            rel_files = glob.glob(rel_src_pattern)
+            if rel_files:
+                shutil.move(rel_files[0], os.path.join(self.PATH, 'snomedct_relations.tsv'))
+
+            # Remove TEMP_DIR and extracted SnomedCT_* directories
+            print('• Clean-up unnecessary files...')
+            shutil.rmtree(temp_dir, ignore_errors=True)
+            for snomed_dir in snomed_dirs:
+                shutil.rmtree(snomed_dir, ignore_errors=True)
         self.file_location = get_file_location(self.PATH, self.FILENAME)
         self.verbose = verbose
 

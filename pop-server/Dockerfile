@@ -90,7 +90,7 @@ WORKDIR /app/src
 COPY . .
 
 # Set permissions and use non-root user
-RUN adduser appuser && chown -R appuser /app
+RUN adduser appuser && chown -R appuser /app  && chmod +x download.sh
 USER appuser
 
 # Start the devlopment live-server
@@ -114,7 +114,7 @@ WORKDIR /app/src
 COPY . .
 
 # Set permissions and use non-root user
-RUN adduser appuser && chown -R appuser /app
+RUN adduser appuser && chown -R appuser /app && chmod +x download.sh
 USER appuser
 
 # Start the production-ready Gunicon webserver
