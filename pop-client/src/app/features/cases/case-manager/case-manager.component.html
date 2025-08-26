@@ -1,6 +1,9 @@
 
 @if (case$.error()) {
-    {{ pseudoidentifier()}} does not exist
+    <div class="case-manager-error">
+        <i class="pi pi-exclamation-triangle"></i>
+        <span>{{ pseudoidentifier()}} does not exist or could not be retrieved</span>
+    </div>
 } @else { 
     <div class="mb-3 mr-3 flex flex-wrap gap-2 row-gap-3">
         <p-button label="Return" severity="secondary" icon="pi pi-chevron-left" (click)="location.back()"/>
@@ -27,7 +30,7 @@
     </div>
     
     <!-- Case summary -->
-    <div class="case-manager-header card p-3">
+    <div class="case-manager-header">
         <div class="case-manager-header-summary flex flex-wrap">
             <pop-identicon [value]="pseudoidentifier()" class="m-auto"/>
             <div class="ml-3 my-auto">
@@ -37,7 +40,7 @@
                 </h2>
                 <div>
                     @if (case$.value(); as case) {
-                        <i [class]="case.gender.code == 'male' ? 'pi pi-mars' : 'pi pi-venus'"></i> {{ case.gender.display }}, 
+                        <i [class]="case.gender.code == 'male' ? 'pi pi-mars' : ( case.gender.code == 'female' ? 'pi pi-venus' : 'pi pi-genderless' )"></i> {{ case.gender.display }}, 
                         {{ case.age }} years@if(case.isDeceased){, deceased}
                     } @else {
                         <p-skeleton width="7rem" height="1.2rem" />
@@ -241,7 +244,7 @@
     
     <!-- Case content -->
         <div class="grid"> 
-            <div class="col-12 md:col-6 lg:col-4">
+            <div class="col-12 md:col-6 lg:col-4 p-3">
     
                 <p-fieldset legend="Cancer Characterization" class="pop-case-manager-group-panel">
     
@@ -322,7 +325,7 @@
             </div>
     
     
-            <div class="col-12 md:col-6 lg:col-6 xl:col-4">
+            <div class="col-12 md:col-6 lg:col-6 xl:col-4 p-3">
     
                 <p-fieldset legend="Therapy" class="pop-case-manager-group-panel">
     
@@ -412,7 +415,7 @@
             </div>
     
     
-            <div class="col-12 md:col-6 lg:col-4">
+            <div class="col-12 md:col-6 lg:col-4 p-3">
      
                 <p-fieldset legend="Clinical Observations"  class="pop-case-manager-group-panel">
     

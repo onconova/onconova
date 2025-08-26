@@ -1,3 +1,15 @@
+.case-manager-error {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: #ffeaea;
+    color: #c0392b;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 8px rgba(192,57,43,0.08);
+}
 
 
 .case-manager-header {
@@ -8,7 +20,17 @@
     background: var(--p-content-background); 
     color: var(--p-text-color); 
     margin: 1rem inherit;
+    border-radius: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    padding: 1rem; 
+    margin-bottom: 2rem;
+    backdrop-filter: blur(6px);
+
+    & .pop-cancer-icon {
+        scale: .8;
+    }
 }
+
 .pop-case-manager-group-panel {
     background: light-dark(var(--p-surface-0), var(--p-surface-900));
     & fieldset {
@@ -44,7 +66,7 @@ pop-case-manager-panel {
         }
         & .pop-case-manager-header-title {
             font-size: 1.1rem; 
-            font-weight: 550; 
+            font-weight: 500; 
         }
         & .pi-star-fill {
             color: var(--p-primary-color) !important;
@@ -53,11 +75,14 @@ pop-case-manager-panel {
             color: light-dark(var(--p-primary-600), var(--p-primary-400)) !important;
             background-color: color-mix(in srgb, var(--p-primary-400), transparent 80%) !important;
         }
-        & .pop-case-manager-menu-button {
-            cursor: pointer;
+        & .pop-case-manager-menu-button-container {
             margin-left: auto;
             margin-top: auto;
             margin-bottom: auto;
+        }
+        & .pop-case-manager-menu-button {
+            cursor: pointer;
+            margin-left: .75rem;
             color: var(--p-button-text-secondary-color) !important;
         }
     }
@@ -95,7 +120,7 @@ pop-case-manager-panel {
                 }
             }
             & .pop-case-manager-panel-timeline-event-date {
-                color: var(--p-primary-faded-color) !important;
+                color: var(--p-text-muted-color) !important;
             }
             & .pop-case-manager-panel-timeline-event-icon {
                 color: var(--p-divider-text-color) !important;

@@ -46,10 +46,15 @@ const TourDriverConfig: Config = {
         }},
         { element: '.pop-case-manager-menu-button:nth-of-type(1)', popover: { 
             side: "right", align: 'center', 
+            title: 'Adding New Entries',
+            description: `The "Add" button will open a modal form to create a new entry for the data category.<br>This option is only enabled if the data category is not completed and if data management has been enabled.`, 
+        }},
+        { element: '.pop-case-manager-menu-button:nth-of-type(2)', popover: { 
+            side: "right", align: 'center', 
             title: 'Context Menu',
             description: `Each data category has a button which will open its own dedicated submenu.`, 
             onNextClick: (el, step, {config, state, driver}) => {
-                const element = document.querySelector('.pop-case-manager-menu-button:nth-of-type(1)') as HTMLElement;
+                const element = document.querySelector('.pop-case-manager-menu-button:nth-of-type(2)') as HTMLElement;
                 if (element) {
                     element.click();
                 }
@@ -61,7 +66,7 @@ const TourDriverConfig: Config = {
         { element: 'pop-case-manager-panel .p-menu-item:nth-of-type(1)', popover: { 
             side: "right", align: 'center', 
             title: 'Adding New Entries',
-            description: `The "Add" button will open a modal form to create a new entry for the data category.<br>This option is only enabled if the data category is not completed and if data management has been enabled.`, 
+            description: `You can also add a new entry for the data category using this menu option.<br>Again, this option is only enabled if the data category is not completed and if data management has been enabled.`, 
         }},
         { element: 'pop-case-manager-panel .p-menu-item:nth-of-type(2)', popover: { 
             side: "right", align: 'center', 

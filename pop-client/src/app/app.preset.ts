@@ -35,14 +35,14 @@ export const AppThemePreset = definePreset(Aura, {
             light: {
                 primary: AppThemes.blue,
                 surface: {
-                    0: '#ffffff',
+                    0: '#FAFAFA',
                     ...get_color_scheme('zinc'),
                 }
             },
             dark: {
                 primary: AppThemes.blue,
                 surface: {
-                    0: '#ffffff',
+                    0: '#FAFAFA',
                     ...get_color_scheme('slate'),
                 }
             }

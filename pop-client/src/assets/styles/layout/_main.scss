@@ -1,4 +1,6 @@
 @use '_variables.scss' as vars; 
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
 
 * {
     box-sizing: border-box;
@@ -26,6 +28,7 @@
 
     --p-divider-text-color: light-dark(var(--p-surface-400),var(--p-surface-500));
     --p-tooltip-color: var(--p-surface-content);
+    --p-text-color: light-dark(var(--p-surface-900), var(--p-surface-100));
 }
 
 html {
@@ -34,13 +37,12 @@ html {
 }
 
 body {
-    font-family: var(--p-font-family);
-    color: var(--p-text-color);
     margin: 0;
     padding: 0;
     min-height: 100%;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    background: light-dark(#F5F7FA, var(--p-surface-950)) !important;
 }
 
 a {

@@ -33,7 +33,7 @@ export interface RadioChoice {
                             }
                         </small>
                     </div>
-                    <div class="flex flex-column gap-2">
+                    <div class="flex flex-column gap-3">
                         @for (event of groupedEvents.events; track event.id) {
                             <div (click)="onEventClick.emit(event)" class="pop-case-manager-panel-timeline-event-entry cursor-pointer">
                                 @if (icon()) {

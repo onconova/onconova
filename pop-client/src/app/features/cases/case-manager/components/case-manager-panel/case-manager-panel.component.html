@@ -26,8 +26,10 @@
         
         @if (!data.isLoading()) {
             @if (currentUser().canManageCases) {
-                <i class="pop-case-manager-menu-button pi pi-cog" 
-                (click)="menu.toggle($event)"></i>
+                <div class="pop-case-manager-menu-button-container">
+                    <i class="pop-case-manager-menu-button pi pi-plus-circle" title="Add new {{title() | lowercase}}" (click)="addNewEntry()"></i>
+                    <i class="pop-case-manager-menu-button pi pi-cog" (click)="menu.toggle($event)" title="Show other actions for {{title() | lowercase}}"></i>
+                </div>
             }
             <p-confirmdialog/>
             <p-menu #menu [model]="menuItems()" [popup]="true"/>
