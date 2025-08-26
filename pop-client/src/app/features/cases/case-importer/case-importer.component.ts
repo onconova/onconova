@@ -20,7 +20,7 @@ import { AuthService } from 'src/app/core/auth/services/auth.service';
 import { InlineSVGModule } from 'ng-inline-svg-2';
 import { ToggleSwitch } from 'primeng/toggleswitch';
 import { CaseImporterBundleViewerComponent } from './components/case-importer-bundle-viewer/case-importer-bundle-viewer.component';
-import { first, mergeMap } from 'rxjs';
+import { catchError, first, mergeMap, of } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Component({
@@ -82,7 +82,14 @@ export class CaseImporterComponent {
                     if (isValid(bundle)) {
                         this.uploadedLoading = true;
                         this.casesService.getPatientCaseById({caseId: bundle.pseudoidentifier, type: 'pseudoidentifier'}).pipe(
-                            mergeMap((response) => this.interoperabilityService.exportPatientCaseBundle({caseId: response.id}).pipe(first()))
+                            mergeMap((response) => this.interoperabilityService.exportPatientCaseBundle({caseId: response.id}).pipe(first())),
+                            catchError((error) => {
+                                if (error.status !== 404) {
+                                    this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.detail });
+                                    throw error;
+                                }
+                                return of(null);
+                            })
                         ).subscribe({
                             next: (response) => {
                                 this.conflictingBundle = response
