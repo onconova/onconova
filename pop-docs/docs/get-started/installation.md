@@ -176,7 +176,7 @@ Before using POP, the database must be configured and populated with required cl
 
     POP already provides most open-source terminologies in a processed form as part of its package. However, SNOMED CT International requires an additional license to use (free for academic purposes in contributing member countries). 
 
-     - (A) Visit the [SNOMED Releases](https://mlds.ihtsdotools.org/#/viewReleases/viewRelease) page and login with (and create if necessary) your SNOMED credentials. 
+     - (A) Visit the [SNOMED Releases](https://mlds.ihtsdotools.org/#/viewReleases/viewRelease/167) page and login with (and create if necessary) your SNOMED credentials. 
      - (B) Locate the latest SNOMED CT International Edition release. 
      - (C) Download the `SnomedCT_InternationalRF2_PRODUCTION_***********.zip` file.
 
