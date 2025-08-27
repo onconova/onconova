@@ -3,14 +3,16 @@ import warnings
 from django.db.models import FloatField
 from django.utils.translation import gettext_lazy as _
 from measurement import measures
-from measurement.base import BidimensionalMeasure, MeasureBase
+from measurement.base import BidimensionalMeasure, MeasureBase, BidimensionalMeasure
 
 from .measures import get_measurement
-
 
 class MeasurementField(FloatField):
     description = "Easily store, retrieve, and convert python measures."
     empty_strings_allowed = False
+    measurement: type[MeasureBase] | type[BidimensionalMeasure]
+    default_unit: str | None
+    unit_choices: list[str] | tuple[str] | None
     MEASURE_BASES = (
         BidimensionalMeasure,
         MeasureBase,
@@ -21,14 +23,17 @@ class MeasurementField(FloatField):
         ),
     }
 
+    def __new__(cls, **kwargs):
+        return super().__new__(cls)
+    
     def __init__(
         self,
-        verbose_name=None,
-        name=None,
-        measurement=None,
-        measurement_class=None,
-        default_unit=None,
-        unit_choices=None,
+        verbose_name: str | None = None,
+        name: str | None = None,
+        measurement: type[MeasureBase] | type[BidimensionalMeasure] | None = None,
+        measurement_class: str | None  = None,
+        default_unit: str | None = None,
+        unit_choices: list[str] | tuple[str] | None = None,
         *args,
         **kwargs
     ):
@@ -59,7 +64,7 @@ class MeasurementField(FloatField):
             "default_unit": default_unit,
         }
 
-        super(MeasurementField, self).__init__(verbose_name, name, *args, **kwargs)
+        return super(MeasurementField, self).__init__(verbose_name, name, *args, **kwargs)
 
     def deconstruct(self):
         name, path, args, kwargs = super(MeasurementField, self).deconstruct()

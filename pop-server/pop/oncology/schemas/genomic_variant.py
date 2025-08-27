@@ -138,7 +138,7 @@ class GenomicVariantSchema(ModelGetSchema):
     )
     config = SchemaConfig(
         model=orm.GenomicVariant,
-        exclude=("is_vus", "is_pathogenic"),
+        exclude=["is_vus", "is_pathogenic"],
         anonymization=AnonymizationConfig(fields=["date"], key="caseId"),
     )
 
@@ -168,4 +168,4 @@ class GenomicVariantCreateSchema(ModelCreateSchema):
         alias="dna_hgvs",
         validation_alias=AliasChoices("proteinHgvs", "protein_hgvs"),
     )
-    config = SchemaConfig(model=orm.GenomicVariant, exclude=("is_vus", "is_pathogenic"))
+    config = SchemaConfig(model=orm.GenomicVariant, exclude=["is_vus", "is_pathogenic"])

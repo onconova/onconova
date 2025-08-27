@@ -1,22 +1,25 @@
-from datetime import date, datetime
-from enum import Enum
-from typing import Any, Dict, List, Union, TypeVar
+from datetime import date
+from typing import Any, Dict, List, Union, TypeVar, Generic
 from uuid import UUID
 
 from ninja import Schema
-from ninja_extra.schemas import NinjaPaginationResponseSchema, field_validator
 from pop.core.types import Nullable
 from psycopg.types.range import Range as PostgresRange
-from pydantic import AliasChoices, Field, model_validator
+from pydantic import Field, model_validator, field_validator
 
 
 T = TypeVar("T")
 
-class Paginated(NinjaPaginationResponseSchema):
-    """
-    Standard paginated response schema.
-    """
-    pass
+class Paginated(Schema, Generic[T]):
+    count: int
+    items: List[T]
+
+    @field_validator("items", mode="before")
+    def validate_items(cls, value: Any) -> Any:
+        if value is not None and not isinstance(value, list):
+            value = list(value)
+        return value
+
 
     
 class ModifiedResource(Schema):

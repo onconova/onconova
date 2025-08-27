@@ -3,17 +3,12 @@ import gzip
 import json
 import logging
 import time
-import traceback
-from datetime import datetime
 
 import pghistory
 import pghistory.middleware
 from django.core.handlers.asgi import ASGIRequest as DjangoASGIRequest
 from django.core.handlers.wsgi import WSGIRequest as DjangoWSGIRequest
 from django.db import connection
-from django.http import JsonResponse
-from django.utils.deprecation import MiddlewareMixin
-from ninja_extra.logger import request_logger
 from pghistory import config
 
 SENSITIVE_KEYS = ["password", "token", "secret", "access_token", "identity_token"]

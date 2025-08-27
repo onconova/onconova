@@ -1,10 +1,10 @@
 from datetime import date, datetime, timedelta
-from typing import Any, Callable, ClassVar, Dict, List, Tuple, Type, Union
+from typing import Any, Callable, ClassVar, Dict, List, Tuple, Union
 
 from django.conf import settings
 from pop.core.types import Age, AgeBin
 from pop.core.utils import hash_to_range, is_datetime, is_period
-from pydantic import BaseModel, Field, model_validator
+from pydantic import Field, model_validator
 from pydantic.dataclasses import dataclass
 
 REDACTED_STRING = "*************"

@@ -1,5 +1,5 @@
 import uuid
-
+from pghistory.models import Event
 from django.contrib.postgres.aggregates import ArrayAgg
 from django.db import models
 from django.db.models import Max, Min, Q
@@ -33,6 +33,7 @@ class UntrackedBaseModel(models.Model):
         __str__(): Returns the description of the instance, or a fallback string if not implemented.
     """
 
+    
     # NOTE: This model uses QueryablePropertiesManager as the default manager.
     # All subclasses must be compatible with this manager.
     objects = QueryablePropertiesManager()
@@ -84,7 +85,9 @@ class BaseModel(UntrackedBaseModel):
     Note:
         This model is abstract and should be inherited by other models to include audit fields.
     """
-
+    
+    events: models.QuerySet[Event]
+    
     created_at = AnnotationProperty(
         annotation=Min("events__pgh_created_at", filter=Q(events__pgh_label="create")),
     )

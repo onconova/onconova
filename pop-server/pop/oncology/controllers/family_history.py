@@ -95,7 +95,7 @@ class FamilyHistoryController(ControllerBase):
     @ordering()
     def get_all_family_history_history_events(self, familyHistoryId: str):
         instance = get_object_or_404(FamilyHistory, id=familyHistoryId)
-        return pghistory.models.Events.objects.tracks(instance).all()
+        return pghistory.models.Events.objects.tracks(instance).all() # type: ignore
 
     @route.get(
         path="/{familyHistoryId}/history/events/{eventId}",
@@ -112,7 +112,7 @@ class FamilyHistoryController(ControllerBase):
     ):
         instance = get_object_or_404(FamilyHistory, id=familyHistoryId)
         return get_object_or_404(
-            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId
+            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId # type: ignore
         )
 
     @route.put(

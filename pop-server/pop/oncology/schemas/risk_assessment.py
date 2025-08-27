@@ -21,7 +21,7 @@ class RiskAssessmentSchema(ModelGetSchema):
         try:
             validate_risk_classification(self)
         except AssertionError:
-            raise ValueError(f'{self.risk} is not a valid choice for risk methodology "{self.methodology}".')
+            raise ValueError(f'{self.risk} is not a valid choice for risk methodology "{self.methodology}".') # type: ignore
         return self
     
 class RiskAssessmentCreateSchema(ModelCreateSchema):
@@ -32,6 +32,6 @@ class RiskAssessmentCreateSchema(ModelCreateSchema):
         try:
             validate_risk_classification(self)
         except AssertionError:
-            raise ValueError(f'{self.risk} is not a valid choice for risk methodology "{self.methodology}".')
+            raise ValueError(f'{self.risk} is not a valid choice for risk methodology "{self.methodology}".') # type: ignore
         return self
 

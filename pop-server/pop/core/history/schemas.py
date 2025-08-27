@@ -179,7 +179,7 @@ class HistoryEvent(Schema):
         return obj.pgh_diff
 
     @classmethod
-    def bind_schema(cls, schema: BaseSchema):
+    def bind_schema(cls, schema: type[BaseSchema]):
         """
         Dynamically bind a specific Pydantic schema to the history event.
 

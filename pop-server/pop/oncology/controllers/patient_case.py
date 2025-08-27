@@ -43,7 +43,7 @@ class PatientCaseFilters(PatientCaseFiltersBase):
         description="Morphology - Filters for matching primary morphology code.",
     )
 
-    def filter_primarySite(self, value: bool) -> Q:
+    def filter_primarySite(self, value: bool) -> Q | Exists:
         return (
             Exists(
                 NeoplasticEntity.objects.filter(
@@ -56,7 +56,7 @@ class PatientCaseFilters(PatientCaseFiltersBase):
             else Q()
         )
 
-    def filter_morphology(self, value: bool) -> Q:
+    def filter_morphology(self, value: bool) -> Q | Exists:
         return (
             Exists(
                 NeoplasticEntity.objects.filter(
@@ -96,12 +96,12 @@ class PatientCaseController(ControllerBase):
             id_query = Q(pseudoidentifier__icontains=idSearch) | Q(
                 id__icontains=idSearch
             )
-            if perms.CanManageCases.check_user_permission(
-                self, self.context.request.user
+            if self.context and self.context.request and perms.CanManageCases().check_user_permission(
+                self.context.request.user # type: ignore
             ):
                 id_query = id_query | Q(clinical_identifier__icontains=idSearch)
             queryset = queryset.filter(id_query)
-        return query.filter(queryset)
+        return query.filter(queryset) # type: ignore
 
     @route.post(
         path="",
@@ -123,15 +123,15 @@ class PatientCaseController(ControllerBase):
         self,
         caseId: str,
         type: PatientCaseIdentifier = PatientCaseIdentifier.ID,
-        clinicalCenter: str = None,
+        clinicalCenter: str | None = None,
     ):
         if type == PatientCaseIdentifier.ID:
             return get_object_or_404(PatientCase, id=caseId.strip())
         elif type == PatientCaseIdentifier.PSEUDO:
             return get_object_or_404(PatientCase, pseudoidentifier=caseId.strip())
         elif type == PatientCaseIdentifier.CLINICAL:
-            if not perms.CanManageCases.check_user_permission(
-                self, self.context.request.user
+            if self.context and self.context.request and not perms.CanManageCases().check_user_permission(
+                self.context.request.user # type: ignore
             ):
                 return 403, None
             if not clinicalCenter:
@@ -181,7 +181,7 @@ class PatientCaseController(ControllerBase):
     @ordering()
     def get_all_patient_case_history_events(self, caseId: str):
         instance = get_object_or_404(PatientCase, id=caseId)
-        return pghistory.models.Events.objects.tracks(instance).all()
+        return pghistory.models.Events.objects.tracks(instance).all() # type: ignore
 
     @route.get(
         path="/{caseId}/history/events/{eventId}",
@@ -196,7 +196,7 @@ class PatientCaseController(ControllerBase):
     def get_patient_case_history_event_by_id(self, caseId: str, eventId: str):
         instance = get_object_or_404(PatientCase, id=caseId)
         return get_object_or_404(
-            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId
+            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId # type: ignore
         )
 
     @route.put(
@@ -225,11 +225,11 @@ class PatientCaseController(ControllerBase):
         category_completion = PatientCaseDataCompletion.objects.filter(
             case__id=caseId, category=category
         ).first()
-        return PatientCaseDataCompletionStatusSchema(
+        return PatientCaseDataCompletionStatusSchema.model_validate(dict(
             status=category_completion is not None,
             username=category_completion.created_by if category_completion else None,
             timestamp=category_completion.created_at if category_completion else None,
-        )
+        ))
 
     @route.post(
         path="/{caseId}/data-completion/{category}",

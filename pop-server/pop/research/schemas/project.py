@@ -54,7 +54,7 @@ class ProjectDataManagerGrantCreateSchema(ModelCreateSchema):
     """
 
     config = SchemaConfig(
-        model=orm.ProjectDataManagerGrant, exclude=("project", "member")
+        model=orm.ProjectDataManagerGrant, exclude=["project", "member"]
     )
 
 

@@ -7,8 +7,6 @@ from typing import List
 
 import pghistory
 from django.conf import settings
-from django.db.models import F, Max, Min, OuterRef, Subquery, Value
-from django.db.models.functions import Coalesce
 from django.shortcuts import get_object_or_404
 from ninja import Query
 from ninja.errors import HttpError, ValidationError
@@ -16,7 +14,7 @@ from ninja_extra import ControllerBase, api_controller, route, status
 from ninja_extra.exceptions import APIException
 from ninja_extra.ordering import ordering
 from ninja_extra.pagination import paginate
-from pop.core.anonymization import anonymize, anonymize_age
+from pop.core.anonymization import anonymize
 from pop.core.auth import permissions as perms
 from pop.core.auth.token import XSessionTokenAuth
 from pop.core.history.schemas import HistoryEvent
@@ -25,7 +23,6 @@ from pop.core.schemas import Paginated
 from pop.core.utils import COMMON_HTTP_ERRORS, camel_to_snake
 from pop.interoperability.schemas import ExportMetadata
 from pop.oncology import schemas as oncological_schemas
-from pop.oncology.models import TherapyLine, TreatmentResponse
 from pop.research.compilers import construct_dataset
 from pop.research.models.cohort import Cohort
 from pop.research.models.dataset import Dataset
@@ -71,7 +68,7 @@ class CohortsController(ControllerBase):
     @ordering()
     def get_all_cohorts_matching_the_query(self, query: Query[CohortFilters]):
         queryset = Cohort.objects.all().order_by("-created_at")
-        return query.filter(queryset)
+        return query.filter(queryset) # type: ignore
 
     @route.post(
         path="",
@@ -81,10 +78,10 @@ class CohortsController(ControllerBase):
     )
     def create_cohort(self, payload: CohortCreateSchema):
         # Check that requesting user is a member of the project
-        project = get_object_or_404(Project, id=payload.projectId)
+        project = get_object_or_404(Project, id=payload.projectId) # type: ignore
         if (
-            not project.is_member(self.context.request.user)
-            and self.context.request.user.access_level < 3
+            not project.is_member(self.context.request.user) # type: ignore
+            and self.context.request.user.access_level < 3 # type: ignore
         ):
             raise HttpError(403, "User is not a member of the project")
         # Create cohort for that project
@@ -171,7 +168,7 @@ class CohortsController(ControllerBase):
         cohort = get_object_or_404(Cohort, id=cohortId)
 
         if not perms.CanManageCohorts().check_user_object_permission(
-            self.context.request.user, None, cohort
+            self.context.request.user, None, cohort # type: ignore
         ):
             raise HttpError(403, "User is not a member of the project")
 
@@ -188,7 +185,7 @@ class CohortsController(ControllerBase):
         return 200, {
             **ExportMetadata(
                 exportedAt=datetime.now(),
-                exportedBy=self.context.request.user.username,
+                exportedBy=self.context.request.user.username, # type: ignore
                 exportVersion=settings.VERSION,
                 checksum=checksum,
             ).model_dump(mode="json", exclude_unset=True),
@@ -209,7 +206,7 @@ class CohortsController(ControllerBase):
     @ordering()
     def get_all_cohort_history_events(self, cohortId: str):
         instance = get_object_or_404(Cohort, id=cohortId)
-        return pghistory.models.Events.objects.tracks(instance).all()
+        return pghistory.models.Events.objects.tracks(instance).all() # type: ignore
 
     @route.get(
         path="/{cohortId}/history/events/{eventId}",
@@ -224,7 +221,7 @@ class CohortsController(ControllerBase):
     def get_cohort_history_event_by_id(self, cohortId: str, eventId: str):
         instance = get_object_or_404(Cohort, id=cohortId)
         return get_object_or_404(
-            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId
+            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId # type: ignore
         )
 
     @route.put(
@@ -247,11 +244,11 @@ class CohortsController(ControllerBase):
         cohort = get_object_or_404(Cohort, id=cohortId)
         dataset = get_object_or_404(Dataset, id=datasetId)
 
-        if not perms.CanManageCohorts().check_user_object_permission(
+        if self.context and self.context.request and (not perms.CanManageCohorts().check_user_object_permission(
             self.context.request.user, None, cohort
         ) or not perms.CanManageDatasets().check_user_object_permission(
             self.context.request.user, None, dataset
-        ):
+        )):
             raise HttpError(403, "User is not a member of the project")
 
         try:
@@ -276,7 +273,7 @@ class CohortsController(ControllerBase):
         export = {
             **ExportMetadata(
                 exportedAt=datetime.now(),
-                exportedBy=self.context.request.user.username,
+                exportedBy=self.context.request.user.username, # type: ignore
                 exportVersion=settings.VERSION,
                 checksum=checksum,
             ).model_dump(mode="json", exclude_unset=True),

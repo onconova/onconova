@@ -2,8 +2,8 @@ import pghistory
 
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from django.core.validators import RegexValidator, MinValueValidator, MaxValueValidator
-from django.contrib.postgres.fields import IntegerRangeField, ArrayField
+from django.core.validators import MinValueValidator, MaxValueValidator
+from django.contrib.postgres.fields import IntegerRangeField
 
 from typing import Union
 from django.contrib.postgres.aggregates import StringAgg, ArrayAgg
@@ -15,15 +15,12 @@ from django.db.models import (
     When,
     Case,
     Value,
-    Subquery,
-    OuterRef,
 )
-from django.db.models.expressions import RawSQL
 
 from django.db.models.functions import Cast, Coalesce, Concat
 from django.db.models.fields.json import KeyTextTransform
 
-from queryable_properties.properties import AnnotationProperty, SubqueryFieldProperty
+from queryable_properties.properties import AnnotationProperty
 from queryable_properties.managers import QueryablePropertiesManager
 
 from pop.core.models import BaseModel
@@ -296,7 +293,7 @@ class GenomicVariant(BaseModel):
         null=True,
         blank=True,
     )
-    is_vus = models.GeneratedField(
+    is_vus = models.GeneratedField( # type: ignore
         verbose_name=_("Is pathogenic"),
         help_text=_(
             "Indicates if the variant is of unknown signfiance (determined automatically based on the clinical relevance classification)"
@@ -318,7 +315,7 @@ class GenomicVariant(BaseModel):
         db_persist=True,
         null=True,
     )
-    is_pathogenic = models.GeneratedField(
+    is_pathogenic = models.GeneratedField( # type: ignore
         verbose_name=_("Is pathogenic"),
         help_text=_(
             "Indicates if the variant is pathogenic (determined automatically based on the clinical relevance classification)"
@@ -852,19 +849,19 @@ class GenomicVariant(BaseModel):
     class Meta:
         constraints = [
             CheckConstraint(
-                condition=Q(dna_hgvs__isnull=True)
+                check=Q(dna_hgvs__isnull=True)
                 | Q(dna_hgvs__regex=HGVSRegex.DNA_HGVS),
                 name="valid_dna_hgvs",
                 violation_error_message="DNA HGVS must be a valid 'c.'-HGVS expression.",
             ),
             CheckConstraint(
-                condition=Q(rna_hgvs__isnull=True)
+                check=Q(rna_hgvs__isnull=True)
                 | Q(rna_hgvs__regex=HGVSRegex.RNA_HGVS),
                 name="valid_rna_hgvs",
                 violation_error_message="RNA HGVS must be a valid 'r.'-HGVS expression.",
             ),
             CheckConstraint(
-                condition=Q(protein_hgvs__isnull=True)
+                check=Q(protein_hgvs__isnull=True)
                 | Q(protein_hgvs__regex=HGVSRegex.PROTEIN_HGVS),
                 name="valid_protein_hgvs",
                 violation_error_message="Protein HGVS must be a valid 'p.'-HGVS expression.",
@@ -883,7 +880,7 @@ class GenomicVariant(BaseModel):
             elif self.molecular_consequence.code == "SO:0001565":  # gene_fusion
                 return "fusion"
             else:
-                return self.molecular_consequence.display.lower().replace("_", " ")
+                return str(self.molecular_consequence).lower().replace("_", " ")
         elif self.copy_number:
             return "amplification" if self.copy_number > 2 else "loss"
         elif self.protein_change_type:
@@ -894,8 +891,8 @@ class GenomicVariant(BaseModel):
     @property
     def genes_label(self):
         genes = self.genes.all()
-        if len(genes) == 1:
-            genes = genes.first().display
+        if len(genes) == 1 and (gene := genes.first()):
+            genes = gene.display
         else:
             genes = "-".join([g.display for g in genes])
         return genes

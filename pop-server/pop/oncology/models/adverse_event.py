@@ -3,8 +3,6 @@ import pghistory
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.core.validators import MaxValueValidator, MinValueValidator
-from django.contrib.contenttypes.fields import GenericForeignKey
-from django.contrib.contenttypes.models import ContentType
 
 from pop.core.models import BaseModel
 from pop.oncology.models import PatientCase
@@ -66,7 +64,7 @@ class AdverseEvent(BaseModel):
         blank=True,
         null=True,
     )
-    is_resolved = models.GeneratedField(
+    is_resolved = models.GeneratedField( # type: ignore
         verbose_name=_("Is resolved"),
         help_text=_("Indicates whether the adverse event has been resolved"),
         expression=models.Case(
@@ -85,9 +83,9 @@ class AdverseEvent(BaseModel):
     @property
     def description(self):
         causes = " and ".join(
-            [cause.description for cause in self.suspected_causes.all()]
+            [cause.description for cause in self.suspected_causes.all()] # type: ignore
         )
-        return " ".join([self.event.display, f"(grade {self.grade})", causes])
+        return " ".join([self.event.display or "", f"(grade {self.grade})", causes])
 
 
 @pghistory.track()
@@ -166,7 +164,11 @@ class AdverseEventSuspectedCause(BaseModel):
 
     @property
     def description(self):
-        return f'{self.causality.replace("-"," ").capitalize()} to {self.cause}'
+        if self.causality:
+            return f'{self.causality.replace("-"," ").capitalize()} to {self.cause}'
+        else:
+            return f'due to {self.cause}'
+            
 
 
 @pghistory.track()
@@ -227,10 +229,10 @@ class AdverseEventMitigation(BaseModel):
 
     @property
     def description(self):
-        if self.adjustment:
+        if self.adjustment and self.adjustment.display:
             return f"Mitigated by therapy {self.adjustment.display.lower()}"
-        if self.drug:
+        if self.drug and self.drug.display:
             return f"Mitigated by {self.drug.display.lower()}"
-        if self.procedure:
+        if self.procedure and self.procedure.display:
             return f"Mitigated by {self.procedure.display.lower()}"
         return "Mitigation"

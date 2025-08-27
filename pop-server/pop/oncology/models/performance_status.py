@@ -118,7 +118,7 @@ class PerformanceStatus(BaseModel):
     class Meta:
         constraints = [
             models.CheckConstraint(
-                condition=models.Q(ecog_score__isnull=False)
+                check=models.Q(ecog_score__isnull=False)
                 | models.Q(karnofsky_score__isnull=False),
                 name="at_least_one_score_must_be_set",
             )
@@ -131,7 +131,7 @@ class PerformanceStatus(BaseModel):
         elif self.karnofsky_score is not None:
             return f"Karnofsky: {self.karnofsky_score}"
 
-    def convert_karnofsky_to_ecog(self):
+    def convert_karnofsky_to_ecog(self) -> int:
         """
         Reference
         ---------
@@ -139,15 +139,17 @@ class PerformanceStatus(BaseModel):
         """
         if self.ecog_score is not None:
             return self.ecog_score
-        if self.karnofsky_score == 100:
-            return 0
-        elif self.karnofsky_score >= 80:
-            return 1
-        elif self.karnofsky_score >= 60:
-            return 2
-        elif self.karnofsky_score >= 40:
-            return 3
-        elif self.karnofsky_score >= 20:
-            return 4
-        elif self.karnofsky_score == 0:
-            return 5
+        if self.karnofsky_score:
+            if self.karnofsky_score == 100:
+                return 0
+            elif self.karnofsky_score >= 80:
+                return 1
+            elif self.karnofsky_score >= 60:
+                return 2
+            elif self.karnofsky_score >= 40:
+                return 3
+            elif self.karnofsky_score >= 20:
+                return 4
+            elif self.karnofsky_score == 0:
+                return 5
+        raise ValueError('Neither an ECOG nor Karnofksy value exist.')

@@ -138,7 +138,7 @@ class TumorBoardController(ControllerBase):
     @ordering()
     def get_all_tumor_board_history_events(self, tumorBoardId: str):
         instance = get_object_or_404(TumorBoard, id=tumorBoardId)
-        return pghistory.models.Events.objects.tracks(instance).all()
+        return pghistory.models.Events.objects.tracks(instance).all() # type: ignore
 
     @route.get(
         path="/{tumorBoardId}/history/events/{eventId}",
@@ -148,13 +148,13 @@ class TumorBoardController(ControllerBase):
     )
     def get_tumor_board_history_event_by_id(self, tumorBoardId: str, eventId: str):
         instance = get_object_or_404(TumorBoard, id=tumorBoardId)
-        event = instance.parent_events.filter(pgh_id=eventId).first()
+        event = instance.parent_events.filter(pgh_id=eventId).first() # type: ignore
         if not event and hasattr(instance, "events"):
             event = instance.events.filter(pgh_id=eventId).first()
         if not event:
             return 404, None
         return get_object_or_404(
-            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId
+            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId # type: ignore
         )
 
     @route.put(
@@ -192,7 +192,7 @@ class MolecularTherapeuticRecommendationController(ControllerBase):
     def get_molecular_tumor_board_therapeutic_recommendations_matching_the_query(self, tumorBoardId: str):  # type: ignore
         return get_object_or_404(
             MolecularTumorBoard, id=tumorBoardId
-        ).therapeutic_recommendations.all()
+        ).therapeutic_recommendations.all() # type: ignore
 
     @route.get(
         path="/{tumorBoardId}/therapeutic-recommendations/{recommendationId}",
@@ -271,7 +271,7 @@ class MolecularTherapeuticRecommendationController(ControllerBase):
             id=recommendationId,
             molecular_tumor_board__id=tumorBoardId,
         )
-        return pghistory.models.Events.objects.tracks(instance).all()
+        return pghistory.models.Events.objects.tracks(instance).all() # type: ignore
 
     @route.get(
         path="/{tumorBoardId}/therapeutic-recommendations/{recommendationId}/history/events/{eventId}",
@@ -288,7 +288,7 @@ class MolecularTherapeuticRecommendationController(ControllerBase):
             molecular_tumor_board__id=tumorBoardId,
         )
         return get_object_or_404(
-            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId
+            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId # type: ignore
         )
 
     @route.put(

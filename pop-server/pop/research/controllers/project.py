@@ -96,7 +96,7 @@ class ProjectController(ControllerBase):
     @ordering()
     def get_all_project_history_events(self, projectId: str):
         instance = get_object_or_404(Project, id=projectId)
-        return pghistory.models.Events.objects.tracks(instance).all()
+        return pghistory.models.Events.objects.tracks(instance).all() # type: ignore
 
     @route.get(
         path="/{projectId}/history/events/{eventId}",
@@ -111,7 +111,7 @@ class ProjectController(ControllerBase):
     def get_project_history_event_by_id(self, projectId: str, eventId: str):
         instance = get_object_or_404(Project, id=projectId)
         return get_object_or_404(
-            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId
+            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId # type: ignore
         )
 
     @route.put(
@@ -212,7 +212,7 @@ class ProjectController(ControllerBase):
             project_id=projectId,
             member_id=memberId,
         )
-        return pghistory.models.Events.objects.tracks(instance).all()
+        return pghistory.models.Events.objects.tracks(instance).all() # type: ignore
 
     @route.get(
         path="/{projectId}/members/{memberId}/data-management/grants/{grantId}/history/events/{eventId}",
@@ -234,7 +234,7 @@ class ProjectController(ControllerBase):
             member_id=memberId,
         )
         return get_object_or_404(
-            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId
+            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId # type: ignore
         )
 
     @route.put(

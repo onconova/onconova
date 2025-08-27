@@ -49,7 +49,6 @@ class ComorbiditiesPanel(Schema):
         description="Comorbidity panel name"
     )
     categories: List[ComorbidityPanelCategory] = Field(
-        default=None, 
         title="Categories", 
         description="Comorbidity panel categories"
     )

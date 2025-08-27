@@ -97,7 +97,7 @@ class GenomicVariantController(ControllerBase):
     @ordering()
     def get_all_genomic_variant_history_events(self, genomicVariantId: str):
         instance = get_object_or_404(GenomicVariant, id=genomicVariantId)
-        return pghistory.models.Events.objects.tracks(instance).all()
+        return pghistory.models.Events.objects.tracks(instance).all() # type: ignore
 
     @route.get(
         path="/{genomicVariantId}/history/events/{eventId}",
@@ -114,7 +114,7 @@ class GenomicVariantController(ControllerBase):
     ):
         instance = get_object_or_404(GenomicVariant, id=genomicVariantId)
         return get_object_or_404(
-            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId
+            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId # type: ignore
         )
 
     @route.put(

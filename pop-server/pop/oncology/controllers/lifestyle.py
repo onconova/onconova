@@ -96,7 +96,7 @@ class LifestyleController(ControllerBase):
     @ordering()
     def get_all_lifestyle_history_events(self, lifestyleId: str):
         instance = get_object_or_404(Lifestyle, id=lifestyleId)
-        return pghistory.models.Events.objects.tracks(instance).all()
+        return pghistory.models.Events.objects.tracks(instance).all() # type: ignore
 
     @route.get(
         path="/{lifestyleId}/history/events/{eventId}",
@@ -111,7 +111,7 @@ class LifestyleController(ControllerBase):
     def get_lifestyle_history_event_by_id(self, lifestyleId: str, eventId: str):
         instance = get_object_or_404(Lifestyle, id=lifestyleId)
         return get_object_or_404(
-            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId
+            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId # type: ignore
         )
 
     @route.put(

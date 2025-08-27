@@ -1,41 +1,97 @@
 from django.core.exceptions import FieldError
 from django.db import models
+from typing import TypeVar, overload, Literal
 from pop.terminology.models import CodedConcept
 
 
-class CodedConceptField(object):
-    """
-    A CodeableConcept represents a value that is usually supplied by providing a
-    reference to one or more terminologies or ontologies but may also be defined by
-    the provision of text.
-    """
+CodedConceptModel = TypeVar("CodedConceptModel", bound=CodedConcept)
 
-    def __new__(
-        cls,
-        terminology: type[CodedConcept] | None,
-        multiple: bool = False,
-        null: bool = False,
-        _to=None,
-        *args,
-        **kwargs,
-    ):
-        reference = _to or f"terminology.{terminology.__name__ if terminology else 'Unknown'}"
+@overload
+def CodedConceptField(
+        terminology: type[CodedConceptModel], 
+        *,
+        multiple:Literal[False] = False, 
+        null: Literal[False] = False, 
+        blank=False, 
+        _to: type[CodedConceptModel] | None=None, 
+        on_delete=models.PROTECT, 
+        **kwargs
+    ) ->  models.ForeignKey[CodedConceptModel]: ...
+
+@overload
+def CodedConceptField(
+        terminology: type[CodedConceptModel], 
+        *,
+        multiple:Literal[False] = False, 
+        null: Literal[True], 
+        blank=False, 
+        _to: type[CodedConceptModel] | None=None, 
+        on_delete=models.PROTECT, 
+        **kwargs
+    ) ->  models.ForeignKey[CodedConceptModel | None]: ...
+
+@overload
+def CodedConceptField(
+        terminology: type[CodedConceptModel], 
+        *,
+        multiple:Literal[True], 
+        null: Literal[False] = False, 
+        blank=False, 
+        _to: type[CodedConceptModel] | None=None, 
+        on_delete=models.PROTECT, 
+        **kwargs
+    ) ->  models.ManyToManyField: ...
+
+def CodedConceptField(
+        terminology: type[CodedConceptModel], 
+        multiple=False, 
+        null=False, 
+        blank=False, 
+        _to: type[CodedConceptModel] | None=None, 
+        on_delete=models.PROTECT, 
+        **kwargs
+    ) -> models.ForeignKey[CodedConceptModel] | models.ForeignKey[CodedConceptModel | None] | models.ManyToManyField:
+        """
+        Factory function for creating a Django relation field (ForeignKey or ManyToManyField) to a terminology model.
+
+        Args:
+            terminology (type[CodedConceptModel]): The target model class for the relationship.
+            multiple (bool, optional): If True, returns a ManyToManyField; if False, returns a ForeignKey. Defaults to False.
+            null (bool, optional): If True, allows null values. Used only for ManyToManyField. Defaults to False.
+            blank (bool, optional): If True, allows blank values. Defaults to False.
+            _to (type[CodedConceptModel] | None, optional): Alternate target model for the relationship. If provided, overrides terminology. Defaults to None.
+            on_delete (Any, optional): Deletion behavior for ForeignKey. Defaults to models.PROTECT.
+            **kwargs: Additional keyword arguments passed to the underlying field.
+
+        Returns:
+            models.ForeignKey[CodedConceptModel] | models.ForeignKey[CodedConceptModel | None] | models.ManyToManyField:
+                A Django ForeignKey field (if multiple=False) or ManyToManyField (if multiple=True) configured to point to the terminology model.
+
+        Raises:
+            AssertionError: If neither terminology nor _to is specified.
+        """
+        multiple = multiple
+        terminology = _to or terminology
+        assert terminology is not None, 'Either terminology or _to arguments must be specified'
+        terminology = terminology
+        _on_delete = on_delete
+        _kwargs: dict = dict(blank=blank, **kwargs)
+
         if multiple:
-            return models.ManyToManyField(
-                to=reference,
+            field = models.ManyToManyField(
+                to=terminology,
                 related_name="+",
-                *args,
-                **kwargs,
+                **_kwargs,
             )
         else:
-            return models.ForeignKey(
-                to=reference,
-                on_delete=models.PROTECT,
+            field = models.ForeignKey(
+                to=terminology,
+                on_delete=_on_delete,
                 related_name="+",
-                null=null, # type: ignore
-                *args,
-                **kwargs,
+                null=null,
+                **_kwargs,
             )
+        return field
 
 
 class DescendsFrom(models.Lookup):

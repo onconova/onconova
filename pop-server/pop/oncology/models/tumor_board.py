@@ -58,7 +58,6 @@ class TumorBoard(BaseModel):
         ),
         terminology=terminologies.TumorBoardRecommendation,
         multiple=True,
-        null=True,
         blank=True,
     )
 
@@ -154,7 +153,7 @@ class MolecularTumorBoard(TumorBoard):
     @property
     def description(self):
         recommendations = (
-            self.therapeutic_recommendations.count() + self.recommendations.count()
+            self.therapeutic_recommendations.count() + self.recommendations.count() # type: ignore
         )
         if recommendations == 0:
             recommendations = "no"
@@ -193,7 +192,6 @@ class MolecularTherapeuticRecommendation(BaseModel):
         help_text=_("Drugs(s) being recommended"),
         terminology=terminologies.AntineoplasticAgent,
         multiple=True,
-        null=True,
         blank=True,
     )
     off_label_use = models.BooleanField(
@@ -245,5 +243,5 @@ class MolecularTherapeuticRecommendation(BaseModel):
         drugs = [med.display for med in self.drugs.all()]
         expected_effect = ""
         if self.expected_effect:
-            expected_effect == f"due to expected {self.expected_effect.display.lower()}"
+            expected_effect = f"due to expected {str(self.expected_effect).lower()}"
         return f'Recommended {" and ".join(drugs)}{expected_effect}'

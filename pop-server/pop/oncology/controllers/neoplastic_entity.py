@@ -99,7 +99,7 @@ class NeoplasticEntityController(ControllerBase):
     @ordering()
     def get_all_neoplastic_entity_history_events(self, entityId: str):
         instance = get_object_or_404(NeoplasticEntity, id=entityId)
-        return pghistory.models.Events.objects.tracks(instance).all()
+        return pghistory.models.Events.objects.tracks(instance).all() # type: ignore
 
     @route.get(
         path="/{entityId}/history/events/{eventId}",
@@ -114,7 +114,7 @@ class NeoplasticEntityController(ControllerBase):
     def get_neoplastic_entity_history_event_by_id(self, entityId: str, eventId: str):
         instance = get_object_or_404(NeoplasticEntity, id=entityId)
         return get_object_or_404(
-            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId
+            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId # type: ignore
         )
 
     @route.put(

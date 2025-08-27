@@ -93,7 +93,7 @@ class PerformanceStatusController(ControllerBase):
     @ordering()
     def get_all_performance_status_history_events(self, performanceStatusId: str):
         instance = get_object_or_404(PerformanceStatus, id=performanceStatusId)
-        return pghistory.models.Events.objects.tracks(instance).all()
+        return pghistory.models.Events.objects.tracks(instance).all() # type: ignore
 
     @route.get(
         path="/{performanceStatusId}/history/events/{eventId}",
@@ -110,7 +110,7 @@ class PerformanceStatusController(ControllerBase):
     ):
         instance = get_object_or_404(PerformanceStatus, id=performanceStatusId)
         return get_object_or_404(
-            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId
+            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId # type: ignore
         )
 
     @route.put(

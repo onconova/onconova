@@ -1,8 +1,9 @@
 from enum import Enum
-from typing import Annotated, Optional, TypeVar
+from typing import Annotated, Optional, TypeVar, Generic
 
-from pydantic import GetCoreSchemaHandler, GetJsonSchemaHandler
+from pydantic import GetJsonSchemaHandler
 from pydantic_core import core_schema
+
 
 
 class RemoveAnyOfNull:
@@ -58,7 +59,7 @@ class Username(str):
     pass
 
 
-class Array(list):
+class Array(list, Generic[T]):
     """
     A subclass of the built-in list type, representing an array structure.
 

@@ -45,7 +45,8 @@ class SurgeryController(ControllerBase):
         operation_id="createSurgery",
     )
     def create_surgery(self, payload: SurgeryCreateSchema):  # type: ignore
-        return 201, payload.model_dump_django().assign_therapy_line()
+        instance: Surgery = payload.model_dump_django() # type: ignore
+        return 201, instance.assign_therapy_line()
 
     @route.get(
         path="/{surgeryId}",
@@ -94,7 +95,7 @@ class SurgeryController(ControllerBase):
     @ordering()
     def get_all_surgery_history_events(self, surgeryId: str):
         instance = get_object_or_404(Surgery, id=surgeryId)
-        return pghistory.models.Events.objects.tracks(instance).all()
+        return pghistory.models.Events.objects.tracks(instance).all() # type: ignore
 
     @route.get(
         path="/{surgeryId}/history/events/{eventId}",
@@ -109,7 +110,7 @@ class SurgeryController(ControllerBase):
     def get_surgery_history_event_by_id(self, surgeryId: str, eventId: str):
         instance = get_object_or_404(Surgery, id=surgeryId)
         return get_object_or_404(
-            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId
+            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId # type: ignore
         )
 
     @route.put(

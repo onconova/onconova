@@ -18,7 +18,7 @@ from pop.core.schemas import Paginated
 from pop.core.utils import COMMON_HTTP_ERRORS
 from pop.oncology.models.comorbidities import (
     ComorbiditiesAssessment,
-    ComorbiditiesPanel,
+    ComorbiditiesPanel as ComorbiditiesPanelChoices,
 )
 from pop.oncology.models.comorbidities import (
     ComorbidityPanelCategory as ComorbidityPanelCategoryType,
@@ -123,7 +123,7 @@ class ComorbiditiesAssessmentController(ControllerBase):
         instance = get_object_or_404(
             ComorbiditiesAssessment, id=comorbiditiesAssessmentId
         )
-        return pghistory.models.Events.objects.tracks(instance).all()
+        return pghistory.models.Events.objects.tracks(instance).all() # type: ignore
 
     @route.get(
         path="/{comorbiditiesAssessmentId}/history/events/{eventId}",
@@ -142,7 +142,7 @@ class ComorbiditiesAssessmentController(ControllerBase):
             ComorbiditiesAssessment, id=comorbiditiesAssessmentId
         )
         return get_object_or_404(
-            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId
+            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId # type: ignore
         )
 
     @route.put(
@@ -170,12 +170,12 @@ class ComorbiditiesAssessmentController(ControllerBase):
             ComorbiditiesPanel(
                 name=name,
                 categories=[
-                    ComorbidityPanelCategory(
+                    ComorbidityPanelCategory.model_validate(dict(
                         label=category.label,
                         conditions=list(
                             ICD10Condition.objects.filter(code__in=category.codes)
                         ),
-                    )
+                    ))
                     for category in [
                         category
                         for category in panel.__dict__.values()
@@ -192,7 +192,7 @@ class ComorbiditiesAssessmentController(ControllerBase):
         permissions=[perms.CanViewCases],
         operation_id="getComorbiditiesPanelsByName",
     )
-    def get_comorbidities_panel_by_name(self, panel: str):
+    def get_comorbidities_panel_by_name(self, panel: ComorbiditiesPanelChoices):
         panel_details = ComorbiditiesAssessment.COMORBIDITY_PANELS_DETAILS.get(panel)
         if not panel_details:
             return 404
@@ -202,9 +202,9 @@ class ComorbiditiesAssessmentController(ControllerBase):
             if isinstance(category, ComorbidityPanelCategoryType)
         ]
         return 200, ComorbiditiesPanel(
-            name=panel,
+            name=str(panel),
             categories=[
-                ComorbidityPanelCategory(
+                ComorbidityPanelCategory.model_validate(dict(
                     label=category.label,
                     default=ICD10Condition.objects.filter(
                         code=category.default
@@ -212,7 +212,7 @@ class ComorbiditiesAssessmentController(ControllerBase):
                     conditions=list(
                         ICD10Condition.objects.filter(code__in=category.codes)
                     ),
-                )
+                ))
                 for category in panel_categories
             ],
         )

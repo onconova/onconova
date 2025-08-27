@@ -55,12 +55,16 @@ class GenomicSignature(BaseModel):
             except:
                 continue
 
-    def get_discriminated_genomic_signature(self):
-        return getattr(self, self.genomic_signature_type)
-
+    def get_discriminated_genomic_signature(self) -> type["GenomicSignature"] | None:
+        if self.genomic_signature_type:
+            return getattr(self, self.genomic_signature_type)
+        return None 
+    
     @property
     def description(self):
-        return self.get_discriminated_genomic_signature().description
+        if signature := self.get_discriminated_genomic_signature():        
+            return signature.description
+        return 'Unknown genomic signature type'
 
 
 @pghistory.track()

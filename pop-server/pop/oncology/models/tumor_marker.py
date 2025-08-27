@@ -187,17 +187,16 @@ class TumorMarker(BaseModel):
 
     @property
     def description(self):
-        analyte_data = ANALYTES_DATA.get(self.analyte.code)
-        if analyte_data:
-            analyte = ANALYTES_DATA.get(self.analyte.code).acronym
+        if analyte_data := ANALYTES_DATA.get(self.analyte.code):
+            analyte = analyte_data.acronym
         else:
-            analyte = self.analyte.display
+            analyte = str(self.analyte)
         return f"{analyte}: {self.value}"
 
     class Meta:
         constraints = [
             models.CheckConstraint(
-                condition=models.Q(mass_concentration__isnull=False)
+                check=models.Q(mass_concentration__isnull=False)
                 | models.Q(arbitrary_concentration__isnull=False)
                 | models.Q(substance_concentration__isnull=False)
                 | models.Q(fraction__isnull=False)

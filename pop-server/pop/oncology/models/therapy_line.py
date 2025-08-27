@@ -1,7 +1,7 @@
 import pghistory
 import datetime
 from django.db import models
-from django.db.models import Q, Min, Max, Func, Case, When, Value, F, Subquery, OuterRef
+from django.db.models import Q, Min, Max, Func, Case, When, Value, F
 from django.db.models.functions import (
     Concat,
     Left,
@@ -12,7 +12,7 @@ from django.db.models.functions import (
     Concat,
     Coalesce,
 )
-from django.contrib.postgres.aggregates import StringAgg, ArrayAgg
+from django.contrib.postgres.aggregates import StringAgg
 
 from queryable_properties.properties import AnnotationProperty
 from queryable_properties.managers import QueryablePropertiesManager
@@ -60,12 +60,12 @@ class TherapyLine(BaseModel):
         null=True,
         blank=True,
     )
-    label = models.GeneratedField(
+    label = models.GeneratedField( # type: ignore
         expression=Concat(
             Upper(Left("intent", 1)),
             models.Value("LoT"),
             "ordinal",
-            output_field=models.CharField,
+            output_field=models.CharField, # type: ignore
         ),
         db_persist=True,
         output_field=models.CharField(),
@@ -185,7 +185,7 @@ class TherapyLine(BaseModel):
         ).first()
 
         def remove_uninformative_events(object):
-            uninformative_events = pghistory.models.Events.objects.tracks(
+            uninformative_events = pghistory.models.Events.objects.tracks( # type: ignore
                 object
             ).filter(Q(pgh_label="update") & Q(pgh_diff__isnull=True))
             uninformative_events = [

@@ -186,7 +186,7 @@ class StagingController(ControllerBase):
     @ordering()
     def get_all_staging_history_events(self, stagingId: str):
         instance = get_object_or_404(Staging, id=stagingId)
-        return pghistory.models.Events.objects.tracks(instance).all()
+        return pghistory.models.Events.objects.tracks(instance).all() # type: ignore
 
     @route.get(
         path="/{stagingId}/history/events/{eventId}",
@@ -196,13 +196,13 @@ class StagingController(ControllerBase):
     )
     def get_staging_history_event_by_id(self, stagingId: str, eventId: str):
         instance = get_object_or_404(Staging, id=stagingId)
-        event = instance.parent_events.filter(pgh_id=eventId).first()
+        event = instance.parent_events.filter(pgh_id=eventId).first() # type: ignore
         if not event and hasattr(instance, "events"):
             event = instance.events.filter(pgh_id=eventId).first()
         if not event:
             return 404, None
         return get_object_or_404(
-            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId
+            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId # type: ignore
         )
 
     @route.put(

@@ -96,7 +96,7 @@ class RiskAssessmentController(ControllerBase):
     @ordering()
     def get_all_risk_assessment_history_events(self, riskAssessmentId: str):
         instance = get_object_or_404(RiskAssessment, id=riskAssessmentId)
-        return pghistory.models.Events.objects.tracks(instance).all()
+        return pghistory.models.Events.objects.tracks(instance).all() # type: ignore
 
     @route.get(
         path="/{riskAssessmentId}/history/events/{eventId}",
@@ -113,7 +113,7 @@ class RiskAssessmentController(ControllerBase):
     ):
         instance = get_object_or_404(RiskAssessment, id=riskAssessmentId)
         return get_object_or_404(
-            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId
+            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId # type: ignore
         )
 
     @route.put(

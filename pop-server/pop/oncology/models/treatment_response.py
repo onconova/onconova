@@ -55,7 +55,6 @@ class TreatmentResponse(BaseModel):
         verbose_name=_("Assessed anatomical location"),
         help_text=_("Anatomical location assessed to determine the treatment response"),
         terminology=terminologies.ObservationBodySite,
-        null=True,
         blank=True,
         multiple=True,
     )
@@ -70,7 +69,7 @@ class TreatmentResponse(BaseModel):
     @property
     def description(self):
         methodology = (
-            f' asserted by {self.methodology.display.split(" - ")[0]}'
+            f' asserted by {str(self.methodology).split(" - ")[0]}'
             if self.methodology.code != "1287211007"
             else ""
         )

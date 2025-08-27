@@ -13,7 +13,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Model as DjangoModel
 from django.db.models import QuerySet
 from django.db.models.enums import ChoicesType  # type: ignore
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 COMMON_HTTP_ERRORS = {401: None, 403: None, 500: None}
 

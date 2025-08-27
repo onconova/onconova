@@ -26,7 +26,7 @@ from .measures import (
     ArbitraryConcentration,
 )
 
-ALL_MEASURES = (
+ALL_MEASURESL = (
     Unit,
     Substance,
     Mass,

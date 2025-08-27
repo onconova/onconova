@@ -80,6 +80,7 @@ class AuthController(ControllerBase):
         Login a user using basic authorization via username/password to obtain session token and/or access token.
         """
         view = resolve("/api/allauth/app/v1/auth/login")
+        assert self.context and self.context.request
         response = view.func(self.context.request)
         if response.status_code != 200:
             return response.status_code, None
@@ -93,6 +94,7 @@ class AuthController(ControllerBase):
     )
     def login_with_provider_token(self, credentials: UserProviderToken):
         view = resolve("/api/allauth/app/v1/auth/provider/token")
+        assert self.context and self.context.request
         response = view.func(self.context.request)
         if response.status_code != 200:
             return response.status_code, None
@@ -162,7 +164,8 @@ class UsersController(ControllerBase):
     )
     def update_user_password(self, userId: str, payload: UserPasswordResetSchema):
         user = get_object_or_404(User, id=userId)
-        requesting_user = self.context.request.user
+        assert self.context and self.context.request
+        requesting_user: User = self.context.request.user # type: ignore
         authorized = user.id == requesting_user.id or requesting_user.can_manage_users
         if not authorized or not user.check_password(payload.oldPassword):
             return 403, None

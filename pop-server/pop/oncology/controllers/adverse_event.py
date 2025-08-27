@@ -1,7 +1,6 @@
 from typing import List
 
 import pghistory
-from django.db import transaction
 from django.shortcuts import get_object_or_404
 from ninja import Query
 from ninja_extra import ControllerBase, api_controller, route
@@ -103,7 +102,7 @@ class AdverseEventController(ControllerBase):
     @ordering()
     def get_all_adverse_event_history_events(self, adverseEventId: str):
         instance = get_object_or_404(AdverseEvent, id=adverseEventId)
-        return pghistory.models.Events.objects.tracks(instance).all()
+        return pghistory.models.Events.objects.tracks(instance).all() # type: ignore # type: ignore
 
     @route.get(
         path="/{adverseEventId}/history/events/{eventId}",
@@ -116,9 +115,9 @@ class AdverseEventController(ControllerBase):
         operation_id="getAdverseEventHistoryEventById",
     )
     def get_adverse_event_history_event_by_id(self, adverseEventId: str, eventId: str):
-        instance = get_object_or_404(AdverseEvent, id=adverseEventId)
+        instance = get_object_or_404(AdverseEvent, id=adverseEventId)        
         return get_object_or_404(
-            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId
+            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId # type: ignore
         )
 
     @route.put(
@@ -129,7 +128,7 @@ class AdverseEventController(ControllerBase):
     )
     def revert_adverse_event_to_history_event(self, adverseEventId: str, eventId: str):
         instance = get_object_or_404(AdverseEvent, id=adverseEventId)
-        return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()
+        return 201, get_object_or_404(instance.events, pgh_id=eventId).revert() 
 
     @route.get(
         path="/{adverseEventId}/suspected-causes",
@@ -141,8 +140,8 @@ class AdverseEventController(ControllerBase):
         permissions=[perms.CanViewCases],
         operation_id="getAdverseEventSuspectedCauses",
     )
-    def get_adverse_event_suspected_causes_matching_the_query(self, adverseEventId: str):  # type: ignore
-        return get_object_or_404(AdverseEvent, id=adverseEventId).suspected_causes.all()
+    def get_adverse_event_suspected_causes_matching_the_query(self, adverseEventId: str): 
+        return get_object_or_404(AdverseEvent, id=adverseEventId).suspected_causes.all() # type: ignore
 
     @route.get(
         path="/{adverseEventId}/suspected-causes/{causeId}",
@@ -154,7 +153,7 @@ class AdverseEventController(ControllerBase):
         permissions=[perms.CanViewCases],
         operation_id="getAdverseEventSuspectedCauseById",
     )
-    def get_adverse_event_suspected_cause_by_id(self, adverseEventId: str, causeId: str):  # type: ignore
+    def get_adverse_event_suspected_cause_by_id(self, adverseEventId: str, causeId: str): 
         return get_object_or_404(
             AdverseEventSuspectedCause, id=causeId, adverse_event__id=adverseEventId
         )
@@ -215,7 +214,7 @@ class AdverseEventController(ControllerBase):
         instance = get_object_or_404(
             AdverseEventSuspectedCause, id=causeId, adverse_event__id=adverseEventId
         )
-        return pghistory.models.Events.objects.tracks(instance).all()
+        return pghistory.models.Events.objects.tracks(instance).all() # type: ignore 
 
     @route.get(
         path="/{adverseEventId}/suspected-causes/{causeId}/history/events/{eventId}",
@@ -234,7 +233,7 @@ class AdverseEventController(ControllerBase):
             AdverseEventSuspectedCause, id=causeId, adverse_event__id=adverseEventId
         )
         return get_object_or_404(
-            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId
+            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId # type: ignore # type: ignore
         )
 
     @route.put(
@@ -261,8 +260,8 @@ class AdverseEventController(ControllerBase):
         permissions=[perms.CanViewCases],
         operation_id="getAdverseEventMitigations",
     )
-    def get_adverse_event_mitigations_matching_the_query(self, adverseEventId: str):  # type: ignore
-        return get_object_or_404(AdverseEvent, id=adverseEventId).mitigations.all()
+    def get_adverse_event_mitigations_matching_the_query(self, adverseEventId: str):  
+        return get_object_or_404(AdverseEvent, id=adverseEventId).mitigations.all() # type: ignore
 
     @route.get(
         path="/{adverseEventId}/mitigations/{mitigationId}",
@@ -270,7 +269,7 @@ class AdverseEventController(ControllerBase):
         permissions=[perms.CanViewCases],
         operation_id="getAdverseEventMitigationById",
     )
-    def get_adverse_event_mitigation_by_id(self, adverseEventId: str, mitigationId: str):  # type: ignore
+    def get_adverse_event_mitigation_by_id(self, adverseEventId: str, mitigationId: str): 
         return get_object_or_404(
             AdverseEventMitigation, id=mitigationId, adverse_event__id=adverseEventId
         )
@@ -331,7 +330,7 @@ class AdverseEventController(ControllerBase):
         instance = get_object_or_404(
             AdverseEventMitigation, id=mitigationId, adverse_event__id=adverseEventId
         )
-        return pghistory.models.Events.objects.tracks(instance).all()
+        return pghistory.models.Events.objects.tracks(instance).all() # type: ignore 
 
     @route.get(
         path="/{adverseEventId}/mitigations/{mitigationId}/history/events/{eventId}",
@@ -350,7 +349,7 @@ class AdverseEventController(ControllerBase):
             AdverseEventMitigation, id=mitigationId, adverse_event__id=adverseEventId
         )
         return get_object_or_404(
-            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId
+            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId # type: ignore
         )
 
     @route.put(

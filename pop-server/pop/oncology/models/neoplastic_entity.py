@@ -1,11 +1,11 @@
 import pghistory
 
 from django.db import models
-from django.db.models import Q, F, Subquery, OuterRef
+from django.db.models import OuterRef
 from django.db.models.functions import Left
 from django.utils.translation import gettext_lazy as _
 
-from queryable_properties.properties import AnnotationProperty, SubqueryObjectProperty
+from queryable_properties.properties import SubqueryObjectProperty
 from queryable_properties.managers import QueryablePropertiesManager
 
 from pop.core.models import BaseModel
@@ -78,7 +78,7 @@ class NeoplasticEntity(BaseModel):
     topography_group = SubqueryObjectProperty(
         model=terminologies.CancerTopographyGroup,
         queryset=lambda: terminologies.CancerTopographyGroup.objects.filter(
-            code=Left(OuterRef("topography__code"), 3)
+            code=Left(OuterRef("topography__code"), 3)  # type: ignore
         ),
         cached=True,
     )
@@ -104,18 +104,18 @@ class NeoplasticEntity(BaseModel):
         """
         # Get core information
         morphology = (
-            self.morphology.display.lower()
+            str(self.morphology).lower()
             .replace(", nos", "")
             .replace(", metastatic", "")
         )
         topography = (
-            self.topography.display.lower()
+            str(self.topography).lower()
             .replace(", nos", "")
             .replace(", metastatic", "")
         )
         # If the neoplasm has specified laterality, add it to the topography
         if self.laterality:
-            laterality = self.laterality.display.lower().replace(
+            laterality = str(self.laterality).lower().replace(
                 " (qualifier value)", ""
             )
             topography = f"{laterality} {topography}"
@@ -128,7 +128,7 @@ class NeoplasticEntity(BaseModel):
                 else (
                     "High-grade"
                     if diff_code in ["3", "4"]
-                    else self.differentitation.display.split(",")[-1]
+                    else str(self.differentitation).split(",")[-1]
                 )
             )
             morphology = f"{grading} {morphology}"
@@ -146,7 +146,7 @@ class NeoplasticEntity(BaseModel):
         verbose_name_plural = "Neoplastic Entities"
         constraints = [
             models.CheckConstraint(
-                condition=models.Q(relationship="primary", related_primary=None)
+                check=models.Q(relationship="primary", related_primary=None)
                 | ~models.Q(relationship="primary"),
                 name="primary_cannot_have_a_related_primary",
                 violation_error_message="A primary neoplasm cannot have a related primary",

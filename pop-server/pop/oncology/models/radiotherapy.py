@@ -98,10 +98,10 @@ class Radiotherapy(BaseModel):
     @property
     def description(self):
         dosages = (
-            f"{' and '.join([dosage.description for dosage in self.dosages.all()])}"
+            f"{' and '.join([dosage.description for dosage in self.dosages.all()])}" # type: ignore
         )
         settings = (
-            f"{' and '.join([dosage.description for dosage in self.settings.all()])}"
+            f"{' and '.join([dosage.description for dosage in self.settings.all()])}" # type: ignore
             or "Radiotherapy"
         )
         return f"{self.therapy_line.label if self.therapy_line else self.intent.capitalize()} - {settings} {dosages}"

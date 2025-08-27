@@ -5,6 +5,7 @@ from typing import (
     ClassVar,
     Mapping,
     Optional,
+    TypeVar,
     Type,
     get_args,
     get_origin,
@@ -24,6 +25,7 @@ from pop.terminology.models import CodedConcept
 from pydantic import BaseModel as PydanticBaseModel
 from pydantic import ConfigDict, model_validator
 
+_DjangoModel = TypeVar("_DjangoModel", bound=DjangoModel)
 
 class BaseSchema(Schema):
 
@@ -214,11 +216,11 @@ class BaseSchema(Schema):
 
     def model_dump_django(
         self,
-        model: Optional[Type[DjangoModel]] = None,
-        instance: Optional[DjangoModel] = None,
+        model: Optional[Type[_DjangoModel]] = None,
+        instance: Optional[_DjangoModel] = None,
         create: Optional[bool] = None,
         **fields,
-    ) -> DjangoModel:
+    ) -> _DjangoModel:
 
         m2m_relations: dict[str, list[DjangoModel]] = {}
         o2m_relations: dict[DjangoField, dict] = {}

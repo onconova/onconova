@@ -109,7 +109,7 @@ class RadiotherapyController(ControllerBase):
     @ordering()
     def get_all_radiotherapy_history_events(self, radiotherapyId: str):
         instance = get_object_or_404(Radiotherapy, id=radiotherapyId)
-        return pghistory.models.Events.objects.tracks(instance).all()
+        return pghistory.models.Events.objects.tracks(instance).all() # type: ignore
 
     @route.get(
         path="/{radiotherapyId}/history/events/{eventId}",
@@ -124,7 +124,7 @@ class RadiotherapyController(ControllerBase):
     def get_radiotherapy_history_event_by_id(self, radiotherapyId: str, eventId: str):
         instance = get_object_or_404(Radiotherapy, id=radiotherapyId)
         return get_object_or_404(
-            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId
+            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId # type: ignore
         )
 
     @route.put(
@@ -144,7 +144,7 @@ class RadiotherapyController(ControllerBase):
         operation_id="getRadiotherapyDosages",
     )
     def get_radiotherapy_dosages_matching_the_query(self, radiotherapyId: str):  # type: ignore
-        return get_object_or_404(Radiotherapy, id=radiotherapyId).dosages.all()
+        return get_object_or_404(Radiotherapy, id=radiotherapyId).dosages.all() # type: ignore
 
     @route.get(
         path="/{radiotherapyId}/dosages/{dosageId}",
@@ -211,7 +211,7 @@ class RadiotherapyController(ControllerBase):
         instance = get_object_or_404(
             RadiotherapyDosage, id=dosageId, radiotherapy__id=radiotherapyId
         )
-        return pghistory.models.Events.objects.tracks(instance).all()
+        return pghistory.models.Events.objects.tracks(instance).all() # type: ignore
 
     @route.get(
         path="/{radiotherapyId}/dosages/{dosageId}/history/events/{eventId}",
@@ -230,7 +230,7 @@ class RadiotherapyController(ControllerBase):
             RadiotherapyDosage, id=dosageId, radiotherapy__id=radiotherapyId
         )
         return get_object_or_404(
-            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId
+            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId # type: ignore
         )
 
     @route.put(
@@ -258,7 +258,7 @@ class RadiotherapyController(ControllerBase):
         operation_id="getRadiotherapySettings",
     )
     def get_radiotherapy_settings_matching_the_query(self, radiotherapyId: str):  # type: ignore
-        return get_object_or_404(Radiotherapy, id=radiotherapyId).settings.all()
+        return get_object_or_404(Radiotherapy, id=radiotherapyId).settings.all() # type: ignore
 
     @route.get(
         path="/{radiotherapyId}/settings/{settingId}",
@@ -325,7 +325,7 @@ class RadiotherapyController(ControllerBase):
         instance = get_object_or_404(
             RadiotherapySetting, id=settingId, radiotherapy__id=radiotherapyId
         )
-        return pghistory.models.Events.objects.tracks(instance).all()
+        return pghistory.models.Events.objects.tracks(instance).all() # type: ignore
 
     @route.get(
         path="/{radiotherapyId}/settings/{settingId}/history/events/{eventId}",
@@ -344,7 +344,7 @@ class RadiotherapyController(ControllerBase):
             RadiotherapySetting, id=settingId, radiotherapy__id=radiotherapyId
         )
         return get_object_or_404(
-            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId
+            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId # type: ignore
         )
 
     @route.put(

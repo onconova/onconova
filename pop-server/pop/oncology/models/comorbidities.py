@@ -513,85 +513,85 @@ class ElixhauserPanelDetails:
     )
 
     @classmethod
-    def get_score_annotation(self):
+    def get_score_annotation(cls):
         return Sum(
             Case(
-                When(present_conditions__code__in=self.chf.codes, then=self.chf.weight),
+                When(present_conditions__code__in=cls.chf.codes, then=cls.chf.weight),
                 When(
-                    present_conditions__code__in=self.carit.codes,
-                    then=self.carit.weight,
+                    present_conditions__code__in=cls.carit.codes,
+                    then=cls.carit.weight,
                 ),
                 When(
-                    present_conditions__code__in=self.valv.codes, then=self.valv.weight
+                    present_conditions__code__in=cls.valv.codes, then=cls.valv.weight
                 ),
-                When(present_conditions__code__in=self.pcd.codes, then=self.pcd.weight),
-                When(present_conditions__code__in=self.pvd.codes, then=self.pvd.weight),
+                When(present_conditions__code__in=cls.pcd.codes, then=cls.pcd.weight),
+                When(present_conditions__code__in=cls.pvd.codes, then=cls.pvd.weight),
                 When(
-                    present_conditions__code__in=self.hypunc.codes,
-                    then=self.hypunc.weight,
-                ),
-                When(
-                    present_conditions__code__in=self.hypc.codes, then=self.hypc.weight
+                    present_conditions__code__in=cls.hypunc.codes,
+                    then=cls.hypunc.weight,
                 ),
                 When(
-                    present_conditions__code__in=self.para.codes, then=self.para.weight
-                ),
-                When(present_conditions__code__in=self.ond.codes, then=self.ond.weight),
-                When(present_conditions__code__in=self.cpd.codes, then=self.cpd.weight),
-                When(
-                    present_conditions__code__in=self.diabunc.codes,
-                    then=self.diabunc.weight,
+                    present_conditions__code__in=cls.hypc.codes, then=cls.hypc.weight
                 ),
                 When(
-                    present_conditions__code__in=self.diabc.codes,
-                    then=self.diabc.weight,
+                    present_conditions__code__in=cls.para.codes, then=cls.para.weight
+                ),
+                When(present_conditions__code__in=cls.ond.codes, then=cls.ond.weight),
+                When(present_conditions__code__in=cls.cpd.codes, then=cls.cpd.weight),
+                When(
+                    present_conditions__code__in=cls.diabunc.codes,
+                    then=cls.diabunc.weight,
                 ),
                 When(
-                    present_conditions__code__in=self.hypothy.codes,
-                    then=self.hypothy.weight,
-                ),
-                When(present_conditions__code__in=self.rf.codes, then=self.rf.weight),
-                When(present_conditions__code__in=self.ld.codes, then=self.ld.weight),
-                When(present_conditions__code__in=self.pud.codes, then=self.pud.weight),
-                When(
-                    present_conditions__code__in=self.aids.codes, then=self.aids.weight
+                    present_conditions__code__in=cls.diabc.codes,
+                    then=cls.diabc.weight,
                 ),
                 When(
-                    present_conditions__code__in=self.rheumd.codes,
-                    then=self.rheumd.weight,
+                    present_conditions__code__in=cls.hypothy.codes,
+                    then=cls.hypothy.weight,
+                ),
+                When(present_conditions__code__in=cls.rf.codes, then=cls.rf.weight),
+                When(present_conditions__code__in=cls.ld.codes, then=cls.ld.weight),
+                When(present_conditions__code__in=cls.pud.codes, then=cls.pud.weight),
+                When(
+                    present_conditions__code__in=cls.aids.codes, then=cls.aids.weight
                 ),
                 When(
-                    present_conditions__code__in=self.coag.codes, then=self.coag.weight
+                    present_conditions__code__in=cls.rheumd.codes,
+                    then=cls.rheumd.weight,
                 ),
                 When(
-                    present_conditions__code__in=self.obes.codes, then=self.obes.weight
+                    present_conditions__code__in=cls.coag.codes, then=cls.coag.weight
                 ),
                 When(
-                    present_conditions__code__in=self.wloss.codes,
-                    then=self.wloss.weight,
-                ),
-                When(present_conditions__code__in=self.fed.codes, then=self.fed.weight),
-                When(
-                    present_conditions__code__in=self.blane.codes,
-                    then=self.blane.weight,
+                    present_conditions__code__in=cls.obes.codes, then=cls.obes.weight
                 ),
                 When(
-                    present_conditions__code__in=self.dane.codes, then=self.dane.weight
+                    present_conditions__code__in=cls.wloss.codes,
+                    then=cls.wloss.weight,
+                ),
+                When(present_conditions__code__in=cls.fed.codes, then=cls.fed.weight),
+                When(
+                    present_conditions__code__in=cls.blane.codes,
+                    then=cls.blane.weight,
                 ),
                 When(
-                    present_conditions__code__in=self.alcohol.codes,
-                    then=self.alcohol.weight,
+                    present_conditions__code__in=cls.dane.codes, then=cls.dane.weight
                 ),
                 When(
-                    present_conditions__code__in=self.drug.codes, then=self.drug.weight
+                    present_conditions__code__in=cls.alcohol.codes,
+                    then=cls.alcohol.weight,
                 ),
                 When(
-                    present_conditions__code__in=self.psycho.codes,
-                    then=self.psycho.weight,
+                    present_conditions__code__in=cls.drug.codes, then=cls.drug.weight
                 ),
                 When(
-                    present_conditions__code__in=self.depre.codes,
-                    then=self.depre.weight,
+                    present_conditions__code__in=cls.psycho.codes,
+                    then=cls.psycho.weight,
+                ),
+                When(
+                    present_conditions__code__in=cls.depre.codes,
+                    then=cls.depre.weight,
                 ),
                 default=0,
                 output_field=models.FloatField(),
@@ -819,79 +819,79 @@ class CharlsonPanelDetails:
     )
 
     @classmethod
-    def get_score_annotation(self):
+    def get_score_annotation(cls):
         return Sum(
             Case(
                 When(
-                    present_conditions__code__in=self.acute_mi.codes
-                    + self.history_mi.codes,
+                    present_conditions__code__in=cls.acute_mi.codes
+                    + cls.history_mi.codes,
                     then=Case(
                         When(
-                            present_conditions__code__in=self.acute_mi.codes,
-                            then=self.acute_mi.weight,
+                            present_conditions__code__in=cls.acute_mi.codes,
+                            then=cls.acute_mi.weight,
                         ),
                         When(
-                            present_conditions__code__in=self.history_mi.codes,
-                            then=self.history_mi.weight,
+                            present_conditions__code__in=cls.history_mi.codes,
+                            then=cls.history_mi.weight,
                         ),
                         default=0,
                     ),
                 ),
-                When(present_conditions__code__in=self.chf.codes, then=self.chf.weight),
-                When(present_conditions__code__in=self.pvd.codes, then=self.pvd.weight),
-                When(present_conditions__code__in=self.cvd.codes, then=self.cvd.weight),
+                When(present_conditions__code__in=cls.chf.codes, then=cls.chf.weight),
+                When(present_conditions__code__in=cls.pvd.codes, then=cls.pvd.weight),
+                When(present_conditions__code__in=cls.cvd.codes, then=cls.cvd.weight),
                 When(
-                    present_conditions__code__in=self.dementia.codes,
-                    then=self.dementia.weight,
+                    present_conditions__code__in=cls.dementia.codes,
+                    then=cls.dementia.weight,
                 ),
                 When(
-                    present_conditions__code__in=self.paralysis.codes,
-                    then=self.paralysis.weight,
+                    present_conditions__code__in=cls.paralysis.codes,
+                    then=cls.paralysis.weight,
                 ),
                 When(
-                    present_conditions__code__in=self.diabetes.codes
-                    + self.diabates_complications.codes,
+                    present_conditions__code__in=cls.diabetes.codes
+                    + cls.diabates_complications.codes,
                     then=Case(
                         When(
-                            present_conditions__code__in=self.diabetes.codes,
-                            then=self.diabetes.weight,
+                            present_conditions__code__in=cls.diabetes.codes,
+                            then=cls.diabetes.weight,
                         ),
                         When(
-                            present_conditions__code__in=self.diabates_complications.codes,
-                            then=self.diabates_complications.weight,
-                        ),
-                        default=0,
-                    ),
-                ),
-                When(
-                    present_conditions__code__in=self.renal_disease.codes,
-                    then=self.renal_disease.weight,
-                ),
-                When(
-                    present_conditions__code__in=self.mild_liver_disease.codes
-                    + self.liver_disease.codes,
-                    then=Case(
-                        When(
-                            present_conditions__code__in=self.mild_liver_disease.codes,
-                            then=self.mild_liver_disease.weight,
-                        ),
-                        When(
-                            present_conditions__code__in=self.liver_disease.codes,
-                            then=self.liver_disease.weight,
+                            present_conditions__code__in=cls.diabates_complications.codes,
+                            then=cls.diabates_complications.weight,
                         ),
                         default=0,
                     ),
                 ),
                 When(
-                    present_conditions__code__in=self.ulcers.codes,
-                    then=self.ulcers.weight,
+                    present_conditions__code__in=cls.renal_disease.codes,
+                    then=cls.renal_disease.weight,
                 ),
                 When(
-                    present_conditions__code__in=self.rheumatic_disease.codes,
-                    then=self.rheumatic_disease.weight,
+                    present_conditions__code__in=cls.mild_liver_disease.codes
+                    + cls.liver_disease.codes,
+                    then=Case(
+                        When(
+                            present_conditions__code__in=cls.mild_liver_disease.codes,
+                            then=cls.mild_liver_disease.weight,
+                        ),
+                        When(
+                            present_conditions__code__in=cls.liver_disease.codes,
+                            then=cls.liver_disease.weight,
+                        ),
+                        default=0,
+                    ),
                 ),
                 When(
-                    present_conditions__code__in=self.aids.codes, then=self.aids.weight
+                    present_conditions__code__in=cls.ulcers.codes,
+                    then=cls.ulcers.weight,
+                ),
+                When(
+                    present_conditions__code__in=cls.rheumatic_disease.codes,
+                    then=cls.rheumatic_disease.weight,
+                ),
+                When(
+                    present_conditions__code__in=cls.aids.codes, then=cls.aids.weight
                 ),
                 default=0,
                 output_field=models.FloatField(),
@@ -1119,72 +1119,72 @@ class NciPanelDetails:
     )
 
     @classmethod
-    def get_score_annotation(self):
+    def get_score_annotation(cls):
         return Sum(
             Case(
                 When(
-                    present_conditions__code__in=self.acute_mi.codes,
-                    then=self.acute_mi.weight,
+                    present_conditions__code__in=cls.acute_mi.codes,
+                    then=cls.acute_mi.weight,
                 ),
                 When(
-                    present_conditions__code__in=self.history_mi.codes,
-                    then=self.history_mi.weight,
+                    present_conditions__code__in=cls.history_mi.codes,
+                    then=cls.history_mi.weight,
                 ),
-                When(present_conditions__code__in=self.chf.codes, then=self.chf.weight),
-                When(present_conditions__code__in=self.pvd.codes, then=self.pvd.weight),
-                When(present_conditions__code__in=self.cvd.codes, then=self.cvd.weight),
+                When(present_conditions__code__in=cls.chf.codes, then=cls.chf.weight),
+                When(present_conditions__code__in=cls.pvd.codes, then=cls.pvd.weight),
+                When(present_conditions__code__in=cls.cvd.codes, then=cls.cvd.weight),
                 When(
-                    present_conditions__code__in=self.dementia.codes,
-                    then=self.dementia.weight,
-                ),
-                When(
-                    present_conditions__code__in=self.paralysis.codes,
-                    then=self.paralysis.weight,
+                    present_conditions__code__in=cls.dementia.codes,
+                    then=cls.dementia.weight,
                 ),
                 When(
-                    present_conditions__code__in=self.diabetes.codes
-                    + self.diabates_complications.codes,
+                    present_conditions__code__in=cls.paralysis.codes,
+                    then=cls.paralysis.weight,
+                ),
+                When(
+                    present_conditions__code__in=cls.diabetes.codes
+                    + cls.diabates_complications.codes,
                     then=Case(
                         When(
-                            present_conditions__code__in=self.diabetes.codes,
-                            then=self.diabetes.weight,
+                            present_conditions__code__in=cls.diabetes.codes,
+                            then=cls.diabetes.weight,
                         ),
                         When(
-                            present_conditions__code__in=self.diabates_complications.codes,
-                            then=self.diabates_complications.weight,
+                            present_conditions__code__in=cls.diabates_complications.codes,
+                            then=cls.diabates_complications.weight,
                         ),
                         default=0.0,
                     ),
                 ),
                 When(
-                    present_conditions__code__in=self.renal_disease.codes,
-                    then=self.renal_disease.weight,
+                    present_conditions__code__in=cls.renal_disease.codes,
+                    then=cls.renal_disease.weight,
                 ),
                 When(
-                    present_conditions__code__in=self.mild_liver_disease.codes
-                    + self.liver_disease.codes,
+                    present_conditions__code__in=cls.mild_liver_disease.codes
+                    + cls.liver_disease.codes,
                     then=Case(
                         When(
-                            present_conditions__code__in=self.mild_liver_disease.codes,
-                            then=self.mild_liver_disease.weight,
+                            present_conditions__code__in=cls.mild_liver_disease.codes,
+                            then=cls.mild_liver_disease.weight,
                         ),
                         When(
-                            present_conditions__code__in=self.liver_disease.codes,
-                            then=self.liver_disease.weight,
+                            present_conditions__code__in=cls.liver_disease.codes,
+                            then=cls.liver_disease.weight,
                         ),
                         default=0.0,
                     ),
                 ),
                 When(
-                    present_conditions__code__in=self.ulcers.codes,
-                    then=self.ulcers.weight,
+                    present_conditions__code__in=cls.ulcers.codes,
+                    then=cls.ulcers.weight,
                 ),
                 When(
-                    present_conditions__code__in=self.rheumatic_disease.codes,
-                    then=self.rheumatic_disease.weight,
+                    present_conditions__code__in=cls.rheumatic_disease.codes,
+                    then=cls.rheumatic_disease.weight,
                 ),
                 When(
-                    present_conditions__code__in=self.aids.codes, then=self.aids.weight
+                    present_conditions__code__in=cls.aids.codes, then=cls.aids.weight
                 ),
                 default=0.0,
                 output_field=models.FloatField(),
@@ -1240,7 +1240,6 @@ class ComorbiditiesAssessment(BaseModel):
         help_text=_("Present comorbid conditions"),
         terminology=terminologies.ICD10Condition,
         multiple=True,
-        null=True,
         blank=True,
     )
     absent_conditions = termfields.CodedConceptField(
@@ -1248,7 +1247,6 @@ class ComorbiditiesAssessment(BaseModel):
         help_text=_("Absent comorbid conditions"),
         terminology=terminologies.ICD10Condition,
         multiple=True,
-        null=True,
         blank=True,
     )
     score = AnnotationProperty(

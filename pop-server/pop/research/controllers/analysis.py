@@ -56,11 +56,11 @@ class CohortAnalysisController(ControllerBase):
     ):
         cohort = get_nonempty_cohort_or_error(cohortId)
         return KaplanMeierCurve.calculate(
-            survivals=cohort.valid_cases.annotate(
+            survivals=list(cohort.valid_cases.annotate(
                 overall_survival=F("overall_survival")
             )
             .filter(overall_survival__isnull=False)
-            .values_list("overall_survival", flat=True),
+            .values_list("overall_survival", flat=True)),
             confidence_level=confidence,
         ).add_metadata(cohort)
 
@@ -100,7 +100,7 @@ class CohortAnalysisController(ControllerBase):
         if not therapy_line_survivals:
             raise EmptyCohortException
         return 200, KaplanMeierCurve.calculate(
-            survivals=therapy_line_survivals,
+            survivals=list(therapy_line_survivals),
             confidence_level=confidence,
         ).add_metadata(cohort)
 

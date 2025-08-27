@@ -31,7 +31,7 @@ class DatasetsController(ControllerBase):
     @ordering()
     def get_all_datasets_matching_the_query(self, query: Query[DatasetFilters]):  # type: ignore
         queryset = Dataset.objects.all().order_by("-created_at")
-        return query.filter(queryset)
+        return query.filter(queryset) # type: ignore
 
     @route.post(
         path="",
@@ -41,10 +41,10 @@ class DatasetsController(ControllerBase):
     )
     def create_dataset(self, payload: DatasetCreateSchema):  # type: ignore
         # Check that requesting user is a member of the project
-        project = get_object_or_404(Project, id=payload.projectId)
+        project = get_object_or_404(Project, id=payload.projectId) # type: ignore
         if (
-            not project.is_member(self.context.request.user)
-            and self.context.request.user.access_level < 3
+            not project.is_member(self.context.request.user) # type: ignore
+            and self.context.request.user.access_level < 3 # type: ignore
         ):
             raise HttpError(403, "User is not a member of the project")
         return 201, payload.model_dump_django()
@@ -93,7 +93,7 @@ class DatasetsController(ControllerBase):
     @ordering()
     def get_all_dataset_history_events(self, datasetId: str):
         instance = get_object_or_404(Dataset, id=datasetId)
-        return pghistory.models.Events.objects.tracks(instance).all()
+        return pghistory.models.Events.objects.tracks(instance).all() # type: ignore
 
     @route.get(
         path="/{datasetId}/history/events/{eventId}",
@@ -108,7 +108,7 @@ class DatasetsController(ControllerBase):
     def get_dataset_history_event_by_id(self, datasetId: str, eventId: str):
         instance = get_object_or_404(Dataset, id=datasetId)
         return get_object_or_404(
-            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId
+            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId # type: ignore
         )
 
     @route.put(

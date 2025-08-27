@@ -89,7 +89,7 @@ class SystemicTherapy(BaseModel):
         null=True,
         blank=True,
     )
-    is_adjunctive = models.GeneratedField(
+    is_adjunctive = models.GeneratedField( # type: ignore
         verbose_name=_("Treatment Role"),
         help_text=_(
             "Indicates whether it is adjunctive therapy instead of a primary therapy "
@@ -131,7 +131,7 @@ class SystemicTherapy(BaseModel):
 
     @property
     def drugs(self):
-        return [medication.drug for medication in self.medications.all()]
+        return [medication.drug for medication in self.medications.all()] # type: ignore
 
     @property
     def description(self):

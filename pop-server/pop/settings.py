@@ -7,7 +7,6 @@ import pghistory
 from corsheaders.defaults import default_headers
 from pop.core.utils import mkdir_p
 
-
 def secure_url(address: str):
     return f"https://{address}"
 

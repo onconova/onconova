@@ -68,7 +68,6 @@ class Lifestyle(BaseModel):
         help_text=_("Any recreational drug(s) used by the patient"),
         terminology=terminologies.RecreationalDrug,
         multiple=True,
-        null=True,
         blank=True,
     )
     exposures = termfields.CodedConceptField(
@@ -78,7 +77,6 @@ class Lifestyle(BaseModel):
         ),
         terminology=terminologies.ExposureAgent,
         multiple=True,
-        null=True,
         blank=True,
     )
 
@@ -86,16 +84,16 @@ class Lifestyle(BaseModel):
     def description(self):
         entries = []
         if self.smoking_status:
-            smoking_status = self.smoking_status.display
+            smoking_status = str(self.smoking_status)
             if self.smoking_packyears is not None:
                 smoking_status += f" ({round(self.smoking_packyears,1)} pack-years)"
             if self.smoking_quited is not None:
-                smoking_status += f" ({round(self.smoking_quited.year,1)} years ago)"
+                smoking_status += f" ({round(self.smoking_quited.year,1)} years ago)" # type: ignore
             entries.append(f"Smoking: {smoking_status}")
         if self.alcohol_consumption:
             entries.append(f"Alcohol: {self.alcohol_consumption.display}")
         if self.night_sleep is not None:
-            entries.append(f"Sleep: {round(self.night_sleep.hour,2)} h/night")
+            entries.append(f"Sleep: {round(self.night_sleep.hour,2)} h/night") # type: ignore
         if self.recreational_drugs.exists():
             entries.append(
                 f'Recreational drugs: {", ".join([drug.display for drug in self.recreational_drugs.all()])}'

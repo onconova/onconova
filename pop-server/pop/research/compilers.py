@@ -222,8 +222,8 @@ class AggregationNode:
     key: str
     annotation_nodes: List[AnnotationNode] = field(default_factory=list)
     nested_aggregation_nodes: List["AggregationNode"] = field(default_factory=list)
-    aggregated_model: DjangoModel = None
-    aggregated_model_parent_related_name: str = None
+    aggregated_model: DjangoModel | None = None
+    aggregated_model_parent_related_name: str | None = None
 
     @property
     def annotations(self) -> Dict[str, Expression]:

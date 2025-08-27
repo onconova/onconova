@@ -81,7 +81,7 @@ class Cohort(BaseModel):
         return self.cases.filter(consent_status=PatientCase.ConsentStatus.VALID)
 
     @staticmethod
-    def get_cohort_trait_average(cases, trait: str, **filters) -> Tuple[float, float]:
+    def get_cohort_trait_average(cases, trait: str, **filters) -> Tuple[float, float]  | None:
         if filters:
             cases = cases.filter(**filters)
         if not cases.exists():
@@ -92,7 +92,7 @@ class Cohort(BaseModel):
     @staticmethod
     def get_cohort_trait_median(
         cases, trait: str, **filters
-    ) -> Tuple[float, Tuple[float, float]]:
+    ) -> Tuple[float, Tuple[float, float]] | None:
         if filters:
             cases = cases.filter(**filters)
         if not cases.exists():
@@ -122,7 +122,7 @@ class Cohort(BaseModel):
             ]
         )
 
-    def update_cohort_cases(self) -> models.QuerySet:
+    def update_cohort_cases(self):
         from pop.research.schemas.cohort import CohortRuleset
 
         if self.frozen_set.exists():

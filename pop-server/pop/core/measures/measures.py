@@ -4,9 +4,10 @@ from measurement.base import (
 )
 from measurement.measures import Mass, Volume as VolumeBase, Distance
 from sympy import S, Symbol
+from typing import Any
 
 class Measure(MeasureBase):
-
+    STANDARD_UNIT: str
     @property
     def unit(self):
         return self._default_unit
@@ -37,7 +38,9 @@ class Measure(MeasureBase):
 
 
 class BidimensionalMeasure(BidimensionalMeasureBase):
-
+    PRIMARY_DIMENSION: type[Measure] | type[MeasureBase]| type["BidimensionalMeasure"]
+    REFERENCE_DIMENSION: type[Measure] | type[MeasureBase] | type["BidimensionalMeasure"]
+    
     @classmethod
     def get_units(cls): 
         return [
@@ -96,7 +99,7 @@ class BidimensionalMeasure(BidimensionalMeasureBase):
         return f"{round(self.primary.value,2)} {primary_unit}/{reference_unit}"
 
 
-def get_measurement(value, measure=None, unit=None, original_unit=None):
+def get_measurement(value: Any, measure: type[Measure] | type[BidimensionalMeasure] | None = None, unit: str | None =None, original_unit=None):
     """
     Creates a measurement object with the specified value and unit.
 
@@ -109,11 +112,10 @@ def get_measurement(value, measure=None, unit=None, original_unit=None):
     Returns:
         Measure: An instance of the measure class with the specified value and unit.
     """
-    if not measure and not unit and not original_unit: 
-        raise ValueError('Either measure, original_unit, or unit must be provided.')
     if not measure and (unit or original_unit): 
         from pop.core.measures import ALL_MEASURES
         measure = next((measure for measure in ALL_MEASURES if (unit or original_unit) in measure.get_units()))
+    assert measure is not None, 'Either measure, original_unit, or unit must be provided.'
     # If unit is not specified use the class' standard unit
     unit = unit or measure.STANDARD_UNIT
     # Construct measurement

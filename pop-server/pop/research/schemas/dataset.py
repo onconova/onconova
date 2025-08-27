@@ -216,7 +216,7 @@ def _create_partial_schema(schema: Type[Schema]) -> Type[Schema]:
             populate_by_name=True,
             arbitrary_types_allowed=True,
             exclude_unset=True,
-        ),
+        ), # type: ignore
         **new_fields,
     )
 

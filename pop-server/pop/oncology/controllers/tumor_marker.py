@@ -98,7 +98,7 @@ class TumorMarkerController(ControllerBase):
     @ordering()
     def get_all_tumor_marker_history_events(self, tumorMarkerId: str):
         instance = get_object_or_404(TumorMarker, id=tumorMarkerId)
-        return pghistory.models.Events.objects.tracks(instance).all()
+        return pghistory.models.Events.objects.tracks(instance).all() # type: ignore
 
     @route.get(
         path="/{tumorMarkerId}/history/events/{eventId}",
@@ -113,7 +113,7 @@ class TumorMarkerController(ControllerBase):
     def get_tumor_marker_history_event_by_id(self, tumorMarkerId: str, eventId: str):
         instance = get_object_or_404(TumorMarker, id=tumorMarkerId)
         return get_object_or_404(
-            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId
+            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId # type: ignore
         )
 
     @route.put(

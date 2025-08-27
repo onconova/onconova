@@ -12,7 +12,7 @@ import pop.terminology.models as terminologies
 @pghistory.track()
 class RiskAssessment(BaseModel):
     """
-    A risk assessment may be done by collecting information about a person’s age, sex, personal
+    A risk assessment may be done by collecting information about a person's age, sex, personal
     and family medical history, ethnic background, lifestyle, and other factors and
     using statistics tools to calculate risk
     """

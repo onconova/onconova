@@ -91,7 +91,7 @@ class VitalsController(ControllerBase):
     @ordering()
     def get_all_vitals_history_events(self, vitalsId: str):
         instance = get_object_or_404(Vitals, id=vitalsId)
-        return pghistory.models.Events.objects.tracks(instance).all()
+        return pghistory.models.Events.objects.tracks(instance).all() # type: ignore
 
     @route.get(
         path="/{vitalsId}/history/events/{eventId}",
@@ -106,7 +106,7 @@ class VitalsController(ControllerBase):
     def get_vitals_history_event_by_id(self, vitalsId: str, eventId: str):
         instance = get_object_or_404(Vitals, id=vitalsId)
         return get_object_or_404(
-            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId
+            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId # type: ignore
         )
 
     @route.put(

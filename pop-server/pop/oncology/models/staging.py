@@ -80,8 +80,10 @@ class Staging(BaseModel):
 
     @property
     def description(self):
-        staging = self.STAGING_DOMAINS.get(self.staging_domain)
-
+        if self.staging_domain:
+            staging = self.STAGING_DOMAINS.get(self.staging_domain)
+        else:
+            staging = 'Staging'
         return f"{staging} {self.stage_value}"
 
     @property
@@ -106,9 +108,11 @@ class Staging(BaseModel):
             except:
                 continue
 
-    def get_domain_staging(self):
-        return getattr(self, self.staging_domain)
-
+    def get_domain_staging(self) -> type["Staging"] | None:
+        if self.staging_domain:
+            return getattr(self, self.staging_domain)
+        else: 
+            return None
 
 @pghistory.track()
 class TNMStaging(Staging):

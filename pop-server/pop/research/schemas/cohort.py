@@ -96,10 +96,10 @@ class CohortRule(Schema):
         Converts this rule's filters into a Django Q object query.
         Yields either a subquery Q or existence subquery, depending on the model.
         """
-        model = getattr(oncology_models, self.entity, None)
+        model = getattr(oncology_models, self.entity)
         subquery = Q()
         for filter in self.filters:
-            operator = getattr(filters_module, filter.operator, None)
+            operator = getattr(filters_module, filter.operator)
             subquery = subquery & operator.get_query(filter.db_field, filter.db_value, model)
         if model is oncology_models.PatientCase:
             yield subquery
@@ -212,10 +212,11 @@ class CohortTraitMedian(Schema):
     for a numeric cohort trait.
     """
 
-    median: float = Field(
-        title="Median", description="The median value for the cohort trait."
+    median: float | None = Field(
+        default=None, title="Median", description="The median value for the cohort trait."
     )
-    interQuartalRange: Tuple[float, float] = Field(
+    interQuartalRange: Tuple[float, float] | None = Field(
+        default=None, 
         title="Interquartile Range (IQR)",
         description="The lower and upper bounds of the interquartile range.",
     )
