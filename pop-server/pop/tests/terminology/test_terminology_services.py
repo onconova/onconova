@@ -1,8 +1,7 @@
 import unittest
-import requests
 from unittest.mock import patch, MagicMock
 from pop.terminology.models import AdministrativeGender as CodedConceptTestModel
-from fhir.resources.R4B.valueset import (
+from pop.terminology.fhir import (
     ValueSet,
     ValueSetCompose,
     ValueSetComposeInclude,
@@ -12,11 +11,8 @@ from fhir.resources.R4B.valueset import (
     ValueSetComposeIncludeFilter,
 )
 from pop.terminology.services import (
-    download_canonical_url,
     expand_valueset,
     CodedConcept,
-    download_valueset,
-    download_codesystem,
     FilterOperator,
     follow_valueset_composition_rule,
     collect_codedconcept_terminology,
@@ -27,10 +23,10 @@ class TestExpandValueSet(unittest.TestCase):
 
     def test_expansion_with_predefined_expansion(self):
         # Mock valuesetdef with predefined expansion
-        valuesetdef = ValueSet.construct(
-            **dict(
-                expansion=ValueSetExpansion.construct(
-                    **dict(
+        valuesetdef = ValueSet.model_validate(
+            dict(
+                expansion=ValueSetExpansion.model_validate(
+                    dict(
                         contains=[
                             ValueSetExpansionContains(
                                 code="code1", system="system1", version="version1"
@@ -51,8 +47,8 @@ class TestExpandValueSet(unittest.TestCase):
 
     def test_expansion_with_composition_rules_include(self):
         # Mock valuesetdef with composition rules (include)
-        valuesetdef = ValueSet.construct(
-            **dict(
+        valuesetdef = ValueSet.model_validate(
+            dict(
                 compose=ValueSetCompose(
                     include=[
                         ValueSetComposeInclude(
@@ -77,8 +73,8 @@ class TestExpandValueSet(unittest.TestCase):
 
     def test_expansion_with_composition_rules_exclude(self):
         # Mock valuesetdef with composition rules (exclude)
-        valuesetdef = ValueSet.construct(
-            **dict(
+        valuesetdef = ValueSet.model_validate(
+            dict(
                 compose=ValueSetCompose(
                     include=[
                         ValueSetComposeInclude(
@@ -363,7 +359,3 @@ class TestCollectCodedConceptTerminology(unittest.TestCase):
         ]
         collect_codedconcept_terminology(CodedConceptTestModel, write_db=False)
         self.assertEqual(CodedConceptTestModel.objects.count(), 0)
-
-
-if __name__ == "__main__":
-    unittest.main()

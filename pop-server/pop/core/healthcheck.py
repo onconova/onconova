@@ -29,7 +29,7 @@ class HealthCheckController(ControllerBase):
             403: None,
             500: None,
         },
-        operation_id="login",
+        operation_id="healthcheck",
     )
     def health_check(self):
         # Check server status (if this endpoint is hit, server is up)

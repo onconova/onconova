@@ -90,7 +90,7 @@ class PatientCaseSchema(ModelGetSchema):
             if not obj.endOfRecords:
                 raise ValueError('If patient vital status is unknown, it must have a valid end of records date.')
         if obj.vitalStatus == VitalStatus.DECEASED: 
-            if not obj.dateofDeath:
+            if not obj.dateOfDeath:
                 raise ValueError('A deceased patient must have a date of death')
             if obj.endOfRecords:
                 raise ValueError('If patient is known to be deceased, it cannot have an end of records.')   
