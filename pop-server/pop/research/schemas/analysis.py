@@ -400,7 +400,7 @@ class Distribution(Schema, AnalysisMetadataMixin):
             neoplasticSites={
                 "lookup": "neoplastic_entities__topography_group__display"
             },
-            vitalStatus={"lookup": "is_deceased"},
+            vitalStatus={"lookup": "vital_status"},
         ).get(property)
         return Distribution(
             items=[

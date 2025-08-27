@@ -77,9 +77,7 @@ export class CohortGraphsComponent {
     })
     public vitalStatusCount = rxResource({
         request: () => ({cohortId: this.cohort().id, therapyLine: this.selectedTherapyLine(), property: "vitalStatus" as const}),
-        loader: ({request}) => this.#analysisService.getCohortPropertyDistribution(request).pipe(
-            map((response) => ({...response, items: response.items.map(item => ({...item, category: item.category === 'true' ? 'Alive' : 'Dead'}))}))
-        )
+        loader: ({request}) => this.#analysisService.getCohortPropertyDistribution(request)
     })
     public therapyLinesCount = computed(() => this.traits().value()?.therapyLines)
     public therapyLineOptions = computed<string[]>(
