@@ -358,6 +358,11 @@ class PatientCase(BaseModel):
                 violation_error_message="Birthdate must be the first day of the month",
             ),
             models.CheckConstraint(
+                check=Q(end_of_records__day=1),
+                name="end_of_records_must_be_first_of_month",
+                violation_error_message="End of records must be the first day of the month",
+            ),
+            models.CheckConstraint(
                 check=Case(
                     When(Q(Q(vital_status=VitalStatus.ALIVE) & Q(date_of_death__isnull=False)), then=Value(False)),
                     When(Q(Q(vital_status=VitalStatus.UNKNOWN) & Q(date_of_death__isnull=False)), then=Value(False)),
