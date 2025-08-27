@@ -17,10 +17,10 @@ import { Button } from 'primeng/button';
             <div class="pop-disclaimer-banner-content">
                 <div class="pop-disclaimer-banner-content-text">
                     <div >
-                        This platform is intended for <b>research and informational purposes</b> only.
+                        This platform is intended for <b class="font-medium">research and informational purposes</b> only.
                     </div>
                     <div class="mt-2">
-                        The information and resources presented here are <b>not intended for use in diagnosing or treating health problems or diseases</b> under any circumstances.
+                        The information and resources presented here are <b  class="font-medium">not intended for use in diagnosing or treating health problems or diseases</b> under any circumstances.
                     </div>
                     <p-button icon="pi pi-info-circle" styleClass="my-3" (click)="isDisclaimerVisible.set(true)" label="View disclaimer" />
                     <div style="max-width: 35rem;">

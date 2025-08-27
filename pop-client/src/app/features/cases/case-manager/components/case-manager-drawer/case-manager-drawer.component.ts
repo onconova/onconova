@@ -113,7 +113,7 @@ export class CaseManagerDrawerComponent {
             target: event.target as EventTarget,
             header: 'Danger Zone',
             message: `Are you sure you want to delete this entry? 
-            <div class="mt-1 font-bold text-secondary">
+            <div class="mt-1 font-medium text-secondary">
             <small>${this.data().description}</small>
             </div>
             `,

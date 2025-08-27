@@ -10,7 +10,7 @@ import { ConfirmDialog } from "primeng/confirmdialog";
             <div class="confirmdialog-icon">
                 <i class="pi pi-exclamation-triangle text-6xl"></i>
             </div>
-            <span class="font-bold text-2xl block mb-2 mt-3">Data Access and Compliance Acknowledgement</span>
+            <span class="font-semibold text-2xl block mb-2 mt-3">Data Access and Compliance Acknowledgement</span>
             <div class="m-auto text-center">
                 You are initiating the download of anonymized but sensitive healthcare data. This activity will be recorded and linked 
                 to your user credentials.<br/><br/>Prior to proceeding, <b>you are required to confirm that valid and current patient consent has been

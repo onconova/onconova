@@ -93,7 +93,9 @@
                 }
             </div>
             <div class="flex x flex-column ">
-                <small class="text-muted mb-1">Consent</small>
+                <div class="text-muted">
+                    <small>Consent</small>
+                </div>
                     <div class="text-sm">
                         @switch (case().consentStatus) {
                             @case ('valid') {
@@ -142,7 +144,7 @@
         <pop-identicon [value]="case().pseudoidentifier" width="3rem" height="3rem"/>
         <!-- Case info -->
         <div class="flex flex-column my-auto mr-auto" >
-            <div class="text-xl font-bold monospace">{{case().pseudoidentifier}}</div>
+            <div class="text-xl font-medium text-monospace">{{case().pseudoidentifier}}</div>
             <div class="text-muted font-medium white-space-nowrap">
                 {{ case().gender.display }}, {{case().age}} years@if(case().vitalStatus == 'deceased'){, <span title="Deceased">†</span>}@if(case().vitalStatus == 'unknown'){, <small title="End of Records">EOR</small>}
             </div>

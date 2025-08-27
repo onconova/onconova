@@ -1,9 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
-
-import { LayoutService } from 'src/app/core/layout/app.layout.service';
 import { AuthLayoutComponent } from './auth-layout.component';
 
 @Component({

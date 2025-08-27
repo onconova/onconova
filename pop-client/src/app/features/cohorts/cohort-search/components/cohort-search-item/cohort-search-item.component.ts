@@ -110,7 +110,7 @@ export class CohortSearchItemComponent {
             header: 'Danger Zone',
             message: `
                 Are you sure you want to delete this cohort? 
-                <div class="mt-2 font-bold text-secondary">
+                <div class="mt-2 font-medium text-secondary">
                     <small>${this.cohort().name}</small><br>
                 </div>
             `,

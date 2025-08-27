@@ -45,7 +45,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
             <form [formGroup]="credentials" (ngSubmit)="login()">
                 <p-fluid>
                     <div class="field">
-                        <label for="username" class="font-semibold">Do you have a POP account? </label>
+                        <label for="username" class="font-medium">Do you have a POP account? </label>
                         <p-iconfield>
                             <p-inputicon styleClass="pi pi-at" />
                             <input type="text" pInputText placeholder="Account {{ loginMethods() }}" formControlName="username" class="py-3 px-5" autocomplete="username"/>
@@ -53,7 +53,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
                     </div>
 
                     <div class="field">
-                        <label for="password1" class="font-semibold">Password</label>
+                        <label for="password1" class="font-medium">Password</label>
                         <p-iconfield>
                             <p-inputicon styleClass="pi pi-key" />
                             <input type="password" pInputText placeholder="Password" formControlName="password" class="py-3 px-5" autocomplete="current-password"/>

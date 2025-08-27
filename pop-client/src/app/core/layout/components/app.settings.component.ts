@@ -13,7 +13,7 @@ import { ToggleSwitchModule } from 'primeng/toggleswitch';
         <p-dialog header="Preferences" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }">
             
             <div class="field">
-                <span class="font-semibold block mb-1">Dark mode</span>
+                <span class="font-medium block mb-1">Dark mode</span>
                 <small class="text-muted">Enable dark mode for a darker interface that's easier on the eyes in low-light environments.</small>
                 <div class="flex mt-2">
                     <p-toggleswitch [(ngModel)]="darkMode"/>
@@ -21,7 +21,7 @@ import { ToggleSwitchModule } from 'primeng/toggleswitch';
                 </div>
             </div>
             <div>        
-                <span class="font-semibold block mb-1">Color theme</span>
+                <span class="font-medium block mb-1">Color theme</span>
                 <small class="text-muted">Choose your preferred color theme to personalize the look and feel of the interface. This will affect highlights, buttons, and other UI elements.</small>
                 <div class="field-themes mt-2">
                     @for (theme of themes; track theme.color;) {

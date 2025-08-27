@@ -59,7 +59,7 @@ import { Router, RouterLink } from '@angular/router';
                             <pop-cancer-icon [topography]="entity.topographyCode"/>
                             <div class="ml-3 my-auto">{{ entity.topographyGroup }}</div>
                         </td>
-                        <td class="font-semibold text-center"> 
+                        <td class="font-medium text-center"> 
                             <div>{{ entity.population }}</div>
                         </td>
                         <td >

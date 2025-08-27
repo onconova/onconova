@@ -138,7 +138,7 @@ export class CaseSearchItemCardComponent {
             header: 'Danger Zone',
             message: `
                 Are you sure you want to delete this case? 
-                <div class="mt-2 font-bold text-secondary">
+                <div class="mt-2 font-medium text-secondary">
                     <small>${this.case().pseudoidentifier}</small><br>
                     <small>${this.case().age} years, ${this.case().gender.display}</small>
                 </div>
