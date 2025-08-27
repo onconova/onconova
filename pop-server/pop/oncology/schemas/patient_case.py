@@ -15,7 +15,8 @@ from pop.core.serialization.metaclasses import (
 )
 from pop.core.types import Age, AgeBin, Array, Nullable
 from pop.oncology import models as orm
-from pydantic import AliasChoices, Field, field_validator
+from pop.oncology.models.patient_case import VitalStatus
+from pydantic import AliasChoices, Field, field_validator, model_validator
 
 
 class PatientCaseSchema(ModelGetSchema):
@@ -66,16 +67,38 @@ class PatientCaseSchema(ModelGetSchema):
 
     @field_validator("age", "ageAtDiagnosis", mode="before")
     @classmethod
-    def age_type_conversion(cls, value: Union[int, Age, AgeBin]) -> Age:
+    def age_type_conversion(cls, value: int | Age | AgeBin) -> Age | AgeBin:
         if isinstance(value, int):
             return Age(value)
-        else:
-            return value
+        return value
 
+    @model_validator(mode='after')
+    @classmethod
+    def validate_vital_status_scenarios(cls, obj):
+        if obj.vitalStatus == VitalStatus.ALIVE: 
+            if obj.dateOfDeath:
+                raise ValueError('An alive patient cannot have a date of death')
+            if obj.causeOfDeath:
+                raise ValueError('An alive patient cannot have a cause of death')
+            if obj.endOfRecords:
+                raise ValueError('If patient is known to be alive, it cannot have an end of records.')
+        if obj.vitalStatus == VitalStatus.UNKNOWN: 
+            if obj.dateOfDeath:
+                raise ValueError('An unkonwn vital status patient cannot have a date of death')
+            if obj.causeOfDeath:
+                raise ValueError('An unkonwn vital status patient cannot have a cause of death')
+            if not obj.endOfRecords:
+                raise ValueError('If patient vital status is unknown, it must have a valid end of records date.')
+        if obj.vitalStatus == VitalStatus.DECEASED: 
+            if not obj.dateofDeath:
+                raise ValueError('A deceased patient must have a date of death')
+            if obj.endOfRecords:
+                raise ValueError('If patient is known to be deceased, it cannot have an end of records.')   
+        return obj
 
 class PatientCaseCreateSchema(ModelCreateSchema):
     config = SchemaConfig(
-        model=orm.PatientCase, exclude=("pseudoidentifier", "is_deceased")
+        model=orm.PatientCase, exclude=("pseudoidentifier",)
     )
 
 

@@ -17,6 +17,7 @@ import pop.research.models.cohort as cohorts_models
 import pop.research.models.project as projects_models
 import pop.terminology.models as terminology
 from pop.core.auth.models import User
+from pop.oncology.models.patient_case import VitalStatus
 from pop.oncology.models.comorbidities import ComorbiditiesPanel
 
 
@@ -133,10 +134,17 @@ class PatientCaseFactory(factory.django.DjangoModelFactory):
     )
     gender = make_terminology_factory(terminology.AdministrativeGender)
     sex_at_birth = make_terminology_factory(terminology.BirthSex)
-    date_of_death = factory.LazyFunction(
-        lambda: faker.date_this_decade() if random.random() > 0.5 else None
+    vital_status = FuzzyChoice(VitalStatus)
+    date_of_death = factory.LazyAttribute(
+        lambda o: faker.date_this_decade() if o.vital_status == VitalStatus.DECEASED else None
     )
-    cause_of_death = make_terminology_factory(terminology.CauseOfDeath)
+    cause_of_death = factory.Maybe(
+        factory.LazyAttribute(lambda o: o.vital_status == VitalStatus.DECEASED),
+        make_terminology_factory(terminology.CauseOfDeath), None, # type: ignore
+    )
+    end_of_records = factory.LazyAttribute(
+        lambda o: faker.date_this_decade() if o.vital_status == VitalStatus.UNKNOWN else None
+    )
     consent_status = FuzzyChoice(models.PatientCase.ConsentStatus)
     clinical_center = factory.LazyFunction(lambda: faker.company() + " Hospital")
     clinical_identifier = FuzzyText(length=8, prefix="CLIN", chars=string.digits)
