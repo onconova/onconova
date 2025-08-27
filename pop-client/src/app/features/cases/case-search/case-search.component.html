@@ -95,13 +95,13 @@
                         </ng-template>
                     </pop-popover-filter-button>
 
-                    <pop-popover-filter-button [value]="queryParams.deceased" label="Vital status" [selectionLabelFcn]="showSelectedVitalStatusFilter">
+                    <pop-popover-filter-button [value]="queryParams.vitalStatus" label="Vital status" [selectionLabelFcn]="showSelectedVitalStatusFilter">
                         <ng-template #popoverContent let-internalValue>
                             <div class="p-2">
                                 <div class="text-muted mb-3">Select a vital status:</div>
                                 <p-selectbutton 
                                     [options]="vitalStatusChoices" optionLabel="label" optionValue="value" 
-                                    [(ngModel)]="queryParams.deceased" (ngModelChange)="internalValue.set($event)"/>
+                                    [(ngModel)]="queryParams.vitalStatus" (ngModelChange)="internalValue.set($event)"/>
                             </div>
                         </ng-template>
                     </pop-popover-filter-button> 

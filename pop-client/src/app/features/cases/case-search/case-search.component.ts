@@ -100,7 +100,7 @@ export class CaseSearchComponent {
     offset:  linkedSignal(() => this.#inputQueryParams()?.['offset'] || 0),
     gender:  linkedSignal(() => this.#inputQueryParams()?.['gender']),
     layout:  linkedSignal(() => this.#inputQueryParams()?.['layout'] || 'grid'),
-    deceased:  linkedSignal(() => this.#inputQueryParams()?.['deceased']),
+    vitalStatus:  linkedSignal(() => this.#inputQueryParams()?.['vitalStatus']),
     age:  linkedSignal(() => {
       const age = this.#inputQueryParams()?.['age'];
       if (age && age.includes('-')) {
@@ -140,8 +140,9 @@ export class CaseSearchComponent {
   ]
   protected readonly tour = TourDriverConfig;
   protected vitalStatusChoices = [
-    {value: false, label: 'Alive'},
-    {value: true, label: 'Deceased'},
+    {value: 'alive', label: 'Alive'},
+    {value:'deceased', label: 'Deceased'},
+    {value: 'unknown', label: 'Unknown'},
   ]
   // Resources
   public cases: Resource<PatientCase[] | undefined> = rxResource({
@@ -153,7 +154,7 @@ export class CaseSearchComponent {
       dataCompletionRateBetween: this.queryParams.dataCompletion() ,
       primarySite: this.queryParams.primarySite()  || undefined, 
       morphology: this.queryParams.morphology()  || undefined, 
-      isDeceased: this.queryParams.deceased() ?? undefined,
+      vitalStatus: this.queryParams.vitalStatus() ?? undefined,
       limit: this.queryParams.limit() || 15, 
       offset: this.queryParams.offset() || 0,
       ordering: this.queryParams.sort(),
@@ -179,7 +180,7 @@ export class CaseSearchComponent {
         age: this.queryParams.age()?.join('-'),
         gender: this.queryParams.gender(),
         layout: this.queryParams.layout() !== 'grid' ? this.queryParams.layout() : undefined,
-        deceased: this.queryParams.deceased(),
+        vitalStatus: this.queryParams.vitalStatus(),
         dataCompletion: this.queryParams.dataCompletion()?.join('-'),
         primarySite: this.queryParams.primarySite(),
         morphology: this.queryParams.morphology(),
@@ -230,8 +231,8 @@ export class CaseSearchComponent {
   showDataCompletionFilter(range: any[]): string {
     return `${range[0]}-${range[1]}%`
   }
-  showSelectedVitalStatusFilter(choice: boolean): string {
-    return choice ? 'Deceased' : 'Alive'
+  showSelectedVitalStatusFilter(choice: any): string {
+    return choice.toLowerCase().replace(/\b\w/g, (s: string) => s.toUpperCase());
   }
 
   startTour() {
