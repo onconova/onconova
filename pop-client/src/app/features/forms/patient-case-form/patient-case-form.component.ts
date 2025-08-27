@@ -1,6 +1,6 @@
 import { Component, computed, effect, inject, input, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PatientCaseCreate, PatientCasesService, PatientCaseConsentStatusChoices, PatientCase, CodedConcept } from 'pop-api-client'
+import { PatientCaseCreate, PatientCasesService, PatientCaseConsentStatusChoices, PatientCase, CodedConcept, PatientCaseVitalStatusChoices } from 'pop-api-client'
 import { FormsModule, ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { rxResource, toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
@@ -67,9 +67,10 @@ export class PatientFormComponent extends AbstractFormBase {
     general: this.#fb.nonNullable.group({
       gender: this.#fb.control<CodedConcept | null>(null, Validators.required),
       dateOfBirth: this.#fb.control<string | null>(null, Validators.required),
-      isAlive: this.#fb.control<boolean | null>(true, Validators.required),
+      vitalStatus: this.#fb.control<PatientCaseVitalStatusChoices | null>(PatientCaseVitalStatusChoices.Alive, Validators.required),
       dateOfDeath: this.#fb.control<string | null>(null),
       causeOfDeath: this.#fb.control<CodedConcept | null>(null),
+      endOfRecords: this.#fb.control<string | null>(null),
     }),
     consent: this.#fb.nonNullable.group({
       consentCheck: this.#fb.control<boolean | null>(false, Validators.required),
@@ -88,9 +89,10 @@ export class PatientFormComponent extends AbstractFormBase {
       general: {
         gender: data.gender ?? null,
         dateOfBirth: typeof data.dateOfBirth === 'string' ? data.dateOfBirth as string : data.dateOfBirth as string  ?? null,
-        isAlive: !data.isDeceased,
+        vitalStatus: data.vitalStatus,
         dateOfDeath: data.dateOfDeath ?? null,
         causeOfDeath: data.causeOfDeath ?? null,
+        endOfRecords: data.endOfRecords ?? null,
       },
       consent: {
         consentCheck: false,
@@ -105,8 +107,9 @@ export class PatientFormComponent extends AbstractFormBase {
     return {
       gender: data.general!.gender!,
       dateOfBirth: data.general!.dateOfBirth! as string,
-      dateOfDeath: !data.general!.isAlive ? data.general!.dateOfDeath! : undefined,
-      causeOfDeath: !data.general!.isAlive ? data.general!.causeOfDeath!: undefined,
+      endOfRecords: data.general!.vitalStatus == PatientCaseVitalStatusChoices.Unknown ? data.general!.endOfRecords! : undefined,
+      dateOfDeath: data.general!.vitalStatus == PatientCaseVitalStatusChoices.Deceased ? data.general!.dateOfDeath! : undefined,
+      causeOfDeath: data.general!.vitalStatus == PatientCaseVitalStatusChoices.Deceased ? data.general!.causeOfDeath!: undefined,
       clinicalCenter: data.identification!.clinicalCenter!,
       clinicalIdentifier: data.identification!.clinicalIdentifier!,
       consentStatus: data.consent!.consentStatus!,
@@ -120,24 +123,37 @@ export class PatientFormComponent extends AbstractFormBase {
   })
 
   // Dynamically react to changes to the isAlive field
-  public currentIsAlive = toSignal(this.form.controls['general']!.controls['isAlive']!.valueChanges, {initialValue: true})
+  public currentVitalStatus = toSignal(this.form.controls['general']!.controls['vitalStatus']!.valueChanges)
   #vitalStatusChangesEffect = effect(() => {
     const dateOfDeathControl = this.form.get('general')!.get('dateOfDeath');
     const causeOfDeathControl = this.form.get('general')!.get('causeOfDeath');
-    if (this.currentIsAlive()) {
+    const endOfRecordsControl = this.form.get('general')!.get('endOfRecords');
+    if (this.currentVitalStatus() == PatientCaseVitalStatusChoices.Alive) {
       dateOfDeathControl?.removeValidators([Validators.required]);
       causeOfDeathControl?.removeValidators([Validators.required]);
-    } else {
+      endOfRecordsControl?.removeValidators([Validators.required]);
+    } else if (this.currentVitalStatus() == PatientCaseVitalStatusChoices.Deceased) {
       dateOfDeathControl?.addValidators([Validators.required]);
       causeOfDeathControl?.addValidators([Validators.required]);
-    }  
+      endOfRecordsControl?.removeValidators([Validators.required]);
+    } else if (this.currentVitalStatus() == PatientCaseVitalStatusChoices.Unknown) {
+      dateOfDeathControl?.removeValidators([Validators.required]);
+      causeOfDeathControl?.removeValidators([Validators.required]);
+      endOfRecordsControl?.addValidators([Validators.required]);
+    }
     dateOfDeathControl?.updateValueAndValidity();
     causeOfDeathControl?.updateValueAndValidity();
+    endOfRecordsControl?.updateValueAndValidity();
   })
 
   protected readonly consentStatusOptions = [
     {label: 'Valid', value: PatientCaseConsentStatusChoices.Valid},
     {label: 'Revoked', value: PatientCaseConsentStatusChoices.Revoked},
     {label: 'Unknown', value: PatientCaseConsentStatusChoices.Unknown},
+  ]
+  protected readonly vitalStatusOptions = [
+    {label: 'Alive', value: PatientCaseVitalStatusChoices.Alive},
+    {label: 'Deceased', value: PatientCaseVitalStatusChoices.Deceased},
+    {label: 'Unknown', value: PatientCaseVitalStatusChoices.Unknown},
   ]
 }

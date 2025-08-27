@@ -41,7 +41,7 @@
                 <div>
                     @if (case$.value(); as case) {
                         <i [class]="case.gender.code == 'male' ? 'pi pi-mars' : ( case.gender.code == 'female' ? 'pi pi-venus' : 'pi pi-genderless' )"></i> {{ case.gender.display }}, 
-                        {{ case.age }} years@if(case.isDeceased){, deceased}
+                        {{ case.age }} years@if(case.vitalStatus == 'deceased'){, deceased}@if(case.vitalStatus == 'unknown'){, <small>EOR</small>}
                     } @else {
                         <p-skeleton width="7rem" height="1.2rem" />
                     }
