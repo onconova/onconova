@@ -14,17 +14,21 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Key, User as UserIcon } from 'lucide-angular';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { MessageService } from 'primeng/api';
+import { RouterLink } from "@angular/router";
+import {RouterModule} from '@angular/router';
 
 @Component({
     selector: 'pop-users-management',
     templateUrl: './users-management.component.html',
     imports: [
+        RouterModule,
         CommonModule,
         FormsModule,
         TableModule,
         ButtonModule,
         Skeleton,
         CardModule,
+        RouterLink
     ]
 })
 export class UsersManagementCompnent {

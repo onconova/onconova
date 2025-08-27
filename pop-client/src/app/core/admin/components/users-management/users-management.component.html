@@ -91,6 +91,7 @@
                     <td><p-skeleton height="2rem" width="100%"/></td>
                 } @else {
                     <td class="flex gap-2">
+                        <p-button title="Check user information" icon="pi pi-info" [routerLink]="'/admin/users/' + user.username" severity="secondary" rounded outlined />
                         <p-button title="Update user information" icon="pi pi-pencil" (click)="openUserForm(user)" severity="primary" rounded outlined />
                         @if (!user.isProvided) {
                             <p-button title="Reset user password" icon="pi pi-key" (click)="openPasswordResetForm(true, user)" severity="danger" rounded outlined />
@@ -101,7 +102,7 @@
                     <td>{{ user.accessLevel }} - {{ user.role }}</td>
                     <td>{{ user.email }}</td>
                     <td><i class="pi pi-{{ user.provider }}"></i> {{ user.provider | titlecase }}</td>
-                    <td>{{ user.lastLogin | date: 'medium'}}</td>
+                    <td class="white-space-nowrap">{{user.lastLogin | date: 'medium'}}</td>
                 }
             </tr>
         </ng-template>
