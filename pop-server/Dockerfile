@@ -40,7 +40,7 @@ RUN python -m venv $VIRTUAL_ENV
 
 # Install pstcopg2 Linux dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
-	libpq-dev=15.* \
+	libpq-dev \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Setup work directory
