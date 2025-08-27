@@ -8,7 +8,7 @@
         </h2>
         <div>
             {{ bundle.gender.display }}, 
-            {{ bundle.age }} years@if (bundle.isDeceased){, †}
+            {{ bundle.age }} years@if (bundle.vitalStatus == 'deceased'){, †}
         </div>
     </div>
     <p-divider layout="vertical"></p-divider>

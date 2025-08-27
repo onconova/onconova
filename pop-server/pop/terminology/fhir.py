@@ -99,7 +99,7 @@ class ValueSetExpansionContains(BaseModel):
 
 class ValueSetExpansion(BaseModel):
     identifier: Optional[str] = None
-    timestamp: str
+    timestamp: Optional[str] = None
     total: Optional[int] = None
     offset: Optional[int] = None
     parameter: Optional[List[ValueSetExpansionParameter]] = None
@@ -111,7 +111,7 @@ class ValueSet(BaseModel):
     url: Optional[str] = None
     version: Optional[str] = None
     name: Optional[str] = None
-    status: str
+    status: Optional[str] = None
     experimental: Optional[bool] = None
     date: Optional[str] = None
     publisher: Optional[str] = None

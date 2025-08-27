@@ -56,21 +56,26 @@ class PatientCaseDataCategories(models.TextChoices):
     THERAPY_RESPONSES = "therapy-responses"
 
 
+class VitalStatus(models.TextChoices):
+    ALIVE = "alive"
+    DECEASED = "deceased"
+    UNKNOWN = "unknown"
+
 DATA_CATEGORIES_COUNT = len(list(PatientCaseDataCategories))
 
 
 def events_common_table_expression():
     event_tables = [
-        model.pgh_event_model._meta.db_table
+        model.pgh_event_model._meta.db_table # type: ignore
         for model in apps.get_app_config("oncology").get_models()
         if hasattr(model, "pgh_event_model")
-        and hasattr(model.pgh_event_model, "case_id")
+        and hasattr(model.pgh_event_model, "case_id") # type: ignore
     ]
     union_selects = [
         f"SELECT ({table}.pgh_context->>'username')::varchar as username, {table}.pgh_created_at, {table}.pgh_label FROM {table} WHERE {table}.case_id = {PatientCase._meta.db_table}.id  AND {table}.pgh_context ? 'username'"
         for table in event_tables
     ]
-    case_event_table = PatientCase.pgh_event_model._meta.db_table
+    case_event_table = PatientCase.pgh_event_model._meta.db_table # type: ignore
     union_selects.append(
         f"SELECT ({case_event_table}.pgh_context->>'username')::varchar as username, {case_event_table}.pgh_created_at, {case_event_table}.pgh_label FROM {case_event_table} WHERE {case_event_table}.id = {PatientCase._meta.db_table}.id  AND {case_event_table}.pgh_context ? 'username'"
     )
@@ -194,6 +199,7 @@ class PatientCase(BaseModel):
                 Func(
                     Case(
                         When(date_of_death__isnull=False, then=F("date_of_death")),
+                        When(end_of_records__isnull=False, then=F("end_of_records")),
                         default=Func(function="NOW"),
                     ),
                     F("date_of_birth"),
@@ -218,21 +224,14 @@ class PatientCase(BaseModel):
             output_field=models.IntegerField(),
         ),
     )
-    is_deceased = models.GeneratedField(
-        verbose_name=_("Is deceased"),
+    vital_status =  models.CharField(
+        verbose_name=_("Vital status"),
         help_text=_(
-            "Indicates if the individual is deceased or not (determined automatically based on existence of a date of death)"
+            "Whether the patient is known to be alive or decaeased or is unknkown."
         ),
-        expression=Case(
-            When(
-                Q(date_of_death__isnull=False) | Q(cause_of_death__isnull=False),
-                then=Value(True),
-            ),
-            default=Value(False),
-            output_field=models.BooleanField(),
-        ),
-        output_field=models.BooleanField(),
-        db_persist=True,
+        max_length=20,
+        choices=VitalStatus,
+        default=VitalStatus.UNKNOWN,
     )
     date_of_death = models.DateField(
         verbose_name=_("Date of death"),
@@ -266,6 +265,7 @@ class PatientCase(BaseModel):
                 Cast(
                     Case(
                         When(date_of_death__isnull=False, then=F("date_of_death")),
+                        When(end_of_records__isnull=False, then=F("end_of_records")),
                         default=Func(function="NOW"),
                     ),
                     models.DateField(),
@@ -279,6 +279,14 @@ class PatientCase(BaseModel):
             output_field=models.FloatField(),
         ),
     )
+    end_of_records = models.DateField(
+        verbose_name=_("End of records"),
+        help_text=_(
+            "Date of the last known record about the patient if lost to followup or vital status is unknown."
+        ),
+        null=True,
+        blank=True,
+    )
     updated_at = UpdatedAtProperty(
         verbose_name=_("Updated at"),
     )
@@ -289,24 +297,6 @@ class PatientCase(BaseModel):
     @property
     def description(self):
         return f"POP Case {self.pseudoidentifier}"
-
-    @property
-    def events_common_table_expression():
-        event_tables = [
-            model.pgh_event_model._meta.db_table
-            for model in apps.get_app_config("oncology").get_models()
-            if hasattr(model, "pgh_event_model")
-            and hasattr(model.pgh_event_model, "case_id")
-        ]
-        union_selects = [
-            f"SELECT ({table}.pgh_context->>'username')::varchar as username, {table}.pgh_created_at, {table}.pgh_label FROM {table} WHERE {table}.case_id = {PatientCase._meta.db_table}.id  AND {table}.pgh_context ? 'username'"
-            for table in event_tables
-        ]
-        case_event_table = PatientCase.pgh_event_model._meta.db_table
-        union_selects.append(
-            f"SELECT ({case_event_table}.pgh_context->>'username')::varchar as username, {case_event_table}.pgh_created_at, {case_event_table}.pgh_label FROM {case_event_table} WHERE {case_event_table}.id = {PatientCase._meta.db_table}.id  AND {case_event_table}.pgh_context ? 'username'"
-        )
-        return " UNION ALL ".join(union_selects)
 
     def _generate_random_id(self):
         """
@@ -349,6 +339,8 @@ class PatientCase(BaseModel):
             self.date_of_birth = self.date_of_birth.replace(day=1)
         if self.date_of_death and self.date_of_death.day != 1:
             self.date_of_death = self.date_of_death.replace(day=1)
+        if self.end_of_records and self.end_of_records.day != 1:
+            self.end_of_records = self.end_of_records.replace(day=1)
         return super().save(*args, **kwargs)
 
     class Meta:
@@ -358,14 +350,46 @@ class PatientCase(BaseModel):
                 name="unique_clinical_identifier_per_center",
             ),
             models.CheckConstraint(
-                condition=Q(date_of_birth__day=1),
+                check=Q(date_of_birth__day=1),
                 name="date_of_birth_must_be_first_of_month",
                 violation_error_message="Birthdate must be the first day of the month",
             ),
             models.CheckConstraint(
-                condition=Q(date_of_death__day=1),
+                check=Q(date_of_death__day=1),
                 name="date_of_death_must_be_first_of_month",
                 violation_error_message="Birthdate must be the first day of the month",
+            ),
+            models.CheckConstraint(
+                check=Q(end_of_records__day=1),
+                name="end_of_records_must_be_first_of_month",
+                violation_error_message="End of records must be the first day of the month",
+            ),
+            models.CheckConstraint(
+                check=Case(
+                    When(Q(Q(vital_status=VitalStatus.ALIVE) & Q(date_of_death__isnull=False)), then=Value(False)),
+                    When(Q(Q(vital_status=VitalStatus.UNKNOWN) & Q(date_of_death__isnull=False)), then=Value(False)),
+                    When(Q(Q(vital_status=VitalStatus.DECEASED) & Q(date_of_death__isnull=True)), then=Value(False)),
+                    default=True
+                ), # type: ignore
+                name="vital_status_date_of_death_combinations",
+                violation_error_message="Invalid vital status and date of death combination",
+            ),
+            models.CheckConstraint(
+                check=Case(
+                    When(Q(Q(vital_status=VitalStatus.UNKNOWN) & Q(end_of_records__isnull=True)), then=Value(False)),
+                    default=True
+                ), # type: ignore
+                name="unknown_vital_status_requires_end_of_records",
+                violation_error_message="Unknown vital status requires a valid end of records date.",
+            ),
+            models.CheckConstraint(
+                check=Case(
+                    When(Q(Q(vital_status=VitalStatus.ALIVE) & Q(cause_of_death__isnull=False)), then=Value(False)),
+                    When(Q(Q(vital_status=VitalStatus.UNKNOWN) & Q(cause_of_death__isnull=False)), then=Value(False)),
+                    default=True
+                ), # type: ignore
+                name="cause_of_death_only_for_deceased",
+                violation_error_message="Cause of death can only be assigned to deceased cases.",
             ),
         ]
 

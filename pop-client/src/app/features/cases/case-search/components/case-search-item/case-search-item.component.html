@@ -144,7 +144,7 @@
         <div class="flex flex-column my-auto mr-auto" >
             <div class="text-xl font-bold monospace">{{case().pseudoidentifier}}</div>
             <div class="text-muted font-medium white-space-nowrap">
-                {{ case().gender.display }}, {{case().age}} years@if(case().isDeceased){, †}
+                {{ case().gender.display }}, {{case().age}} years@if(case().vitalStatus == 'deceased'){, <span title="Deceased">†</span>}@if(case().vitalStatus == 'unknown'){, <small title="End of Records">EOR</small>}
             </div>
         </div>
     </div>

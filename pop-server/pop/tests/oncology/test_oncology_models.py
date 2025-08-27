@@ -2,10 +2,9 @@ from datetime import date, datetime, timedelta
 
 from django.test import TestCase
 from django.db.utils import IntegrityError
-from psycopg.types.range import Range as PostgresRange
+from psycopg.types.range import Range as PostgresRange 
 from pop.core.measures import measures
-from pop.oncology.models.patient_case import PatientCaseDataCompletion, PatientCase
-from pop.oncology.models.neoplastic_entity import NeoplasticEntity
+from pop.oncology.models.patient_case import PatientCaseDataCompletion, PatientCase, VitalStatus
 from pop.oncology.models.therapy_line import TherapyLine
 import pop.tests.factories as factories
 import pop.terminology.models as terminology
@@ -14,90 +13,107 @@ from parameterized import parameterized
 
 class PatientCaseModelTest(TestCase):
 
-    @classmethod
-    def setUpTestData(cls):
-        cls.patient = factories.PatientCaseFactory()
-        cls.patient.save()
-
     def test_pseudoidentifier_created_on_save(self):
-        self.assertIsNotNone(self.patient.pseudoidentifier)
+        patient = factories.PatientCaseFactory()
+        self.assertIsNotNone(patient.pseudoidentifier)
         self.assertRegex(
-            self.patient.pseudoidentifier, r"^[A-Z]\.[0-9]{4}\.[0-9]{3}\.[0-9]{2}$"
+            patient.pseudoidentifier, r"^[A-Z]\.[0-9]{4}\.[0-9]{3}\.[0-9]{2}$"
         )
 
     def test_pseudoidentifier_must_be_unique(self):
+        patient1 = factories.PatientCaseFactory()
         patient2 = factories.PatientCaseFactory()
-        patient2.pseudoidentifier = self.patient.pseudoidentifier
+        patient2.pseudoidentifier = patient1.pseudoidentifier
         self.assertRaises(IntegrityError, patient2.save)
 
     def test_clinical_center_and_identifier_must_be_unique(self):
+        patient1 = factories.PatientCaseFactory()
         patient2 = factories.PatientCaseFactory()
-        patient2.clinical_identifier = self.patient.clinical_identifier
-        patient2.clinical_center = self.patient.clinical_center
+        patient2.clinical_identifier = patient1.clinical_identifier
+        patient2.clinical_center = patient1.clinical_center
         self.assertRaises(IntegrityError, patient2.save)
 
-    def test_is_deceased_assigned_based_on_date_of_death(self):
-        self.assertEqual(
-            self.patient.is_deceased,
-            self.patient.date_of_death is not None
-            or self.patient.cause_of_death is not None,
-        )
-
+    def test_cause_of_death_cannot_be_assigned_to_vital_status_alive(self):
+        patient = factories.PatientCaseFactory()
+        patient.vital_status = VitalStatus.ALIVE
+        patient.cause_of_death  = terminology.CauseOfDeath.objects.create(code='cause-1', display='cause-1', system='system-1')
+        self.assertRaises(IntegrityError, patient.save)
+        
+    def test_cause_of_death_cannot_be_assigned_to_vital_status_unknown(self):
+        patient = factories.PatientCaseFactory()
+        patient.vital_status = VitalStatus.UNKNOWN
+        patient.cause_of_death = terminology.CauseOfDeath.objects.create(code='cause-2', display='cause-2', system='system-2')
+        self.assertRaises(IntegrityError, patient.save)
+        
     def test_age_calculated_based_on_date_of_birth_and_today(self):
-        self.patient.date_of_death = None
-        self.patient.save()
-        delta = date.today() - self.patient.date_of_birth
-        self.assertLess(self.patient.age - delta.days / 365, 1)
+        patient = factories.PatientCaseFactory(vital_status = VitalStatus.ALIVE)
+        delta = date.today() - patient.date_of_birth
+        self.assertLess(patient.age - delta.days / 365, 1)
 
     def test_age_calculated_based_on_date_of_birth_and_date_of_death(self):
-        self.patient.date_of_death = date.today() - timedelta(days=5 * 365)
-        self.patient.save()
-        delta = self.patient.date_of_death - self.patient.date_of_birth
-        self.assertLess(self.patient.age - delta.days / 365, 1)
+        patient = factories.PatientCaseFactory(vital_status = VitalStatus.DECEASED, date_of_death=date.today() - timedelta(days=5 * 365))
+        delta = patient.date_of_death - patient.date_of_birth
+        self.assertLess(patient.age - delta.days / 365, 1)
+        
+    def test_age_calculated_based_on_date_of_birth_and_end_of_records(self):
+        patient = factories.PatientCaseFactory(vital_status = VitalStatus.UNKNOWN, end_of_records=date.today() - timedelta(days=5 * 365))
+        delta = patient.end_of_records - patient.date_of_birth
+        self.assertLess(patient.age - delta.days / 365, 1)
 
     def test_age_at_diagnosis_based_on_first_diagnosis(self):
+        patient = factories.PatientCaseFactory()
         diagnosis = factories.PrimaryNeoplasticEntityFactory(
-            case=self.patient, assertion_date=datetime(2010, 1, 1).date()
+            case=patient, assertion_date=datetime(2010, 1, 1).date()
         )
-        delta = diagnosis.assertion_date - self.patient.date_of_birth
-        self.assertLess(self.patient.age_at_diagnosis - delta.days / 365, 1)
+        delta = diagnosis.assertion_date - patient.date_of_birth
+        self.assertLess(patient.age_at_diagnosis - delta.days / 365, 1)
 
     def test_age_at_diagnosis_is_null_without_diagnosis(self):
-        self.assertIsNone(self.patient.age_at_diagnosis)
+        patient = factories.PatientCaseFactory()
+        self.assertIsNone(patient.age_at_diagnosis)
 
     def test_data_completion_rate_based_on_completed_categories(self):
-        factories.PatientCaseDataCompletionFactory(case=self.patient)
+        patient = factories.PatientCaseFactory()
+        factories.PatientCaseDataCompletionFactory(case=patient)
         expected = (
-            self.patient.completed_data_categories.count()
+            patient.completed_data_categories.count()
             / PatientCaseDataCompletion.DATA_CATEGORIES_COUNT
             * 100
         )
-        self.assertTrue(self.patient.completed_data_categories.count() > 0)
-        self.assertAlmostEqual(self.patient.data_completion_rate, round(expected))
+        self.assertTrue(patient.completed_data_categories.count() > 0)
+        self.assertAlmostEqual(patient.data_completion_rate, round(expected))
 
     def test_overall_survival_calculated_based_on_date_of_death(self):
-        self.patient.date_of_death = datetime(2010, 1, 1).date()
-        self.patient.save()
-        factories.PrimaryNeoplasticEntityFactory.create(case=self.patient)
+        patient = factories.PatientCaseFactory(vital_status = VitalStatus.DECEASED, date_of_death = datetime(2010, 1, 1).date())
+        factories.PrimaryNeoplasticEntityFactory.create(case=patient)
         delta = (
-            self.patient.date_of_death
-            - self.patient.neoplastic_entities.first().assertion_date
+            patient.date_of_death - patient.neoplastic_entities.first().assertion_date
         )
         self.assertAlmostEqual(
-            self.patient.overall_survival, round(delta.days / 30.436875), delta=1
+            patient.overall_survival, round(delta.days / 30.436875), delta=1
         )
 
-    def test_overall_survival_calculated_based_on_current_time(self):
-        self.patient.date_of_death = None
-        self.patient.save()
-        factories.PrimaryNeoplasticEntityFactory.create(case=self.patient)
-        delta = date.today() - self.patient.neoplastic_entities.first().assertion_date
+    def test_overall_survival_calculated_based_on_end_of_records(self):
+        patient = factories.PatientCaseFactory(vital_status = VitalStatus.UNKNOWN, end_of_records = datetime(2010, 1, 1).date())
+        factories.PrimaryNeoplasticEntityFactory.create(case=patient)
+        delta = (
+            patient.end_of_records - patient.neoplastic_entities.first().assertion_date
+        )
         self.assertAlmostEqual(
-            self.patient.overall_survival, round(delta.days / 30.436875), delta=1
+            patient.overall_survival, round(delta.days / 30.436875), delta=1
+        )
+        
+    def test_overall_survival_calculated_based_on_current_time(self):
+        patient = factories.PatientCaseFactory(vital_status = VitalStatus.ALIVE)
+        factories.PrimaryNeoplasticEntityFactory.create(case=patient)
+        delta = date.today() - patient.neoplastic_entities.first().assertion_date
+        self.assertAlmostEqual(
+            patient.overall_survival, round(delta.days / 30.436875), delta=1
         )
 
     def test_overall_survival_is_null_if_no_diagnosis(self):
-        self.assertIsNone(self.patient.overall_survival)
+        patient = factories.PatientCaseFactory()
+        self.assertIsNone(patient.overall_survival)
 
     def test_contributors_on_create(self):
 

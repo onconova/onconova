@@ -12,7 +12,7 @@ class CodedConceptField(object):
 
     def __new__(
         cls,
-        terminology: CodedConcept | None,
+        terminology: type[CodedConcept] | None,
         multiple: bool = False,
         null: bool = False,
         _to=None,

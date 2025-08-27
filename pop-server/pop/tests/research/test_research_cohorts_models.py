@@ -71,6 +71,7 @@ class TestGetCohortTraitMedian(TestCase):
             [
                 PatientCaseFactory.create(
                     consent_status="valid",
+                    vital_status='alive',
                     date_of_birth=datetime(2000 + i, 1, 1).date(),
                     date_of_death=None,
                 )

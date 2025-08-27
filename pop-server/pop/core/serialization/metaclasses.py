@@ -88,8 +88,8 @@ class SchemaConfig:
     model: Any
     anonymization: AnonymizationConfig | None = None
     schema_name: str | None = None
-    fields: List[str] | Tuple[str] | None = None
-    exclude: List[str] | Tuple[str] | None = None
+    fields: List[str] | tuple[str] | None = None
+    exclude: List[str] | tuple[str] | None = None
     expand: Dict | None = None
 
 
