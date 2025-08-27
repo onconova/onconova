@@ -10,6 +10,40 @@
     }
   },
   "paths": {
+    "/api/v1/healthcheck/": {
+      "get": {
+        "operationId": "login",
+        "summary": "Health Check",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthCheck"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "tags": [
+          "API Health"
+        ]
+      }
+    },
     "/api/v1/auth/session": {
       "post": {
         "operationId": "login",
@@ -6065,36 +6099,65 @@
           },
           {
             "in": "query",
-            "name": "isDeceased.not.exists",
+            "name": "vitalStatus",
             "schema": {
-              "description": "Is deceased - Filter for entries without a value",
-              "title": "not.exists",
-              "type": "boolean"
+              "allOf": [
+                {
+                  "enum": [
+                    "alive",
+                    "deceased",
+                    "unknown"
+                  ],
+                  "title": "PatientCaseVitalStatusChoices",
+                  "type": "string"
+                }
+              ],
+              "description": "Vital status - Filter for single value choice",
+              "title": "EqualsEnumFilter"
             },
             "required": false,
-            "description": "Is deceased - Filter for entries without a value"
+            "description": "Vital status - Filter for single value choice"
           },
           {
             "in": "query",
-            "name": "isDeceased.exists",
+            "name": "vitalStatus.not",
             "schema": {
-              "description": "Is deceased - Filter for entries with a value",
-              "title": "exists",
-              "type": "boolean"
+              "allOf": [
+                {
+                  "enum": [
+                    "alive",
+                    "deceased",
+                    "unknown"
+                  ],
+                  "title": "PatientCaseVitalStatusChoices",
+                  "type": "string"
+                }
+              ],
+              "description": "Vital status - ('Filter for all but a single value choice',)",
+              "title": "not"
             },
             "required": false,
-            "description": "Is deceased - Filter for entries with a value"
+            "description": "Vital status - ('Filter for all but a single value choice',)"
           },
           {
             "in": "query",
-            "name": "isDeceased",
+            "name": "vitalStatus.anyOf",
             "schema": {
-              "description": "Is deceased - Filter for yes/no statement",
-              "title": "EqualsBooleanFilter",
-              "type": "boolean"
+              "description": "Vital status - ('Filter for excluding a subset of value choices',)",
+              "items": {
+                "enum": [
+                  "alive",
+                  "deceased",
+                  "unknown"
+                ],
+                "title": "PatientCaseVitalStatusChoices",
+                "type": "string"
+              },
+              "title": "anyOf",
+              "type": "array"
             },
             "required": false,
-            "description": "Is deceased - Filter for yes/no statement"
+            "description": "Vital status - ('Filter for excluding a subset of value choices',)"
           },
           {
             "in": "query",
@@ -6178,6 +6241,146 @@
             },
             "required": false,
             "description": "Cause of death - Filter for all child concepts of a given concepts code"
+          },
+          {
+            "in": "query",
+            "name": "endOfRecords.not.exists",
+            "schema": {
+              "description": "End of records - Filter for entries without a value",
+              "title": "not.exists",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "End of records - Filter for entries without a value"
+          },
+          {
+            "in": "query",
+            "name": "endOfRecords.exists",
+            "schema": {
+              "description": "End of records - Filter for entries with a value",
+              "title": "exists",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "End of records - Filter for entries with a value"
+          },
+          {
+            "in": "query",
+            "name": "endOfRecords.before",
+            "schema": {
+              "description": "End of records - Filter for entries with dates before the specified value",
+              "format": "date",
+              "title": "before",
+              "type": "string"
+            },
+            "required": false,
+            "description": "End of records - Filter for entries with dates before the specified value"
+          },
+          {
+            "in": "query",
+            "name": "endOfRecords.after",
+            "schema": {
+              "description": "End of records - Filter for entries with dates after the specified value",
+              "format": "date",
+              "title": "after",
+              "type": "string"
+            },
+            "required": false,
+            "description": "End of records - Filter for entries with dates after the specified value"
+          },
+          {
+            "in": "query",
+            "name": "endOfRecords.onOrBefore",
+            "schema": {
+              "description": "End of records - Filter for entries with dates on or before the specified value",
+              "format": "date",
+              "title": "onOrBefore",
+              "type": "string"
+            },
+            "required": false,
+            "description": "End of records - Filter for entries with dates on or before the specified value"
+          },
+          {
+            "in": "query",
+            "name": "endOfRecords.onOrAfter",
+            "schema": {
+              "description": "End of records - Filter for entries with dates on or after the specified value",
+              "format": "date",
+              "title": "onOrAfter",
+              "type": "string"
+            },
+            "required": false,
+            "description": "End of records - Filter for entries with dates on or after the specified value"
+          },
+          {
+            "in": "query",
+            "name": "endOfRecords.on",
+            "schema": {
+              "description": "End of records - Filter for entries with dates exactly matching the specified value",
+              "format": "date",
+              "title": "on",
+              "type": "string"
+            },
+            "required": false,
+            "description": "End of records - Filter for entries with dates exactly matching the specified value"
+          },
+          {
+            "in": "query",
+            "name": "endOfRecords.not.on",
+            "schema": {
+              "description": "End of records - Filter for entries with dates not matching the specified value",
+              "format": "date",
+              "title": "not.on",
+              "type": "string"
+            },
+            "required": false,
+            "description": "End of records - Filter for entries with dates not matching the specified value"
+          },
+          {
+            "in": "query",
+            "name": "endOfRecords.between",
+            "schema": {
+              "description": "End of records - Filter for entries with dates between two specified values (inclusive)",
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "format": "date",
+                  "type": "string"
+                },
+                {
+                  "format": "date",
+                  "type": "string"
+                }
+              ],
+              "title": "between",
+              "type": "array"
+            },
+            "required": false,
+            "description": "End of records - Filter for entries with dates between two specified values (inclusive)"
+          },
+          {
+            "in": "query",
+            "name": "endOfRecords.not.between",
+            "schema": {
+              "description": "End of records - Filter for entries with dates not between two specified values (inclusive)",
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "format": "date",
+                  "type": "string"
+                },
+                {
+                  "format": "date",
+                  "type": "string"
+                }
+              ],
+              "title": "not.between",
+              "type": "array"
+            },
+            "required": false,
+            "description": "End of records - Filter for entries with dates not between two specified values (inclusive)"
           },
           {
             "in": "query",
@@ -52036,8 +52239,15 @@
             "in": "query",
             "name": "query",
             "schema": {
-              "title": "Query",
-              "type": "string"
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Query"
             },
             "required": false
           },
@@ -52045,11 +52255,18 @@
             "in": "query",
             "name": "codes",
             "schema": {
-              "items": {
-                "type": "string"
-              },
-              "title": "Codes",
-              "type": "array"
+              "anyOf": [
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Codes"
             },
             "required": false
           },
@@ -57085,6 +57302,67 @@
   },
   "components": {
     "schemas": {
+      "HealthCheck": {
+        "properties": {
+          "server": {
+            "const": "ok",
+            "description": "Whether the server is online",
+            "title": "Server Status",
+            "type": "string"
+          },
+          "database": {
+            "anyOf": [
+              {
+                "const": "ok",
+                "type": "string"
+              },
+              {
+                "const": "error",
+                "type": "string"
+              }
+            ],
+            "description": "Whether the database is online",
+            "title": "Database Status"
+          },
+          "database_connection_time_ms": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Database connection time in milliseconds",
+            "title": "Database Connection Time"
+          },
+          "migrations": {
+            "anyOf": [
+              {
+                "const": "ok",
+                "type": "string"
+              },
+              {
+                "const": "pending",
+                "type": "string"
+              },
+              {
+                "const": "error",
+                "type": "string"
+              }
+            ],
+            "description": "Whether there are pending migrations",
+            "title": "Migration Status"
+          }
+        },
+        "required": [
+          "server",
+          "database",
+          "migrations"
+        ],
+        "title": "HealthCheck",
+        "type": "object"
+      },
       "AuthenticationMeta": {
         "properties": {
           "sessionToken": {
@@ -62987,10 +63265,16 @@
             "x-expanded": false,
             "x-terminology": "GenderIdentity"
           },
-          "isDeceased": {
-            "description": "Indicates if the individual is deceased or not (determined automatically based on existence of a date of death)",
-            "title": "Is deceased",
-            "type": "boolean",
+          "vitalStatus": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PatientCaseVitalStatusChoices",
+                "maxLength": 20
+              }
+            ],
+            "default": "unknown",
+            "description": "Whether the patient is known to be alive or decaeased or is unknkown.",
+            "title": "Vital status",
             "x-expanded": false
           },
           "dateOfDeath": {
@@ -63010,6 +63294,13 @@
             "title": "Cause of death",
             "x-expanded": false,
             "x-terminology": "CauseOfDeath"
+          },
+          "endOfRecords": {
+            "description": "Date of the last known record about the patient if lost to followup or vital status is unknown.",
+            "format": "date",
+            "title": "End of records",
+            "type": "string",
+            "x-expanded": false
           },
           "description": {
             "description": "Human-readable description",
@@ -63283,7 +63574,6 @@
           "clinicalCenter",
           "clinicalIdentifier",
           "gender",
-          "isDeceased",
           "description",
           "completedDataCategories"
         ],
@@ -63347,6 +63637,15 @@
         ],
         "title": "PatientCaseDataCompletionStatusSchema",
         "type": "object"
+      },
+      "PatientCaseVitalStatusChoices": {
+        "enum": [
+          "alive",
+          "deceased",
+          "unknown"
+        ],
+        "title": "PatientCaseVitalStatusChoices",
+        "type": "string"
       },
       "PerformanceStatus": {
         "properties": {
@@ -66851,20 +67150,49 @@
             "title": "descendantsOf",
             "type": "string"
           },
-          "isDeceased.not.exists": {
-            "description": "Is deceased - Filter for entries without a value",
-            "title": "not.exists",
-            "type": "boolean"
+          "vitalStatus": {
+            "allOf": [
+              {
+                "enum": [
+                  "alive",
+                  "deceased",
+                  "unknown"
+                ],
+                "title": "PatientCaseVitalStatusChoices",
+                "type": "string"
+              }
+            ],
+            "description": "Vital status - Filter for single value choice",
+            "title": "EqualsEnumFilter"
           },
-          "isDeceased.exists": {
-            "description": "Is deceased - Filter for entries with a value",
-            "title": "exists",
-            "type": "boolean"
+          "vitalStatus.not": {
+            "allOf": [
+              {
+                "enum": [
+                  "alive",
+                  "deceased",
+                  "unknown"
+                ],
+                "title": "PatientCaseVitalStatusChoices",
+                "type": "string"
+              }
+            ],
+            "description": "Vital status - ('Filter for all but a single value choice',)",
+            "title": "not"
           },
-          "isDeceased": {
-            "description": "Is deceased - Filter for yes/no statement",
-            "title": "EqualsBooleanFilter",
-            "type": "boolean"
+          "vitalStatus.anyOf": {
+            "description": "Vital status - ('Filter for excluding a subset of value choices',)",
+            "items": {
+              "enum": [
+                "alive",
+                "deceased",
+                "unknown"
+              ],
+              "title": "PatientCaseVitalStatusChoices",
+              "type": "string"
+            },
+            "title": "anyOf",
+            "type": "array"
           },
           "causeOfDeath.not.exists": {
             "description": "Cause of death - Filter for entries without a value",
@@ -66906,6 +67234,86 @@
             "description": "Cause of death - Filter for all child concepts of a given concepts code",
             "title": "descendantsOf",
             "type": "string"
+          },
+          "endOfRecords.not.exists": {
+            "description": "End of records - Filter for entries without a value",
+            "title": "not.exists",
+            "type": "boolean"
+          },
+          "endOfRecords.exists": {
+            "description": "End of records - Filter for entries with a value",
+            "title": "exists",
+            "type": "boolean"
+          },
+          "endOfRecords.before": {
+            "description": "End of records - Filter for entries with dates before the specified value",
+            "format": "date",
+            "title": "before",
+            "type": "string"
+          },
+          "endOfRecords.after": {
+            "description": "End of records - Filter for entries with dates after the specified value",
+            "format": "date",
+            "title": "after",
+            "type": "string"
+          },
+          "endOfRecords.onOrBefore": {
+            "description": "End of records - Filter for entries with dates on or before the specified value",
+            "format": "date",
+            "title": "onOrBefore",
+            "type": "string"
+          },
+          "endOfRecords.onOrAfter": {
+            "description": "End of records - Filter for entries with dates on or after the specified value",
+            "format": "date",
+            "title": "onOrAfter",
+            "type": "string"
+          },
+          "endOfRecords.on": {
+            "description": "End of records - Filter for entries with dates exactly matching the specified value",
+            "format": "date",
+            "title": "on",
+            "type": "string"
+          },
+          "endOfRecords.not.on": {
+            "description": "End of records - Filter for entries with dates not matching the specified value",
+            "format": "date",
+            "title": "not.on",
+            "type": "string"
+          },
+          "endOfRecords.between": {
+            "description": "End of records - Filter for entries with dates between two specified values (inclusive)",
+            "maxItems": 2,
+            "minItems": 2,
+            "prefixItems": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "format": "date",
+                "type": "string"
+              }
+            ],
+            "title": "between",
+            "type": "array"
+          },
+          "endOfRecords.not.between": {
+            "description": "End of records - Filter for entries with dates not between two specified values (inclusive)",
+            "maxItems": 2,
+            "minItems": 2,
+            "prefixItems": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "format": "date",
+                "type": "string"
+              }
+            ],
+            "title": "not.between",
+            "type": "array"
           },
           "createdAt.not.exists": {
             "description": "Created at - Filter for entries without a value",
@@ -67270,10 +67678,16 @@
             "x-expanded": false,
             "x-terminology": "GenderIdentity"
           },
-          "isDeceased": {
-            "description": "Indicates if the individual is deceased or not (determined automatically based on existence of a date of death)",
-            "title": "Is deceased",
-            "type": "boolean",
+          "vitalStatus": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PatientCaseVitalStatusChoices",
+                "maxLength": 20
+              }
+            ],
+            "default": "unknown",
+            "description": "Whether the patient is known to be alive or decaeased or is unknkown.",
+            "title": "Vital status",
             "x-expanded": false
           },
           "dateOfDeath": {
@@ -67293,6 +67707,13 @@
             "title": "Cause of death",
             "x-expanded": false,
             "x-terminology": "CauseOfDeath"
+          },
+          "endOfRecords": {
+            "description": "Date of the last known record about the patient if lost to followup or vital status is unknown.",
+            "format": "date",
+            "title": "End of records",
+            "type": "string",
+            "x-expanded": false
           },
           "description": {
             "description": "Human-readable description",
@@ -67335,7 +67756,6 @@
           "clinicalCenter",
           "clinicalIdentifier",
           "gender",
-          "isDeceased",
           "description"
         ],
         "title": "PatientCase",
@@ -67428,6 +67848,18 @@
             "type": "string",
             "x-expanded": false
           },
+          "vitalStatus": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PatientCaseVitalStatusChoices",
+                "maxLength": 20
+              }
+            ],
+            "default": "unknown",
+            "description": "Whether the patient is known to be alive or decaeased or is unknkown.",
+            "title": "Vital status",
+            "x-expanded": false
+          },
           "dateOfDeath": {
             "description": "Anonymized date of death (year/month). The day is set to the first day of the month by convention.",
             "format": "date",
@@ -67445,6 +67877,13 @@
             "title": "Cause of death",
             "x-expanded": false,
             "x-terminology": "CauseOfDeath"
+          },
+          "endOfRecords": {
+            "description": "Date of the last known record about the patient if lost to followup or vital status is unknown.",
+            "format": "date",
+            "title": "End of records",
+            "type": "string",
+            "x-expanded": false
           }
         },
         "required": [
@@ -88913,15 +89352,29 @@
       "TerminologyFilters": {
         "properties": {
           "query": {
-            "title": "Query",
-            "type": "string"
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Query"
           },
           "codes": {
-            "items": {
-              "type": "string"
-            },
-            "title": "Codes",
-            "type": "array"
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Codes"
           }
         },
         "title": "TerminologyFilters",
@@ -92422,9 +92875,12 @@
             ],
             "title": "Genderidentity"
           },
-          "isDeceased": {
-            "title": "Isdeceased",
-            "type": "boolean"
+          "vitalStatus": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PatientCaseVitalStatusChoices"
+              }
+            ]
           },
           "dateOfDeath": {
             "format": "date",
@@ -92444,6 +92900,11 @@
               }
             ],
             "title": "Causeofdeath"
+          },
+          "endOfRecords": {
+            "format": "date",
+            "title": "Endofrecords",
+            "type": "string"
           },
           "description": {
             "title": "Description",
