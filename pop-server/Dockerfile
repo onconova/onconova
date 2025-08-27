@@ -55,10 +55,10 @@ FROM python-base AS builder-base
 
 # Install essential Linux dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
-	gcc=4:12.2.* \
-	python3-dev=3.11.* \
-	iputils-ping=3:* \
-	curl=7.88.* \
+	gcc \
+	python3-dev \
+	iputils-pin \
+	curl \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install Poetry
