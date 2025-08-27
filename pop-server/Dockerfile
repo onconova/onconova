@@ -57,7 +57,7 @@ FROM python-base AS builder-base
 RUN apt-get update && apt-get install -y --no-install-recommends \
 	gcc \
 	python3-dev \
-	iputils-pin \
+	iputils-ping \
 	curl \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
