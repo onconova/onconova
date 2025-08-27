@@ -339,6 +339,8 @@ class PatientCase(BaseModel):
             self.date_of_birth = self.date_of_birth.replace(day=1)
         if self.date_of_death and self.date_of_death.day != 1:
             self.date_of_death = self.date_of_death.replace(day=1)
+        if self.end_of_records and self.end_of_records.day != 1:
+            self.end_of_records = self.end_of_records.replace(day=1)
         return super().save(*args, **kwargs)
 
     class Meta:
