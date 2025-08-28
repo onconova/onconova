@@ -105,7 +105,6 @@ export class AppTopBarComponent {
     
     // Computed properties
     public readonly currentUser = computed(() => this.#authService.user())
-    public readonly version = packageInfo.version;
 
     // View child references
     public menuButtonRef = viewChild<ElementRef>('menubutton');
@@ -115,7 +114,6 @@ export class AppTopBarComponent {
         
     // Other component properties
     public readonly logo = this.#layoutService.logo;
-    public readonly organizationName = environment.organizationName;
     public readonly darkMode = this.#layoutService.config.darkMode;
     public readonly isProduction: boolean = environment.production;
     public readonly isSidebarVisible = computed(() => this.#layoutService.isProfileSidebarVisible);
