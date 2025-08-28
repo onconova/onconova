@@ -3,7 +3,8 @@
     <a href="https://github.com/luisfabib/onconova">
         <img src="client/src/assets/images/logo.svg" width="10%">
     </a>
-    <h1 style="border-bottom: none;">Onconova</h1>
+    <h1>Onconova</h1>
+    <h3>Precision Oncology Data Platform</h3>
 
 [![releases](https://img.shields.io/github/v/release/luisfabib/onconova)](https://github.com/luisfabib/onconova)
 [![license](https://img.shields.io/github/license/luisfabib/onconova.svg)](https://github.com/luisfabib/onconova/blob/main/LICENSE)
