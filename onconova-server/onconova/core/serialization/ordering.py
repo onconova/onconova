@@ -47,4 +47,3 @@ class Ordering(Orderingbase):
             fields = [camel_to_snake(param) for param in fields]
             return fields
         return []
-        return []

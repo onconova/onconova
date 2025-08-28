@@ -69,7 +69,7 @@ class CohortsController(ControllerBase):
     @ordering()
     def get_all_cohorts_matching_the_query(self, query: Query[CohortFilters]):
         queryset = Cohort.objects.all().order_by("-created_at")
-        return query.filter(queryset) # type: ignore
+        return query.filter(queryset)  # type: ignore
 
     @route.post(
         path="",
@@ -79,10 +79,10 @@ class CohortsController(ControllerBase):
     )
     def create_cohort(self, payload: CohortCreateSchema):
         # Check that requesting user is a member of the project
-        project = get_object_or_404(Project, id=payload.projectId) # type: ignore
+        project = get_object_or_404(Project, id=payload.projectId)  # type: ignore
         if (
-            not project.is_member(self.context.request.user) # type: ignore
-            and self.context.request.user.access_level < 3 # type: ignore
+            not project.is_member(self.context.request.user)  # type: ignore
+            and self.context.request.user.access_level < 3  # type: ignore
         ):
             raise HttpError(403, "User is not a member of the project")
         # Create cohort for that project
@@ -169,7 +169,7 @@ class CohortsController(ControllerBase):
         cohort = get_object_or_404(Cohort, id=cohortId)
 
         if not perms.CanManageCohorts().check_user_object_permission(
-            self.context.request.user, None, cohort # type: ignore
+            self.context.request.user, None, cohort  # type: ignore
         ):
             raise HttpError(403, "User is not a member of the project")
 
@@ -186,7 +186,7 @@ class CohortsController(ControllerBase):
         return 200, {
             **ExportMetadata(
                 exportedAt=datetime.now(),
-                exportedBy=self.context.request.user.username, # type: ignore
+                exportedBy=self.context.request.user.username,  # type: ignore
                 exportVersion=settings.VERSION,
                 checksum=checksum,
             ).model_dump(mode="json", exclude_unset=True),
@@ -207,7 +207,7 @@ class CohortsController(ControllerBase):
     @ordering()
     def get_all_cohort_history_events(self, cohortId: str):
         instance = get_object_or_404(Cohort, id=cohortId)
-        return pghistory.models.Events.objects.tracks(instance).all() # type: ignore
+        return pghistory.models.Events.objects.tracks(instance).all()  # type: ignore
 
     @route.get(
         path="/{cohortId}/history/events/{eventId}",
@@ -222,7 +222,7 @@ class CohortsController(ControllerBase):
     def get_cohort_history_event_by_id(self, cohortId: str, eventId: str):
         instance = get_object_or_404(Cohort, id=cohortId)
         return get_object_or_404(
-            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId # type: ignore
+            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId  # type: ignore
         )
 
     @route.put(
@@ -245,11 +245,18 @@ class CohortsController(ControllerBase):
         cohort = get_object_or_404(Cohort, id=cohortId)
         dataset = get_object_or_404(Dataset, id=datasetId)
 
-        if self.context and self.context.request and (not perms.CanManageCohorts().check_user_object_permission(
-            self.context.request.user, None, cohort
-        ) or not perms.CanManageDatasets().check_user_object_permission(
-            self.context.request.user, None, dataset
-        )):
+        if (
+            self.context
+            and self.context.request
+            and (
+                not perms.CanManageCohorts().check_user_object_permission(
+                    self.context.request.user, None, cohort
+                )
+                or not perms.CanManageDatasets().check_user_object_permission(
+                    self.context.request.user, None, dataset
+                )
+            )
+        ):
             raise HttpError(403, "User is not a member of the project")
 
         try:
@@ -274,7 +281,7 @@ class CohortsController(ControllerBase):
         export = {
             **ExportMetadata(
                 exportedAt=datetime.now(),
-                exportedBy=self.context.request.user.username, # type: ignore
+                exportedBy=self.context.request.user.username,  # type: ignore
                 exportVersion=settings.VERSION,
                 checksum=checksum,
             ).model_dump(mode="json", exclude_unset=True),
@@ -369,5 +376,4 @@ class CohortsController(ControllerBase):
                     cohort.cases.all(), "consent_status"
                 ).items()
             ],
-        )
         )

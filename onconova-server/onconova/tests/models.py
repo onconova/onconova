@@ -45,4 +45,3 @@ class MockModel(models.Model):
     multi_coded_concept_field = CodedConceptField(
         null=True, _to=MockCodedConcept, terminology=None, multiple=True
     )
-    )

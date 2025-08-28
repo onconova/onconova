@@ -335,4 +335,3 @@ def test_audit_log_middleware_openapi_json(audit_logger_mock):
     extra = log_kwargs["extra"]
     assert extra["request_data"] == "[openapi.json]"
     assert extra["response_data"] == "[openapi.json]"
-    assert extra["response_data"] == "[openapi.json]"

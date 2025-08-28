@@ -469,4 +469,3 @@ class TestAnnotationCompiler(TestCase):
         annotations, queryset_fields = compiler.generate_annotations()
         self.assertEqual(annotations, {})
         self.assertEqual(queryset_fields, ["pseudoidentifier"])
-        self.assertEqual(queryset_fields, ["pseudoidentifier"])

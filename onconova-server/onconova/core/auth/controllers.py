@@ -166,7 +166,7 @@ class UsersController(ControllerBase):
     def update_user_password(self, userId: str, payload: UserPasswordResetSchema):
         user = get_object_or_404(User, id=userId)
         assert self.context and self.context.request
-        requesting_user: User = self.context.request.user # type: ignore
+        requesting_user: User = self.context.request.user  # type: ignore
         authorized = user.id == requesting_user.id or requesting_user.can_manage_users
         if not authorized or not user.check_password(payload.oldPassword):
             return 403, None
@@ -197,5 +197,4 @@ class UsersController(ControllerBase):
         user = get_object_or_404(User, id=userId)
         return Events.objects.filter(pgh_context__username=user.username).order_by(
             "-pgh_created_at"
-        )
         )

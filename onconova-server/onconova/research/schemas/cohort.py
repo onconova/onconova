@@ -59,16 +59,16 @@ class CohortRuleFilter(Schema):
         title="Value",
         description="Filter value to be applied to the field using the rule's oprerator",
     )
-    
-    @property 
+
+    @property
     def db_value(self):
         value = self.value
         if isinstance(value, dict):
-            if 'unit' in value and 'value' in value:
-                return get_measure_db_value(value=value['value'], unit=value['unit'])
-            elif 'start' in value and 'end' in value:
-                return (value['start'], value['end'])
-        return value  
+            if "unit" in value and "value" in value:
+                return get_measure_db_value(value=value["value"], unit=value["unit"])
+            elif "start" in value and "end" in value:
+                return (value["start"], value["end"])
+        return value
 
     @property
     def db_field(self):
@@ -101,7 +101,9 @@ class CohortRule(Schema):
         subquery = Q()
         for filter in self.filters:
             operator = getattr(filters_module, filter.operator)
-            subquery = subquery & operator.get_query(filter.db_field, filter.db_value, model)
+            subquery = subquery & operator.get_query(
+                filter.db_field, filter.db_value, model
+            )
         if model is oncology_models.PatientCase:
             yield subquery
         else:
@@ -181,7 +183,9 @@ class CohortFilters(create_filters_schema(schema=CohortSchema, name="CohortFilte
     """
 
     createdBy: Nullable[str] = Field(
-        None, title="Created by", description="Filter for a particular cohort creator by its username"
+        None,
+        title="Created by",
+        description="Filter for a particular cohort creator by its username",
     )
 
     def filter_createdBy(self, value: str) -> Q:
@@ -214,10 +218,12 @@ class CohortTraitMedian(Schema):
     """
 
     median: float | None = Field(
-        default=None, title="Median", description="The median value for the cohort trait."
+        default=None,
+        title="Median",
+        description="The median value for the cohort trait.",
     )
     interQuartalRange: Tuple[float, float] | None = Field(
-        default=None, 
+        default=None,
         title="Interquartile Range (IQR)",
         description="The lower and upper bounds of the interquartile range.",
     )
@@ -293,5 +299,4 @@ class ExportedCohortDefinition(ExportMetadata):
     definition: CohortCreateSchema = Field(
         title="Cohort Definition",
         description="The cohort definition",
-    )
     )

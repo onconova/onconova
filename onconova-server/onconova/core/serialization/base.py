@@ -474,4 +474,3 @@ class DjangoGetter(BaseDjangoGetter):
             return self._convert_result(value)
         else:
             return super().__getattr__(key)
-            return super().__getattr__(key)

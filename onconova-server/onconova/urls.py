@@ -9,4 +9,3 @@ urlpatterns = [
     path("api/accounts/", include("allauth.urls")),
     path("api/allauth/", include("allauth.headless.urls")),
 ]
-]

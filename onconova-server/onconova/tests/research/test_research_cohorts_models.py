@@ -72,7 +72,7 @@ class TestGetCohortTraitMedian(TestCase):
             [
                 PatientCaseFactory.create(
                     consent_status="valid",
-                    vital_status='alive',
+                    vital_status="alive",
                     date_of_birth=datetime(2000 + i, 1, 1).date(),
                     date_of_death=None,
                 )
@@ -159,5 +159,4 @@ class TestGetCohortTraitCounts(TestCase):
         with self.assertRaises(FieldError):
             self.cohort.get_cohort_trait_average(
                 self.cohort.cases.all(), "invalid_trait"
-            )
             )

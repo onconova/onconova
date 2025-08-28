@@ -167,4 +167,3 @@ class TestCreateFiltersSchema(TestCase):
         self.assertTrue(hasattr(returned_schema, f"filter_field_not"))
         self.assertTrue(hasattr(returned_schema, f"filter_field_contains"))
         self.assertTrue(hasattr(returned_schema, f"filter_field_not_contains"))
-        self.assertTrue(hasattr(returned_schema, f"filter_field_not_contains"))

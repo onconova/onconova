@@ -1,6 +1,6 @@
 import os
 import socket
-import tomllib
+import tomllib  # type: ignore
 from pathlib import Path
 
 import pghistory
@@ -31,21 +31,25 @@ DEBUG = os.getenv("ENVIRONMENT") == "development"
 # Django secret key for cryptographic signing
 SECRET_KEY = os.getenv("ONCONOVA_SERVER_ENCRYPTION_KEY")
 # Data anonymization secret key
-ANONYMIZATION_SECRET_KEY = os.getenv("ONCONOVAONOVA_SERVER_ANONYMIZATION_KEY")
+ANONYMIZATION_SECRET_KEY = os.getenv("ONCONOVA_SERVER_ANONYMIZATION_KEY")
 
 # ----------------------------------------------------------------
 # NETWORK
 # ----------------------------------------------------------------
 
-ONCONOVAONOVA_REVERSE_PROXY_ADDRESS = (
-    f'{os.getenv("ONCONOVAONOVA_REVERSE_PROXY_HOST")}:{os.getONCONOVA("ONCONOVA_REVERSE_PROXY_PORT")}'
+ONCONOVA_REVERSE_PROXY_ADDRESS = f'{os.getenv("ONCONOVA_REVERSE_PROXY_HOST")}:{os.getenv("ONCONOVA_REVERSE_PROXY_PORT")}'
+ONCONOVA_SERVER_ADDRESS = (
+    os.getenv("ONCONOVA_SERVER_ADDRESS") or ONCONOVA_REVERSE_PROXY_ADDRESS
 )
-ONCONOVAONOVA_SERVER_ADDRESS = os.getONCONOVA("ONCONOVA_SERVER_ADDONCONOVAS") or ONCONOVA_REVERSE_PROXY_ADDRESS
-ONCONOVAONOVA_CLIENT_ADDRESS = os.getONCONOVA("ONCONOVA_CLIENT_ADDONCONOVAS") or ONCONOVA_REVERSE_PROXY_ADDRESS
-ONCONOVAONOVA_DOCS_ADDRESS = os.getONCONOVA("ONCONOVA_DOCS_ADDONCONOVAS") or ONCONOVA_REVERSE_PROXY_ADDRESS
+ONCONOVA_CLIENT_ADDRESS = (
+    os.getenv("ONCONOVA_CLIENT_ADDRESS") or ONCONOVA_REVERSE_PROXY_ADDRESS
+)
+ONCONOVA_DOCS_ADDRESS = (
+    os.getenv("ONCONOVA_DOCS_ADDRESS") or ONCONOVA_REVERSE_PROXY_ADDRESS
+)
 
 # Controls which domains can make HTTP requests to the server.
-ALLOWED_HOSTS = os.getenv("ONCONOVAONOVA_SERVER_ALLOWED_HOSTS", "").split(",")
+ALLOWED_HOSTS = os.getenv("ONCONOVA_SERVER_ALLOWED_HOSTS", "").split(",")
 if os.getenv("ENVIRONMENT") == "development":
     ALLOWED_HOSTS.append(socket.gethostbyname(socket.gethostname()))
 
@@ -63,13 +67,15 @@ CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "DELETE"]
 # Allows credentials with CORS requests
 CORS_ALLOW_CREDENTIALS = True
 # Controls which web origins (domains) are allowed to make cross-origin AJAX requests to your Django API.
-CORS_ALLOWED_ORIGINS = os.getenv("ONCONOVAONOVA_SERVER_CORS_ALLOWED_ORIGINS", "").split(",") + [
+CORS_ALLOWED_ORIGINS = os.getenv("ONCONOVA_SERVER_CORS_ALLOWED_ORIGINS", "").split(
+    ","
+) + [
     secure_url(address)
     for address in [
-        ONCONOVAONOVA_REVERSE_PROXY_ADDRESS,
-        ONCONOVAONOVA_SERVER_ADDRESS,
-        ONCONOVAONOVA_CLIENT_ADDRESS,
-        ONCONOVAONOVA_DOCS_ADDRESS,
+        ONCONOVA_REVERSE_PROXY_ADDRESS,
+        ONCONOVA_SERVER_ADDRESS,
+        ONCONOVA_CLIENT_ADDRESS,
+        ONCONOVA_DOCS_ADDRESS,
     ]
 ]
 # Allowed headers in CORS requests (required for authentication)
@@ -199,8 +205,8 @@ SOCIALACCOUNT_PROVIDERS = {
             {
                 "provider_id": "google",
                 "name": "Google",
-                "client_id": os.getenv("ONCONOVAONOVA_GOOGLE_CLIENT_ID"),
-                "secret": os.getenv("ONCONOVAONOVA_GOOGLE_SECRET"),
+                "client_id": os.getenv("ONCONOVA_GOOGLE_CLIENT_ID"),
+                "secret": os.getenv("ONCONOVA_GOOGLE_SECRET"),
                 "settings": {
                     "server_url": "https://accounts.google.com",
                     "auth_params": {
@@ -212,10 +218,10 @@ SOCIALACCOUNT_PROVIDERS = {
             {
                 "provider_id": "microsoft",
                 "name": "Microsoft",
-                "client_id": os.getenv("ONCONOVAONOVA_MICROSOFT_CLIENT_ID"),
-                "secret": os.getenv("ONCONOVAONOVA_MICROSOFT_SECRET"),
+                "client_id": os.getenv("ONCONOVA_MICROSOFT_CLIENT_ID"),
+                "secret": os.getenv("ONCONOVA_MICROSOFT_SECRET"),
                 "settings": {
-                    "server_url": f"https://login.microsoftonline.com/{os.getenv('ONCONOVAONOVA_MICROSOFT_TENANT_ID')}/v2.0",
+                    "server_url": f"https://login.microsoftonline.com/{os.getenv('ONCONOVA_MICROSOFT_TENANT_ID')}/v2.0",
                     "auth_params": {
                         "scope": "openid",
                         "prompt": "login",
@@ -234,11 +240,11 @@ SOCIALACCOUNT_PROVIDERS = {
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.getenv("ONCONOVAONOVA_POSTGRES_DATABASE"),
-        "USER": os.getenv("ONCONOVAONOVA_POSTGRES_USER"),
-        "PASSWORD": os.getenv("ONCONOVAONOVA_POSTGRES_PASSWORD"),
-        "HOST": os.getenv("ONCONOVAONOVA_POSTGRES_HOST"),
-        "PORT": os.getenv("ONCONOVAONOVA_POSTGRES_PORT"),
+        "NAME": os.getenv("ONCONOVA_POSTGRES_DATABASE"),
+        "USER": os.getenv("ONCONOVA_POSTGRES_USER"),
+        "PASSWORD": os.getenv("ONCONOVA_POSTGRES_PASSWORD"),
+        "HOST": os.getenv("ONCONOVA_POSTGRES_HOST"),
+        "PORT": os.getenv("ONCONOVA_POSTGRES_PORT"),
     },
 }
 
@@ -357,7 +363,5 @@ LOGGING = {
             "level": "ERROR",
             "propagate": False,
         },
-    },
-}
     },
 }

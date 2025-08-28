@@ -145,4 +145,3 @@ class InteroperabilityController(ControllerBase):
             imported_case = BundleParser(bundle).import_bundle(case=conflicting_case)
             pghistory.create_event(imported_case, label="import")
         return 201, imported_case
-        return 201, imported_case

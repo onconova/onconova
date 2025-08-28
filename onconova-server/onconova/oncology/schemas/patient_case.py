@@ -73,40 +73,49 @@ class PatientCaseSchema(ModelGetSchema):
             return Age(value)
         return value
 
-    @model_validator(mode='after')
+    @model_validator(mode="after")
     @classmethod
     def validate_vital_status_scenarios(cls, obj):
-        if obj.vitalStatus == VitalStatus.ALIVE: 
+        if obj.vitalStatus == VitalStatus.ALIVE:
             if obj.dateOfDeath:
-                raise ValueError('An alive patient cannot have a date of death')
+                raise ValueError("An alive patient cannot have a date of death")
             if obj.causeOfDeath:
-                raise ValueError('An alive patient cannot have a cause of death')
+                raise ValueError("An alive patient cannot have a cause of death")
             if obj.endOfRecords:
-                raise ValueError('If patient is known to be alive, it cannot have an end of records.')
-        if obj.vitalStatus == VitalStatus.UNKNOWN: 
+                raise ValueError(
+                    "If patient is known to be alive, it cannot have an end of records."
+                )
+        if obj.vitalStatus == VitalStatus.UNKNOWN:
             if obj.dateOfDeath:
-                raise ValueError('An unkonwn vital status patient cannot have a date of death')
+                raise ValueError(
+                    "An unkonwn vital status patient cannot have a date of death"
+                )
             if obj.causeOfDeath:
-                raise ValueError('An unkonwn vital status patient cannot have a cause of death')
+                raise ValueError(
+                    "An unkonwn vital status patient cannot have a cause of death"
+                )
             if not obj.endOfRecords:
-                raise ValueError('If patient vital status is unknown, it must have a valid end of records date.')
-        if obj.vitalStatus == VitalStatus.DECEASED: 
+                raise ValueError(
+                    "If patient vital status is unknown, it must have a valid end of records date."
+                )
+        if obj.vitalStatus == VitalStatus.DECEASED:
             if not obj.dateOfDeath:
-                raise ValueError('A deceased patient must have a date of death')
+                raise ValueError("A deceased patient must have a date of death")
             if obj.endOfRecords:
-                raise ValueError('If patient is known to be deceased, it cannot have an end of records.')   
+                raise ValueError(
+                    "If patient is known to be deceased, it cannot have an end of records."
+                )
         return obj
 
+
 class PatientCaseCreateSchema(ModelCreateSchema):
-    config = SchemaConfig(
-        model=orm.PatientCase, exclude=("pseudoidentifier",)
-    )
+    config = SchemaConfig(model=orm.PatientCase, exclude=("pseudoidentifier",))
 
 
 class PatientCaseDataCompletionStatusSchema(Schema):
     status: bool = Field(
         title="Status",
-        description="Boolean indicating whether the data category has been marked as completed"
+        description="Boolean indicating whether the data category has been marked as completed",
     )
     username: Nullable[str] = Field(
         title="Username",
@@ -117,5 +126,4 @@ class PatientCaseDataCompletionStatusSchema(Schema):
         default=None,
         title="Timestamp",
         description="Username of the person who marked the category as completed",
-    )
     )

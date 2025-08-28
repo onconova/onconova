@@ -239,4 +239,3 @@ class IsRequestingUser(permissions.BasePermission):
         controller.context.compute_route_parameters()
         user_id = controller.context.kwargs.get("userId")
         return str(request.user.id) == str(user_id)
-        return str(request.user.id) == str(user_id)

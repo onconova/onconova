@@ -253,26 +253,26 @@ class TestDjangoFilters(TestCase):
         [
             (
                 f.OverlapsRangeFilter,
-                (0,2),
+                (0, 2),
                 "instanceA",
             ),
             (
                 f.NotOverlapsRangeFilter,
-                (0,2),
+                (0, 2),
                 "instanceB",
             ),
             (
                 f.ContainsRangeFilter,
-                (1,3),
+                (1, 3),
                 "instanceA",
             ),
             (
                 f.NotContainsRangeFilter,
-                (1,3),
+                (1, 3),
                 "instanceB",
             ),
         ],
         name_func=parameterized_filter_test_name,
     )
     def test_range_filtering(self, FilterClass, value, expected):
-        self.assert_filtering("range_field", FilterClass, value, expected)        self.assert_filtering("range_field", FilterClass, value, expected)
+        self.assert_filtering("range_field", FilterClass, value, expected)

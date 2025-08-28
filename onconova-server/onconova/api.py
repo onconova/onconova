@@ -37,7 +37,7 @@ from onconova.research.controllers.project import ProjectController
 from onconova.terminology.controllers import TerminologyController
 
 api = NinjaExtraAPI(
-    title="ONCONOVA API",
+    title="Onconova API",
     description="""
 Welcome to the Precision Oncology Platform API — a secure, standards-based interface designed to facilitate the exchange, management, and 
 analysis of research data related to cancer genomics, clinical records, and associated metadata. This API provides an extensive set of RESTful endpoints enabling authorized users to perform full CRUD (Create, Read, Update, Delete) operations on various resources within the platform’s data ecosystem.

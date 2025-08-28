@@ -41,27 +41,37 @@ class PatientCaseModelTest(TestCase):
     def test_cause_of_death_cannot_be_assigned_to_vital_status_alive(self):
         patient = factories.PatientCaseFactory()
         patient.vital_status = VitalStatus.ALIVE
-        patient.cause_of_death  = terminology.CauseOfDeath.objects.create(code='cause-1', display='cause-1', system='system-1')
+        patient.cause_of_death = terminology.CauseOfDeath.objects.create(
+            code="cause-1", display="cause-1", system="system-1"
+        )
         self.assertRaises(IntegrityError, patient.save)
-        
+
     def test_cause_of_death_cannot_be_assigned_to_vital_status_unknown(self):
         patient = factories.PatientCaseFactory()
         patient.vital_status = VitalStatus.UNKNOWN
-        patient.cause_of_death = terminology.CauseOfDeath.objects.create(code='cause-2', display='cause-2', system='system-2')
+        patient.cause_of_death = terminology.CauseOfDeath.objects.create(
+            code="cause-2", display="cause-2", system="system-2"
+        )
         self.assertRaises(IntegrityError, patient.save)
-        
+
     def test_age_calculated_based_on_date_of_birth_and_today(self):
-        patient = factories.PatientCaseFactory(vital_status = VitalStatus.ALIVE)
+        patient = factories.PatientCaseFactory(vital_status=VitalStatus.ALIVE)
         delta = date.today() - patient.date_of_birth
         self.assertLess(patient.age - delta.days / 365, 1)
 
     def test_age_calculated_based_on_date_of_birth_and_date_of_death(self):
-        patient = factories.PatientCaseFactory(vital_status = VitalStatus.DECEASED, date_of_death=date.today() - timedelta(days=5 * 365))
+        patient = factories.PatientCaseFactory(
+            vital_status=VitalStatus.DECEASED,
+            date_of_death=date.today() - timedelta(days=5 * 365),
+        )
         delta = patient.date_of_death - patient.date_of_birth
         self.assertLess(patient.age - delta.days / 365, 1)
-        
+
     def test_age_calculated_based_on_date_of_birth_and_end_of_records(self):
-        patient = factories.PatientCaseFactory(vital_status = VitalStatus.UNKNOWN, end_of_records=date.today() - timedelta(days=5 * 365))
+        patient = factories.PatientCaseFactory(
+            vital_status=VitalStatus.UNKNOWN,
+            end_of_records=date.today() - timedelta(days=5 * 365),
+        )
         delta = patient.end_of_records - patient.date_of_birth
         self.assertLess(patient.age - delta.days / 365, 1)
 
@@ -89,7 +99,9 @@ class PatientCaseModelTest(TestCase):
         self.assertAlmostEqual(patient.data_completion_rate, round(expected))
 
     def test_overall_survival_calculated_based_on_date_of_death(self):
-        patient = factories.PatientCaseFactory(vital_status = VitalStatus.DECEASED, date_of_death = datetime(2010, 1, 1).date())
+        patient = factories.PatientCaseFactory(
+            vital_status=VitalStatus.DECEASED, date_of_death=datetime(2010, 1, 1).date()
+        )
         factories.PrimaryNeoplasticEntityFactory.create(case=patient)
         delta = (
             patient.date_of_death - patient.neoplastic_entities.first().assertion_date
@@ -99,7 +111,9 @@ class PatientCaseModelTest(TestCase):
         )
 
     def test_overall_survival_calculated_based_on_end_of_records(self):
-        patient = factories.PatientCaseFactory(vital_status = VitalStatus.UNKNOWN, end_of_records = datetime(2010, 1, 1).date())
+        patient = factories.PatientCaseFactory(
+            vital_status=VitalStatus.UNKNOWN, end_of_records=datetime(2010, 1, 1).date()
+        )
         factories.PrimaryNeoplasticEntityFactory.create(case=patient)
         delta = (
             patient.end_of_records - patient.neoplastic_entities.first().assertion_date
@@ -107,9 +121,9 @@ class PatientCaseModelTest(TestCase):
         self.assertAlmostEqual(
             patient.overall_survival, round(delta.days / 30.436875), delta=1
         )
-        
+
     def test_overall_survival_calculated_based_on_current_time(self):
-        patient = factories.PatientCaseFactory(vital_status = VitalStatus.ALIVE)
+        patient = factories.PatientCaseFactory(vital_status=VitalStatus.ALIVE)
         factories.PrimaryNeoplasticEntityFactory.create(case=patient)
         delta = date.today() - patient.neoplastic_entities.first().assertion_date
         self.assertAlmostEqual(
@@ -201,20 +215,38 @@ class RiskAssessmentModelTest(TestCase):
 
     def test_wrong_classification_cannot_be_assigned(self):
         with self.assertRaises(ValueError):
-            self.assessment.methodology = terminology.CancerRiskAssessmentMethod.objects.create(code='C121007', system='http://example.com') # Child-Pugh Risk
-            self.assessment.risk = terminology.CancerRiskAssessmentClassification.objects.create(code='C155844', system='http://example.com') # IMDC Favourable
-            self.assessment.save() 
+            self.assessment.methodology = (
+                terminology.CancerRiskAssessmentMethod.objects.create(
+                    code="C121007", system="http://example.com"
+                )
+            )  # Child-Pugh Risk
+            self.assessment.risk = (
+                terminology.CancerRiskAssessmentClassification.objects.create(
+                    code="C155844", system="http://example.com"
+                )
+            )  # IMDC Favourable
+            self.assessment.save()
         self.assessment.refresh_from_db()
-        self.assertNotEqual(self.assessment.methodology.code, 'C121007')
-        self.assertNotEqual(self.assessment.risk.code, 'C155844')
-            
+        self.assertNotEqual(self.assessment.methodology.code, "C121007")
+        self.assertNotEqual(self.assessment.risk.code, "C155844")
+
     def test_correct_classification_can_be_assigned(self):
-        self.assessment.methodology = terminology.CancerRiskAssessmentMethod.objects.create(code='C121007', system='http://example.com') # Child-Pugh Risk
-        self.assessment.risk = terminology.CancerRiskAssessmentClassification.objects.create(code='C113692', system='http://example.com') # Child-Pugh Class B
-        self.assessment.save() 
+        self.assessment.methodology = (
+            terminology.CancerRiskAssessmentMethod.objects.create(
+                code="C121007", system="http://example.com"
+            )
+        )  # Child-Pugh Risk
+        self.assessment.risk = (
+            terminology.CancerRiskAssessmentClassification.objects.create(
+                code="C113692", system="http://example.com"
+            )
+        )  # Child-Pugh Class B
+        self.assessment.save()
         self.assessment.refresh_from_db()
-        self.assertEqual(self.assessment.methodology.code, 'C121007')
-        self.assertEqual(self.assessment.risk.code, 'C113692')
+        self.assertEqual(self.assessment.methodology.code, "C121007")
+        self.assertEqual(self.assessment.risk.code, "C113692")
+
+
 class VitalsModelTest(TestCase):
 
     @classmethod
@@ -242,7 +274,7 @@ class SystemicTherapyModelTest(TestCase):
         self.assertEqual(
             self.therapy.duration, measures.Time(day=expected_duration.days)
         )
-        
+
     def test_therapy_duration_ongoing(self):
         self.therapy.period = PostgresRange(self.therapy.period.lower, None)
         self.therapy.save()
@@ -273,7 +305,7 @@ class RadiotherapyModelTest(TestCase):
         self.assertEqual(
             self.therapy.duration, measures.Time(day=expected_duration.days)
         )
-        
+
     def test_radiotherapy_duration_ongoing(self):
         self.therapy.period = PostgresRange(self.therapy.period.lower, None)
         self.therapy.save()
@@ -1027,11 +1059,6 @@ class GenomicVariantModelTest(TestCase):
             ("NP_0123456.1:p.(Gln18)[(70_80)]", "repetition"),
         ],
         name_func=dynamic_test_name,
-    )
-    def test_protein_change_type(self, hgvs, expected):
-        self.variant.protein_hgvs = hgvs
-        self.variant.save()
-        self.assertEqual(self.variant.protein_change_type, expected)
     )
     def test_protein_change_type(self, hgvs, expected):
         self.variant.protein_hgvs = hgvs

@@ -210,8 +210,14 @@ class PatientCaseBundle(sc.PatientCaseSchema):
     @staticmethod
     def resolve_history(obj):
         if isinstance(obj, dict):
-            return obj.get('history')
+            return obj.get("history")
         else:
-            return pghistory.models.Events.objects.tracks(obj).all().union(pghistory.models.Events.objects.references(obj).filter(pgh_model__icontains='oncology'))
-        else:
-            return pghistory.models.Events.objects.tracks(obj).all().union(pghistory.models.Events.objects.references(obj).filter(pgh_model__icontains='oncology'))
+            return (
+                pghistory.models.Events.objects.tracks(obj)
+                .all()
+                .union(
+                    pghistory.models.Events.objects.references(obj).filter(
+                        pgh_model__icontains="oncology"
+                    )
+                )
+            )

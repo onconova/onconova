@@ -61,10 +61,24 @@ class CountsPerMonth(Schema):
 
 
 class EntityStatistics(Schema):
-    population: Nullable[int] = Field(default=None, title="Population", description="Number of cases")
-    dataCompletionMedian: Nullable[float] = Field(default=None, title="Data Completion Median", description="Median percentage of case completion")
-    topographyCode: Nullable[str] = Field(default=None, title="Topography Code", description="ICD-O-3 topography code of the entity")
-    topographyGroup: Nullable[str] = Field(default=None, title="Topography Group", description="ICD-O-3 topography code of the entity group")
+    population: Nullable[int] = Field(
+        default=None, title="Population", description="Number of cases"
+    )
+    dataCompletionMedian: Nullable[float] = Field(
+        default=None,
+        title="Data Completion Median",
+        description="Median percentage of case completion",
+    )
+    topographyCode: Nullable[str] = Field(
+        default=None,
+        title="Topography Code",
+        description="ICD-O-3 topography code of the entity",
+    )
+    topographyGroup: Nullable[str] = Field(
+        default=None,
+        title="Topography Group",
+        description="ICD-O-3 topography code of the entity group",
+    )
 
 
 class IncompleteCategory(Schema):
@@ -105,5 +119,4 @@ class DataCompletionStatistics(Schema):
         ...,
         title="Completion Over Time",
         description="Historical trend of cumulative data completeness by month.",
-    )
     )

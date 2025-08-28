@@ -62,21 +62,22 @@ class VitalStatus(models.TextChoices):
     DECEASED = "deceased"
     UNKNOWN = "unknown"
 
+
 DATA_CATEGORIES_COUNT = len(list(PatientCaseDataCategories))
 
 
 def events_common_table_expression():
     event_tables = [
-        model.pgh_event_model._meta.db_table # type: ignore
+        model.pgh_event_model._meta.db_table  # type: ignore
         for model in apps.get_app_config("oncology").get_models()
         if hasattr(model, "pgh_event_model")
-        and hasattr(model.pgh_event_model, "case_id") # type: ignore
+        and hasattr(model.pgh_event_model, "case_id")  # type: ignore
     ]
     union_selects = [
         f"SELECT ({table}.pgh_context->>'username')::varchar as username, {table}.pgh_created_at, {table}.pgh_label FROM {table} WHERE {table}.case_id = {PatientCase._meta.db_table}.id  AND {table}.pgh_context ? 'username'"
         for table in event_tables
     ]
-    case_event_table = PatientCase.pgh_event_model._meta.db_table # type: ignore
+    case_event_table = PatientCase.pgh_event_model._meta.db_table  # type: ignore
     union_selects.append(
         f"SELECT ({case_event_table}.pgh_context->>'username')::varchar as username, {case_event_table}.pgh_created_at, {case_event_table}.pgh_label FROM {case_event_table} WHERE {case_event_table}.id = {PatientCase._meta.db_table}.id  AND {case_event_table}.pgh_context ? 'username'"
     )
@@ -180,9 +181,7 @@ class PatientCase(BaseModel):
     )
     gender_identity = termfields.CodedConceptField(
         verbose_name=_("Gender identity"),
-        help_text=_(
-            "The patient's innate sense of their gender as reported"
-        ),
+        help_text=_("The patient's innate sense of their gender as reported"),
         terminology=terminologies.GenderIdentity,
         null=True,
         blank=True,
@@ -225,7 +224,7 @@ class PatientCase(BaseModel):
             output_field=models.IntegerField(),
         ),
     )
-    vital_status =  models.CharField(
+    vital_status = models.CharField(
         verbose_name=_("Vital status"),
         help_text=_(
             "Whether the patient is known to be alive or decaeased or is unknkown."
@@ -367,28 +366,64 @@ class PatientCase(BaseModel):
             ),
             models.CheckConstraint(
                 check=Case(
-                    When(Q(Q(vital_status=VitalStatus.ALIVE) & Q(date_of_death__isnull=False)), then=Value(False)),
-                    When(Q(Q(vital_status=VitalStatus.UNKNOWN) & Q(date_of_death__isnull=False)), then=Value(False)),
-                    When(Q(Q(vital_status=VitalStatus.DECEASED) & Q(date_of_death__isnull=True)), then=Value(False)),
-                    default=True
-                ), # type: ignore
+                    When(
+                        Q(
+                            Q(vital_status=VitalStatus.ALIVE)
+                            & Q(date_of_death__isnull=False)
+                        ),
+                        then=Value(False),
+                    ),
+                    When(
+                        Q(
+                            Q(vital_status=VitalStatus.UNKNOWN)
+                            & Q(date_of_death__isnull=False)
+                        ),
+                        then=Value(False),
+                    ),
+                    When(
+                        Q(
+                            Q(vital_status=VitalStatus.DECEASED)
+                            & Q(date_of_death__isnull=True)
+                        ),
+                        then=Value(False),
+                    ),
+                    default=True,
+                ),  # type: ignore
                 name="vital_status_date_of_death_combinations",
                 violation_error_message="Invalid vital status and date of death combination",
             ),
             models.CheckConstraint(
                 check=Case(
-                    When(Q(Q(vital_status=VitalStatus.UNKNOWN) & Q(end_of_records__isnull=True)), then=Value(False)),
-                    default=True
-                ), # type: ignore
+                    When(
+                        Q(
+                            Q(vital_status=VitalStatus.UNKNOWN)
+                            & Q(end_of_records__isnull=True)
+                        ),
+                        then=Value(False),
+                    ),
+                    default=True,
+                ),  # type: ignore
                 name="unknown_vital_status_requires_end_of_records",
                 violation_error_message="Unknown vital status requires a valid end of records date.",
             ),
             models.CheckConstraint(
                 check=Case(
-                    When(Q(Q(vital_status=VitalStatus.ALIVE) & Q(cause_of_death__isnull=False)), then=Value(False)),
-                    When(Q(Q(vital_status=VitalStatus.UNKNOWN) & Q(cause_of_death__isnull=False)), then=Value(False)),
-                    default=True
-                ), # type: ignore
+                    When(
+                        Q(
+                            Q(vital_status=VitalStatus.ALIVE)
+                            & Q(cause_of_death__isnull=False)
+                        ),
+                        then=Value(False),
+                    ),
+                    When(
+                        Q(
+                            Q(vital_status=VitalStatus.UNKNOWN)
+                            & Q(cause_of_death__isnull=False)
+                        ),
+                        then=Value(False),
+                    ),
+                    default=True,
+                ),  # type: ignore
                 name="cause_of_death_only_for_deceased",
                 violation_error_message="Cause of death can only be assigned to deceased cases.",
             ),
@@ -429,5 +464,4 @@ class PatientCaseDataCompletion(BaseModel):
                 name="unique_data_categories",
                 violation_error_message="Data categories cannot be repeated for a patient case",
             )
-        ]
         ]

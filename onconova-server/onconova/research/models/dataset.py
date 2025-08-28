@@ -69,4 +69,3 @@ class Dataset(BaseModel):
     @property
     def description(self):
         return f'Dataset "{self.name}"'
-        return f'Dataset "{self.name}"'

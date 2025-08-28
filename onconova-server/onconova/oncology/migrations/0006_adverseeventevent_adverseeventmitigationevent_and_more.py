@@ -6974,5 +6974,3 @@ class Migration(migrations.Migration):
             ),
         ),
     ]
-        ),
-    ]

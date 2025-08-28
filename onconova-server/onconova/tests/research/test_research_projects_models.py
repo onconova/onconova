@@ -49,6 +49,3 @@ class ProjectDataManagerGrantModelTest(TestCase):
 
     def test_auhtorized_user_is_revoked_right(self):
         self.assertFalse(self.revoked_user.can_manage_cases)
-
-    def test_auhtorized_user_is_revoked_right(self):
-        self.assertFalse(self.revoked_user.can_manage_cases)

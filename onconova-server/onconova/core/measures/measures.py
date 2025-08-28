@@ -639,4 +639,3 @@ class MassPerAreaPerTime(BidimensionalMeasure):
 
     PRIMARY_DIMENSION = MassPerArea
     REFERENCE_DIMENSION = Time
-    REFERENCE_DIMENSION = Time

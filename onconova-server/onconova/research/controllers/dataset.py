@@ -121,4 +121,3 @@ class DatasetsController(ControllerBase):
     def revert_dataset_to_history_event(self, datasetId: str, eventId: str):
         instance = get_object_or_404(Dataset, id=datasetId)
         return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()
-        return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()

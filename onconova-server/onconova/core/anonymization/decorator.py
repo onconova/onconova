@@ -120,7 +120,7 @@ class AnonymizationOperation:
             **kw: Any,
         ) -> Any:
             func_kwargs = dict(**kw)
-            anonymization_params = func_kwargs.onconova(self.anonymization_kwargs_name)
+            anonymization_params = func_kwargs.pop(self.anonymization_kwargs_name)
             if self.anonymization.pass_parameter:
                 func_kwargs[self.anonymization.pass_parameter] = anonymization_params
 
@@ -184,5 +184,4 @@ def _inject_anonymization(
         anonymization_kwargs_name=anonymization_kwargs_name,
     )
 
-    return anonymization_operation.as_view
     return anonymization_operation.as_view

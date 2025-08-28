@@ -475,4 +475,3 @@ class TherapyLineResponseDistribution(Distribution):
                 for key, count in Counter(values).items()
             ]
         )
-        )

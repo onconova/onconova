@@ -173,4 +173,3 @@ class UserProfileSchema(Schema):
 
 # Filters
 UserFilters = create_filters_schema(schema=UserSchema, name="UserFilters")
-UserFilters = create_filters_schema(schema=UserSchema, name="UserFilters")

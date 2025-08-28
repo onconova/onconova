@@ -108,7 +108,7 @@ class SystemicTherapyController(ControllerBase):
     @ordering()
     def get_all_systemic_therapy_history_events(self, systemicTherapyId: str):
         instance = get_object_or_404(SystemicTherapy, id=systemicTherapyId)
-        return pghistory.models.Events.objects.tracks(instance).all() # type: ignore
+        return pghistory.models.Events.objects.tracks(instance).all()  # type: ignore
 
     @route.get(
         path="/{systemicTherapyId}/history/events/{eventId}",
@@ -125,7 +125,7 @@ class SystemicTherapyController(ControllerBase):
     ):
         instance = get_object_or_404(SystemicTherapy, id=systemicTherapyId)
         return get_object_or_404(
-            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId # type: ignore
+            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId  # type: ignore
         )
 
     @route.put(
@@ -153,7 +153,7 @@ class SystemicTherapyController(ControllerBase):
     def get_systemic_therapy_medications_matching_the_query(self, systemicTherapyId: str):  # type: ignore
         return get_object_or_404(
             SystemicTherapy, id=systemicTherapyId
-        ).medications.all() # type: ignore
+        ).medications.all()  # type: ignore
 
     @route.get(
         path="/{systemicTherapyId}/medications/{medicationId}",
@@ -239,7 +239,7 @@ class SystemicTherapyController(ControllerBase):
             id=medicationId,
             systemic_therapy__id=systemicTherapyId,
         )
-        return pghistory.models.Events.objects.tracks(instance).all() # type: ignore
+        return pghistory.models.Events.objects.tracks(instance).all()  # type: ignore
 
     @route.get(
         path="/{systemicTherapyId}/medications/{medicationId}/history/events/{eventId}",
@@ -260,7 +260,7 @@ class SystemicTherapyController(ControllerBase):
             systemic_therapy__id=systemicTherapyId,
         )
         return get_object_or_404(
-            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId # type: ignore
+            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId  # type: ignore
         )
 
     @route.put(
@@ -273,11 +273,6 @@ class SystemicTherapyController(ControllerBase):
         self, systemicTherapyId: str, medicationId: str, eventId: str
     ):
         instance = get_object_or_404(
-            SystemicTherapyMedication,
-            id=medicationId,
-            systemic_therapy__id=systemicTherapyId,
-        )
-        return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()
             SystemicTherapyMedication,
             id=medicationId,
             systemic_therapy__id=systemicTherapyId,

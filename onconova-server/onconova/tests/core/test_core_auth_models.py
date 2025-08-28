@@ -88,4 +88,3 @@ class TestUserModel(TestCase):
 
         self.assertTrue(super_user.is_system_admin)
         self.assertTrue(super_user.can_manage_users)
-        self.assertTrue(super_user.can_manage_users)

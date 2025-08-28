@@ -16,7 +16,7 @@ from onconova.oncology import models as orm
 
 class ComorbiditiesAssessmentSchema(ModelGetSchema):
     score: Nullable[int | float] = Field(
-        default=None, 
+        default=None,
         title="Score",
         description="Comorbidity score",
         alias="score",
@@ -32,25 +32,20 @@ class ComorbiditiesAssessmentCreateSchema(ModelCreateSchema):
 
 
 class ComorbidityPanelCategory(Schema):
-    label: str = Field(title="Label", description="Label of the comorbidity panel category")
+    label: str = Field(
+        title="Label", description="Label of the comorbidity panel category"
+    )
     default: Nullable[CodedConceptSchema] = Field(
-        default=None, 
-        title="Default", 
-        description="Default choice for category"
+        default=None, title="Default", description="Default choice for category"
     )
     conditions: List[CodedConceptSchema] = Field(
-        title="Conditions", 
-        description="List of conditions included in the panel category"
+        title="Conditions",
+        description="List of conditions included in the panel category",
     )
 
 
 class ComorbiditiesPanel(Schema):
-    name: str = Field(
-        title="Name", 
-        description="Comorbidity panel name"
-    )
+    name: str = Field(title="Name", description="Comorbidity panel name")
     categories: List[ComorbidityPanelCategory] = Field(
-        title="Categories", 
-        description="Comorbidity panel categories"
-    )
+        title="Categories", description="Comorbidity panel categories"
     )

@@ -99,7 +99,7 @@ class TherapyLineController(ControllerBase):
     @ordering()
     def get_all_therapy_line_history_events(self, therapyLineId: str):
         instance = get_object_or_404(TherapyLine, id=therapyLineId)
-        return pghistory.models.Events.objects.tracks(instance).all() # type: ignore
+        return pghistory.models.Events.objects.tracks(instance).all()  # type: ignore
 
     @route.get(
         path="/{therapyLineId}/history/events/{eventId}",
@@ -114,7 +114,7 @@ class TherapyLineController(ControllerBase):
     def get_therapy_line_history_event_by_id(self, therapyLineId: str, eventId: str):
         instance = get_object_or_404(TherapyLine, id=therapyLineId)
         return get_object_or_404(
-            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId # type: ignore
+            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId  # type: ignore
         )
 
     @route.put(
@@ -136,5 +136,4 @@ class TherapyLineController(ControllerBase):
     def get_reassigned_patient_case_therapy_lines(self, caseId: str):
         return TherapyLine.assign_therapy_lines(
             get_object_or_404(PatientCase, id=caseId)
-        )
         )

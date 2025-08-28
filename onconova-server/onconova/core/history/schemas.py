@@ -221,4 +221,3 @@ class HistoryEvent(Schema):
                     )
 
         return HistoryEventWithSchema
-        return HistoryEventWithSchema

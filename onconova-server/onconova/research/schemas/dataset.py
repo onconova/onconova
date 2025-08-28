@@ -47,7 +47,7 @@ class DatasetRule(Schema):
 
     resource: DataResource = Field(  # type: ignore
         title="Resource", description="The oncology resource this rule references."
-    ) 
+    )
 
     field: str = Field(
         title="Field",
@@ -217,7 +217,7 @@ def _create_partial_schema(schema: Type[Schema]) -> Type[Schema]:
             populate_by_name=True,
             arbitrary_types_allowed=True,
             exclude_unset=True,
-        ), # type: ignore
+        ),  # type: ignore
         **new_fields,
     )
 
@@ -370,7 +370,8 @@ class PatientCaseDataset(partial_schemas["PatientCase"]):
     homologousRecombinationDeficiencies: Nullable[List[partial_schemas["HomologousRecombinationDeficiency"]]] = Field(  # type: ignore
         default=None,
         validation_alias=AliasChoices(
-            "homologousRecombinationDeficiencies", "homologous_recombination_deficiencies_resources"
+            "homologousRecombinationDeficiencies",
+            "homologous_recombination_deficiencies_resources",
         ),
     )
     tumorNeoantigenBurdens: Nullable[List[partial_schemas["TumorNeoantigenBurden"]]] = Field(  # type: ignore
@@ -381,9 +382,7 @@ class PatientCaseDataset(partial_schemas["PatientCase"]):
     )
     aneuploidScores: Nullable[List[partial_schemas["AneuploidScore"]]] = Field(  # type: ignore
         default=None,
-        validation_alias=AliasChoices(
-            "aneuploidScores", "aneuploid_scores_resources"
-        ),
+        validation_alias=AliasChoices("aneuploidScores", "aneuploid_scores_resources"),
     )
     vitals: Nullable[List[partial_schemas["Vitals"]]] = Field(  # type: ignore
         default=None, validation_alias=AliasChoices("vitals", "vitals_resources")
@@ -417,5 +416,4 @@ class ExportedPatientCaseDataset(ExportMetadata):
     dataset: List[PatientCaseDataset] = Field(
         title="Dataset",
         description="The dataset that was exported",
-    )
     )

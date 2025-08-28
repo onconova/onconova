@@ -56,4 +56,3 @@ class GetUserUsername(DjangoTransform):
     @staticmethod
     def generate_annotation_expression(field_path, *args):
         return F(f"{field_path}__username")
-        return F(f"{field_path}__username")

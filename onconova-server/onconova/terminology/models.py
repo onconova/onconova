@@ -791,4 +791,3 @@ class CancerRiskAssessmentMethod(CodedConcept):
 
 class CancerRiskAssessmentClassification(CodedConcept):
     valueset = "https://simplifier.net/onconova/ValueSets/onconova-cancer-risk-assessment-values"
-    valueset = "https://simplifier.net/onconova/ValueSets/onconova-cancer-risk-assessment-values"

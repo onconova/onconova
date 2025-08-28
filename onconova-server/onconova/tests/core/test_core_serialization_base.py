@@ -90,4 +90,3 @@ class TestSchemaAnonymization(unittest.TestCase):
             anonymized=False,
         )
         self.assertEqual(instance.identifier, original_identifier)
-        self.assertEqual(instance.identifier, original_identifier)

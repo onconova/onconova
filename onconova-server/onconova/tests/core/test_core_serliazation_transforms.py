@@ -59,4 +59,3 @@ class TestDjangoTransforms(TestCase):
         self.assert_transformation(
             "coded_concept_field", TransformationClass, value, expected
         )
-        )

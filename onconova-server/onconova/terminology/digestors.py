@@ -74,7 +74,7 @@ class TerminologyDigestor:
             zip_file_path = os.environ.get("ONCONOVA_SNOMED_ZIPFILE_PATH", "")
             if not zip_file_path or not os.path.isfile(zip_file_path):
                 print(
-                    "ERROR FILE NOT FOUND:\nPlease download the SNOMEDCT_International_*.zip file from (requires a login and license):\nand specify the location of the zip file with the ONCONOVAONOVA_SNOMED_ZIPFILE_PATH variable.\n"
+                    "ERROR FILE NOT FOUND:\nPlease download the SNOMEDCT_International_*.zip file from (requires a login and license):\nand specify the location of the zip file with the ONCONOVA_SNOMED_ZIPFILE_PATH variable.\n"
                 )
                 sys.exit(1)
             with zipfile.ZipFile(zip_file_path) as zip_ref:

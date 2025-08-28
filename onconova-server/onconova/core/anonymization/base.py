@@ -261,4 +261,3 @@ class AnonymizationMixin:
         Default implementation does nothing.
         """
         pass
-        pass

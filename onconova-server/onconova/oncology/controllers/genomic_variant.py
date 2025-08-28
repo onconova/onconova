@@ -99,7 +99,7 @@ class GenomicVariantController(ControllerBase):
     @ordering()
     def get_all_genomic_variant_history_events(self, genomicVariantId: str):
         instance = get_object_or_404(GenomicVariant, id=genomicVariantId)
-        return pghistory.models.Events.objects.tracks(instance).all() # type: ignore
+        return pghistory.models.Events.objects.tracks(instance).all()  # type: ignore
 
     @route.get(
         path="/{genomicVariantId}/history/events/{eventId}",
@@ -116,7 +116,7 @@ class GenomicVariantController(ControllerBase):
     ):
         instance = get_object_or_404(GenomicVariant, id=genomicVariantId)
         return get_object_or_404(
-            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId # type: ignore
+            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId  # type: ignore
         )
 
     @route.put(
@@ -145,9 +145,8 @@ class GenePanelController(ControllerBase):
         permissions=[perms.CanViewCases],
         operation_id="getAllGenomicPanels",
     )
-    def gell_all_genomic_panels(self, query: str = ''):
+    def gell_all_genomic_panels(self, query: str = ""):
         variants = GenomicVariant.objects.all()
         if query:
             variants = variants.filter(gene_panel__icontains=query)
-        return 200, variants.values_list('gene_panel', flat=True).distinct()            variants = variants.filter(gene_panel__icontains=query)
-        return 200, variants.values_list('gene_panel', flat=True).distinct()
+        return 200, variants.values_list("gene_panel", flat=True).distinct()

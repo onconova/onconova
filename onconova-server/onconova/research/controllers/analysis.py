@@ -57,11 +57,11 @@ class CohortAnalysisController(ControllerBase):
     ):
         cohort = get_nonempty_cohort_or_error(cohortId)
         return KaplanMeierCurve.calculate(
-            survivals=list(cohort.valid_cases.annotate(
-                overall_survival=F("overall_survival")
-            )
-            .filter(overall_survival__isnull=False)
-            .values_list("overall_survival", flat=True)),
+            survivals=list(
+                cohort.valid_cases.annotate(overall_survival=F("overall_survival"))
+                .filter(overall_survival__isnull=False)
+                .values_list("overall_survival", flat=True)
+            ),
             confidence_level=confidence,
         ).add_metadata(cohort)
 
@@ -146,5 +146,4 @@ class CohortAnalysisController(ControllerBase):
         elif property == "responses":
             return TherapyLineResponseDistribution.calculate(
                 cohort, therapyLine
-            ).add_metadata(cohort)
             ).add_metadata(cohort)

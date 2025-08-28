@@ -26,7 +26,7 @@ class RemoveAnyOfNull:
             schema["anyOf"] = [s for s in schema["anyOf"] if s.get("type") != "null"]
             if len(schema["anyOf"]) == 1:
                 schema.update(schema["anyOf"][0])
-                schema.onconova("anyOf", None)
+                schema.pop("anyOf", None)
         return schema
 
 

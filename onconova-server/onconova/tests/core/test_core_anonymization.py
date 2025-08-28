@@ -358,4 +358,3 @@ class TestAnonymizationBase(unittest.TestCase):
         with patch("onconova.core.anonymization.decorator.Value") as mock_value:
             # You need to complete this test based on your implementation
             pass
-            pass

@@ -174,4 +174,3 @@ class DescendsFrom(models.Lookup):
 
 
 models.ForeignKey.register_lookup(DescendsFrom)
-models.ForeignKey.register_lookup(DescendsFrom)

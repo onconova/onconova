@@ -308,4 +308,3 @@ def request_http_get(api_url: str, raw: bool = False) -> Any:
             f"NETWORK ERROR: Request failed with status code: {response.status_code}"
         )
         response.raise_for_status()
-        response.raise_for_status()

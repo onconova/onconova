@@ -275,8 +275,3 @@ class TestMeasuresController(ApiControllerTestMixin, TestCase):
             converted_measure = response.json()
             self.assertEqual(converted_measure["unit"], "g")
             self.assertEqual(converted_measure["value"], 1000)
-        if scenario == "HTTPS Authenticated":
-            # Assert resonse status
-            converted_measure = response.json()
-            self.assertEqual(converted_measure["unit"], "g")
-            self.assertEqual(converted_measure["value"], 1000)

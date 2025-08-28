@@ -517,4 +517,3 @@ def construct_dataset(cohort, rules: List[DatasetRule]) -> QuerySet:
         QuerySet: The dataset for the cohort
     """
     return QueryCompiler(cohort, rules).compile()
-    return QueryCompiler(cohort, rules).compile()

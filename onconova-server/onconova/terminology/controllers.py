@@ -80,4 +80,3 @@ class TerminologyController(ControllerBase):
             print("QUERY", query)
             queryset = queryset.filter(code__in=query.codes).distinct()
         return queryset
-        return queryset

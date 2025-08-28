@@ -168,5 +168,3 @@ class TestInteroperabilityController(ApiControllerTestMixin, TestCase):
             access_level=4,
         )
         self.assertEqual(response.status_code, 422)
-        self.assertEqual(response.status_code, 422)
-        self.assertEqual(response.status_code, 422)

@@ -38,5 +38,3 @@ class TestMeasures(TestCase):
             displayed_decimals < 3,
             f'Measure "{str(measurement)}" not truncating decimals correctly ({displayed_decimals} shown)',
         )
-            f'Measure "{str(measurement)}" not truncating decimals correctly ({displayed_decimals} shown)',
-        )

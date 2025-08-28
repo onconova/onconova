@@ -117,7 +117,7 @@ class ModelSchemaMetaclassBase(ResolverMetaclass):
         **kwargs,
     ):
         # Extract the metaclass configuration from the namespace
-        metaclass_config: SchemaConfig = namespace.onconova("config", None)
+        metaclass_config: SchemaConfig = namespace.pop("config", None)
 
         # Construct base metaclass
         cls = super().__new__(
@@ -210,5 +210,4 @@ class ModelCreateSchema(BaseSchema, metaclass=ModelSchemaMetaclassBase):
 
 
 # Mark that schema base classes have now been declared
-_is_modelschema_class_defined = True
 _is_modelschema_class_defined = True
