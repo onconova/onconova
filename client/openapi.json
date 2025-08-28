@@ -6,11 +6,11 @@
     "description": "\nWelcome to the Onconova API — a secure, standards-based interface designed to facilitate the exchange, management, and \nanalysis of research data related to cancer genomics, clinical records, and associated metadata. This API provides an extensive set of RESTful endpoints enabling authorized users to perform full CRUD (Create, Read, Update, Delete) operations on various resources within the platform’s data ecosystem.\n\nThe primary objective of this API is to support precision oncology research by enabling interoperability between data systems, promoting data sharing among research institutions, and streamlining workflows for clinical and genomic data management in a secure, authenticated environment.\n\n### Authentication\nTo ensure the security and integrity of cancer research data, **all API requests require proper authentication**.\n\nA valid session token must be obtained prior to accessing any protected endpoint. This token must be included in the request header `X-Session-Token`.\n\nThe authentication and authorization flows for obtaining and managing session tokens are provided through the AllAuth authentication service. \nThis includes endpoints for user login, logout, password management, and token renewal. For complete details on implementing authentication and \nmanaging session tokens, please refer to the [AllAuth API documentation](/api/allauth/openapi.html).\n\n**Important:** Unauthorized requests or those missing valid authentication tokens will receive an `HTTP 401 Unauthorized` response.\n\n### Terminologies \nMany resources take objects of the type `CodedConcept` to represent concepts from coded terminologies. Each property of the type `CodedConcept` in a schema will have an associated `x-terminology` attribute. The full list of `CodedConcept` objects allowed for specific resource properties can be retrieved through the [terminology endpoint](#tag/Terminology/operation/getTerminologyConcepts) by passing the `x-terminology` value as the `terminologyName` parameter. \n\n### Terms and Conditions\nBy accessing and using this website, you agree to comply with and be bound by the following terms and conditions. The content provided on this API is \nintended solely for general informational and research purposes. While we strive to ensure the information is accurate and reliable, we do not make \nany express or implied warranties about the accuracy, adequacy, validity, reliability, availability, or completeness of the content.\n\nThe information presented on this platform is provided in good faith. However, we do not accept any liability for any loss or damage incurred as a \nresult of using the site or relying on the information provided. Your use of this site and any reliance on the content is solely at your own risk.\n\nThese terms and conditions may be updated from time to time, and it is your responsibility to review them regularly to ensure compliance.\n\n### License \nThe Onconova API specification is made available under the MIT License, a permissive open-source license that allows users to freely use, copy,\nmodify, merge, publish, distribute, sublicense, and/or sell copies of the software, subject to the inclusion of the original copyright and license.\n    ",
     "license": {
       "name": "MIT",
-      "url": "https://github.com/precisionmedicineinitiative/Onconova/blob/main/LICENSE"
+      "url": "https://github.com/precisionmedicineinitiative/ONCONOVA/blob/main/LICENSE"
     }
   },
   "paths": {
-    "/api/v1/healthcheck/": {
+    "/api/v1/healthcheck": {
       "get": {
         "operationId": "healthcheck",
         "summary": "Health Check",
@@ -41,7 +41,8 @@
         },
         "tags": [
           "API Health"
-        ]
+        ],
+        "security": []
       }
     },
     "/api/v1/auth/session": {
@@ -6864,8 +6865,15 @@
             "in": "query",
             "name": "clinicalCenter",
             "schema": {
-              "title": "Clinicalcenter",
-              "type": "string"
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Clinicalcenter"
             },
             "required": false
           },
@@ -50004,7 +50012,12 @@
             "in": "path",
             "name": "panel",
             "schema": {
-              "title": "Panel",
+              "enum": [
+                "Charlson",
+                "Elixhauser",
+                "NCI"
+              ],
+              "title": "ComorbiditiesPanel",
               "type": "string"
             },
             "required": true
@@ -57237,60 +57250,6 @@
         },
         "tags": [
           "Datasets"
-        ],
-        "security": [
-          {
-            "XSessionTokenAuth": []
-          }
-        ]
-      }
-    },
-    "/api/v1/autocomplete/clinical-centers": {
-      "get": {
-        "operationId": "getClinicalCenters",
-        "summary": "Get Clinical Centers",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "query",
-            "schema": {
-              "default": "",
-              "title": "Query",
-              "type": "string"
-            },
-            "required": false
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "items": {
-                    "type": "string"
-                  },
-                  "title": "Response",
-                  "type": "array"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          },
-          "501": {
-            "description": "Not Implemented"
-          }
-        },
-        "tags": [
-          "Patient Cases"
         ],
         "security": [
           {
@@ -67489,7 +67448,7 @@
         "title": "PatientCaseFilters",
         "type": "object"
       },
-      "pop__core__anonymization__decorator__AnonymizationBase__Input": {
+      "onconova__core__anonymization__decorator__AnonymizationBase__Input": {
         "properties": {
           "anonymized": {
             "default": true,
@@ -88334,7 +88293,8 @@
           }
         },
         "required": [
-          "name"
+          "name",
+          "categories"
         ],
         "title": "ComorbiditiesPanel",
         "type": "object"
@@ -95521,30 +95481,40 @@
         "description": "Descriptive statistics schema representing the median and interquartile range\nfor a numeric cohort trait.",
         "properties": {
           "median": {
-            "description": "The median value for the cohort trait.",
-            "title": "Median",
-            "type": "number"
-          },
-          "interQuartalRange": {
-            "description": "The lower and upper bounds of the interquartile range.",
-            "maxItems": 2,
-            "minItems": 2,
-            "prefixItems": [
+            "anyOf": [
               {
                 "type": "number"
               },
               {
-                "type": "number"
+                "type": "null"
               }
             ],
-            "title": "Interquartile Range (IQR)",
-            "type": "array"
+            "description": "The median value for the cohort trait.",
+            "title": "Median"
+          },
+          "interQuartalRange": {
+            "anyOf": [
+              {
+                "maxItems": 2,
+                "minItems": 2,
+                "prefixItems": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "number"
+                  }
+                ],
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The lower and upper bounds of the interquartile range.",
+            "title": "Interquartile Range (IQR)"
           }
         },
-        "required": [
-          "median",
-          "interQuartalRange"
-        ],
         "title": "CohortTraitMedian",
         "type": "object"
       },
