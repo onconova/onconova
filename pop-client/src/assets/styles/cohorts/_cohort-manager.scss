@@ -48,6 +48,11 @@ pop-cohort-trait-panel {
     opacity: .5;
 }
 
+.pop-cohort-manager-tabs-container .p-card{
+    background: light-dark(none, #060d1e) !important;
+    border-radius: 3rem;
+}
+
 .pop-cohort-manager-tabs {
     & .p-tabpanels, .p-tablist-tab-list {
         background: none !important;
