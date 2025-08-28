@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   pull_request:
     paths:
-      - 'onconova-server/**'
+      - 'server/**'
 
 jobs:
   build-and-test:
@@ -37,7 +37,7 @@ jobs:
           ENV_ONCONOVA_HOSTING_ORGANIZATION: 'Organization Name' 
           ENV_ONCONOVA_REVERSE_PROXY_SSL_CERTIFICATE_BUNDLE: '/etc/ssl/cert.pem'
           ENV_ONCONOVA_REVERSE_PROXY_SSL_CERTIFICATE_PRIVATE_KEY: '/etc/ssl/cert.key'
-          ENV_ONCONOVA_CLIENT_PLUGINS_PATH: './onconova-client/src/plugins'
+          ENV_ONCONOVA_CLIENT_PLUGINS_PATH: './client/src/plugins'
 
       - name: Build server service
         run: docker compose build server

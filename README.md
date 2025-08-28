@@ -1,7 +1,7 @@
 <br />
 <div align="center">
     <a href="https://github.com/luisfabib/onconova">
-        <img src="onconova-client/src/assets/images/logo.svg" width="10%">
+        <img src="client/src/assets/images/logo.svg" width="10%">
     </a>
     <h1 style="border-bottom: none;">Onconova</h1>
 

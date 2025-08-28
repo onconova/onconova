@@ -8,7 +8,7 @@ services:
         build:
           target: development     
         volumes:
-          - ./onconova-server:/app/src
+          - ./server:/app/src
 
     client:
         container_name: "${COMPOSE_PROJECT_NAME}-client"
@@ -18,9 +18,9 @@ services:
         build:
           target: development
         volumes:
-          - ./onconova-client/src/app:/app/src/app
-          - ./onconova-client/src/assets:/app/src/assets
-          - ${ONCONOVA_CLIENT_PLUGINS_PATH:-./onconova-client/src/plugins}:/app/src/plugins
+          - ./client/src/app:/app/src/app
+          - ./client/src/assets:/app/src/assets
+          - ${ONCONOVA_CLIENT_PLUGINS_PATH:-./client/src/plugins}:/app/src/plugins
 
     docs:
         container_name: "${COMPOSE_PROJECT_NAME}-docs"
@@ -30,8 +30,8 @@ services:
         build:
           target: development
         volumes:
-          - ./onconova-docs:/app/src		
-          - ./onconova-server:/app/server		
+          - ./docs:/app/src		
+          - ./server:/app/server		
 
     reverse-proxy:
         image: nginx:1.23        

@@ -96,9 +96,9 @@ Follow these steps to install and set up Onconova from its source code.
 
         1. Copy the root CA certificates
             ```bash 
-            cp <local-path/root-ca-certificates.pem> ./onconova-server/etc/certs/root-ca-certificates.pem
-            cp <local-path/root-ca-certificates.pem> ./onconova-client/etc/certs/root-ca-certificates.pem
-            cp <local-path/root-ca-certificates.pem> ./onconova-docs/etc/certs/root-ca-certificates.pem
+            cp <local-path/root-ca-certificates.pem> ./server/etc/certs/root-ca-certificates.pem
+            cp <local-path/root-ca-certificates.pem> ./client/etc/certs/root-ca-certificates.pem
+            cp <local-path/root-ca-certificates.pem> ./docs/etc/certs/root-ca-certificates.pem
             ```
 
         2. Build the Onconova images:
@@ -123,9 +123,9 @@ Follow these steps to install and set up Onconova from its source code.
 
     CONTAINER ID   IMAGE                COMMAND                  NAMES
     ************   nginx:1.23           "/docker-entrypoint.…"   onconova-reverse-proxy
-    ************   onconova-client           "docker-entrypoint.s…"   onconova-client
-    ************   onconova-server           "python manage.py ru…"   onconova-server
-    ************   onconova-docs             "mkdocs serve -a 0.0…"   onconova-docs
+    ************   client           "docker-entrypoint.s…"   client
+    ************   server           "python manage.py ru…"   server
+    ************   docs             "mkdocs serve -a 0.0…"   docs
     ************   postgres:13-alpine   "docker-entrypoint.s…"   onconova-database
     ```
 

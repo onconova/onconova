@@ -4,13 +4,13 @@ services:
         container_name: "${COMPOSE_PROJECT_NAME}-server"
         restart: unless-stopped
         build:
-            context: onconova-server
+            context: server
             dockerfile: Dockerfile
             target: production      
         expose:
             - 8000
         volumes:
-            - ./onconova-server:/app/src
+            - ./server:/app/src
         env_file: .env
         depends_on:
             - database
@@ -20,9 +20,9 @@ services:
         restart: unless-stopped
         env_file: .env
         build:
-            context: onconova-client
+            context: client
             additional_contexts: 
-                - plugins=${ONCONOVA_CLIENT_PLUGINS_PATH:-./onconova-client/src/plugins}
+                - plugins=${ONCONOVA_CLIENT_PLUGINS_PATH:-./client/src/plugins}
             dockerfile: Dockerfile
             target: production
 
@@ -30,7 +30,7 @@ services:
         container_name: "${COMPOSE_PROJECT_NAME}-docs"
         restart: unless-stopped
         build:
-            context: onconova-docs
+            context: docs
             dockerfile: Dockerfile
             target: production     
 

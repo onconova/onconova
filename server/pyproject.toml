@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "onconova-server"
+name = "server"
 version = "0.4.0"
 description = "The Precision Oncology Program (Onconova) is a joint at the University Hospital Zurich (USZ) to capture clinical data from oncology patients in a structured manner. The final aim of the project is to enable aggregated data analysis interactively."
 readme = "../README.md"

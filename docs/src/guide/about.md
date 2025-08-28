@@ -97,15 +97,15 @@ graph TD
     nginx -- Redirect HTTP @ /api --> gunicorn
     nginx -- Redirect HTTP @ /docs --> docs-nginx
     
-    subgraph onconova-client [onconova-client]
+    subgraph client [client]
     client-nginx --> client
     end
     
-    subgraph onconova-docs [onconova-docs]
+    subgraph docs [docs]
     docs-nginx --> docs
     end
 
-    subgraph onconova-server [onconova-server]
+    subgraph server [server]
     gunicorn --> workers
     workers --> postgres
     end
@@ -122,24 +122,24 @@ Nginx Reverse Proxy (`onconova-reverse-proxy`)
 - Acts as a secure entry point for all incoming HTTPS traffic.
 - Based on the URL path of the request, Nginx routes the traffic to one of three destinations:
 
-   + `/` → the Client Application (`onconova-client`).
-   + `/api` → the API service (`onconova-server`).
-   + `/docs` → the Documentation service (`onconova-docs`).
+   + `/` → the Client Application (`client`).
+   + `/api` → the API service (`server`).
+   + `/docs` → the Documentation service (`docs`).
 
-Client Application (`onconova-client`)
+Client Application (`client`)
 
-- Requests sent to `/` are proxied to a Client Nginx Server running within the `onconova-client` container.
+- Requests sent to `/` are proxied to a Client Nginx Server running within the `client` container.
 - This server serves static frontend assets like JavaScript, CSS, and HTML files for the single-page application (SPA).
 - The actual application files reside in a directory labeled Client JS Files in the diagram.
 
-Documentation Service (`onconova-docs`)
+Documentation Service (`docs`)
 
-- Requests sent to `/docs` are forwarded to a Docs Nginx Server inside the `onconova-docs` container.
+- Requests sent to `/docs` are forwarded to a Docs Nginx Server inside the `docs` container.
 - This Nginx server serves static documentation assets, represented as Documentation HTML Files.
 
-API Service (`onconova-server`)
+API Service (`server`)
 
-- Requests sent to `/api` are proxied to the Gunicorn WSGI Server within the `onconova-server` container.
+- Requests sent to `/api` are proxied to the Gunicorn WSGI Server within the `server` container.
 - Gunicorn handles these requests by distributing them to multiple Django worker processes.
 - Each worker runs a Django application instance capable of processing API requests.
 
