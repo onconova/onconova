@@ -1,0 +1,31 @@
+{
+    "resourceType": "ValueSet",
+    "url": "https://simplifier.net/onconova/ValueSets/onconova-treatment-termination-reason",
+    "id": "onconova-onconova-treatment-termination-reason",
+    "title": "Treatment Termination Reasons",
+    "status": "draft",
+  "compose": {
+    "include": [
+      {
+        "system": "http://snomed.info/sct",
+        "concept": [
+          {
+            "code": "182992009",
+            "display": "Treatment completed"
+          }
+        ]
+      },
+      {
+        "valueSet": [
+          "http://hl7.org/fhir/us/mcode/ValueSet/mcode-treatment-termination-reason-vs"
+        ],
+        "system": "http://snomed.info/sct"
+      }
+    ]
+  },
+    "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>Treatment Termination Reasons</h2><tt>onconova.org/TreatmentTerminationReasons</tt></div>"
+    },
+    "name": "TreatmentTerminationReasons"
+}

@@ -1,0 +1,155 @@
+<p-fluid>
+    <form  [formGroup]="form" (ngSubmit)="submitFormData()">
+
+        <div class="field">
+            <label class="form-label required">Treatment period</label>
+            <onconova-datepicker 
+                formControlName="period"
+                selectionMode="range"
+                placeholder="DD/MM/YYYY - DD/MM/YYYY"
+            />
+            <onconova-form-control-error controlName="period"></onconova-form-control-error>
+        </div>
+
+
+        <div class="field">
+            <label class="form-label">Cycles</label>
+            <p-inputnumber 
+            formControlName="cycles"
+            placeholder="Enter value" 
+            useGrouping="false"
+            suffix=" cycle(s)"/>
+            <onconova-form-control-error controlName="cycles"></onconova-form-control-error>
+        </div>
+
+        <div class="field">
+            <label class="form-label required">Neoplastic entities targeted</label>
+            <onconova-multi-reference-select 
+            formControlName="targetedEntities"
+            [options]="relatedEntities.value() || []"/>
+            <onconova-form-control-error controlName="targetedEntities"></onconova-form-control-error>
+        </div>
+
+        <div class="field">
+            <label class="form-label required">Medication(s)</label>
+            <onconova-concept-selector 
+                formControlName="drugs"
+                terminology="AntineoplasticAgent"
+                [showSynonyms]="true"
+                [multiple]="true"/>
+            <onconova-form-control-error controlName="drugs"></onconova-form-control-error>
+        </div>
+
+        <div class="field">
+            <label class="form-label required">Intent</label>
+            <p-selectbutton 
+                formControlName="intent"
+                [options]="intentChoices"
+                class="flex"/>
+            <onconova-form-control-error controlName="intent"></onconova-form-control-error>
+        </div>
+
+        <div class="field">
+            <label class="form-label required">Therapeutic role</label>
+            <p-selectbutton
+                formControlName="isAdjunctive"
+                [options]="roleChoices"
+                class="flex"/>
+            <onconova-form-control-error controlName="isAdjunctive"></onconova-form-control-error>
+        </div>
+
+        @if (form.value.isAdjunctive) {
+            <div class="field">
+                <label class="form-label required">Adjunctive role</label>
+                <onconova-concept-selector 
+                    formControlName="adjunctiveRole"
+                    terminology="AdjunctiveTherapyRole"
+                    [showSynonyms]="false"/>
+                <onconova-form-control-error controlName="adjunctiveRole"></onconova-form-control-error>
+            </div>    
+        }
+
+        <div class="field">
+            <label class="form-label">Termination reason</label>
+            <onconova-concept-selector 
+                formControlName="terminationReason"
+                terminology="TreatmentTerminationReason"
+                [showSynonyms]="false"/>
+            <onconova-form-control-error controlName="terminationReason"></onconova-form-control-error>
+        </div>
+
+        <div formArrayName="medications">
+            @for (control of form.controls['medications'].controls; track $index; let i = $index) {
+                <p-fieldset  [toggleable]="true" [formGroupName]="i" [collapsed]="true">
+                    <ng-template #header>
+                        {{control.value.drug!.display}} - Administration details
+                    </ng-template>
+                    <div class="mt-3">
+                        <div class="field">
+                            <label class="form-label">Administration route</label>
+                            <onconova-concept-selector 
+                                formControlName="route"
+                                terminology="DosageRoute"
+                                [showSynonyms]="true"/>
+                        </div>
+                        <div class="field">
+                            <label class="form-label required">Dosage type</label>
+                            <onconova-radio-select  
+                            formControlName="dosageType"
+                            [choices]="dosageTypeChoices"
+                            class="flex flex-wrap gap-4"/>
+                        </div>
+                        <div class="field">
+                            <label class="form-label">Dosage</label>
+                            @switch (control.value.dosageType) {
+                                @case ('Mass') {
+                                    <onconova-measure-input formControlName="dosageMass" measure="Mass"/>
+                                }
+                                @case ('MassConcentration') {
+                                    <onconova-measure-input formControlName="dosageMassConcentration" measure="MassConcentration"/>
+                                }
+                                @case ('Volume') {
+                                    <onconova-measure-input formControlName="dosageVolume" measure="Volume"/>
+                                }
+                                @case ('MassPerSurface') {
+                                    <onconova-measure-input formControlName="dosageMassSurface" measure="MassPerArea"/>
+                                }
+                                @default {
+                                    <div class="text-muted">Select a dosage type first</div>
+                                }
+                            }
+                        </div>
+                        <div class="field">
+                            <label class="form-label">Dosage rate</label>
+                            @switch (control.value.dosageType) {
+                                @case ('Mass') {
+                                    <onconova-measure-input formControlName="dosageRateMass" measure="MassPerTime"/>
+                                }
+                                @case ('MassConcentration') {
+                                    <onconova-measure-input formControlName="dosageRateMassConcentration" measure="MassConcentrationPerTime"/>
+                                }
+                                @case ('Volume') {
+                                    <onconova-measure-input formControlName="dosageRateVolume" measure="VolumePerTime"/>
+                                }
+                                @case ('MassPerSurface') {
+                                    <onconova-measure-input formControlName="dosageRateMassSurface" measure="MassPerAreaPerTime"/>
+                                }
+                                @default {
+                                    <div class="text-muted">Select a dosage type first</div>
+                                }
+                            }
+                        </div>
+                    </div>
+                </p-fieldset>
+            }
+        </div>
+        
+        <p-button 
+            type="submit" 
+            label="Save" 
+            styleClass="w-full p-3 mt-4"  
+            [loading]="isSaving()"
+            [disabled]="form.invalid" />
+            
+    </form>
+</p-fluid>

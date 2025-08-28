@@ -1,0 +1,113 @@
+site_name: Onconova
+site_description: Precision Oncology Platform
+site_url: http://0.0.0.0/docs
+site_author: Luis Fabregas
+copyright: Copyright &copy; 2025 - Luis Fabregas
+repo_url: https://github.com/luisfabib/onconova
+docs_dir: src
+theme:
+  name: material
+  logo: assets/img/logo.svg
+  favicon: assets/favicon-dark-theme.ico
+  icon:
+    repo: fontawesome/brands/github
+  palette:
+    # Palette toggle for automatic mode
+    - media: "(prefers-color-scheme)"
+      scheme: slate
+      primary: black
+      accent: blue
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default 
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: black
+      accent: blue
+      toggle:
+        icon: material/brightness-4
+        name: Switch to system preference
+  features:
+    - navigation.expand
+    - navigation.path    
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.top
+    - navigation.sections
+    - content.code.copy
+    - content.code.annotate
+plugins:
+  - search
+  - neoteroi.mkdocsoad:
+      use_pymdownx: true
+  - document-dates:
+      exclude:                
+        - index.md
+  - mike:
+nav:
+  - Home: index.md
+  - Get Started: 
+    - Requirements: get-started/requirements.md
+    - Installation: get-started/installation.md
+    - Configuration: get-started/configuration.md
+    - License: get-started/license.md
+  - Guide:
+    - About: guide/about.md
+    - Security: 
+      - Authentication: guide/security/authentication.md
+      - Authorization: guide/security/permissions.md
+      - Data Protection: guide/security/data-security.md
+      - Audit Trail: guide/security/audit-trail.md
+    - API:
+      - Overview: guide/api/overview.md
+      - Specification: guide/api/specification.md
+    - Database:
+        - Schema: guide/database/db_schema.md
+        - Migrations: guide/database/migrations.md
+    - Developers Guide: 
+      - Contributing: guide/developers/contributing.md
+      - Microservices: guide/developers/microservices.md
+      - Client Plugins: guide/developers/plugins.md
+  - FAQs: faq.md
+  - Credits: credits.md
+markdown_extensions:
+  - neoteroi.cards
+  - admonition
+  - toc:
+      permalink: true
+  - tables
+  - attr_list
+  - md_in_html
+  - pymdownx.blocks.caption
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.details
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.snippets
+extra_css:
+  - assets/css/style.css
+  - assets/css/home.css
+  - assets/css/neoteroi-mkdocsoad.css
+  - assets/css/neoteroi-mkdocs.min.css

@@ -1,0 +1,96 @@
+<p-fluid>
+    <form  [formGroup]="form" (ngSubmit)="submitFormData()">
+
+        <div class="field">
+            <label for="date" class="form-label required">Date of the analysis</label>
+            <onconova-datepicker 
+                formControlName="date"
+            />
+            <onconova-form-control-error controlName="date"></onconova-form-control-error>
+        </div>
+        
+
+        <div class="field">
+            <label class="form-label required">Neoplastic entities assessed</label>
+            <onconova-multi-reference-select 
+            [options]="relatedEntities.value() || []" 
+            formControlName="stagedEntities"/>
+            <onconova-form-control-error controlName="stagedEntities"></onconova-form-control-error>
+        </div>
+
+        <div class="field">
+            <label class="form-label required">Analyte</label>
+            <p-selectbutton [options]="analytes.value() || []" formControlName="analyte" class="tumor-markers">
+                <ng-template #item let-analyte>
+                    <span pTooltip="{{ analyte.properties.display }}" tooltipPosition="bottom">{{ analyte.properties.acronym }}</span>
+                </ng-template>
+            </p-selectbutton>
+            <onconova-form-control-error controlName="analyte"></onconova-form-control-error>
+        </div>
+        
+        <div class="field">
+            <label class="form-label required">Result type</label>
+            @if (allowedResultTypes().length > 0) {
+                <div class="flex flex-wrap gap-4">
+                    @for (type of analyteResultTypeChoices; track $index;) {
+                        @if (allowedResultTypes().includes(type.value)) {
+                            <div class="flex items-center">
+                                <p-radiobutton [inputId]="type.value" [value]="type.value" formControlName="valueType" />
+                                <label [for]="type.value" class="ml-2">{{ type.name }}</label>
+                            </div>    
+                        }
+                    }
+
+                </div>
+            } @else {
+                <div class="text-muted">Select an analyte to show choices</div>
+            }
+        </div>
+        
+        <div class="field">
+            <label class="form-label required">Tumor marker result</label>
+            @switch (form.value.valueType) {
+                @case (analyteResultTypes.MassConcentration) {
+                    <onconova-measure-input formControlName="massConcentration" measure="MassConcentration"/>
+                }
+                @case (analyteResultTypes.SubstanceConcentration) {
+                    <onconova-measure-input formControlName="substanceConcentration" measure="SubstanceConcentration"/>
+                }
+                @case (analyteResultTypes.ArbitraryConcentration) {
+                    <onconova-measure-input formControlName="arbitraryConcentration" measure="ArbitraryConcentration" defaultUnit="kIU/l"/>
+                }
+                @case (analyteResultTypes.Fraction) {
+                    <onconova-measure-input formControlName="fraction" measure="Fraction"/>
+                }
+                @case (analyteResultTypes.Presence) {
+                    <onconova-radio-select formControlName="presence" [choices]="tumorMarkerPresenceChoices" class="flex flex-wrap gap-4"/>
+                }
+                @case (analyteResultTypes.ImmunoHistoChemicalScore) {
+                    <onconova-radio-select formControlName="immunoHistoChemicalScore" [choices]="tumorMarkerImmunohistochemicalScoreChoices" class="flex flex-wrap gap-4"/>
+                }
+                @case (analyteResultTypes.NuclearExpressionStatus) {
+                    <onconova-radio-select formControlName="nuclearExpressionStatus" [choices]="tumorMarkerNuclearExpressionStatusChoices" class="flex flex-wrap gap-4"/>
+                }
+                @case (analyteResultTypes.TumorProportionScore) {
+                    <onconova-radio-select formControlName="tumorProportionScore" [choices]="tumorMarkerTumorProportionScoreChoices" class="flex flex-wrap gap-4"/>
+                }
+                @case (analyteResultTypes.ImmuneCellsScore) {
+                    <onconova-radio-select formControlName="immuneCellScore" [choices]="tumorMarkerImmuneCellScoreChoices" class="flex flex-wrap gap-4"/>
+                }
+                @case (analyteResultTypes.CombinedPositiveScore) {
+                    <onconova-measure-input formControlName="combinedPositiveScore" measure="Fraction"/>
+                }
+                @default {
+                    <div class="text-muted">Select an result type first</div>
+                }
+            }
+        </div>
+        
+        <p-button 
+            type="submit" 
+            label="Save" 
+            styleClass="w-full p-3 mt-2"  
+            [loading]="isSaving()"
+            [disabled]="form.invalid" />
+    </form>
+</p-fluid>

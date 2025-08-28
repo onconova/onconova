@@ -1,0 +1,58 @@
+{
+    "resourceType": "ValueSet",
+    "url": "https://simplifier.net/onconova/ValueSets/onconova-adverse-event-mitigation-procedures",
+    "id": "onconova-adverse-event-mitigation-procedures",
+    "version": "0.0.1",
+    "title": "Adverse Event Mitigation - Procedures",
+    "status": "draft",
+    "compose": {
+        "include": [
+            {
+                "system": "http://snomed.info/sct",
+                "concept": [
+                    {
+                        "code": "387713003",
+                        "display": "Surgery"
+                    },
+                    {
+                        "code": "116762002",
+                        "display": "Administration of blood product"
+                    },
+                    {
+                        "code": "31847002",
+                        "display": "Hyperthermia treatment"
+                    },
+                    {
+                        "code": "26782000",
+                        "display": "Cryotherapy"
+                    },
+                    {
+                        "code": "75516001",
+                        "display": "Psychotherapy"
+                    },
+                    {
+                        "code": "74964007",
+                        "display": "Other"
+                    }
+                ],
+                "version": "http://snomed.info/sct/900000000000207008/version/20230731"
+            },
+            {
+                "concept": [
+                    {
+                        "code": "C116433",
+                        "display": "Palliative Radiation Therapy"
+                    }
+                ],
+                "system": "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+                "version": "24.01e"
+            }
+        ]
+    },
+    "description": "Procedures undertaken to mitigate the impact of an adverse event on a patient's health.",
+    "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>Adverse Event Mitigation - Procedures</h2><tt>https://simplifier.net/onconova/ValueSets/onconova-adverse-event-mitigation-procedures</tt><p>Procedures undertaken to mitigate the impact of an adverse event on a patient's health.</p></div>"
+    },
+    "name": "AdverseEventMitigationProcedures"
+}

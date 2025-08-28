@@ -1,0 +1,87 @@
+<p-fluid>
+    <form  [formGroup]="form" (ngSubmit)="submitFormData()">
+
+        <div class="field">
+            <label for="date" class="form-label required">Date</label>
+            <onconova-datepicker 
+                formControlName="date"
+            />
+            <onconova-form-control-error controlName="date"></onconova-form-control-error>
+        </div>
+
+        <div class="field">
+            <label class="form-label required">Neoplastic entities targeted</label>
+            <onconova-multi-reference-select 
+            formControlName="targetedEntities"
+            [options]="relatedEntities.value() || []"/>
+            <onconova-form-control-error controlName="targetedEntities"></onconova-form-control-error>
+        </div>
+      
+        <div class="field">
+            <label class="form-label required">Intent</label>
+            <p-selectbutton
+                formControlName="intent"
+                [options]="intentChoices"
+                class="flex"/>
+            <onconova-form-control-error controlName="intent"></onconova-form-control-error>
+        </div>
+
+
+        <div class="field">
+            <label class="form-label required">Surgical procedure</label>
+            <onconova-concept-selector 
+                formControlName="procedure"
+                terminology="SurgicalProcedure"
+                [showSynonyms]="true"/>
+            <onconova-form-control-error controlName="procedure"></onconova-form-control-error>
+        </div>
+
+        <div class="field">
+            <label class="form-label">Anatomical location</label>
+            <onconova-concept-selector 
+                formControlName="bodysite"
+                terminology="CancerTopography"
+                [showSynonyms]="false"/>
+            <onconova-form-control-error controlName="bodysite"></onconova-form-control-error>
+        </div>
+
+
+        <div class="field">
+            <label class="form-label">Location qualifier</label>
+            <onconova-concept-selector 
+                formControlName="bodysiteQualifier"
+                terminology="BodyLocationQualifier"
+                [showSynonyms]="false"/>
+            <onconova-form-control-error controlName="bodysiteQualifier"></onconova-form-control-error>
+        </div>
+
+        <div class="field flex flex-column">
+            <label class="form-label">Location laterality</label>
+            <onconova-concept-selector 
+                formControlName="bodysiteLaterality"
+                terminology="LateralityQualifier"
+                widget="selectbutton"
+                [showSynonyms]="false"/>
+            <onconova-form-control-error controlName="bodysiteLaterality"></onconova-form-control-error>
+        </div>
+
+
+        <div class="field flex flex-column">
+            <label class="form-label">Outcome</label>
+            <onconova-concept-selector 
+                formControlName="outcome"
+                terminology="ProcedureOutcome"
+                widget="selectbutton"
+                [showSynonyms]="false"/>
+            <onconova-form-control-error controlName="outcome"></onconova-form-control-error>
+        </div>
+
+        <p-button 
+            type="submit" 
+            label="Save" 
+            styleClass="w-full p-3 mt-2"  
+            [loading]="isSaving()"
+            [disabled]="form.invalid" />
+            
+    </form>
+</p-fluid>

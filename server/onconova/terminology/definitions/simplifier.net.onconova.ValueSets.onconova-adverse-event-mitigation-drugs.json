@@ -1,0 +1,131 @@
+{
+    "resourceType": "ValueSet",
+    "url": "https://simplifier.net/onconova/ValueSets/onconova-adverse-event-mitigation-drugs",
+    "id": "onconova-adverse-event-mitigation-drugs",
+    "version": "0.01",
+    "title": "Adverse Event Mitigation - Drugs",
+    "status": "draft",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "email"
+                }
+            ]
+        }
+    ],
+    "compose": {
+        "include": [
+            {
+                "system": "http://snomed.info/sct",
+                "concept": [
+                    {
+                        "code": "49616005",
+                        "display": "Monoclonal antibody"
+                    },
+                    {
+                        "code": "420693002",
+                        "display": "Tumor necrosis factor alpha inhibitor"
+                    },
+                    {
+                        "code": "409207001",
+                        "display": "NK-1 Receptor Antagonist"
+                    },
+                    {
+                        "code": "1156730006",
+                        "display": "Erythropoietin receptor agonist"
+                    }
+                ],
+                "version": "http://snomed.info/sct/900000000000207008/version/20230731"
+            },
+            {
+                "concept": [
+                    {
+                        "code": "C2356",
+                        "display": "Analgesic and Antipyretic"
+                    },
+                    {
+                        "code": "C257",
+                        "display": "Nonsteroidal Antiinflammatory Drug"
+                    },
+                    {
+                        "code": "C198",
+                        "display": "Acetaminophen"
+                    },
+                    {
+                        "code": "C170166",
+                        "display": "Metamizole Sodium"
+                    },
+                    {
+                        "code": "C257",
+                        "display": "Nonsteroidal Antiinflammatory Drug"
+                    },
+                    {
+                        "code": "C29578",
+                        "display": "Histamine-1 Receptor Antagonist"
+                    },
+                    {
+                        "code": "C126567",
+                        "display": "Vasopressor"
+                    },
+                    {
+                        "code": "C163951",
+                        "display": "Anti-IL-6 Monoclonal Antibody"
+                    },
+                    {
+                        "code": "C128036",
+                        "display": "Anti-CTLA-4 Monoclonal Antibody"
+                    },
+                    {
+                        "code": "C29505",
+                        "display": "Topical Corticosteroids"
+                    },
+                    {
+                        "code": "C122080",
+                        "display": "Systemic Corticosteroids"
+                    },
+                    {
+                        "code": "C278",
+                        "display": "Anti-Thymocyte Globulin"
+                    },
+                    {
+                        "code": "C121331",
+                        "display": "Intravenous Immunoglobulin"
+                    },
+                    {
+                        "code": "C267",
+                        "display": "Antiemetics"
+                    },
+                    {
+                        "code": "C740",
+                        "display": "Phenothiazine"
+                    },
+                    {
+                        "code": "C94726",
+                        "display": "5-HT3 Receptor Antagonist"
+                    },
+                    {
+                        "code": "C20424",
+                        "display": "Growth Factors"
+                    },
+                    {
+                        "code": "C26078",
+                        "display": "Granulocyte Colony-Stimulating Factor"
+                    },
+                    {
+                        "code": "C20545",
+                        "display": "Granulocyte-Macrophage Colony-Stimulating Factor"
+                    }
+                ],
+                "system": "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+                "version": "24.01e"
+            }
+        ]
+    },
+    "description": "Drugs or medication categories used in the mitigation process of an adverse event.",
+    "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>Adverse Event Mitigation - Drugs</h2><tt>https://simplifier.net/onconova/ValueSets/onconova-adverse-event-mitigation-drugs</tt><p>Drugs or medication categories used in the mitigation process of an adverse event.</p></div>"
+    },
+    "name": "AdverseEventMitigationDrugs"
+}

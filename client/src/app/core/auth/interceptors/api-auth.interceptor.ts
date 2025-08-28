@@ -1,0 +1,26 @@
+import { AuthService } from '../services/auth.service';
+import { Injectable, inject } from '@angular/core';
+import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { BASE_PATH } from 'onconova-api-client';
+
+@Injectable()
+export class APIAuthInterceptor implements HttpInterceptor {
+  
+    #authService = inject(AuthService);
+    #basePath: string = inject(BASE_PATH).replace(/\/+$/, ''); // Remove trailing slashes
+
+
+    intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        const isApiUrl = request.url.startsWith(`${this.#basePath}/api`);
+        const apiSessionToken = this.#authService.sessionToken();
+        if (isApiUrl && apiSessionToken) {
+            request = request.clone({
+                setHeaders: {
+                    'X-Session-Token': apiSessionToken,
+                },
+            });
+        }
+        return next.handle(request);
+    }
+}

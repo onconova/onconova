@@ -1,0 +1,63 @@
+<p-fluid>
+    <form  [formGroup]="form" (ngSubmit)="submitFormData()">
+
+        <div class="field">
+            <label for="date" class="form-label required">Date of the assessment</label>
+            <onconova-datepicker 
+                formControlName="date"
+            />
+            <onconova-form-control-error controlName="date"></onconova-form-control-error>
+        </div>
+        <div class="field">
+            <label class="form-label required">Neoplastic entities assessed</label>
+            <onconova-multi-reference-select 
+            [options]="relatedEntities.value() || []" 
+            formControlName="assessedEntities"/>
+            <onconova-form-control-error controlName="assessedEntities"></onconova-form-control-error>
+        </div>
+
+        <div class="field">
+            <label class="form-label required">Imaging technique</label>
+            <onconova-concept-selector 
+                terminology="CancerTreatmentResponseObservationMethod"
+                [showSynonyms]="true"
+                formControlName="methodology"/>
+            <onconova-form-control-error controlName="methodology"></onconova-form-control-error>
+        </div>
+
+        <div class="field">
+            <label class="form-label">Imaged anatomical location(s)</label>
+            <onconova-concept-selector 
+                terminology="ObservationBodySite"
+                [showSynonyms]="true"
+                [multiple]="true"
+                formControlName="assessedBodysites"/>
+            <onconova-form-control-error controlName="assessedBodysites"></onconova-form-control-error>
+        </div>
+
+        <div class="field">
+            <label class="form-label required">Response Evaluation Criteria in Solid Tumours (RECIST)</label>
+            <onconova-concept-selector 
+                terminology="CancerTreatmentResponse"
+                [showSynonyms]="false"
+                formControlName="recist"/>
+            <onconova-form-control-error controlName="recist"></onconova-form-control-error>
+        </div>
+
+        <div class="field flex flex-column">
+            <label class="form-label required">Was the RECIST value interpreted or reported?</label>
+            <p-selectbutton
+                formControlName="recistInterpreted"
+                [options]="interpretationChoices"/>
+            <onconova-form-control-error controlName="recistInterpreted"></onconova-form-control-error>
+        </div>
+
+        <p-button 
+            type="submit" 
+            label="Save" 
+            styleClass="w-full p-3 mt-2"  
+            [loading]="isSaving()"
+            [disabled]="form.invalid" />
+            
+    </form>
+</p-fluid>

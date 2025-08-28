@@ -1,0 +1,100 @@
+
+onconova-disclaimer-banner {
+    & .onconova-disclaimer-banner-card {
+        background-color: light-dark(var(--p-primary-100), var(--p-primary-900))!important;
+    }
+    & .onconova-disclaimer-banner-content {
+        display: flex;
+        position: relative;
+        height: 100%;
+        width: 100%;
+    }
+    & .onconova-disclaimer-banner-content-text {
+        width: 65%;
+    } 
+    & .onconova-disclaimer-banner-illustration {
+        position: absolute;
+        right: 0%;
+        transform: translateY(-11rem) scaleX(-1);
+        width: 22rem;
+        margin-left: 1rem;
+        color: var(--p-primary-color);
+    }
+
+    @media (max-width: 1800px) {
+        .onconova-disclaimer-banner-content-text {
+            width: 55%;
+        } 
+    }
+    @media (max-width: 1300px) {
+        .onconova-disclaimer-banner-content-text {
+            width: 50%;
+            padding-right: 2rem;
+        } 
+        .onconova-disclaimer-banner-illustration {
+            width: 21rem;
+            transform: translateY(-6rem) scaleX(-1);
+        }
+    }
+    @media (max-width: 1200px) {
+        .onconova-disclaimer-banner-content-text {
+            width: 100%;
+        } 
+        .onconova-disclaimer-banner-illustration {
+            display: none;
+        }
+    }
+}
+
+onconova-random-paper {
+
+    & .paper-error-message {
+        color: red;
+        margin-top: 20px;
+    }
+
+    & .paper-details {
+        display: flex !important;
+        text-align: left;
+        display: inline-block;
+
+        & .paper-illustration {
+            margin: auto;
+            margin-left: 1rem;
+            width: 20rem;
+            color: var(--p-primary-color);
+        }
+
+        & button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+    }
+    
+}
+
+onconova-data-summary {
+
+    & .data-statistic {
+        border-left: solid 4px var(--p-primary-color); 
+        padding-left: .5rem;
+    }
+    & .data-statistic-number {
+        font-size: 2rem;
+        font-weight: 500;
+    }
+    & .data-statistic-label {
+        text-transform: uppercase;
+    }
+}
+
+onconova-primary-entities-table { 
+    & .p-avatar-text {
+        font-size: .9rem !important;
+    }
+    & .onconova-other-users-avatar {
+        font-size: .8rem;
+    }
+}

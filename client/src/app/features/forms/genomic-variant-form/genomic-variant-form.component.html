@@ -1,0 +1,221 @@
+<p-fluid>
+    <form  [formGroup]="form" (ngSubmit)="submitFormData()">
+
+        <div class="field">
+            <label for="date" class="form-label required">Date</label>
+            <onconova-datepicker 
+                formControlName="date"
+            />
+            <small class="help-text">The clinically-relevant date of the variant (usually the specimen collection date).</small>
+            <onconova-form-control-error controlName="date"></onconova-form-control-error>
+        </div>
+
+        <div class="field">
+            <label class="form-label">Gene panel</label>      
+            <p-autocomplete 
+                placeholder="Enter a panel name, e.g. FoundationOneCDx" 
+                formControlName="genePanel"  
+                [suggestions]="genePanels.value() || []" 
+                (completeMethod)="genePanelQuery.set($event.query)" />
+            <small class="help-text">Commercial or official name of the gene panel used in the test to detect this variant.</small>
+            <onconova-form-control-error controlName="genePanel"></onconova-form-control-error>
+        </div>
+
+        <div class="field">
+            <label class="form-label required">Analysis method</label>
+            <onconova-concept-selector 
+                formControlName="analysisMethod"
+                terminology="StructuralVariantAnalysisMethod"
+                [showSynonyms]="false"/>
+            <onconova-form-control-error controlName="analysisMethod"></onconova-form-control-error>
+        </div>
+
+        <div class="field">
+            <label for="date" class="form-label required">Assessment date</label>
+            <onconova-datepicker 
+                formControlName="date"
+            />
+            <small class="help-text">The date when the variant was analyzed, detected, and/or reported.</small>
+            <onconova-form-control-error controlName="date"></onconova-form-control-error>
+        </div>
+
+        <div class="field flex flex-column">
+            <label class="form-label">Assessment</label>
+            <p-selectbutton  
+                formControlName="assessment"
+                [options]="assessmentChoices"
+                optionLabel="name" optionValue="value"/>
+            <onconova-form-control-error controlName="assessment"></onconova-form-control-error>
+        </div>
+
+        <div class="field flex flex-column">
+            <label class="form-label">Variant call confidence</label>
+            <p-selectbutton  
+                formControlName="confidence"
+                [options]="confidenceChoices"
+                optionLabel="name" optionValue="value"/>
+            <onconova-form-control-error controlName="confidence"></onconova-form-control-error>
+        </div>
+
+        <div class="field">
+            <label class="form-label">Clinical relevance</label>
+            <p-select 
+                formControlName="clinicalRelevance" 
+                [options]="clinicalRelevanceChoices" 
+                optionLabel="name" 
+                optionValue="value" 
+                placeholder="Select an option" 
+                appendTo="body" 
+                />
+            <onconova-form-control-error controlName="clinicalRelevance"></onconova-form-control-error>
+        </div>
+
+
+        <p-fieldset legend="Variant description">
+
+            <div class="field">
+                <label class="form-label required">Gene(s) affected</label>
+                <onconova-concept-selector 
+                    formControlName="genes"
+                    terminology="Gene"
+                    [showSynonyms]="true"
+                    [multiple]="true"/>
+                <small class="help-text">Gene(s) affected by this variant.</small>
+                <onconova-form-control-error controlName="genes"></onconova-form-control-error>
+            </div>
+
+            <p-divider></p-divider>
+
+            <label class="form-label">HGVS Annotation</label>
+
+            <div class="field text-muted mt-2">
+                <p>
+                    <small>
+                        The variant must be at-least described at DNA-level using a HGVS expression. Description at RNA- and protein-level is optional and will 
+                        provide additional information about the upstream consequences of the variant.
+                        For the HGVS nomenclature, please refer to the <a href="https://hgvs-nomenclature.org/stable/" target="_blank">HGVS nomenclature specification</a>
+                    </small>
+                </p>
+            </div>
+
+            <div class="field">
+                <label class="form-label required">DNA-level description</label>
+                <input type="text" 
+                    pInputText 
+                    formControlName="dnaHgvs" 
+                    placeholder="Enter a value, e.g. NM_005228.5:c.2369C>T or NG_00019.3:g.11225562C>T"
+                    />                      
+                <onconova-form-control-error controlName="dnaHgvs"></onconova-form-control-error>
+            </div>
+
+            <div class="field">
+                <label class="form-label">RNA-level description</label>
+                <input type="text" 
+                    pInputText 
+                    formControlName="rnaHgvs" 
+                    placeholder="Enter a value, e.g. NM_000050.2:r.2369c>t"
+                    />                      
+                <onconova-form-control-error controlName="rnaHgvs"></onconova-form-control-error>
+            </div>
+
+            <div class="field">
+                <label class="form-label">Protein-level description</label>
+                <input type="text" 
+                    pInputText 
+                    formControlName="proteinHgvs" 
+                    placeholder="Enter a value, e.g. NP_000050.2:p.(Asn1836Lys)"
+                    />                      
+                <onconova-form-control-error controlName="proteinHgvs"></onconova-form-control-error>
+            </div>
+
+            <p-divider></p-divider>
+    
+            <div class="field">
+                <label class="form-label">Copy number</label>
+                <p-inputnumber 
+                    formControlName="copyNumber" 
+                    placeholder="Enter a value, e.g. 2"
+                    [min]="0"/>
+                <small class="help-text">Genomic structural variant copy number. Applicable to large deletion/duplication structural variants</small>
+                <onconova-form-control-error controlName="copyNumber"></onconova-form-control-error>
+            </div>
+
+            <div class="field">
+                <label class="form-label">Molecular Consequence</label>
+                <onconova-concept-selector 
+                    formControlName="molecularConsequence"
+                    terminology="MolecularConsequence"
+                    [showSynonyms]="true"/>
+                <small class="help-text">The calculated or observed effect of a variant on its downstream transcript and, if applicable, ensuing protein sequence.</small>
+                <onconova-form-control-error controlName="molecularConsequence"></onconova-form-control-error>
+            </div>
+        </p-fieldset>
+        
+
+        <p-fieldset legend="Context">
+            <div class="field">
+                <label class="form-label">Allele frequency</label>
+                <p-inputnumber 
+                    formControlName="alleleFrequency" 
+                    placeholder="Enter a value, e.g. 0.75"
+                    mode="decimal"
+                    min="0"
+                    max="1"
+                    [minFractionDigits]="1"
+                    [maxFractionDigits]="3"
+                    locale="en-US"/>
+                <small class="help-text">The relative frequency (value in range [0,1]) of the allele at a given locus in the sample.</small>
+                <onconova-form-control-error controlName="alleleFrequency"></onconova-form-control-error>
+            </div>
+
+            <div class="field">
+                <label class="form-label">Allele read depth</label>
+                <p-inputnumber 
+                    formControlName="alleleDepth" 
+                    placeholder="Enter a value, e.g. 275"
+                    [min]="0"/>
+                <small class="help-text">Specifies the number of reads that identified the allele in question whether it consists of one or a small sequence of contiguous nucleotides.</small>
+                <onconova-form-control-error controlName="alleleDepth"></onconova-form-control-error>
+            </div>
+            
+            <div class="field">
+                <label class="form-label">Zygosity</label>
+                <onconova-concept-selector 
+                    formControlName="zygosity"
+                    terminology="Zygosity"
+                    [showSynonyms]="true"/>
+                <onconova-form-control-error controlName="zygosity"></onconova-form-control-error>
+            </div>
+            
+            <div class="field flex flex-column">
+                <label class="form-label">Inheritance type</label>
+                <onconova-concept-selector 
+                    formControlName="inheritance"
+                    terminology="VariantInheritance"
+                    widget="selectbutton"
+                    [showSynonyms]="true"/>
+                <onconova-form-control-error controlName="inheritance"></onconova-form-control-error>
+            </div>
+
+            <div class="field">
+                <label class="form-label">ClinVar Identifier</label>
+                <input type="text" 
+                    pInputText 
+                    formControlName="clinvar" 
+                    placeholder="Enter a value, e.g. VCV000016613.35"
+                    />     
+                <small class="help-text">Accession number in the ClinVar variant database, for cross-reference.</small>
+                <onconova-form-control-error controlName="clinvar"></onconova-form-control-error>
+            </div>
+        </p-fieldset>
+
+
+        <p-button 
+            type="submit" 
+            label="Save" 
+            styleClass="w-full p-3 mt-2"  
+            [loading]="isSaving()"
+            [disabled]="form.invalid" />
+            
+    </form>
+</p-fluid>

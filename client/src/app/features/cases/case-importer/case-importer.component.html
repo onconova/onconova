@@ -1,0 +1,189 @@
+
+<h2 class="mb-0 font-semibold">Import Case Bundle</h2>
+<div class="text-muted w-50rem mb-4">
+    Import cases quickly and easily with our intuitive interface. Simply select the file you want to import,
+    choose your options, and let the system do the rest. Track the progress of your import and get notified when it's complete.
+</div>
+
+
+<div class="onconova-case-importer card flex py-4 header" style="background: var(--p-content-background); color: var(--p-text-color)">
+    <p-stepper [value]="1" [linear]="true">
+        <p-step-item [value]="1">
+            <p-step><span class="text-lg font-semibold">Select the data format</span></p-step>
+            <p-step-panel>
+                <ng-template #content let-activateCallback="activateCallback">
+                    <div class="flex flex-col h-48">
+                        <div class="flex flex-column gap-2">
+                            <h6 class="text-muted font-semibold mb-1">Onconova JSON Format</h6> 
+                            <p>
+                                Select this option if you have a file in the Onconova JSON format. This format is specific to our system and is used for
+                                 storing and processing cases. If you've exported cases from the platform previously, they'll be in Onconova JSON format. You can
+                                import these files directly into the platform without needing to convert them.
+                            </p>
+                            <!-- <h6 class="text-muted font-semibold my-1">FHIR JSON Format</h6> 
+                            <p>
+                                Select this option if you have a file in FHIR (Fast Healthcare Interoperability Resources) JSON format. 
+                                FHIR is a standardized format for exchanging healthcare data, and using this format ensures that your data is compatible 
+                                with other healthcare systems. If you're importing data from another healthcare system or application, it's likely in FHIR
+                                JSON format.
+                            </p> -->
+                            <label class="field-label required">Choose a data format</label>
+                            <p-selectbutton 
+                                [options]="importOptions" 
+                                [(ngModel)]="importFormat" 
+                                optionLabel="label" 
+                                optionValue="value" 
+                                aria-labelledby="basic" />
+                        </div>
+                    </div>
+                    <div class="py-4">
+                        <p-button label="Next" [disabled]="!importFormat" styleClass="w-15rem" (onClick)="activateCallback(2)" />
+                    </div>
+                </ng-template>
+            </p-step-panel>
+        </p-step-item>
+
+        <p-step-item [value]="2">
+            <p-step><span class="text-lg font-semibold">Upload the bundle</span></p-step>
+            <p-step-panel>
+                <ng-template #content let-activateCallback="activateCallback">
+                    <div class="flex flex-column gap-2">
+                        <label class="field-label required">Select the file to be imported</label>
+                        <div class="flex">
+                            <p-button [label]="importFormat=='onconova+json' ? 'Load Onconova JSON' : 'Load FHIR JSON'" icon="pi pi-upload" [loading]="uploadedLoading" (click)="fileInput.click()"/>
+                            <input type="file"
+                                accept="application/json"
+                                #fileInput
+                                style="display: none"
+                                (change)="onFileChange($event)"/>
+                            <div class="ml-2 my-auto">
+                                @if (uploadedFile) {
+                                    <span class="text-monospace">
+                                        <i class="pi pi-file mr-2"></i>{{uploadedFile.name}}
+                                    </span>
+                                } @else {
+                                    <span>No file chosen</span>
+                                }                                
+                            </div>    
+                        </div>
+                    </div>
+                    <div class="flex pt-4 gap-2">
+                        <p-button label="Back" severity="secondary" icon="pi pi-arrow-left" (onClick)="activateCallback(1)" />
+                        <p-button label="Next" styleClass="w-15rem" [disabled]="!bundle || uploadedLoading" (onClick)="activateCallback(3)" />
+                    </div>
+                </ng-template>
+            </p-step-panel>
+        </p-step-item>
+
+        <p-step-item [value]="3">
+            <p-step><span class="text-lg font-semibold">Review the data</span></p-step>
+            <p-step-panel>
+                <ng-template #content let-activateCallback="activateCallback">
+                    
+                    @if (conflictingBundle) {
+                        <p-message styleClass="my-3" severity="warn" icon="pi pi-exclamation-triangle">
+                            The uploaded case bundle conflicts with an existing case. Please review the differences and choose a resolution to proceed.
+                        </p-message>
+                    }
+
+                    <h6 class="text-muted font-semibold my-1">
+                        Verify the Accuracy of the Case Bundle
+                    </h6> 
+                    <div>
+                        In this step, carefully review the data in your uploaded case bundle to ensure it is accurate and complete. 
+                        This is an important step to prevent errors and inconsistencies that may impact the outcome of your case.
+                    </div>
+
+                    <div class="flex flex-col h-48">
+                        @if (bundle) {
+                            <div>
+                                <p-tabs value="uploaded-bundle">
+                                    <p-tablist>
+                                        <p-tab value="uploaded-bundle">Uploaded Case</p-tab>
+                                        @if (conflictingBundle) {
+                                            <p-tab value="conflict-bundle"><i class="pi pi-exclamation-triangle"></i> Conflicting Case</p-tab>
+                                        }
+                                        <p-tab value="uploaded-json" >JSON Upload</p-tab>
+                                        <p-tab value="uploaded-raw" >Raw Upload</p-tab>
+                                    </p-tablist>
+                                    <p-tabpanels>
+                                        <p-tabpanel value="uploaded-bundle">
+                                            <onconova-case-importer-bundle-viewer [bundle]="bundle"/>
+                                        </p-tabpanel>
+                                        @if (conflictingBundle) {
+                                            <p-tabpanel value="conflict-bundle">
+                                                <onconova-case-importer-bundle-viewer [bundle]="conflictingBundle"/>
+                                            </p-tabpanel>
+                                        }
+                                        <p-tabpanel value="uploaded-json">
+                                            <ngx-json-viewer [json]="bundle" [expanded]="false"></ngx-json-viewer>
+                                        </p-tabpanel>
+                                        <p-tabpanel value="uploaded-raw">
+                                            <pre> {{ bundle | json }} </pre>
+                                        </p-tabpanel>
+                                    </p-tabpanels>
+                                </p-tabs>
+                            </div>
+                        }
+                    </div>
+
+                    @if (conflictingBundle) {
+                        <div>
+                            <div class="my-3">
+                                <label class="field-label required">Select a conflict resolution method</label>
+                                <div class="flex items-center gap-2 mt-3">
+                                    <p-radiobutton [(ngModel)]="conflictResolution" value="overwrite"/>
+                                    <label>Overwrite</label>
+                                </div>
+                                <div class="text-muted ml-4">
+                                    Overwrite existing case with uploaded case bundle
+                                </div>
+                                <div class="flex items-center gap-2 mt-3">
+                                    <p-radiobutton [(ngModel)]="conflictResolution" value="reassign"/>
+                                    <label>Re-assign</label>
+                                </div>
+                                <div class="text-muted ml-4">
+                                    Import uploaded bundle and assign a new case pseudoidentifier
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    <div class="flex pt-4 justify-start gap-2">
+                        <p-button label="Back" severity="secondary" icon="pi pi-arrow-left" (onClick)="activateCallback(2)" />
+                        <p-button label="Next" styleClass="w-15rem" [disabled]="conflictingBundle && !conflictResolution"  (onClick)="activateCallback(4)" />
+                    </div>
+                </ng-template>
+            </p-step-panel>
+        </p-step-item>
+
+        <p-step-item [value]="4">
+            <p-step><span class="text-lg font-semibold">Import the case</span></p-step>
+            <p-step-panel>
+                <ng-template #content let-activateCallback="activateCallback">
+                    <div class="flex flex-column" style="max-width:55rem">
+                        <div class="flex">
+                            <div [inlineSVG]="consentIllustration" class="consent-illustration"></div>
+                            <div class="flex flex-column my-auto">
+                                <p>Have you checked for consent/permission?</p>
+                                <small class="text-muted">
+                                A patient's case may only be included in Onconova if the patient has provided explicit informed consent 
+                                (e.g., through a signed general consent) or if the managing researcher has obtained authorization from the appropriate regulatory 
+                                or ethics governance bodies to access and utilize the data in accordance with applicable legal and ethical standards.</small>
+                            </div>
+                        </div>
+                        <div class="field flex mt-3">
+                            <p-toggleswitch [(ngModel)]="consentValid" />
+                            <label class="form-label ml-2 my-auto required">I hereby confirm that I have the legal and ethical authorization to access and utilize this patient’s clinical data for research purposes in compliance with all applicable laws, regulations, and institutional policies.</label>
+                        </div>
+                    </div>
+                    <div class="flex pt-4 justify-start gap-2">
+                        <p-button label="Back" severity="secondary" icon="pi pi-arrow-left" (onClick)="activateCallback(3)" />
+                        <p-button label="Import case" styleClass="w-15rem" [disabled]="!consentValid || importLoading"  icon="pi pi-cloud-upload" iconPos="right" (onClick)="onImportBundle()"/>
+                    </div>
+                </ng-template>
+            </p-step-panel>
+        </p-step-item>
+        
+    </p-stepper>
+</div>

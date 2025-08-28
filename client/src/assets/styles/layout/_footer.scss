@@ -1,0 +1,23 @@
+@use '_variables.scss' as vars; 
+
+.layout-footer {
+    transition: margin-left 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 1rem;
+    border-top: 1px solid var(--p-content-border-color);
+    text-align: center;
+}
+
+.footer-info {
+    display: flex;
+    align-items: center;
+    margin-top: .5rem;
+}
+
+.footer-copyright {
+    font-size: 0.875rem;
+    color: var(--p-text-muted-color);
+}

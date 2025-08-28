@@ -1,4 +1,4 @@
-name: pop-dev
+name: onconova-dev
 services:
     server:
         container_name: "${COMPOSE_PROJECT_NAME}-server"
@@ -8,7 +8,7 @@ services:
         build:
           target: development     
         volumes:
-          - ./pop-server:/app/src
+          - ./server:/app/src
 
     client:
         container_name: "${COMPOSE_PROJECT_NAME}-client"
@@ -18,9 +18,9 @@ services:
         build:
           target: development
         volumes:
-          - ./pop-client/src/app:/app/src/app
-          - ./pop-client/src/assets:/app/src/assets
-          - ${POP_CLIENT_PLUGINS_PATH:-./pop-client/src/plugins}:/app/src/plugins
+          - ./client/src/app:/app/src/app
+          - ./client/src/assets:/app/src/assets
+          - ${ONCONOVA_CLIENT_PLUGINS_PATH:-./client/src/plugins}:/app/src/plugins
 
     docs:
         container_name: "${COMPOSE_PROJECT_NAME}-docs"
@@ -30,8 +30,8 @@ services:
         build:
           target: development
         volumes:
-          - ./pop-docs:/app/src		
-          - ./pop-server:/app/server		
+          - ./docs:/app/src		
+          - ./server:/app/server		
 
     reverse-proxy:
         image: nginx:1.23        

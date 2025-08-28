@@ -1,0 +1,34 @@
+{
+    "resourceType": "ValueSet",
+    "url": "https://simplifier.net/onconova/ValueSets/onconova-tnm-lymphatic-invasion-category",
+    "id": "onconova-tnm-lymphatic-invasion-category",
+    "title": "TNM Lymphatic Invasion Category Value Set",
+    "status": "draft",
+    "compose": {
+        "include": [
+            {
+                "system": "http://snomed.info/sct",
+                "version": "http://snomed.info/sct/900000000000207008/version/20240301",
+                "concept": [
+                    {
+                        "code": "44649003",
+                        "display": "L0 stage"
+                    },
+                    {
+                        "code": "74139005",
+                        "display": "L1 stage"
+                    },
+                    {
+                        "code": "72632003",
+                        "display": "L2 stage"
+                    },
+                    {
+                        "code": "33419001",
+                        "display": "LX stage"
+                    }
+                ]
+            }
+        ]
+    },
+    "name": "TNM Lymphatic Invasion Category Value Set"
+}

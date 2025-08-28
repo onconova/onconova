@@ -1,0 +1,70 @@
+<p-fluid>
+    <form  [formGroup]="form" (ngSubmit)="submitFormData()">
+
+        <div class="field">
+            <label for="date" class="form-label required">Date of the risk assessment</label>
+            <onconova-datepicker 
+                formControlName="date"
+            />
+            <onconova-form-control-error controlName="date"></onconova-form-control-error>
+        </div>
+        
+        <div class="field">
+            <label class="form-label required">Neoplastic entities assessed</label>
+            <onconova-multi-reference-select 
+            [options]="relatedEntities.value() || []" 
+            formControlName="assessedEntities"/>
+            <onconova-form-control-error controlName="assessedEntities"></onconova-form-control-error>
+        </div>
+
+
+        <div class="field">
+            <label class="form-label required">Methodology</label>
+            <onconova-concept-selector 
+                terminology="CancerRiskAssessmentMethod"
+                [showSynonyms]="false"
+                formControlName="methodology"/>
+            <onconova-form-control-error controlName="methodology"></onconova-form-control-error>
+        </div>
+
+        <div class="field flex flex-column">
+            <label class="form-label required">Risk</label>
+            @if (form.controls.methodology.value) {
+                <div class="flex flex-column gap-2">
+                    @for (classification of riskClassifications.value(); track classification.code;) {
+                    <div class="field-checkbox">
+                        <p-radiobutton [inputId]="classification.code" [value]="classification"  formControlName="risk" />
+                        <label [for]="classification.code" class="ml-2">{{ classification.display }}</label>
+                        <onconova-form-control-error controlName="risk"></onconova-form-control-error>
+                    </div>
+                    }
+                </div>
+                <onconova-form-control-error controlName="risk"></onconova-form-control-error>
+            } @else {
+                <div class="text-muted">Select a risk assessment methodology first</div>
+            }
+        </div>
+
+        <div class="field">
+            <label class="form-label">Score</label>
+            <p-inputnumber 
+            formControlName="score"
+            placeholder="Enter value" 
+            useGrouping="false"
+            mode="decimal"
+            [minFractionDigits]="1"
+            [maxFractionDigits]="3"
+            locale="en-US"/>
+            <div class="mt-2 text-small text-muted">The numerical score used for the classification, if relevant for the methodology and/or available.</div>
+            <onconova-form-control-error controlName="score"></onconova-form-control-error>
+        </div>
+
+        <p-button 
+            type="submit" 
+            label="Save" 
+            styleClass="w-full p-3 mt-2"  
+            [loading]="isSaving()"
+            [disabled]="form.invalid" />
+            
+    </form>
+</p-fluid>

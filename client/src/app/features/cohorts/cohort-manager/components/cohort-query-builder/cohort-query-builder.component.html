@@ -1,0 +1,309 @@
+<div>
+    @if (allowCollapse) {
+      <a (click)="toggleCollapse()"
+         [ngClass]="['q-arrow-icon-button', data.collapsed ? 'q-collapsed' : '']">
+         <i class="q-icon pi pi-angle-right"></i>
+      </a>
+    }
+  
+      <!-- Ruleset button group -->
+    <div class="q-button-group q-right-align">
+      <div class="flex">
+        <p-buttongroup class="mr-3">
+            <p-button label="Rule" icon="pi pi-plus" styleClass="q-rule-add-button" severity="secondary" (click)="addRule()" [disabled]="disabled" title="Add new rule to the ruleset"/>
+            @if (allowRuleset) {
+              <p-button label="Ruleset" icon="pi pi-folder-plus" styleClass="q-ruleset-add-button" severity="secondary" (click)="addRuleSet()" [disabled]="disabled" title="Add new sub-ruleset to the ruleset"/>
+              <p-button label="Ruleset" icon="pi pi-trash" styleClass="q-ruleset-remove-button" severity="secondary" (click)="removeRuleSet()" [disabled]="disabled" title="Delete the ruleset"/>
+            }
+        </p-buttongroup>
+      </div>
+    </div>
+  
+    <!-- Ruleset chain condition -->
+    @if (data.rules && data.rules.length > 0) {
+      <p-select 
+      styleClass="q-condition-select"
+      [options]="[{label: 'All of the following are correct', value: 'and'}, {label: 'One of the following are correct', value: 'or'}]" 
+      [disabled]="disabled"
+      (ngModelChange)="changeCondition($event)"
+      [(ngModel)]="data.condition"/>      
+    }
+
+  </div>
+  
+  <!-- Query tree -->
+  <div #treeContainer (transitionend)="transitionEnd($event)" [ngClass]="['q-tree-container', data.collapsed ? 'q-collapsed' : '']">
+    @if (data && data.rules.length === 0) {
+      <div class="q-empty-ruleset-message text-muted">
+        No rules defined
+      </div>
+    }
+    @if (data && data.rules) {
+      <ul class="q-tree">
+        @for (rule of data.rules; track $index; let i = $index; let last = $last) {
+            @if ({
+              ruleset: !!rule.rules,
+              invalid: !config.allowEmptyRulesets && rule.rules && rule.rules.length === 0
+            }; as local) {
+              <li [ngClass]="['flex', 'q-row', 'q-connector', 'q-transition', local.ruleset ? 'q-ruleset' : 'q-rule', local.invalid ? 'q-invalid-ruleSet' : '']">
+                <div class="q-logic-connector">{{ data.condition}}</div>
+                @if (!local.ruleset) {
+                  <!-- Rule button group -->
+                  <div class="q-button-group q-right-align">
+                    <div class="rule-filter-button-group">
+                        <p-button 
+                            icon="pi pi-plus" 
+                            [rounded]="true" 
+                            [text]="true" 
+                            [disabled]="disabled"
+                            severity="secondary" 
+                            styleClass="q-rule-filter-add-button"
+                            (click)="addRuleFilter(rule)"/>     
+                        <p-button 
+                            icon="pi pi-trash" 
+                            [rounded]="true" 
+                            [text]="true" 
+                            [disabled]="disabled"
+                            severity="secondary" 
+                            styleClass="q-rule-filter-remove-button"
+                            (click)="removeRule(rule, data)"/>
+                    </div>
+                  </div>
+                  
+                  <!-- Entity selector -->
+                  <div class="q-inline-block-display">
+                    <p-select 
+                        [options]="entities" 
+                        [(ngModel)]="rule.entity" 
+                        (ngModelChange)="changeEntity($event, rule, i, data)"
+                        [filter]="true" 
+                        filterBy="name" 
+                        [disabled]="disabled"
+                        styleClass="q-entity-select"
+                        placeholder="Select an entity" 
+                        optionValue="value" 
+                        optionLabel="name" 
+                        appendTo="body"/>
+                  </div>
+        
+                  <ul class="q-filters-container my-auto flex flex-column gap-2">
+                    @for (filter of rule.filters; track $index;) {
+                      @let field = config.fields[filter.field];
+                      @if (field) {
+                        <li class="flex flex-wrap gap-3 ml-0 ">          
+                          <!-- Filter field selector -->
+                          <p-select 
+                            [options]="getFields(rule.entity)" 
+                            [(ngModel)]="filter.field" 
+                            (onChange)="filter.value = null;"
+                            (ngModelChange)="changeField($event, filter)"
+                            [filter]="true" 
+                            filterBy="name" 
+                            [disabled]="disabled"
+                            styleClass="q-field-select"
+                            placeholder="Select a field" 
+                            optionValue="value" 
+                            optionLabel="name" 
+                            appendTo="body"/>
+                          <!-- Tooltip for field description -->
+                          @if (field.description) {
+                            <p-avatar icon="pi pi-question" 
+                              shape="circle" 
+                              class="q-filters-description-icon"
+                              [pTooltip]="field.description" 
+                              [tooltipOptions]="{tooltipStyleClass: 'q-field-description-tooltip'}" 
+                              tooltipPosition="right"/>
+                          }
+    
+                          <!-- Filter operator selector -->
+                          <p-select 
+                            [options]="field.operators | mapOperators" 
+                            [(ngModel)]="filter.operator" 
+                            [filter]="true" 
+                            filterBy="name" 
+                            (onChange)="filter.value = null;"
+                            (ngModelChange)="changeOperator(filter)"
+                            [disabled]="disabled"
+                            styleClass="q-operator-select"
+                            placeholder="Select a filter" 
+                            optionValue="value" 
+                            optionLabel="name"  
+                            appendTo="body"/>
+                          
+                          <div class="q-rule-value-container">
+                            <!-- Filter value input -->
+                            @if (['IsNullFilter'].includes(filter.operator)) {
+                              <p-selectbutton 
+                                [options]="[{label: 'Yes', value: true}, {label: 'No', value: false}]" 
+                                [(ngModel)]="filter.value" 
+                                (ngModelChange)="changeInput()"
+                                [allowEmpty]="false"
+                                [disabled]="disabled"/>
+                            } @else {
+                              @switch (field.type) {
+                                @case ('string') {
+                                  <input 
+                                    type="text" 
+                                    pInputText 
+                                    [(ngModel)]="filter.value" 
+                                    (ngModelChange)="changeInput()"
+                                    [disabled]="disabled"
+                                    placeholder="Enter a query"/>
+                                }
+                                @case ('Multistring') {
+                                  <input 
+                                    type="text" 
+                                    pInputText 
+                                    [(ngModel)]="filter.value" 
+                                    (ngModelChange)="changeInput()"
+                                    [disabled]="disabled"
+                                    placeholder="Enter a query"/>
+                                }
+                                @case('Range') {                                  
+                                  <onconova-range-input
+                                      [(ngModel)]="filter.value"
+                                      (ngModelChange)="changeInput()"
+                                      [disabled]="disabled"/>
+                                }
+                                @case ('Period') {
+                                  <onconova-datepicker 
+                                    [(ngModel)]="filter.value"
+                                    (ngModelChange)="changeInput()"
+                                    [disabled]="disabled"
+                                    selectionMode="range"
+                                    placeholder="DD/MM/YYYY - DD/MM/YYYY"/>
+                                }
+                                @case ('date') {
+                                  <onconova-datepicker 
+                                    [disabled]="disabled"
+                                    [(ngModel)]="filter.value"
+                                    (ngModelChange)="changeInput()"/>
+                                }
+                                @case ('Measure') {
+                                  <onconova-measure-input
+                                    [(ngModel)]="filter.value" 
+                                    (ngModelChange)="changeInput()"
+                                    [disabled]="disabled" 
+                                    [measure]="field.measureType || ''"
+                                    [defaultUnit]="field.defaultUnit || ''"/>
+                                }
+                                @case ('boolean') {
+                                  <p-selectbutton 
+                                    [options]="[{label: 'Yes', value: true}, {label: 'No', value: false}]" 
+                                    [(ngModel)]="filter.value" 
+                                    (ngModelChange)="changeInput()"
+                                    [allowEmpty]="false"
+                                    [disabled]="disabled"/>
+                                }
+                                @case ('enum') {
+                                  @if (['AnyOfEnumFilter', 'NotAnyOfEnumFilter'].includes(filter.operator)) {
+                                      <p-multiselect 
+                                          [options]="field.options" 
+                                          [(ngModel)]="filter.value" 
+                                          (ngModelChange)="changeInput()"
+                                          [disabled]="disabled" 
+                                          optionLabel="value" 
+                                          optionValue="value"
+                                          placeholder="Select one or more options" 
+                                          display="chip"
+                                          appendTo="body"/>
+                                  } @else {
+                                      <p-select 
+                                          [options]="field.options" 
+                                          [(ngModel)]="filter.value"
+                                          (ngModelChange)="changeInput()"
+                                          [disabled]="disabled" 
+                                          optionLabel="value"
+                                          optionValue="value"
+                                          placeholder="Select an option" 
+                                          appendTo="body"/>
+                                  }
+                                }
+                                @case ('CodedConcept') {
+                                  <onconova-concept-selector 
+                                    [(ngModel)]="filter.value" 
+                                    (ngModelChange)="changeInput()"
+                                    [terminology]="field.terminology || ''"
+                                    [returnCode]="true"
+                                    [disabled]="disabled"
+                                    [multiple]="['AnyOfConceptFilter', 'NotAnyOfConceptFilter'].includes(filter.operator)"
+                                    [showSynonyms]="false"/>
+                                }
+                                @case ('MultiCodedConcept') {
+                                  <onconova-concept-selector 
+                                    [(ngModel)]="filter.value" 
+                                    (ngModelChange)="changeInput()"
+                                    [terminology]="field.terminology || ''"
+                                    [returnCode]="true"
+                                    [disabled]="disabled"
+                                    [multiple]="true"
+                                    [showSynonyms]="false"/>
+                                }
+                                @case ('number') {
+                                  @let requiresRange = ['NotBetweenFloatFilter', 'BetweenFloatFilter'].includes(filter.operator);
+                                  @if (requiresRange) {
+                                      <onconova-range-input
+                                          [(ngModel)]="filter.value"
+                                          (ngModelChange)="changeInput()"
+                                          [disabled]="disabled"/>
+                                  } @else {
+                                      <p-inputnumber 
+                                          [(ngModel)]="filter.value" 
+                                          (ngModelChange)="changeInput()"
+                                          [disabled]="disabled"
+                                          placeholder="Enter a value" 
+                                          useGrouping="false" 
+                                          mode="decimal" 
+                                          [minFractionDigits]="1" 
+                                          [maxFractionDigits]="3" 
+                                          locale="en-US"/>
+                                  }    
+                                }
+                                @case ('integer') {
+                                  @let requiresRange = ['NotBetweenIntegerFilter', 'BetweenIntegerFilter'].includes(filter.operator);
+                                  @if (requiresRange) {
+                                      <onconova-range-input
+                                          [(ngModel)]="filter.value"
+                                          (ngModelChange)="changeInput()"
+                                          [disabled]="disabled"/>
+                                  } @else {
+                                      <p-inputnumber 
+                                          [(ngModel)]="filter.value" 
+                                          (ngModelChange)="changeInput()"
+                                          [disabled]="disabled"
+                                          placeholder="Enter a value" 
+                                          useGrouping="false"/>
+                                  }    
+                                }
+                            }
+                            }
+                        </div>
+                        </li>                        
+                      }
+                  }
+                </ul>
+  
+                  
+                } @else {
+                  <onconova-cohort-query-builder
+                    [data]="rule"
+                    [disabled]="disabled"
+                    [parentTouchedCallback]="parentTouchedCallback || onTouchedCallback"
+                    [parentChangeCallback]="parentChangeCallback || onChangeCallback"
+                    [parentValue]="data"
+                    [allowRuleset]="allowRuleset"
+                    [allowCollapse]="allowCollapse"
+                    [emptyMessage]="emptyMessage"/>
+                }
+              </li>
+              @if (local.invalid) {
+                <div>
+                  <p-message [text]="emptyMessage" severity="error"/>
+                </div>
+              }
+            }
+        }
+      </ul>
+    }
+  </div>
+  

@@ -1,0 +1,83 @@
+<p-fluid>
+    <form  [formGroup]="form" (ngSubmit)="submitFormData()">
+
+
+
+        <div class="field">
+            <label class="form-label required">Title</label>
+            <input pInputText placeholder="Enter a title" formControlName="title" />
+            <onconova-form-control-error controlName="title"></onconova-form-control-error>
+        </div>
+
+        <div class="field">
+            <label class="form-label required">Project summary</label>
+            <textarea rows="5" cols="30" pTextarea formControlName="summary" placeholder="Enter a brief summary of the project"></textarea>
+            <onconova-form-control-error controlName="summary"></onconova-form-control-error>
+        </div>
+        
+        <div class="field">
+            <label class="form-label required">Ethics approval number</label>
+            <input pInputText placeholder="Enter a value" formControlName="ethicsApprovalNumber" />
+            <onconova-form-control-error controlName="ethicsApprovalNumber"></onconova-form-control-error>
+
+            <div><small class="text-muted">The number provided by the ethics committee approving the execution project</small></div>
+        </div>
+
+        <div class="field">
+            <label class="form-label required">Clinical center(s) involved</label>
+            <p-autocomplete 
+                placeholder="Select or enter one or more centers" 
+                formControlName="clinicalCenters"  
+                [multiple]="true"
+                [unique]="true"
+                [dropdown]="true"
+                [typeahead]="false" 
+                [suggestions]="clinicalCenters.value() || []" 
+                appendTo="body"
+                [completeOnFocus]="true"
+                (completeMethod)="clinicalCenterQuery.set($event.query); clinicalCenters.reload()" />
+            <div><small class="text-muted">All the clinical centers that are or will be involved in the project.</small></div>
+            <onconova-form-control-error controlName="clinicalCenters"></onconova-form-control-error>
+        </div>
+
+        <div class="field">
+            <label class="form-label required">Project leader</label>
+            <onconova-user-selector 
+                formControlName="leader" 
+                [multiple]="false" 
+                placeholder="Select a user"/>
+            <div><small class="text-muted">The clinician responsible for the project. Must be a user with access level of at least <i>Project Manager</i>.</small></div>
+            <onconova-form-control-error controlName="leader"></onconova-form-control-error>
+        </div>
+
+        <div class="field">
+            <label class="form-label required">Member(s)</label>
+            <onconova-user-selector 
+                formControlName="members" 
+                [multiple]="true" 
+                placeholder="Select one or more users"/>
+            <div><small class="text-muted">Any project members that will be involved in the project and will have access to the project data. The member must at least have logged in once in the platform to be visible.</small></div>
+            <onconova-form-control-error controlName="members"></onconova-form-control-error>
+
+        </div>
+
+        <div class="field">
+            <label class="form-label required">Status</label>
+            <onconova-radio-select
+                formControlName="status"
+                [choices]="statusChoices"
+                class="flex flex-wrap gap-4"
+            />
+            <onconova-form-control-error controlName="status"></onconova-form-control-error>
+        </div>
+
+
+        <p-button 
+            type="submit" 
+            label="Save" 
+            styleClass="w-full p-3 mt-2"  
+            [loading]="isSaving()"
+            [disabled]="form.invalid" />
+            
+    </form>
+</p-fluid>

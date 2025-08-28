@@ -1,0 +1,26 @@
+{
+    "resourceType": "ValueSet",
+    "url": "https://simplifier.net/onconova/ValueSets/onconova-tnm-grade-category",
+    "id": "onconova-tnm-grade-category",
+    "title": "TNM Grade Category Value Set",
+    "status": "draft",
+    "compose": {
+        "include": [
+            {
+                "system": "http://snomed.info/sct",
+                "concept": [
+                    {"code": "1228848004"},
+                    {"code": "1228850007"},
+                    {"code": "1228851006"},
+                    {"code": "1228852004"},
+                    {"code": "1259951003"},
+                    {"code": "1228847009"},
+                    {"code": "1228845001"},
+                    {"code": "1228854003"},
+                    {"code": "1228853009"}
+                ]
+            }
+        ]
+    },
+    "name": "TNM Grade Category Value Set"
+}

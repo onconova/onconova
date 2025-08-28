@@ -1,0 +1,64 @@
+<p-fluid>
+    <form  [formGroup]="form" (ngSubmit)="submitFormData()">
+
+        <div class="field">
+            <label for="date" class="form-label required">Date</label>
+            <onconova-datepicker 
+                formControlName="date"
+            />
+            <onconova-form-control-error controlName="date"></onconova-form-control-error>
+        </div>
+
+        <div class="field">
+            <label class="form-label">Height</label>
+            <onconova-measure-input 
+                formControlName="height"
+                measure="Distance"
+                defaultUnit="m"/>
+            <onconova-form-control-error controlName="height"></onconova-form-control-error>
+        </div>
+
+        <div class="field">
+            <label class="form-label">Weight</label>
+            <onconova-measure-input 
+                formControlName="weight"
+                measure="Mass"
+                defaultUnit="kg"/>
+            <onconova-form-control-error controlName="weight"></onconova-form-control-error>
+        </div>
+
+        <div class="field">
+            <label class="form-label">Systolic blood pressure</label>
+            <onconova-measure-input 
+                formControlName="bloodPressureSystolic"
+                measure="Pressure"/>
+            <onconova-form-control-error controlName="bloodPressureSystolic"></onconova-form-control-error>
+        </div>
+
+        <div class="field">
+            <label class="form-label">Diastolic blood pressure</label>
+            <onconova-measure-input 
+                formControlName="bloodPressureDiastolic"
+                measure="Pressure"
+                defaultUnit="mmHg"/>
+            <onconova-form-control-error controlName="bloodPressureDiastolic"></onconova-form-control-error>
+        </div>
+
+        <div class="field">
+            <label class="form-label">Temperature</label>
+            <onconova-measure-input 
+                formControlName="temperature"
+                measure="Temperature"
+                defaultUnit="celsius"/>
+            <onconova-form-control-error controlName="temperature"></onconova-form-control-error>
+        </div>
+
+        <p-button 
+            type="submit" 
+            label="Save" 
+            styleClass="w-full p-3 mt-2"  
+            [loading]="isSaving()"
+            [disabled]="form.invalid" />
+            
+    </form>
+</p-fluid>

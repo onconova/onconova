@@ -1,0 +1,79 @@
+{
+    "resourceType": "ValueSet",
+    "id": "onconova-cancer-risk-assessment-methods",
+    "url": "https://simplifier.net/onconova/ValueSets/onconova-cancer-risk-assessment-methods",
+    "version": "0.0.1",
+    "title": "Cancer Risk Assessment Methods",
+    "status": "draft",
+    "compose": {
+        "include": [
+            {
+                "system": "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+                "concept": [
+                    {
+                        "code": "C136962",
+                        "display": "Follicular Lymphoma International Prognostic Index (FLIPI)"
+                    },
+                    {
+                        "code": "C181086",
+                        "display": "D'Amico Prostate Cancer Risk Classification"
+                    },
+                    {
+                        "code": "C127872",
+                        "display": "European Treatment Outcome Study (EUTOS) Score"
+                    },
+                    {
+                        "code": "C127873",
+                        "display": "Hasford Score"
+                    },
+                    {
+                        "code": "C127875",
+                        "display": "Sokal Score"
+                    },
+                    {
+                        "code": "C155843",
+                        "display": "International Metastatic Renal Cell Carcinoma Database Consortium (IMDC) Criteria"
+                    },
+                    {
+                        "code": "C161805",
+                        "display": "International Prognostic Index (IPI) Risk Group"
+                    },
+                    {
+                        "code": "C177562",
+                        "display": "European LeukemiaNet Risk Classification"
+                    },
+                    {
+                        "code": "C121007",
+                        "display": "Child-Pugh Clinical Classification"
+                    },
+                    {
+                        "code": "C181085",
+                        "display": "USCF Cancer of the Prostate Risk Assessment Score"
+                    },
+                    {
+                        "code": "C162781",
+                        "display": "Mantle Cell Lymphoma International Prognostic Index (MIPI)"
+                    },
+                    {
+                        "code": "C181084",
+                        "display": "NCCN Prostate Cancer Risk Stratification for Clinically Localized Disease"
+                    },
+                    {
+                        "code": "C177309",
+                        "display": "Seminoma IGCCC Risk Classification"
+                    },
+                    {
+                        "code": "C177308",
+                        "display": "Non-Seminomatous Germ Cell Tumor IGCCC Risk Classification"
+                    },
+                    {
+                        "code": "C142346",
+                        "display": "International Society of Urological Pathology Gleason Grade Group"
+                    }
+                ],
+                "version": "24.06d"
+            }
+        ]
+    },
+    "name": "RiskAssessmentMethods"
+}

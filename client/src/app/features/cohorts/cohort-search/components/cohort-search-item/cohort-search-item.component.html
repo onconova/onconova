@@ -1,0 +1,180 @@
+
+@if (layout() === 'card') {
+    <div class="onconova-cohort-search-item-card shadow-1">
+        
+        <div class="flex gap-3 mb-2">
+            <!-- Population counter -->
+            <div class="flex flex-column">
+                <small class="text-muted mb-1">Population</small>
+                <div class="flex gap-1">
+                    <lucide-angular class="cohort-search-item-icon" [img]="populationIcon"></lucide-angular>
+                    {{ cohort().population }}               
+                </div>
+            </div>
+
+            <!-- Cohort title -->
+            <div class="flex flex-column">
+                <small class="text-muted mb-1">Cohort</small>
+                <div class="cohort-search-item-title">{{ cohort().name }}</div>
+            </div>
+        </div>
+
+
+        <div class="flex gap-3 mb-2">
+            <!-- Predominant site -->
+            <div class="flex flex-column">
+                <small class="text-muted mb-1">Predominant neoplastic topography</small>
+                <ng-template [ngTemplateOutlet]="PredominantTopography"></ng-template>
+            </div>
+
+            <!-- Cohort age stats -->
+            <div class="flex flex-column">
+                <small class="text-muted mb-1">Median age</small>
+                <ng-template [ngTemplateOutlet]="MedianAge"></ng-template>
+            </div>
+
+            <!-- Data completion stats -->
+            <div class="flex flex-column">
+                <small class="text-muted mb-1">Median completion</small>
+                <ng-template [ngTemplateOutlet]="MedianCompletion"></ng-template>
+            </div>
+        
+        </div>
+
+        <div class="flex gap-3">
+
+            <div class="flex flex-column">
+                <small class="text-muted mb-1">Project</small>
+                 <ng-template [ngTemplateOutlet]="Project"></ng-template>
+            </div>
+
+            <!-- Metadata -->
+            <div class="flex flex-column">
+                <small class="text-muted mb-1">Created</small>
+                <div class="flex my-auto gap-1">
+                    <div>{{ (cohort().createdAt | date) || '-' }}</div>
+                </div>
+            </div>
+            <div class="flex flex-column">
+                <small class="text-muted mb-1">Last updated</small>
+                <div class="flex my-auto gap-1">
+                    <div>{{ (cohort().updatedAt | date) || '-' }}</div>
+                </div>
+            </div>
+
+
+            <div class="ml-auto my-auto">
+                <ng-template *ngTemplateOutlet="ActionButton; context: {$implicit: 'Open cohort'}"></ng-template>
+            </div>
+        </div>
+    </div>
+
+} @else {
+        <td> 
+            {{cohort().name}} 
+        </td>
+        <td class="text-center">            
+            {{ cohort().population || '-' }}
+        </td>
+        <td>
+             <ng-template [ngTemplateOutlet]="Project"></ng-template>
+        </td>
+        <td>
+            <ng-template [ngTemplateOutlet]="PredominantTopography"></ng-template>
+        </td>
+        <td class="text-center">
+             <ng-template [ngTemplateOutlet]="MedianAge"></ng-template>
+        </td>
+        <td>
+            <ng-template [ngTemplateOutlet]="MedianCompletion"></ng-template>
+        </td>
+        <td class="text-center">
+            {{ (cohort().createdAt | date) || '-' }}
+        </td>
+        <td class="text-center">
+            {{ (cohort().updatedAt | date) || '-' }}
+        </td>
+        <td>
+            <ng-template *ngTemplateOutlet="ActionButton; context: {$implicit: 'Open'}"></ng-template>
+        </td>
+}
+
+<p-confirmdialog />
+
+<ng-template #Project >
+    <div>
+        @if (cohort().projectId) {
+            @let project = cohort().projectId! | resolve  | async;
+            @if (project) {
+                {{ project }}     
+            } @else {
+                <p-skeleton width="6rem" height="1rem"/>
+            }
+        } @else {
+            -
+        }
+    </div>   
+</ng-template>
+
+
+<ng-template #PredominantTopography >
+    <div class="flex my-auto gap-1">
+        @if (cohortTraits.isLoading()) {
+            <p-skeleton width="4rem" height="1rem"/>      
+        } @if (cohortTraits.value()?.neoplasticSites; as neoplasticSites) {
+            @let predominantSite = getPredominantCount(neoplasticSites);
+            <div class="my-auto">
+                <span class="">{{ (predominantSite.percentage | number:'1.0-0') || '-' }}% {{ predominantSite.category }}</span>               
+            </div>    
+        } @else {
+            -
+        }
+    </div>
+</ng-template>
+
+
+<ng-template #MedianAge >
+    <div class="flex my-auto gap-1">
+        @if (cohortTraits.isLoading()) {
+            <p-skeleton width="6rem" height="1rem"/>     
+        } @if (cohortTraits.value()?.age; as age) {
+            <div class="my-auto">
+                <span class="">{{ age.median || '-' }} years</span>               
+            </div>    
+        } @else {
+            -
+        }
+    </div>
+</ng-template>
+
+
+<ng-template #MedianCompletion >
+    <div class="flex my-auto gap-1">
+        @if (cohortTraits.isLoading()) {
+            <p-skeleton width="6rem" height="1rem"/>       
+        } @if (cohortTraits.value()?.dataCompletion; as dataCompletion) {
+            <div class="my-auto">
+                <span class="">{{ dataCompletion.median || '-' }}% complete</span>               
+            </div>    
+        } @else {
+            -
+        }
+    </div>
+</ng-template>
+
+<ng-template #ActionButton let-label>
+    <p-splitbutton
+        [label]="label"
+        class="mt-auto"
+        [menuButtonDisabled]="!currentUserCanEdit()"
+        [dropdownIcon]="currentUserCanEdit() ? 'pi pi-cog' : 'pi pi-lock'" 
+        [model]="actionItems"
+        (onClick)="openCohortManagement()" />
+</ng-template>
+
+
+<p-confirmdialog key="exportConfirmation" maskStyleClass="confirmdialog">     
+    <ng-template #headless let-onAccept="onAccept" let-onReject="onReject">
+        <onconova-export-confirm-dialog [onAccept]="onAccept" [onReject]="onReject"></onconova-export-confirm-dialog>     
+    </ng-template>
+</p-confirmdialog>
