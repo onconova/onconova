@@ -896,9 +896,6 @@ def fake_complete_case():
         for _ in range(random.randint(1, 2)):
             LossOfHeterozygosityFactory.create(**basic, date=during_cancer_treatment())
         FamilyHistoryFactory.create(**basic, date=during_cancer_treatment())
-        RiskAssessmentFactory.create(
-            **basic, assessed_entities=conditions, date=during_cancer_treatment()
-        )
         LifestyleFactory.create(**basic)
         ComorbiditiesAssessmentFactory.create(
             **basic, index_condition=primary, date=during_cancer_treatment()

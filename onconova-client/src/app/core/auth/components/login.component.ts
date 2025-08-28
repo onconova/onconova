@@ -37,8 +37,9 @@ import { toSignal } from '@angular/core/rxjs-interop';
 
         <ng-template #inside>
             <div class="text-center mb-5 pb-4">
-                <div class="text-900 text-xl font-medium mb-1">Welcome to the</div>
-                <div class="text-900 text-3xl font-medium mb-2">Precision Oncology Platform</div>
+                <div class="text-900 text-xl font-medium">Welcome to the</div>
+                <div class="onconova-title text-5xl mb-1">Onconova</div>
+                <div class="text-2xl mb-2">Precision Oncology Platform</div>
                 <span class="text-600 font-medium text-muted">Please sign in to continue</span>
             </div>
 

@@ -1,4 +1,4 @@
-Thank you for your interest in contributing to the Precision Oncology Platform (Onconova)! Onconova is an open-source project that relies on collaboration from the community (developers, clinicians, data scientists, and institutions) to improve and extend its capabilities.
+Thank you for your interest in contributing to Onconova! Onconova is an open-source project that relies on collaboration from the community (developers, clinicians, data scientists, and institutions) to improve and extend its capabilities.
 
 This guide explains how you can propose changes, what types of contributions are welcome, and the processes in place to ensure quality, security, and maintainability.
 

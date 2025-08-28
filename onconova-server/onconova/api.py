@@ -39,7 +39,7 @@ from onconova.terminology.controllers import TerminologyController
 api = NinjaExtraAPI(
     title="Onconova API",
     description="""
-Welcome to the Precision Oncology Platform API — a secure, standards-based interface designed to facilitate the exchange, management, and 
+Welcome to the Onconova API — a secure, standards-based interface designed to facilitate the exchange, management, and 
 analysis of research data related to cancer genomics, clinical records, and associated metadata. This API provides an extensive set of RESTful endpoints enabling authorized users to perform full CRUD (Create, Read, Update, Delete) operations on various resources within the platform’s data ecosystem.
 
 The primary objective of this API is to support precision oncology research by enabling interoperability between data systems, promoting data sharing among research institutions, and streamlining workflows for clinical and genomic data management in a secure, authenticated environment.
@@ -69,7 +69,7 @@ result of using the site or relying on the information provided. Your use of thi
 These terms and conditions may be updated from time to time, and it is your responsibility to review them regularly to ensure compliance.
 
 ### License 
-The Precision Oncology Platform API specification is made available under the MIT License, a permissive open-source license that allows users to freely use, copy,
+The Onconova API specification is made available under the MIT License, a permissive open-source license that allows users to freely use, copy,
 modify, merge, publish, distribute, sublicense, and/or sell copies of the software, subject to the inclusion of the original copyright and license.
     """,
     urls_namespace="onconova",

@@ -41,11 +41,11 @@ import { Divider } from 'primeng/divider';
             <a class="layout-topbar-logo" routerLink="">
                 <div [inlineSVG]="logo" alt="logo" class="onconova-logo mr-3"></div>
                 <div>
-                    <div class="layout-topbar-title text-xl">
-                        Precision Oncology Platform
+                    <div class="layout-topbar-title onconova-title">
+                        Onconova
                     </div>
                     <div class="layout-topbar-version">
-                        {{ organizationName }}
+                        Precision Oncology Platform
                     </div>
                 </div>
             </a>

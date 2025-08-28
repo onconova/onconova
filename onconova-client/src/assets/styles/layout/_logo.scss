@@ -1,6 +1,8 @@
 
 .onconova-logo {
     color: var(--p-primary-color) !important;
+    display: flex;
+    align-items: center;
 }
 
 .layout-topbar .onconova-logo svg {

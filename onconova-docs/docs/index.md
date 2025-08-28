@@ -4,13 +4,19 @@ hide:
   - navigation
 ---
 
+<head>
+
+  <link rel="icon" href="assets/favicon-light-theme.ico" type="image/svg+xml" media="(prefers-color-scheme: light">
+  <link rel="icon" href="assets/favicon-dark-theme.ico" type="image/x-icon"  media="(prefers-color-scheme: dark)">
+</head>
+
 <section class="home">
   <div class="description">
     <h1 class="title">
       Open <span class="gradient-text">Oncology Research</span> Data Platform
     </h1>
     <p class="paragraph">
-      The Precision Oncology Platform (Onconova) is an open-source web application for capturing and exploring data to support research and scientific collaboration.
+      Onconova is an open-source web application for capturing and exploring data to support research and scientific collaboration.
     </p>
     <p>
       <a class="md-button md-button--primary" href="./get-started/installation/">Get Started</a>

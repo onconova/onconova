@@ -51,7 +51,7 @@ export class LayoutService {
     #overlayOpenTrigger = signal(0);
     overlayOpenSignal = computed(() => this.#overlayOpenTrigger());
 
-    public readonly logo: string = 'assets/images/logo-dark.svg';
+    public readonly logo: string = 'assets/images/logo.svg';
 
     constructor() {
         // Load user preferences from local storage

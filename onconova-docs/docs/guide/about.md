@@ -1,6 +1,6 @@
 # Project Overview
 
-The Precision Oncology Platform (Onconova) is an open-source software project initially developed at the Univserity Hospital of Zurich designed to support data-driven precision oncology research. It provides a secure, structured, and scalable framework for capturing clinical data from oncology patients, while enabling users to explore and analyze aggregated data through an interactive web interface.
+Onconova is an open-source software project initially developed at the Univserity Hospital of Zurich designed to support data-driven precision oncology research. It provides a secure, structured, and scalable framework for capturing clinical data from oncology patients, while enabling users to explore and analyze aggregated data through an interactive web interface.
 
 ## Goals 
 

@@ -12,7 +12,7 @@ import { InputIconModule } from 'primeng/inputicon';
     template: `
     <div class="flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden">
         <div class="flex flex-column align-items-center justify-content-center">
-            <div [inlineSVG]="logo" class="onconova-logo w-8rem h-8rem mr-3 mb-3" alt="Onconova logo"></div>            
+            <div [inlineSVG]="logo" class="onconova-logo w-8rem h-8rem mb-5" alt="Onconova logo"></div>            
             <div style="border-radius:56px; padding:0.3rem; background: linear-gradient(180deg, var(--p-primary-color) 10%, rgba(33, 150, 243, 0) 30%); min-width: 40rem;">
                 <div class="w-full surface-card py-8 px-5 sm:px-8" style="border-radius:53px; background: var(--p-content-background) !important;">                
                     <ng-container *ngTemplateOutlet="inside()"></ng-container>

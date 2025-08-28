@@ -1,12 +1,14 @@
-site_name: Precision Oncology Platform
+site_name: Onconova
 site_description: Precision Oncology Platform
 site_url: http://0.0.0.0/docs
 site_author: Luis Fabregas
 copyright: Copyright &copy; 2025 - Luis Fabregas
 theme:
   name: material
-  logo: assets/img/logo-white.svg
-  favicon: assets/favicon.ico
+  logo: assets/img/logo.svg
+  favicon: assets/favicon-dark-theme.ico
+  icon:
+    repo: fontawesome/brands/github
   palette:
     # Palette toggle for automatic mode
     - media: "(prefers-color-scheme)"

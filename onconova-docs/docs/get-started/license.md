@@ -1,7 +1,7 @@
 
 ## Software License
 
-The Precision Oncology Platform (Onconova) software is provided under the MIT license: 
+Onconova software is provided under the MIT license: 
 
 ----
 

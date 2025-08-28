@@ -1,4 +1,4 @@
-The Precision Oncology Platform (Onconova) is designed to be **modular and institution-agnostic**. To support custom workflows, local system integrations, and specialized processing without compromising the integrity and maintainability of the core platform, Onconova encourages the use of microservices for all server-side customizations.
+Onconova is designed to be **modular and institution-agnostic**. To support custom workflows, local system integrations, and specialized processing without compromising the integrity and maintainability of the core platform, Onconova encourages the use of microservices for all server-side customizations.
 
 This page outlines best practices for developing, integrating, and authenticating microservices within the Onconova ecosystem.
 

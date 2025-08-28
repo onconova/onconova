@@ -1,4 +1,4 @@
-The Precision Oncology Platform (Onconova) provides a transparent and robust auditing system to track all changes to clinical and research data within the platform. This ensures traceability, accountability, and data integrity, crucial for compliance in sensitive healthcare and research environments.
+Onconova provides a transparent and robust auditing system to track all changes to clinical and research data within the platform. This ensures traceability, accountability, and data integrity, crucial for compliance in sensitive healthcare and research environments.
 
 ## How Events are Tracked
 

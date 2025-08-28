@@ -7,7 +7,7 @@ hide:
 
 ## Project Authors
 
-The following people conceptualized, designed, and developed the original open-source release of the Precision Oncology Platform. 
+The following people conceptualized, designed, and developed the original open-source release of Onconova. 
 
 [](https://www.usz.ch/app/uploads/2022/02/Boos-Laura_web-300x300.jpg)
 

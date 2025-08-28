@@ -3,7 +3,7 @@
     <a href="https://github.com/luisfabib/onconova">
         <img src="onconova-client/src/assets/images/logo.svg" width="10%">
     </a>
-    <h1 style="border-bottom: none;">Precision Oncology Platform</h1>
+    <h1 style="border-bottom: none;">Onconova</h1>
 
 [![releases](https://img.shields.io/github/v/release/luisfabib/onconova)](https://github.com/luisfabib/onconova)
 [![license](https://img.shields.io/github/license/luisfabib/onconova.svg)](https://github.com/luisfabib/onconova/blob/main/LICENSE)
@@ -17,7 +17,7 @@
 
 
   <p align="center">
-    The Precision Oncology Platform (Onconova) is an open-source project aimed at capturing and structuring cancer-related clinical data, while enabling interactive aggregated data analysis.
+    Onconova is an open-source project aimed at capturing and structuring cancer-related clinical data, while enabling interactive aggregated data analysis.
     <br />
     <br />
     <a href="https://luisfabib.github.io/onconova "><strong>Explore the docs »</strong></a>

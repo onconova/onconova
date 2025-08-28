@@ -1,6 +1,6 @@
 
 
-The following sections will guide you through the installation and initial configuration of the Precision Oncology Platform (Onconova) on a Linux-based machine. 
+The following sections will guide you through the installation and initial configuration of Onconova on a Linux-based machine. 
 Make sure that your hardware and network fulfill the [minimal requirements](requirements.md) for installing Onconova.
 
 !!! info "Internet Access"

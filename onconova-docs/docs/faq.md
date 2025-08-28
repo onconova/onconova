@@ -4,7 +4,7 @@ hide:
   - navigation
 ---
 
-Below are answers to common questions about installing, configuring, and using the Precision Oncology Platform (Onconova). If your question isn't listed here, feel free to check the Issues page or GitHub Discussions.
+Below are answers to common questions about installing, configuring, and using Onconova. If your question isn't listed here, feel free to check the Issues page or GitHub Discussions.
 
 
 #### Is Onconova free to use?
@@ -42,7 +42,7 @@ Cohort creation is limited to the scope of research projects. If you are not a m
 
 
 #### Do I need an ethics approval to use this platform for a research project?
-Yes, if your use of the Precision Oncology Platform (Onconova) involves handling clinical data, even in anonymized or pseudonymized form, you are typically required to obtain approval from your institution’s ethics committee or institutional review board (IRB) before starting your research project.
+Yes, if your use of Onconova involves handling clinical data, even in anonymized or pseudonymized form, you are typically required to obtain approval from your institution’s ethics committee or institutional review board (IRB) before starting your research project.
 
 While Onconova provides technical safeguards for data protection and privacy, ethical oversight is essential to:
 

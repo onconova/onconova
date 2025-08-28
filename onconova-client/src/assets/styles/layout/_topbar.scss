@@ -23,10 +23,10 @@
     .layout-topbar-logo {
         display: flex;
         align-items: center;
-        color: var(--p-text-color);
+        align-items: center;
+        color: var(--p-primary-hover-color);
         font-size: 1.5rem;
         font-weight: 500;
-        width: 300px;
         border-radius: 12px;
 
         img {

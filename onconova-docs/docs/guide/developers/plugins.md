@@ -1,4 +1,4 @@
-The Precision Oncology Platform (Onconova) supports a plugin architecture for extending the Angular client **without modifying the core platform codebase**. This enables institutions and developers to add custom views, dashboards, visualizations, or workflows tailored to their needs, while keeping the core client clean, maintainable, and upgradeable.
+Onconova supports a plugin architecture for extending the Angular client **without modifying the core platform codebase**. This enables institutions and developers to add custom views, dashboards, visualizations, or workflows tailored to their needs, while keeping the core client clean, maintainable, and upgradeable.
 
 This page explains what plugins are, how to develop them, and how to integrate them into Onconova.
 

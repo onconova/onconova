@@ -2,7 +2,7 @@
 
 ## Why Data Protection Matters
 
-The **Precision Oncology Platform (Onconova)** handles sensitive clinical and research data, which may include **Protected Health Information (PHI)**.  Ensuring the privacy and security of this data is both an ethical obligation and a legal requirement under various regulations, such as:
+Onconova handles sensitive clinical and research data, which may include **Protected Health Information (PHI)**.  Ensuring the privacy and security of this data is both an ethical obligation and a legal requirement under various regulations, such as:
 
 - **GDPR (General Data Protection Regulation)** in the European Union
 - **HIPAA (Health Insurance Portability and Accountability Act)** in the United States
