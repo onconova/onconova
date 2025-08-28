@@ -1,0 +1,425 @@
+
+
+<form [formGroup]="cohortControl" (ngSubmit)="submitCohort()" class="cohort-manager">
+
+
+    <div class="flex mb-3 w-12">
+        <div class="onconova-cohort-manager-header mt-0">
+            <div class="mb-0 font-medium text-muted">Cohort</div>
+                <div>
+                    <h1 class="flex align-items-center mb-0">
+                        @if (editCohortName) { 
+                            <input type="text" pInputText formControlName="name" class="mr-2"/>
+                            <p-button 
+                                icon="pi pi-check"
+                                variant="text"
+                                [disabled]="!userCanEdit()"
+                                (onClick)="editCohortName = false"/>
+                        } @else {
+                            @if ( cohortTitle() ) {
+                                {{ cohortTitle() }}
+                                <p-button 
+                                    id="cohort-manager-edit-name-button"
+                                    icon="pi pi-pencil"
+                                    variant="text"
+                                    class="mb-3"
+                                    [disabled]="!userCanEdit()"
+                                    (onClick)="editCohortName = true"/> 
+                            } @else {
+                                <p-skeleton width="15rem" />
+                            }
+                        }
+                    </h1>
+                </div>
+        </div>
+        <p-button
+            icon="pi pi-question-circle"
+            label="Tutorial" 
+            [outlined]="true"
+            class="ml-auto"
+            (onClick)="startTour()"/>
+    </div>
+    <h4 class="mb-1">Summary</h4>
+    <p-divider layout="horizontal" class="mt-0"/>
+
+    <div class="onconova-cohort-manager-summary ">
+        <div class="flex flex-column align-items-center w-12rem mx-auto my-2">
+            <div class="text-muted">Population</div>
+            @if (cohortPopulation()) {
+                <div class="text-6xl text-primary-color font-bold">
+                    {{ cohortPopulation() }}
+                </div>
+            } @else {
+                <p-skeleton height="2rem" width="6rem"/>
+            }
+            @if (totalInvalidCases() > 0) {
+                <div class=" text-primary-color mb-1">
+                    ({{ (cohortPopulation() || 0) - totalInvalidCases()}} valid)
+                </div>
+            }
+            @else if (cohortTraits.isLoading()) {
+                <p-skeleton height="1rem" width="6rem"/>
+            }
+            <div class="">Cases</div>
+        </div>
+        <p-card class="onconova-cohort-manager-summary-details flex-grow-1">
+            <div class="grid">
+                <div class="col-12 md:col-6 my-auto">
+
+                    <onconova-cohort-trait  title="Authors" [loading]="loading()">
+                        @if (cohortAuthors()) {
+                            <div class="flex flex-wrap">
+                            @for (username of cohortAuthors(); track username) {
+                                @if (username) {
+                                    <onconova-user-badge [username]="username" class="mr-2"></onconova-user-badge>
+                                }
+                            }
+                            </div>
+                        }
+                    </onconova-cohort-trait>
+
+                    <onconova-cohort-trait  title="Cohort ID" [loading]="loading()">
+                        @if (cohort.value(); as value) {
+                            <span class="text-monospace text-sm">
+                                {{ value.id }}
+                            </span> 
+                        }
+                    </onconova-cohort-trait>
+                    
+                    <onconova-cohort-trait  title="Project" [loading]="loading() || project.isLoading()">
+                        @if (project.value(); as value) {
+                            {{ value.title || '-' }}
+                        }
+                    </onconova-cohort-trait>
+
+                    <onconova-cohort-trait  title="Created" [loading]="loading()">
+                        @if (cohort.value(); as value) {
+                            {{ value.createdAt | date }}
+                        }
+                    </onconova-cohort-trait>
+
+                    <onconova-cohort-trait  title="Last Updated" [loading]="loading()">
+                        @if (cohort.value(); as value) {
+                            {{ (value.updatedAt | date) || '-' }}
+                        }
+                    </onconova-cohort-trait>
+
+                </div>
+                <div class="col-12 md:col-6 my-auto">
+
+                    <onconova-cohort-trait  title="Median Age" [loading]="loading() || cohortTraits.isLoading()" [valid]="cohort && cohortNonEmpty()">
+                        @if (cohortTraits.value()?.age; as age) {
+                            {{ age.median }}
+                            @if (age.interQuartalRange !== null) {
+                                ({{ age.interQuartalRange[0] }}, {{ age.interQuartalRange[1] }})
+                            } years
+                        }
+                    </onconova-cohort-trait>
+
+                    <onconova-cohort-trait  title="Predominant Gender" [loading]="loading() || cohortTraits.isLoading()" [valid]="cohort && cohortNonEmpty()">
+                        @if (cohortTraits.value()?.genders; as genders) {
+                            @let predominantGender = getPredominantCount(genders);
+                            @if (predominantGender.percentage !== null) {
+                                {{ predominantGender.percentage | number:'1.0-1' }}% 
+                            }
+                            {{ predominantGender.category }}
+                        }
+                    </onconova-cohort-trait>
+
+                    <onconova-cohort-trait  title="Predominant Site" [loading]="loading() || cohortTraits.isLoading()" [valid]="cohort && cohortNonEmpty()">
+                        @if (cohortTraits.value()?.neoplasticSites; as neoplasticSites) {
+                            @let predominantSite = getPredominantCount(neoplasticSites);
+                            @if (predominantSite.percentage !== null) {
+                                {{ predominantSite.percentage | number:'1.0-1' }}% 
+                            }
+                            {{ predominantSite.category }}
+                        }
+                    </onconova-cohort-trait>
+
+                    <onconova-cohort-trait  title="Median Overall Survival" [loading]="loading() || cohortTraits.isLoading()" [valid]="cohort && cohortNonEmpty()">
+                        @if (cohortTraits.value()?.overallSurvival; as os) {
+                            {{ os.median | number:'1.0-0' }}
+                            @if (os.interQuartalRange !== null) {
+                                    ({{ os.interQuartalRange[0] | number:'1.0-0' }}, {{ os.interQuartalRange[1] | number:'1.0-0' }})
+                            } months
+                        }
+                    </onconova-cohort-trait>
+
+                    <onconova-cohort-trait  title="Median Completion" [loading]="loading() || cohortTraits.isLoading()" [valid]="cohort && cohortNonEmpty()">
+                        @if (cohortTraits.value()?.dataCompletion; as completion) {
+                            {{ completion.median}}%
+                            @if (completion.interQuartalRange !== null) {
+                                ({{ completion.interQuartalRange[0] }}, {{ completion.interQuartalRange[1] }})
+                            } categories
+                        }
+                    </onconova-cohort-trait>
+                </div>
+            </div>
+        </p-card>
+    </div>
+    @if (totalInvalidCases() > 0) {
+        <p-message styleClass="mt-3" icon="pi pi-exclamation-triangle" severity="warn">
+            The cohort includes {{totalInvalidCases()}} cases with revoked or unknown consent. 
+            These cases remain visible in the cohort view but are excluded from all analyses and exported datasets.
+        </p-message>
+    }
+
+
+    <h4 class="mb-1">Definition</h4>
+    <p-divider layout="horizontal" class="mt-0"/>
+
+
+
+
+    <div class="cohort-manager-cohort-definition flex flex-column gap-3 mt-4">
+        @if (cohortControl && cohort.hasValue()) {
+            <p-panel pCard class="onconova-cohort-criteria-panel" [toggleable]="true">    
+                <ng-template #header>
+                    <div class="flex gap-2 align-items-center">
+                        <p-avatar icon="pi pi-user-plus" size="normal" />
+                        <div class="font-semibold">Inclusion Criteria</div>
+                        @let rules = cohortControl.value.includeCriteria ? cohortControl.value.includeCriteria.rules.length : 0;
+                        <p-chip label="{{ rules }} rule{{ rules !== 1 ? 's' : '' }}" class="py-1 px-2"/>
+                    </div>
+                </ng-template>
+                <onconova-cohort-query-builder formControlName="includeCriteria" [allowEmptyDefault]="true" [attr.disabled]="!userCanEdit()" [disabled]="!userCanEdit()"/>
+            </p-panel>
+        
+            <p-panel class="onconova-cohort-criteria-panel" [toggleable]="true" [collapsed]="cohortControl.value.excludeCriteria === null">    
+                <ng-template #header>
+                    <div class="flex gap-2 align-items-center">
+                        <p-avatar icon="pi pi-user-minus" size="normal" />
+                        <div class="font-semibold">Exclusion Criteria</div>
+                        <p-chip label="{{ cohortControl.value.excludeCriteria ? cohortControl.value.excludeCriteria.rules.length : 0 }} rules" class="py-1 px-2"/>
+                    </div>
+                </ng-template>
+                <onconova-cohort-query-builder formControlName="excludeCriteria" [attr.disabled]="!userCanEdit()" [disabled]="!userCanEdit()"/>
+            </p-panel>  
+        }
+    </div>
+
+    <div class="flex gap-3 mt-4">
+        <p-button 
+        type="submit" 
+        [icon]="userCanEdit() ? 'pi pi-sync' : 'pi pi-lock'"
+        label="Save & Update Cohort" 
+        styleClass="cohort-manager-save-button w-15rem p-3"  
+        [loading]="loading()"
+        [disabled]="!userCanEdit() || !cohortControl || cohortControl.invalid" />
+    </div>
+</form>
+
+<h4 class="mb-1">Details</h4>
+<p-divider layout="horizontal" class="mt-0"/>
+
+<p-card class="onconova-cohort-manager-tabs-container">
+<p-tabs value="0"  class="onconova-cohort-manager-tabs">
+    <p-tablist>
+        <p-tab value="0"><i class="pi pi-users"></i>Composition</p-tab>
+        <p-tab value="1"><i class="pi pi-chart-bar"></i>Analysis</p-tab>
+        <p-tab value="2"><i class="pi pi-cloud-download"></i>Datasets</p-tab>
+        <p-tab value="3"><i class="pi pi-user-plus"></i>Contributors</p-tab>
+        <p-tab value="4"><i class="pi pi-history"></i>History</p-tab>
+    </p-tablist>
+    @if (cohort.isLoading()) {
+        <p-skeleton width='100%' height='50rem'/>
+    } @else {
+        <p-tabpanels>
+            @if (cohort) {
+                @if (cohortNonEmpty()) {
+                    <p-tabpanel value="0">
+
+                            <p-toolbar styleClass="border-transparent pb-1" [style]="{'background': 'none'}">
+                                <ng-template #start>  
+                                    <div class="flex flex align-items-center text-muted gap-2">
+                                        <span class="text-muted">Sort by </span>
+                                        <p-select [(ngModel)]="casesOrderingField" [options]="casesOrderingFields" size="small" optionLabel="label" optionValue="value"></p-select>
+                                        <p-select [(ngModel)]="casesOrderingDirection" [options]="casesOrderingDirections" size="small" optionLabel="label" optionValue="value"></p-select>
+                                    </div>
+                                </ng-template>                                
+                                <ng-template #end>
+                                    <div class="layout-buttons">
+                                        <p-selectbutton [(ngModel)]="casesLayout" [options]="['list', 'grid']" [allowEmpty]="false">
+                                            <ng-template #item let-item>
+                                                <i class="pi " [ngClass]="{ 'pi-bars': item === 'list', 'pi-table': item === 'grid' }"></i>
+                                            </ng-template>
+                                        </p-selectbutton>
+                                    </div>
+                                </ng-template>
+                            </p-toolbar>
+
+                            <p-dataView 
+                                styleClass="onconova-case-search-dataview"
+                                [value]="cohortCases.value() || []"
+                                [paginator]="true" 
+                                [rows]="pagination().limit" 
+                                [layout]="casesLayout()"
+                                lazy="true"
+                                [totalRecords]="cohortPopulation()"
+                                (onLazyLoad)="pagination.set({limit: $event.rows, offset: $event.first})"
+                                class="no-background">
+
+
+                                <ng-template #list let-data>
+                                    <p-table [value]="data" styleClass="mt-3">
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th>Case</th>
+                                                <th class="text-center">Diagnosis</th>
+                                                <th class="text-center">Contributors</th>
+                                                <th class="text-center">Created</th>
+                                                <th class="text-center">Last Updated</th>
+                                                <th class="text-center">Completion</th>
+                                                <th class="text-center">Consent</th>
+                                                <th></th>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-case>
+                                            <tr onconova-case-search-item 
+                                                @fadeAnimation
+                                                layout="row"
+                                                [ngClass]="case.consentStatus !== 'valid' ? 'onconova-cohort-invalid-case' : ''"
+                                                [case]="case"
+                                                (onDelete)="cohortCases.reload()"
+                                                ></tr>
+                                        </ng-template>
+                                    </p-table>
+                                </ng-template>    
+
+                                <ng-template #grid let-cases>
+                                    @if (cohortCases.isLoading()) {
+                                        <!-- Skeleton loader -->
+                                        <div class="grid gap-5 mt-5">
+                                            @for (_ of [].constructor(15); track $index; let first = $first;) { 
+                                                <div class="onconova-case-search-item-card">
+                                                    <div class="flex my-3">
+                                                        <p-skeleton width="5rem" height="5rem"/>
+                                                        <div class="flex flex-column mx-3">
+                                                            <p-skeleton width="10rem" height="1.5rem" class="mb-2 mt-3" />    
+                                                            <p-skeleton width="20rem" height="1.5rem"/>      
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3 mt-4">
+                                                        <p-skeleton width="100%" height="2rem"/>
+                                                    </div>
+                                                    <div class="my-3 mb-5">
+                                                        <p-skeleton width="100%" height="2rem"/>
+                                                    </div>
+                                                    <p-skeleton width="20rem" height="2rem" class="my-3 ml-auto"  />      
+                                                </div>
+                                            }
+                                        </div>
+                                    } @else if (cohortCases.error()) {
+                                        An error occurred while loading the cohort cases.
+                                    } @else {
+                                        <div class="grid mt-3">
+                                            @for (case of cases; track case.id; let first = $first;) { 
+                                                <div class="col p-2" [ngClass]="case.consentStatus !== 'valid' ? 'onconova-cohort-invalid-case' : ''">
+                                                    <onconova-case-search-item [case]="case"/>
+                                                </div>    
+                                            }
+                                        </div>
+                                    }
+                                </ng-template>
+                            </p-dataView>
+                    </p-tabpanel>
+                    <p-tabpanel value="1">
+                        <onconova-cohort-graphs [cohort]="cohort.value()!" [traits]="cohortTraits" [loading]="loading()"/>
+                    </p-tabpanel>
+                    <p-tabpanel value="2">
+                        <onconova-dataset-composer [cohort]="cohort.value()!" [loading]="loading()"/>
+                    </p-tabpanel>
+                    <p-tabpanel value="3">
+                        <onconova-cohort-contributors [cohort]="cohort.value()!" [loading]="loading()"/>
+                    </p-tabpanel>
+                } @else { 
+                    <p-message styleClass="mt-3" icon="pi pi-exclamation-triangle" severity="warn">
+                        No available results due to empty cohort. Adjust to definition to include and/or exclude cases.
+                    </p-message>
+                }         
+            }
+            <p-tabpanel value="4">          
+                @if (cohortHistory.value(); as history) {
+                    <p-card>
+                        <h5>Recent changes</h5>
+                        <p-paginator [style]="{'justify-content': 'left'}" 
+                            (onPageChange)="cohortHistoryPagination.limit.set($event.rows!); cohortHistoryPagination.offset.set($event.first!);" 
+                            [first]="cohortHistoryPagination.offset()" 
+                            [rows]="cohortHistoryPagination.limit()" 
+                            [totalRecords]="totalHistoryEntries()" 
+                            [rowsPerPageOptions]="[10, 20, 30]" 
+                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"/>
+                        <p-timeline [value]="history" class="onconova-cohort-manager-history">
+                            <ng-template pTemplate="content" let-event>
+                                <div class="flex mb-4" >
+                                    <div>
+                                        <div class="timeline-event-date">
+                                            {{ event.timestamp | date: 'MMM d, y, h:mm' }}
+                                        </div>
+                                        <onconova-user-badge [username]="event.user" [showName]="true" class="my-auto"/>                              
+                                    </div>       
+                                    <p-divider layout="vertical"/>
+                                    <ul class="timeline-event-category my-auto pl-0">
+                                            @switch (event.category) {
+                                                @case ('create') {
+                                                    <li><i class="pi pi-sparkles"></i> Created new cohort "{{ event.snapshot.name }}"</li>
+                                                }
+                                                @case ('update') {
+                                                    @let changes = getAllChanges(event.differential);
+                                                    <li><i class="pi pi-pencil"></i> Updated cohort with {{changes.length}} changes: 
+                                                    <ul>
+                                                        @for (change of changes; track $index;) {
+                                                            <li class="text-sm">
+                                                                @if (change.type === 'added') {
+                                                                    Added <code>{{ change.field }}</code> property <code>{{change.key}}</code>
+                                                                } @else if (change.type === 'removed') {
+                                                                    Removed <code>{{ change.field }}</code> property <code>{{change.key}}</code>
+                                                                } @else if (change.type === 'updated') {
+                                                                    Changed <code>{{ change.field }}</code> property <code>{{change.key}}</code> from <code>{{change.oldValue | json}}</code> to <code>{{change.value | json}}</code>
+                                                                }
+                                                            </li>
+                                                        }
+                                                    </ul>
+                                                
+                                                    <p-button label="Set snapshot as current definition" 
+                                                            [outlined]="true" 
+                                                            size="small" 
+                                                            styleClass="mt-2"
+                                                            (onClick)="revertCohortDefinition(event.snapshot, event.timestamp)"/>
+                                                </li>
+                                                }
+                                                @case ('export') {
+                                                    <div class="flex"> 
+                                                        <div class="mb-auto mt-2 mr-2"><i class="pi pi-file-export"></i> Exported {{event.context.dataset.length}} data points</div>
+                                                        <p-fieldset legend="Details" [toggleable]="true" [collapsed]="true" class="onconova-cohort-history-collapsable">
+                                                                <ul>
+                                                                    <li>Export checksum: <code>{{ event.context.checksum }}</code></li>
+                                                                    <li>Server version: <code>{{ event.context.version }}</code></li>
+                                                                    <li>
+                                                                        Exported data points:
+                                                                        <ul>
+                                                                            @for (rule of event.context.dataset; track $index;) {
+                                                                                <li><code>{{ rule.resource }} - {{ rule.field }}</code></li>
+                                                                            }
+                                                                        </ul>
+                                                                    </li>
+                                                                </ul>
+                                                        </p-fieldset>
+                                                    </div>
+                                                <p-button label="Set exported cohort as current definition" 
+                                                        [outlined]="true" 
+                                                        size="small" 
+                                                        (onClick)="revertCohortDefinition(event.snapshot, event.timestamp)"/>
+                                                }
+                                            }
+                                    </ul>                               
+                                </div>                
+                            </ng-template>
+                        </p-timeline>
+                    </p-card>
+                }  
+            </p-tabpanel> 
+        </p-tabpanels>
+    }
+</p-tabs>
+</p-card>

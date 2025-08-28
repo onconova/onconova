@@ -1,0 +1,32 @@
+{
+    "resourceType": "ValueSet",
+    "url": "https://simplifier.net/onconova/ValueSets/onconova-adverse-event-mitigation-management",
+    "id": "onconova-adverse-event-mitigation-management",
+    "version": "0.0.1",
+    "title": "Adverse Event Mitigation - Management",
+    "status": "draft",
+    "compose": {
+        "include": [
+            {
+                "system": "http://snomed.info/sct",
+                "concept": [
+                    {
+                        "code": "737481003",
+                        "display": "Inpatient care management"
+                    },
+                    {
+                        "code": "737492002",
+                        "display": "Outpatient care management"
+                    }
+                ],
+                "version": "http://snomed.info/sct/900000000000207008/version/20230731"
+            }
+        ]
+    },
+    "description": "Classification of actions to mitigate adverse events affecting a patient's health.",
+    "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>Adverse Event Mitigation - Management</h2><tt>https://simplifier.net/onconova/ValueSets/onconova-adverse-event-mitigation-management</tt><p>Classification of actions to mitigate adverse events affecting a patient's health.</p></div>"
+    },
+    "name": "AdverseEventMitigationManagement"
+}

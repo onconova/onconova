@@ -1,13 +1,13 @@
 <br />
 <div align="center">
-    <a href="https://github.com/luisfabib/pop">
-        <img src="pop-client/src/assets/images/logo.svg" width="10%">
+    <a href="https://github.com/luisfabib/onconova">
+        <img src="onconova-client/src/assets/images/logo.svg" width="10%">
     </a>
     <h1 style="border-bottom: none;">Precision Oncology Platform</h1>
 
-[![releases](https://img.shields.io/github/v/release/luisfabib/pop)](https://github.com/luisfabib/pop)
-[![license](https://img.shields.io/github/license/luisfabib/pop.svg)](https://github.com/luisfabib/pop/blob/main/LICENSE)
-![GitHub commit activity](https://img.shields.io/github/commit-activity/y/luisfabib/pop)
+[![releases](https://img.shields.io/github/v/release/luisfabib/onconova)](https://github.com/luisfabib/onconova)
+[![license](https://img.shields.io/github/license/luisfabib/onconova.svg)](https://github.com/luisfabib/onconova/blob/main/LICENSE)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/y/luisfabib/onconova)
 
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
 ![Django](https://img.shields.io/badge/django-%23092E20.svg?style=for-the-badge&logo=django&logoColor=white)
@@ -17,15 +17,15 @@
 
 
   <p align="center">
-    The Precision Oncology Platform (POP) is an open-source project aimed at capturing and structuring cancer-related clinical data, while enabling interactive aggregated data analysis.
+    The Precision Oncology Platform (Onconova) is an open-source project aimed at capturing and structuring cancer-related clinical data, while enabling interactive aggregated data analysis.
     <br />
     <br />
-    <a href="https://luisfabib.github.io/pop "><strong>Explore the docs »</strong></a>
+    <a href="https://luisfabib.github.io/onconova "><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/luisfabib/pop/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
+    <a href="https://github.com/luisfabib/onconova/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
     ·
-    <a href="https://github.com/luisfabib/pop/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
+    <a href="https://github.com/luisfabib/onconova/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
   </p>
 </div>
 
@@ -55,13 +55,13 @@
 
 ## Installation
 
-Checkout the [Installation Guide](https://luisfabib.github.io/pop/get-started/installation/) for detailed setup instructions.
+Checkout the [Installation Guide](https://luisfabib.github.io/onconova/get-started/installation/) for detailed setup instructions.
 
-If you need help, consult the [FAQ](https://luisfabib.github.io/pop/get-started/faq/) or [open an issue](https://github.com/luisfabib/pop/issues).
+If you need help, consult the [FAQ](https://luisfabib.github.io/onconova/get-started/faq/) or [open an issue](https://github.com/luisfabib/onconova/issues).
 
 ### Prerequisites
 
-See the [requirements](https://luisfabib.github.io/pop/get-started/requirements/) for supported platforms and dependencies.
+See the [requirements](https://luisfabib.github.io/onconova/get-started/requirements/) for supported platforms and dependencies.
 
 
 <!-- CONTRIBUTING -->
@@ -73,7 +73,7 @@ If you have a suggestion that would make this better, please fork the repo and c
 
 ### Development Setup
 
-Follow the [Installation Guide](../../get-started/installation.md) to set up POP for local development using Docker Compose.
+Follow the [Installation Guide](../../get-started/installation.md) to set up Onconova for local development using Docker Compose.
 
 Use the `compose.dev.yml` file for development. You can specify it directly when starting the containers:
 ```sh
@@ -88,7 +88,7 @@ The development containers are configured to mount your local source code into t
 
 ### Testing
 
-POP includes a comprehensive test suite to ensure all components function as intended. The testing strategy varies depending on whether you are working on the server, the client, or both.
+Onconova includes a comprehensive test suite to ensure all components function as intended. The testing strategy varies depending on whether you are working on the server, the client, or both.
 
 Run server-side unit tests using [Pytest](https://docs.pytest.org/en/stable/) within the Docker container:
 ```sh
@@ -105,4 +105,4 @@ Automated tests validate UI components, services, and client logic. In addition 
 <!-- LICENSE -->
 ## License
 
-Distributed under the MIT License. See [LICENSE](https://github.com/luisfabib/pop?tab=MIT-1-ov-file) for more information.
+Distributed under the MIT License. See [LICENSE](https://github.com/luisfabib/onconova?tab=MIT-1-ov-file) for more information.

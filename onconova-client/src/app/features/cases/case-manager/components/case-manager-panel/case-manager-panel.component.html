@@ -1,0 +1,140 @@
+<p-panel class="onconova-case-manager-panel"
+        [toggleable]="true" 
+        [collapsed]="false" 
+        collapseIcon="pi pi-angle-down" 
+        expandIcon="pi pi-angle-up" 
+        styleClass="mb-3">
+
+    <ng-template #header>
+        <div class="flex align-items-center gap-2">
+            <p-avatar size="normal" shape="square">
+                <lucide-angular [img]="icon()" ></lucide-angular>
+            </p-avatar>
+            <span class="onconova-case-manager-header-title" >
+                {{ title() }}
+            </span>
+            <p-badge styleClass="onconova-case-manager-counter-badge" 
+                [pTooltip]="data.isLoading() ? '' : `${data.value()?.length || '-'} ${title() || ''} entries for this case`"
+                [value]="data.isLoading() ? '-' : data.value()?.length || '-'" 
+                [severity]="data.value()?.entries?.length ? 'success' : 'secondary'"/>
+            <div class="onconova-case-manager-completion-indicator">
+                @if (isCompleted()) {
+                    <i class="pi pi-star-fill" pTooltip="Category tagged as completed by {{ dataCompletionStatus.value()!.username }} on {{ dataCompletionStatus.value()!.timestamp | date }}"></i>                
+                }
+            </div>
+        </div>
+        
+        @if (!data.isLoading()) {
+            @if (currentUser().canManageCases) {
+                <div class="onconova-case-manager-menu-button-container">
+                    <i class="onconova-case-manager-menu-button pi pi-plus-circle" title="Add new {{title() | lowercase}}" (click)="addNewEntry()"></i>
+                    <i class="onconova-case-manager-menu-button pi pi-cog" (click)="menu.toggle($event)" title="Show other actions for {{title() | lowercase}}"></i>
+                </div>
+            }
+            <p-confirmdialog/>
+            <p-menu #menu [model]="menuItems()" [onconovaup]="true"/>
+        }
+    </ng-template>
+    
+    @if (data.isLoading()) {
+        <div>
+            <p-skeleton width="100%" styleClass="mb-2" />
+            <p-skeleton width="100%" styleClass="mb-2" />
+        </div>
+    } @else if (data.error()) {
+        <div class="text-muted">
+            An error ocurred while loading the data
+        </div>
+    } @else if (data.hasValue()) {
+        @if (data.value(); as events;) {
+            @if (events.length) {
+                <onconova-case-manager-panel-timeline 
+                    [events]="events" 
+                    [icon]="icon()"
+                    (onEventClick)="showDrawer($event)"/>
+            } @else {
+                <div class="text-muted">
+                    No entries associated with this case
+                </div>
+            }
+        }
+    }
+</p-panel>
+
+<onconova-case-manager-drawer 
+    styleClass="onconova-case-manager-drawer"
+    [(visible)]="drawerVisible" 
+    [data]="drawerData" 
+    [historyService]="service().history" 
+    [icon]="icon()"
+    [editable]="!isCompleted() && !anonymized()"
+    (delete)="deleteEntry($event)"
+    (update)="updateEntry($event)"/>
+
+
+
+
+<p-confirmdialog key="completeConfirmDialog" maskStyleClass="confirmdialog">     
+        <ng-template #headless let-onAccept="onAccept" let-onReject="onReject">
+            <div class="confirmdialog-container">
+                <div class="confirmdialog-icon">
+                    <i class="pi pi-question text-5xl"></i>
+                </div>
+                <span class="font-semibold text-2xl block mb-2 mt-3">Mark category as completed</span>
+                <div class="m-auto text-center">
+                    Do you confirm that all data entries have been collected? 
+                <div class="flex my-auto mt-2">
+                    <div class="flex gap-3 my-2 mx-auto">
+                        <div class="">
+                            <small class="text-muted">Total entries</small> 
+                            <div>{{ data.value()?.entries?.length || 0 }}</div>
+                        </div>
+                        <div class="">
+                            <small class="text-muted">Data category</small> 
+                            <div class="text-monospace">{{ category() }}</div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                <div class="flex items-center gap-2 my-3">
+                    <p-button label="Confirm" (onClick)="onAccept()" styleClass="w-32"></p-button>
+                    <p-button label="Cancel" [outlined]="true" (onClick)="onReject()" styleClass="w-32"></p-button>
+                </div>
+            </div>
+        </ng-template>
+</p-confirmdialog>
+
+
+<p-confirmdialog key="incompleteConfirmDialog" maskStyleClass="confirmdialog">     
+        <ng-template #headless let-onAccept="onAccept" let-onReject="onReject">
+            <div class="confirmdialog-container">
+                <div class="confirmdialog-icon">
+                    <i class="pi pi-question text-5xl"></i>
+                </div>
+                <span class="font-semibold text-2xl block mb-2 mt-3">Mark category as imcomplete</span>
+                <div class="m-auto text-center">
+                    Do you confirm that there are data entries missing? 
+                    <div class="flex gap-3 my-2 w-25rem justify-content-center">
+                        <div class="">
+                            <small class="text-muted">Total entries</small> 
+                            <div>{{ data.value()?.entries?.length || 0 }}</div>
+                        </div>
+                        <div class="">
+                            <small class="text-muted">Data category</small> 
+                            <div class="text-monospace">{{ category() }}</div>
+                        </div>
+                    </div>            
+                    <div class="flex gap-3 my-2 justify-content-center">
+                        <div class="">
+                            <small class="text-muted">Previously completed by</small> 
+                            <div>{{ dataCompletionStatus.value()?.username }} ({{ dataCompletionStatus.value()?.timestamp | date }})</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2 my-3">
+                    <p-button label="Confirm" (onClick)="onAccept()" styleClass="w-32"></p-button>
+                    <p-button label="Cancel" [outlined]="true" (onClick)="onReject()" styleClass="w-32"></p-button>
+                </div>
+            </div>
+        </ng-template>
+</p-confirmdialog>

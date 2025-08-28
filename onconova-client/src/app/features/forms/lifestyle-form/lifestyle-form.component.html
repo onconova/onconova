@@ -1,0 +1,90 @@
+<p-fluid>
+    <form  [formGroup]="form" (ngSubmit)="submitFormData()">
+
+        <div class="field">
+            <label for="date" class="form-label">Date</label>
+            <onconova-datepicker 
+                formControlName="date"
+            />
+            <onconova-form-control-error controlName="date"></onconova-form-control-error>
+        </div>
+
+
+        <div class="field">
+            <label class="form-label">Smoking status</label>
+            <onconova-concept-selector 
+                formControlName="smokingStatus"
+                terminology="SmokingStatus"
+                [showSynonyms]="false"/>
+            <onconova-form-control-error controlName="smokingStatus"></onconova-form-control-error>
+        </div>
+
+        @if (form.value.smokingStatus?.code && form.value.smokingStatus?.code !== smokingStatusCodeClassification.neverSmoker) {
+            <div class="field">
+                <label class="form-label">Smoking pack-years</label>
+                <p-inputnumber 
+                    formControlName="smokingPackyears"
+                    placeholder="Enter value" 
+                    useGrouping="false"
+                    suffix=" pack-year(s)"/>
+                <onconova-form-control-error controlName="smokingPackyears"></onconova-form-control-error>
+            </div>    
+        } 
+        @if (form.value.smokingStatus?.code && smokingStatusCodeClassification.exSmoker === form.value.smokingStatus?.code) {
+            <div class="field">
+                <label class="form-label">Time since quitting smoking</label>
+                <onconova-measure-input 
+                    formControlName="smokingQuited"
+                    measure="Time"
+                    defaultUnit="year"/>
+                <onconova-form-control-error controlName="smokingQuited"></onconova-form-control-error>
+            </div>
+        }
+
+        <div class="field">
+            <label class="form-label">Alcohol consumption</label>
+            <onconova-concept-selector 
+                formControlName="alcoholConsumption"
+                terminology="AlcoholConsumptionFrequency"
+                [showSynonyms]="true"/>
+            <onconova-form-control-error controlName="alcoholConsumption"></onconova-form-control-error>
+        </div>
+
+        <div class="field">
+            <label class="form-label">Recreational drugs</label>
+            <onconova-concept-selector 
+                formControlName="recreationalDrugs"
+                terminology="RecreationalDrug"
+                [showSynonyms]="true"
+                [multiple]="true"/>
+            <onconova-form-control-error controlName="recreationalDrugs"></onconova-form-control-error>
+        </div>
+
+        <div class="field">
+            <label class="form-label">Night sleep</label>
+            <onconova-measure-input 
+                formControlName="nightSleep"
+                measure="Time"
+                defaultUnit="hour"/>
+            <onconova-form-control-error controlName="nightSleep"></onconova-form-control-error>
+        </div>
+
+        <div class="field">
+            <label class="form-label">Environmental or occupational exposure(s)</label>
+            <onconova-concept-selector 
+                formControlName="exposures"
+                terminology="ExposureAgent"
+                [showSynonyms]="true"
+                [multiple]="true"/>
+            <onconova-form-control-error controlName="exposures"></onconova-form-control-error>
+        </div>
+
+        <p-button 
+            type="submit" 
+            label="Save" 
+            styleClass="w-full p-3 mt-2"  
+            [loading]="isSaving()"
+            [disabled]="form.invalid" />
+            
+    </form>
+</p-fluid>

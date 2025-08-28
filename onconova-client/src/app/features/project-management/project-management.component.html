@@ -1,0 +1,402 @@
+
+<div class="text-sm font-semibold text-muted">
+    Project
+</div>
+<div>
+    @if (project.isLoading()) {
+        <p-skeleton width="100%" height="2rem"/>
+    } @else {
+        <h1 class="my-0 mr-2">{{ project.value()!.title }}</h1>      
+    }
+</div>
+
+
+<h4 class="mb-1">Summary</h4>
+<p-divider layout="horizontal" class="mt-0"/>
+<p-card>
+    <div class="text-sm text-muted mt-3">
+        Project ID
+    </div>
+    <div>
+        @if (project.isLoading()) {
+            <p-skeleton width="10rem" height="2rem"/>
+        } @else {
+            <span class="text-monospace text-sm">
+                {{ project.value()?.id }}
+            </span> 
+        }
+    </div>
+    <div class="flex gap-4">
+        <div>
+            <div class="text-sm text-muted mt-3">
+                Project Leader
+            </div>
+            <div>
+                @if (project.isLoading()) {
+                    <p-skeleton width="10rem" height="2rem"/>
+                } @else {
+                    <onconova-user-badge [username]="project.value()!.leader" [showName]="true"/>
+                }
+            </div>
+        </div>
+
+        <div>
+            <div class="text-sm text-muted mt-3 mb-1">
+                Status
+            </div>
+            <div>
+                @if (project.isLoading()) {
+                    <p-skeleton width="10rem" height="2rem"/>
+                } @else {
+                    @let status = parseStatus(project.value()!.status!);
+                    <p-tag [value]="status.value" [severity]="status.severity"/>   
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="flex gap-4 mb-2">
+        
+        <div>
+            <div class="text-sm text-muted mt-3 mb-1">
+                Ethic Approval
+            </div>
+            <div>
+                @if (project.isLoading()) {
+                    <p-skeleton width="10rem" height="2rem"/>
+                } @else {                
+                    {{ project.value()!.ethicsApprovalNumber }}
+                }
+            </div>
+        </div>
+        <div>
+                <div class="text-sm text-muted mt-3 mb-1">
+                    Created
+                </div>
+                <div>
+                    @if (project.isLoading()) {
+                        <p-skeleton width="10rem" height="2rem"/>
+                    } @else {                
+                        {{ (project.value()!.createdAt | date) ?? '-'  }}
+                    }
+                </div>
+        </div>
+        <div>
+            <div class="text-sm text-muted mt-3 mb-1">
+                Last updated
+            </div>
+            <div>
+                @if (project.isLoading()) {
+                    <p-skeleton width="10rem" height="2rem"/>
+                } @else {                
+                    {{ (project.value()!.updatedAt | date) ?? '-'  }}
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="text-sm text-muted mt-2">
+        Description
+    </div>
+    <div class="mb-5">
+        @if (project.isLoading()) {
+            <p-skeleton width="100%" height="4rem"/>
+        } @else {
+            <p>{{ project.value()!.summary }}</p>
+        }
+    </div>
+</p-card>
+
+
+
+<h4 class="mb-1">Members</h4>
+<p-divider layout="horizontal" class="mt-0"/>
+
+<p-card styleClass="pt-1">
+    <p-popover #addMemberSelect>
+        <div class="flex flex-col gap-4">
+            <div>
+                <span class="font-medium block mb-2">Select a user to add as a member:</span>
+                <onconova-user-selector [(ngModel)]="selectedUser"/>
+                <div class="w-12 mt-3">
+                    <p-button label="Confirm" (onClick)="addMember(selectedUser()!); addMemberSelect.toggle($event)" styleClass="w-7 mr-2" [disabled]="!selectedUser()"/>
+                    <p-button label="Cancel" (onClick)="selectedUser.set(''); addMemberSelect.toggle($event)" styleClass="w-4" severity="secondary" [outlined]="true"/>
+                </div>
+            </div>
+        </div>
+    </p-popover>
+
+    <p-table 
+        [value]="members.value() ?? membersPlaceholder"
+        sortField="fullName"
+        >
+        <ng-template #header>
+
+            <tr>
+                <th colspan="2" class="pt-0">Member</th>
+                <th colspan="3" class="pt-0">Data Management</th>
+                <th colspan="1" class="pt-0">
+                    <p-button 
+                        icon="pi pi-plus" 
+                        label="Add member" 
+                        id="add-member-button" 
+                        class="ml-auto" 
+                        severity="primary" 
+                        (onClick)="addMemberSelect.toggle($event);" 
+                        [disabled]="!canEditAuthorizations()"/>
+                </th>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <th>Role</th>
+
+                <th>Status</th>
+                <th>Authorization granted by</th>
+                <th>Validity</th>
+                <th>Actions</th>
+            </tr>
+        </ng-template>
+        <ng-template #body let-member>
+            @if (members.isLoading()) {
+                <tr>
+                    <td><p-skeleton height="2rem" width="100%"/></td>
+                    <td><p-skeleton height="2rem" width="100%"/></td>
+                    <td><p-skeleton height="2rem" width="100%"/></td>
+                    <td><p-skeleton height="2rem" width="100%"/></td>
+                    <td><p-skeleton height="2rem" width="100%"/></td>
+                    <td><p-skeleton height="2rem" width="100%"/></td>
+                </tr>
+            } @else {
+                <tr>
+                    <td><i class="pi pi-user text-primary mr-2"></i>{{member.fullName}}@if(member.username == project.value()?.leader){<p-tag value="Leader" severity="secondary" class="ml-2"/>}</td>
+                    <td><span class="text-muted"><i class="pi pi-lock"></i> {{member.accessLevel}}</span> - {{member.role}}</td>
+                    <td>
+                        @if (member.canManageCases) {
+                            <p-tag value="Authorized" severity="success"/>
+                        } @else {
+                            <p-tag value="Unauthorized" severity="danger"/>   
+                        }
+                    </td>
+                    <td>
+                        @if (member.authorization; as authorization) {
+                            <div>
+                                <onconova-user-badge [username]="authorization.grantedBy" [showName]="true"/>
+                            </div>
+                            <div class="text-muted text-sm authorization-granter-subtitle">
+                                on {{ authorization.createdAt | date }}
+                            </div>
+                        } @else if (member.accessLevel >= 4) {
+                            <span class="text-muted">System</span>
+                        } @else {
+                            <span class="text-muted">-</span>
+                        }
+                    </td>
+                    <td>
+                        @if (member.authorization; as authorization) {
+                            <div> 
+                                {{authorization.validityPeriod.start | date}}
+                                -
+                                {{authorization.validityPeriod.end | date}}
+                            </div>
+                            <div class="text-muted text-sm">
+                                @if (authorization.revoked) {
+                                    Revoked
+                                } @else {
+                                    {{ getValidityPeriodAnnotation(authorization.validityPeriod) }}
+                                }
+                            </div>
+                        } @else if (member.accessLevel >= 4) {
+                            <span class="text-muted">Always</span>
+                        } @else {
+                            <span class="text-muted">-</span>
+                        }
+                    </td>
+                    <td>
+                        <p-menu #menu [model]="(dynamicMenuItems$ | async)!" (onShow)="getMemberMenuItems(member)" [popup]="true" appendTo="body" [tabindex]="undefined"/>
+                        <p-button (click)="menu.toggle($event)" icon="pi pi-ellipsis-v" [disabled]="!canEditAuthorizations() "/>
+                    </td>
+                </tr>
+            }
+        </ng-template>
+    </p-table>
+</p-card>
+
+
+
+<h4 class="mb-1">Cohorts</h4>
+<p-divider layout="horizontal" class="mt-0"/>
+<p-card>
+    <p-dataView
+        styleClass="onconova-case-search-dataview"
+        [value]="cohorts.value() || [1,2,3,4,5,6,7,8,9,10, 12]"
+        [paginator]="true" 
+        [rows]="cohortsPagination().limit" 
+        layout="list"
+        sortField="createdAt"
+        lazy="true"
+        [rowsPerPageOptions]="cohortsPageSizeChoices"
+        [totalRecords]="totalCohorts()"
+        (onLazyLoad)="cohortsPagination.set({limit: $event.rows, offset: $event.first})"
+        class="no-background">
+
+        <ng-template #list let-data>
+            <p-table [value]="data" styleClass="mt-3">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Title</th>
+                        <th class="text-center">Population</th>
+                        <th>Project</th>
+                        <th>Predominant Topography</th>
+                        <th>Median Age</th>
+                        <th>Median Completion</th>
+                        <th class="text-center">Created</th>
+                        <th class="text-center">Last Updated</th>
+                        <th></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-cohort>
+                    <tr onconova-cohort-search-item 
+                        layout="row"
+                        [cohort]="cohort"
+                        ></tr>
+                </ng-template>
+            </p-table>
+        </ng-template>    
+    </p-dataView>
+</p-card>
+
+<h4 class="mb-1">Datasets</h4>
+<p-divider layout="horizontal" class="mt-0"/>
+<p-card>
+    <p-dataView
+        styleClass="onconova-case-search-dataview"
+        [value]="datasets.value() || [1,2,3,4,5,6,7,8,9,10, 12]"
+        [paginator]="true" 
+        [rows]="cohortsPagination().limit" 
+        layout="list"
+        sortField="createdAt"
+        lazy="true"
+        [rowsPerPageOptions]="datasetsPageSizeChoices"
+        [totalRecords]="totalDatasets()"
+        (onLazyLoad)="datasetsPagination.set({limit: $event.rows, offset: $event.first})"
+        class="no-background mb-5">
+
+        <ng-template #list let-data>
+            <p-table [value]="data" styleClass="mt-3">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th class="text-center">Data Points</th>
+                        <th class="text-center">Exports</th>
+                        <th class="text-center">Last Export</th>
+                        <th>Related Cohorts</th>
+                        <th class="text-center">Created</th>
+                        <th class="text-center">Last Updated</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-dataset>
+                    <tr>
+                        <td>{{ dataset.name }}</td>
+                        <td>{{ dataset.summary | slice:0:30 }}</td>
+                        <td class="text-center">{{ dataset.rules?.length }}</td>
+                        <td class="text-center">{{ dataset.totalExports }}</td>
+                        <td class="text-center">{{ dataset.lastExport | date }}</td>
+                        <td>
+                            @if (dataset.cohortsIds?.length > 0) {
+                                <ul class="pl-0 ml-3 my-1">
+                                    @for (cohortId of dataset.cohortsIds; track $index) {
+                                        <li>{{cohorts.value()?.find(matchCohort(cohortId))?.name}}</li>
+                                    }
+                                </ul>
+                            } @else {
+                                -
+                            }    
+                        </td>
+                        <td class="text-center">{{ (dataset.createdAt | date) || '-' }}</td>
+                        <td class="text-center">{{ (dataset.updatedAt | date) || '-' }}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </ng-template>    
+
+    </p-dataView>
+</p-card>
+
+
+
+
+<p-confirmdialog key="revoke"/>
+<p-confirmdialog key="authorize">
+    <ng-template #headless let-message let-onAccept="onAccept" let-onReject="onReject">
+        <div class="p-4">
+            <h5 class="mb-4">
+                Data management authorization
+            </h5> 
+            <div>
+                You are about to change the data management authorization for this project's member:
+            </div> 
+            <div class="flex gap-4 border-round	border-1 p-2 mt-2 surface-border	">
+                <div class="ml-auto">
+                    <div class="text-sm text-muted">
+                        Name
+                    </div>
+                    <div>
+                        {{authDialogMember()!.fullName}}
+                    </div>    
+                </div>
+                <div class="mr-auto">
+                    <div class="text-sm text-muted">
+                        Role
+                    </div>
+                    <div>
+                        <span class="text-muted"><i class="pi pi-lock"></i> {{authDialogMember()!.accessLevel}}</span> - {{authDialogMember()!.role}}
+                    </div>    
+                </div>
+            </div>
+            
+            <p-fluid>
+                <div class="field mt-4" >
+                    <label class="form-label required">Authorization period</label>
+                    <div class="text-muted text-sm mb-2">
+                        A maximal duration of 31 days can be specified. 
+                    </div>
+                    <p-datepicker class="max-w-full mt-2"
+                         [(ngModel)]="authDialogValidityPeriod" 
+                         [minDate]="authDialogExpirationMinDate"
+                         [maxDate]="authDialogExpirationMaxDate()"
+                         selectionMode="range"
+                         [selectOtherMonths]="true"
+                         [inline]="true"/>
+                </div>    
+                @if (authDialogValidityPeriod()[1]) {
+                    <div class="text-center">
+                        <div class="text-sm">Selected period</div>
+                        <div class="text-primary">From <span class="font-semibold">{{ authDialogValidityPeriod()![0] | date }}</span> until <span class="font-semibold">{{ authDialogValidityPeriod()![1] | date }}</span> ({{getDaysDifference(authDialogValidityPeriod()![0], authDialogValidityPeriod()![1])}} days)</div>                        
+                    </div>    
+                }
+                <div class="field mt-4" >
+                    <div class="text-muted text-sm">
+                        Please confirm the following:
+                    </div>
+                    <div class="field flex mt-3"  formGroupName="consent">
+                        <p-toggleswitch [(ngModel)]="authDialogConfirmation" />
+                        <label class="form-label ml-2 my-auto required">
+                            I hereby authorize and accept responsibility for {{authDialogMember()!.fullName}} as a member of this project, granting them permission to manage (create, edit, and delete) patient cases and related data. 
+                            This authorization also includes access to pseudonymized case data for the specified time period.
+                        </label>
+                    </div>
+                </div>  
+            </p-fluid>
+
+
+            <div class="flex items-center gap-2 mt-6">
+                <p-button label="Authorize Data Manager" (onClick)="onAccept()" styleClass="w-20rem" [disabled]="!authDialogConfirmation() || !authDialogValidityPeriod()[1]"></p-button>
+                <p-button label="Cancel" [outlined]="true" (onClick)="onReject()" styleClass="w-32"></p-button>
+            </div>    
+        </div>
+    </ng-template>
+</p-confirmdialog>
+
+
+<p-confirmdialog key="remove"/>

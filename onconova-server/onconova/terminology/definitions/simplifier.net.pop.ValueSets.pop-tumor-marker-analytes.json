@@ -1,0 +1,204 @@
+{
+    "resourceType": "ValueSet",
+    "id": "onconova-tumor-marker-analytes",
+    "url": "https://simplifier.net/onconova/ValueSets/onconova-tumor-marker-analytes",
+    "title": "Tumor Marker Analytes",
+    "status": "draft",
+    "compose": {
+        "include": [
+            {
+                "concept": [
+                    {
+                        "code": "C17922",
+                        "display": "Somatostatin Receptor Type 2"
+                    }
+                ],
+                "system": "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl"
+            },
+            {
+                "concept": [
+                    {
+                        "code": "LP28643-2",
+                        "display": "Carcinoembryonic Ag"
+                    },
+                    {
+                        "code": "LP14543-0",
+                        "display": "Cancer Ag 125"
+                    },
+                    {
+                        "code": "LP15461-4",
+                        "display": "Cancer Ag 15-3"
+                    },
+                    {
+                        "code": "LP14040-7",
+                        "display": "Cancer Ag 19-9"
+                    },
+                    {
+                        "code": "LP15463-0",
+                        "display": "Cancer Ag 242"
+                    },
+                    {
+                        "code": "LP15464-8",
+                        "display": "Cancer Ag 27-29"
+                    },
+                    {
+                        "code": "LP15465-5",
+                        "display": "Cancer Ag 50"
+                    },
+                    {
+                        "code": "LP15466-3",
+                        "display": "Cancer Ag 549"
+                    },
+                    {
+                        "code": "LP18274-8",
+                        "display": "Cancer Ag DM/70K"
+                    },
+                    {
+                        "code": "LP15467-1",
+                        "display": "Cancer Ag 72-4"
+                    },
+                    {
+                        "code": "LP28642-4",
+                        "display": "Cancer associated serum Ag"
+                    },
+                    {
+                        "code": "LP135291-5",
+                        "display": "Circulating tumor cells"
+                    },
+                    {
+                        "code": "LP63010-0",
+                        "display": "Fibroblast growth factor"
+                    },
+                    {
+                        "code": "LP420752-0",
+                        "display": "Gastrin releasing polypeptide prohormone"
+                    },
+                    {
+                        "code": "LP420752-0",
+                        "display": "Gastrin releasing polypeptide prohormone"
+                    },
+                    {
+                        "code": "LP89249-4",
+                        "display": "Tumor necrosis factor binding protein 1"
+                    },
+                    {
+                        "code": "LP62856-7",
+                        "display": "YKL-40"
+                    },
+                    {
+                        "code": "LP38032-6",
+                        "display": "Enolase.neuron specific Ag"
+                    },
+                    {
+                        "code": "LP15033-1",
+                        "display": "Lactate dehydrogenase"
+                    },
+                    {
+                        "code": "LP14652-9",
+                        "display": "Chromogranin A"
+                    },
+                    {
+                        "code": "LP57672-5",
+                        "display": "S100 calcium binding protein B"
+                    },
+                    {
+                        "code": "LP18193-0",
+                        "display": "Prostate specific Ag"
+                    },
+                    {
+                        "code": "LP14331-0",
+                        "display": "Alpha-1-Fetoprotein"
+                    },
+                    {
+                        "code": "LP14329-4",
+                        "display": "Choriogonadotropin.beta subunit"
+                    },
+                    {
+                        "code": "LP19423-0",
+                        "display": "Cytokeratin 19"
+                    },
+                    {
+                        "code": "LP93517-8",
+                        "display": "Human epididymis protein 4"
+                    },
+                    {
+                        "code": "LP15724-5",
+                        "display": "Melanin"
+                    },
+                    {
+                        "code": "LP38066-4",
+                        "display": "Epstein Barr virus Ab"
+                    },
+                    {
+                        "code": "LP220351-3",
+                        "display": "Programmed cell death ligand 1"
+                    },
+                    {
+                        "code": "LP28442-9",
+                        "display": "HER2"
+                    },
+                    {
+                        "code": "LP18567-5",
+                        "display": "Estrogen receptor"
+                    },
+                    {
+                        "code": "LP14902-8",
+                        "display": "Progesterone receptor"
+                    },
+                    {
+                        "code": "LP68364-6",
+                        "display": "Androgen receptor"
+                    },
+                    {
+                        "code": "LP39016-8",
+                        "display": "Ki-67 nuclear Ag"
+                    },
+                    {
+                        "code": "LP420961-7",
+                        "display": "DNA mismatch repair protein Mlh3"
+                    },
+                    {
+                        "code": "LP212189-7",
+                        "display": "DNA mismatch repair protein Mlh1"
+                    },
+                    {
+                        "code": "LP212190-5",
+                        "display": "DNA mismatch repair protein Msh2"
+                    },
+                    {
+                        "code": "LP420964-1",
+                        "display": "DNA mismatch repair protein Msh3"
+                    },
+                    {
+                        "code": "LP212191-3",
+                        "display": "DNA mismatch repair protein Msh6"
+                    },
+                    {
+                        "code": "LP212192-1",
+                        "display": "Mismatch repair endonuclease PMS2"
+                    },
+                    {
+                        "code": "LP19646-6",
+                        "display": "CDKN2A gene"
+                    },
+                    {
+                        "code": "LP38570-5",
+                        "display": "Human papilloma virus DNA"
+                    },
+                    {
+                        "code": "LP38067-2",
+                        "display": "Epstein Barr virus DNA"
+                    }
+                ],
+                "system": "http://loinc.org"
+            }
+        ]
+    },
+    "description": "Codes representing analytes for tumor markers.",
+    "text": {
+        "status": "generated",
+        "div": ""
+    },
+    "name": "TumorMarkerAnalytes",
+    "publisher": "Precision Oncology Project"
+}

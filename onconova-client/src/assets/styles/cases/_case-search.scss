@@ -1,0 +1,41 @@
+.onconova-case-search-dataview .p-dataview-content{
+    background: none !important;
+    margin-bottom: 1rem;
+}
+.onconova-case-search-dataview .p-dataview-emptymessage {
+    text-align: center;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+    color: var(--p-surface-500);
+    font-size: 1.5rem;
+}
+
+.onconova-case-search-item-card {
+    --onconova-case-search-item-card-width: 35rem;
+    box-shadow: var(--card-shadow);
+    border-radius: 12px;
+    background: var(--p-content-background);
+    display: flex;
+    flex-direction: column;
+    flex-grow: 0;
+    padding: 1rem;
+    margin-bottom: .25rem;
+    min-width: var(--onconova-case-search-item-card-width);
+    height: 100%;
+    border-left: solid 4px var(--p-content-border-color);
+    border-left: solid 4px transparent;
+    outline: solid 0.5px var(--p-divider-border-color);
+    
+    &:hover {
+        border-left: solid 4px var(--p-primary-color);
+    }
+
+    &.placeholder {
+        border-left: none;
+    }
+
+
+    & .p-knob-text::after {
+        content: '%' !important;
+    }
+}

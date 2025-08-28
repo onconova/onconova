@@ -1,0 +1,189 @@
+<p-fluid>
+    <form  [formGroup]="form" (ngSubmit)="submitFormData()" style="min-width: 35vw;" >
+
+        <div class="p-1">
+            <p-stepper [value]="1" [linear]="true">
+
+                <p-step-item [value]="1">
+                    <p-step>Clinical Identification</p-step>
+                    <p-step-panel>
+                        <ng-template #content let-activateCallback="activateCallback">
+                            <div class="flex">
+                                <div [inlineSVG]="centerIllustration" class="onconova-svg-illustration mr-3 h-15rem"></div>
+                                <div class="flex flex-column my-auto" formGroupName="identification">
+                                    <div class="field">
+                                        <label class="form-label required">Clinical center</label>
+                                        <p-autocomplete 
+                                            placeholder="Enter a center" 
+                                            formControlName="clinicalCenter"  
+                                            [suggestions]="clinicalCenters.value() || []" 
+                                            (completeMethod)="clinicalCenterQuery.set($event.query)" />
+                                        <div><small class="text-muted">The name of the center where the patient's record originated from.</small></div>
+                                    </div>
+                            
+                                    <div class="field">
+                                        <label class="form-label required">Clinical identifier</label>
+                                        <input pInputText placeholder="Enter a value" formControlName="clinicalIdentifier" />
+                                        <div><small class="text-muted">The clinical identifier unique for a given patient at a clinical center. Usually the clinical information system's identifier.</small></div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="py-3">
+                                <p-button label="Next" (onClick)="activateCallback(2)" [disabled]="!form.get('identification')?.valid"/>
+                            </div>
+                        </ng-template>
+                    </p-step-panel>
+                </p-step-item>
+
+                <p-step-item [value]="2">
+                    <p-step>Patient Information</p-step>
+                    <p-step-panel>
+                        <ng-template #content let-activateCallback="activateCallback">
+                            <div class="flex flex-column" formGroupName="general">
+
+                                <div class="field flex flex-column">
+                                    <label class="form-label required">Gender</label>
+                                    <onconova-concept-selector 
+                                        terminology="AdministrativeGender"
+                                        widget="selectbutton"
+                                        formControlName="gender"/>
+                                </div>
+                        
+                                <div class="field">
+                                    <label for="date-of-birth" class="form-label required">Date of Birth</label>
+                                    <onconova-datepicker 
+                                        formControlName="dateOfBirth"
+                                        view="month" 
+                                        dateFormat="mm/yy" 
+                                        placeholder="MM/YYYY" 
+                                    />
+                                    <small id="dateOfBirth-help">For de-identification, only the month and year are used.  </small>
+                                </div>
+                        
+                                <div class="field flex flex-column">
+                                    <label class="form-label required">Vital Status</label>
+                                    <p-selectbutton [options]="vitalStatusOptions" formControlName="vitalStatus" optionLabel="label" optionValue="value" />
+                                </div>
+                                
+                                @if (form.value.general!.vitalStatus == 'deceased') {
+                                    <div class="field">
+                                        <label class="form-label required">Date of Death</label>
+                                        <onconova-datepicker 
+                                            formControlName="dateOfDeath"
+                                            view="month" 
+                                            dateFormat="mm/yy" 
+                                            placeholder="MM/YYYY" 
+                                            />
+                                    </div>
+                            
+                                    <div class="field">
+                                        <label class="form-label">Cause of death</label>
+                                        <onconova-concept-selector 
+                                            terminology="CauseOfDeath"
+                                            [showSynonyms]="false"
+                                            formControlName="causeOfDeath"/>
+                                    </div>
+                                }
+                                @if (form.value.general!.vitalStatus == 'unknown') {
+                                    <div class="field">
+                                        <label class="form-label required">End of records</label>
+                                        <onconova-datepicker 
+                                            formControlName="endOfRecords"
+                                            view="month" 
+                                            dateFormat="mm/yy" 
+                                            placeholder="MM/YYYY" 
+                                            />
+                                        <div><small class="text-muted">The month and year of the last known data entry or document available for the patient.</small></div>
+                                    </div>
+
+                                }
+                            </div>
+                            <div class="flex py-3 gap-3">
+                                <p-button label="Back" severity="secondary" icon="pi pi-arrow-left" (onClick)="activateCallback(1)" />
+                                <p-button label="Next" (onClick)="activateCallback(3)" [disabled]="!form.get('general')?.valid" class="flex-grow-1"/>
+                            </div>
+                        </ng-template>
+                    </p-step-panel>
+                </p-step-item>
+
+                <p-step-item [value]="3">
+                    <p-step>Consent</p-step>
+                    <p-step-panel>
+                        <ng-template #content let-activateCallback="activateCallback">
+                            <div formGroupName="consent">
+                                <div class="flex">
+                                    <div [inlineSVG]="consentIllustration" class="onconova-svg-illustration mr-3 h-15rem"></div>
+                                    <div class="flex flex-column my-auto">
+                                        <p>Have you checked for consent/permission?</p>
+                                        <small class="text-muted">
+                                        A patient's case may only be included in the Precision Oncology Platform if the patient has provided explicit informed consent 
+                                        (e.g., through a signed general consent) or if the managing researcher has obtained authorization from the appropriate regulatory 
+                                        or ethics governance bodies to access and utilize the data in accordance with applicable legal and ethical standards.</small>
+                                    </div>
+                                </div>
+
+
+                                <div class="field flex flex-column">
+                                    <label class="form-label required">Consent Status</label>
+                                    <p-selectbutton [options]="consentStatusOptions" formControlName="consentStatus" optionLabel="label" optionValue="value" />
+                                </div>
+
+                                <div class="field flex mt-4" >
+                                    <p-toggleswitch formControlName="consentCheck" />
+                                    <label class="form-label ml-2 my-auto required">
+                                        I hereby confirm that I have the legal and ethical authorization to access and utilize this patient’s clinical data 
+                                        for research purposes in compliance with all applicable laws, regulations, and institutional policies.</label>
+                                </div>
+
+                                <div class="flex py-3 gap-3">
+                                    <p-button label="Back" severity="secondary" icon="pi pi-arrow-left" (onClick)="activateCallback(2)" />
+                                    <p-button label="Next" (onClick)="activateCallback(4)" [disabled]="!form.value.consent!.consentCheck" class="flex-grow-1"/>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </p-step-panel>
+                </p-step-item>
+
+                <p-step-item [value]="4">
+                    <p-step>Submit</p-step>
+                    <p-step-panel>
+                        <ng-template #content let-activateCallback="activateCallback">
+                            <h4>Almost done!</h4>
+                            <div class="">
+                                Please check that the patient's information is correct:
+                                <div class="flex flex-column gap-2 ml-3 mt-3 pl-2" style="border-left: solid 4px var(--p-primary-500);">
+                                    <div><b>Clinical Center:</b> {{form.value.identification!.clinicalCenter}}</div>
+                                    <div><b>Clinical Identifier:</b> {{form.value.identification!.clinicalIdentifier}}</div>
+                                    <div><b>Gender</b>: {{form.value.general!.gender?.display}}</div>
+                                    <div><b>Date of birth</b>: {{form.value.general!.dateOfBirth | date:'MMM, y'}}</div>
+                                    <div><b>Vital status</b>: {{form.value.general!.vitalStatus}}</div>
+                                    @if (form.value.general!.vitalStatus == 'deceased') {
+                                        <div><b>Date of death</b>: {{form.value.general!.dateOfDeath | date:'MMM, y'}}</div>
+                                        <div><b>Cause of death</b>: {{form.value.general!.causeOfDeath?.display ?? 'N/S'}}</div>
+                                    }
+                                    @if (form.value.general!.endOfRecords == 'unknown') {
+                                        <div><b>End of records</b>: {{form.value.general!.endOfRecords | date:'MMM, y'}}</div>
+                                    }
+                                    <div><b>Consent</b>: {{form.value.consent!.consentStatus}}</div>
+                                </div>
+                            </div>
+                            <div class="flex py-3 gap-3">
+                                <p-button label="Back" severity="secondary" icon="pi pi-arrow-left" (onClick)="activateCallback(3)" />
+                                <p-button 
+                                    type="submit" 
+                                    icon="pi pi-verified"
+                                    label="Confirm & Save" 
+                                    class="flex-grow-1"
+                                    [loading]="isSaving()"
+                                    [disabled]="form.invalid" />                            
+                            </div>
+                        </ng-template>
+                    </p-step-panel>
+                </p-step-item>
+
+            </p-stepper>
+        </div>
+
+    </form>
+</p-fluid>

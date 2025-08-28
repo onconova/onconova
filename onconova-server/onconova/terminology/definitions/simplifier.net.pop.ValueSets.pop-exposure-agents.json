@@ -1,0 +1,26 @@
+{
+    "resourceType": "ValueSet",
+    "url": "https://simplifier.net/onconova/ValueSets/onconova-exposure-agents",
+    "id": "onconova-exposure-agents",
+    "version": "0.1",
+    "title": "Exposure Agents",
+    "name": "ExposureAgents",
+    "status": "draft",
+    "compose": {
+        "include": [
+            {
+                "system": "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+                "filter": [
+                    {
+                        "property": "concept",
+                        "op": "is-a",
+                        "value": "C19447"
+                    }
+                ]
+            }
+        ]
+    },
+    "date": "2025-01-08T00:00:00Z",
+    "experimental": true,
+    "publisher": "Precision Oncology Platform"
+}

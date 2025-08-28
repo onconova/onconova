@@ -27,9 +27,9 @@ pip-proxy.sh
 */migrations/*.pyc
 
 # Media uploads
-pop-server/media/
-pop-server/static/
-pop-server/logs/
+onconova-server/media/
+onconova-server/static/
+onconova-server/logs/
 .venv
 
 # Static files

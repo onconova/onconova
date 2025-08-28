@@ -1,0 +1,64 @@
+{
+    "resourceType": "ValueSet",
+    "url": "https://simplifier.net/onconova/ValueSets/onconova-smoking-status",
+    "id": "onconova-smoking-status",
+    "title": "Smoking status",
+    "status": "draft",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "email"
+                }
+            ]
+        }
+    ],
+    "compose": {
+        "include": [
+            {
+                "system": "http://snomed.info/sct",
+                "concept": [
+                    {
+                        "code": "266919005",
+                        "display": "Never smoked tobacco"
+                    },
+                    {
+                        "code": "266927001",
+                        "display": "Tobacco smoking consumption unknown"
+                    },
+                    {
+                        "code": "428041000124106",
+                        "display": "Occasional tobacco smoker"
+                    },
+                    {
+                        "code": "428061000124105",
+                        "display": "Light tobacco smoker"
+                    },
+                    {
+                        "code": "428071000124103",
+                        "display": "Heavy tobacco smoker"
+                    },
+                    {
+                        "code": "449868002",
+                        "display": "Smokes tobacco daily"
+                    },
+                    {
+                        "code": "77176002",
+                        "display": "Smoker"
+                    },
+                    {
+                        "code": "8517006",
+                        "display": "Ex-smoker"
+                    }
+                ]
+            }
+        ]
+    },
+    "description": "Smoking status of a patient",
+    "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Placeholder</div>"
+    },
+    "publisher": "Precision Oncology Project",
+    "name": "SmokingStatus"
+}

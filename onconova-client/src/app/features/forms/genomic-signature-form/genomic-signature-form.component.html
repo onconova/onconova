@@ -1,0 +1,132 @@
+<p-fluid>
+    <form  [formGroup]="form" (ngSubmit)="submitFormData()">
+        <div class="field">
+            <label for="date" class="form-label required">Date</label>
+            <onconova-datepicker 
+                formControlName="date"
+            />
+            <onconova-form-control-error controlName="date"></onconova-form-control-error>
+        </div>
+
+        <div class="field">
+            <label class="form-label required">Genomic signature category</label>
+            <p-select  
+                formControlName="category"
+                [options]="signatrureCategoryChoices"
+                optionLabel="name"
+                placeholder="Select a category"
+                appendTo="body" 
+                optionValue="value"/>
+            <onconova-form-control-error controlName="category"></onconova-form-control-error>
+        </div>
+
+        @switch (form.value.category) {
+            @case (genomicSignatureTypes.TumorMutationalBurden) {
+                <div class="field">
+                    <label class="form-label required">Value</label>
+                    <p-inputnumber 
+                        formControlName="tumorMutationalBurdenValue"
+                        placeholder="Enter value" 
+                        suffix=" Muts/Mb"
+                        mode="decimal"
+                        [min]="0"
+                        [minFractionDigits]="1"
+                        [maxFractionDigits]="3"/>
+                    <onconova-form-control-error controlName="tumorMutationalBurdenValue"></onconova-form-control-error>
+                </div>
+        
+                <div class="field flex flex-column">
+                    <label class="form-label">Status</label>
+                    <p-selectButton
+                        formControlName="tumorMutationalBurdenStatus"
+                        [options]="tumorMutationalBurdernStatusChoices"/>
+                    <onconova-form-control-error controlName="tumorMutationalBurdenStatus"></onconova-form-control-error>
+                </div>
+            }
+            @case (genomicSignatureTypes.MicrosatelliteInstability) {
+                <div class="field flex flex-column">
+                    <label class="form-label required">Value</label>
+                    <onconova-concept-selector 
+                        formControlName="microsatelliteInstabilityValue"
+                        terminology="MicrosatelliteInstabilityState"
+                        widget="selectbutton"
+                        [showSynonyms]="false"/>    
+                    <onconova-form-control-error controlName="microsatelliteInstabilityValue"></onconova-form-control-error>
+                </div>
+            }
+            @case (genomicSignatureTypes.LossOfHeterozygosity) {
+                <div class="field">
+                    <label class="form-label required">Value</label>
+                    <p-inputnumber 
+                        formControlName="lossOfHeterozygosityValue"
+                        placeholder="Enter value" 
+                        suffix="%"
+                        mode="decimal"
+                        [min]="0"
+                        [max]="100"
+                        [minFractionDigits]="1"
+                        [maxFractionDigits]="3"/>
+                    <onconova-form-control-error controlName="lossOfHeterozygosityValue"></onconova-form-control-error>
+                </div>
+            }
+            @case (genomicSignatureTypes.HomologousRecombinationDeficiency) {
+                <div class="field">
+                    <label class="form-label">Value</label>
+                    <p-inputnumber 
+                        formControlName="homologousRecombinationDeficiencyValue"
+                        placeholder="Enter value" 
+                        mode="decimal"
+                        [min]="0"
+                        [minFractionDigits]="1"
+                        [maxFractionDigits]="3"/>
+                    <onconova-form-control-error controlName="homologousRecombinationDeficiencyValue"></onconova-form-control-error>
+                </div>
+                <div class="field flex flex-column">
+                    <label class="form-label">Interpretation</label>
+                    <p-selectButton 
+                        formControlName="homologousRecombinationDeficiencyInterpretation"
+                        [options]="homologousRecombinationDeficiencyInterpretationChoices"/>
+                    <onconova-form-control-error controlName="homologousRecombinationDeficiencyInterpretation"></onconova-form-control-error>
+                </div>
+            }
+            @case (genomicSignatureTypes.TumorNeoantigenBurden) {
+                <div class="field">
+                    <label class="form-label required">Value</label>
+                    <p-inputnumber 
+                        formControlName="tumorNeoantigenBurdenValue"
+                        placeholder="Enter value" 
+                        suffix=" Neoantigens/Mb"
+                        mode="decimal"
+                        [min]="0"
+                        [minFractionDigits]="1"
+                        [maxFractionDigits]="3"/>
+                    <onconova-form-control-error controlName="tumorNeoantigenBurdenValue"></onconova-form-control-error>
+                </div>
+            }
+            @case (genomicSignatureTypes.AneuploidScore) {
+                <div class="field">
+                    <label class="form-label required">Value</label>
+                    <p-inputnumber 
+                        formControlName="aneuploidScoreValue"
+                        placeholder="Enter value" 
+                        suffix=" altered arms"
+                        mode="decimal"
+                        [min]="0"
+                        [max]="39"
+                        [minFractionDigits]="0"
+                        [maxFractionDigits]="3"/>
+                    <onconova-form-control-error controlName="aneuploidScoreValue"></onconova-form-control-error>
+                </div>
+
+            }
+        }
+
+        <p-button 
+            type="submit" 
+            label="Save" 
+            styleClass="w-full p-3 mt-2"  
+            [loading]="isSaving()"
+            [disabled]="form.invalid" />
+                
+    </form>
+</p-fluid>

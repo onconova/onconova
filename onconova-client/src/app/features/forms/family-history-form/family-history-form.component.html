@@ -1,0 +1,73 @@
+<p-fluid>
+    <form  [formGroup]="form" (ngSubmit)="submitFormData()">
+
+        <div class="field">
+            <label for="date" class="form-label required">Date recorded</label>
+            <onconova-datepicker 
+                formControlName="date"
+            />
+            <onconova-form-control-error controlName="date"></onconova-form-control-error>
+        </div>
+
+        <div class="field">
+            <label class="form-label required">Relationship to the patient</label>
+            <onconova-concept-selector 
+                formControlName="relationship"
+                terminology="FamilyMemberType"
+                [showSynonyms]="false"/>
+            <onconova-form-control-error controlName="relationship"></onconova-form-control-error>
+        </div>
+
+        <div class="field flex align-items-center">
+            <p-toggleswitch formControlName="hadCancer" />
+            <label class="form-label required ml-2 mb-0">Relative has a history of cancer</label>
+            <onconova-form-control-error controlName="hadCancer"></onconova-form-control-error>
+        </div>
+
+        @if (form.value.hadCancer) {
+            <div class="field">
+                <label class="form-label">Topography</label>
+                <onconova-concept-selector 
+                    formControlName="topography"
+                    terminology="CancerTopography"
+                    [showSynonyms]="true"/>
+                <onconova-form-control-error controlName="topography"></onconova-form-control-error>
+            </div>
+
+            <div class="field">
+                <label class="form-label">Morphology</label>
+                <onconova-concept-selector 
+                    formControlName="morphology"
+                    terminology="CancerMorphology"
+                    [showSynonyms]="true"/>
+                <onconova-form-control-error controlName="morphology"></onconova-form-control-error>
+            </div>
+
+            <div class="field">
+                <label class="form-label">Approximate age at which the cancer was diagnosed</label>
+                <p-inputnumber 
+                    formControlName="onsetAge"
+                    suffix=" years"
+                    placeholder="Enter an age estimate"/>
+                <onconova-form-control-error controlName="onsetAge"></onconova-form-control-error>
+            </div>
+
+            <div class="field">
+                <label class="form-label">Did the cancer contribute to the relative's death?</label>
+                <p-selectbutton
+                    formControlName="contributedToDeath"
+                    [options]="contributedToDeathChoices"
+                    class="flex"/>
+                <onconova-form-control-error controlName="contributedToDeath"></onconova-form-control-error>
+            </div>
+        }
+
+        <p-button 
+            type="submit" 
+            label="Save" 
+            styleClass="w-full p-3 mt-2"  
+            [loading]="isSaving()"
+            [disabled]="form.invalid" />
+            
+    </form>
+</p-fluid>
