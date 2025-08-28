@@ -114,7 +114,7 @@ export class DatasetComposeService {
 
                 // Handle $ref
                 if (property.$ref) {
-                    const refName = property.$ref.split('/').onconova();
+                    const refName = property.$ref.split('/').pop();
                     return refName ?? 'unknown';
                 }
 

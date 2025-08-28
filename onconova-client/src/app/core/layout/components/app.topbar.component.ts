@@ -69,7 +69,7 @@ import { Divider } from 'primeng/divider';
                 <p-button icon="pi pi-user" [rounded]="true" (onClick)="profile.toggle($event)" />
         </ng-template>
 
-        <p-menu #profile class="onconova-profile-menu" [model]="profileItems()" [onconovaup]="true">
+        <p-menu #profile class="onconova-profile-menu" [model]="profileItems()" [popup]="true">
             <ng-template #start>
                 <div class="flex flex-column m-3 text-center">    
                     @if (currentUser().isProvided) {

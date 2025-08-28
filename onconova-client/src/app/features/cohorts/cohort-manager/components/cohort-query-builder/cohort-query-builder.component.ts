@@ -174,8 +174,8 @@ export class CohortQueryBuilderComponent implements ControlValueAccessor {
 
             let propertyType: string;
             if (actual.type === undefined) {
-              if (actual.$ref) propertyType = actual.$ref.split('/').onconova();
-              else if (actual.allOf) propertyType = actual.allOf[0].$ref.split('/').onconova();
+              if (actual.$ref) propertyType = actual.$ref.split('/').pop();
+              else if (actual.allOf) propertyType = actual.allOf[0].$ref.split('/').pop();
               else propertyType = actual.type;
             } else {
                 propertyType = actual.type;
@@ -187,7 +187,7 @@ export class CohortQueryBuilderComponent implements ControlValueAccessor {
                     name: `${property.title} - ${nested_field.name}`,
                     description: nested_field.description,
                     entity: entity,
-                    value: `${entity}.${propertyKey}.${nested_field.value?.split('.').onconova()}`,
+                    value: `${entity}.${propertyKey}.${nested_field.value?.split('.').pop()}`,
                     options: nested_field.options,
                     type: nested_field.type,
                     operators: nested_field.operators,
