@@ -99,6 +99,7 @@ class BundleParser:
             - If a UserSchema is provided, user details are imported and the user is created as inactive and external.
         """
         if isinstance(user, str):
+            external_username = f"{user}-ext"
             return User.objects.get_or_create(
                 username=user,
                 defaults=dict(
@@ -108,8 +109,9 @@ class BundleParser:
                 ),
             )[0]
         else:
+            external_username = f"{user.username}-ext"
             return User.objects.get_or_create(
-                username=user.username,
+                username=external_username,
                 defaults=dict(
                     # Import details of the external user
                     first_name=user.firstName,
