@@ -110,7 +110,7 @@
                     <onconova-cohort-trait  title="Median Age" [loading]="loading() || cohortTraits.isLoading()" [valid]="cohort && cohortNonEmpty()">
                         @if (cohortTraits.value()?.age; as age) {
                             {{ age.median }}
-                            @if (age.interQuartalRange !== null) {
+                            @if (age.interQuartalRange !== undefined && age.interQuartalRange !== null) {
                                 ({{ age.interQuartalRange[0] }}, {{ age.interQuartalRange[1] }})
                             } years
                         }
@@ -119,7 +119,7 @@
                     <onconova-cohort-trait  title="Predominant Gender" [loading]="loading() || cohortTraits.isLoading()" [valid]="cohort && cohortNonEmpty()">
                         @if (cohortTraits.value()?.genders; as genders) {
                             @let predominantGender = getPredominantCount(genders);
-                            @if (predominantGender.percentage !== null) {
+                            @if (predominantGender.percentage !== undefined && predominantGender.percentage !== null) {
                                 {{ predominantGender.percentage | number:'1.0-1' }}% 
                             }
                             {{ predominantGender.category }}
@@ -129,7 +129,7 @@
                     <onconova-cohort-trait  title="Predominant Site" [loading]="loading() || cohortTraits.isLoading()" [valid]="cohort && cohortNonEmpty()">
                         @if (cohortTraits.value()?.neoplasticSites; as neoplasticSites) {
                             @let predominantSite = getPredominantCount(neoplasticSites);
-                            @if (predominantSite.percentage !== null) {
+                            @if (predominantSite.percentage !== undefined && predominantSite.percentage !== null) {
                                 {{ predominantSite.percentage | number:'1.0-1' }}% 
                             }
                             {{ predominantSite.category }}
@@ -139,7 +139,7 @@
                     <onconova-cohort-trait  title="Median Overall Survival" [loading]="loading() || cohortTraits.isLoading()" [valid]="cohort && cohortNonEmpty()">
                         @if (cohortTraits.value()?.overallSurvival; as os) {
                             {{ os.median | number:'1.0-0' }}
-                            @if (os.interQuartalRange !== null) {
+                            @if (os.interQuartalRange !== undefined && os.interQuartalRange !== null) {
                                     ({{ os.interQuartalRange[0] | number:'1.0-0' }}, {{ os.interQuartalRange[1] | number:'1.0-0' }})
                             } months
                         }
@@ -148,7 +148,7 @@
                     <onconova-cohort-trait  title="Median Completion" [loading]="loading() || cohortTraits.isLoading()" [valid]="cohort && cohortNonEmpty()">
                         @if (cohortTraits.value()?.dataCompletion; as completion) {
                             {{ completion.median}}%
-                            @if (completion.interQuartalRange !== null) {
+                            @if (completion.interQuartalRange !== undefined && completion.interQuartalRange !== null) {
                                 ({{ completion.interQuartalRange[0] }}, {{ completion.interQuartalRange[1] }})
                             } categories
                         }
