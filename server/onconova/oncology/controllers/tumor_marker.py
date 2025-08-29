@@ -138,4 +138,3 @@ class TumorMarkerController(ControllerBase):
         if instance is None:
             return 404, None
         return 200, instance
-        return 200, instance

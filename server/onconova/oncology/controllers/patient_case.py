@@ -300,9 +300,3 @@ class OthersController(ControllerBase):
         if query:
             queryset = queryset.filter(clinical_center__icontains=query)
         return queryset.values_list("clinical_center", flat=True).distinct()
-
-    def get_clinical_centers(self, query: str = ""):
-        queryset = PatientCase.objects.all()
-        if query:
-            queryset = queryset.filter(clinical_center__icontains=query)
-        return queryset.values_list("clinical_center", flat=True).distinct()

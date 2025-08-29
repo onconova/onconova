@@ -130,4 +130,3 @@ class TreatmentResponseController(ControllerBase):
     ):
         instance = get_object_or_404(TreatmentResponse, id=treatmentRresponseId)
         return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()
-        return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()

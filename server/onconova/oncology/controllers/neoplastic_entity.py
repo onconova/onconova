@@ -127,4 +127,3 @@ class NeoplasticEntityController(ControllerBase):
     def revert_neoplastic_entity_to_history_event(self, entityId: str, eventId: str):
         instance = get_object_or_404(NeoplasticEntity, id=entityId)
         return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()
-        return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()

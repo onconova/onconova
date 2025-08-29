@@ -372,4 +372,3 @@ class AdverseEventController(ControllerBase):
             AdverseEventMitigation, id=mitigationId, adverse_event__id=adverseEventId
         )
         return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()
-        return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()

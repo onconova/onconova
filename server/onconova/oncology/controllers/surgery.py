@@ -123,4 +123,3 @@ class SurgeryController(ControllerBase):
     def revert_surgery_to_history_event(self, surgeryId: str, eventId: str):
         instance = get_object_or_404(Surgery, id=surgeryId)
         return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()
-        return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()

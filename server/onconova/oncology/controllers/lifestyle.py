@@ -124,4 +124,3 @@ class LifestyleController(ControllerBase):
     def revert_lifestyle_to_history_event(self, lifestyleId: str, eventId: str):
         instance = get_object_or_404(Lifestyle, id=lifestyleId)
         return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()
-        return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()

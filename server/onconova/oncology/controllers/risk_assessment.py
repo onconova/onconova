@@ -128,4 +128,3 @@ class RiskAssessmentController(ControllerBase):
     ):
         instance = get_object_or_404(RiskAssessment, id=riskAssessmentId)
         return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()
-        return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()

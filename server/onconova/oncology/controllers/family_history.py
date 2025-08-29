@@ -127,4 +127,3 @@ class FamilyHistoryController(ControllerBase):
     ):
         instance = get_object_or_404(FamilyHistory, id=familyHistoryId)
         return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()
-        return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()

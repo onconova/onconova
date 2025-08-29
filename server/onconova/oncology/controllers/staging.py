@@ -219,4 +219,3 @@ class StagingController(ControllerBase):
             return 201, revert_multitable_model(instance, eventId)
         except ObjectDoesNotExist:
             return 404, None
-            return 404, None

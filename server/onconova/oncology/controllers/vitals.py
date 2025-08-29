@@ -119,4 +119,3 @@ class VitalsController(ControllerBase):
     def revert_vitals_to_history_event(self, vitalsId: str, eventId: str):
         instance = get_object_or_404(Vitals, id=vitalsId)
         return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()
-        return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()
