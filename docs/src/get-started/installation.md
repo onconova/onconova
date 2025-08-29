@@ -96,9 +96,7 @@ Follow these steps to install and set up Onconova from its source code.
 
         1. Copy the root CA certificates
             ```bash 
-            cp <local-path/root-ca-certificates.pem> ./server/etc/certs/root-ca-certificates.pem
-            cp <local-path/root-ca-certificates.pem> ./client/etc/certs/root-ca-certificates.pem
-            cp <local-path/root-ca-certificates.pem> ./docs/etc/certs/root-ca-certificates.pem
+            cp <local-path/root-ca-certificates.pem> ./certificates/root-ca-certificates.pem
             ```
 
         2. Build the Onconova images:
@@ -107,7 +105,7 @@ Follow these steps to install and set up Onconova from its source code.
             docker compose build \
                 --build-arg http_proxy='http://<username>:<password>@<hostname>:<port>' \
                 --build-arg https_proxy='http://<username>:<password>@<hostname>:<port>' \
-                --build-arg ROOT_CA_CERTIFICATES='./etc/certs/root-ca-certificates.pem'
+                --build-arg ROOT_CA_CERTIFICATES='root-ca-certificates.pem'
             ```
             Replace proxy credentials based on your environment.
 

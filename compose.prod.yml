@@ -5,6 +5,8 @@ services:
         restart: unless-stopped
         build:
             context: server
+            additional_contexts: 
+                - certificates=${ONCONOVA_CERTIFICATES_PATH:-./certificates}
             dockerfile: Dockerfile
             target: production      
         expose:
@@ -23,6 +25,7 @@ services:
             context: client
             additional_contexts: 
                 - plugins=${ONCONOVA_CLIENT_PLUGINS_PATH:-./client/src/plugins}
+                - certificates=${ONCONOVA_CERTIFICATES_PATH:-./certificates}
             dockerfile: Dockerfile
             target: production
 
@@ -31,6 +34,8 @@ services:
         restart: unless-stopped
         build:
             context: docs
+            additional_contexts: 
+                - certificates=${ONCONOVA_CERTIFICATES_PATH:-./certificates}
             dockerfile: Dockerfile
             target: production     
 

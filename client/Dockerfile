@@ -10,7 +10,7 @@ ARG ROOT_CA_CERTIFICATES=
 WORKDIR /app
 
 # Optional: Install a root CA TLS certificate
-COPY ${ROOT_CA_CERTIFICATES} /usr/local/share/ca-certificates/corporate-ca.crt
+COPY --from=certificates ${ROOT_CA_CERTIFICATES} /usr/local/share/ca-certificates/corporate-ca.crt
 # Update the system's CA certificates bundle
 RUN update-ca-certificates
 

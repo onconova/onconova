@@ -27,7 +27,7 @@ ENV PYTHONUNBUFFERED=1 \
     VIRTUAL_ENV="/venv"
     
 # Optional: Install a root CA TLS certificate
-COPY ${ROOT_CA_CERTIFICATES} $REQUESTS_CA_BUNDLE
+COPY --from=certificates ${ROOT_CA_CERTIFICATES} $REQUESTS_CA_BUNDLE
 RUN if [ -n "$ROOT_CA_CERTIFICATES" ]; then \
         update-ca-certificates; \
     fi

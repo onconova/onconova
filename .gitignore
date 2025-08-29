@@ -89,6 +89,11 @@ htmlcov/
 .cache
 .pytest_cache/
 
+# SSL certificates 
+certificates/*.pem 
+certificates/*.key
+certificates/*.crt
+
 # Configuration files 
 etc/
 
