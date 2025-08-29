@@ -136,7 +136,7 @@ class NeoplasticEntity(BaseModel):
         else:
             description = f"{morphology} of the {topography}"
         # Add the relationship/role of the neoplasm
-        description = f"{self.relationship} {description}"
+        description = f"{self.relationship.replace('_',' ')} {description}"
         return description.capitalize()
 
     class Meta:
