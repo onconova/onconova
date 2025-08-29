@@ -53,8 +53,8 @@ import { UsersService } from 'onconova-api-client';
                     Do you want your data to be shareable with other organizations for acreditation purposes?
                 </b>
                 <div class="flex gap-3 my-3">
-                    <p-button (click)="submitConsent(true)" label="Accept" [loading]="processing()" severity='success' styleClass="px-4"/>
-                    <p-button (click)="submitConsent(true)" label="Reject" [loading]="processing()" severity='danger' styleClass="px-4"/>
+                    <p-button (click)="authService.updateUserDataConsent(true)" label="Accept" [loading]="processing()" severity='success' styleClass="px-4"/>
+                    <p-button (click)="authService.updateUserDataConsent(false)" label="Reject" [loading]="processing()" severity='danger' styleClass="px-4"/>
                 </div>
                 <p>
                 You can later change your decision under <i>Preferences</i>.
@@ -64,23 +64,7 @@ import { UsersService } from 'onconova-api-client';
     `,
 })
 export class ConsentNoticeModalComponent {
-    readonly #authService = inject(AuthService);
-    readonly #usersService = inject(UsersService);
-    currentUser = computed(() => this.#authService.user());
+    readonly authService = inject(AuthService);
+    currentUser = computed(() => this.authService.user());
     processing = signal<boolean>(false);
-    submitConsent(shareable: boolean) {
-        this.#usersService.updateUser({userId: this.currentUser().id, userCreate: {
-            username: this.currentUser().username!,
-            firstName: this.currentUser().firstName ?? undefined,
-            lastName: this.currentUser().lastName ?? undefined,
-            email: this.currentUser().email ?? undefined,
-            organization: this.currentUser().organization ?? undefined,
-            department: this.currentUser().department ?? undefined,
-            accessLevel: this.currentUser().accessLevel!,
-            shareable: shareable, 
-            isServiceAccount: this.currentUser().isServiceAccount ?? false,
-        }}).subscribe({
-            next: () => this.#authService.userResource.reload(),
-        })    
-    }
 }
