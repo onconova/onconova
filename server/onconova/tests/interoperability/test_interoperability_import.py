@@ -158,7 +158,7 @@ class BundleParserTest(TestCase):
         user = self.parser.get_or_create_user(user_schema)
 
         self.assertTrue(
-            User.objects.filter(username=self.original_user.username).exists()
+            User.objects.filter(username=f'{self.original_user.username}-ext').exists()
         )
         self.assertEqual(user.email, self.original_user.email)
         self.assertEqual(user.access_level, 0)
