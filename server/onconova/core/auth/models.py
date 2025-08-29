@@ -109,6 +109,11 @@ class User(AbstractUser):
         validators=[MinValueValidator(0), MaxValueValidator(7)],
         default=0,
     )
+    shareable = models.BooleanField(
+        verbose_name=_("Shareable"),
+        help_text=_("Whether user has consented to its data to be shared with other Onconova instances"),
+        null=True
+    )
     role = MappingProperty(
         verbose_name=_("Role"),
         attribute_path="access_level",

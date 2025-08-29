@@ -1913,6 +1913,39 @@
           },
           {
             "in": "query",
+            "name": "shareable.not.exists",
+            "schema": {
+              "description": "Shareable - Filter for entries without a value",
+              "title": "not.exists",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "Shareable - Filter for entries without a value"
+          },
+          {
+            "in": "query",
+            "name": "shareable.exists",
+            "schema": {
+              "description": "Shareable - Filter for entries with a value",
+              "title": "exists",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "Shareable - Filter for entries with a value"
+          },
+          {
+            "in": "query",
+            "name": "shareable",
+            "schema": {
+              "description": "Shareable - Filter for yes/no statement",
+              "title": "EqualsBooleanFilter",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "Shareable - Filter for yes/no statement"
+          },
+          {
+            "in": "query",
             "name": "ordering",
             "schema": {
               "anyOf": [
@@ -58364,6 +58397,21 @@
             ],
             "title": "not.between",
             "type": "array"
+          },
+          "shareable.not.exists": {
+            "description": "Shareable - Filter for entries without a value",
+            "title": "not.exists",
+            "type": "boolean"
+          },
+          "shareable.exists": {
+            "description": "Shareable - Filter for entries with a value",
+            "title": "exists",
+            "type": "boolean"
+          },
+          "shareable": {
+            "description": "Shareable - Filter for yes/no statement",
+            "title": "EqualsBooleanFilter",
+            "type": "boolean"
           }
         },
         "title": "UserFilters",
@@ -58582,6 +58630,12 @@
             "title": "Access level",
             "type": "integer",
             "x-expanded": false
+          },
+          "shareable": {
+            "description": "Whether user has consented to its data to be shared with other Onconova instances",
+            "title": "Shareable",
+            "type": "boolean",
+            "x-expanded": false
           }
         },
         "required": [
@@ -58703,6 +58757,12 @@
             "description": "Level of access of the user in terms of permissions",
             "title": "Access level",
             "type": "integer",
+            "x-expanded": false
+          },
+          "shareable": {
+            "description": "Whether user has consented to its data to be shared with other Onconova instances",
+            "title": "Shareable",
+            "type": "boolean",
             "x-expanded": false
           }
         },
