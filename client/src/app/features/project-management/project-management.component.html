@@ -168,7 +168,7 @@
                 </tr>
             } @else {
                 <tr>
-                    <td><i class="pi pi-user text-primary mr-2"></i>{{member.fullName}}@if(member.username == project.value()?.leader){<p-tag value="Leader" severity="secondary" class="ml-2"/>}</td>
+                    <td><i class="pi pi-user text-primary mr-2"></i>{{member.fullName.trim() || member.username}}@if(member.username == project.value()?.leader){<p-tag value="Leader" severity="secondary" class="ml-2"/>}</td>
                     <td><span class="text-muted"><i class="pi pi-lock"></i> {{member.accessLevel}}</span> - {{member.role}}</td>
                     <td>
                         @if (member.canManageCases) {
