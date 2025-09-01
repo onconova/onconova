@@ -301,7 +301,9 @@ USE_TZ = False  # Do not make datetimes timezone-aware by default
 # ----------------------------------------------------------------
 
 # Ensure logs directory exists
-mkdir_p("/app/logs")
+try:
+    mkdir_p("/app/logs")
+except PermissionError: pass
 # Logger settings
 LOGGING = {
     "version": 1,

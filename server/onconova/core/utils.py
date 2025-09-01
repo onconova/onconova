@@ -415,7 +415,7 @@ def mkdir_p(path) -> None:
     """http://stackoverflow.com/a/600612/190597 (tzot)"""
     try:
         os.makedirs(path, exist_ok=True)  # Python>3.2
-    except TypeError:
+    except (TypeError):
         try:
             os.makedirs(path)
         except OSError as exc:  # Python >2.5
