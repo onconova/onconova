@@ -47,5 +47,6 @@ jobs:
           context: client 
           push: true
           build-contexts: |
+            plugins=./client/src/plugins
             certificates=./certificates
           tags: ghcr.io/${{ env.REPOSITORY }}/client:${{ env.RELEASE_TAG }}
