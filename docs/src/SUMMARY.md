@@ -26,6 +26,6 @@
 - [Credits](credits.md)
 - Reference
     - Server
-        -  ./server-reference/*
+        -  ./server-reference/onconova/*
     - Client
         -  ./client-reference/*

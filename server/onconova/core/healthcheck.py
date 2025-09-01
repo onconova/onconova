@@ -1,3 +1,7 @@
+"""
+This module provides an API endpoint for health checking the server and its database. 
+"""
+
 import time
 from typing import Literal, Optional, Union
 
@@ -9,6 +13,15 @@ from ninja_extra import ControllerBase, api_controller, route
 
 
 class HealthCheck(Schema):
+    """
+    Schema representing the health status of the server and its components.
+
+    Attributes:
+        server (Literal["ok"]): Indicates whether the server is online.
+        database (Union[Literal["ok"], Literal["error"]]): Indicates the status of the database connection.
+        database_connection_time_ms (Optional[float]): Time taken to connect to the database in milliseconds.
+        migrations (Union[Literal["ok"], Literal["pending"], Literal["error"]]): Status of database migrations.
+    """
     server: Literal["ok"] = Field(
         title="Server Status", description="Whether the server is online"
     )
@@ -30,6 +43,9 @@ class HealthCheck(Schema):
     tags=["API Health"],
 )
 class HealthCheckController(ControllerBase):
+    """
+    API controller for performing health checks on the server and its database.
+    """
 
     @route.get(
         path="",
@@ -44,6 +60,19 @@ class HealthCheckController(ControllerBase):
         openapi_extra=dict(security=[]),
     )
     def health_check(self):
+        """
+        Performs a health check of the server, database connection, and database migrations.
+
+        Returns:
+            (HealthCheck): An object containing the status of the server, database, database connection time in milliseconds, and migration status.
+
+        Notes:
+            Checks performed:
+
+            - Server status (always "ok" if this method is called).
+            - Database connection status and measures connection speed.
+            - Unapplied database migrations status.
+        """
         # Check server status (if this endpoint is hit, server is up)
         server_status = "ok"
         # Check database connection and measure connection speed

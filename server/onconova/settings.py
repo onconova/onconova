@@ -1,3 +1,8 @@
+"""
+Django settings module for the Onconova server application.
+
+This module configures environment variables, security, authentication, database, logging, and other core settings for the Onconova Django project.
+"""
 import os
 import socket
 import tomllib  # type: ignore
@@ -13,60 +18,91 @@ def secure_url(address: str):
     return f"https://{address}"
 
 
-# Project base directory path
 BASE_DIR = Path(__file__).resolve().parent.parent
+"""
+Project base directory path
+"""
 
 # Read project version from pyproject.toml
 with open("pyproject.toml", "rb") as f:
     VERSION = tomllib.load(f).get("tool", {}).get("poetry", {}).get("version", None)
+    """
+    Version of the Onconova project, set automatically based on package version.
+    """
 
-# Django debugging mode
 DEBUG = os.getenv("ENVIRONMENT") == "development"
-
+"""
+Flag indicating whether the application is in development mode
+"""
 
 # ----------------------------------------------------------------
 # SECRETS
 # ----------------------------------------------------------------
 
-# Django secret key for cryptographic signing
 SECRET_KEY = os.getenv("ONCONOVA_SERVER_ENCRYPTION_KEY")
-# Data anonymization secret key
+"""
+Django secret key for cryptographic signing
+"""
+
 ANONYMIZATION_SECRET_KEY = os.getenv("ONCONOVA_SERVER_ANONYMIZATION_KEY")
+"""
+Data anonymization secret key
+"""
 
 # ----------------------------------------------------------------
 # NETWORK
 # ----------------------------------------------------------------
 
 ONCONOVA_REVERSE_PROXY_ADDRESS = f'{os.getenv("ONCONOVA_REVERSE_PROXY_HOST")}:{os.getenv("ONCONOVA_REVERSE_PROXY_PORT")}'
+"""
+Reverse proxy address for the Onconova server
+"""
+
 ONCONOVA_SERVER_ADDRESS = (
     os.getenv("ONCONOVA_SERVER_ADDRESS") or ONCONOVA_REVERSE_PROXY_ADDRESS
 )
+"""
+Onconova server address
+"""
+
 ONCONOVA_CLIENT_ADDRESS = (
     os.getenv("ONCONOVA_CLIENT_ADDRESS") or ONCONOVA_REVERSE_PROXY_ADDRESS
 )
-ONCONOVA_DOCS_ADDRESS = (
-    os.getenv("ONCONOVA_DOCS_ADDRESS") or ONCONOVA_REVERSE_PROXY_ADDRESS
-)
+"""
+Onconova client address
+"""
 
-# Controls which domains can make HTTP requests to the server.
 ALLOWED_HOSTS = os.getenv("ONCONOVA_SERVER_ALLOWED_HOSTS", "").split(",")
+"""
+List of allowed hosts for the Onconova server
+"""
 if os.getenv("ENVIRONMENT") == "development":
     ALLOWED_HOSTS.append(socket.gethostbyname(socket.gethostname()))
 
-# URL config module
 ROOT_URLCONF = "onconova.urls"
+"""
+Module path for the URL configuration
+"""
 
 # ---------------------------------------------------------------
 # SECURITY
 # ----------------------------------------------------------------
 
-# Disable all CORS origins
 CORS_ORIGIN_ALLOW_ALL = False
-# Allowed HTTP methods for CORS
+"""
+Flag indicating that all origins are not allowed for CORS requests
+"""
+
 CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "DELETE"]
-# Allows credentials with CORS requests
+"""
+List of allowed HTTP methods for CORS requests
+"""
+
 CORS_ALLOW_CREDENTIALS = True
-# Controls which web origins (domains) are allowed to make cross-origin AJAX requests to your Django API.
+"""
+Flag indicating that credentials are allowed with CORS requests
+"""
+
 CORS_ALLOWED_ORIGINS = os.getenv("ONCONOVA_SERVER_CORS_ALLOWED_ORIGINS", "").split(
     ","
 ) + [
@@ -75,50 +111,86 @@ CORS_ALLOWED_ORIGINS = os.getenv("ONCONOVA_SERVER_CORS_ALLOWED_ORIGINS", "").spl
         ONCONOVA_REVERSE_PROXY_ADDRESS,
         ONCONOVA_SERVER_ADDRESS,
         ONCONOVA_CLIENT_ADDRESS,
-        ONCONOVA_DOCS_ADDRESS,
     ]
 ]
-# Allowed headers in CORS requests (required for authentication)
+"""
+Controls which web origins (domains) are allowed to make cross-origin AJAX requests to your Django API.
+"""
+
 CORS_ALLOW_HEADERS = (
     *default_headers,
     "x-session-token",
     "x-email-verification-key",
     "x-password-reset-key",
 )
+"""
+List of allowed headers in CORS requests (required for authentication)
+"""
 
-# Cookies will only be sent over an HTTPS connection
 SESSION_COOKIE_SECURE = True
-# Redirect all non-HTTPS requests to HTTPS
-SECURE_SSL_REDIRECT = True
-# Trust the X-Forwarded-Proto header that comes from the Nginx proxy and that the request is guaranteed to be secure
-SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+"""
+Flag indicating that cookies will only be sent over an HTTPS connection
+"""
 
-# Enable HSTS for that exact domain or subdomain, and to remember it for the given number of seconds
+SECURE_SSL_REDIRECT = True
+"""
+Flag indicating that all non-HTTPS requests should be redirected to HTTPS
+"""
+
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+"""
+Trust the `X-Forwarded-Proto` header that comes from the Nginx reverse-proxy and that the request is guaranteed to be secure
+"""
+
 SECURE_HSTS_SECONDS = 31536000
-# Indicate that the domain owner consents to preloading
+"""
+Enable HSTS for that exact domain or subdomain, and to remember it for the given number of seconds
+"""
+
 SECURE_HSTS_PRELOAD = True
-# Ensure that all subdomains, not just top-level domains, can only be accessed over a secure connection
+"""
+Indicates that the domain owner consents to preloading
+"""
+
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+"""
+Ensures that all subdomains, not just top-level domains, can only be accessed over a secure connection
+"""
 
 # API pagination and throttling settings
 NINJA_PAGINATION_PER_PAGE = 10
+"""
+Sets the default number of items per page for pagination in the Django-Ninja API framework
+"""
+
 NINJA_PAGINATION_MAX_LIMIT = 50
+"""
+Sets the maximal number of items per page for pagination in the Django-Ninja API framework
+"""
+
 NINJA_DEFAULT_THROTTLE_RATES = {
     "auth": "10000/day",
     "user": "10000/day",
     "anon": "1000/day",
 }
-NINJA_EXTRA = {"ORDERING_CLASS": "onconova.core.serialization.ordering.Ordering"}
+"""
+Default throttle rates for the Django-Ninja API framework
+"""
 
+NINJA_EXTRA = {"ORDERING_CLASS": "onconova.core.serialization.ordering.Ordering"}
+"""
+Adds a custom ordering class for the Django-Ninja API framework
+"""
 
 # ---------------------------------------------------------------
 # INSTALLATIONS
 # ----------------------------------------------------------------
 
-# WSGI application entry point
 WSGI_APPLICATION = "onconova.wsgi.application"
+"""
+Use the WSGI application as entry-point 
+"""
 
-# Installed Django + third-party + local apps
 INSTALLED_APPS = [
     # Postgres triggers
     "pgtrigger",
@@ -147,6 +219,9 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
 ]
+"""
+List of installed Django, 3rd-party, and local apps
+"""
 
 # Middleware stack
 MIDDLEWARE = [
@@ -161,21 +236,29 @@ MIDDLEWARE = [
     "onconova.core.history.middleware.HistoryMiddleware",
     "onconova.core.history.middleware.AuditLogMiddleware",
 ]
+"""
+List of installed middlewares.
+"""
+
 
 # ---------------------------------------------------------------
 # AUTHENTICATION
 # ----------------------------------------------------------------
 
-# Custom user model location
 AUTH_USER_MODEL = "core.User"
+"""
+Assign the Onconova `User` as default user model
+"""
 
-# Authentication Enabled Backends
 AUTHENTICATION_BACKENDS = [
     # Needed to login by username in Django admin, regardless of `allauth`
     "django.contrib.auth.backends.ModelBackend",
     # `allauth` specific authentication methods, such as login by email
     "allauth.account.auth_backends.AuthenticationBackend",
 ]
+"""
+List of installed authentication backends
+"""
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
@@ -186,19 +269,53 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
+"""
+List password validators
+"""
 
 # Django AllAuth Configuration
 SITE_ID = 1
-ACCOUNT_LOGIN_METHODS = {"email", "username"}
-ACCOUNT_LOGIN_BY_CODE_ENABLED = False
-ACCOUNT_EMAIL_VERIFICATION = "none"
-USERSESSIONS_TRACK_ACTIVITY = True
-HEADLESS_ONLY = True
-HEADLESS_CLIENTS = ("app",)
-HEADLESS_SERVE_SPECIFICATION = True
-HEADLESS_SPECIFICATION_TEMPLATE_NAME = "headless/spec/swagger_cdn.html"
 
-# Django AllAuth Providers
+ACCOUNT_LOGIN_METHODS = {"email", "username"}
+"""
+Allow both login by using the email or username as identifier.
+"""
+
+ACCOUNT_LOGIN_BY_CODE_ENABLED = False
+"""
+Do not allow login by code using Allauth
+"""
+
+ACCOUNT_EMAIL_VERIFICATION = "none"
+"""
+Disable Allauth's email verification
+"""
+
+USERSESSIONS_TRACK_ACTIVITY = True
+"""
+Track user sessions for audit trail purposes
+"""
+
+HEADLESS_ONLY = True
+"""
+Only enable the Allauth headless API mode
+"""
+
+HEADLESS_CLIENTS = ("app",)
+"""
+Only allow Allauth's headless `app`-mode.
+"""
+
+HEADLESS_SERVE_SPECIFICATION = True
+"""
+Provide an URL endpoint to serve the internal Allauth OpenAPI specification
+"""
+
+HEADLESS_SPECIFICATION_TEMPLATE_NAME = "headless/spec/swagger_cdn.html"
+"""
+Configuration for Django AllAuth social authentication providers
+"""
+
 SOCIALACCOUNT_PROVIDERS = {
     "openid_connect": {
         "APPS": [
@@ -231,6 +348,9 @@ SOCIALACCOUNT_PROVIDERS = {
         ]
     }
 }
+"""
+Configuration for Django AllAuth social authentication providers
+"""
 
 # ---------------------------------------------------------------
 # DATABASE
@@ -247,11 +367,26 @@ DATABASES = {
         "PORT": os.getenv("ONCONOVA_POSTGRES_PORT"),
     },
 }
+"""
+Onconova database connection configuration
+"""
 
 # Postgres trigger-based event tracking configuration
 PGHISTORY_CONTEXT_FIELD = pghistory.ContextJSONField()
+"""
+Context information for the trigger-based history tracking
+"""
+
 PGHISTORY_FIELD = pghistory.Field(null=True)
+"""
+Make history model fields nullable by default
+"""
+
 PGHISTORY_OBJ_FIELD = pghistory.ObjForeignKey(db_index=True)
+"""
+Make pghistory foreign key fields indexed by default
+"""
+
 PGHISTORY_DEFAULT_TRACKERS = (
     pghistory.InsertEvent(label="create"),
     pghistory.UpdateEvent(label="update"),
@@ -259,10 +394,14 @@ PGHISTORY_DEFAULT_TRACKERS = (
     pghistory.ManualEvent(label="import"),
     pghistory.ManualEvent(label="export"),
 )
+"""
+List of default pghistory event trackers
+"""
 
-# Default primary key field type
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
+"""
+Use integers as primary keys for history model tables
+"""
 
 # ---------------------------------------------------------------
 # TEMPLATES

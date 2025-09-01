@@ -4,9 +4,7 @@ version = "0.4.0"
 description = "Onconova is an open-source project aimed at capturing and structuring cancer-related clinical data, while enabling interactive aggregated data analysis."
 readme = "../README.md"
 license = "MIT"
-authors = [
-    {name = 'Luis Fábregas-Ibáñez', email = 'luisfabib@gmail.com'},
-]
+authors = ['Luis Fábregas-Ibáñez[luisfabib@gmail.com]']
 classifiers = [
   "Development Status :: 4 - Beta",
   "Programming Language :: Python"
