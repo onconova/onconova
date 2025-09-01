@@ -43,7 +43,7 @@ export class UnauthorizedInterceptor implements HttpInterceptor {
         else if (error.status === 500) {  
             this.#messageService.add({ severity: 'error', summary: `Server Error (HTTP 500)`, detail: error.message , sticky: true });          
             // Suppress further error propagation for 500 errors
-            return EMPTY;
+            return throwError(() => error);
         }
         console.error(error)
         return throwError(() => error);

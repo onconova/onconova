@@ -98,7 +98,10 @@ class BundleParser:
             - If a string is provided, a new user is created with default inactive and external access level.
             - If a UserSchema is provided, user details are imported and the user is created as inactive and external.
         """
+        if (internal_user := User.objects.filter(username=user if isinstance(user, str) else user.username).first()):
+            return internal_user
         if isinstance(user, str):
+            external_username = f"{user}-ext"
             return User.objects.get_or_create(
                 username=user,
                 defaults=dict(
@@ -108,8 +111,9 @@ class BundleParser:
                 ),
             )[0]
         else:
+            external_username = f"{user.username}-ext"
             return User.objects.get_or_create(
-                username=user.username,
+                username=external_username,
                 defaults=dict(
                     # Import details of the external user
                     first_name=user.firstName,

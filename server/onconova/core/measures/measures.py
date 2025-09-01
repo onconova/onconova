@@ -47,11 +47,11 @@ class BidimensionalMeasure(BidimensionalMeasureBase):
 
     @classmethod
     def get_units(cls):
-        return [
-            f"{primary}__{reference}"
-            for primary in list(cls.PRIMARY_DIMENSION.get_units())
-            for reference in list(cls.REFERENCE_DIMENSION.get_units())
-        ]
+        return {
+            f"{primary}__{reference}": reference_magnitude / primary_magnitude
+            for primary, primary_magnitude in cls.PRIMARY_DIMENSION.get_units().items()
+            for reference, reference_magnitude in cls.REFERENCE_DIMENSION.get_units().items()
+        }
 
     @property
     def unit(self):
@@ -90,7 +90,7 @@ class BidimensionalMeasure(BidimensionalMeasureBase):
     def __str__(self):
         if isinstance(self.primary, (Measure, MeasureBase)):
             primary_unit = self.primary.get_aliases().get(
-                self.primary.unit, self.primary.unit
+                str(self.primary.unit), str(self.primary.unit)
             )
         else:
             primary_unit = self.primary
