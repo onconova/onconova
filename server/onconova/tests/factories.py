@@ -297,6 +297,12 @@ class SystemicTherapyMedicationFactory(factory.django.DjangoModelFactory):
     systemic_therapy = factory.SubFactory(SystemicTherapyFactory)
     drug = make_terminology_factory(terminology.AntineoplasticAgent)
     route = make_terminology_factory(terminology.DosageRoute)
+    dosage_mass_surface = factory.LazyFunction(
+        lambda: measures.MassPerArea(g__square_meter=random.random())
+    )
+    dosage_rate_mass_surface = factory.LazyFunction(
+        lambda: measures.MassPerAreaPerTime(g__square_meter__s=random.random())
+    )
 
 
 class SurgeryFactory(factory.django.DjangoModelFactory):

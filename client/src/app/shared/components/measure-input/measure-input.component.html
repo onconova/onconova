@@ -13,6 +13,8 @@
     <p-select 
         [(ngModel)]="measureUnit" 
         (onChange)="updateFormControlValue()"
+        [virtualScroll]="true" 
+        [virtualScrollItemSize]="15"
         [options]="allowedUnits.value() || []" 
         optionLabel="display" 
         placeholder="selectedUnit" 

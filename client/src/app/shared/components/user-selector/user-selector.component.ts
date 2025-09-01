@@ -47,6 +47,7 @@ export class UserSelectorComponent implements ControlValueAccessor {
 
     readonly multiple = input<boolean>(false);
     readonly disabled = input<boolean>(false);
+    readonly minAccessLevel = input<number>(0);
     readonly placeholder = input<string>('Select or search an option');
     readonly returnUsername = input<boolean>(true);
     readonly onChange = output<User>();
@@ -57,8 +58,15 @@ export class UserSelectorComponent implements ControlValueAccessor {
     
     public query = signal<string>('');
     public userSuggestions = rxResource({
-        request: () => ({fullNameContains: this.query(), limit: 20}),
-        loader: ({request}) => this.#usersService.getUsers(request).pipe(map(response => response.items))
+        request: () => ({fullNameContains: this.query(), limit: 20, accessLevelGreaterThanOrEqual: this.minAccessLevel()}),
+        loader: ({request}) => this.#usersService.getUsers(request).pipe(map(response => response.items.map((user) => {
+            if (!user.fullName.trim()) {
+                user.fullName = user.username
+            } else {
+                user.fullName = `${user.username} (${user.fullName})`
+            }
+            return user
+        })))
     })
 
     writeValue(value: any): void {
