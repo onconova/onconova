@@ -30,16 +30,22 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build images
-        run: |
-          docker compose -f compose.prod.yml build server client
+      - name: Build and push server image
+        id: server_push
+        uses: docker/build-push-action@v6
+        with:
+          context: server 
+          push: true
+          build-contexts: |
+            certificates=./certificates
+          tags: ghcr.io/${{ env.REPOSITORY }}/server:${{ env.RELEASE_TAG }}
 
-      - name: Tag images for GHCR
-        run: |
-          docker tag ${{ env.REPOSITORY }}_server ghcr.io/${{ env.REPOSITORY }}/server:${{ env.RELEASE_TAG }}
-          docker tag ${{ env.REPOSITORY }}_client ghcr.io/${{ env.REPOSITORY }}/client:${{ env.RELEASE_TAG }}
-
-      - name: Push images
-        run: |
-          docker push ghcr.io/${{ env.REPOSITORY }}/server:${{ env.RELEASE_TAG }}
-          docker push ghcr.io/${{ env.REPOSITORY }}/client:${{ env.RELEASE_TAG }}
+      - name: Build and push client image
+        id: client_push
+        uses: docker/build-push-action@v6
+        with:
+          context: client 
+          push: true
+          build-contexts: |
+            certificates=./certificates
+          tags: ghcr.io/${{ env.REPOSITORY }}/client:${{ env.RELEASE_TAG }}
