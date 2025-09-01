@@ -14,9 +14,9 @@ python = "~=3.11"
 mkdocs-material = "9.6.14"
 neoteroi-mkdocs = "1.1.2"
 mkdocstrings = {extras = ["python"], version = "0.29.1"}
+mkdocs-literate-nav = "0.6.1"
 mkdocs-gen-files= "0.5.0"
 mkdocs-document-dates = "3.1.3"
-mike = "2.1.3"
 
 
 
