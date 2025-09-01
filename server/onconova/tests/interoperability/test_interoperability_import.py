@@ -8,7 +8,7 @@ from onconova.core.auth.schemas import UserSchema
 from onconova.core.history.schemas import HistoryEvent
 from onconova.core.models import BaseModel
 from onconova.interoperability.parsers import BundleParser
-from onconova.interoperability.schemas import PatientCaseBundle
+from onconova.interoperability.schemas import PatientCaseBundle, UserExportSchema
 from onconova.oncology import models, schemas
 from onconova.tests import factories
 
@@ -116,6 +116,7 @@ class BundleParserTest(TestCase):
                     cls.original_tumor_board
                 )
             ]
+            cls.bundle.contributorsDetails = [UserExportSchema.model_validate(cls.original_user)]
             # Add a custom event to the case
             pghistory.create_event(cls.original_case, label="update")
             pghistory.create_event(cls.original_case, label="export")
@@ -158,7 +159,7 @@ class BundleParserTest(TestCase):
         user = self.parser.get_or_create_user(user_schema)
 
         self.assertTrue(
-            User.objects.filter(username=self.original_user.username).exists()
+            User.objects.filter(username=f"{self.original_user.username}-ext").exists()
         )
         self.assertEqual(user.email, self.original_user.email)
         self.assertEqual(user.access_level, 0)
@@ -418,7 +419,7 @@ class BundleParserTest(TestCase):
         for original_event, event in zip(self.original_events, imported_case_events):
             self.assertEqual(original_event.pgh_label, event.pgh_label)
             self.assertEqual(
-                original_event.pgh_context["username"], event.pgh_context["username"]
+                f"{original_event.pgh_context['username']}-ext", event.pgh_context["username"]
             )
             self.assertEqual(original_event.pgh_created_at, event.pgh_created_at)
 
@@ -436,6 +437,6 @@ class BundleParserTest(TestCase):
         ):
             self.assertEqual(original_event.pgh_label, event.pgh_label)
             self.assertEqual(
-                original_event.pgh_context["username"], event.pgh_context["username"]
+                f"{original_event.pgh_context['username']}-ext", event.pgh_context["username"]
             )
             self.assertEqual(original_event.pgh_created_at, event.pgh_created_at)

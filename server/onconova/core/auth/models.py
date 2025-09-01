@@ -68,6 +68,8 @@ class User(AbstractUser):
         )
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    external_source = models.CharField(verbose_name="External source", help_text="Name of the source from which the user originated, if imported", max_length=500, null=True, blank=True)
+    external_source_id = models.CharField(verbose_name="External source ID", help_text="Unique identifier within the source from which the user originated, if imported", max_length=500, null=True, blank=True)
     full_name = AnnotationProperty(
         verbose_name=_("Full Name"),
         annotation=Concat(

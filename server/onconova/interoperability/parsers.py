@@ -8,7 +8,7 @@ from django.db.models import Model as DjangoModel
 from ninja import Schema
 
 from onconova.core.auth.models import User
-from onconova.core.auth.schemas import UserSchema
+from onconova.core.auth.schemas import UserExportSchema
 from onconova.interoperability.schemas import PatientCaseBundle
 from onconova.oncology import models, schemas
 
@@ -27,13 +27,17 @@ class BundleParser:
     def __init__(self, bundle: PatientCaseBundle):
         self.bundle = bundle
         self.key_map = defaultdict(dict)
+        self.users_map = {}
         # Import all other resources
         self.list_fields = [
             field_name
             for field_name, field_info in self.bundle.model_fields.items()
             if get_origin(field_info.annotation) is list
-            and field_name not in ["history"]
+            and field_name not in ["history", "contributorsDetails"]
         ]
+        self.users_map = {
+            user.username: user for user in bundle.contributorsDetails
+        }
         self.nested_resources = {
             "systemicTherapies": [
                 NestedResourceDetails(
@@ -84,7 +88,7 @@ class BundleParser:
         }
 
     @staticmethod
-    def get_or_create_user(user: UserSchema | str) -> User:
+    def get_or_create_user(user: UserExportSchema) -> User:
         """
         Retrieves an existing User object by username or creates a new one if it does not exist.
 
@@ -98,31 +102,26 @@ class BundleParser:
             - If a string is provided, a new user is created with default inactive and external access level.
             - If a UserSchema is provided, user details are imported and the user is created as inactive and external.
         """
-        if isinstance(user, str):
-            return User.objects.get_or_create(
-                username=user,
-                defaults=dict(
-                    # Assign new user as inactive & external (access level zero)
-                    access_level=0,
-                    is_active=False,
-                ),
-            )[0]
-        else:
-            return User.objects.get_or_create(
-                username=user.username,
-                defaults=dict(
-                    # Import details of the external user
-                    first_name=user.firstName,
-                    last_name=user.lastName,
-                    email=user.email,
-                    title=user.title,
-                    organization=user.organization,
-                    department=user.department,
-                    # Assign new user as inactive & external (access level zero)
-                    access_level=0,
-                    is_active=False,
-                ),
-            )[0]
+        # CHeck if internal user exist
+        if (internal_user := User.objects.filter(username=user.username, email=user.email).first()):
+            return internal_user
+        organization_initials = ''.join([word[0].lower() for word in (user.organization).split(' ')]) if user.organization else 'ext' # type: ignore
+        username = f"{user.username}-{organization_initials}"
+        return User.objects.get_or_create(
+            username=username,
+            defaults=dict(
+                # Import details of the external user
+                first_name=user.firstName,
+                last_name=user.lastName,
+                email=user.email,
+                organization=user.organization,
+                external_source=user.externalSource or user.organization,
+                external_source_id=user.externalSourceId or user.id,
+                # Assign new user as inactive & external (access level zero)
+                access_level=0,
+                is_active=False,
+            ),
+        )[0]
 
     def _update_key_map(
         self, orm_instance: DjangoModel, schema_instance: Schema
@@ -216,8 +215,12 @@ class BundleParser:
         ]
         for event in events:
             if event.user:
+                user = self.users_map.get(event.user)
+                if not user: 
+                    print('Searching: ',event.user, 'In:', self.bundle.contributors, self.bundle.contributorsDetails)
+                    raise ValueError(f'Unknown user in bundle definition: {event.user}')
                 # Import the actor of the event
-                user = self.get_or_create_user(event.user)
+                user = self.get_or_create_user(user)
             # Manually import the event metadata
             event_instance = orm_instance.events.create(
                 pgh_obj=orm_instance,
@@ -272,8 +275,8 @@ class BundleParser:
         orm_instance = CreateSchema.model_validate(resource).model_dump_django(
             instance=instance,
             **fields,
-            external_source="External ONCONOVA",
-            external_sourceId=resourceId,
+            external_source="Onconova",
+            external_source_id=resourceId,
         )
         # Delete the create event that just happened
         orm_instance.events.latest("pgh_created_at").delete()
