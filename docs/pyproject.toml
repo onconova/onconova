@@ -1,23 +1,49 @@
-[tool.poetry]
-name = "docs"
-version = "1.0.0"
-description = "The Precision Oncology Program (Onconova) is a joint at the University Hospital Zurich (USZ) to capture clinical data from oncology patients in a structured manner. The final aim of the project is to enable aggregated data analysis interactively."
-license = "MIT"
-authors = ["Luis Fabregas-Ibanez <Luis.Fabregas-Ibanez@usz.ch>"]
-
 [build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
-[tool.poetry.dependencies]
-python = "~=3.11"
-mkdocs-material = "9.6.14"
-neoteroi-mkdocs = "1.1.2"
-mkdocstrings = {extras = ["python"], version = "0.29.1"}
-mkdocs-literate-nav = "0.6.1"
-mkdocs-gen-files= "0.5.0"
-mkdocs-document-dates = "3.1.3"
+[project]
+name = "onconova-docs"
+version = "1.0.0"
+description = "Documentation for Onconova"
+license = "MIT"
+authors = [
+    {name = 'Luis Fábregas-Ibáñez', email = 'luisfabib@gmail.com'},
+]
+classifiers = [
+    'Programming Language :: Python',
+    'Programming Language :: Python :: 3',
+    'Programming Language :: Python :: 3 :: Only',
+    'Programming Language :: Python :: 3.10',
+    'Programming Language :: Python :: 3.11',
+    'Programming Language :: Python :: 3.12',
+    'Programming Language :: Python :: 3.13',
+    'Intended Audience :: Developers',
+    'Intended Audience :: Information Technology',
+    'Intended Audience :: Healthcare Industry',
+    'Intended Audience :: System Administrators',
+    'License :: OSI Approved :: MIT License',
+    'Operating System :: Unix',
+    'Operating System :: POSIX :: Linux',
+    'Environment :: Console',
+    'Environment :: MacOS X',
+]
+requires-python = '>=3.10'
+dependencies = [
+    'mkdocs-material==9.6.14',
+    'neoteroi-mkdocs==1.1.2',
+    'mkdocstrings==0.30.0',
+    'mkdocstrings-python==1.18.2',
+    'mkdocs-literate-nav==0.6.1',
+    'mkdocs-gen-files==0.5.0',
+    'mkdocs-document-dates==3.1.3',
+]
 
+[tool.hatch.build.targets.sdist]
+include = ["/src"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src"]
 
 
 
