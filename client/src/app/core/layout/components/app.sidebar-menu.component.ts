@@ -98,11 +98,6 @@ export class AppSidebarMenuComponent {
                 label: 'Documentation',
                 items: [
                     { 
-                        label: 'User manual', 
-                        icon: 'pi pi-fw pi-book', 
-                        url: `${this.#basePath}/docs/`,
-                    },
-                    { 
                         label: 'API Specification', 
                         icon: 'pi pi-fw pi-book', 
                         url: `${this.#basePath}/api/v1/docs#/`,
