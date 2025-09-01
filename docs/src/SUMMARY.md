@@ -21,6 +21,7 @@
         - [Contributing](guide/developers/contributing.md)
         - [Microservices](guide/developers/microservices.md)
         - [Client Plugins](guide/developers/plugins.md)
+        - [Code Of Conduct](guide/developers/code_of_conduct.md)
 - [FAQs](faq.md)
 - [Credits](credits.md)
 - Reference
