@@ -45,6 +45,7 @@
             <onconova-user-selector 
                 formControlName="leader" 
                 [multiple]="false" 
+                [minAccessLevel]="2"
                 placeholder="Select a user"/>
             <div><small class="text-muted">The clinician responsible for the project. Must be a user with access level of at least <i>Project Manager</i>.</small></div>
             <onconova-form-control-error controlName="leader"></onconova-form-control-error>

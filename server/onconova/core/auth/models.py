@@ -4,7 +4,7 @@ import pghistory
 from django.contrib.auth.models import AbstractUser, UserManager
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
-from django.db.models import Case, Exists, Min, OuterRef, Q, When
+from django.db.models import Case, Exists, F, OuterRef, Q, When, Min
 from django.db.models.functions import Concat
 from django.utils.translation import gettext_lazy as _
 from queryable_properties.managers import QueryablePropertiesManager
@@ -72,12 +72,20 @@ class User(AbstractUser):
     external_source_id = models.CharField(verbose_name="External source ID", help_text="Unique identifier within the source from which the user originated, if imported", max_length=500, null=True, blank=True)
     full_name = AnnotationProperty(
         verbose_name=_("Full Name"),
-        annotation=Concat(
-            "first_name",
-            models.Value(" "),
-            "last_name",
+        annotation=Case(
+            When(
+                first_name__isnull=False, 
+                last_name__isnull=False, 
+                then=Concat(
+                    "first_name",
+                    models.Value(" "),
+                    "last_name",
+                    output_field=models.CharField(),
+                ),
+            ),
+            default=F('username'),
             output_field=models.CharField(),
-        ),
+        )
     )
     is_service_account = models.BooleanField(
         verbose_name=_("Is service account?"),

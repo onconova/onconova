@@ -27,7 +27,9 @@
         @if (!data.isLoading()) {
             @if (currentUser().canManageCases) {
                 <div class="onconova-case-manager-menu-button-container">
+                    @if (!(this.isCompleted() || this.anonymized())) {
                     <i class="onconova-case-manager-menu-button pi pi-plus-circle" title="Add new {{title() | lowercase}}" (click)="addNewEntry()"></i>
+                    }
                     <i class="onconova-case-manager-menu-button pi pi-cog" (click)="menu.toggle($event)" title="Show other actions for {{title() | lowercase}}"></i>
                 </div>
             }
@@ -35,7 +37,6 @@
             <p-menu #menu [model]="menuItems()" [popup]="true"/>
         }
     </ng-template>
-    
     @if (data.isLoading()) {
         <div>
             <p-skeleton width="100%" styleClass="mb-2" />
