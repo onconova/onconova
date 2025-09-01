@@ -1,0 +1,45 @@
+#
+name: Build & Push Docker Images on Release
+
+on:
+  release:
+    types: [published]
+
+env:
+  REGISTRY: ghcr.io
+  REPOSITORY: ${{ github.repository }}
+  RELEASE_TAG: ${{ github.event.release.tag_name }}
+
+jobs:
+  build-and-push-images:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+      id-token: write
+      
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in to the GitHub Container registry
+        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build images
+        run: |
+          docker compose -f compose.prod.yml build server client
+
+      - name: Tag images for GHCR
+        run: |
+          docker tag ${{ env.REPOSITORY }}_server ghcr.io/${{ env.REPOSITORY }}/server:${{ env.RELEASE_TAG }}
+          docker tag ${{ env.REPOSITORY }}_client ghcr.io/${{ env.REPOSITORY }}/client:${{ env.RELEASE_TAG }}
+
+      - name: Push images
+        run: |
+          docker push ghcr.io/${{ env.REPOSITORY }}/server:${{ env.RELEASE_TAG }}
+          docker push ghcr.io/${{ env.REPOSITORY }}/client:${{ env.RELEASE_TAG }}
