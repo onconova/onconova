@@ -38,7 +38,9 @@ jobs:
           push: true
           build-contexts: |
             certificates=./certificates
-          tags: ghcr.io/${{ env.REPOSITORY }}/server:${{ env.RELEASE_TAG }}
+          tags: 
+            ghcr.io/${{ env.REPOSITORY }}/server:${{ env.RELEASE_TAG }}
+            ghcr.io/${{ env.REPOSITORY }}/client:latest
 
       - name: Build and push client image
         id: client_push
@@ -49,4 +51,6 @@ jobs:
           build-contexts: |
             plugins=./client/src/plugins
             certificates=./certificates
-          tags: ghcr.io/${{ env.REPOSITORY }}/client:${{ env.RELEASE_TAG }}
+          tags: |
+            ghcr.io/${{ env.REPOSITORY }}/client:${{ env.RELEASE_TAG }}
+            ghcr.io/${{ env.REPOSITORY }}/client:latest
