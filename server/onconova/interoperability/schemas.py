@@ -3,9 +3,11 @@ from typing import Dict, List, Union
 
 import pghistory
 from django.db.models import Model as DjangoModel
-from pydantic import AliasChoices, BaseModel, ConfigDict, Field
+from pydantic import AliasChoices, BaseModel, ConfigDict, Field, model_validator
 
 import onconova.oncology.schemas as sc
+from onconova.core.auth.models import User
+from onconova.core.auth.schemas import UserExportSchema
 from onconova.core.history.schemas import HistoryEvent
 from onconova.oncology.models.patient_case import PatientCaseDataCategories
 
@@ -145,6 +147,9 @@ class PatientCaseBundle(sc.PatientCaseSchema):
     history: List[HistoryEvent] = Field(
         default=[],
     )
+    contributorsDetails: List[UserExportSchema] = Field(
+        default=[]
+    )
 
     model_config = ConfigDict(serialize_by_alias=False)
 
@@ -221,3 +226,73 @@ class PatientCaseBundle(sc.PatientCaseSchema):
                     )
                 )
             )
+    
+    @staticmethod
+    def resolve_contributorsDetails(obj):
+        if isinstance(obj, dict):
+            return obj.get("contributorsDetails")
+        else:
+            return [
+                UserExportSchema(
+                    username=user.username, 
+                    firstName=user.first_name, 
+                    lastName=user.last_name, 
+                    anonymized=not user.shareable, 
+                    organization=user.organization, 
+                    email=user.email, 
+                    id=user.id, 
+                    externalSource=user.external_source, 
+                    externalSourceId=user.external_source_id
+                )
+                for contributor_username in obj.contributors 
+                for user in User.objects.filter(username=contributor_username)
+            ]   
+
+    @model_validator(mode='after')
+    @classmethod
+    def anonymize_users(cls, obj):
+        def recursively_replace(obj, original_value, new_value, visited=None):
+            if visited is None:
+                visited = set()
+            # Don't recurse into primitive types
+            if isinstance(obj, (str, int, float, bool, type(None))):
+                return
+            # Avoid cycles
+            obj_id = id(obj)
+            if obj_id in visited:
+                return
+            visited.add(obj_id)
+
+            if isinstance(obj, dict):
+                for key, value in obj.items():
+                    if value == original_value:
+                        obj[key] = new_value
+                    else:
+                        recursively_replace(value, original_value, new_value, visited)
+            elif isinstance(obj, list):
+                for idx, item in enumerate(obj):
+                    if item == original_value:
+                        obj[idx] = new_value
+                    else:
+                        recursively_replace(item, original_value, new_value, visited)
+            elif hasattr(obj, '__dict__'):
+                for attr in vars(obj):
+                    value = getattr(obj, attr)
+                    if value == original_value:
+                        setattr(obj, attr, new_value)
+                    else:
+                        recursively_replace(value, original_value, new_value, visited)
+                        
+        for user in obj.contributorsDetails:
+            if not user.anonymized:
+                continue
+            original_username = user.username
+            # Anonymize user details
+            user.firstName = 'Anonymous'
+            user.lastName = 'External User'
+            user.username = f"user-{str(user.id)[:5]}" # type: ignore
+            user.email = 'anonymized@mail.com'
+            # Replace all existing instances of the username throughout the bundle and replace it
+            recursively_replace(obj, original_username, user.username)
+            
+        return obj 

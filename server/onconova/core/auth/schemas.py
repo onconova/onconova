@@ -1,5 +1,5 @@
 from ninja import Field, Schema
-from pydantic import AliasChoices
+from pydantic import AliasChoices, model_validator, PrivateAttr
 
 from onconova.core.auth import models as orm
 from onconova.core.serialization.factory import create_filters_schema
@@ -21,6 +21,28 @@ class UserPasswordReset(Schema):
         title="New Password", description="The user's new password to be set."
     )
 
+
+class UserExportSchema(ModelGetSchema):
+    """User information to be exported for acreditation purposes"""
+    
+    anonymized: bool = Field(
+        title='Anonymzied',
+        default=True      
+    )
+    config = SchemaConfig(
+        model=orm.User,
+        fields=[
+            "id",
+            "external_source",
+            "external_source_id",
+            "username",
+            "first_name",
+            "last_name",
+            "email",
+            "organization",
+        ],
+    )
+    
 
 class UserSchema(ModelGetSchema):
     """Detailed schema for User data retrieval."""

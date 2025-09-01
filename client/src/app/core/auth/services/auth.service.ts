@@ -282,6 +282,25 @@ export class AuthService {
     return localStorage.getItem('sessionUserId');
   }
 
+  
+  updateUserDataConsent(shareable: boolean) {
+      this.#userService.updateUser({userId: this.user().id, userCreate: {
+          username: this.user().username!,
+          firstName: this.user().firstName ?? undefined,
+          lastName: this.user().lastName ?? undefined,
+          email: this.user().email ?? undefined,
+          organization: this.user().organization ?? undefined,
+          department: this.user().department ?? undefined,
+          accessLevel: this.user().accessLevel!,
+          shareable: shareable, 
+          isServiceAccount: this.user().isServiceAccount ?? false,
+      }}).subscribe({
+          next: () => {
+            this.userResource.reload();
+            this.#messageService.add({ severity: 'success', summary: 'Success', detail: 'User data sharing has been ' + (shareable ? 'enabled' : 'disabled')});
+        },
+      })    
+  }
 
   private generateRandomState(length: number) {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';

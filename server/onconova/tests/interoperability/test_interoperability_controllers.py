@@ -6,7 +6,7 @@ from django.test import TestCase
 from parameterized import parameterized
 
 from onconova.core.history.schemas import HistoryEvent
-from onconova.interoperability.schemas import PatientCaseBundle
+from onconova.interoperability.schemas import PatientCaseBundle, UserExportSchema
 from onconova.oncology.models import PatientCase
 from onconova.tests import common, factories
 from onconova.tests.common import GET_HTTP_SCENARIOS, ApiControllerTestMixin
@@ -35,6 +35,11 @@ class TestInteroperabilityController(ApiControllerTestMixin, TestCase):
                 HistoryEvent.model_validate(event)
                 for event in cls.bundle.resolve_history(cls.case)
             ]
+            cls.bundle.contributorsDetails = [
+                UserExportSchema.model_validate(user)
+                for user in cls.bundle.resolve_contributorsDetails(cls.case)
+            ]
+            cls.bundle = cls.bundle.anonymize_users(cls.bundle)
             cls.payload = cls.bundle.model_dump(mode="json")
 
     @parameterized.expand(GET_HTTP_SCENARIOS)

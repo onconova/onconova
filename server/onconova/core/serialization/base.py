@@ -465,12 +465,12 @@ class BaseSchema(Schema):
 class DjangoGetter(BaseDjangoGetter):
     def __getattr__(self, key: str) -> Any:
         resolver = getattr(self._schema_cls, f"resolve_{key}", None)
-        if resolver and isinstance(self._obj, DjangoModel):
+        if resolver and isinstance(self._obj, (DjangoModel)):
             params = inspect.signature(resolver).parameters
             if "context" in params:
                 value = resolver(self._obj, context=self._context)
             else:
                 value = resolver(self._obj)
-            return self._convert_result(value)
+            return self._convert_result(value)    
         else:
             return super().__getattr__(key)
