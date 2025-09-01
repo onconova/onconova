@@ -1,77 +1,134 @@
-const defaultConfig = {
-    // configurable: light material, or custom theme in user.config.css
-    theme: {
-        light: 'light',
-        dark: 'material'
-    },
-    tooltip: {
-        placement: 'bottom',    // placement: top bottom left right auto
-        offset: [0, 10],        // placement offset: [horizontal, vertical]
-        interactive: true,      // content in Tooltip is interactive
-        allowHTML: true,        // whether to allow HTML in the tooltip content
-        
-        animation: 'scale',     // animation type: scale shift-away
-        inertia: true,          // animation inertia
-        // arrow: false,           // whether to allow arrows
-
-        // animateFill: true,      // determines if the background fill color should be animated
-
-        // delay: [400, null],     // delay: [show, hide], show delay is 400ms, hide delay is the default
-    }
-};
-
-let config = { ...defaultConfig };
-
-
-// Hook System
-const hooks = {
-    beforeInit: [],
-    afterInit: []
-};
-
-// Hook registration API
-function registerHook(hookName, callback) {
-    if (hooks[hookName]) {
-        hooks[hookName].push(callback);
+/*
+    1.生成字符头像
+*/
+function isLatin(name) {
+    return /^[A-Za-z\s]+$/.test(name.trim());
+}
+function extractInitials(name) {
+    name = name.trim();
+    if (!name) return '?';
+    if (isLatin(name)) {
+        const parts = name.toUpperCase().split(/\s+/).filter(Boolean);
+        return parts.length >= 2 ? parts[0][0] + parts[parts.length - 1][0] : parts[0][0];
+    } else {
+        return name[0];
     }
 }
+function nameToHSL(name, s = 50, l = 55) {
+    let hash = 0;
+    for (let i = 0; i < name.length; i++) {
+        hash = name.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    const hue = hash % 360;
+    return `hsl(${hue}, ${s}%, ${l}%)`;
+}
+function generateAvatar() {
+    document.querySelectorAll('.avatar-wrapper').forEach(wrapper => {
+        const name = wrapper.dataset.name || '';
+        const initials = extractInitials(name);
+        const bgColor = nameToHSL(name);
 
-// Hook execution
-async function executeHooks(hookName, context) {
-    if (hooks[hookName]) {
-        for (const hook of hooks[hookName]) {
-            await hook(context);
+        const textEl = wrapper.querySelector('.avatar-text');
+        textEl.textContent = initials;
+        textEl.style.backgroundColor = bgColor;
+
+        const imgEl = wrapper.querySelector('img.avatar');
+        if (imgEl) {
+            const src = (imgEl.getAttribute('src') || '').trim();
+            if (src) {
+                imgEl.onerror = () => imgEl.style.display = 'none';
+            } else {
+                imgEl.style.display = 'none';
+            }
         }
-    }
-}
-
-// Configuration API
-function setConfig(newConfig) {
-    config = {
-        ...defaultConfig,
-        ...newConfig
-    };
-}
-
-// Theme management
-function getCurrentTheme() {
-    const scheme = (document.body && document.body.getAttribute('data-md-color-scheme')) || 'default';
-    return scheme === 'slate' ? config.theme.dark : config.theme.light;
-}
-
-// Main initialization
-async function init() {
-    await executeHooks('beforeInit', { config });
-
-    // Configure the properties of the Tooltip here, available documents: https://atomiks.github.io/tippyjs/
-    const tippyInstances = tippy('[data-tippy-content]', {
-        ...config.tooltip,
-        theme: getCurrentTheme()    // Initialize Tooltip's theme based on Material's light/dark color scheme
     });
+}
 
-    // Automatic theme switching. Set Tooltip's theme to change automatically with the Material's light/dark color scheme
+
+
+/*
+    2.处理内容赋值
+*/
+// 图标键映射表
+const iconKeyMap = {
+    doc_created: 'created_time',
+    doc_modified: 'modified_time',
+    doc_author: 'author',
+    doc_authors: 'authors'
+};
+// 处理文档日期和提示内容
+function processDocumentDates() {
+    document.querySelectorAll('.document-dates-plugin').forEach(ddpEl => {
+        // 获取 locale，优先级：用户主动选择 > 服务端显式配置 > 用户浏览器语言 > 站点HTML语言 > 默认英语
+        const rawLocale =
+            ddUtils.getSavedLanguage() ||
+            ddpEl.getAttribute('locale') ||
+            navigator.language ||
+            navigator.userLanguage ||
+            document.documentElement.lang ||
+            'en';
+
+        // 处理 time 元素（使用 timeago 时）
+        if (typeof timeago !== 'undefined') {
+            const tLocale = ddUtils.resolveTimeagoLocale(rawLocale);
+            ddpEl.querySelectorAll('time').forEach(timeEl => {
+                timeEl.textContent = timeago.format(timeEl.getAttribute('datetime'), tLocale);
+            });
+        }
+
+        // 处理 tooltip 内容
+        const langData = TooltipLanguage.get(rawLocale);
+        ddpEl.querySelectorAll('[data-tippy-content]').forEach(tippyEl => {
+            const iconEl = tippyEl.querySelector('[data-icon]');
+            const rawIconKey = iconEl ? iconEl.getAttribute('data-icon') : '';
+            const iconKey = iconKeyMap[rawIconKey] || 'author';
+            if (langData[iconKey]) {
+                const content = langData[iconKey] + ': ' + tippyEl.dataset.tippyRaw;
+                // 更新 data-tippy-content 属性
+                tippyEl.dataset.tippyContent = content;
+                // 如果 tippy 实例已存在，直接更新内容
+                if (tippyEl._tippy) {
+                    tippyEl._tippy.setContent(content);
+                }
+            }
+        });
+    });
+}
+
+// 供外部使用：更新文档日期和 tippy 内容到指定语言（可持久化）
+function updateDocumentDates(locale) {
+    ddUtils.saveLanguage(locale);
+    processDocumentDates();
+}
+window.ddPlugin = {
+    updateLanguage: updateDocumentDates
+};
+
+
+
+/*
+    3.初始化 tippyManager，创建和管理 tippy 实例
+*/
+function getCurrentTheme() {
+    // 基于 Material's light/dark 配色方案返回对应的 tooltip 主题
+    const scheme = (document.body && document.body.getAttribute('data-md-color-scheme')) || 'default';
+    return scheme === 'slate' ? tooltip_config.theme.dark : tooltip_config.theme.light;
+}
+
+function initTippy() {
+    // 创建上下文对象，将其传递给钩子并从函数中返回
+    const context = { tooltip_config };
+
+    // 创建 tippy 实例
+    const tippyInstances = tippy('[data-tippy-content]', {
+        ...tooltip_config,
+        theme: getCurrentTheme()
+    });
+    context.tippyInstances = tippyInstances;
+
+    // 添加观察者，监控 Material's 配色变化，自动切换 tooltip 主题
     const observer = new MutationObserver((mutations) => {
-        mutations.forEach(async (mutation) => {
+        mutations.forEach((mutation) => {
             if (mutation.attributeName === 'data-md-color-scheme') {
                 const newTheme = getCurrentTheme();
                 tippyInstances.forEach(instance => {
@@ -80,86 +137,63 @@ async function init() {
             }
         });
     });
-
     observer.observe(document.body, {
         attributes: true,
         attributeFilter: ['data-md-color-scheme']
     });
+    context.observer = observer;
 
-    await executeHooks('afterInit', { tippyInstances, observer });
-    return { tippyInstances, observer };
+    // 返回包含 tippyInstances 和 observer 的上下文，用于后续清理
+    return context;
 }
 
-
-
-const INSTANCE_KEY = Symbol('DocumentDatesInstance');
-
-class InitManager {
-    constructor() {
-        this.initPromise = null;
-    }
-
-    getInstance() {
-        if (window[INSTANCE_KEY]) {
-            return Promise.resolve(window[INSTANCE_KEY]);
+// 通过 IIFE（立即执行的函数表达式）创建 tippyManager
+const tippyManager = (() => {
+    let tippyInstances = [];
+    let observer = null;
+    function cleanup() {
+        // 销毁之前的 tippy 实例
+        if (tippyInstances.length > 0) {
+            tippyInstances.forEach(instance => instance.destroy());
+            tippyInstances = [];
         }
-        return this.initialize();
-    }
-
-    initialize() {
-        if (this.initPromise) {
-            return this.initPromise;
+        // 断开之前的观察者连接
+        if (observer) {
+            observer.disconnect();
+            observer = null;
         }
-
-        this.initPromise = init().then(instance => {
-            window[INSTANCE_KEY] = instance;
-            return instance;
-        });
-
-        return this.initPromise;
     }
-}
-
-const initManager = new InitManager();
-
-function setupInitializationTrigger() {
-    function checkAndInit() {
-        if (document.querySelector('[data-tippy-content]')) {
-            initManager.getInstance();
-            return true;
-        }
-        return false;
-    }
-
-    if (document.readyState !== 'loading') {
-        if (checkAndInit()) return;
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-        if (checkAndInit()) return;
-
-        const observer = new MutationObserver((mutations) => {
-            if (checkAndInit()) {
-                observer.disconnect();
+    return {
+        // 每一次调用都生成新的实例（兼容 navigation.instant）
+        initialize() {
+            // 先清理以前的实例
+            cleanup();
+            // 初始化新实例
+            const context = initTippy();
+            if (context && context.tippyInstances) {
+                tippyInstances = context.tippyInstances;
             }
-        });
+            if (context && context.observer) {
+                observer = context.observer;
+            }
+        }
+    };
+})();
 
-        observer.observe(document.body, {
-            childList: true,
-            subtree: true,
-            attributes: true,
-            attributeFilter: ['data-tippy-content']
-        });
+
+
+/*
+    入口: 兼容 Material 主题的 'navigation.instant' 属性
+*/
+if (typeof window.document$ !== 'undefined' && !window.document$.isStopped) {
+    window.document$.subscribe(() => {
+        processDocumentDates();
+        generateAvatar();
+        // 通过 tippyManager 创建 tippy 实例
+        tippyManager.initialize();
     });
+} else {
+    processDocumentDates();
+    generateAvatar();
+    document.addEventListener('DOMContentLoaded', tippyManager.initialize);
 }
-
-setupInitializationTrigger();
-
-
-
-// Export API
-window.DocumentDates = {
-    init: () => initManager.getInstance(),
-    registerHook,
-    setConfig
-};
