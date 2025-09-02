@@ -73,12 +73,6 @@ class InteroperabilityController(ControllerBase):
         """
         Exports a resource identified by its UUID, serializing its data and associated metadata.
 
-        Args:
-            resourceId (str): The UUID of the resource to export.
-
-        Returns:
-            (dict): A dictionary containing both the resource's exported data and metadata if found.
-
         Notes:
 
             - Creates an export event for the resource using `pghistory.create_event`.
@@ -120,12 +114,6 @@ class InteroperabilityController(ControllerBase):
     def resolve_resource_id(self, resourceId: str):
         """
         Resolves a resource ID by searching across models for a matching UUID.
-
-        Args:
-            resourceId (str): The UUID of the resource to resolve.
-
-        Returns:
-            (str): If found, returns the description of the resource instance.
         """
         instance = find_uuid_across_models(resourceId)
         if not instance:
@@ -145,12 +133,6 @@ class InteroperabilityController(ControllerBase):
         """
         Exports a patient case bundle by retrieving the PatientCase object with the given case ID,
         creates an export event for the case, and returns the exported case object.
-
-        Args:
-            caseId (str): The unique identifier of the patient case to export.
-
-        Returns:
-            (PatientCase): The exported patient case object.
         """
         exported_case = get_object_or_404(PatientCase, id=caseId)
         pghistory.create_event(exported_case, label="export")
@@ -171,17 +153,6 @@ class InteroperabilityController(ControllerBase):
     ):
         """
         Imports a patient case bundle into the database, handling conflicts based on the specified resolution strategy.
-
-        Args:
-            bundle (PatientCaseBundle): The patient case bundle to import.
-            conflict (ConflictResolution | None): Strategy for resolving conflicts with existing cases.
-
-        Raises:
-            ConflictingCaseException: If a case with the same pseudoidentifier exists and no conflict resolution is provided.
-            ConflictingClinicalIdentifierException: If a case with the same clinical identifier and center exists.
-
-        Returns:
-            (tuple[int, PatientCase]): Returns the HTTP status code and the imported `PatientCase` instance.
         """
 
         conflicting_case = PatientCase.objects.filter(

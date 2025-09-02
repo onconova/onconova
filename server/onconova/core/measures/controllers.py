@@ -26,12 +26,6 @@ class MeasuresController(ControllerBase):
     def get_measure_units(self, measureName: str):
         """
         Retrieves the available units for a specified measure.
-
-        Args:
-            measureName (str): The name of the measure to retrieve units for.
-
-        Returns:
-            (tuple[int, list[str]] | tuple[int, None]): A tuple containing the HTTP status code and a list of unit strings if the measure exists,
         """
         measure = getattr(measures, measureName, None)
         if measure is None:
@@ -48,12 +42,6 @@ class MeasuresController(ControllerBase):
     def get_measure_default_units(self, measureName: str):
         """
         Retrieves the default unit for a specified measure.
-
-        Args:
-            measureName (str): The name of the measure to look up.
-
-        Returns:
-            (tuple[int, str | None]): A tuple containing the HTTP status code and the standard unit of the measure if found, otherwise `None`.
         """
         measure = getattr(measures, measureName, None)
         if measure is None:
@@ -68,13 +56,6 @@ class MeasuresController(ControllerBase):
     def convert_units(self, measureName: str, payload: MeasureConversion):
         """
         Converts a measurement from one unit to another using the specified measure class.
-
-        Args:
-            measureName (str): The name of the measure class to use for conversion.
-            payload (MeasureConversion): An object containing the original unit, value, and the target unit for conversion.
-
-        Returns:
-            (tuple[int, Measure | None]): A tuple containing the HTTP status code and a Measure object with the converted value and unit.
         """
         measureClass = getattr(measures, measureName, None)
         if measureClass is None:
