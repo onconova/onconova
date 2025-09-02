@@ -19,9 +19,9 @@ class UntrackedBaseModel(models.Model):
 
     Attributes:
         objects (QueryablePropertiesManager): The default manager for querying model instances with annotated properties.
-        id (UUIDField): Primary key, automatically generated UUID.
-        external_source (CharField): Optional. The digital source of the data, useful for automated data imports.
-        external_source_id (CharField): Optional. The identifier of the data at the external source.
+        id (models.UUIDField): Primary key, automatically generated UUID.
+        external_source (models.CharField): Optional. The digital source of the data, useful for automated data imports.
+        external_source_id (models.CharField): Optional. The identifier of the data at the external source.
     """
 
     objects = QueryablePropertiesManager()

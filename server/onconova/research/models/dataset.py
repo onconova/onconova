@@ -16,10 +16,10 @@ class Dataset(BaseModel):
     Represents a dataset within a research project.
 
     Attributes:
-        name (CharField): The name of the dataset.
-        summary (TextField): A brief summary of the dataset (optional).
-        rules (JSONField): Composition rules for the dataset, validated as a list.
-        project (ForeignKey): Reference to the associated Project.
+        name (models.CharField): The name of the dataset.
+        summary (models.TextField): A brief summary of the dataset (optional).
+        rules (models.JSONField): Composition rules for the dataset, validated as a list.
+        project (models.ForeignKey[Project]): Reference to the associated Project.
         last_export (AnnotationProperty): Timestamp of the last export event.
         total_exports (AnnotationProperty): Total number of export events.
         cohorts_ids (AnnotationProperty): List of cohort IDs associated with export events.

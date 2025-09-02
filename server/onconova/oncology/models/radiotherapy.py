@@ -18,6 +18,21 @@ from onconova.oncology.models.therapy_line import TherapyLine
 
 @pghistory.track()
 class Radiotherapy(BaseModel):
+    """
+    Model representing a radiotherapy treatment administered to a patient.
+
+    Attributes:
+        objects (QueryablePropertiesManager): Custom manager for queryable properties.
+        case (models.ForeignKey[PatientCase]): Reference to the patient case receiving radiotherapy.
+        period (postgres.DateRangeField): Clinically-relevant period of radiotherapy administration.
+        duration (AnnotationProperty): Duration of treatment, calculated from the period.
+        targeted_entities (models.ManyToManyField[NeoplasticEntity]): Neoplastic entities targeted by the radiotherapy.
+        sessions (models.PositiveIntegerField): Total number of radiotherapy sessions.
+        intent (models.CharField): Treatment intent (curative or palliative).
+        termination_reason (termfields.CodedConceptField[terminologies.TerminationReason]): Reason for termination of radiotherapy.
+        therapy_line (models.ForeignKey[TherapyLine]): Therapy line assignment for the radiotherapy.
+        description (str): Human-readable summary of the radiotherapy, including therapy line, settings, and dosages.
+    """
 
     objects = QueryablePropertiesManager()
 
@@ -109,6 +124,16 @@ class Radiotherapy(BaseModel):
         return f"{self.therapy_line.label if self.therapy_line else self.intent.capitalize()} - {settings} {dosages}"
 
     def assign_therapy_line(self):
+        """
+        Assigns therapy lines to the current case using the TherapyLine model.
+
+        This method calls the `assign_therapy_lines` class method of `TherapyLine` 
+        with the associated case, refreshes the instance from the database, 
+        and returns the updated instance.
+
+        Returns:
+            (Self): The updated instance after therapy lines have been assigned and refreshed.
+        """
         TherapyLine.assign_therapy_lines(self.case)
         self.refresh_from_db()
         return self
@@ -116,6 +141,18 @@ class Radiotherapy(BaseModel):
 
 @pghistory.track()
 class RadiotherapyDosage(BaseModel):
+    """
+    Represents a dosage record for a radiotherapy treatment.
+
+    Attributes:
+        radiotherapy (models.ForeignKey[PatientCase]): Reference to the associated Radiotherapy instance.
+        fractions (models.PositiveIntegerField): Total number of radiotherapy fractions delivered.
+        dose (MeasurementField[measures.RadiationDose]): Total radiation dose delivered over the full radiotherapy course.
+        irradiated_volume (termfields.CodedConceptField[terminologies.RadiotherapyTreatmentLocation]): Anatomical location of the irradiated volume.
+        irradiated_volume_morphology (termfields.CodedConceptField[terminologies.RadiotherapyVolumeType]): Morphology of the irradiated volume's anatomical location.
+        irradiated_volume_qualifier (termfields.CodedConceptField[terminologies.RadiotherapyTreatmentLocationQualifier]): Qualifier for the anatomical location of the irradiated volume.
+        description (str): Human-readable summary of the dosage, including dose, fractions, and irradiated volume.
+    """
 
     radiotherapy = models.ForeignKey(
         verbose_name=_("Radiotherapy"),
@@ -171,6 +208,15 @@ class RadiotherapyDosage(BaseModel):
 
 @pghistory.track()
 class RadiotherapySetting(BaseModel):
+    """
+    Represents a specific setting for a radiotherapy procedure, including its modality and technique.
+
+    Attributes:
+        radiotherapy (models.ForeignKey[PatientCase]): Reference to the associated Radiotherapy instance where this dosage was delivered.
+        modality (termfields.CodedConceptField[terminologies.RadiotherapyModality]): The modality of the radiotherapy procedure (e.g., external beam, brachytherapy).
+        technique (termfields.CodedConceptField[terminologies.RadiotherapyTechnique]): The technique used in the radiotherapy procedure.
+        description (str): Returns a string representation combining modality and technique.
+    """
 
     radiotherapy = models.ForeignKey(
         verbose_name=_("Radiotherapy"),

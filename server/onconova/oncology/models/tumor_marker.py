@@ -15,18 +15,43 @@ from onconova.oncology.models import NeoplasticEntity, PatientCase
 
 
 class AnalytePresence(models.TextChoices):
+    """
+    An enumeration representing the possible presence states of an analyte in a tumor marker test.
+
+    Attributes:
+        POSITIVE: Indicates the analyte is present.
+        NEGATIVE: Indicates the analyte is absent.
+        INDETERMINATE: Indicates the presence of the analyte could not be determined.
+    """
     POSITIVE = "positive"
     NEGATIVE = "negative"
     INDETERMINATE = "indeterminate"
 
 
 class NuclearExpressionStatus(models.TextChoices):
+    """
+    An enumeration representing the status of nuclear expression for a tumor marker.
+
+    Attributes:
+        INTACT (str): Indicates that nuclear expression is intact.
+        LOSS (str): Indicates a loss of nuclear expression.
+        INDETERMINATE (str): Indicates that the nuclear expression status is indeterminate.
+    """
     INTACT = "intact"
     LOSS = "loss"
     INDETERMINATE = "indeterminate"
 
 
 class TumorProportionScore(models.TextChoices):
+    """
+    An enumeration representing tumor proportion score categories.
+    
+    Attributes:
+        TP0: Tumor proportion score 0.
+        TC1: Tumor proportion score 1.
+        TC2: Tumor proportion score 2.
+        TC3: Tumor proportion score 3.
+    """
     TP0 = "TC0"
     TC1 = "TC1"
     TC2 = "TC2"
@@ -34,6 +59,15 @@ class TumorProportionScore(models.TextChoices):
 
 
 class ImmuneCellScore(models.TextChoices):
+    """
+    Enumeration representing immune cell scores for tumor markers.
+
+    Attributes:
+        IC0: Immune cell score 0.
+        IC1: Immune cell score 1.
+        IC2: Immune cell score 2.
+        IC3: Immune cell score 3.
+    """
     IC0 = "IC0"
     IC1 = "IC1"
     IC2 = "IC2"
@@ -41,6 +75,16 @@ class ImmuneCellScore(models.TextChoices):
 
 
 class ImmunohistochemicalScore(models.TextChoices):
+    """
+    An enumeration representing possible immunohistochemical scoring values for tumor markers.
+
+    Attributes:
+        ZERO (str): Score of "0", indicating no detectable staining.
+        ONE (str): Score of "1+", indicating weak staining.
+        TWO (str): Score of "2+", indicating moderate staining.
+        THREE (str): Score of "3+", indicating strong staining.
+        INDETERMINATE (str): Score of "indeterminate", indicating that the result cannot be determined.
+    """
     ZERO = "0"
     ONE = "1+"
     TWO = "2+"
@@ -50,6 +94,31 @@ class ImmunohistochemicalScore(models.TextChoices):
 
 @pghistory.track()
 class TumorMarker(BaseModel):
+    """
+    Represents a tumor marker result associated with a patient case.
+
+    Attributes:
+        case (models.ForeignKey[PatientCase]): Reference to the related patient case.
+        date (models.DateField): Date when the tumor marker was analyzed.
+        related_entities (models.ManyToManyField[NeoplasticEntity]): Neoplastic entities related to the tumor marker analysis.
+        analyte (termfields.CodedConceptField[terminologies.TumorMarkerAnalyte]): The chemical or biological substance/agent analyzed.
+        mass_concentration (MeasurementField[measures.MassConcentration]): Mass concentration of the analyte (optional).
+        arbitrary_concentration (MeasurementField[measures.ArbitraryConcentration]): Arbitrary concentration of the analyte (optional).
+        substance_concentration (MeasurementField[measures.SubstanceConcentration]): Substance concentration of the analyte (optional).
+        fraction (MeasurementField[measures.Fraction]): Analyte fraction (optional).
+        multiple_of_median (MeasurementField[measures.MultipleOfMedian]): Multiples of the median analyte (optional).
+        tumor_proportion_score (models.CharField[TumorProportionScore]): Tumor proportion score (TPS) for PD-L1 expression (optional).
+        immune_cell_score (models.CharField[ImmuneCellScore]): Immune cell score (ICS) for PD-L1 positive immune cells (optional).
+        combined_positive_score (MeasurementField[measures.Fraction]): Combined positive score (CPS) for PD-L1 (optional).
+        immunohistochemical_score (models.CharField[ImmunohistochemicalScore]): Immunohistochemical score for analyte-positive cells (optional).
+        presence (models.CharField[AnalytePresence]): Indicates if the analyte tested positive or negative (optional).
+        nuclear_expression_status (models.CharField[NuclearExpressionStatus]): Status of nuclear expression of the analyte (optional).
+        value (str): Returns a string representation of the first available value among the measurement and score fields.
+        description (str): Returns a human-readable description combining the analyte and its value.
+
+    Constraints: 
+        Ensures at least one value field is set for each tumor marker instance.
+    """
 
     case = models.ForeignKey(
         verbose_name=_("Patient case"),
@@ -221,6 +290,22 @@ class TumorMarker(BaseModel):
 
 
 class AnalyteResultType(Enum):
+    """
+    Enum representing the various types of analyte results that can be reported for tumor markers.
+
+    Members:
+        mass_concentration: Quantitative measurement of mass per unit volume (e.g., ng/mL).
+        arbitary_concentration: Measurement based on arbitrary units, often used when no standard exists.
+        substance_concentration: Quantitative measurement of substance amount per unit volume (e.g., mol/L).
+        multiple_of_median: Value expressed as a multiple of the median value in a reference population.
+        fraction: Proportion or percentage of a particular analyte present.
+        presence: Indicates the presence or absence of the analyte.
+        combined_positive_score: Composite score reflecting combined positivity of multiple markers.
+        immmune_cells_score: Score representing the presence or activity of immune cells.
+        tumor_proportion_score: Score indicating the proportion of tumor cells expressing a marker.
+        immunohistochemical_score: Score derived from immunohistochemical staining results.
+        nuclear_expression_status: Status indicating expression of a marker in the cell nucleus.
+    """
     mass_concentration = "MassConcentration"
     arbitary_concentration = "ArbitraryConcentration"
     substance_concentration = "SubstanceConcentration"
@@ -235,11 +320,19 @@ class AnalyteResultType(Enum):
 
 
 class AnalyteDetails(PydanticBaseModel):
+    """
+    Represents details about a tumor marker analyte.
+
+    Attributes:
+        acronym (str): The acronym or short name for the analyte.
+        display (str): The display name or description of the analyte.
+        valueTypes (List[AnalyteResultType]): List of possible result types for the analyte.
+    """
     acronym: str
     display: str
     valueTypes: List[AnalyteResultType]
 
-
+"""Structure containing details on tumor marker analytes"""
 ANALYTES_DATA = {
     "LP28643-2": AnalyteDetails(
         acronym="CEA",

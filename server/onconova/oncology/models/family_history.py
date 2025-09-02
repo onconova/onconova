@@ -10,6 +10,19 @@ from onconova.oncology.models import PatientCase
 
 @pghistory.track()
 class FamilyHistory(BaseModel):
+    """
+    Represents a record of a patient's family member's cancer history.
+
+    Attributes:
+        case (models.ForeignKey[PatientCase]): Reference to the patient case whose family history is being recorded.
+        date (models.DateField): Date when the family history assessment was performed.
+        relationship (termfields.CodedConceptField[terminologies.FamilyMemberType]): Relationship of the family member to the patient.
+        had_cancer (models.BooleanField): Indicates if the family member had a history of cancer.
+        contributed_to_death (models.BooleanField): Indicates if cancer contributed to the family member's death.
+        onset_age (models.PositiveSmallIntegerField): Age at which the family member's cancer manifested.
+        topography (termfields.CodedConceptField[terminologies.CancerTopography]): Topography of the family member's cancer.
+        morphology (termfields.CodedConceptField[terminologies.CancerMorphology]): Morphology of the family member's cancer.
+    """
 
     case = models.ForeignKey(
         verbose_name=_("Patient case"),

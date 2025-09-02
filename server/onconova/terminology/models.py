@@ -17,14 +17,14 @@ class CodedConcept(BaseModel):
     Abstract Django model representing a coded concept from a terminology system.
 
     Attributes:
-        code (CharField): The code as defined in the code system.
-        display (CharField): Human-readable representation defined by the system.
-        system (CharField): Canonical URL of the code system.
-        version (CharField): Version of the code system.
-        synonyms (ArrayField): List of synonyms for the concept.
-        parent (ForeignKey): Reference to a parent concept (self-referential).
-        definition (TextField): Optional detailed definition of the concept.
-        properties (JSONField): Additional properties as a JSON object.
+        code (models.CharField): The code as defined in the code system.
+        display (models.CharField): Human-readable representation defined by the system.
+        system (models.CharField): Canonical URL of the code system.
+        version (models.CharField): Version of the code system.
+        synonyms (models.ArrayField[models.CharField]): List of synonyms for the concept.
+        parent (models.ForeignKey[CodedConcept]): Reference to a parent concept (self-referential).
+        definition (models.TextField): Optional detailed definition of the concept.
+        properties (models.JSONField): Additional properties as a JSON object.
         valueset (str): Class variable for the associated value set (to be defined in subclasses).
         codesystem (str): Class variable for the associated code system (to be defined in subclasses).
         extension_concepts (list): List of extension concepts.

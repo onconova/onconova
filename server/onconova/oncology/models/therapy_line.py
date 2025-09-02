@@ -25,6 +25,26 @@ from onconova.oncology.models import PatientCase, TreatmentResponse
 
 @pghistory.track()
 class TherapyLine(BaseModel):
+    """
+    Represents a line of therapy administered to a patient within an oncology context.
+
+    A TherapyLine groups together treatments (systemic therapies, radiotherapies, surgeries) that are considered part of the same therapeutic sequence, based on intent, timing, and other clinical rules. Therapy lines are automatically assigned to treatments using the `assign_therapy_lines` static method, which implements logic for grouping overlapping therapies and handling adjunctive, progressive, and intolerant treatments.
+
+    Attributes:
+        objects (QueryablePropertiesManager): Custom manager for querying annotated properties.
+        case (models.ForeignKey[PatientCase]): Reference to the associated PatientCase.
+        ordinal (models.PositiveIntegerField): Sequence number of the therapy line for the patient.
+        intent (models.CharField[TreatmentIntent]): Treatment intent ("curative" or "palliative").
+        progression_date (models.DateField): Date when disease progression was first detected.
+        label (models.GeneratedField): Auto-generated label for the therapy line (e.g., "PLoT1").
+        period (AnnotationProperty): Date range covering all treatments in the therapy line.
+        progression_free_survival (AnnotationProperty): Progression-free survival in days.
+        has_systemic_therapy (AnnotationProperty): Indicates if systemic therapies are present.
+        has_radiotherapy (AnnotationProperty): Indicates if radiotherapies are present.
+        has_surgery (AnnotationProperty): Indicates if surgeries are present.
+        therapy_classification (AnnotationProperty): Classification string summarizing therapy modalities.
+        description (str): Returns the label of the therapy line.
+    """
 
     objects = QueryablePropertiesManager()
 
@@ -176,7 +196,31 @@ class TherapyLine(BaseModel):
         return f"{self.label}"
 
     @staticmethod
-    def assign_therapy_lines(case):
+    def assign_therapy_lines(case: PatientCase):
+        """
+        Assigns therapy lines to all systemic therapies, radiotherapies, and surgeries for a given oncology case.
+
+        This function performs the following steps:
+        1. Deletes all existing therapy lines for the case to allow reassignment.
+        2. Groups systemic therapies (SACTs) whose treatment periods overlap, considering intent and therapeutic role, 
+           and excluding anti-hormonal treatments from grouping.
+        3. Iterates through each group of overlapping systemic therapies to assign them to therapy lines based on:
+            - Treatment intent (curative or palliative).
+            - Whether the therapy is adjunctive (complimentary).
+            - Presence of progressive disease (PD) between therapies.
+            - Tolerance of previous therapies.
+            - Introduction of new drugs compared to previous therapies.
+        4. Assigns radiotherapies and surgeries to the appropriate therapy lines based on intent and treatment period.
+        5. Updates each therapy line with the date of progression if a progressive disease event is detected after the start of the line.
+
+        Args:
+            case (PatientCase): An oncology case object containing systemic therapies, radiotherapies, surgeries, and related clinical data.
+
+        Side Effects:
+            - Modifies and saves therapy line assignments for therapies and procedures in the database.
+            - Updates progression dates for therapy lines.
+            - Removes uninformative event records associated with therapies and procedures.
+        """
         # Codes required to query the database
         PD = "LA28370-7"
         TREATMENT_NOT_TOLERATED = terminology.TreatmentTerminationReason.objects.filter(

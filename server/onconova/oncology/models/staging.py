@@ -14,6 +14,29 @@ from onconova.oncology.models import NeoplasticEntity, PatientCase
 
 
 class StagingDomain(models.TextChoices):
+    """
+    Enumeration of cancer staging domains used in oncology.
+
+    Each member represents a specific staging system or classification used to describe the extent or severity of cancer.
+    The available staging domains include:
+
+    - TNM: Tumor, Node, Metastasis staging system.
+    - FIGO: International Federation of Gynecology and Obstetrics staging.
+    - BINET: Binet staging for chronic lymphocytic leukemia.
+    - RAI: Rai staging for chronic lymphocytic leukemia.
+    - BRESLOW: Breslow thickness for melanoma.
+    - CLARK: Clark level for melanoma.
+    - ISS: International Staging System for multiple myeloma.
+    - RISS: Revised International Staging System for multiple myeloma.
+    - INSS: International Neuroblastoma Staging System.
+    - INRGSS: International Neuroblastoma Risk Group Staging System.
+    - GLEASON: Gleason grading for prostate cancer.
+    - RHABDO: Staging for rhabdomyosarcoma.
+    - WILMS: Staging for Wilms tumor.
+    - LYMPHOMA: Staging for lymphoma.
+
+    This enumeration is used to standardize staging domain references throughout the application.
+    """
     TNM = "tnm"
     FIGO = "figo"
     BINET = "binet"
@@ -37,6 +60,17 @@ class StagingDomain(models.TextChoices):
     )
 )
 class Staging(BaseModel):
+    """
+    Represents a staging record for a patient's cancer case, encapsulating the domain-specific staging information.
+
+    Attributes:
+        case (models.ForeignKey[PatientCase]): Reference to the PatientCase being staged.
+        date (models.DateField): Date when the staging was performed and recorded.
+        staged_entities (models.ManyToManyField[NeoplasticEntity]): References to neoplastic entities involved in the staging.
+        description (str): Human-readable description of the staging, combining domain and stage value.
+        stage_value (str | None): Extracted stage value from the domain-specific staging display string.
+        staging_domain (str | None): The domain key corresponding to the staging information present.
+    """
 
     STAGING_DOMAINS = {
         StagingDomain.TNM.value: "TNM Stage",
@@ -116,6 +150,24 @@ class Staging(BaseModel):
 
 @pghistory.track()
 class TNMStaging(Staging):
+    """
+    Model representing TNM cancer staging information.
+
+    Attributes:
+        staging (models.OneToOneField[Staging]): Link to the base Staging instance.
+        stage (termfields.CodedConceptField[terminologies.TNMStage]): TNM stage classification.
+        methodology (termfields.CodedConceptField[terminologies.TNMStagingMethod]): Methodology used for TNM staging.
+        pathological (models.BooleanField): Indicates if staging is pathological (True) or clinical (False).
+        primaryTumor (termfields.CodedConceptField[terminologies.TNMPrimaryTumorCategory]): T stage (extent of the primary tumor).
+        regionalNodes (termfields.CodedConceptField[terminologies.TNMRegionalNodesCategory]): N stage (spread to regional lymph nodes).
+        distantMetastases (termfields.CodedConceptField[terminologies.TNMDistantMetastasesCategory]): M stage (presence of distant metastasis).
+        grade (termfields.CodedConceptField[terminologies.TNMGradeCategory]): G stage (grade of cancer cells).
+        residualTumor (termfields.CodedConceptField[terminologies.TNMResidualTumorCategory]): R stage (extent of residual tumor cells post-operation).
+        lymphaticInvasion (termfields.CodedConceptField[terminologies.TNMLymphaticInvasionCategory]): L stage (lymphatic vessel invasion).
+        venousInvasion (termfields.CodedConceptField[terminologies.TNMVenousInvasionCategory]): V stage (venous vessel invasion).
+        perineuralInvasion (termfields.CodedConceptField[terminologies.TNMPerineuralInvasionCategory]): Pn stage (adjunct nerve invasion).
+        serumTumorMarkerLevel (termfields.CodedConceptField[terminologies.TNMSerumTumorMarkerLevelCategory]): S stage (serum tumor marker level).
+    """
 
     staging = models.OneToOneField(
         to=Staging,
@@ -235,6 +287,13 @@ class FIGOStaging(Staging):
 
 @pghistory.track()
 class BinetStaging(Staging):
+    """
+    Model representing the Binet staging system for oncology.
+
+    Attributes:
+        staging (models.OneToOneField[Staging]): A one-to-one relationship to the base Staging model
+        stage (termfields.CodedConceptField[terminologies.BinetStage]): The Binet stage value, represented as a coded concept field.
+    """
 
     staging = models.OneToOneField(
         to=Staging,
@@ -252,6 +311,14 @@ class BinetStaging(Staging):
 
 @pghistory.track()
 class RaiStaging(Staging):
+    """
+    Model representing Rai staging for oncology patients.
+
+    Attributes:
+        staging (models.OneToOneField[Staging]): Links to the base Staging model, ensuring a one-to-one relationship.
+        stage (termfields.CodedConceptField[terminologies.RaiStage]): Stores the Rai stage value using a coded concept field.
+        methodology (termfields.CodedConceptField[terminologies.RaiStagingMethod]): Optionally records the methodology used for Rai staging.
+    """
 
     staging = models.OneToOneField(
         to=Staging,
@@ -276,6 +343,16 @@ class RaiStaging(Staging):
 
 @pghistory.track()
 class BreslowDepth(Staging):
+    """
+    Model representing Breslow depth staging for oncology.
+
+    Attributes:
+        staging (models.OneToOneField[Staging]): Links to the parent Staging instance, using Breslow staging domain.
+        depth (MeasurementField[measures.Distance]): Breslow depth measurement of the tumor, in millimeters.
+        is_ulcered (models.BooleanField): Indicates whether the primary tumor presents ulceration.
+        _stage_code (AnnotationProperty): Annotated SNOMED code based on Breslow depth thresholds.
+        stage (SubqueryObjectProperty[terminologies.BreslowDepthStage]): Related BreslowDepthStage object, resolved by SNOMED code.
+    """
 
     staging = models.OneToOneField(
         to=Staging,
@@ -314,6 +391,13 @@ class BreslowDepth(Staging):
 
 @pghistory.track()
 class ClarkStaging(Staging):
+    """
+    Represents the Clark staging model for oncology, extending the base Staging model.
+
+    Attributes:
+        staging (models.OneToOneField[Staging]): Links to the base Staging instance, using a one-to-one relationship.
+        stage (termfields.CodedConceptField[terminologies.ClarkLevel]): Stores the Clark level stage as a coded concept, referencing the ClarkLevel terminology.
+    """
 
     staging = models.OneToOneField(
         to=Staging,
@@ -331,6 +415,13 @@ class ClarkStaging(Staging):
 
 @pghistory.track()
 class ISSStaging(Staging):
+    """
+    ISSStaging model represents the International Staging System (ISS) staging information for oncology cases.
+
+    Attributes:
+        staging (models.OneToOneField[Staging]): One-to-one relationship to the base Staging model, serving as the primary key.
+        stage (termfields.CodedConceptField[terminologies.MyelomaISSStage]): Field storing the ISS stage value, using the Myeloma ISS terminology.
+    """
 
     staging = models.OneToOneField(
         to=Staging,
@@ -348,6 +439,13 @@ class ISSStaging(Staging):
 
 @pghistory.track()
 class RISSStaging(Staging):
+    """
+    Represents the Revised International Staging System (RISS) staging for oncology.
+
+    Attributes:
+        staging (models.OneToOneField[Staging]): Links to the base `Staging` model, using a one-to-one relationship.
+        stage (termfields.CodedConceptField[terminologies.MyelomaRISSStage]): Stores the RISS stage as a coded concept, using the Myeloma RISS terminology.
+    """
 
     staging = models.OneToOneField(
         to=Staging,
@@ -365,6 +463,13 @@ class RISSStaging(Staging):
 
 @pghistory.track()
 class INSSStage(Staging):
+    """
+    Represents the International Neuroblastoma Staging System (INSS) stage for a neuroblastoma case.
+
+    Attributes:
+        staging (models.OneToOneField[Staging]): Link to the parent `Staging` instance.
+        stage (termfields.CodedConceptField[terminologies.NeuroblastomaINSSStage]): The INSS stage value, coded using the Neuroblastoma INSS terminology.
+    """
 
     staging = models.OneToOneField(
         to=Staging,
@@ -382,6 +487,13 @@ class INSSStage(Staging):
 
 @pghistory.track()
 class INRGSSStage(Staging):
+    """
+    Represents the INRGSS (International Neuroblastoma Risk Group Staging System) stage for neuroblastoma patients.
+
+    Attributes:
+        staging (models.OneToOneField[Staging]): Links to the base Staging model, with cascade deletion and a custom related name.
+        stage (termfields.CodedConceptField[terminologies.NeuroblastomaINRGSSStage]): Stores the INRGSS stage value, with terminology support for Neuroblastoma INRGSS stages.
+    """
 
     staging = models.OneToOneField(
         to=Staging,
@@ -399,6 +511,13 @@ class INRGSSStage(Staging):
 
 @pghistory.track()
 class GleasonGrade(Staging):
+    """
+    Represents the Gleason Grade staging model for oncology.
+
+    Attributes:
+        staging (models.OneToOneField[Staging]): Links to the parent `Staging` instance, using a one-to-one relationship.
+        stage (termfields.CodedConceptField[terminologies.GleasonGradeGroupStage]): Stores the Gleason grade stage as a coded concept, using the GleasonGradeGroupStage terminology.
+    """
 
     staging = models.OneToOneField(
         to=Staging,
@@ -416,6 +535,14 @@ class GleasonGrade(Staging):
 
 @pghistory.track()
 class WilmsStage(Staging):
+    """
+    Model representing the staging information for Wilms tumor.
+
+    Attributes:
+        staging (models.OneToOneField[Staging]): Links to the base `Staging` model, with cascade deletion and a custom related name.
+        stage (termfields.CodedConceptField[terminologies.WilmsTumorStage]): Stores the Wilms tumor stage, using a controlled terminology.
+
+    """
 
     staging = models.OneToOneField(
         to=Staging,
@@ -433,6 +560,13 @@ class WilmsStage(Staging):
 
 @pghistory.track()
 class RhabdomyosarcomaClinicalGroup(Staging):
+    """
+    Model representing the clinical group staging for Rhabdomyosarcoma.
+
+    Attributes:
+        staging (models.OneToOneField[Staging]): Links to the base Staging model, ensuring a unique staging record per clinical group.
+        stage (termfields.CodedConceptField[terminologies.RhabdomyosarcomaClinicalGroup]): Stores the clinical group classification for Rhabdomyosarcoma, using controlled terminology.
+    """
 
     staging = models.OneToOneField(
         to=Staging,
@@ -450,6 +584,17 @@ class RhabdomyosarcomaClinicalGroup(Staging):
 
 @pghistory.track()
 class LymphomaStaging(Staging):
+    """
+    Model representing the staging information for lymphoma.
+
+    Attributes:
+        staging (models.OneToOneField[Staging]): Link to the base Staging model, establishing a one-to-one relationship.
+        stage (termfields.CodedConceptField[terminologies.LymphomaStage]): The specific stage of lymphoma, coded using a controlled terminology.
+        methodology (termfields.CodedConceptField[terminologies.LymphomaStagingMethod]): The methodology used for determining the lymphoma stage, optional.
+        bulky (models.BooleanField): Indicates the presence of bulky disease as a modifier, optional.
+        pathological (models.BooleanField): Specifies whether staging was based on clinical or pathological evidence, optional.
+        modifiers (termfields.CodedConceptField[terminologies.LymphomaStageValueModifier]): Additional coded qualifiers acting as modifiers for the lymphoma stage.
+    """
 
     staging = models.OneToOneField(
         to=Staging,

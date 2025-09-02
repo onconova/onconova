@@ -22,14 +22,14 @@ class Cohort(BaseModel):
 
     Attributes:
         objects (QueryablePropertiesManager): Custom manager for queryable properties.
-        name (CharField): Name of the cohort.
-        cases (ManyToManyField): Patient cases composing the cohort.
-        include_criteria (JSONField): JSON object defining inclusion criteria for cohort membership.
-        exclude_criteria (JSONField): JSON object defining exclusion criteria for cohort membership.
-        manual_choices (ManyToManyField): Manually added patient cases.
-        frozen_set (ManyToManyField): Cases that are frozen and not updated by criteria.
+        name (models.CharField): Name of the cohort.
+        cases (models.ManyToManyField[PatientCase]): Patient cases composing the cohort.
+        include_criteria (models.JSONField): JSON object defining inclusion criteria for cohort membership.
+        exclude_criteria (models.JSONField): JSON object defining exclusion criteria for cohort membership.
+        manual_choices (models.ManyToManyField[PatientCase]): Manually added patient cases.
+        frozen_set (models.ManyToManyField[PatientCase]): Cases that are frozen and not updated by criteria.
         population (AnnotationProperty): Annotated count of cases in the cohort.
-        project (ForeignKey): Project to which the cohort is associated.
+        project (models.ForeignKey[Project]): Project to which the cohort is associated.
     """
 
     objects = QueryablePropertiesManager()

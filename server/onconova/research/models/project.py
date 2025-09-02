@@ -18,14 +18,14 @@ class Project(BaseModel):
 
     Attributes:
         objects (QueryablePropertiesManager): Custom manager for querying project properties.
-        leader (User): The user responsible for the project and its members.
-        members (ManyToManyField[User]): Users that are part of the project, managed through ProjectMembership.
-        clinical_centers (ArrayField[str]): List of clinical centers involved in the project.
-        title (str): Unique title of the project.
-        summary (str): Description of the project.
-        ethics_approval_number (str): Ethics approval number for the project.
-        status (str): Current status of the project, chosen from ProjectStatus.
-        data_constraints (dict): Data constraints associated with the project.
+        leader (models.ForeignKey[User]): The user responsible for the project and its members.
+        members (models.ManyToManyField[User]): Users that are part of the project, managed through ProjectMembership.
+        clinical_centers (postgres.ArrayField[models.CharField]): List of clinical centers involved in the project.
+        title (models.CharField): Unique title of the project.
+        summary (models.CharField): Description of the project.
+        ethics_approval_number (models.CharField): Ethics approval number for the project.
+        status (models.CharField): Current status of the project, chosen from ProjectStatus.
+        data_constraints (models.JSONField): Data constraints associated with the project.
     """ 
     
     objects = QueryablePropertiesManager()

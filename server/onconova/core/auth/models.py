@@ -69,13 +69,13 @@ class User(AbstractUser):
     Custom User model extending Django's AbstractUser, with additional fields and properties for access control and user metadata.
 
     Attributes:
-        id (UUIDField): Primary key, unique identifier for the user.
+        id (models.UUIDField): Primary key, unique identifier for the user.
         full_name (AnnotationProperty): Computed full name from first and last name, or username if missing.
-        is_service_account (BooleanField): Indicates if the user is a technical service account.
-        title (CharField): Personal title of the user.
-        organization (CharField): Organization to which the user belongs.
-        department (CharField): Department within the organization.
-        access_level (IntegerField): Numeric access level (0-4) representing user permissions.
+        is_service_account (models.BooleanField): Indicates if the user is a technical service account.
+        title (models.CharField): Personal title of the user.
+        organization (models.CharField): Organization to which the user belongs.
+        department (models.CharField): Department within the organization.
+        access_level (models.IntegerField): Numeric access level (0-4) representing user permissions.
         role (MappingProperty): Maps access_level to a human-readable role.
         is_provided (AnnotationProperty): Indicates if the user's identity is provided by an external provider.
         provider (AnnotationProperty): Name of the external provider if applicable.
