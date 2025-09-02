@@ -10,7 +10,8 @@
     "test": "jasmine",
     "test:ci": "ng test --watch=false --browsers=Chrome_no_sandbox --reporters mocha",
     "serve:ssr:ngtest": "node dist/ngtest/server/server.mjs",
-    "generate:api:client": "./generate-api-client.sh"
+    "generate:api:client": "./generate-api-client.sh",
+    "compodoc": "npx compodoc -p tsconfig.doc.json"
   },
   "dependencies": {
     "@angular/animations": "^19.2.0",

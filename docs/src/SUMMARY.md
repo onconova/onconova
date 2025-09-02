@@ -24,8 +24,6 @@
         - [Code Of Conduct](guide/developers/code_of_conduct.md)
 - [FAQs](faq.md)
 - [Credits](credits.md)
-- Reference
-    - Server
-        -  ./server-reference/onconova/*
-    - Client
-        -  ./client-reference/*
+- Server Reference
+    -  ./server-reference/onconova/*
+- [Client Reference](reference/client-docs.md)

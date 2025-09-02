@@ -105,5 +105,6 @@ markdown_extensions:
 extra_css:
   - assets/css/style.css
   - assets/css/home.css
+  - assets/css/client-docs.css
   - assets/css/neoteroi-mkdocsoad.css
   - assets/css/neoteroi-mkdocs.min.css

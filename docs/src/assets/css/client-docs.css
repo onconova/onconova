@@ -1,0 +1,16 @@
+
+.md-main__inner.md-grid:has(.client-docs) {
+  max-width: 2000px !important;
+  margin: auto !important;
+}
+
+.md-content__inner.md-typeset:has(.client-docs) {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.md-content__inner.md-typeset:has(.client-docs) > h1 {
+    display: none;
+}
+section.client-docs iframe {
+    border: none;
+}
