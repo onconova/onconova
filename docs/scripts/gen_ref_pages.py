@@ -20,6 +20,10 @@ for path in sorted(src.rglob("*.py")):
             continue
         with mkdocs_gen_files.open(full_doc_path, "w") as fd:
             identifier = ".".join(parts)
+            print('---', file=fd)
+            print(f'title: {parts[-1]}', file=fd)
+            print('---', file=fd)
+            print(f"<h1><code>{identifier}</code></h1>\n\n", file=fd)
             print("::: " + identifier + '\n', file=fd)
             print("    handler: python", file=fd)
             mkdocs_gen_files.set_edit_path(full_doc_path, path.relative_to(root))

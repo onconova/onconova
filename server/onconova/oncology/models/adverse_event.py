@@ -192,8 +192,7 @@ class AdverseEventSuspectedCause(BaseModel):
         Determines the cause of the adverse event by checking related treatment attributes.
 
         Returns:
-            The first non-falsy value among systemic_therapy, medication, radiotherapy, or surgery,
-            indicating the treatment responsible for the adverse event. If none are present, returns None.
+            (Any): The first non-falsy value among systemic_therapy, medication, radiotherapy, or surgery, indicating the treatment responsible for the adverse event. If none are present, returns None.
         """
         return (
             self.systemic_therapy

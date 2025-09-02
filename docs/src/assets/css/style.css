@@ -51,3 +51,7 @@ a.md-header__button.md-logo {
   font-weight: 650;
   font-style: normal;
 }
+/* Hide individual attributes in mkdocstrings-python output to avoid clutter*/
+.doc.doc-object.doc-attribute {
+    display: none;
+}
