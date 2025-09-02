@@ -1,14 +1,46 @@
+/**
+ * UserSelectorComponent is an Angular form control for selecting users from a remote API.
+ * It provides an autocomplete dropdown powered by PrimeNG's AutoComplete component,
+ * supporting both single and multiple selection modes. The component can return either
+ * the selected User object(s) or just their username(s), depending on the `returnUsername` input.
+ *
+ * - Autocomplete user search by full name or username.
+ * - Configurable minimum access level for user suggestions.
+ * - Supports single and multiple selection.
+ * - Emits selected user(s) via `onChange` output.
+ * - Integrates with Angular forms as a ControlValueAccessor.
+ * - Optionally returns only usernames for form value.
+ * - If a user's `fullName` is empty, their username is displayed instead.
+ *
+ * ```html
+ * <!-- Single Selection -->
+ * <onconova-user-selector
+ *   [placeholder]="'Select a user'"
+ *   [minAccessLevel]="2"
+ *   [returnUsername]="true"
+ *   [(ngModel)]="selectedUsername">
+ * </onconova-user-selector>
+ * ```
+ *
+ * ```html
+ * <!-- Multiple Selection -->
+ * <onconova-user-selector
+ *   [multiple]="true"
+ *   [returnUsername]="false"
+ *   [(ngModel)]="selectedUsers">
+ * </onconova-user-selector>
+ * ```
+ *
+ */
 import { Component, forwardRef, inject, input, output, signal } from '@angular/core';
 import { ControlValueAccessor, FormControl, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { map } from 'rxjs';
-
 import { CommonModule } from '@angular/common';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MessageService } from 'primeng/api';
-
 import { User, UsersService } from 'onconova-api-client';
 import { rxResource } from '@angular/core/rxjs-interop';
+
 
 @Component({
     selector: 'onconova-user-selector',

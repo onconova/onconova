@@ -1,17 +1,27 @@
-import { Component, inject, input, ViewEncapsulation } from '@angular/core';
-
+import { Component, inject, input } from '@angular/core';
 import { UsersService } from 'onconova-api-client';
 import { GetNameAcronymPipe } from '../../pipes/name-acronym.pipe';
 import { GetFullNamePipe } from '../../pipes/full-name.pipe';
-
 import { Avatar } from 'primeng/avatar';
 import { Tooltip } from 'primeng/tooltip';
 import { map } from 'rxjs';
 import { Skeleton } from 'primeng/skeleton';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { Router } from 'express';
 import { RouterLink } from '@angular/router';
 
+
+/**
+ * Displays a user badge with avatar, name, and role information.
+ *
+ * This component fetches user data by username and displays an avatar with a tooltip
+ * containing the user's full name, access level, and role. Optionally, the user's name
+ * can be shown next to the avatar. The avatar is clickable and links to the user's admin page.
+ *
+ * ```html
+ * <onconova-user-badge [username]="'jdoe'" [showName]="true"></onconova-user-badge>
+ * ```
+ * 
+ */
 @Component({
     selector: 'onconova-user-badge',
     template: `

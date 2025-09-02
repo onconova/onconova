@@ -6,6 +6,19 @@ import { Button } from 'primeng/button';
 import { CamelCaseToTitleCasePipe } from "src/app/shared/pipes/camel-to-title-case.pipe";
 import { TypeCheckService } from '../../services/type-check.service';
 
+/**
+ * A reusable Angular component for rendering nested tables using PrimeNG.
+ * Designed to display arrays of objects, automatically inferring columns from the data.
+ * Supports nested structures and type checks via injected `TypeCheckService`.
+ * 
+ * - The component dynamically computes table columns based on the keys present in the input data.
+ * - It supports nested arrays and custom type checks for array, range, and measure types.
+ *
+ * ```html
+ * <onconova-nested-table [nestedData]="myArray"></onconova-nested-table>
+ * ```
+ *
+ */
 @Component({
     selector: 'onconova-nested-table',
     templateUrl: './nested-table.component.html',

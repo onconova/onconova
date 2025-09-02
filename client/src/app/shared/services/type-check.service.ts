@@ -1,6 +1,32 @@
 import { Injectable } from '@angular/core';
 import { CodedConcept, Measure, Period, Range } from 'onconova-api-client';
 
+/**
+ * Service providing type-checking utility methods for various domain-specific and primitive types.
+ *
+ * This service is intended to be injected wherever type validation is required, such as in form validation,
+ * API response handling, or data transformation logic. It includes methods to check for specific types
+ * like `CodedConcept`, `Range`, `Period`, `Measure`, as well as general utilities for arrays, objects,
+ * dates, booleans, UUIDs, and date strings.
+ *
+ * ```typescript
+ * private typeCheck = inject(TypeCheckService);
+ *
+ * const concept = { code: '123' };
+ * if (this.typeCheck.isCodeableConcept(concept)) {
+ *   // concept is a valid CodedConcept
+ * }
+ *
+ * const dateStr = '2024-06-01';
+ * if (this.typeCheck.isDateString(dateStr)) {
+ *   // dateStr is a valid date string in YYYY-MM-DD format
+ * }
+ * ```
+ *
+ * - The type guards for domain-specific types (`CodedConcept`, `Range`, `Period`, `Measure`) assume minimal shape validation.
+ * - `isDateString` checks for a string of length 10 that parses as a date, typically in `YYYY-MM-DD` format.
+ * - `isUUID` validates against RFC 4122 version 4 UUIDs.
+ */
 @Injectable({
   providedIn: 'root'
 })

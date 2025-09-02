@@ -1,12 +1,34 @@
 import { CommonModule } from '@angular/common';
-import { Component, contentChild, effect, forwardRef, inject, input, linkedSignal, signal, Signal, TemplateRef, ViewEncapsulation, WritableSignal } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { ControlValueAccessor, FormControl, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Component, contentChild, forwardRef, input, linkedSignal, TemplateRef, WritableSignal } from '@angular/core';
+import { FormControl, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Button } from 'primeng/button';
 import { ButtonGroup } from 'primeng/buttongroup';
 import { Popover } from 'primeng/popover';
 
 
+/**
+ * A reusable Angular component for displaying a filter button with popover content.
+ * 
+ * This component toggles between two states:
+ * - When a filter value is selected, it shows a button group with the selected value and a remove button.
+ * - When no filter value is selected, it shows an "add filter" button.
+ * 
+ * - Integrates with Angular forms via `ControlValueAccessor`.
+ * - Designed for use in filter UIs where selection and removal of filter values is required.
+ * 
+ * 
+ * ```html
+ * <onconova-popover-filter-button
+ *   [label]="'Add Filter'"
+ *   [selectionLabelFcn]="getSelectionLabel"
+ *   [value]="filterSignal"
+ * >
+ *   <ng-template #popoverContent let-value>
+ *     <!-- Custom filter UI goes here -->
+ *   </ng-template>
+ * </onconova-popover-filter-button>
+ * ```
+ */
 @Component({
     selector: 'onconova-popover-filter-button',
     providers: [

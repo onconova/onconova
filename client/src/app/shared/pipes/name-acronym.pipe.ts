@@ -1,6 +1,7 @@
 import { Pipe, PipeTransform } from "@angular/core"
 import { User } from "onconova-api-client"
 
+
 @Pipe({
     standalone: true,
     name: 'acronym'

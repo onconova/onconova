@@ -1,6 +1,21 @@
-import { Component, Input, forwardRef, input } from '@angular/core';
+/**
+ * A custom Angular component for selecting a numeric range using two input fields.
+ * Implements `ControlValueAccessor` for use in Angular forms.
+ * 
+ * - Allows users to input a start and end value for a range.
+ * - The component automatically adjusts the start or end value to ensure `start <= end`.
+ * - Both values can be `null` to represent an empty range.
+ * - The component is designed to be used within Angular forms and supports two-way binding.
+ * 
+ * ```html
+ * <onconova-range-input [(ngModel)]="rangeValue" [disabled]="isDisabled"></onconova-range-input>
+ * ```
+ * 
+ */
+import { Component, forwardRef, input } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { InputNumberModule } from 'primeng/inputnumber';
+
 
 @Component({
     selector: 'onconova-range-input',

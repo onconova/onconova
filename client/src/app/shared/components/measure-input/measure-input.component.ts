@@ -15,6 +15,27 @@ export interface MeasureUnit {
     display: string;
 }
 
+/**
+ * A reusable Angular component for inputting a measurement value and selecting its unit.
+ * Integrates with Angular forms via `ControlValueAccessor` and supports dynamic unit options
+ * fetched from a backend service. Designed for use in medical or scientific applications
+ * where measurements (e.g., weight, length, volume) require unit selection.
+ * 
+ * - The component fetches allowed units and default unit for the given measure using `MeasuresService`.
+ * - Unit display names are formatted for readability (e.g., `'mg__dl'` becomes `'mg/dl'`).
+ * - Implements `ControlValueAccessor` for seamless integration with Angular forms.
+ * - Requires `measure` input to specify the type of measurement (e.g., `'weight'`, `'height'`).
+ * - Optionally accepts `defaultUnit` to pre-select a unit.
+ *
+ * ```html
+ * <onconova-measure-input
+ *   [measure]="'weight'"
+ *   [defaultUnit]="'kg'"
+ *   [(ngModel)]="patientWeight"
+ * />
+ * ```
+ *
+ */
 @Component({
     selector: 'onconova-measure-input',
     templateUrl: './measure-input.component.html',

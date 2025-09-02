@@ -1,4 +1,4 @@
-import { Component, Input, forwardRef, input } from '@angular/core';
+import { Component, forwardRef, input } from '@angular/core';
 import { ControlValueAccessor, FormControl, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CommonModule} from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -10,6 +10,24 @@ interface Reference {
     description: string;
 }
 
+/**
+ * MultiReferenceSelectComponent
+ * 
+ * A reusable Angular component for selecting multiple references from a list.
+ * Utilizes PrimeNG's MultiSelect UI component and integrates with Angular forms via ControlValueAccessor.
+ * 
+ * - The `options` input must be an array of objects implementing the `Reference` interface ({ id: string, description: string }).
+ * - Designed for use in reactive forms; supports form validation and value access.
+ * 
+ * ```html
+ * <onconova-multi-reference-select
+ *   [options]="referenceList"
+ *   [placeholder]="'Choose references'"
+ *   [formControl]="myFormControl">
+ * </onconova-multi-reference-select>
+ * ```
+ * 
+ */
 @Component({
     selector: 'onconova-multi-reference-select',
     template: `
