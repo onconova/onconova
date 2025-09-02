@@ -13,10 +13,33 @@ from onconova.core.models import BaseModel
 
 @pghistory.track()
 class Project(BaseModel):
+    """
+    Represents a research project with associated metadata, members, and status.
 
+    Attributes:
+        objects (QueryablePropertiesManager): Custom manager for querying project properties.
+        leader (User): The user responsible for the project and its members.
+        members (ManyToManyField[User]): Users that are part of the project, managed through ProjectMembership.
+        clinical_centers (ArrayField[str]): List of clinical centers involved in the project.
+        title (str): Unique title of the project.
+        summary (str): Description of the project.
+        ethics_approval_number (str): Ethics approval number for the project.
+        status (str): Current status of the project, chosen from ProjectStatus.
+        data_constraints (dict): Data constraints associated with the project.
+    """ 
+    
     objects = QueryablePropertiesManager()
 
     class ProjectStatus(models.TextChoices):
+        """
+        An enumeration representing the possible statuses of a project.
+
+        Attributes:
+            PLANNED: Indicates the project is planned but not yet started.
+            ONGOING: Indicates the project is currently in progress.
+            COMPLETED: Indicates the project has been finished.
+            ABORTED: Indicates the project was stopped before completion.
+        """
         PLANNED = "planned"
         ONGOING = "ongoing"
         COMPLETED = "completed"
@@ -72,13 +95,42 @@ class Project(BaseModel):
 
     @property
     def description(self):
+        """
+        Returns the title of the project as its description.
+
+        Returns:
+            (str): The title of the project.
+        """
         return f"{self.title}"
 
     def is_member(self, user: User) -> bool:
+        """
+        Checks if the given user is a member of the project.
+
+        A user is considered a member if they are included in the project's members list
+        or if they are the project leader.
+
+        Args:
+            user (User): The user to check for membership.
+
+        Returns:
+            (bool): True if the user is a member or the leader, False otherwise.
+        """
         return user in self.members.all() or user == self.leader
 
 
 class ProjectMembership(models.Model):
+    """
+    Represents the membership of a user in a project.
+
+    Attributes:
+        member (ForeignKey): Reference to the user who is part of the project.
+        project (ForeignKey): Reference to the project the user is associated with.
+        date_joined (DateField): The date when the user joined the project.
+
+    Constraints:
+        Ensures that each user can only be a member of a project once (unique combination of project and member).
+    """
     member = models.ForeignKey(
         verbose_name=_("User"),
         help_text=_("User that is part of a project"),
@@ -107,6 +159,17 @@ class ProjectMembership(models.Model):
 
 @pghistory.track()
 class ProjectDataManagerGrant(BaseModel):
+    """
+    Represents a grant of data management permissions for a specific user (manager) on a project.
+
+    Attributes:
+        member (ForeignKey): Reference to the User who is granted data management permissions.
+        project (ForeignKey): Reference to the Project under which the permission is granted.
+        revoked (BooleanField): Indicates whether the authorization has been revoked.
+        validity_period (DateRangeField): The period during which the grant is valid.
+        is_valid (AnnotationProperty): Annotated property indicating if the grant is currently valid,
+            based on the revoked status and validity period.
+    """
 
     member = models.ForeignKey(
         verbose_name=_("Manager"),
@@ -149,6 +212,9 @@ class ProjectDataManagerGrant(BaseModel):
 
     @property
     def description(self):
+        """
+        Returns a formatted string describing the data manager role for a project member, including the member's username, project title, validity period, and revoked status if applicable.
+        """
         return (
             f"Data manager role for {self.member.username} in project {self.project.title} from {self.validity_period.lower} to  {self.validity_period.upper}"
             + ("" if not self.revoked else " (revoked)")

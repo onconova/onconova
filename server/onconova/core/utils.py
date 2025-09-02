@@ -23,10 +23,10 @@ def is_optional(annotation: Any) -> bool:
     Check if a field is optional, i.e. its type is a Union containing None.
 
     Args:
-        field (Any): The annotation to check.
+        annotation (Any): The annotation to check.
 
     Returns:
-        bool: True if the field is optional, False otherwise.
+        (bool): True if the field is optional, False otherwise.
     """
     return get_origin(annotation) is Union and type(None) in get_args(annotation)
 
@@ -241,12 +241,11 @@ def is_datetime(date_string: str, date_format: str) -> bool:
     Checks if a given string can be parsed as a datetime object with the given date format.
 
     Args:
-        date_string: The string to be parsed.
-        date_format: The date format to use for parsing.
+        date_string (str): The string to be parsed.
+        date_format (str): The date format to use for parsing.
 
     Returns:
-        True if the string can be parsed as a datetime object with the given date format,
-        False otherwise.
+        (bool): True if the string can be parsed as a datetime object with the given date format, False otherwise.
     """
     try:
         datetime.strptime(date_string, date_format)
@@ -255,17 +254,16 @@ def is_datetime(date_string: str, date_format: str) -> bool:
         return False
 
 
-def is_period(period_string, date_format):
+def is_period(period_string: str, date_format: str) -> bool:
     """
     Checks if a given string can be parsed as a period string with the given date format.
 
     Args:
-        period_string: The string to be parsed.
-        date_format: The date format to use for parsing.
+        period_string (str): The string to be parsed.
+        date_format (str): The date format to use for parsing.
 
     Returns:
-        True if the string can be parsed as a period string with the given date format,
-        False otherwise.
+        (bool): True if the string can be parsed as a period string with the given date format, False otherwise.
     """
     try:
         period_start_string, period_end_string = period_string.strip("()[]").split(",")
@@ -385,7 +383,7 @@ def std(data, ddof=0):
         ddof (int): Delta Degrees of Freedom (0 for population, 1 for sample)
 
     Returns:
-        float: Standard deviation of the data
+        (float): Standard deviation of the data
     """
     n = len(data)
     if n == 0:

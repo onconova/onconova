@@ -11,7 +11,7 @@ class CanonicalUrlResolver:
             canonical_url (str): The canonical URL to resolve.
 
         Returns:
-            str: The URL that can be used to download the corresponding ValueSet or CodeSystem resource.
+            (str): The URL that can be used to download the corresponding ValueSet or CodeSystem resource.
         """
         RELEASE_VERSIONS = {
             "http://hl7.org/fhir/us/core": "STU5.0.1",
@@ -64,7 +64,7 @@ class CanonicalUrlResolver:
             canonical_url (str): The canonical URL to resolve.
 
         Returns:
-            str: The URL that can be used to download the corresponding ValueSet resource.
+            (str): The URL that can be used to download the corresponding ValueSet resource.
         """
         valueset_name = (
             canonical_url.replace("http://", "https://")
@@ -81,7 +81,7 @@ class CanonicalUrlResolver:
             canonical_url (str): The canonical URL to resolve.
 
         Returns:
-            str: The URL that can be used to download the corresponding ValueSet resource.
+            (str): The URL that can be used to download the corresponding ValueSet resource.
         """
         valueset_name = canonical_url.replace(
             "https://vsac.nlm.nih.gov/valueset/", ""
@@ -96,7 +96,7 @@ class CanonicalUrlResolver:
             canonical_url (str): The canonical URL to resolve.
 
         Returns:
-            str: The URL that can be used to download the corresponding ValueSet or CodeSystem resource.
+            (str): The URL that can be used to download the corresponding ValueSet or CodeSystem resource.
         """
         return f"{canonical_url}/$expand?_format=json"
 
@@ -108,7 +108,7 @@ class CanonicalUrlResolver:
             canonical_url (str): The canonical URL to resolve.
 
         Returns:
-            str: The URL that can be used to download the corresponding ValueSet resource.
+            (str): The URL that can be used to download the corresponding ValueSet resource.
         """
         valueset_name = (
             canonical_url.replace("https://simplifier.net/onconova", "")
@@ -131,7 +131,7 @@ class CanonicalUrlResolver:
             canonical_url (str): The canonical URL to resolve.
 
         Returns:
-            str: The URL that can be used to download the corresponding ValueSet or CodeSystem resource.
+            (str): The URL that can be used to download the corresponding ValueSet or CodeSystem resource.
         """
         # Validate the input canonical_url
         if not urllib.parse.urlparse(canonical_url).scheme:  # type: ignore

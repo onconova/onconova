@@ -16,10 +16,19 @@ from onconova.terminology.utils import ensure_within_string_limits, request_http
 
 
 class DrugCodedConcept(CodedConcept):
+    """
+    Represents a coded concept for a drug, extending the CodedConcept class.
+
+    Attributes:
+        therapy_category (str | None): The category of therapy associated with the drug. Can be None if not specified.
+    """
     therapy_category: str | None = None
 
 
 class NCITAntineoplasticAgentsSubsetDigestor(TerminologyDigestor):
+    """
+    Digestor for the NCIT Antineoplastic Agents subset terminology.
+    """
 
     LABEL = "ncit-antineoplastic"
     FILENAME = "ncit_antineoplastic.tsv"
@@ -44,10 +53,16 @@ class NCITAntineoplasticAgentsSubsetDigestor(TerminologyDigestor):
 
 def expand_antineoplastic_agent_concepts() -> List[DrugCodedConcept]:
     """
-    Expands the AntineoplasticAgent concepts.
+    Expands and classifies antineoplastic agent concepts using NCIT codes.
+
+    This function loads or creates a cache of NCIT descendant codes, fetches and classifies
+    antineoplastic agents into therapy categories (e.g., immunotherapy, hormone therapy, chemotherapy, etc.)
+    by traversing the NCIT ontology tree, and returns a list of DrugCodedConcept objects with
+    assigned therapy categories.
 
     Returns:
-        dict[str, DrugCodedConcept]: A dictionary of DrugCodedConcept objects.
+        List[DrugCodedConcept]: A list of DrugCodedConcept objects representing antineoplastic agents,
+        each annotated with its therapy category.
     """
     current_path = os.path.dirname(__file__)
     cache_file = (
@@ -169,10 +184,26 @@ class CTCAETermsDigestor(TerminologyDigestor):
 
 
 def expand_ctcae_terms() -> List[CodedConcept]:
+    """
+    Expands and returns a list of CTCAE (Common Terminology Criteria for Adverse Events) coded concepts.
+
+    Uses the CTCAETermsDigestor to process and retrieve all available CTCAE terms.
+
+    Returns:
+        List[CodedConcept]: A list of coded concepts representing CTCAE terms.
+    """
     return list(CTCAETermsDigestor().digest().values())
 
 
 def add_gene_exons():
+    """
+    Populates the GeneExon table with exon information for each gene.
+
+    This function retrieves exon data from the EnsemblExonsDigestor, iterates through each gene symbol,
+    and updates the database by creating or retrieving GeneExon objects for each exon associated with a gene.
+    The function uses tqdm to display progress and sets exon attributes such as rank, coding DNA region,
+    and coding genomic region.
+    """
     exons_map = EnsemblExonsDigestor().digest()
     for gene_symbol in tqdm(
         exons_map, total=len(exons_map), desc="• Updating gene exons"

@@ -2,7 +2,7 @@ from django.contrib.auth.models import AnonymousUser
 from django.db.models import Q
 from django.http import HttpRequest
 from ninja_extra import permissions
-
+from typing import Any
 from onconova.core.auth.models import User
 from onconova.research.models.cohort import Cohort
 from onconova.research.models.dataset import Dataset
@@ -12,42 +12,52 @@ from onconova.research.models.project import Project
 class BasePermission(permissions.BasePermission):
     """
     Base permission class providing common permission evaluation logic.
-
-    Permissions are granted if:
-    - The user is a superuser
-    - The user is a system admin
-    - The user passes a specific permission check (defined in subclasses)
     """
 
     def check_user_permission(self, user: User) -> bool:
         """
-        Check if a user has a specific permission.
-
-        Subclasses must override this method.
+        Checks whether the given user has the required permission.
 
         Args:
-            user (User): The user object.
+            user (User): The user object whose permissions are to be checked.
 
         Returns:
-            bool: Whether the user has the required permission.
+            (bool): True if the user has the required permission, False otherwise.
+
+        Raises:
+            NotImplementedError: If the method is not implemented by a subclass.
         """
         raise NotImplementedError("Subclasses must implement check_user_permission.")
 
-    def check_user_object_permission(self, user: User, controller, obj) -> bool:
+    def check_user_object_permission(self, user: User, controller: Any, obj: object) -> bool:
+        """
+        Checks whether the given user has permission to access or perform actions on the specified object.
+
+        Args:
+            user (User): The user whose permissions are being checked.
+            controller (Any): The controller or context in which the permission is being checked.
+            obj (object): The object for which permission is being evaluated.
+
+        Returns:
+            (bool): True if the user has permission for the object, False otherwise.
+
+        Raises:
+            NotImplementedError: If the method is not implemented by a subclass.
+        """
         raise NotImplementedError(
             "Subclasses must implement check_user_object_permission."
         )
 
-    def has_permission(self, request: HttpRequest, controller) -> bool:
+    def has_permission(self, request: HttpRequest, controller: Any) -> bool:
         """
-        Evaluate whether a request has permission to proceed.
+        Determines whether the requesting user has permission to access the controller.
 
         Args:
-            request (HttpRequest): Incoming HTTP request.
-            controller: The view/controller handling the request.
+            request (HttpRequest): The HTTP request containing the user information.
+            controller (Any): The controller or view being accessed.
 
         Returns:
-            bool: Whether permission is granted.
+            (bool): True if the user is a superuser, a system admin, or passes the custom user permission check; False otherwise.
         """
         user = request.user
         return user.is_superuser or (
@@ -55,7 +65,19 @@ class BasePermission(permissions.BasePermission):
             and (user.is_system_admin or self.check_user_permission(user))
         )
 
-    def has_object_permission(self, request: HttpRequest, controller, obj) -> bool:
+    def has_object_permission(self, request: HttpRequest, controller: Any, obj: object) -> bool:
+        """
+        Determines whether the requesting user has permission to access a specific object.
+
+        Args:
+            request (HttpRequest): The HTTP request containing the user information.
+            controller (Any): The controller handling the request (usage may vary).
+            obj (object): The object for which permission is being checked.
+
+        Returns:
+            (bool): True if the user is a superuser, a system admin, or passes the custom object permission check;
+                  False otherwise.
+        """
         user = request.user
         return user.is_superuser or (
             not isinstance(user, AnonymousUser)
@@ -222,19 +244,19 @@ class CanDeleteDatasets(BasePermission):
 class IsRequestingUser(permissions.BasePermission):
     """
     Permission that grants access only if the user making the request
-    matches the 'userId' parameter in the URL route.
+    matches the `userId` parameter in the URL route.
     """
 
-    def has_permission(self, request: HttpRequest, controller) -> bool:
+    def has_permission(self, request: HttpRequest, controller: Any) -> bool:
         """
-        Check if the authenticated user's ID matches the 'userId' in the route.
+        Check if the authenticated user's ID matches the `userId` in the route.
 
         Args:
             request (HttpRequest): Incoming HTTP request.
-            controller: The view/controller handling the request.
+            controller (Any): The view/controller handling the request.
 
         Returns:
-            bool: Whether permission is granted.
+            (bool): Whether permission is granted.
         """
         controller.context.compute_route_parameters()
         user_id = controller.context.kwargs.get("userId")

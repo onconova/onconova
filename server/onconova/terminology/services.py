@@ -242,8 +242,7 @@ def follow_valueset_composition_rule(
     as referenced value sets.
 
     Args:
-        rule (ValueSetComposeInclude): The composition rule defining the
-        inclusion criteria.
+        rule (ValueSetComposeInclude): The composition rule defining the inclusion criteria.
 
     Returns:
         List[CodedConcept]: A list of CodedConcept objects that match the inclusion criteria.

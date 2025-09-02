@@ -24,6 +24,14 @@ from onconova.research.schemas.cohort import CohortTraitCounts
 
 
 class AnalysisMetadata(Schema):
+    """
+    Schema representing metadata for an analysis performed on a cohort.
+
+    Attributes:
+        cohortId (str): The ID of the cohort for which the analysis was performed.
+        analyzedAt (datetime): The datetime at which the analysis was performed.
+        cohortPopulation (int): The effective number of valid patient cases in the cohort used for the analysis.
+    """
     cohortId: str = Field(
         title="Cohort ID",
         description="The ID of the cohort for which the analysis was performed.",
@@ -39,6 +47,16 @@ class AnalysisMetadata(Schema):
 
 
 class AnalysisMetadataMixin:
+    """
+    Mixin class that provides metadata handling for analysis objects.
+
+    Attributes:
+        metadata (AnalysisMetadata | None): Metadata for the Kaplan-Meier curve, including cohort information and analysis timestamp.
+
+    Methods:
+        add_metadata(cohort: Cohort) -> Self:
+            Populates the metadata attribute with information from the provided cohort, such as cohort ID, analysis time, and population size.
+    """
 
     metadata: AnalysisMetadata | None = Field(
         default=None,
@@ -47,6 +65,15 @@ class AnalysisMetadataMixin:
     )
 
     def add_metadata(self, cohort: Cohort):
+        """
+        Adds metadata information to the analysis based on the provided cohort.
+
+        Args:
+            cohort (Cohort): The cohort object containing data to populate metadata fields.
+
+        Returns:
+            (Self): The instance of the analysis with updated metadata.
+        """
         self.metadata = AnalysisMetadata(
             cohortId=str(cohort.id),
             analyzedAt=datetime.now(),
@@ -57,9 +84,14 @@ class AnalysisMetadataMixin:
 
 class KaplanMeierCurve(Schema, AnalysisMetadataMixin):
     """
-    Kaplan-Meier survival curve
-    """
+    Schema representing a Kaplan-Meier survival curve, including survival probabilities and confidence intervals.
 
+    Attributes:
+        months (List[float]): List of time points (in months) for survival probability estimates.
+        probabilities (List[float]): Survival probabilities at each time point.
+        lowerConfidenceBand (List[float]): Lower bound of the survival probability confidence interval at each time point.
+        upperConfidenceBand (List[float]): Upper bound of the survival probability confidence interval at each time point.
+    """
     months: List[float] = Field(
         title="Months",
         description="List of time points (in months) for survival probability estimates.",
@@ -81,7 +113,7 @@ class KaplanMeierCurve(Schema, AnalysisMetadataMixin):
         cls,
         survivals: List[float | None],
         confidence_level: float = 0.95,
-    ) -> Self:
+    ) -> "KaplanMeierCurve":
         """
         Performs Kappler-Maier analysis to estimate survival probabilities and 95% confidence intervals
         and initializes a Kaplan-Meier curve.
@@ -91,14 +123,22 @@ class KaplanMeierCurve(Schema, AnalysisMetadataMixin):
                 patient.
             confidence_level (float): Confidence level for the confidence interval (0.95 default).
 
+        Returns:
+            KaplanMeierCurve: Instance containing the computed survival curve and confidence bands.
+
+        Raises:
+            ValueError: If the input survivals list is empty or contains only None values.
+
         Notes:
+
             Uses the analytical Kaplan-Meier estimator 1_ and computes the asymptotic 95%
             confidence intervals 2_ using the log-log approach 3_.
 
         References:
-        .. [1]  https://en.wikipedia.org/wiki/Kapla-Meier_estimator
-        .. [2]  Fisher, Ronald (1925), Statistical Methods for Research Workers, Table 1
-        .. [3]  Borgan, Liestøl (1990). Scandinavian Journal of Statistics 17, 35-41
+            
+            .. [1]  https://en.wikipedia.org/wiki/Kapla-Meier_estimator
+            .. [2]  Fisher, Ronald (1925), Statistical Methods for Research Workers, Table 1
+            .. [3]  Borgan, Liestøl (1990). Scandinavian Journal of Statistics 17, 35-41
         """
         # Remove None values and convert to floats
         survivals = [float(m) for m in survivals if m is not None]
@@ -167,6 +207,15 @@ class KaplanMeierCurve(Schema, AnalysisMetadataMixin):
 
 
 class OncoplotVariant(Schema):
+    """
+    Schema representing a variant entry for an oncoplot analysis.
+
+    Attributes:
+        gene (str): The gene symbol associated with the variant.
+        caseId (str): Unique identifier for the case, can be provided as 'caseId' or 'pseudoidentifier'.
+        hgvsExpression (str): HGVS expression describing the variant, can be provided as 'hgvsExpression' or 'hgvs_expression'.
+        isPathogenic (Optional[bool]): Indicates if the variant is pathogenic, can be provided as 'isPathogenic' or 'is_pathogenic'.
+    """
     gene: str
     caseId: str = Field(
         alias="pseudoidentifier",
@@ -183,6 +232,14 @@ class OncoplotVariant(Schema):
 
 
 class OncoplotDataset(Schema, AnalysisMetadataMixin):
+    """
+    Schema representing the dataset required for generating an Oncoplot visualization.
+
+    Attributes:
+        genes (List[str]): List of the most frequently encountered gene names.
+        cases (List[str]): List of patient case identifiers.
+        variants (List[OncoplotVariant]): List of variant records included in the Oncoplot.
+    """
     genes: List[str] = Field(
         title="Genes", description="List of most frequently encountered genes"
     )
@@ -192,7 +249,27 @@ class OncoplotDataset(Schema, AnalysisMetadataMixin):
     )
 
     @classmethod
-    def calculate(cls, cases: QuerySet[PatientCase]) -> Self:
+    def calculate(cls, cases: QuerySet[PatientCase]) -> "OncoplotDataset":
+        """
+        Calculates and returns an analysis summary for the given patient cases.
+
+        This method performs the following steps:
+
+        1. Retrieves all GenomicVariant objects associated with the provided cases.
+        2. Identifies the top 25 most frequently occurring genes among these variants.
+        3. Filters variants to include only those associated with the top genes.
+        4. Annotates each variant with relevant fields such as pseudoidentifier, gene name, HGVS expression, and pathogenicity.
+        5. Constructs and returns an instance of the class with:
+            - The list of top genes.
+            - The pseudoidentifiers of the cases.
+            - A validated list of variant data for plotting or further analysis.
+
+        Args:
+            cases (QuerySet[PatientCase]): A queryset of patient cases to analyze.
+
+        Returns:
+            (OncoplotDataset): An instance of the class containing the analysis results.
+        """
         variants = GenomicVariant.objects.filter(case__in=cases)
         genes = [
             gene
@@ -217,10 +294,31 @@ class OncoplotDataset(Schema, AnalysisMetadataMixin):
 
 
 class CategorizedSurvivals(Schema, AnalysisMetadataMixin):
+    """
+    Schema for categorizing progression free survival (PFS) data within a cohort based on therapy-related groupings.
+
+    Attributes:
+        survivals (Dict[str, List[float]]): A dictionary mapping category names (e.g., drug combinations or therapy classifications) to lists of progression free survival values.
+    """
     survivals: Dict[str, List[float]]
 
     @classmethod
-    def calculate(cls, cohort: Cohort, therapyLine: str, categorization: str) -> Self:
+    def calculate(cls, cohort: Cohort, therapyLine: str, categorization: str) -> "CategorizedSurvivals":
+        """
+        Calculates survival statistics for a given cohort based on therapy line and categorization.
+
+        Args:
+            cohort (Cohort): The cohort of patients to analyze.
+            therapyLine (str): The therapy line to consider for the analysis.
+            categorization (str): The categorization method, either "drugs" or "therapies".
+
+        Returns:
+            (CategorizedSurvivals): An instance of the class with calculated survivals based on the specified categorization.
+
+        Notes:
+            - If categorization is "drugs", survivals are calculated by combination therapy.
+            - If categorization is "therapies", survivals are calculated by therapy classification.
+        """
         if categorization == "drugs":
             return cls(
                 survivals=cls._calculate_by_combination_therapy(cohort, therapyLine)
@@ -384,13 +482,39 @@ class CategorizedSurvivals(Schema, AnalysisMetadataMixin):
 
 
 class Distribution(Schema, AnalysisMetadataMixin):
+    """
+    Represents a statistical distribution of trait counts within a cohort.
+
+    Attributes:
+        items (List[CohortTraitCounts]): The entries in the distribution, each representing
+            a category and its associated counts and percentage.
+
+    """
 
     items: List[CohortTraitCounts] = Field(
         title="Items", description="The entries in the distribution."
     )
 
     @classmethod
-    def calculate(cls, cohort: Cohort, property: str) -> Self:
+    def calculate(cls, cohort: Cohort, property: str) -> "Distribution":
+        """
+        Calculates the distribution of a specified property within a cohort.
+
+        Args:
+            cohort (Cohort): The cohort to analyze.
+            property (str): The property to calculate distribution for. Supported properties include:
+                - "age"
+                - "ageAtDiagnosis"
+                - "gender"
+                - "neoplasticSites"
+                - "vitalStatus"
+
+        Returns:
+            (Distribution): An instance of Distribution containing items with category, counts, and percentage for each property value.
+
+        Raises:
+            KeyError: If the specified property is not supported.
+        """
         property_info = dict(
             age={"lookup": "age", "anonymization": anonymize_age},
             ageAtDiagnosis={
@@ -418,9 +542,27 @@ class Distribution(Schema, AnalysisMetadataMixin):
 
 
 class TherapyLineCasesDistribution(Distribution):
+    """
+    Represents the distribution of cases in a cohort based on inclusion in a specific therapy line.
+    """
 
     @classmethod
-    def calculate(cls, cohort: Cohort, therapyLine: str) -> Self:
+    def calculate(cls, cohort: Cohort, therapyLine: str) -> "TherapyLineCasesDistribution":
+        """
+        Calculates the distribution of cases in a cohort based on inclusion in a specified therapy line.
+
+        Args:
+            cohort (Cohort): The cohort containing valid cases to analyze.
+            therapyLine (str): The label of the therapy line to filter cases by.
+
+        Returns:
+            (TherapyLineCasesDistribution): A Distribution object containing counts and percentages for cases included and not included in the specified therapy line.
+
+        Notes:
+
+            - The percentages are rounded to four decimal places.
+            - Assumes `cohort.valid_cases` is a queryset-like object supporting `count()` and `filter()` methods.
+        """
         total = cohort.valid_cases.count()
         included = cohort.valid_cases.filter(therapy_lines__label=therapyLine).count()
         not_included = total - included
@@ -441,9 +583,29 @@ class TherapyLineCasesDistribution(Distribution):
 
 
 class TherapyLineResponseDistribution(Distribution):
+    """
+    Represents the distribution of treatment responses for a specific therapy line within a cohort.
+    """
 
     @classmethod
-    def calculate(cls, cohort: Cohort, therapyLine: str) -> Self:
+    def calculate(cls, cohort: Cohort, therapyLine: str) -> "TherapyLineResponseDistribution":
+        """
+        Calculates the distribution of treatment responses for a specified therapy line within a given cohort.
+
+        Args:
+            cohort (Cohort): The cohort containing valid cases to analyze.
+            therapyLine (str): The label of the therapy line to filter cases.
+
+        Returns:
+            (TherapyLineResponseDistribution): An object representing the distribution of treatment responses, including counts and percentages for each response category.
+
+        Notes:
+
+            - Filters cases in the cohort by the specified therapy line.
+            - Annotates each case with its most recent treatment response during the therapy line period.
+            - Aggregates and calculates the percentage distribution of response categories.
+            - Categories with no response are labeled as "Unknown".
+        """
         values = (
             cohort.valid_cases.filter(therapy_lines__label=therapyLine)
             .annotate(

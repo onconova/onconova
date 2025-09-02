@@ -1,6 +1,9 @@
+"""
+This module defines Pydantic schemas for user authentication and profile management within the Onconova system.
+"""
 from ninja import Field, Schema
 from pydantic import AliasChoices
-
+from typing import Literal
 from onconova.core.auth import models as orm
 from onconova.core.serialization.factory import create_filters_schema
 from onconova.core.serialization.metaclasses import (
@@ -12,7 +15,13 @@ from onconova.core.types import Nullable
 
 
 class UserPasswordReset(Schema):
-    """Schema for user password reset payload."""
+    """
+    Schema for user password reset operation.
+
+    Attributes:
+        oldPassword (str): The user's current password.
+        newPassword (str): The user's new password to be set.
+    """
 
     oldPassword: str = Field(
         title="Old Password", description="The user's current password."
@@ -23,7 +32,27 @@ class UserPasswordReset(Schema):
 
 
 class UserSchema(ModelGetSchema):
-    """Detailed schema for User data retrieval."""
+    """
+    Schema for representing a user and their permissions within the system.
+
+    Attributes:
+        role (orm.User.AccessRoles): The user's assigned access role.
+        canViewCases (bool): Permission to view cases.
+        canViewProjects (bool): Permission to view projects.
+        canViewCohorts (bool): Permission to view cohorts.
+        canViewUsers (bool): Permission to view other user accounts.
+        canViewDatasets (bool): Permission to view available datasets.
+        canManageCases (bool): Permission to manage cases.
+        canExportData (bool): Permission to export data out of the system.
+        canManageProjects (bool): Permission to manage projects.
+        canManageUsers (bool): Permission to create and manage users.
+        isSystemAdmin (bool): Whether the user is a system administrator.
+        isProvided (bool): Indicates whether the user account is externally provided.
+        provider (Optional[str]): The external authentication provider, if applicable.
+
+    Config:
+        Associated to the `onconova.core.models.User` ORM model to autogenerate fields for this schema.
+    """
 
     fullName: str = Field(
         title="Full Name",
@@ -122,7 +151,12 @@ class UserSchema(ModelGetSchema):
 
 
 class UserCreateSchema(ModelCreateSchema):
-    """Schema for creating a new user."""
+    """
+    Schema for creating a new User instance.
+
+    Config:
+        Associated to the `onconova.core.models.User` ORM model to autogenerate fields for this schema.
+    """
 
     config = SchemaConfig(
         model=orm.User,
@@ -139,7 +173,17 @@ class UserCreateSchema(ModelCreateSchema):
 
 
 class UserProfileSchema(Schema):
-    """Schema for user profile data."""
+    """
+    Schema representing a user's profile information.
+
+    Attributes:
+        firstName (Optional[str]): The user's given name. Accepts either 'firstName' or 'first_name' as input.
+        lastName (Optional[str]): The user's surname. Accepts either 'lastName' or 'last_name' as input.
+        organization (Optional[str]): The user's affiliated organization.
+        department (Optional[str]): The user's department within the organization.
+        title (Optional[str]): The user's job title or position.
+        email (str): The user's primary email address.
+    """
 
     firstName: Nullable[str] = Field(
         title="First Name",
@@ -171,5 +215,103 @@ class UserProfileSchema(Schema):
     )
 
 
-# Filters
 UserFilters = create_filters_schema(schema=UserSchema, name="UserFilters")
+"""Dynamically generated schema for filtering users, based on UserSchema."""
+
+
+
+class UserCredentials(Schema):
+    """
+    Schema representing user credentials required for authentication.
+
+    Attributes:
+        username (str): The username of the user.
+        password (str): The password associated with the username.
+    """
+    username: str = Field(
+        title="Username",
+        description="The username of the user."
+    )
+    password: str = Field(
+        title="Password",
+        description="The password associated with the username."
+    )
+
+
+class UserProviderClientToken(Schema):
+    """
+    Schema representing a user's authentication tokens provided by a client.
+
+    Attributes:
+        client_id (str): The unique identifier for the client application.
+        id_token (Optional[str]): The ID token issued by the authentication provider, if available.
+        access_token (Optional[str]): The access token issued by the authentication provider, if available.
+    """
+    client_id: str = Field(
+        title="Client ID",
+        description="The unique identifier for the client application."
+    )
+    id_token: Nullable[str] = Field(
+        default=None,
+        title="ID Token",
+        description="The ID token issued by the authentication provider, if available."
+    )
+    access_token: Nullable[str] = Field(
+        default=None,
+        title="Access Token",
+        description="The access token issued by the authentication provider, if available."
+    )
+
+
+class UserProviderToken(Schema):
+    """
+    Schema representing a user's provider token information.
+
+    Attributes:
+        provider (str): The name of the authentication provider (e.g., 'google', 'facebook').
+        process (Literal["login"] | Literal["connect"]): The process type, either 'login' or 'connect'.
+        token (UserProviderClientToken): The token object containing provider-specific authentication details.
+    """
+    provider: str = Field(
+        title="Provider",
+        description="The name of the authentication provider (e.g., 'google', 'facebook')."
+    )
+    process: Literal["login"] | Literal["connect"] = Field(
+        title="Process Type",
+        description="The process type, either 'login' or 'connect'."
+    )
+    token: UserProviderClientToken = Field(
+        title="Provider Token",
+        description="The token object containing provider-specific authentication details."
+    )
+
+
+class AuthenticationMeta(Schema):
+    """
+    Schema representing authentication metadata.
+
+    Attributes:
+        sessionToken (Optional[str]): The session token associated with the authentication, if available.
+        accessToken (Optional[str]): The access token for the authenticated session, if available.
+        isAuthenticated (bool): Indicates whether the user is authenticated.
+    """
+    sessionToken: Nullable[str] = Field(
+        default=None,
+        title="Session Token",
+        description="The session token associated with the authentication, if available.",
+        alias="session_token",
+        validation_alias=AliasChoices("sessionToken", "session_token"),
+    )
+    accessToken: Nullable[str] = Field(
+        default=None,
+        title="Access Token",
+        description="The access token for the authenticated session, if available.",
+        alias="access_token",
+        validation_alias=AliasChoices("accessToken", "access_token"),
+    )
+    isAuthenticated: bool = Field(
+        title="Is Authenticated",
+        description="Indicates whether the user is authenticated.",
+        alias="is_authenticated",
+        validation_alias=AliasChoices("isAuthenticated", "is_authenticated"),
+    )

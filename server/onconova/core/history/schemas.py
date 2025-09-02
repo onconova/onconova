@@ -12,7 +12,15 @@ from onconova.core.types import Nullable
 
 class HistoryEventCategory(str, Enum):
     """
-    Enumeration of possible history event categories.
+    Enumeration of possible categories for history events.
+
+    Attributes:
+        CREATE: Represents the creation of an entity.
+        UPDATE: Represents the update of an entity.
+        DELETE: Represents the deletion of an entity.
+        EXPORT: Represents the export of data.
+        IMPORT: Represents the import of data.
+        DOWNLOAD: Represents the download of data.
     """
 
     CREATE = "create"
@@ -25,7 +33,19 @@ class HistoryEventCategory(str, Enum):
 
 class HistoryEvent(Schema):
     """
-    Represents an audit/history event capturing changes in the system.
+    Schema representing a history event within the system.
+
+    Attributes:
+        id (Any): The unique identifier of the history event.
+        resourceId (Any): The unique identifier of the tracked resource.
+        category (HistoryEventCategory): The type of history event.
+        timestamp (datetime): Timestamp of the history event.
+        user (Nullable[str]): Username of the user that triggered the event, if applicable.
+        url (Nullable[str]): Endpoint URL through which the event was triggered, if applicable.
+        resource (Nullable[str]): Resource involved in the event, if applicable.
+        snapshot (Dict): Data snapshot at the time of the event.
+        differential (Nullable[Dict]): Data changes introduced by the event, if applicable.
+        context (Nullable[Dict]): Context surrounding the event.
     """
 
     id: Any = Field(
@@ -91,7 +111,7 @@ class HistoryEvent(Schema):
             obj (Any): The history event object.
 
         Returns:
-            Optional[str]: The resource if present.
+            (str | None): The resource if present.
         """
         if isinstance(obj, dict):
             return obj.get("resource")
@@ -106,7 +126,7 @@ class HistoryEvent(Schema):
             obj (Any): The history event object.
 
         Returns:
-            Optional[str]: The resource if present.
+            (str | None): The resource if present.
         """
         if isinstance(obj, dict):
             return obj.get("url")
@@ -121,7 +141,7 @@ class HistoryEvent(Schema):
             obj (Any): The history event object.
 
         Returns:
-            Optional[str]: The username if present.
+            (str | None): The username if present.
         """
         if isinstance(obj, dict):
             return obj.get("user")
@@ -136,7 +156,7 @@ class HistoryEvent(Schema):
             obj (Any): The history event object.
 
         Returns:
-            Optional[HistoryEventCategory]: The corresponding event category.
+            (HistoryEventCategory | None): The corresponding event category.
         """
         if isinstance(obj, dict):
             return obj.get("category")
@@ -158,7 +178,7 @@ class HistoryEvent(Schema):
             obj (Any): The history event object.
 
         Returns:
-            Dict[str, Any]: The data snapshot.
+            (Dict[str, Any]): The data snapshot.
         """
         if isinstance(obj, dict):
             return obj.get("snapshot")
@@ -173,7 +193,7 @@ class HistoryEvent(Schema):
             obj (Any): The history event object.
 
         Returns:
-            Optional[Dict[str, Any]]: The data changes if present.
+            (Dict[str, Any] | None): The data changes if present.
         """
         if isinstance(obj, dict):
             return obj.get("differential")
@@ -191,12 +211,29 @@ class HistoryEvent(Schema):
             schema (Type[Schema]): The target Pydantic schema.
 
         Returns:
-            Type[HistoryEvent]: A new HistoryEvent schema subclass with schema-bound resolvers.
+            (Type[HistoryEvent]): A new HistoryEvent schema subclass with schema-bound resolvers.
         """
 
         class HistoryEventWithSchema(cls):
+            """
+            HistoryEventWithSchema provides static methods to resolve snapshot and differential data from history event objects.
+            """
             @staticmethod
             def resolve_snapshot(obj: Any) -> dict | None:
+                """
+                Resolves the snapshot data from the given object.
+
+                If the object is a dictionary, returns the value associated with the "snapshot" key.
+                If the object is not a dictionary, attempts to create a new instance of the ORM model using the object's `pgh_data`.
+                Validates and serializes the model, merging its data with the instance's ID.
+                If any exception occurs during model instantiation or validation, returns the raw `pgh_data`.
+
+                Args:
+                    obj (Any): The object containing snapshot or pgh_data information.
+
+                Returns:
+                   (dict | None): The resolved snapshot data as a dictionary, or None if not available.
+                """
                 if isinstance(obj, dict):
                     return obj.get("snapshot")
                 # Create a new instance of the model based on snapshot data to automatically resolve foreign keys
@@ -213,6 +250,19 @@ class HistoryEvent(Schema):
 
             @staticmethod
             def resolve_differential(obj):
+                """
+                Resolves and returns the 'differential' data from the given object.
+
+                If the input object is a dictionary, retrieves the value associated with the 'differential' key.
+                If the input object has a 'pgh_diff' attribute, constructs a schema model from it and returns its dictionary representation,
+                excluding default values.
+
+                Args:
+                    obj (dict | object): The object or dictionary containing differential data.
+
+                Returns:
+                    (dict | Any): The resolved differential data, or None if not found.
+                """
                 if isinstance(obj, dict):
                     return obj.get("differential")
                 if obj.pgh_diff:

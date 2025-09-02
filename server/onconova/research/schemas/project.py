@@ -11,7 +11,8 @@ from onconova.research.models import project as orm
 
 class ProjectSchema(ModelGetSchema):
     """
-    Schema for retrieving a research project record.
+    This schema is used to serialize and deserialize data related to research projects.
+    It binds the `onconova.research.models.Project` ORM model to automatically generate fields.
     """
 
     config = SchemaConfig(model=orm.Project)
@@ -19,7 +20,8 @@ class ProjectSchema(ModelGetSchema):
 
 class ProjectCreateSchema(ModelCreateSchema):
     """
-    Schema for creating a new research project record.
+    Schema for creating a new Project instance.
+    It binds the `onconova.research.models.Project` ORM model to automatically generate fields.
     """
 
     config = SchemaConfig(model=orm.Project)
@@ -35,7 +37,7 @@ ProjectFilters = create_filters_schema(
 class ProjectDataManagerGrantSchema(ModelGetSchema):
     """
     Schema for retrieving a project data manager grant record.
-    Includes additional computed properties.
+    It binds the `onconova.research.models.ProjectDataManagerGrant` ORM model to automatically generate fields.
     """
 
     isValid: bool = Field(
@@ -50,7 +52,7 @@ class ProjectDataManagerGrantSchema(ModelGetSchema):
 class ProjectDataManagerGrantCreateSchema(ModelCreateSchema):
     """
     Schema for creating a new project data manager grant record.
-    Excludes project and member fields, as those are usually set by the system.
+    It binds the `onconova.research.models.ProjectDataManagerGrant` ORM model to automatically generate fields.
     """
 
     config = SchemaConfig(

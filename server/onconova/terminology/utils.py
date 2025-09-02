@@ -66,7 +66,7 @@ def parse_OBO_file(file) -> Generator[Dict[str, Any], None, None]:
     Parses a Gene Ontology dump in OBO v1.2 format.
 
     Args:
-        file: An iterable object that yields lines of text, representing an OBO file.
+        file (Any): An iterable object that yields lines of text, representing an OBO file.
 
     Yields:
         dict: Each GO term as a dictionary with keys as term attributes and values

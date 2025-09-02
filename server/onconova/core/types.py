@@ -8,13 +8,6 @@ from pydantic_core import core_schema
 class RemoveAnyOfNull:
     """
     A class for customizing Pydantic JSON schema generation by removing 'null' types from 'anyOf' schemas.
-
-    Methods
-    -------
-    __get_pydantic_json_schema__(core_schema, handler)
-        Modifies the generated JSON schema by removing any 'null' type entries from the 'anyOf' list.
-        If only one schema remains in 'anyOf' after removal, it merges that schema into the parent and removes 'anyOf'.
-        Returns the modified schema.
     """
 
     def __get_pydantic_json_schema__(
@@ -75,6 +68,7 @@ class AgeBin(str, Enum):
     Enumeration representing age bins as string values.
 
     Each member corresponds to a specific age range, with the following options:
+
     - SUB_20: "<20"         (under 20 years old)
     - AGE_20_24: "20-24"    (20 to 24 years old)
     - AGE_25_29: "25-29"    (25 to 29 years old)

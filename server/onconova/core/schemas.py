@@ -12,6 +12,17 @@ T = TypeVar("T")
 
 
 class Paginated(Schema, Generic[T]):
+    """
+    A generic paginated response schema.
+
+    Attributes:
+        count (int): The total number of items available.
+        items (List[T]): The list of items on the current page.
+
+    Methods:
+        validate_items(cls, value: Any) -> Any:
+            Ensures that the 'items' attribute is a list. Converts to list if necessary.
+    """
     count: int
     items: List[T]
 
@@ -25,6 +36,10 @@ class Paginated(Schema, Generic[T]):
 class ModifiedResource(Schema):
     """
     Represents a resource that was modified in the system.
+
+    Attributes:
+        id (UUID): Unique identifier (UUID4) of the modified resource.
+        description (Optional[str]): A human-readable description of the modified resource.
     """
 
     id: UUID = Field(
@@ -40,6 +55,14 @@ class ModifiedResource(Schema):
 class CodedConcept(Schema):
     """
     Represents a concept coded in a controlled terminology system.
+
+    Attributes:
+        code (str): Unique code within a coding system that identifies a concept.
+        system (str): Canonical URL of the code system defining the concept.
+        display (Optional[str]): Human-readable description of the concept.
+        version (Optional[str]): Release version of the code system, if applicable.
+        synonyms (Optional[List[str]]): List of synonyms or alternative representations of the concept.
+        properties (Optional[Dict[str, Any]]): Additional properties associated with the concept.
     """
 
     code: str = Field(
@@ -74,7 +97,11 @@ class CodedConcept(Schema):
 
 class Range(Schema):
     """
-    Represents a numeric or comparable range between two values.
+    Range schema for representing a numeric interval with optional bounds.
+
+    Attributes:
+        start (Nullable[int | float]): The lower bound of the range.
+        end (Nullable[int | float]): The upper bound of the range. If not provided, the range is considered unbounded.
     """
 
     start: Nullable[int | float] = Field(
@@ -88,9 +115,6 @@ class Range(Schema):
 
     @model_validator(mode="before")
     def parse_range(cls, obj):
-        """
-        Accepts either a tuple, PostgresRange, or dict-like object.
-        """
         range_obj = obj._obj
         if isinstance(range_obj, str):
             start, end = range_obj.strip("()[]").split(",")
@@ -110,7 +134,11 @@ class Range(Schema):
 
 class Period(Schema):
     """
-    Represents a time period between two dates.
+    Schema representing a time period with optional start and end dates.
+
+    Attributes:
+        start (Nullable[date]): The start date of the period. Can be None.
+        end (Nullable[date]): The end date of the period. Can be None.
     """
 
     start: Nullable[date] = Field(

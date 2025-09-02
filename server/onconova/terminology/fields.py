@@ -70,10 +70,10 @@ def CodedConceptField(
         blank (bool, optional): If True, allows blank values. Defaults to False.
         _to (type[CodedConceptModel] | None, optional): Alternate target model for the relationship. If provided, overrides terminology. Defaults to None.
         on_delete (Any, optional): Deletion behavior for ForeignKey. Defaults to models.PROTECT.
-        **kwargs: Additional keyword arguments passed to the underlying field.
+        kwargs (dict): Additional keyword arguments passed to the underlying field.
 
     Returns:
-        models.ForeignKey[CodedConceptModel] | models.ForeignKey[CodedConceptModel | None] | models.ManyToManyField:
+        (models.ForeignKey[CodedConceptModel] | models.ForeignKey[CodedConceptModel | None] | models.ManyToManyField):
             A Django ForeignKey field (if multiple=False) or ManyToManyField (if multiple=True) configured to point to the terminology model.
 
     Raises:
@@ -119,7 +119,7 @@ class DescendsFrom(models.Lookup):
         additional preparation.
 
         Raises:
-                FieldError: If the lookup is not applied to a CodedConceptField field.
+            FieldError: If the lookup is not applied to a CodedConceptField field.
         """
         if not "terminology" in self.lhs.alias:
             raise FieldError(
@@ -138,11 +138,11 @@ class DescendsFrom(models.Lookup):
         CodedConceptField.
 
         Args:
-                compiler: The SQLCompiler instance.
-                connection: The database connection.
+            compiler (Any): The SQLCompiler instance.
+            connection (Any): The database connection.
 
         Returns:
-                A tuple of the SQL query and parameters.
+            (tuple[str, list[int, str]]): A tuple of the SQL query and parameters.
 
         """
         # Get the left-hand and right-hand sides of the lookup
