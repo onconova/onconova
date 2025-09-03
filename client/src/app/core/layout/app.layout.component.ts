@@ -7,6 +7,7 @@ import { AppTopBarComponent } from './components/app.topbar.component';
 import { AppFooterComponent } from './components/app.footer.component';
 import { AppSidebarMenuComponent } from './components/app.sidebar-menu.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ConsentNoticeModalComponent } from './components/app.consent.component';
 
 @Component({
   selector: 'onconova-layout',
@@ -17,6 +18,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     AppTopBarComponent,
     AppFooterComponent,
     AppSidebarMenuComponent,
+    ConsentNoticeModalComponent,
   ],
   templateUrl: './app.layout.component.html'
 })

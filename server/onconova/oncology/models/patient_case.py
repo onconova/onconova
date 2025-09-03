@@ -386,7 +386,7 @@ class PatientCase(BaseModel):
 
     @property
     def description(self):
-        return f"ONCONOVA Case {self.pseudoidentifier}"
+        return f"Onconova Patient Case {self.pseudoidentifier}"
 
     def _generate_random_id(self):
         """

@@ -2,8 +2,8 @@
 This module defines Pydantic schemas for user authentication and profile management within the Onconova system.
 """
 from ninja import Field, Schema
-from pydantic import AliasChoices
 from typing import Literal
+from pydantic import AliasChoices, model_validator, PrivateAttr
 from onconova.core.auth import models as orm
 from onconova.core.serialization.factory import create_filters_schema
 from onconova.core.serialization.metaclasses import (
@@ -30,6 +30,28 @@ class UserPasswordReset(Schema):
         title="New Password", description="The user's new password to be set."
     )
 
+
+class UserExportSchema(ModelGetSchema):
+    """User information to be exported for acreditation purposes"""
+    
+    anonymized: bool = Field(
+        title='Anonymzied',
+        default=True      
+    )
+    config = SchemaConfig(
+        model=orm.User,
+        fields=[
+            "id",
+            "external_source",
+            "external_source_id",
+            "username",
+            "first_name",
+            "last_name",
+            "email",
+            "organization",
+        ],
+    )
+    
 
 class UserSchema(ModelGetSchema):
     """

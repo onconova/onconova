@@ -146,6 +146,8 @@ class User(AbstractUser):
         )
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    external_source = models.CharField(verbose_name="External source", help_text="Name of the source from which the user originated, if imported", max_length=500, null=True, blank=True)
+    external_source_id = models.CharField(verbose_name="External source ID", help_text="Unique identifier within the source from which the user originated, if imported", max_length=500, null=True, blank=True)
     full_name = AnnotationProperty(
         verbose_name=_("Full Name"),
         annotation=Case(
@@ -194,6 +196,11 @@ class User(AbstractUser):
         help_text=_("Level of access of the user in terms of permissions"),
         validators=[MinValueValidator(0), MaxValueValidator(7)],
         default=0,
+    )
+    shareable = models.BooleanField(
+        verbose_name=_("Shareable"),
+        help_text=_("Whether user has consented to its data to be shared with other Onconova instances"),
+        null=True
     )
     role = MappingProperty(
         verbose_name=_("Role"),
