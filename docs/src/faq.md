@@ -10,6 +10,9 @@ Below are answers to common questions about installing, configuring, and using O
 #### Is Onconova free to use?
 Yes, Onconova is released as an open-source project under the MIT License. You are free to use, modify, and distribute it under the terms of this license.
 
+However, when publishing scientific work where Onconova has been involved, please cite the original Onconova publication and reference the version used to credit the work of the Onconova team and developers.  
+
+
 --- 
 
 

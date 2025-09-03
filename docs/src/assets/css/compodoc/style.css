@@ -17,3 +17,10 @@ body.dark {
 .dark-mode-switch {
     display: none !important;
 }
+/* Hide all nav references to the unused README page*/
+a[href="./index.html"] {
+    display: none !important;
+}
+.links:has(a[href="./overview.html"]) {
+    padding-left: 0 !important;
+}

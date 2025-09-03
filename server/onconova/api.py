@@ -86,7 +86,7 @@ A valid session token must be obtained prior to accessing any protected endpoint
 
 The authentication and authorization flows for obtaining and managing session tokens are provided through the AllAuth authentication service. 
 This includes endpoints for user login, logout, password management, and token renewal. For complete details on implementing authentication and 
-managing session tokens, please refer to the [AllAuth API documentation](/api/allauth/openapi.html).
+managing session tokens, please refer to the [AllAuth API documentation](https://docs.allauth.org/en/latest/headless/openapi-specification/).
 
 **Important:** Unauthorized requests or those missing valid authentication tokens will receive an `HTTP 401 Unauthorized` response.
 
