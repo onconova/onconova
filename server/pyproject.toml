@@ -18,6 +18,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.dependencies]
 # Core dependencies
+python = "~=3.11"
 django = "5.1"
 psycopg = "3.2.3"
 psycopg2 = "2.9.10"
