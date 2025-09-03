@@ -59,6 +59,7 @@ plugins:
         - scripts/gen_ref_pages.py
         - scripts/gen_db_schema_page.py
         - scripts/gen_repo_pages.py
+        - scripts/gen_credits_table.py
   - mkdocstrings:
       handlers:
         python:
