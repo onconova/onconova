@@ -1,0 +1,883 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Application documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+        <link rel="stylesheet" href="../styles/material.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Application documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  DataCompletionStatsComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>/home/runner/work/onconova/onconova/client/src/app/features/dashboard/components/data-completion.component.ts</code>
+</p>
+
+
+
+
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>onconova-data-completion-stats</code></td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                            <code>CommonModule</code>
+                            <code>FormsModule</code>
+                            <code>AvatarModule</code>
+                            <code>AvatarGroupModule</code>
+                            <code>ProgressBarModule</code>
+                            <code>RatingModule</code>
+                            <code>TableModule</code>
+                            <code>SkeletonModule</code>
+                            <code>ChartModule</code>
+                </td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">template</td>
+                <td class="col-md-9"><pre class="line-numbers"><code class="language-html">@if (data.isLoading()) {
+
+} @else {
+    @if (data.value(); as stats) {
+        &lt;div class&#x3D;&quot;flex ml-4&quot;&gt;
+            &lt;div class&#x3D;&quot;w-10&quot;&gt;
+                &lt;div class&#x3D;&quot;flex justify-content-between mb-2 text-muted&quot;&gt;
+                    &lt;div class&#x3D;&quot;p-progressbar-tick-label&quot;&gt;0%&lt;/div&gt;
+                    &lt;div class&#x3D;&quot;p-progressbar-tick-label&quot;&gt;25%&lt;/div&gt;
+                    &lt;div class&#x3D;&quot;p-progressbar-tick-label&quot;&gt;50%&lt;/div&gt;
+                    &lt;div class&#x3D;&quot;p-progressbar-tick-label&quot;&gt;75%&lt;/div&gt;
+                    &lt;div class&#x3D;&quot;p-progressbar-tick-label&quot;&gt;100%&lt;/div&gt;
+                &lt;/div&gt;
+                &lt;p-progressbar [value]&#x3D;&quot;stats.overallCompletion&quot; [showValue]&#x3D;&quot;true&quot;&gt;
+                    &lt;ng-template #content let-value&gt;
+                    &lt;/ng-template&gt;
+                &lt;/p-progressbar&gt;
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;mx-auto text-center&quot;&gt;
+                &lt;div class&#x3D;&quot;font-semibold text-4xl&quot;&gt;{{stats.overallCompletion}}%&lt;/div&gt;
+                &lt;div class&#x3D;&quot;text-muted&quot;&gt;Completion&lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;div class&#x3D;&quot;mt-4 mb-2&quot;&gt;
+            &lt;h6 class&#x3D;&quot;mb-0 font-semibold&quot;&gt;Completion Over Time&lt;/h6&gt;
+        &lt;/div&gt;
+        &lt;p-chart type&#x3D;&quot;line&quot; [data]&#x3D;&quot;chartData&quot; [options]&#x3D;&quot;chartOptions&quot; [responsive]&#x3D;&quot;true&quot; height&#x3D;&quot;18rem&quot;/&gt;
+
+        &lt;div class&#x3D;&quot;mt-4 mb-2&quot;&gt;
+            &lt;h6 class&#x3D;&quot;mb-0 font-semibold&quot;&gt;Most Incomplete Data Categories&lt;/h6&gt;
+        &lt;/div&gt;
+        &lt;p-table [value]&#x3D;&quot;stats.mostIncompleteCategories&quot;&gt;
+            &lt;ng-template pTemplate&#x3D;&quot;header&quot;&gt;
+                &lt;tr&gt;
+                    &lt;th&gt;Category&lt;/th&gt;
+                    &lt;th class&#x3D;&quot;text-center&quot;&gt;Cases Where Missing&lt;/th&gt;
+                    &lt;th&gt;Most Affected Primary Sites&lt;/th&gt;
+                &lt;/tr&gt;
+            &lt;/ng-template&gt;
+            &lt;ng-template pTemplate&#x3D;&quot;body&quot; let-entry&gt;
+                &lt;tr&gt;
+                    &lt;td&gt;{{ entry.category | titlecase }}&lt;/td&gt;
+                    &lt;td class&#x3D;&quot;text-center&quot;&gt;{{ entry.cases }} ({{ entry.cases / (stats.totalCases ) *100 | number:&#x27;1.0-0&#x27;}}%)&lt;/td&gt;
+                    &lt;td&gt;
+                        @for (site of entry.affectedSites; track $index) {
+                            {{site.display}},
+                        }
+                    &lt;/td&gt;
+                &lt;/tr&gt;
+            &lt;/ng-template&gt;
+        &lt;/p-table&gt;
+    } @else if (data.error()) {
+        &lt;div class&#x3D;&quot;text-muted&quot;&gt;
+            An error ocurred while loading the data
+        &lt;/div&gt;
+
+    }
+}
+</code></pre></td>
+            </tr>
+
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                    <span class="modifier">Private</span>
+                                <a href="##dashboardService" >#dashboardService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                    <span class="modifier">Private</span>
+                                <a href="##layoutService" >#layoutService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="##redrawChartEffect" >#redrawChartEffect</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#chartData" >chartData</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#chartOptions" >chartOptions</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#data" >data</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#totalCategories" >totalCategories</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#initChart" >initChart</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initChart"></a>
+                    <span class="name">
+                        <span ><b>initChart</b></span>
+                        <a href="#initChart"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>initChart(data: CountsPerMonth[])</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="112"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/dashboard/components/data-completion.component.ts:112</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>data</td>
+                                            <td>
+                                                        <code>CountsPerMonth[]</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#dashboardService"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                            <span class="modifier">Private</span>
+                        <span ><b>#dashboardService</b></span>
+                        <a href="##dashboardService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(DashboardService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="92" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/dashboard/components/data-completion.component.ts:92</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#layoutService"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                            <span class="modifier">Private</span>
+                        <span ><b>#layoutService</b></span>
+                        <a href="##layoutService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(LayoutService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="91" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/dashboard/components/data-completion.component.ts:91</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#redrawChartEffect"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>#redrawChartEffect</b></span>
+                        <a href="##redrawChartEffect"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>effect(() &#x3D;&gt; {
+        this.#layoutService.config.theme();
+        this.#layoutService.config.darkMode();
+        const data &#x3D; this.data.value()?.completionOverTime;
+        if (data) {
+            this.initChart(data);
+        }
+    })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="103" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/dashboard/components/data-completion.component.ts:103</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="chartData"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>chartData</b></span>
+                        <a href="#chartData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="99" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/dashboard/components/data-completion.component.ts:99</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="chartOptions"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>chartOptions</b></span>
+                        <a href="#chartOptions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="98" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/dashboard/components/data-completion.component.ts:98</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="data"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>data</b></span>
+                        <a href="#data"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>rxResource({
+        request: () &#x3D;&gt; ({}),
+        loader: () &#x3D;&gt; this.#dashboardService.getDataCompletionStats()
+    })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="94" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/dashboard/components/data-completion.component.ts:94</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="totalCategories"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>totalCategories</b></span>
+                        <a href="#totalCategories"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>Object.keys(PatientCaseDataCategories).length</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="93" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/dashboard/components/data-completion.component.ts:93</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, effect, inject } from &#x27;@angular/core&#x27;;
+import { TableModule } from &#x27;primeng/table&#x27;;
+import { RatingModule } from &#x27;primeng/rating&#x27;;
+import { AvatarModule } from &#x27;primeng/avatar&#x27;;
+import { AvatarGroupModule } from &#x27;primeng/avatargroup&#x27;;
+import { SkeletonModule } from &#x27;primeng/skeleton&#x27;;
+import { DashboardService, PatientCaseDataCategories, CountsPerMonth } from &#x27;onconova-api-client&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+import { FormsModule } from &#x27;@angular/forms&#x27;;
+import { rxResource } from &#x27;@angular/core/rxjs-interop&#x27;;
+import { ChartModule } from &quot;primeng/chart&quot;;
+import { LayoutService } from &#x27;src/app/core/layout/app.layout.service&#x27;;
+import { ProgressBarModule } from &#x27;primeng/progressbar&#x27;;
+
+@Component({
+    selector: &#x27;onconova-data-completion-stats&#x27;,
+    imports: [
+    CommonModule,
+    FormsModule,
+    AvatarModule,
+    AvatarGroupModule,
+    ProgressBarModule,
+    RatingModule,
+    TableModule,
+    SkeletonModule,
+    ChartModule
+],
+    template: &#x60;
+    @if (data.isLoading()) {
+
+    } @else {
+        @if (data.value(); as stats) {
+            &lt;div class&#x3D;&quot;flex ml-4&quot;&gt;
+                &lt;div class&#x3D;&quot;w-10&quot;&gt;
+                    &lt;div class&#x3D;&quot;flex justify-content-between mb-2 text-muted&quot;&gt;
+                        &lt;div class&#x3D;&quot;p-progressbar-tick-label&quot;&gt;0%&lt;/div&gt;
+                        &lt;div class&#x3D;&quot;p-progressbar-tick-label&quot;&gt;25%&lt;/div&gt;
+                        &lt;div class&#x3D;&quot;p-progressbar-tick-label&quot;&gt;50%&lt;/div&gt;
+                        &lt;div class&#x3D;&quot;p-progressbar-tick-label&quot;&gt;75%&lt;/div&gt;
+                        &lt;div class&#x3D;&quot;p-progressbar-tick-label&quot;&gt;100%&lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;p-progressbar [value]&#x3D;&quot;stats.overallCompletion&quot; [showValue]&#x3D;&quot;true&quot;&gt;
+                        &lt;ng-template #content let-value&gt;
+                        &lt;/ng-template&gt;
+                    &lt;/p-progressbar&gt;
+                &lt;/div&gt;
+                &lt;div class&#x3D;&quot;mx-auto text-center&quot;&gt;
+                    &lt;div class&#x3D;&quot;font-semibold text-4xl&quot;&gt;{{stats.overallCompletion}}%&lt;/div&gt;
+                    &lt;div class&#x3D;&quot;text-muted&quot;&gt;Completion&lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+
+            &lt;div class&#x3D;&quot;mt-4 mb-2&quot;&gt;
+                &lt;h6 class&#x3D;&quot;mb-0 font-semibold&quot;&gt;Completion Over Time&lt;/h6&gt;
+            &lt;/div&gt;
+            &lt;p-chart type&#x3D;&quot;line&quot; [data]&#x3D;&quot;chartData&quot; [options]&#x3D;&quot;chartOptions&quot; [responsive]&#x3D;&quot;true&quot; height&#x3D;&quot;18rem&quot;/&gt;
+
+            &lt;div class&#x3D;&quot;mt-4 mb-2&quot;&gt;
+                &lt;h6 class&#x3D;&quot;mb-0 font-semibold&quot;&gt;Most Incomplete Data Categories&lt;/h6&gt;
+            &lt;/div&gt;
+            &lt;p-table [value]&#x3D;&quot;stats.mostIncompleteCategories&quot;&gt;
+                &lt;ng-template pTemplate&#x3D;&quot;header&quot;&gt;
+                    &lt;tr&gt;
+                        &lt;th&gt;Category&lt;/th&gt;
+                        &lt;th class&#x3D;&quot;text-center&quot;&gt;Cases Where Missing&lt;/th&gt;
+                        &lt;th&gt;Most Affected Primary Sites&lt;/th&gt;
+                    &lt;/tr&gt;
+                &lt;/ng-template&gt;
+                &lt;ng-template pTemplate&#x3D;&quot;body&quot; let-entry&gt;
+                    &lt;tr&gt;
+                        &lt;td&gt;{{ entry.category | titlecase }}&lt;/td&gt;
+                        &lt;td class&#x3D;&quot;text-center&quot;&gt;{{ entry.cases }} ({{ entry.cases / (stats.totalCases ) *100 | number:&#x27;1.0-0&#x27;}}%)&lt;/td&gt;
+                        &lt;td&gt;
+                            @for (site of entry.affectedSites; track $index) {
+                                {{site.display}}, 
+                            }
+                        &lt;/td&gt;
+                    &lt;/tr&gt;
+                &lt;/ng-template&gt;
+            &lt;/p-table&gt;
+        } @else if (data.error()) {
+            &lt;div class&#x3D;&quot;text-muted&quot;&gt;
+                An error ocurred while loading the data
+            &lt;/div&gt;
+
+        }
+    }
+    &#x60;
+})
+export class DataCompletionStatsComponent {
+    readonly #layoutService &#x3D; inject(LayoutService);
+    readonly #dashboardService &#x3D; inject(DashboardService);
+    readonly totalCategories &#x3D; Object.keys(PatientCaseDataCategories).length;
+    public data &#x3D; rxResource({
+        request: () &#x3D;&gt; ({}),
+        loader: () &#x3D;&gt; this.#dashboardService.getDataCompletionStats()
+    });
+    public chartOptions: any;
+    public chartData: any;
+
+
+    // Create effect after theme is changed to update chart colors
+    #redrawChartEffect &#x3D; effect(() &#x3D;&gt; {
+        this.#layoutService.config.theme();
+        this.#layoutService.config.darkMode();
+        const data &#x3D; this.data.value()?.completionOverTime;
+        if (data) {
+            this.initChart(data);
+        }
+    });
+
+    initChart(data: CountsPerMonth[]) {
+        const documentStyle &#x3D; getComputedStyle(document.documentElement);
+        const textColorSecondary &#x3D; documentStyle.getPropertyValue(&#x27;--p-text-muted-color&#x27;);
+        const surfaceBorder &#x3D; documentStyle.getPropertyValue(&#x27;--p-content-border-color&#x27;);
+
+        this.chartData &#x3D; { 
+            labels: data.map((item:CountsPerMonth) &#x3D;&gt; {
+                const date &#x3D; new Date(item.month)
+                return date.toLocaleString(&#x27;default&#x27;, { month: &#x27;short&#x27;, year: &#x27;numeric&#x27; });
+            }),
+            datasets: [{
+                label: &#x27;Completion&#x27;,
+                data: data.map((item:CountsPerMonth) &#x3D;&gt; item.cumulativeCount/(this.totalCategories * this.data.value()!.totalCases) * 100),
+                fill: true,
+                tension: 0.5,
+                borderColor: documentStyle.getPropertyValue(&#x27;--p-primary-500&#x27;),
+                backgroundColor: documentStyle.getPropertyValue(&#x27;--p-primary-color-transparent&#x27;),
+            }]
+        }
+    
+        this.chartOptions &#x3D; {
+            responsive: true,
+            maintainAspectRatio: false,
+            elements: {
+                point: {radius: 0}
+            },
+            plugins: {
+                legend: {display: false}
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        color: textColorSecondary
+                    },
+                    grid: {
+                        display: false,
+                        color: surfaceBorder
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: &#x27;Completion %&#x27;,
+                        color: textColorSecondary
+                    },
+                    ticks: {
+                        color: textColorSecondary
+                    },
+                    grid: {
+                        color: surfaceBorder
+                    }
+                }
+            }
+        };
+    }
+}
+</code></pre>
+    </div>
+
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div>@if (data.isLoading()) {} @else {    @if (data.value(); as stats) {        <div class="flex ml-4">            <div class="w-10">                <div class="flex justify-content-between mb-2 text-muted">                    <div class="p-progressbar-tick-label">0%</div>                    <div class="p-progressbar-tick-label">25%</div>                    <div class="p-progressbar-tick-label">50%</div>                    <div class="p-progressbar-tick-label">75%</div>                    <div class="p-progressbar-tick-label">100%</div>                </div>                <p-progressbar [value]="stats.overallCompletion" [showValue]="true">                    <ng-template #content let-value>                    </ng-template>                </p-progressbar>            </div>            <div class="mx-auto text-center">                <div class="font-semibold text-4xl">{{stats.overallCompletion}}%</div>                <div class="text-muted">Completion</div>            </div>        </div>        <div class="mt-4 mb-2">            <h6 class="mb-0 font-semibold">Completion Over Time</h6>        </div>        <p-chart type="line" [data]="chartData" [options]="chartOptions" [responsive]="true" height="18rem"/>        <div class="mt-4 mb-2">            <h6 class="mb-0 font-semibold">Most Incomplete Data Categories</h6>        </div>        <p-table [value]="stats.mostIncompleteCategories">            <ng-template pTemplate="header">                <tr>                    <th>Category</th>                    <th class="text-center">Cases Where Missing</th>                    <th>Most Affected Primary Sites</th>                </tr>            </ng-template>            <ng-template pTemplate="body" let-entry>                <tr>                    <td>{{ entry.category | titlecase }}</td>                    <td class="text-center">{{ entry.cases }} ({{ entry.cases / (stats.totalCases ) *100 | number:\'1.0-0\'}}%)</td>                    <td>                        @for (site of entry.affectedSites; track $index) {                            {{site.display}},                        }                    </td>                </tr>            </ng-template>        </p-table>    } @else if (data.error()) {        <div class="text-muted">            An error ocurred while loading the data        </div>    }}</div>'
+    var COMPONENTS = [{'name': 'AbstractFormBase', 'selector': ''},{'name': 'AdverseEventFormComponent', 'selector': 'adverse-event-form'},{'name': 'AppComponent', 'selector': 'onconova-root'},{'name': 'AppFooterComponent', 'selector': 'onconova-footer'},{'name': 'AppLayoutComponent', 'selector': 'onconova-layout'},{'name': 'AppSidebarMenuComponent', 'selector': 'onconova-sidebar-menu'},{'name': 'AppTopBarComponent', 'selector': 'onconova-topbar'},{'name': 'AuthCallbackComponent', 'selector': 'app-auth-callback'},{'name': 'AuthLayoutComponent', 'selector': 'onconova-auth-layout'},{'name': 'BoxPlotComponent', 'selector': 'onconova-box-plot'},{'name': 'CancerIconComponent', 'selector': 'onconova-cancer-icon'},{'name': 'CaseImporterBundleViewerComponent', 'selector': 'onconova-case-importer-bundle-viewer'},{'name': 'CaseImporterComponent', 'selector': 'onconova-case-importer'},{'name': 'CaseManagerComponent', 'selector': 'onconova-case-manager'},{'name': 'CaseManagerDrawerComponent', 'selector': 'onconova-case-manager-drawer'},{'name': 'CaseManagerPanelComponent', 'selector': 'onconova-case-manager-panel'},{'name': 'CaseManagerPanelTimelineComponent', 'selector': 'onconova-case-manager-panel-timeline'},{'name': 'CaseSearchComponent', 'selector': ''},{'name': 'CaseSearchItemCardComponent', 'selector': 'onconova-case-search-item,[onconova-case-search-item]'},{'name': 'CodedConceptTreeComponent', 'selector': 'onconova-coded-concept-tree'},{'name': 'CohortBuilderComponent', 'selector': 'onconova-cohort-manager'},{'name': 'CohortContributorsComponent', 'selector': 'onconova-cohort-contributors'},{'name': 'CohortFormComponent', 'selector': 'cohort-form'},{'name': 'CohortGraphsComponent', 'selector': 'onconova-cohort-graphs'},{'name': 'CohortGraphsContextMenu', 'selector': 'onconova-cohort-graph-context-menu'},{'name': 'CohortQueryBuilderComponent', 'selector': 'onconova-cohort-query-builder'},{'name': 'CohortSearchComponent', 'selector': ''},{'name': 'CohortSearchItemComponent', 'selector': 'onconova-cohort-search-item, [onconova-cohort-search-item]'},{'name': 'CohortTraitPanel', 'selector': 'onconova-cohort-trait'},{'name': 'ComorbiditiesAssessmentFormComponent', 'selector': 'comorbidities-form'},{'name': 'ConceptSelectorComponent', 'selector': 'onconova-concept-selector'},{'name': 'ConsentNoticeModalComponent', 'selector': 'onconova-consent-modal'},{'name': 'DashboardComponent', 'selector': 'onconova-dashboard'},{'name': 'DataCompletionStatsComponent', 'selector': 'onconova-data-completion-stats'},{'name': 'DatasetComposerComponent', 'selector': 'onconova-dataset-composer'},{'name': 'DataSummaryComponent', 'selector': 'onconova-data-summary'},{'name': 'DataSummaryCounterComponent', 'selector': 'onconova-data-summary-counter'},{'name': 'DatePickerComponent', 'selector': 'onconova-datepicker'},{'name': 'DisclaimerBannerComponent', 'selector': 'onconova-disclaimer-banner'},{'name': 'DistributionGraphComponent', 'selector': 'onconova-distribution-graph'},{'name': 'DoughnutGraphComponent', 'selector': 'onconova-doughnut-graph'},{'name': 'DrawerDataPropertiesComponent', 'selector': 'onconova-drawer-properties'},{'name': 'ErrorComponent', 'selector': 'onconova-error'},{'name': 'ExportConfirmDialogComponent', 'selector': 'onconova-export-confirm-dialog'},{'name': 'FamilyHistoryFormComponent', 'selector': 'family-history-form'},{'name': 'FormControlErrorComponent', 'selector': 'onconova-form-control-error'},{'name': 'GenomicSignatureFormComponent', 'selector': 'genomic-signature-form'},{'name': 'GenomicVariantFormComponent', 'selector': 'genomic-variant-form'},{'name': 'IdenticonComponent', 'selector': 'onconova-identicon'},{'name': 'KapplerMeierCurveComponent', 'selector': 'onconova-kappler-meier-curve'},{'name': 'LifestyleFormComponent', 'selector': 'lifestyle-form'},{'name': 'LoginComponent', 'selector': 'onconova-login'},{'name': 'MeasureInputComponent', 'selector': 'onconova-measure-input'},{'name': 'ModalFormHeaderComponent', 'selector': 'onconova-modal-form-header'},{'name': 'MultiReferenceSelectComponent', 'selector': 'onconova-multi-reference-select'},{'name': 'NeoplasticEntityFormComponent', 'selector': 'neoplastic-entity-form'},{'name': 'NestedTableComponent', 'selector': 'onconova-nested-table'},{'name': 'OncoplotComponent', 'selector': 'onconova-oncoplot'},{'name': 'PasswordResetFormComponent', 'selector': 'onconova-password-reset-dialog'},{'name': 'PatientFormComponent', 'selector': 'patient-form'},{'name': 'PerformanceStatusFormComponent', 'selector': 'performance-status-form'},{'name': 'PopoverFilterButtonComponent', 'selector': 'onconova-popover-filter-button'},{'name': 'PrimaryEntitiesTableComponent', 'selector': 'onconova-primary-entities-table'},{'name': 'ProjectFormComponent', 'selector': 'project-form'},{'name': 'ProjectManagementComponent', 'selector': 'onconova-project-management'},{'name': 'ProjectSearchComponent', 'selector': 'onconova-project-search'},{'name': 'ProjectSearchItemComponent', 'selector': 'onconova-project-search-item, [onconova-project-search-item]'},{'name': 'ProviderSignupComponent', 'selector': 'app-signup'},{'name': 'RadioSelectComponent', 'selector': 'onconova-radio-select'},{'name': 'RadiotherapyFormComponent', 'selector': 'radiotherapy-form'},{'name': 'RandomPaperComponent', 'selector': 'onconova-random-paper'},{'name': 'RangeInputComponent', 'selector': 'onconova-range-input'},{'name': 'RiskAssessmentFormComponent', 'selector': 'risk-assessment-form'},{'name': 'SettingsDialogComponent', 'selector': 'onconova-settings-dialog'},{'name': 'StagingFormComponent', 'selector': 'staging-form'},{'name': 'SurgeryFormComponent', 'selector': 'surgery-form'},{'name': 'SystemicTherapyFormComponent', 'selector': 'systemic-therapy-form'},{'name': 'TreatmentResponseFormComponent', 'selector': 'treatment-response-form'},{'name': 'TumorBoardFormComponent', 'selector': 'tumor-board-form'},{'name': 'TumorMarkerFormComponent', 'selector': 'tumor-marker-form'},{'name': 'UserBadgeComponent', 'selector': 'onconova-user-badge'},{'name': 'UserDetailsComponent', 'selector': 'onconova-user-details'},{'name': 'UserFormComponent', 'selector': 'onconova-user-form'},{'name': 'UserSelectorComponent', 'selector': 'onconova-user-selector'},{'name': 'UsersManagementCompnent', 'selector': 'onconova-users-management'},{'name': 'VitalsFormComponent', 'selector': 'vitals-form'}];
+    var DIRECTIVES = [{'name': 'DateMaskDirective', 'selector': '[dateMask]'}];
+    var ACTUAL_COMPONENT = {'name': 'DataCompletionStatsComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'DataCompletionStatsComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

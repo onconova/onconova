@@ -1,0 +1,1578 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Application documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+        <link rel="stylesheet" href="../styles/material.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Application documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  FamilyHistoryFormComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>/home/runner/work/onconova/onconova/client/src/app/features/forms/family-history-form/family-history-form.component.ts</code>
+</p>
+
+
+
+    <p class="comment">
+        <h3>Extends</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="../components/AbstractFormBase.html" target="_self" >AbstractFormBase</a></code>
+    </p>
+
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>family-history-form</code></td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                            <code>CommonModule</code>
+                            <code>ReactiveFormsModule</code>
+                            <code>FormsModule</code>
+                                <code><a href="../components/DatePickerComponent.html" target="_self" >DatePickerComponent</a></code>
+                            <code>Fluid</code>
+                            <code>InputNumber</code>
+                            <code>ButtonModule</code>
+                            <code>ToggleSwitchModule</code>
+                                <code><a href="../components/ConceptSelectorComponent.html" target="_self" >ConceptSelectorComponent</a></code>
+                                <code><a href="../components/FormControlErrorComponent.html" target="_self" >FormControlErrorComponent</a></code>
+                            <code>SelectButton</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./family-history-form.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                    <span class="modifier">Private</span>
+                                <a href="##familyHistoriesService" >#familyHistoriesService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                    <span class="modifier">Private</span>
+                                <a href="##fb" >#fb</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="##hadCancer" >#hadCancer</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="##hadCancerChanged" >#hadCancerChanged</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                    <span class="modifier">Private</span>
+                                <a href="##onInitialDataChangeEffect" >#onInitialDataChangeEffect</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#contributedToDeathChoices" >contributedToDeathChoices</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#createService" >createService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#form" >form</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#initialData" >initialData</a>
+                            </li>
+                            <li>
+                                <a href="#payload" >payload</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#updateService" >updateService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="##dynamicDialogRef" >#dynamicDialogRef</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="##messageService" >#messageService</a>
+                            </li>
+                            <li>
+                                <a href="#caseId" >caseId</a>
+                            </li>
+                            <li>
+                                <a href="#isSaving" >isSaving</a>
+                            </li>
+                            <li>
+                                <a href="#resourceId" >resourceId</a>
+                            </li>
+                            <li>
+                                <a href="#subformsServices" >subformsServices</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Abstract</span>
+                                <a href="#createService" >createService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Abstract</span>
+                                <a href="#payload" >payload</a>
+                            </li>
+                            <li>
+                                <a href="#submitFormData" >submitFormData</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Abstract</span>
+                                <a href="#updateService" >updateService</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#initialData" >initialData</a>
+                            </li>
+                            <li>
+                                <a href="#caseId" >caseId</a>
+                            </li>
+                            <li>
+                                <a href="#resourceId" >resourceId</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+    <section data-compodoc="block-inputs">
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="initialData"></a>
+                        <b>initialData</b>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4" colspan="2">
+                                    <div class="io-line">Inherited from         <code><a href="../components/AbstractFormBase.html" target="_self" >AbstractFormBase</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in         <code><a href="../components/AbstractFormBase.html#source" target="_self" >AbstractFormBase:48</a></code>
+</div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="caseId"></a>
+                        <b>caseId</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>InputSignal&lt;string&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Required : </i>&nbsp;<b>true</b>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4" colspan="2">
+                                    <div class="io-line">Inherited from         <code><a href="../components/AbstractFormBase.html" target="_self" >AbstractFormBase</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in         <code><a href="../components/AbstractFormBase.html#source" target="_self" >AbstractFormBase:26</a></code>
+</div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="resourceId"></a>
+                        <b>resourceId</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>InputSignal&lt;string | undefined&gt;</code>
+
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4" colspan="2">
+                                    <div class="io-line">Inherited from         <code><a href="../components/AbstractFormBase.html" target="_self" >AbstractFormBase</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in         <code><a href="../components/AbstractFormBase.html#source" target="_self" >AbstractFormBase:27</a></code>
+</div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="createService"></a>
+                    <span class="name">
+                            <span class="modifier">Abstract</span>
+                        <span ><b>createService</b></span>
+                        <a href="#createService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>createService(payload: <a href="../interfaces/ResourceCreate.html" target="_self">ResourceCreate</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/AbstractFormBase.html" target="_self" >AbstractFormBase</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/AbstractFormBase.html#source" target="_self" >AbstractFormBase:39</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>payload</td>
+                                            <td>
+                                                            <code><a href="../interfaces/ResourceCreate.html" target="_self" >ResourceCreate</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="payload"></a>
+                    <span class="name">
+                            <span class="modifier">Abstract</span>
+                        <span ><b>payload</b></span>
+                        <a href="#payload"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>payload(data?: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/AbstractFormBase.html" target="_self" >AbstractFormBase</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/AbstractFormBase.html#source" target="_self" >AbstractFormBase:41</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>data</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="submitFormData"></a>
+                    <span class="name">
+                        <span ><b>submitFormData</b></span>
+                        <a href="#submitFormData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>submitFormData()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/AbstractFormBase.html" target="_self" >AbstractFormBase</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/AbstractFormBase.html#source" target="_self" >AbstractFormBase:43</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateService"></a>
+                    <span class="name">
+                            <span class="modifier">Abstract</span>
+                        <span ><b>updateService</b></span>
+                        <a href="#updateService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateService(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, payload: <a href="../interfaces/ResourceCreate.html" target="_self">ResourceCreate</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/AbstractFormBase.html" target="_self" >AbstractFormBase</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/AbstractFormBase.html#source" target="_self" >AbstractFormBase:40</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>id</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>payload</td>
+                                            <td>
+                                                            <code><a href="../interfaces/ResourceCreate.html" target="_self" >ResourceCreate</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#familyHistoriesService"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                            <span class="modifier">Private</span>
+                        <span ><b>#familyHistoriesService</b></span>
+                        <a href="##familyHistoriesService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>FamilyHistoriesService</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(FamilyHistoriesService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/family-history-form/family-history-form.component.ts:51</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#fb"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                            <span class="modifier">Private</span>
+                        <span ><b>#fb</b></span>
+                        <a href="##fb"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(FormBuilder)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/family-history-form/family-history-form.component.ts:52</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#hadCancer"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>#hadCancer</b></span>
+                        <a href="##hadCancer"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>toSignal(this.form.controls[&#x27;hadCancer&#x27;].valueChanges, { initialValue: this.initialData()?.hadCancer! })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="99" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/family-history-form/family-history-form.component.ts:99</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#hadCancerChanged"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>#hadCancerChanged</b></span>
+                        <a href="##hadCancerChanged"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>effect(() &#x3D;&gt; {
+    if (!this.#hadCancer()) {
+      [&#x27;contributedToDeath&#x27;, &#x27;onsetAge&#x27;, &#x27;topography&#x27;, &#x27;morphology&#x27;].forEach(
+        (field: string) &#x3D;&gt; {
+            this.form.get(field)!.setValue(null)
+        })
+    }
+  })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="101" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/family-history-form/family-history-form.component.ts:101</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#onInitialDataChangeEffect"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                            <span class="modifier">Private</span>
+                        <span ><b>#onInitialDataChangeEffect</b></span>
+                        <a href="##onInitialDataChangeEffect"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>effect((): void &#x3D;&gt; {
+    const data &#x3D; this.initialData();
+    if (!data) return;
+  
+    this.form.patchValue({
+      date: data.date ?? null,
+      relationship: data.relationship ?? null,
+      hadCancer: data.hadCancer ?? false,
+      contributedToDeath: data.contributedToDeath ?? null,
+      onsetAge: data.onsetAge ?? null,
+      topography: data.topography ?? null,
+      morphology: data.morphology ?? null,
+    });
+  })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/family-history-form/family-history-form.component.ts:69</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="contributedToDeathChoices"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>contributedToDeathChoices</b></span>
+                        <a href="#contributedToDeathChoices"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+      {label: &#x27;Unknown&#x27;, value: null},
+      {label: &#x27;Yes&#x27;, value: true},
+      {label: &#x27;No&#x27;, value: false},
+  ]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="110" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/family-history-form/family-history-form.component.ts:110</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="createService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>createService</b></span>
+                        <a href="#createService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>() &#x3D;&gt; {...}</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/family-history-form/family-history-form.component.ts:55</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="form"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>form</b></span>
+                        <a href="#form"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.#fb.group({
+    date: this.#fb.control&lt;string | null&gt;(null, Validators.required),
+    relationship: this.#fb.control&lt;CodedConcept | null&gt;(null, Validators.required),
+    hadCancer: this.#fb.control&lt;boolean&gt;(false, Validators.required),
+    contributedToDeath: this.#fb.control&lt;boolean | null&gt;(null),
+    onsetAge: this.#fb.control&lt;number | null&gt;(null),
+    topography: this.#fb.control&lt;CodedConcept | null&gt;(null),
+    morphology: this.#fb.control&lt;CodedConcept | null&gt;(null),
+  })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/family-history-form/family-history-form.component.ts:59</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initialData"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>initialData</b></span>
+                        <a href="#initialData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/AbstractFormBase.html" target="_self" >AbstractFormBase</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/AbstractFormBase.html#source" target="_self" >AbstractFormBase:48</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="payload"></a>
+                    <span class="name">
+                        <span ><b>payload</b></span>
+                        <a href="#payload"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>() &#x3D;&gt; {...}</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="84" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/family-history-form/family-history-form.component.ts:84</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>updateService</b></span>
+                        <a href="#updateService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>() &#x3D;&gt; {...}</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/family-history-form/family-history-form.component.ts:56</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#dynamicDialogRef"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>#dynamicDialogRef</b></span>
+                        <a href="##dynamicDialogRef"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(DynamicDialogRef)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/AbstractFormBase.html" target="_self" >AbstractFormBase</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/AbstractFormBase.html#source" target="_self" >AbstractFormBase:23</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#messageService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>#messageService</b></span>
+                        <a href="##messageService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(MessageService)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/AbstractFormBase.html" target="_self" >AbstractFormBase</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/AbstractFormBase.html#source" target="_self" >AbstractFormBase:24</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="caseId"></a>
+                    <span class="name">
+                        <span ><b>caseId</b></span>
+                        <a href="#caseId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>InputSignal&lt;string&gt;</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/AbstractFormBase.html" target="_self" >AbstractFormBase</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/AbstractFormBase.html#source" target="_self" >AbstractFormBase:26</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isSaving"></a>
+                    <span class="name">
+                        <span ><b>isSaving</b></span>
+                        <a href="#isSaving"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>WritableSignal&lt;boolean&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/AbstractFormBase.html" target="_self" >AbstractFormBase</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/AbstractFormBase.html#source" target="_self" >AbstractFormBase:28</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="resourceId"></a>
+                    <span class="name">
+                        <span ><b>resourceId</b></span>
+                        <a href="#resourceId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>InputSignal&lt;string | undefined&gt;</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/AbstractFormBase.html" target="_self" >AbstractFormBase</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/AbstractFormBase.html#source" target="_self" >AbstractFormBase:27</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="subformsServices"></a>
+                    <span class="name">
+                        <span ><b>subformsServices</b></span>
+                        <a href="#subformsServices"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>literal type[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/AbstractFormBase.html" target="_self" >AbstractFormBase</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/AbstractFormBase.html#source" target="_self" >AbstractFormBase:29</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, effect, inject, input } from &#x27;@angular/core&#x27;;
+import { FormBuilder, Validators } from &#x27;@angular/forms&#x27;;
+import { FormsModule, ReactiveFormsModule } from &#x27;@angular/forms&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+import { toSignal } from &#x27;@angular/core/rxjs-interop&#x27;;
+
+import { ButtonModule } from &#x27;primeng/button&#x27;;
+import { Fluid } from &#x27;primeng/fluid&#x27;;
+import { InputNumber } from &#x27;primeng/inputnumber&#x27;;
+import { ToggleSwitchModule } from &#x27;primeng/toggleswitch&#x27;;
+
+import { 
+    FamilyHistory,
+    FamilyHistoryCreate,
+    FamilyHistoriesService,
+    CodedConcept,
+} from &#x27;onconova-api-client&#x27;
+
+import { 
+  ConceptSelectorComponent, 
+  DatePickerComponent,
+  FormControlErrorComponent,
+} from &#x27;../../../shared/components&#x27;;
+
+import { AbstractFormBase } from &#x27;../abstract-form-base.component&#x27;;
+import { SelectButton } from &quot;primeng/selectbutton&quot;;
+
+@Component({
+    selector: &#x27;family-history-form&#x27;,
+    templateUrl: &#x27;./family-history-form.component.html&#x27;,
+    imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    FormsModule,
+    DatePickerComponent,
+    Fluid,
+    InputNumber,
+    ButtonModule,
+    ToggleSwitchModule,
+    ConceptSelectorComponent,
+    FormControlErrorComponent,
+    SelectButton
+]
+})
+export class FamilyHistoryFormComponent extends AbstractFormBase {
+
+    // Input signal for initial data passed to the form
+  public initialData &#x3D; input&lt;FamilyHistory&gt;();
+
+  // Service injections using Angular&#x27;s &#x60;inject()&#x60; API
+  readonly #familyHistoriesService: FamilyHistoriesService &#x3D; inject(FamilyHistoriesService)
+  readonly #fb &#x3D; inject(FormBuilder)
+
+    // Create and update service methods for the form data
+  public readonly createService &#x3D; (payload: FamilyHistoryCreate) &#x3D;&gt; this.#familyHistoriesService.createFamilyHistory({familyHistoryCreate: payload});
+  public readonly updateService &#x3D; (id: string, payload: FamilyHistoryCreate) &#x3D;&gt; this.#familyHistoriesService.updateFamilyHistory({familyHistoryId: id, familyHistoryCreate: payload})
+
+  // Reactive form definition
+  public form &#x3D; this.#fb.group({
+    date: this.#fb.control&lt;string | null&gt;(null, Validators.required),
+    relationship: this.#fb.control&lt;CodedConcept | null&gt;(null, Validators.required),
+    hadCancer: this.#fb.control&lt;boolean&gt;(false, Validators.required),
+    contributedToDeath: this.#fb.control&lt;boolean | null&gt;(null),
+    onsetAge: this.#fb.control&lt;number | null&gt;(null),
+    topography: this.#fb.control&lt;CodedConcept | null&gt;(null),
+    morphology: this.#fb.control&lt;CodedConcept | null&gt;(null),
+  });
+
+  readonly #onInitialDataChangeEffect &#x3D; effect((): void &#x3D;&gt; {
+    const data &#x3D; this.initialData();
+    if (!data) return;
+  
+    this.form.patchValue({
+      date: data.date ?? null,
+      relationship: data.relationship ?? null,
+      hadCancer: data.hadCancer ?? false,
+      contributedToDeath: data.contributedToDeath ?? null,
+      onsetAge: data.onsetAge ?? null,
+      topography: data.topography ?? null,
+      morphology: data.morphology ?? null,
+    });
+  });
+
+  payload &#x3D; (): FamilyHistoryCreate &#x3D;&gt; {    
+    const data &#x3D; this.form.value
+    return {
+      caseId: this.caseId(),
+      date: data.date!,
+      relationship: data.relationship!,
+      hadCancer: data.hadCancer!,
+      contributedToDeath: data.contributedToDeath ?? undefined,
+      onsetAge: data.onsetAge ?? undefined,
+      topography: data.topography ?? undefined,
+      morphology: data.morphology ?? undefined,
+    };
+  }
+
+  // Signal to track the had cancer flag from form changes
+  #hadCancer &#x3D; toSignal(this.form.controls[&#x27;hadCancer&#x27;].valueChanges, { initialValue: this.initialData()?.hadCancer! })
+  // Effect to reset condition selections when the hadCancer value changes
+  #hadCancerChanged &#x3D; effect(() &#x3D;&gt; {
+    if (!this.#hadCancer()) {
+      [&#x27;contributedToDeath&#x27;, &#x27;onsetAge&#x27;, &#x27;topography&#x27;, &#x27;morphology&#x27;].forEach(
+        (field: string) &#x3D;&gt; {
+            this.form.get(field)!.setValue(null)
+        })
+    }
+  })
+
+  public readonly contributedToDeathChoices &#x3D; [
+      {label: &#x27;Unknown&#x27;, value: null},
+      {label: &#x27;Yes&#x27;, value: true},
+      {label: &#x27;No&#x27;, value: false},
+  ]
+
+
+}</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;p-fluid&gt;
+    &lt;form  [formGroup]&#x3D;&quot;form&quot; (ngSubmit)&#x3D;&quot;submitFormData()&quot;&gt;
+
+        &lt;div class&#x3D;&quot;field&quot;&gt;
+            &lt;label for&#x3D;&quot;date&quot; class&#x3D;&quot;form-label required&quot;&gt;Date recorded&lt;/label&gt;
+            &lt;onconova-datepicker 
+                formControlName&#x3D;&quot;date&quot;
+            /&gt;
+            &lt;onconova-form-control-error controlName&#x3D;&quot;date&quot;&gt;&lt;/onconova-form-control-error&gt;
+        &lt;/div&gt;
+
+        &lt;div class&#x3D;&quot;field&quot;&gt;
+            &lt;label class&#x3D;&quot;form-label required&quot;&gt;Relationship to the patient&lt;/label&gt;
+            &lt;onconova-concept-selector 
+                formControlName&#x3D;&quot;relationship&quot;
+                terminology&#x3D;&quot;FamilyMemberType&quot;
+                [showSynonyms]&#x3D;&quot;false&quot;/&gt;
+            &lt;onconova-form-control-error controlName&#x3D;&quot;relationship&quot;&gt;&lt;/onconova-form-control-error&gt;
+        &lt;/div&gt;
+
+        &lt;div class&#x3D;&quot;field flex align-items-center&quot;&gt;
+            &lt;p-toggleswitch formControlName&#x3D;&quot;hadCancer&quot; /&gt;
+            &lt;label class&#x3D;&quot;form-label required ml-2 mb-0&quot;&gt;Relative has a history of cancer&lt;/label&gt;
+            &lt;onconova-form-control-error controlName&#x3D;&quot;hadCancer&quot;&gt;&lt;/onconova-form-control-error&gt;
+        &lt;/div&gt;
+
+        @if (form.value.hadCancer) {
+            &lt;div class&#x3D;&quot;field&quot;&gt;
+                &lt;label class&#x3D;&quot;form-label&quot;&gt;Topography&lt;/label&gt;
+                &lt;onconova-concept-selector 
+                    formControlName&#x3D;&quot;topography&quot;
+                    terminology&#x3D;&quot;CancerTopography&quot;
+                    [showSynonyms]&#x3D;&quot;true&quot;/&gt;
+                &lt;onconova-form-control-error controlName&#x3D;&quot;topography&quot;&gt;&lt;/onconova-form-control-error&gt;
+            &lt;/div&gt;
+
+            &lt;div class&#x3D;&quot;field&quot;&gt;
+                &lt;label class&#x3D;&quot;form-label&quot;&gt;Morphology&lt;/label&gt;
+                &lt;onconova-concept-selector 
+                    formControlName&#x3D;&quot;morphology&quot;
+                    terminology&#x3D;&quot;CancerMorphology&quot;
+                    [showSynonyms]&#x3D;&quot;true&quot;/&gt;
+                &lt;onconova-form-control-error controlName&#x3D;&quot;morphology&quot;&gt;&lt;/onconova-form-control-error&gt;
+            &lt;/div&gt;
+
+            &lt;div class&#x3D;&quot;field&quot;&gt;
+                &lt;label class&#x3D;&quot;form-label&quot;&gt;Approximate age at which the cancer was diagnosed&lt;/label&gt;
+                &lt;p-inputnumber 
+                    formControlName&#x3D;&quot;onsetAge&quot;
+                    suffix&#x3D;&quot; years&quot;
+                    placeholder&#x3D;&quot;Enter an age estimate&quot;/&gt;
+                &lt;onconova-form-control-error controlName&#x3D;&quot;onsetAge&quot;&gt;&lt;/onconova-form-control-error&gt;
+            &lt;/div&gt;
+
+            &lt;div class&#x3D;&quot;field&quot;&gt;
+                &lt;label class&#x3D;&quot;form-label&quot;&gt;Did the cancer contribute to the relative&#x27;s death?&lt;/label&gt;
+                &lt;p-selectbutton
+                    formControlName&#x3D;&quot;contributedToDeath&quot;
+                    [options]&#x3D;&quot;contributedToDeathChoices&quot;
+                    class&#x3D;&quot;flex&quot;/&gt;
+                &lt;onconova-form-control-error controlName&#x3D;&quot;contributedToDeath&quot;&gt;&lt;/onconova-form-control-error&gt;
+            &lt;/div&gt;
+        }
+
+        &lt;p-button 
+            type&#x3D;&quot;submit&quot; 
+            label&#x3D;&quot;Save&quot; 
+            styleClass&#x3D;&quot;w-full p-3 mt-2&quot;  
+            [loading]&#x3D;&quot;isSaving()&quot;
+            [disabled]&#x3D;&quot;form.invalid&quot; /&gt;
+            
+    &lt;/form&gt;
+&lt;/p-fluid&gt;</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><p-fluid>    <form  [formGroup]="form" (ngSubmit)="submitFormData()">        <div class="field">            <label for="date" class="form-label required">Date recorded</label>            <onconova-datepicker                 formControlName="date"            />            <onconova-form-control-error controlName="date"></onconova-form-control-error>        </div>        <div class="field">            <label class="form-label required">Relationship to the patient</label>            <onconova-concept-selector                 formControlName="relationship"                terminology="FamilyMemberType"                [showSynonyms]="false"/>            <onconova-form-control-error controlName="relationship"></onconova-form-control-error>        </div>        <div class="field flex align-items-center">            <p-toggleswitch formControlName="hadCancer" />            <label class="form-label required ml-2 mb-0">Relative has a history of cancer</label>            <onconova-form-control-error controlName="hadCancer"></onconova-form-control-error>        </div>        @if (form.value.hadCancer) {            <div class="field">                <label class="form-label">Topography</label>                <onconova-concept-selector                     formControlName="topography"                    terminology="CancerTopography"                    [showSynonyms]="true"/>                <onconova-form-control-error controlName="topography"></onconova-form-control-error>            </div>            <div class="field">                <label class="form-label">Morphology</label>                <onconova-concept-selector                     formControlName="morphology"                    terminology="CancerMorphology"                    [showSynonyms]="true"/>                <onconova-form-control-error controlName="morphology"></onconova-form-control-error>            </div>            <div class="field">                <label class="form-label">Approximate age at which the cancer was diagnosed</label>                <p-inputnumber                     formControlName="onsetAge"                    suffix=" years"                    placeholder="Enter an age estimate"/>                <onconova-form-control-error controlName="onsetAge"></onconova-form-control-error>            </div>            <div class="field">                <label class="form-label">Did the cancer contribute to the relative\'s death?</label>                <p-selectbutton                    formControlName="contributedToDeath"                    [options]="contributedToDeathChoices"                    class="flex"/>                <onconova-form-control-error controlName="contributedToDeath"></onconova-form-control-error>            </div>        }        <p-button             type="submit"             label="Save"             styleClass="w-full p-3 mt-2"              [loading]="isSaving()"            [disabled]="form.invalid" />                </form></p-fluid></div>'
+    var COMPONENTS = [{'name': 'AbstractFormBase', 'selector': ''},{'name': 'AdverseEventFormComponent', 'selector': 'adverse-event-form'},{'name': 'AppComponent', 'selector': 'onconova-root'},{'name': 'AppFooterComponent', 'selector': 'onconova-footer'},{'name': 'AppLayoutComponent', 'selector': 'onconova-layout'},{'name': 'AppSidebarMenuComponent', 'selector': 'onconova-sidebar-menu'},{'name': 'AppTopBarComponent', 'selector': 'onconova-topbar'},{'name': 'AuthCallbackComponent', 'selector': 'app-auth-callback'},{'name': 'AuthLayoutComponent', 'selector': 'onconova-auth-layout'},{'name': 'BoxPlotComponent', 'selector': 'onconova-box-plot'},{'name': 'CancerIconComponent', 'selector': 'onconova-cancer-icon'},{'name': 'CaseImporterBundleViewerComponent', 'selector': 'onconova-case-importer-bundle-viewer'},{'name': 'CaseImporterComponent', 'selector': 'onconova-case-importer'},{'name': 'CaseManagerComponent', 'selector': 'onconova-case-manager'},{'name': 'CaseManagerDrawerComponent', 'selector': 'onconova-case-manager-drawer'},{'name': 'CaseManagerPanelComponent', 'selector': 'onconova-case-manager-panel'},{'name': 'CaseManagerPanelTimelineComponent', 'selector': 'onconova-case-manager-panel-timeline'},{'name': 'CaseSearchComponent', 'selector': ''},{'name': 'CaseSearchItemCardComponent', 'selector': 'onconova-case-search-item,[onconova-case-search-item]'},{'name': 'CodedConceptTreeComponent', 'selector': 'onconova-coded-concept-tree'},{'name': 'CohortBuilderComponent', 'selector': 'onconova-cohort-manager'},{'name': 'CohortContributorsComponent', 'selector': 'onconova-cohort-contributors'},{'name': 'CohortFormComponent', 'selector': 'cohort-form'},{'name': 'CohortGraphsComponent', 'selector': 'onconova-cohort-graphs'},{'name': 'CohortGraphsContextMenu', 'selector': 'onconova-cohort-graph-context-menu'},{'name': 'CohortQueryBuilderComponent', 'selector': 'onconova-cohort-query-builder'},{'name': 'CohortSearchComponent', 'selector': ''},{'name': 'CohortSearchItemComponent', 'selector': 'onconova-cohort-search-item, [onconova-cohort-search-item]'},{'name': 'CohortTraitPanel', 'selector': 'onconova-cohort-trait'},{'name': 'ComorbiditiesAssessmentFormComponent', 'selector': 'comorbidities-form'},{'name': 'ConceptSelectorComponent', 'selector': 'onconova-concept-selector'},{'name': 'ConsentNoticeModalComponent', 'selector': 'onconova-consent-modal'},{'name': 'DashboardComponent', 'selector': 'onconova-dashboard'},{'name': 'DataCompletionStatsComponent', 'selector': 'onconova-data-completion-stats'},{'name': 'DatasetComposerComponent', 'selector': 'onconova-dataset-composer'},{'name': 'DataSummaryComponent', 'selector': 'onconova-data-summary'},{'name': 'DataSummaryCounterComponent', 'selector': 'onconova-data-summary-counter'},{'name': 'DatePickerComponent', 'selector': 'onconova-datepicker'},{'name': 'DisclaimerBannerComponent', 'selector': 'onconova-disclaimer-banner'},{'name': 'DistributionGraphComponent', 'selector': 'onconova-distribution-graph'},{'name': 'DoughnutGraphComponent', 'selector': 'onconova-doughnut-graph'},{'name': 'DrawerDataPropertiesComponent', 'selector': 'onconova-drawer-properties'},{'name': 'ErrorComponent', 'selector': 'onconova-error'},{'name': 'ExportConfirmDialogComponent', 'selector': 'onconova-export-confirm-dialog'},{'name': 'FamilyHistoryFormComponent', 'selector': 'family-history-form'},{'name': 'FormControlErrorComponent', 'selector': 'onconova-form-control-error'},{'name': 'GenomicSignatureFormComponent', 'selector': 'genomic-signature-form'},{'name': 'GenomicVariantFormComponent', 'selector': 'genomic-variant-form'},{'name': 'IdenticonComponent', 'selector': 'onconova-identicon'},{'name': 'KapplerMeierCurveComponent', 'selector': 'onconova-kappler-meier-curve'},{'name': 'LifestyleFormComponent', 'selector': 'lifestyle-form'},{'name': 'LoginComponent', 'selector': 'onconova-login'},{'name': 'MeasureInputComponent', 'selector': 'onconova-measure-input'},{'name': 'ModalFormHeaderComponent', 'selector': 'onconova-modal-form-header'},{'name': 'MultiReferenceSelectComponent', 'selector': 'onconova-multi-reference-select'},{'name': 'NeoplasticEntityFormComponent', 'selector': 'neoplastic-entity-form'},{'name': 'NestedTableComponent', 'selector': 'onconova-nested-table'},{'name': 'OncoplotComponent', 'selector': 'onconova-oncoplot'},{'name': 'PasswordResetFormComponent', 'selector': 'onconova-password-reset-dialog'},{'name': 'PatientFormComponent', 'selector': 'patient-form'},{'name': 'PerformanceStatusFormComponent', 'selector': 'performance-status-form'},{'name': 'PopoverFilterButtonComponent', 'selector': 'onconova-popover-filter-button'},{'name': 'PrimaryEntitiesTableComponent', 'selector': 'onconova-primary-entities-table'},{'name': 'ProjectFormComponent', 'selector': 'project-form'},{'name': 'ProjectManagementComponent', 'selector': 'onconova-project-management'},{'name': 'ProjectSearchComponent', 'selector': 'onconova-project-search'},{'name': 'ProjectSearchItemComponent', 'selector': 'onconova-project-search-item, [onconova-project-search-item]'},{'name': 'ProviderSignupComponent', 'selector': 'app-signup'},{'name': 'RadioSelectComponent', 'selector': 'onconova-radio-select'},{'name': 'RadiotherapyFormComponent', 'selector': 'radiotherapy-form'},{'name': 'RandomPaperComponent', 'selector': 'onconova-random-paper'},{'name': 'RangeInputComponent', 'selector': 'onconova-range-input'},{'name': 'RiskAssessmentFormComponent', 'selector': 'risk-assessment-form'},{'name': 'SettingsDialogComponent', 'selector': 'onconova-settings-dialog'},{'name': 'StagingFormComponent', 'selector': 'staging-form'},{'name': 'SurgeryFormComponent', 'selector': 'surgery-form'},{'name': 'SystemicTherapyFormComponent', 'selector': 'systemic-therapy-form'},{'name': 'TreatmentResponseFormComponent', 'selector': 'treatment-response-form'},{'name': 'TumorBoardFormComponent', 'selector': 'tumor-board-form'},{'name': 'TumorMarkerFormComponent', 'selector': 'tumor-marker-form'},{'name': 'UserBadgeComponent', 'selector': 'onconova-user-badge'},{'name': 'UserDetailsComponent', 'selector': 'onconova-user-details'},{'name': 'UserFormComponent', 'selector': 'onconova-user-form'},{'name': 'UserSelectorComponent', 'selector': 'onconova-user-selector'},{'name': 'UsersManagementCompnent', 'selector': 'onconova-users-management'},{'name': 'VitalsFormComponent', 'selector': 'vitals-form'}];
+    var DIRECTIVES = [{'name': 'DateMaskDirective', 'selector': '[dateMask]'}];
+    var ACTUAL_COMPONENT = {'name': 'FamilyHistoryFormComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'FamilyHistoryFormComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

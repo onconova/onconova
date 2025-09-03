@@ -1,0 +1,1238 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Application documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+        <link rel="stylesheet" href="../styles/material.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Application documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Injectables</li>
+  <li class="breadcrumb-item" >LayoutService</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>/home/runner/work/onconova/onconova/client/src/app/core/layout/app.layout.service.ts</code>
+        </p>
+
+
+
+
+
+            <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="##overlayOpenTrigger" >#overlayOpenTrigger</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#config" >config</a>
+                            </li>
+                            <li>
+                                <a href="#isConfigSidebarVisible" >isConfigSidebarVisible</a>
+                            </li>
+                            <li>
+                                <a href="#isDarkMode" >isDarkMode</a>
+                            </li>
+                            <li>
+                                <a href="#isDesktop" >isDesktop</a>
+                            </li>
+                            <li>
+                                <a href="#isMenuHoverActive" >isMenuHoverActive</a>
+                            </li>
+                            <li>
+                                <a href="#isMobile" >isMobile</a>
+                            </li>
+                            <li>
+                                <a href="#isOverlayMenuActive" >isOverlayMenuActive</a>
+                            </li>
+                            <li>
+                                <a href="#isOverlayMode" >isOverlayMode</a>
+                            </li>
+                            <li>
+                                <a href="#isProfileSidebarVisible" >isProfileSidebarVisible</a>
+                            </li>
+                            <li>
+                                <a href="#isStaticMenuDesktopInactive" >isStaticMenuDesktopInactive</a>
+                            </li>
+                            <li>
+                                <a href="#isStaticMenuMobileActive" >isStaticMenuMobileActive</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#logo" >logo</a>
+                            </li>
+                            <li>
+                                <a href="#overlayOpenSignal" >overlayOpenSignal</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Static</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#STORAGE_KEYS" >STORAGE_KEYS</a>
+                            </li>
+                            <li>
+                                <a href="#windowWidth" >windowWidth</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#getStoredUserPreferences" >getStoredUserPreferences</a>
+                            </li>
+                            <li>
+                                <a href="#onMenuToggle" >onMenuToggle</a>
+                            </li>
+                            <li>
+                                <a href="#showConfigSidebar" >showConfigSidebar</a>
+                            </li>
+                            <li>
+                                <a href="#showProfileSidebar" >showProfileSidebar</a>
+                            </li>
+                            <li>
+                                <a href="#toggleDarkMode" >toggleDarkMode</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#triggerOverlayOpen" >triggerOverlayOpen</a>
+                            </li>
+                            <li>
+                                <a href="#updateDarkMode" >updateDarkMode</a>
+                            </li>
+                            <li>
+                                <a href="#updateTheme" >updateTheme</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor()</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/layout/app.layout.service.ts:54</a></div>
+                            </td>
+                        </tr>
+
+            </tbody>
+        </table>
+</section>
+
+            <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getStoredUserPreferences"></a>
+                    <span class="name">
+                        <span ><b>getStoredUserPreferences</b></span>
+                        <a href="#getStoredUserPreferences"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getStoredUserPreferences()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="84"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/layout/app.layout.service.ts:84</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onMenuToggle"></a>
+                    <span class="name">
+                        <span ><b>onMenuToggle</b></span>
+                        <a href="#onMenuToggle"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onMenuToggle()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="69"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/layout/app.layout.service.ts:69</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showConfigSidebar"></a>
+                    <span class="name">
+                        <span ><b>showConfigSidebar</b></span>
+                        <a href="#showConfigSidebar"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>showConfigSidebar()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="132"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/layout/app.layout.service.ts:132</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showProfileSidebar"></a>
+                    <span class="name">
+                        <span ><b>showProfileSidebar</b></span>
+                        <a href="#showProfileSidebar"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>showProfileSidebar()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="127"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/layout/app.layout.service.ts:127</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toggleDarkMode"></a>
+                    <span class="name">
+                        <span ><b>toggleDarkMode</b></span>
+                        <a href="#toggleDarkMode"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toggleDarkMode()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="95"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/layout/app.layout.service.ts:95</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="triggerOverlayOpen"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>triggerOverlayOpen</b></span>
+                        <a href="#triggerOverlayOpen"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>triggerOverlayOpen()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="136"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/layout/app.layout.service.ts:136</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateDarkMode"></a>
+                    <span class="name">
+                        <span ><b>updateDarkMode</b></span>
+                        <a href="#updateDarkMode"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>updateDarkMode()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="99"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/layout/app.layout.service.ts:99</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateTheme"></a>
+                    <span class="name">
+                        <span ><b>updateTheme</b></span>
+                        <a href="#updateTheme"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>updateTheme()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="106"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/layout/app.layout.service.ts:106</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+            <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#overlayOpenTrigger"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>#overlayOpenTrigger</b></span>
+                        <a href="##overlayOpenTrigger"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(0)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/layout/app.layout.service.ts:51</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="config"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>config</b></span>
+                        <a href="#config"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/AppConfig.html" target="_self" >AppConfig</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+        ripple: true,
+        inputStyle: &#x27;outlined&#x27;,
+        menuMode: &#x27;static&#x27;,
+        darkMode: signal(false),
+        theme: signal(&#x27;blue&#x27;),
+        scale: 14,
+    }</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/layout/app.layout.service.ts:25</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isConfigSidebarVisible"></a>
+                    <span class="name">
+                        <span ><b>isConfigSidebarVisible</b></span>
+                        <a href="#isConfigSidebarVisible"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/layout/app.layout.service.ts:38</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isDarkMode"></a>
+                    <span class="name">
+                        <span ><b>isDarkMode</b></span>
+                        <a href="#isDarkMode"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; this.config.darkMode())</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/layout/app.layout.service.ts:45</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isDesktop"></a>
+                    <span class="name">
+                        <span ><b>isDesktop</b></span>
+                        <a href="#isDesktop"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; this.windowWidth() &gt; 991)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/layout/app.layout.service.ts:46</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isMenuHoverActive"></a>
+                    <span class="name">
+                        <span ><b>isMenuHoverActive</b></span>
+                        <a href="#isMenuHoverActive"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/layout/app.layout.service.ts:40</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isMobile"></a>
+                    <span class="name">
+                        <span ><b>isMobile</b></span>
+                        <a href="#isMobile"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; !this.isDesktop())</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/layout/app.layout.service.ts:47</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isOverlayMenuActive"></a>
+                    <span class="name">
+                        <span ><b>isOverlayMenuActive</b></span>
+                        <a href="#isOverlayMenuActive"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/layout/app.layout.service.ts:36</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isOverlayMode"></a>
+                    <span class="name">
+                        <span ><b>isOverlayMode</b></span>
+                        <a href="#isOverlayMode"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; this.config.menuMode &#x3D;&#x3D;&#x3D; &#x27;overlay&#x27;)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/layout/app.layout.service.ts:44</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isProfileSidebarVisible"></a>
+                    <span class="name">
+                        <span ><b>isProfileSidebarVisible</b></span>
+                        <a href="#isProfileSidebarVisible"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/layout/app.layout.service.ts:37</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isStaticMenuDesktopInactive"></a>
+                    <span class="name">
+                        <span ><b>isStaticMenuDesktopInactive</b></span>
+                        <a href="#isStaticMenuDesktopInactive"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/layout/app.layout.service.ts:35</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isStaticMenuMobileActive"></a>
+                    <span class="name">
+                        <span ><b>isStaticMenuMobileActive</b></span>
+                        <a href="#isStaticMenuMobileActive"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/layout/app.layout.service.ts:39</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="logo"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>logo</b></span>
+                        <a href="#logo"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;assets/images/logo.svg&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/layout/app.layout.service.ts:54</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="overlayOpenSignal"></a>
+                    <span class="name">
+                        <span ><b>overlayOpenSignal</b></span>
+                        <a href="#overlayOpenSignal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; this.#overlayOpenTrigger())</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/layout/app.layout.service.ts:52</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="STORAGE_KEYS"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Static</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>STORAGE_KEYS</b></span>
+                        <a href="#STORAGE_KEYS"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+        darkMode: &#x27;onconova-layout-config-darkMode&#x27;,
+        theme: &#x27;onconova-layout-config-theme&#x27;
+    }</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/layout/app.layout.service.ts:20</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="windowWidth"></a>
+                    <span class="name">
+                        <span ><b>windowWidth</b></span>
+                        <a href="#windowWidth"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(window.innerWidth)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/layout/app.layout.service.ts:41</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, signal, effect, computed, WritableSignal } from &#x27;@angular/core&#x27;;
+import { updatePreset } from &#x27;@primeng/themes&#x27;;
+import { AppThemes } from &#x27;src/app/app.preset&#x27;;
+
+export interface AppConfig {
+    inputStyle: string;
+    darkMode: WritableSignal&lt;boolean&gt;;
+    theme: WritableSignal&lt;string&gt;;
+    ripple: boolean;
+    menuMode: string;
+    scale: number;
+}
+
+
+@Injectable({
+    providedIn: &#x27;root&#x27;,
+})
+export class LayoutService {
+
+    private static readonly STORAGE_KEYS &#x3D; {
+        darkMode: &#x27;onconova-layout-config-darkMode&#x27;,
+        theme: &#x27;onconova-layout-config-theme&#x27;
+    };
+
+    public config: AppConfig &#x3D; {
+        ripple: true,
+        inputStyle: &#x27;outlined&#x27;,
+        menuMode: &#x27;static&#x27;,
+        darkMode: signal(false),
+        theme: signal(&#x27;blue&#x27;),
+        scale: 14,
+    };
+
+    // State as signals
+    isStaticMenuDesktopInactive &#x3D; signal(false);
+    isOverlayMenuActive &#x3D; signal(false);
+    isProfileSidebarVisible &#x3D; signal(false);
+    isConfigSidebarVisible &#x3D; signal(false);
+    isStaticMenuMobileActive &#x3D; signal(false);
+    isMenuHoverActive &#x3D; signal(false);
+    windowWidth &#x3D; signal(window.innerWidth);
+    
+    // Computed properties
+    isOverlayMode &#x3D; computed(() &#x3D;&gt; this.config.menuMode &#x3D;&#x3D;&#x3D; &#x27;overlay&#x27;);
+    isDarkMode &#x3D; computed(() &#x3D;&gt; this.config.darkMode());
+    isDesktop &#x3D; computed(() &#x3D;&gt; this.windowWidth() &gt; 991);
+    isMobile &#x3D; computed(() &#x3D;&gt; !this.isDesktop());
+
+
+    // Simple trigger signal for overlay open event
+    #overlayOpenTrigger &#x3D; signal(0);
+    overlayOpenSignal &#x3D; computed(() &#x3D;&gt; this.#overlayOpenTrigger());
+
+    public readonly logo: string &#x3D; &#x27;assets/images/logo.svg&#x27;;
+
+    constructor() {
+        // Load user preferences from local storage
+        this.getStoredUserPreferences()
+        // Upon any change, store new preferences in local storage 
+        effect(() &#x3D;&gt; {
+            localStorage.setItem(&#x27;onconova-layout-config-darkMode&#x27;, this.config.darkMode().toString())
+            localStorage.setItem(&#x27;onconova-layout-config-theme&#x27;, this.config.theme().toString())
+        });
+        effect( () &#x3D;&gt; this.updateDarkMode());
+        effect( () &#x3D;&gt; this.updateTheme());
+        window.addEventListener(&#x27;resize&#x27;, () &#x3D;&gt; this.windowWidth.set(window.innerWidth));
+    }
+
+    onMenuToggle() {
+        if (this.isOverlayMode()) {
+            this.isOverlayMenuActive.update(value &#x3D;&gt; !value);
+            if (this.isOverlayMenuActive()) this.triggerOverlayOpen();
+        }
+
+        if (this.isDesktop()) {
+            this.isStaticMenuDesktopInactive.update(value &#x3D;&gt; !value);
+        }
+        else {
+            this.isStaticMenuMobileActive.update(value &#x3D;&gt; !value);
+            if (this.isStaticMenuMobileActive()) this.triggerOverlayOpen();
+        }
+    }
+
+    getStoredUserPreferences() {
+        const darkModePreference &#x3D; localStorage.getItem(LayoutService.STORAGE_KEYS.darkMode);
+        if (darkModePreference) {
+            this.config.darkMode.set(darkModePreference.toLowerCase() &#x3D;&#x3D;&#x3D; &#x27;true&#x27;);
+        }
+        const themePreference &#x3D; localStorage.getItem(LayoutService.STORAGE_KEYS.theme);
+        if (themePreference) {
+            this.config.theme.set(themePreference);
+        }
+    }
+
+    toggleDarkMode() {
+        this.config.darkMode.update(value &#x3D;&gt; !value);
+    }
+
+    updateDarkMode() {
+        const element &#x3D; document.querySelector(&#x27;html&#x27;);
+        if (element) {
+            element.classList.toggle(&#x27;dark-mode&#x27;, this.config.darkMode());
+        }
+    }
+
+    updateTheme() {
+        const theme &#x3D; this.config.theme()
+        const element &#x3D; document.querySelector(&#x27;html&#x27;);
+        if (element) {
+            // Remove any class that starts with &#x27;layout-theme-&#x27; and add the new theme class
+            Array.from(element.classList)
+                 .filter(cls &#x3D;&gt; cls.startsWith(&#x27;layout-theme-&#x27;))
+                 .forEach(cls &#x3D;&gt; element.classList.remove(cls));
+            element.classList.add(&#x60;layout-theme-${theme}&#x60;);
+        }
+        const scheme &#x3D; AppThemes[theme as keyof typeof AppThemes];
+        updatePreset({
+            semantic: {
+                colorScheme: {
+                    light: {primary: scheme},
+                    dark: {primary: scheme}
+                },
+            },
+        });
+    }
+
+    showProfileSidebar() {
+        this.isProfileSidebarVisible.update(value &#x3D;&gt; !value);
+        if (this.isProfileSidebarVisible()) this.triggerOverlayOpen();
+    }
+
+    showConfigSidebar() {
+        this.isConfigSidebarVisible.set(true);
+    }
+
+    private triggerOverlayOpen() {
+        this.#overlayOpenTrigger.update(v &#x3D;&gt; v + 1);
+    }
+
+}
+</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'LayoutService.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

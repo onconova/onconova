@@ -1,0 +1,628 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Application documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+        <link rel="stylesheet" href="../styles/material.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Application documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  UserBadgeComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>/home/runner/work/onconova/onconova/client/src/app/shared/components/user-badge/user-badge.component.ts</code>
+</p>
+
+
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>Displays a user badge with avatar, name, and role information.</p>
+<p>This component fetches user data by username and displays an avatar with a tooltip
+containing the user&#39;s full name, access level, and role. Optionally, the user&#39;s name
+can be shown next to the avatar. The avatar is clickable and links to the user&#39;s admin page.</p>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-html">&lt;onconova-user-badge [username]=&quot;&#39;jdoe&#39;&quot; [showName]=&quot;true&quot;&gt;&lt;/onconova-user-badge&gt;</code></pre></div>
+    </p>
+
+
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>onconova-user-badge</code></td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                            <code>GetNameAcronymPipe</code>
+                            <code>GetFullNamePipe</code>
+                            <code>RouterLink</code>
+                            <code>Avatar</code>
+                            <code>Skeleton</code>
+                            <code>Tooltip</code>
+                </td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">template</td>
+                <td class="col-md-9"><pre class="line-numbers"><code class="language-html">@if (user.isLoading()) {
+    &lt;p-skeleton width&#x3D;&quot;2rem&quot; height&#x3D;&quot;2rem&quot; styleClass&#x3D;&quot;user-avatar&quot; shape&#x3D;&quot;circle&quot;/&gt;
+}
+@if (user.value(); as userInfo) {
+    &lt;div class&#x3D;&quot;flex&quot;&gt;
+        &lt;p-avatar label&#x3D;&quot;{{ userInfo | acronym }}&quot; styleClass&#x3D;&quot;user-avatar cursor-pointer&quot; size&#x3D;&quot;normal&quot; shape&#x3D;&quot;circle&quot; [pTooltip]&#x3D;&quot;userTooltipContent&quot; [routerLink]&#x3D;&quot;&#x27;/admin/users/&#x27; + userInfo.username&quot;/&gt;
+        @if (showName()) {
+            &lt;div class&#x3D;&quot;my-auto ml-2&quot;&gt;{{ userInfo | fullname}}&lt;/div&gt;
+        }
+    &lt;/div&gt;
+    &lt;ng-template #userTooltipContent&gt;
+        &lt;div class&#x3D;&quot;user-tooltip-content&quot;&gt;
+            &lt;p-avatar label&#x3D;&quot;{{ userInfo | acronym }}&quot; styleClass&#x3D;&quot;user-avatar&quot; size&#x3D;&quot;large&quot; shape&#x3D;&quot;circle&quot;/&gt;
+            &lt;div class&#x3D;&quot;flex flex-column my-auto&quot;&gt;
+                &lt;div class&#x3D;&quot;user-tooltip-content-name&quot;&gt;
+                {{ userInfo | fullname }}
+                &lt;/div&gt;
+                &lt;div class&#x3D;&quot;user-tooltip-content-role text-muted&quot;&gt;
+                    &lt;i class&#x3D;&quot;pi pi-lock mr-1&quot;&gt;&lt;/i&gt;{{ userInfo.accessLevel }}, {{ userInfo.role }}
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/ng-template&gt;
+}
+</code></pre></td>
+            </tr>
+
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                    <span class="modifier">Private</span>
+                                <a href="##usersService" >#usersService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#showName" >showName</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#user" >user</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#username" >username</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#showName" >showName</a>
+                            </li>
+                            <li>
+                                <a href="#username" >username</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+    <section data-compodoc="block-inputs">
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="showName"></a>
+                        <b>showName</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/shared/components/user-badge/user-badge.component.ts:65</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="username"></a>
+                        <b>username</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Required : </i>&nbsp;<b>true</b>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/shared/components/user-badge/user-badge.component.ts:64</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#usersService"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                            <span class="modifier">Private</span>
+                        <span ><b>#usersService</b></span>
+                        <a href="##usersService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(UsersService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/shared/components/user-badge/user-badge.component.ts:63</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showName"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>showName</b></span>
+                        <a href="#showName"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/shared/components/user-badge/user-badge.component.ts:65</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="user"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>user</b></span>
+                        <a href="#user"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>rxResource({
+        request: () &#x3D;&gt; ({username: this.username(), limit: 1}),
+        loader: ({request}) &#x3D;&gt; this.#usersService.getUsers(request).pipe(
+            map(response &#x3D;&gt; response.items[0])
+        )
+    })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/shared/components/user-badge/user-badge.component.ts:66</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="username"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>username</b></span>
+                        <a href="#username"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/shared/components/user-badge/user-badge.component.ts:64</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, inject, input } from &#x27;@angular/core&#x27;;
+import { UsersService } from &#x27;onconova-api-client&#x27;;
+import { GetNameAcronymPipe } from &#x27;../../pipes/name-acronym.pipe&#x27;;
+import { GetFullNamePipe } from &#x27;../../pipes/full-name.pipe&#x27;;
+import { Avatar } from &#x27;primeng/avatar&#x27;;
+import { Tooltip } from &#x27;primeng/tooltip&#x27;;
+import { map } from &#x27;rxjs&#x27;;
+import { Skeleton } from &#x27;primeng/skeleton&#x27;;
+import { rxResource } from &#x27;@angular/core/rxjs-interop&#x27;;
+import { RouterLink } from &#x27;@angular/router&#x27;;
+
+
+/**
+ * Displays a user badge with avatar, name, and role information.
+ *
+ * This component fetches user data by username and displays an avatar with a tooltip
+ * containing the user&#x27;s full name, access level, and role. Optionally, the user&#x27;s name
+ * can be shown next to the avatar. The avatar is clickable and links to the user&#x27;s admin page.
+ *
+ * &#x60;&#x60;&#x60;html
+ * &lt;onconova-user-badge [username]&#x3D;&quot;&#x27;jdoe&#x27;&quot; [showName]&#x3D;&quot;true&quot;&gt;&lt;/onconova-user-badge&gt;
+ * &#x60;&#x60;&#x60;
+ * 
+ */
+@Component({
+    selector: &#x27;onconova-user-badge&#x27;,
+    template: &#x60;
+        @if (user.isLoading()) {
+            &lt;p-skeleton width&#x3D;&quot;2rem&quot; height&#x3D;&quot;2rem&quot; styleClass&#x3D;&quot;user-avatar&quot; shape&#x3D;&quot;circle&quot;/&gt;
+        }
+        @if (user.value(); as userInfo) {
+            &lt;div class&#x3D;&quot;flex&quot;&gt;
+                &lt;p-avatar label&#x3D;&quot;{{ userInfo | acronym }}&quot; styleClass&#x3D;&quot;user-avatar cursor-pointer&quot; size&#x3D;&quot;normal&quot; shape&#x3D;&quot;circle&quot; [pTooltip]&#x3D;&quot;userTooltipContent&quot; [routerLink]&#x3D;&quot;&#x27;/admin/users/&#x27; + userInfo.username&quot;/&gt;
+                @if (showName()) {
+                    &lt;div class&#x3D;&quot;my-auto ml-2&quot;&gt;{{ userInfo | fullname}}&lt;/div&gt;   
+                }
+            &lt;/div&gt;
+            &lt;ng-template #userTooltipContent&gt;
+                &lt;div class&#x3D;&quot;user-tooltip-content&quot;&gt;
+                    &lt;p-avatar label&#x3D;&quot;{{ userInfo | acronym }}&quot; styleClass&#x3D;&quot;user-avatar&quot; size&#x3D;&quot;large&quot; shape&#x3D;&quot;circle&quot;/&gt;
+                    &lt;div class&#x3D;&quot;flex flex-column my-auto&quot;&gt;
+                        &lt;div class&#x3D;&quot;user-tooltip-content-name&quot;&gt;
+                        {{ userInfo | fullname }}          
+                        &lt;/div&gt;
+                        &lt;div class&#x3D;&quot;user-tooltip-content-role text-muted&quot;&gt;
+                            &lt;i class&#x3D;&quot;pi pi-lock mr-1&quot;&gt;&lt;/i&gt;{{ userInfo.accessLevel }}, {{ userInfo.role }}          
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/ng-template&gt;
+        }
+    &#x60;,
+    imports: [
+        GetNameAcronymPipe,
+        GetFullNamePipe,
+        RouterLink,
+        Avatar,
+        Skeleton,
+        Tooltip,
+    ]
+})
+export class UserBadgeComponent {
+    readonly #usersService &#x3D; inject(UsersService);
+    public username &#x3D; input.required&lt;string&gt;();
+    public showName &#x3D; input&lt;boolean&gt;(false);
+    public user &#x3D; rxResource({
+        request: () &#x3D;&gt; ({username: this.username(), limit: 1}),
+        loader: ({request}) &#x3D;&gt; this.#usersService.getUsers(request).pipe(
+            map(response &#x3D;&gt; response.items[0])
+        )
+    });
+}</code></pre>
+    </div>
+
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div>@if (user.isLoading()) {    <p-skeleton width="2rem" height="2rem" styleClass="user-avatar" shape="circle"/>}@if (user.value(); as userInfo) {    <div class="flex">        <p-avatar label="{{ userInfo | acronym }}" styleClass="user-avatar cursor-pointer" size="normal" shape="circle" [pTooltip]="userTooltipContent" [routerLink]="\'/admin/users/\' + userInfo.username"/>        @if (showName()) {            <div class="my-auto ml-2">{{ userInfo | fullname}}</div>        }    </div>    <ng-template #userTooltipContent>        <div class="user-tooltip-content">            <p-avatar label="{{ userInfo | acronym }}" styleClass="user-avatar" size="large" shape="circle"/>            <div class="flex flex-column my-auto">                <div class="user-tooltip-content-name">                {{ userInfo | fullname }}                </div>                <div class="user-tooltip-content-role text-muted">                    <i class="pi pi-lock mr-1"></i>{{ userInfo.accessLevel }}, {{ userInfo.role }}                </div>            </div>        </div>    </ng-template>}</div>'
+    var COMPONENTS = [{'name': 'AbstractFormBase', 'selector': ''},{'name': 'AdverseEventFormComponent', 'selector': 'adverse-event-form'},{'name': 'AppComponent', 'selector': 'onconova-root'},{'name': 'AppFooterComponent', 'selector': 'onconova-footer'},{'name': 'AppLayoutComponent', 'selector': 'onconova-layout'},{'name': 'AppSidebarMenuComponent', 'selector': 'onconova-sidebar-menu'},{'name': 'AppTopBarComponent', 'selector': 'onconova-topbar'},{'name': 'AuthCallbackComponent', 'selector': 'app-auth-callback'},{'name': 'AuthLayoutComponent', 'selector': 'onconova-auth-layout'},{'name': 'BoxPlotComponent', 'selector': 'onconova-box-plot'},{'name': 'CancerIconComponent', 'selector': 'onconova-cancer-icon'},{'name': 'CaseImporterBundleViewerComponent', 'selector': 'onconova-case-importer-bundle-viewer'},{'name': 'CaseImporterComponent', 'selector': 'onconova-case-importer'},{'name': 'CaseManagerComponent', 'selector': 'onconova-case-manager'},{'name': 'CaseManagerDrawerComponent', 'selector': 'onconova-case-manager-drawer'},{'name': 'CaseManagerPanelComponent', 'selector': 'onconova-case-manager-panel'},{'name': 'CaseManagerPanelTimelineComponent', 'selector': 'onconova-case-manager-panel-timeline'},{'name': 'CaseSearchComponent', 'selector': ''},{'name': 'CaseSearchItemCardComponent', 'selector': 'onconova-case-search-item,[onconova-case-search-item]'},{'name': 'CodedConceptTreeComponent', 'selector': 'onconova-coded-concept-tree'},{'name': 'CohortBuilderComponent', 'selector': 'onconova-cohort-manager'},{'name': 'CohortContributorsComponent', 'selector': 'onconova-cohort-contributors'},{'name': 'CohortFormComponent', 'selector': 'cohort-form'},{'name': 'CohortGraphsComponent', 'selector': 'onconova-cohort-graphs'},{'name': 'CohortGraphsContextMenu', 'selector': 'onconova-cohort-graph-context-menu'},{'name': 'CohortQueryBuilderComponent', 'selector': 'onconova-cohort-query-builder'},{'name': 'CohortSearchComponent', 'selector': ''},{'name': 'CohortSearchItemComponent', 'selector': 'onconova-cohort-search-item, [onconova-cohort-search-item]'},{'name': 'CohortTraitPanel', 'selector': 'onconova-cohort-trait'},{'name': 'ComorbiditiesAssessmentFormComponent', 'selector': 'comorbidities-form'},{'name': 'ConceptSelectorComponent', 'selector': 'onconova-concept-selector'},{'name': 'ConsentNoticeModalComponent', 'selector': 'onconova-consent-modal'},{'name': 'DashboardComponent', 'selector': 'onconova-dashboard'},{'name': 'DataCompletionStatsComponent', 'selector': 'onconova-data-completion-stats'},{'name': 'DatasetComposerComponent', 'selector': 'onconova-dataset-composer'},{'name': 'DataSummaryComponent', 'selector': 'onconova-data-summary'},{'name': 'DataSummaryCounterComponent', 'selector': 'onconova-data-summary-counter'},{'name': 'DatePickerComponent', 'selector': 'onconova-datepicker'},{'name': 'DisclaimerBannerComponent', 'selector': 'onconova-disclaimer-banner'},{'name': 'DistributionGraphComponent', 'selector': 'onconova-distribution-graph'},{'name': 'DoughnutGraphComponent', 'selector': 'onconova-doughnut-graph'},{'name': 'DrawerDataPropertiesComponent', 'selector': 'onconova-drawer-properties'},{'name': 'ErrorComponent', 'selector': 'onconova-error'},{'name': 'ExportConfirmDialogComponent', 'selector': 'onconova-export-confirm-dialog'},{'name': 'FamilyHistoryFormComponent', 'selector': 'family-history-form'},{'name': 'FormControlErrorComponent', 'selector': 'onconova-form-control-error'},{'name': 'GenomicSignatureFormComponent', 'selector': 'genomic-signature-form'},{'name': 'GenomicVariantFormComponent', 'selector': 'genomic-variant-form'},{'name': 'IdenticonComponent', 'selector': 'onconova-identicon'},{'name': 'KapplerMeierCurveComponent', 'selector': 'onconova-kappler-meier-curve'},{'name': 'LifestyleFormComponent', 'selector': 'lifestyle-form'},{'name': 'LoginComponent', 'selector': 'onconova-login'},{'name': 'MeasureInputComponent', 'selector': 'onconova-measure-input'},{'name': 'ModalFormHeaderComponent', 'selector': 'onconova-modal-form-header'},{'name': 'MultiReferenceSelectComponent', 'selector': 'onconova-multi-reference-select'},{'name': 'NeoplasticEntityFormComponent', 'selector': 'neoplastic-entity-form'},{'name': 'NestedTableComponent', 'selector': 'onconova-nested-table'},{'name': 'OncoplotComponent', 'selector': 'onconova-oncoplot'},{'name': 'PasswordResetFormComponent', 'selector': 'onconova-password-reset-dialog'},{'name': 'PatientFormComponent', 'selector': 'patient-form'},{'name': 'PerformanceStatusFormComponent', 'selector': 'performance-status-form'},{'name': 'PopoverFilterButtonComponent', 'selector': 'onconova-popover-filter-button'},{'name': 'PrimaryEntitiesTableComponent', 'selector': 'onconova-primary-entities-table'},{'name': 'ProjectFormComponent', 'selector': 'project-form'},{'name': 'ProjectManagementComponent', 'selector': 'onconova-project-management'},{'name': 'ProjectSearchComponent', 'selector': 'onconova-project-search'},{'name': 'ProjectSearchItemComponent', 'selector': 'onconova-project-search-item, [onconova-project-search-item]'},{'name': 'ProviderSignupComponent', 'selector': 'app-signup'},{'name': 'RadioSelectComponent', 'selector': 'onconova-radio-select'},{'name': 'RadiotherapyFormComponent', 'selector': 'radiotherapy-form'},{'name': 'RandomPaperComponent', 'selector': 'onconova-random-paper'},{'name': 'RangeInputComponent', 'selector': 'onconova-range-input'},{'name': 'RiskAssessmentFormComponent', 'selector': 'risk-assessment-form'},{'name': 'SettingsDialogComponent', 'selector': 'onconova-settings-dialog'},{'name': 'StagingFormComponent', 'selector': 'staging-form'},{'name': 'SurgeryFormComponent', 'selector': 'surgery-form'},{'name': 'SystemicTherapyFormComponent', 'selector': 'systemic-therapy-form'},{'name': 'TreatmentResponseFormComponent', 'selector': 'treatment-response-form'},{'name': 'TumorBoardFormComponent', 'selector': 'tumor-board-form'},{'name': 'TumorMarkerFormComponent', 'selector': 'tumor-marker-form'},{'name': 'UserBadgeComponent', 'selector': 'onconova-user-badge'},{'name': 'UserDetailsComponent', 'selector': 'onconova-user-details'},{'name': 'UserFormComponent', 'selector': 'onconova-user-form'},{'name': 'UserSelectorComponent', 'selector': 'onconova-user-selector'},{'name': 'UsersManagementCompnent', 'selector': 'onconova-users-management'},{'name': 'VitalsFormComponent', 'selector': 'vitals-form'}];
+    var DIRECTIVES = [{'name': 'DateMaskDirective', 'selector': '[dateMask]'}];
+    var ACTUAL_COMPONENT = {'name': 'UserBadgeComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'UserBadgeComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

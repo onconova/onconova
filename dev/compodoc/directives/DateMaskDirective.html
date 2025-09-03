@@ -1,0 +1,666 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Application documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+        <link rel="stylesheet" href="../styles/material.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Application documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content directive">
+                   <div class="content-data">
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Directives</li>
+  <li class="breadcrumb-item" >DateMaskDirective</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>/home/runner/work/onconova/onconova/client/src/app/shared/directives/date-mask-directive.ts</code>
+        </p>
+
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Applies an input mask to date fields using IMask, tailored for PrimeNG DatePicker components.
+The mask pattern and placeholder are dynamically set based on the DatePicker&#39;s view and selection mode.
+Supports masking for date, month, year, and datetime formats, as well as range selection.</p>
+<ul>
+<li>This directive is intended to be used with PrimeNG&#39;s DatePicker component.</li>
+<li>The mask adapts automatically to the DatePicker&#39;s <code>view</code> (<code>date</code>, <code>month</code>, <code>year</code>, or other) and <code>selectionMode</code> (<code>single</code> or <code>range</code>).</li>
+<li>The directive updates the form control value only when the input is complete according to the mask.</li>
+<li>Ensure that the directive is applied to a PrimeNG DatePicker element for correct behavior.</li>
+</ul>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-html">&lt;p-calendar dateMask [(ngModel)]=&quot;date&quot;&gt;&lt;/p-calendar&gt;</code></pre></div>
+            </p>
+
+
+            <p class="comment">
+                <h3>Implements</h3>
+            </p>
+            <p class="comment">
+                        <code>AfterViewInit</code>
+            </p>
+
+
+        <section data-compodoc="block-metadata">
+            <h3>Metadata</h3>
+            <table class="table table-sm table-hover metadata">
+                <tbody>
+
+                    <tr>
+                        <td class="col-md-3">Selector</td>
+                        <td class="col-md-9"><code>[dateMask]</code></td>
+                    </tr>
+
+                    <tr>
+                        <td class="col-md-3">Standalone</td>
+                        <td class="col-md-9"><code>true</code></td>
+                    </tr>
+
+
+
+                </tbody>
+            </table>
+        </section>
+
+            <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#inputElement" >inputElement</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Optional</span>
+                                <a href="#maskRef" >maskRef</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#getIMaskPattern" >getIMaskPattern</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#getPlaceholder" >getPlaceholder</a>
+                            </li>
+                            <li>
+                                <a href="#ngAfterViewInit" >ngAfterViewInit</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(primeCalendar: DatePicker, ngControl: NgControl, elementRef: ElementRef)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/shared/directives/date-mask-directive.ts:26</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>primeCalendar</td>
+                                                  
+                                                        <td>
+                                                                    <code>DatePicker</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>ngControl</td>
+                                                  
+                                                        <td>
+                                                                    <code>NgControl</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>elementRef</td>
+                                                  
+                                                        <td>
+                                                                    <code>ElementRef</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+
+            <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getIMaskPattern"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>getIMaskPattern</b></span>
+                        <a href="#getIMaskPattern"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getIMaskPattern()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="53"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/shared/directives/date-mask-directive.ts:53</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getPlaceholder"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>getPlaceholder</b></span>
+                        <a href="#getPlaceholder"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getPlaceholder()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="72"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/shared/directives/date-mask-directive.ts:72</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngAfterViewInit"></a>
+                    <span class="name">
+                        <span ><b>ngAfterViewInit</b></span>
+                        <a href="#ngAfterViewInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngAfterViewInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="36"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/shared/directives/date-mask-directive.ts:36</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+            <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="inputElement"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>inputElement</b></span>
+                        <a href="#inputElement"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>HTMLInputElement</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/shared/directives/date-mask-directive.ts:33</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="maskRef"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Optional</span>
+                        <span ><b>maskRef</b></span>
+                        <a href="#maskRef"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ReturnType&lt;&gt;</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/shared/directives/date-mask-directive.ts:34</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { AfterViewInit, Directive, ElementRef } from &#x27;@angular/core&#x27;;
+import { NgControl } from &#x27;@angular/forms&#x27;;
+import { DatePicker } from &#x27;primeng/datepicker&#x27;;
+import IMask from &#x27;imask&#x27;;
+
+/**
+ * 
+ * Applies an input mask to date fields using IMask, tailored for PrimeNG DatePicker components.
+ * The mask pattern and placeholder are dynamically set based on the DatePicker&#x27;s view and selection mode.
+ * Supports masking for date, month, year, and datetime formats, as well as range selection.
+ *
+ * - This directive is intended to be used with PrimeNG&#x27;s DatePicker component.
+ * - The mask adapts automatically to the DatePicker&#x27;s &#x60;view&#x60; (&#x60;date&#x60;, &#x60;month&#x60;, &#x60;year&#x60;, or other) and &#x60;selectionMode&#x60; (&#x60;single&#x60; or &#x60;range&#x60;).
+ * - The directive updates the form control value only when the input is complete according to the mask.
+ * - Ensure that the directive is applied to a PrimeNG DatePicker element for correct behavior.
+ * 
+ * &#x60;&#x60;&#x60;html
+ * &lt;p-calendar dateMask [(ngModel)]&#x3D;&quot;date&quot;&gt;&lt;/p-calendar&gt;
+ * &#x60;&#x60;&#x60;
+ * 
+ */
+@Directive({
+  standalone: true,
+  selector: &#x27;[dateMask]&#x27;
+})
+export class DateMaskDirective implements AfterViewInit {
+  constructor(
+    private primeCalendar: DatePicker,
+    private ngControl: NgControl,
+    private elementRef: ElementRef
+  ) {}
+
+  private inputElement!: HTMLInputElement;
+  private maskRef?: ReturnType&lt;typeof IMask&gt;;
+
+  ngAfterViewInit(): void {
+    this.inputElement &#x3D; this.elementRef.nativeElement.querySelector(&#x27;input&#x27;);
+
+    this.maskRef &#x3D; IMask(this.inputElement, {
+      mask: this.getIMaskPattern(),
+      placeholderChar: &#x27;_&#x27;
+    });
+
+    this.inputElement.placeholder &#x3D; this.getPlaceholder();
+
+    this.inputElement.addEventListener(&#x27;input&#x27;, () &#x3D;&gt; {
+      if (this.maskRef?.masked?.isComplete) {
+        this.ngControl.control?.setValue(this.inputElement.value);
+      }
+    });
+  }
+
+  private getIMaskPattern(): string {
+    let pattern: string;
+    if (this.primeCalendar.view &#x3D;&#x3D;&#x3D; &#x27;date&#x27;) {
+      pattern &#x3D; &#x27;00/00/0000&#x27;;
+    } else if (this.primeCalendar.view &#x3D;&#x3D;&#x3D; &#x27;month&#x27;) {
+      pattern &#x3D; &#x27;00/0000&#x27;;
+    } else if (this.primeCalendar.view &#x3D;&#x3D;&#x3D; &#x27;year&#x27;) {
+      pattern &#x3D; &#x27;0000&#x27;;
+    } else {
+      pattern &#x3D; &#x27;00/00/0000 00:00&#x27;;
+    }
+
+    if (this.primeCalendar.selectionMode &#x3D;&#x3D;&#x3D; &#x27;range&#x27;) {
+      return &#x60;${pattern} - ${pattern}&#x60;;
+    }
+
+    return pattern;
+  }
+
+  private getPlaceholder(): string {
+    let placeholder: string;
+    if (this.primeCalendar.view &#x3D;&#x3D;&#x3D; &#x27;date&#x27;) {
+      placeholder &#x3D; &#x27;__/__/____&#x27;;
+    } else if (this.primeCalendar.view &#x3D;&#x3D;&#x3D; &#x27;month&#x27;) {
+      placeholder &#x3D; &#x27;__/____&#x27;;
+    } else if (this.primeCalendar.view &#x3D;&#x3D;&#x3D; &#x27;year&#x27;) {
+      placeholder &#x3D; &#x27;____&#x27;;
+    } else {
+      placeholder &#x3D; &#x27;__/__/____ __:__&#x27;;
+    }
+
+    if (this.primeCalendar.selectionMode &#x3D;&#x3D;&#x3D; &#x27;range&#x27;) {
+      return &#x60;${placeholder} - ${placeholder}&#x60;;
+    }
+
+    return placeholder;
+  }
+}</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'directive';
+            var COMPODOC_CURRENT_PAGE_URL = 'DateMaskDirective.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

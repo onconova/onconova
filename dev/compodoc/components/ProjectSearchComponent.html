@@ -1,0 +1,1799 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Application documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+        <link rel="stylesheet" href="../styles/material.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Application documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  ProjectSearchComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>/home/runner/work/onconova/onconova/client/src/app/features/project-search/project-search.component.ts</code>
+</p>
+
+
+
+
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>onconova-project-search</code></td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                            <code>CommonModule</code>
+                                <code><a href="../components/ProjectSearchItemComponent.html" target="_self" >ProjectSearchItemComponent</a></code>
+                                <code><a href="../components/PopoverFilterButtonComponent.html" target="_self" >PopoverFilterButtonComponent</a></code>
+                            <code>NgxCountAnimationDirective</code>
+                            <code>FormsModule</code>
+                            <code>TableModule</code>
+                            <code>ButtonModule</code>
+                                <code><a href="../interfaces/Field.html" target="_self" >IconFieldModule</a></code>
+                            <code>SelectButton</code>
+                            <code>OverlayBadgeModule</code>
+                            <code>InputIconModule</code>
+                            <code>InputTextModule</code>
+                            <code>ButtonModule</code>
+                            <code>DataViewModule</code>
+                            <code>Skeleton</code>
+                            <code>Select</code>
+                            <code>CardModule</code>
+                            <code>TagModule</code>
+                            <code>Toolbar</code>
+                                <code><a href="../interfaces/Field.html" target="_self" >IconField</a></code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./project-search.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                    <span class="modifier">Private</span>
+                                <a href="##activatedRoute" >#activatedRoute</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                    <span class="modifier">Private</span>
+                                <a href="##authService" >#authService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                    <span class="modifier">Private</span>
+                                <a href="##dialogservice" >#dialogservice</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                    <span class="modifier">Private</span>
+                                <a href="##inputQueryParams" >#inputQueryParams</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                    <span class="modifier">Private</span>
+                                <a href="##location" >#location</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                    <span class="modifier">Private</span>
+                                <a href="##messageService" >#messageService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="##modalFormConfig" >#modalFormConfig</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="##modalFormRef" >#modalFormRef</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                    <span class="modifier">Private</span>
+                                <a href="##projectsService" >#projectsService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                    <span class="modifier">Private</span>
+                                <a href="##router" >#router</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="##updateRouteParameters" >#updateRouteParameters</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#currentUser" >currentUser</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#isPersonalPage" >isPersonalPage</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#layout" >layout</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#member" >member</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#orderingOptions" >orderingOptions</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#pageSizeChoices" >pageSizeChoices</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#projects" >projects</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#projectStatusChoices" >projectStatusChoices</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#queryParams" >queryParams</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#totalProjects" >totalProjects</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#tour" >tour</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#openProjectForm" >openProjectForm</a>
+                            </li>
+                            <li>
+                                <a href="#reloadDataIfClosedAndSaved" >reloadDataIfClosedAndSaved</a>
+                            </li>
+                            <li>
+                                <a href="#showSelectedChoiceFilter" >showSelectedChoiceFilter</a>
+                            </li>
+                            <li>
+                                <a href="#startTour" >startTour</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="openProjectForm"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>openProjectForm</b></span>
+                        <a href="#openProjectForm"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>openProjectForm(initialData?: Project)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="177"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-search/project-search.component.ts:177</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>initialData</td>
+                                            <td>
+                                                        <code>Project</code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="reloadDataIfClosedAndSaved"></a>
+                    <span class="name">
+                        <span ><b>reloadDataIfClosedAndSaved</b></span>
+                        <a href="#reloadDataIfClosedAndSaved"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>reloadDataIfClosedAndSaved(modalFormRef: DynamicDialogRef)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="193"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-search/project-search.component.ts:193</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>modalFormRef</td>
+                                            <td>
+                                                        <code>DynamicDialogRef</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showSelectedChoiceFilter"></a>
+                    <span class="name">
+                        <span ><b>showSelectedChoiceFilter</b></span>
+                        <a href="#showSelectedChoiceFilter"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>showSelectedChoiceFilter(choice: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="201"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-search/project-search.component.ts:201</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>choice</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="startTour"></a>
+                    <span class="name">
+                        <span ><b>startTour</b></span>
+                        <a href="#startTour"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>startTour()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="205"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-search/project-search.component.ts:205</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#activatedRoute"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                            <span class="modifier">Private</span>
+                        <span ><b>#activatedRoute</b></span>
+                        <a href="##activatedRoute"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(ActivatedRoute)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="80" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-search/project-search.component.ts:80</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#authService"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                            <span class="modifier">Private</span>
+                        <span ><b>#authService</b></span>
+                        <a href="##authService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(AuthService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-search/project-search.component.ts:77</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#dialogservice"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                            <span class="modifier">Private</span>
+                        <span ><b>#dialogservice</b></span>
+                        <a href="##dialogservice"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(DialogService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-search/project-search.component.ts:79</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#inputQueryParams"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                            <span class="modifier">Private</span>
+                        <span ><b>#inputQueryParams</b></span>
+                        <a href="##inputQueryParams"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>toSignal(this.#activatedRoute.queryParams)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="85" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-search/project-search.component.ts:85</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#location"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                            <span class="modifier">Private</span>
+                        <span ><b>#location</b></span>
+                        <a href="##location"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(Location)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="82" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-search/project-search.component.ts:82</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#messageService"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                            <span class="modifier">Private</span>
+                        <span ><b>#messageService</b></span>
+                        <a href="##messageService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(MessageService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="78" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-search/project-search.component.ts:78</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#modalFormConfig"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>#modalFormConfig</b></span>
+                        <a href="##modalFormConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed( () &#x3D;&gt; ({
+        templates: {
+            header: ModalFormHeaderComponent,
+        },   
+        modal: true,
+        closable: true,
+        width: &#x27;45vw&#x27;,
+        styleClass: &#x27;onconova-modal-form&#x27;,
+        breakpoints: {
+            &#x27;1700px&#x27;: &#x27;50vw&#x27;,
+            &#x27;960px&#x27;: &#x27;75vw&#x27;,
+            &#x27;640px&#x27;: &#x27;90vw&#x27;
+        },
+    }))</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="160" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-search/project-search.component.ts:160</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#modalFormRef"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>#modalFormRef</b></span>
+                        <a href="##modalFormRef"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>DynamicDialogRef | undefined</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="174" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-search/project-search.component.ts:174</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#projectsService"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                            <span class="modifier">Private</span>
+                        <span ><b>#projectsService</b></span>
+                        <a href="##projectsService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(ProjectsService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="76" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-search/project-search.component.ts:76</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#router"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                            <span class="modifier">Private</span>
+                        <span ><b>#router</b></span>
+                        <a href="##router"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(Router)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="81" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-search/project-search.component.ts:81</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#updateRouteParameters"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>#updateRouteParameters</b></span>
+                        <a href="##updateRouteParameters"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>effect(() &#x3D;&gt; {
+        const urlTree &#x3D; this.#router.createUrlTree([], {
+        relativeTo: this.#activatedRoute,
+        queryParams: {
+            title: this.queryParams.title() || undefined,
+            sort: this.queryParams.sort() !&#x3D;&#x3D; &#x27;-createdAt&#x27; ? this.queryParams.sort() : undefined,
+            limit: this.queryParams.limit() !&#x3D;&#x3D; this.pageSizeChoices[0] ? this.queryParams.sort() : undefined,
+            layout: this.queryParams.layout() !&#x3D;&#x3D; &#x27;grid&#x27; ? this.queryParams.layout() : undefined,
+            offset: this.queryParams.offset() || undefined,
+            status: this.queryParams.status() || undefined,
+        },
+        queryParamsHandling: &#x27;merge&#x27;,
+        });
+        //Update route with Query Params
+        this.#location.go(urlTree.toString());
+    })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="142" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-search/project-search.component.ts:142</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="currentUser"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>currentUser</b></span>
+                        <a href="#currentUser"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; this.#authService.user())</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="116" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-search/project-search.component.ts:116</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isPersonalPage"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>isPersonalPage</b></span>
+                        <a href="#isPersonalPage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; this.member() !&#x3D;&#x3D; undefined)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="117" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-search/project-search.component.ts:117</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="layout"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>layout</b></span>
+                        <a href="#layout"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Signal&lt;&quot;grid&quot; | &quot;list&quot;&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(&#x27;grid&#x27;)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="121" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-search/project-search.component.ts:121</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="member"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>member</b></span>
+                        <a href="#member"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>input&lt;string | null&gt;()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="73" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-search/project-search.component.ts:73</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="orderingOptions"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>orderingOptions</b></span>
+                        <a href="#orderingOptions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+        {label: &#x27;Newest&#x27;, value: &#x27;-createdAt&#x27;},
+        {label: &#x27;Oldest&#x27;, value: &#x27;createdAt&#x27;},
+        {label: &#x27;Newest updates&#x27;, value: &#x27;-updatedAt&#x27;},
+        {label: &#x27;Oldest updates&#x27;, value: &#x27;updatedAt&#x27;},
+        {label: &#x27;Project title - A to Z&#x27;, value: &#x27;-title&#x27;},
+        {label: &#x27;Project title - Z to A&#x27;, value: &#x27;title&#x27;},
+        {label: &#x27;Status - A to Z&#x27;, value: &#x27;-status&#x27;},
+        {label: &#x27;Status - Z to A&#x27;, value: &#x27;status&#x27;},
+    ]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="130" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-search/project-search.component.ts:130</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="pageSizeChoices"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>pageSizeChoices</b></span>
+                        <a href="#pageSizeChoices"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>number[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[12, 24, 36, 48]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="120" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-search/project-search.component.ts:120</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="projects"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>projects</b></span>
+                        <a href="#projects"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>rxResource({
+        request: () &#x3D;&gt; ({
+            membersUsername: this.member() || undefined,  
+            titleContains: this.queryParams.title(), 
+            status: this.queryParams.status(),
+            limit: this.queryParams.limit(), 
+            offset: this.queryParams.offset(),
+            ordering: this.queryParams.sort(),
+        } as GetProjectsRequestParams),
+        loader: ({request}) &#x3D;&gt; this.#projectsService.getProjects(request).pipe(
+            tap(page &#x3D;&gt; this.totalProjects.set(page.count)),
+            map(page &#x3D;&gt; page.items),
+            catchError((error: any) &#x3D;&gt; {
+                this.#messageService.add({ severity: &#x27;error&#x27;, summary: &#x27;Error loading projects&#x27;, detail: error?.error?.detail });
+                return of([] as Project[]) 
+            })
+        )
+    })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="96" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-search/project-search.component.ts:96</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="projectStatusChoices"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>projectStatusChoices</b></span>
+                        <a href="#projectStatusChoices"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>any[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+        {label: &#x27;Planned&#x27;, value: ProjectStatusChoices.Planned},
+        {label: &#x27;Ongoing&#x27;, value: ProjectStatusChoices.Ongoing},
+        {label: &#x27;Completed&#x27;, value: ProjectStatusChoices.Completed},
+        {label: &#x27;Aborted&#x27;, value: ProjectStatusChoices.Aborted},
+    ]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="124" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-search/project-search.component.ts:124</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="queryParams"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>queryParams</b></span>
+                        <a href="#queryParams"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+        sort:  linkedSignal(() &#x3D;&gt; this.#inputQueryParams()?.[&#x27;sort&#x27;] || &#x27;-createdAt&#x27;),
+        limit: linkedSignal(() &#x3D;&gt; this.#inputQueryParams()?.[&#x27;limit&#x27;] || this.pageSizeChoices[0]),
+        offset:  linkedSignal(() &#x3D;&gt; this.#inputQueryParams()?.[&#x27;offset&#x27;] || 0),
+        layout:  linkedSignal(() &#x3D;&gt; this.#inputQueryParams()?.[&#x27;layout&#x27;] || &#x27;grid&#x27;),
+        status:  linkedSignal(() &#x3D;&gt; this.#inputQueryParams()?.[&#x27;status&#x27;] || undefined),
+        title:  linkedSignal(() &#x3D;&gt; this.#inputQueryParams()?.[&#x27;title&#x27;]) || undefined,
+    }</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="86" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-search/project-search.component.ts:86</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="totalProjects"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>totalProjects</b></span>
+                        <a href="#totalProjects"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(0)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="122" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-search/project-search.component.ts:122</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="tour"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>tour</b></span>
+                        <a href="#tour"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>TourDriverConfig</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="140" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-search/project-search.component.ts:140</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, computed, effect, inject, input, linkedSignal, OnInit, Signal, signal } from &#x27;@angular/core&#x27;;
+import { CommonModule, Location } from &#x27;@angular/common&#x27;;
+import { FormsModule } from &#x27;@angular/forms&#x27;;
+import { TableLazyLoadEvent, TableModule } from &#x27;primeng/table&#x27;;
+import { UsersService, User, UserCreate, ProjectsService, Project, ProjectStatusChoices, GetAllProjectHistoryEventsRequestParams, GetProjectsRequestParams } from &#x27;onconova-api-client&#x27;;
+import { catchError, first, map, of, tap } from &#x27;rxjs&#x27;;
+import { ButtonModule } from &#x27;primeng/button&#x27;;
+import { CardModule } from &#x27;primeng/card&#x27;;
+import { ModalFormHeaderComponent } from &#x27;src/app/features/forms/modal-form-header.component&#x27;;
+import { DialogService, DynamicDialogRef } from &#x27;primeng/dynamicdialog&#x27;;
+import { GraduationCap, User as UserIcon } from &#x27;lucide-angular&#x27;;
+import { rxResource, toSignal } from &#x27;@angular/core/rxjs-interop&#x27;;
+import { MessageService } from &#x27;primeng/api&#x27;;
+import { UserFormComponent } from &#x27;src/app/core/admin/forms/user-form/user-form.component&#x27;;
+import { Skeleton } from &#x27;primeng/skeleton&#x27;;
+import { animate, state, style, transition, trigger } from &#x27;@angular/animations&#x27;;
+import { TagModule } from &#x27;primeng/tag&#x27;;
+import { UserBadgeComponent } from &#x27;src/app/shared/components/user-badge/user-badge.component&#x27;;
+import { Toolbar } from &#x27;primeng/toolbar&#x27;;
+import { IconField, IconFieldModule } from &#x27;primeng/iconfield&#x27;;
+import { NgxCountAnimationDirective } from &#x27;ngx-count-animation&#x27;;
+import { OverlayBadgeModule } from &#x27;primeng/overlaybadge&#x27;;
+import { InputIconModule } from &#x27;primeng/inputicon&#x27;;
+import { InputTextModule } from &#x27;primeng/inputtext&#x27;;
+import { DataViewModule } from &#x27;primeng/dataview&#x27;;
+import { Divider } from &#x27;primeng/divider&#x27;;
+import { AuthService } from &#x27;src/app/core/auth/services/auth.service&#x27;;
+import { ProjectSearchItemComponent } from &#x27;./components/project-search-item.component&#x27;;
+import { ProjectFormComponent } from &#x27;../forms/projects-form/projects-form.component&#x27;;
+import { PopoverFilterButtonComponent } from &#x27;src/app/shared/components/popover-filter-button/popover-filter-button.component&#x27;;
+import { SelectButton } from &#x27;primeng/selectbutton&#x27;;
+import { driver } from &#x27;driver.js&#x27;;
+import TourDriverConfig from &#x27;./project-search.tour&#x27;;
+import { Select } from &#x27;primeng/select&#x27;;
+import { ActivatedRoute, Router } from &#x27;@angular/router&#x27;;
+
+@Component({
+    selector: &#x27;onconova-project-search&#x27;,
+    templateUrl: &#x27;./project-search.component.html&#x27;,
+    imports: [
+        CommonModule,
+        ProjectSearchItemComponent,
+        PopoverFilterButtonComponent,
+        NgxCountAnimationDirective,
+        FormsModule,
+        TableModule,
+        ButtonModule,
+        IconFieldModule,
+        SelectButton,
+        OverlayBadgeModule,
+        InputIconModule,
+        InputTextModule,
+        ButtonModule,
+        DataViewModule,
+        Skeleton,
+        Select,
+        CardModule,
+        TagModule,
+        Toolbar,
+        IconField,
+    ],
+    animations: [
+        trigger(&#x27;fadeAnimation&#x27;, [
+            state(&#x27;void&#x27;, style({ opacity: 0 })), // Initial state (not visible)
+            transition(&#x27;:enter&#x27;, [animate(&#x27;500ms ease-in&#x27;)]), // Fade-in effect
+            transition(&#x27;:leave&#x27;, [animate(&#x27;200ms ease-out&#x27;)]) // Fade-out effect
+        ])
+    ]
+})
+export class ProjectSearchComponent {
+
+    // Reactive input properties
+    public readonly member &#x3D; input&lt;string | null&gt;();
+    
+    // Injected services
+    readonly #projectsService &#x3D; inject(ProjectsService);
+    readonly #authService &#x3D; inject(AuthService)
+    readonly #messageService &#x3D; inject(MessageService); 
+    readonly #dialogservice &#x3D; inject(DialogService);
+    readonly #activatedRoute &#x3D; inject(ActivatedRoute);
+    readonly #router &#x3D; inject(Router);
+    readonly #location &#x3D; inject(Location);
+
+    // Query parameters
+    readonly #inputQueryParams &#x3D; toSignal(this.#activatedRoute.queryParams);
+    protected readonly queryParams &#x3D; {
+        sort:  linkedSignal(() &#x3D;&gt; this.#inputQueryParams()?.[&#x27;sort&#x27;] || &#x27;-createdAt&#x27;),
+        limit: linkedSignal(() &#x3D;&gt; this.#inputQueryParams()?.[&#x27;limit&#x27;] || this.pageSizeChoices[0]),
+        offset:  linkedSignal(() &#x3D;&gt; this.#inputQueryParams()?.[&#x27;offset&#x27;] || 0),
+        layout:  linkedSignal(() &#x3D;&gt; this.#inputQueryParams()?.[&#x27;layout&#x27;] || &#x27;grid&#x27;),
+        status:  linkedSignal(() &#x3D;&gt; this.#inputQueryParams()?.[&#x27;status&#x27;] || undefined),
+        title:  linkedSignal(() &#x3D;&gt; this.#inputQueryParams()?.[&#x27;title&#x27;]) || undefined,
+    }
+
+    // Resources
+    public projects &#x3D; rxResource({
+        request: () &#x3D;&gt; ({
+            membersUsername: this.member() || undefined,  
+            titleContains: this.queryParams.title(), 
+            status: this.queryParams.status(),
+            limit: this.queryParams.limit(), 
+            offset: this.queryParams.offset(),
+            ordering: this.queryParams.sort(),
+        } as GetProjectsRequestParams),
+        loader: ({request}) &#x3D;&gt; this.#projectsService.getProjects(request).pipe(
+            tap(page &#x3D;&gt; this.totalProjects.set(page.count)),
+            map(page &#x3D;&gt; page.items),
+            catchError((error: any) &#x3D;&gt; {
+                this.#messageService.add({ severity: &#x27;error&#x27;, summary: &#x27;Error loading projects&#x27;, detail: error?.error?.detail });
+                return of([] as Project[]) 
+            })
+        )
+    })
+
+    // Computed properties
+    public readonly currentUser &#x3D; computed(() &#x3D;&gt; this.#authService.user());
+    public readonly isPersonalPage &#x3D; computed(() &#x3D;&gt; this.member() !&#x3D;&#x3D; undefined);
+    
+    // Pagination and search settings
+    public readonly pageSizeChoices: number[] &#x3D; [12, 24, 36, 48];
+    public layout: Signal&lt;&#x27;grid&#x27; | &#x27;list&#x27;&gt; &#x3D; signal(&#x27;grid&#x27;);
+    public totalProjects&#x3D; signal(0);
+
+    protected projectStatusChoices: any[] &#x3D; [
+        {label: &#x27;Planned&#x27;, value: ProjectStatusChoices.Planned},
+        {label: &#x27;Ongoing&#x27;, value: ProjectStatusChoices.Ongoing},
+        {label: &#x27;Completed&#x27;, value: ProjectStatusChoices.Completed},
+        {label: &#x27;Aborted&#x27;, value: ProjectStatusChoices.Aborted},
+    ];
+    protected orderingOptions &#x3D; [
+        {label: &#x27;Newest&#x27;, value: &#x27;-createdAt&#x27;},
+        {label: &#x27;Oldest&#x27;, value: &#x27;createdAt&#x27;},
+        {label: &#x27;Newest updates&#x27;, value: &#x27;-updatedAt&#x27;},
+        {label: &#x27;Oldest updates&#x27;, value: &#x27;updatedAt&#x27;},
+        {label: &#x27;Project title - A to Z&#x27;, value: &#x27;-title&#x27;},
+        {label: &#x27;Project title - Z to A&#x27;, value: &#x27;title&#x27;},
+        {label: &#x27;Status - A to Z&#x27;, value: &#x27;-status&#x27;},
+        {label: &#x27;Status - Z to A&#x27;, value: &#x27;status&#x27;},
+    ]
+    protected tour &#x3D; TourDriverConfig;
+
+    #updateRouteParameters &#x3D; effect(() &#x3D;&gt; {
+        const urlTree &#x3D; this.#router.createUrlTree([], {
+        relativeTo: this.#activatedRoute,
+        queryParams: {
+            title: this.queryParams.title() || undefined,
+            sort: this.queryParams.sort() !&#x3D;&#x3D; &#x27;-createdAt&#x27; ? this.queryParams.sort() : undefined,
+            limit: this.queryParams.limit() !&#x3D;&#x3D; this.pageSizeChoices[0] ? this.queryParams.sort() : undefined,
+            layout: this.queryParams.layout() !&#x3D;&#x3D; &#x27;grid&#x27; ? this.queryParams.layout() : undefined,
+            offset: this.queryParams.offset() || undefined,
+            status: this.queryParams.status() || undefined,
+        },
+        queryParamsHandling: &#x27;merge&#x27;,
+        });
+        //Update route with Query Params
+        this.#location.go(urlTree.toString());
+    })
+
+    // Modal form config
+    #modalFormConfig &#x3D; computed( () &#x3D;&gt; ({
+        templates: {
+            header: ModalFormHeaderComponent,
+        },   
+        modal: true,
+        closable: true,
+        width: &#x27;45vw&#x27;,
+        styleClass: &#x27;onconova-modal-form&#x27;,
+        breakpoints: {
+            &#x27;1700px&#x27;: &#x27;50vw&#x27;,
+            &#x27;960px&#x27;: &#x27;75vw&#x27;,
+            &#x27;640px&#x27;: &#x27;90vw&#x27;
+        },
+    }))
+    #modalFormRef: DynamicDialogRef | undefined;
+
+
+    public openProjectForm(initialData?: Project) {    
+        this.#modalFormRef &#x3D; this.#dialogservice.open(ProjectFormComponent, {
+            inputValues: {
+                initialData: initialData,
+                resourceId: initialData ? initialData.id : undefined,
+            },
+            data: {
+                title: &#x27;Project&#x27;,
+                subtitle: &quot;Register a new project&quot;,
+                icon: GraduationCap,
+            },
+            ...this.#modalFormConfig()
+        })
+        this.reloadDataIfClosedAndSaved(this.#modalFormRef)
+    }
+
+    reloadDataIfClosedAndSaved(modalFormRef: DynamicDialogRef) {
+        modalFormRef.onClose.subscribe((data: any) &#x3D;&gt; {
+            if (data?.saved) {
+                this.projects.reload()
+            }
+        })    
+    }
+    
+    showSelectedChoiceFilter(choice: string): string {
+        return choice[0].toUpperCase() + choice.slice(1)
+    }
+
+    startTour() {
+        driver(this.tour).drive()    
+    }
+}
+
+
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">
+&lt;div class&#x3D;&quot;flex&quot;&gt;
+    &lt;div&gt;
+        &lt;h6 class&#x3D;&quot;mb-0&quot;&gt;Research Management&lt;/h6&gt;
+        &lt;h2 class&#x3D;&quot;mb-0 mt-0 font-semibold&quot;&gt;
+            @if (isPersonalPage()) {
+                Your Projects
+            } @else {
+                Projects
+            }
+        &lt;/h2&gt;
+        &lt;div class&#x3D;&quot;text-muted&quot;&gt;
+            @if (isPersonalPage()) {
+                Welcome to your personalized projects search page. You can find all projects of which you are a member.
+            } @else {
+                Welcome to the projects search page. You can find all present and past projects here.
+            }
+        &lt;/div&gt;    
+    &lt;/div&gt;    
+    &lt;p-button
+        icon&#x3D;&quot;pi pi-question-circle&quot;
+        label&#x3D;&quot;Tutorial&quot; 
+        [outlined]&#x3D;&quot;true&quot;
+        class&#x3D;&quot;ml-auto&quot;
+        (onClick)&#x3D;&quot;startTour()&quot;/&gt;
+&lt;/div&gt;
+
+&lt;p-toolbar styleClass&#x3D;&quot;mt-3 border-transparent shadow-2 mb-0&quot;&gt;
+
+    &lt;ng-template #start&gt;
+            &lt;div class&#x3D;&quot;project-search-filters flex gap-2 &quot;&gt;
+                &lt;p-iconfield&gt;
+                    &lt;p-inputicon styleClass&#x3D;&quot;pi pi-search&quot;/&gt;
+                    &lt;input type&#x3D;&quot;text&quot; pInputText placeholder&#x3D;&quot;Search by Title&quot; [(ngModel)]&#x3D;&quot;queryParams.title&quot;/&gt;
+                &lt;/p-iconfield&gt;
+
+                &lt;onconova-popover-filter-button [value]&#x3D;&quot;queryParams.status&quot; label&#x3D;&quot;Status&quot; [selectionLabelFcn]&#x3D;&quot;showSelectedChoiceFilter&quot;&gt;
+                    &lt;ng-template #popoverContent let-internalValue&gt;
+                        &lt;div class&#x3D;&quot;p-2&quot;&gt;
+                            &lt;div class&#x3D;&quot;text-muted mb-3&quot;&gt;Select a project status:&lt;/div&gt;
+                            &lt;p-selectbutton 
+                                [options]&#x3D;&quot;projectStatusChoices&quot; optionLabel&#x3D;&quot;label&quot; optionValue&#x3D;&quot;value&quot;  aria-labelledby&#x3D;&quot;basic&quot;
+                                [(ngModel)]&#x3D;&quot;queryParams.status&quot;
+                                (ngModelChange)&#x3D;&quot;internalValue.set($event)&quot;/&gt;
+                        &lt;/div&gt;
+                    &lt;/ng-template&gt;
+                &lt;/onconova-popover-filter-button&gt;
+            &lt;/div&gt;  
+    &lt;/ng-template&gt;
+
+    &lt;ng-template #end&gt;
+        &lt;div class&#x3D;&quot;flex gap-2 align-items-center&quot;&gt;
+            &lt;p-button 
+                id&#x3D;&quot;project-search-refresh-projects-button&quot;
+                icon&#x3D;&quot;pi pi-sync&quot;
+                title&#x3D;&quot;Refresh cases&quot;
+                severity&#x3D;&quot;secondary&quot;
+                (onClick)&#x3D;&quot;projects.reload()&quot;/&gt;
+            &lt;p-button 
+                id&#x3D;&quot;project-search-new-project-button&quot;
+                (onClick)&#x3D;&quot;openProjectForm()&quot; 
+                [disabled]&#x3D;&quot;!currentUser().canManageProjects&quot;
+                label&#x3D;&quot;Register New Project&quot;
+                [icon]&#x3D;&quot;currentUser().canManageProjects ? &#x27;pi pi-plus&#x27; : &#x27;pi pi-lock&#x27;&quot;/&gt;
+        &lt;/div&gt;
+    &lt;/ng-template&gt;
+
+&lt;/p-toolbar&gt;
+    
+
+&lt;p-toolbar styleClass&#x3D;&quot;border-transparent pb-1&quot; [style]&#x3D;&quot;{&#x27;background&#x27;: &#x27;none&#x27;}&quot;&gt;
+
+    &lt;ng-template #start&gt;
+        &lt;div class&#x3D;&quot;case-search-results-count flex align-items-center&quot;&gt;
+            &lt;div class&#x3D;&quot;text-muted mr-2&quot;&gt;Results: &lt;/div&gt;
+            @if (projects.isLoading()) {
+                &lt;p-skeleton width&#x3D;&quot;4rem&quot; height&#x3D;&quot;2rem&quot;/&gt;
+            } @else {
+                &lt;div class&#x3D;&quot;text-center text-xl font-semibold&quot; [ngxCountAnimation]&#x3D;&quot;totalProjects()&quot; duration&#x3D;&quot;500&quot;&gt;&lt;/div&gt;
+            }
+        &lt;/div&gt;        
+        &lt;div class&#x3D;&quot;case-search-sorting flex flex align-items-center text-muted ml-4&quot;&gt;
+            &lt;span class&#x3D;&quot;text-muted mr-2&quot;&gt;Sort by &lt;/span&gt;
+            &lt;p-select [(ngModel)]&#x3D;&quot;queryParams.sort&quot; [options]&#x3D;&quot;orderingOptions&quot; size&#x3D;&quot;small&quot; optionLabel&#x3D;&quot;label&quot; optionValue&#x3D;&quot;value&quot; styleClass&#x3D;&quot;w-15rem&quot;&gt;&lt;/p-select&gt;
+        &lt;/div&gt;
+    &lt;/ng-template&gt;
+
+    &lt;ng-template #end&gt;
+        &lt;div class&#x3D;&quot;layout-buttons&quot;&gt;
+            &lt;p-selectbutton [(ngModel)]&#x3D;&quot;queryParams.layout&quot; [options]&#x3D;&quot;[&#x27;list&#x27;, &#x27;grid&#x27;]&quot; [allowEmpty]&#x3D;&quot;false&quot;&gt;
+                &lt;ng-template #item let-item&gt;
+                    &lt;i class&#x3D;&quot;pi &quot; [ngClass]&#x3D;&quot;{ &#x27;pi-bars&#x27;: item &#x3D;&#x3D;&#x3D; &#x27;list&#x27;, &#x27;pi-table&#x27;: item &#x3D;&#x3D;&#x3D; &#x27;grid&#x27; }&quot;&gt;&lt;/i&gt;
+                &lt;/ng-template&gt;
+            &lt;/p-selectbutton&gt;
+        &lt;/div&gt;
+    &lt;/ng-template&gt;
+
+&lt;/p-toolbar&gt;
+
+
+
+&lt;p-dataView
+    styleClass&#x3D;&quot;onconova-case-search-dataview&quot;
+    [value]&#x3D;&quot;projects.value() || [1,2,3,4,5,6,7,8,9,10, 12]&quot;
+    [paginator]&#x3D;&quot;true&quot; 
+    [rows]&#x3D;&quot;queryParams.limit()&quot;
+    [first]&#x3D;&quot;queryParams.offset()&quot; 
+    [layout]&#x3D;&quot;queryParams.layout()&quot;
+    lazy&#x3D;&quot;true&quot;
+    [rowsPerPageOptions]&#x3D;&quot;pageSizeChoices&quot;
+    [totalRecords]&#x3D;&quot;totalProjects()&quot;
+    (onLazyLoad)&#x3D;&quot;queryParams.limit.set($event.rows); queryParams.offset.set($event.first);&quot;
+    class&#x3D;&quot;no-background&quot;&gt;
+
+    &lt;ng-template #list let-data&gt;
+        &lt;p-table [value]&#x3D;&quot;data&quot; styleClass&#x3D;&quot;mt-3&quot;&gt;
+            &lt;ng-template pTemplate&#x3D;&quot;header&quot;&gt;
+                &lt;tr&gt;
+                    &lt;th&gt;Title&lt;/th&gt;
+                    &lt;th&gt;Status&lt;/th&gt;
+                    &lt;th&gt;Leader&lt;/th&gt;
+                    &lt;th&gt;Members&lt;/th&gt;
+                    &lt;th class&#x3D;&quot;text-center&quot;&gt;Cohorts&lt;/th&gt;
+                    &lt;th class&#x3D;&quot;text-center&quot;&gt;Datasets&lt;/th&gt;
+                    &lt;th class&#x3D;&quot;text-center&quot;&gt;Created&lt;/th&gt;
+                    &lt;th class&#x3D;&quot;text-center&quot;&gt;Last Updated&lt;/th&gt;
+                    &lt;th&gt;&lt;/th&gt;
+                &lt;/tr&gt;
+            &lt;/ng-template&gt;
+            &lt;ng-template pTemplate&#x3D;&quot;body&quot; let-project&gt;
+                &lt;tr onconova-project-search-item 
+                    @fadeAnimation
+                    layout&#x3D;&quot;row&quot;
+                    [project]&#x3D;&quot;project&quot;
+                    (onDelete)&#x3D;&quot;projects.reload()&quot;
+                    &gt;&lt;/tr&gt;
+            &lt;/ng-template&gt;
+        &lt;/p-table&gt;
+    &lt;/ng-template&gt;    
+
+
+    &lt;ng-template #grid let-projectsPage&gt;
+        &lt;div class&#x3D;&quot;grid mt-3&quot; &gt;
+            @for (project of projectsPage; track $index; let first &#x3D; $first) {
+                &lt;div class&#x3D;&quot;col p-2&quot;&gt;
+                    @if (projects.isLoading()) {
+                        &lt;div class&#x3D;&quot;onconova-project-search-item-card placeholder&quot; @fadeAnimation&gt;
+                            &lt;div class&#x3D;&quot;flex my-3&quot;&gt;
+                                &lt;p-skeleton width&#x3D;&quot;4rem&quot; height&#x3D;&quot;4rem&quot;/&gt;
+                                &lt;div class&#x3D;&quot;flex flex-column mx-3&quot;&gt;
+                                    &lt;p-skeleton width&#x3D;&quot;10rem&quot; height&#x3D;&quot;1.5rem&quot; class&#x3D;&quot;mb-2 mt-3&quot; /&gt;    
+                                    &lt;p-skeleton width&#x3D;&quot;15rem&quot; height&#x3D;&quot;1.5rem&quot;/&gt;      
+                                &lt;/div&gt;
+                            &lt;/div&gt;
+                            &lt;div class&#x3D;&quot;mb-3 mt-4&quot;&gt;
+                                &lt;p-skeleton width&#x3D;&quot;100%&quot; height&#x3D;&quot;2rem&quot;/&gt;
+                            &lt;/div&gt;
+                            &lt;div class&#x3D;&quot;my-3 mb-5&quot;&gt;
+                                &lt;p-skeleton width&#x3D;&quot;100%&quot; height&#x3D;&quot;2rem&quot;/&gt;
+                            &lt;/div&gt;
+                            &lt;p-skeleton class&#x3D;&quot;my-3 ml-auto&quot;  width&#x3D;&quot;20rem&quot; height&#x3D;&quot;2rem&quot;/&gt;      
+                        &lt;/div&gt;
+                    } @else {
+                        &lt;onconova-project-search-item 
+                            @fadeAnimation
+                            [project]&#x3D;&quot;project&quot;
+                            (onDelete)&#x3D;&quot;projects.reload()&quot;
+                            (onEdit)&#x3D;&quot;openProjectForm($event)&quot;/&gt;                              
+                    }
+                &lt;/div&gt;
+            }
+        &lt;/div&gt;
+    &lt;/ng-template&gt;
+&lt;/p-dataView&gt;
+</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="flex">    <div>        <h6 class="mb-0">Research Management</h6>        <h2 class="mb-0 mt-0 font-semibold">            @if (isPersonalPage()) {                Your Projects            } @else {                Projects            }        </h2>        <div class="text-muted">            @if (isPersonalPage()) {                Welcome to your personalized projects search page. You can find all projects of which you are a member.            } @else {                Welcome to the projects search page. You can find all present and past projects here.            }        </div>        </div>        <p-button        icon="pi pi-question-circle"        label="Tutorial"         [outlined]="true"        class="ml-auto"        (onClick)="startTour()"/></div><p-toolbar styleClass="mt-3 border-transparent shadow-2 mb-0">    <ng-template #start>            <div class="project-search-filters flex gap-2 ">                <p-iconfield>                    <p-inputicon styleClass="pi pi-search"/>                    <input type="text" pInputText placeholder="Search by Title" [(ngModel)]="queryParams.title"/>                </p-iconfield>                <onconova-popover-filter-button [value]="queryParams.status" label="Status" [selectionLabelFcn]="showSelectedChoiceFilter">                    <ng-template #popoverContent let-internalValue>                        <div class="p-2">                            <div class="text-muted mb-3">Select a project status:</div>                            <p-selectbutton                                 [options]="projectStatusChoices" optionLabel="label" optionValue="value"  aria-labelledby="basic"                                [(ngModel)]="queryParams.status"                                (ngModelChange)="internalValue.set($event)"/>                        </div>                    </ng-template>                </onconova-popover-filter-button>            </div>      </ng-template>    <ng-template #end>        <div class="flex gap-2 align-items-center">            <p-button                 id="project-search-refresh-projects-button"                icon="pi pi-sync"                title="Refresh cases"                severity="secondary"                (onClick)="projects.reload()"/>            <p-button                 id="project-search-new-project-button"                (onClick)="openProjectForm()"                 [disabled]="!currentUser().canManageProjects"                label="Register New Project"                [icon]="currentUser().canManageProjects ? \'pi pi-plus\' : \'pi pi-lock\'"/>        </div>    </ng-template></p-toolbar>    <p-toolbar styleClass="border-transparent pb-1" [style]="{\'background\': \'none\'}">    <ng-template #start>        <div class="case-search-results-count flex align-items-center">            <div class="text-muted mr-2">Results: </div>            @if (projects.isLoading()) {                <p-skeleton width="4rem" height="2rem"/>            } @else {                <div class="text-center text-xl font-semibold" [ngxCountAnimation]="totalProjects()" duration="500"></div>            }        </div>                <div class="case-search-sorting flex flex align-items-center text-muted ml-4">            <span class="text-muted mr-2">Sort by </span>            <p-select [(ngModel)]="queryParams.sort" [options]="orderingOptions" size="small" optionLabel="label" optionValue="value" styleClass="w-15rem"></p-select>        </div>    </ng-template>    <ng-template #end>        <div class="layout-buttons">            <p-selectbutton [(ngModel)]="queryParams.layout" [options]="[\'list\', \'grid\']" [allowEmpty]="false">                <ng-template #item let-item>                    <i class="pi " [ngClass]="{ \'pi-bars\': item === \'list\', \'pi-table\': item === \'grid\' }"></i>                </ng-template>            </p-selectbutton>        </div>    </ng-template></p-toolbar><p-dataView    styleClass="onconova-case-search-dataview"    [value]="projects.value() || [1,2,3,4,5,6,7,8,9,10, 12]"    [paginator]="true"     [rows]="queryParams.limit()"    [first]="queryParams.offset()"     [layout]="queryParams.layout()"    lazy="true"    [rowsPerPageOptions]="pageSizeChoices"    [totalRecords]="totalProjects()"    (onLazyLoad)="queryParams.limit.set($event.rows); queryParams.offset.set($event.first);"    class="no-background">    <ng-template #list let-data>        <p-table [value]="data" styleClass="mt-3">            <ng-template pTemplate="header">                <tr>                    <th>Title</th>                    <th>Status</th>                    <th>Leader</th>                    <th>Members</th>                    <th class="text-center">Cohorts</th>                    <th class="text-center">Datasets</th>                    <th class="text-center">Created</th>                    <th class="text-center">Last Updated</th>                    <th></th>                </tr>            </ng-template>            <ng-template pTemplate="body" let-project>                <tr onconova-project-search-item                     @fadeAnimation                    layout="row"                    [project]="project"                    (onDelete)="projects.reload()"                    ></tr>            </ng-template>        </p-table>    </ng-template>        <ng-template #grid let-projectsPage>        <div class="grid mt-3" >            @for (project of projectsPage; track $index; let first = $first) {                <div class="col p-2">                    @if (projects.isLoading()) {                        <div class="onconova-project-search-item-card placeholder" @fadeAnimation>                            <div class="flex my-3">                                <p-skeleton width="4rem" height="4rem"/>                                <div class="flex flex-column mx-3">                                    <p-skeleton width="10rem" height="1.5rem" class="mb-2 mt-3" />                                        <p-skeleton width="15rem" height="1.5rem"/>                                      </div>                            </div>                            <div class="mb-3 mt-4">                                <p-skeleton width="100%" height="2rem"/>                            </div>                            <div class="my-3 mb-5">                                <p-skeleton width="100%" height="2rem"/>                            </div>                            <p-skeleton class="my-3 ml-auto"  width="20rem" height="2rem"/>                              </div>                    } @else {                        <onconova-project-search-item                             @fadeAnimation                            [project]="project"                            (onDelete)="projects.reload()"                            (onEdit)="openProjectForm($event)"/>                                                  }                </div>            }        </div>    </ng-template></p-dataView></div>'
+    var COMPONENTS = [{'name': 'AbstractFormBase', 'selector': ''},{'name': 'AdverseEventFormComponent', 'selector': 'adverse-event-form'},{'name': 'AppComponent', 'selector': 'onconova-root'},{'name': 'AppFooterComponent', 'selector': 'onconova-footer'},{'name': 'AppLayoutComponent', 'selector': 'onconova-layout'},{'name': 'AppSidebarMenuComponent', 'selector': 'onconova-sidebar-menu'},{'name': 'AppTopBarComponent', 'selector': 'onconova-topbar'},{'name': 'AuthCallbackComponent', 'selector': 'app-auth-callback'},{'name': 'AuthLayoutComponent', 'selector': 'onconova-auth-layout'},{'name': 'BoxPlotComponent', 'selector': 'onconova-box-plot'},{'name': 'CancerIconComponent', 'selector': 'onconova-cancer-icon'},{'name': 'CaseImporterBundleViewerComponent', 'selector': 'onconova-case-importer-bundle-viewer'},{'name': 'CaseImporterComponent', 'selector': 'onconova-case-importer'},{'name': 'CaseManagerComponent', 'selector': 'onconova-case-manager'},{'name': 'CaseManagerDrawerComponent', 'selector': 'onconova-case-manager-drawer'},{'name': 'CaseManagerPanelComponent', 'selector': 'onconova-case-manager-panel'},{'name': 'CaseManagerPanelTimelineComponent', 'selector': 'onconova-case-manager-panel-timeline'},{'name': 'CaseSearchComponent', 'selector': ''},{'name': 'CaseSearchItemCardComponent', 'selector': 'onconova-case-search-item,[onconova-case-search-item]'},{'name': 'CodedConceptTreeComponent', 'selector': 'onconova-coded-concept-tree'},{'name': 'CohortBuilderComponent', 'selector': 'onconova-cohort-manager'},{'name': 'CohortContributorsComponent', 'selector': 'onconova-cohort-contributors'},{'name': 'CohortFormComponent', 'selector': 'cohort-form'},{'name': 'CohortGraphsComponent', 'selector': 'onconova-cohort-graphs'},{'name': 'CohortGraphsContextMenu', 'selector': 'onconova-cohort-graph-context-menu'},{'name': 'CohortQueryBuilderComponent', 'selector': 'onconova-cohort-query-builder'},{'name': 'CohortSearchComponent', 'selector': ''},{'name': 'CohortSearchItemComponent', 'selector': 'onconova-cohort-search-item, [onconova-cohort-search-item]'},{'name': 'CohortTraitPanel', 'selector': 'onconova-cohort-trait'},{'name': 'ComorbiditiesAssessmentFormComponent', 'selector': 'comorbidities-form'},{'name': 'ConceptSelectorComponent', 'selector': 'onconova-concept-selector'},{'name': 'ConsentNoticeModalComponent', 'selector': 'onconova-consent-modal'},{'name': 'DashboardComponent', 'selector': 'onconova-dashboard'},{'name': 'DataCompletionStatsComponent', 'selector': 'onconova-data-completion-stats'},{'name': 'DatasetComposerComponent', 'selector': 'onconova-dataset-composer'},{'name': 'DataSummaryComponent', 'selector': 'onconova-data-summary'},{'name': 'DataSummaryCounterComponent', 'selector': 'onconova-data-summary-counter'},{'name': 'DatePickerComponent', 'selector': 'onconova-datepicker'},{'name': 'DisclaimerBannerComponent', 'selector': 'onconova-disclaimer-banner'},{'name': 'DistributionGraphComponent', 'selector': 'onconova-distribution-graph'},{'name': 'DoughnutGraphComponent', 'selector': 'onconova-doughnut-graph'},{'name': 'DrawerDataPropertiesComponent', 'selector': 'onconova-drawer-properties'},{'name': 'ErrorComponent', 'selector': 'onconova-error'},{'name': 'ExportConfirmDialogComponent', 'selector': 'onconova-export-confirm-dialog'},{'name': 'FamilyHistoryFormComponent', 'selector': 'family-history-form'},{'name': 'FormControlErrorComponent', 'selector': 'onconova-form-control-error'},{'name': 'GenomicSignatureFormComponent', 'selector': 'genomic-signature-form'},{'name': 'GenomicVariantFormComponent', 'selector': 'genomic-variant-form'},{'name': 'IdenticonComponent', 'selector': 'onconova-identicon'},{'name': 'KapplerMeierCurveComponent', 'selector': 'onconova-kappler-meier-curve'},{'name': 'LifestyleFormComponent', 'selector': 'lifestyle-form'},{'name': 'LoginComponent', 'selector': 'onconova-login'},{'name': 'MeasureInputComponent', 'selector': 'onconova-measure-input'},{'name': 'ModalFormHeaderComponent', 'selector': 'onconova-modal-form-header'},{'name': 'MultiReferenceSelectComponent', 'selector': 'onconova-multi-reference-select'},{'name': 'NeoplasticEntityFormComponent', 'selector': 'neoplastic-entity-form'},{'name': 'NestedTableComponent', 'selector': 'onconova-nested-table'},{'name': 'OncoplotComponent', 'selector': 'onconova-oncoplot'},{'name': 'PasswordResetFormComponent', 'selector': 'onconova-password-reset-dialog'},{'name': 'PatientFormComponent', 'selector': 'patient-form'},{'name': 'PerformanceStatusFormComponent', 'selector': 'performance-status-form'},{'name': 'PopoverFilterButtonComponent', 'selector': 'onconova-popover-filter-button'},{'name': 'PrimaryEntitiesTableComponent', 'selector': 'onconova-primary-entities-table'},{'name': 'ProjectFormComponent', 'selector': 'project-form'},{'name': 'ProjectManagementComponent', 'selector': 'onconova-project-management'},{'name': 'ProjectSearchComponent', 'selector': 'onconova-project-search'},{'name': 'ProjectSearchItemComponent', 'selector': 'onconova-project-search-item, [onconova-project-search-item]'},{'name': 'ProviderSignupComponent', 'selector': 'app-signup'},{'name': 'RadioSelectComponent', 'selector': 'onconova-radio-select'},{'name': 'RadiotherapyFormComponent', 'selector': 'radiotherapy-form'},{'name': 'RandomPaperComponent', 'selector': 'onconova-random-paper'},{'name': 'RangeInputComponent', 'selector': 'onconova-range-input'},{'name': 'RiskAssessmentFormComponent', 'selector': 'risk-assessment-form'},{'name': 'SettingsDialogComponent', 'selector': 'onconova-settings-dialog'},{'name': 'StagingFormComponent', 'selector': 'staging-form'},{'name': 'SurgeryFormComponent', 'selector': 'surgery-form'},{'name': 'SystemicTherapyFormComponent', 'selector': 'systemic-therapy-form'},{'name': 'TreatmentResponseFormComponent', 'selector': 'treatment-response-form'},{'name': 'TumorBoardFormComponent', 'selector': 'tumor-board-form'},{'name': 'TumorMarkerFormComponent', 'selector': 'tumor-marker-form'},{'name': 'UserBadgeComponent', 'selector': 'onconova-user-badge'},{'name': 'UserDetailsComponent', 'selector': 'onconova-user-details'},{'name': 'UserFormComponent', 'selector': 'onconova-user-form'},{'name': 'UserSelectorComponent', 'selector': 'onconova-user-selector'},{'name': 'UsersManagementCompnent', 'selector': 'onconova-users-management'},{'name': 'VitalsFormComponent', 'selector': 'vitals-form'}];
+    var DIRECTIVES = [{'name': 'DateMaskDirective', 'selector': '[dateMask]'}];
+    var ACTUAL_COMPONENT = {'name': 'ProjectSearchComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'ProjectSearchComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

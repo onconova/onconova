@@ -1,0 +1,26 @@
+@import "./reset.css";
+@import "./bootstrap.min.css";
+@import "./bootstrap-card.css";
+@import "./prism.css";
+@import "./ionicons.min.css";
+@import "./compodoc.css";
+@import "./tablesort.css";
+
+/* Use the same background as mkdocs-material */
+body.dark {
+    background: rgb(30 33 41) !important;
+}
+.dark .menu {
+    background: rgb(30 33 41) !important;
+}
+/* Hide the Compodocs theme switch */
+.dark-mode-switch {
+    display: none !important;
+}
+/* Hide all nav references to the unused README page*/
+a[href="./index.html"] {
+    display: none !important;
+}
+.links:has(a[href="./overview.html"]) {
+    padding-left: 0 !important;
+}

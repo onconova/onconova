@@ -1,0 +1,502 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Application documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+        <link rel="stylesheet" href="../styles/material.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Application documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  DisclaimerBannerComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>/home/runner/work/onconova/onconova/client/src/app/features/dashboard/components/disclaimer-banner.component.ts</code>
+</p>
+
+
+
+
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>onconova-disclaimer-banner</code></td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                            <code>InlineSVGModule</code>
+                            <code>CommonModule</code>
+                            <code>Card</code>
+                            <code>Dialog</code>
+                            <code>Button</code>
+                </td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">template</td>
+                <td class="col-md-9"><pre class="line-numbers"><code class="language-html">&lt;p-card styleClass&#x3D;&quot;onconova-disclaimer-banner-card&quot;&gt;
+    &lt;h5 class&#x3D;&quot;mb-3 font-semibold&quot;&gt;Remember · Research-use only&lt;/h5&gt;
+    &lt;div class&#x3D;&quot;onconova-disclaimer-banner-content&quot;&gt;
+        &lt;div class&#x3D;&quot;onconova-disclaimer-banner-content-text&quot;&gt;
+            &lt;div &gt;
+                This platform is intended for &lt;b class&#x3D;&quot;font-medium&quot;&gt;research and informational purposes&lt;/b&gt; only.
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;mt-2&quot;&gt;
+                The information and resources presented here are &lt;b  class&#x3D;&quot;font-medium&quot;&gt;not intended for use in diagnosing or treating health problems or diseases&lt;/b&gt; under any circumstances.
+            &lt;/div&gt;
+            &lt;p-button icon&#x3D;&quot;pi pi-info-circle&quot; styleClass&#x3D;&quot;my-3&quot; (click)&#x3D;&quot;isDisclaimerVisible.set(true)&quot; label&#x3D;&quot;View disclaimer&quot; /&gt;
+            &lt;div style&#x3D;&quot;max-width: 35rem;&quot;&gt;
+                &lt;small class&#x3D;&quot;text-muted&quot;&gt;
+                *By using this platform, you are agreeing to comply with and be bound by the terms and conditions of use.
+                &lt;/small&gt;
+            &lt;/div&gt;
+            &lt;p-dialog
+                header&#x3D;&quot;Terms and Conditions of Use&quot;
+                [modal]&#x3D;&quot;true&quot;
+                [(visible)]&#x3D;&quot;isDisclaimerVisible&quot;
+                [style]&#x3D;&quot;{ width: &#x27;40rem&#x27; }&quot;&gt;
+                &lt;div class&#x3D;&quot;flex items-center gap-4 mb-4&quot;&gt;
+                    By accessing and using this website, you agree to comply with and be bound by the following terms and conditions. The content provided on this platform is intended solely for general informational and research purposes. While we strive to ensure the information is accurate and reliable, we do not make any express or implied warranties about the accuracy, adequacy, validity, reliability, availability, or completeness of the content.
+                    &lt;br&gt;&lt;br&gt;
+                    The information presented on this platform is provided in good faith. However, we do not accept any liability for any loss or damage incurred as a result of using the site or relying on the information provided. Your use of this site and any reliance on the content is solely at your own risk.
+                    &lt;br&gt;&lt;br&gt;
+                    These terms and conditions may be updated from time to time, and it is your responsibility to review them regularly to ensure compliance.
+                &lt;/div&gt;
+                &lt;div class&#x3D;&quot;flex justify-end gap-2&quot;&gt;
+                    &lt;p-button label&#x3D;&quot;Close&quot; (click)&#x3D;&quot;isDisclaimerVisible.set(false)&quot; /&gt;
+                &lt;/div&gt;
+            &lt;/p-dialog&gt;
+        &lt;/div&gt;
+        &lt;div [inlineSVG]&#x3D;&quot;illustration&quot; class&#x3D;&quot;onconova-disclaimer-banner-illustration&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/p-card&gt;
+</code></pre></td>
+            </tr>
+
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#illustration" >illustration</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#isDisclaimerVisible" >isDisclaimerVisible</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+
+
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="illustration"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>illustration</b></span>
+                        <a href="#illustration"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;assets/images/landing/researcher.svg&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/dashboard/components/disclaimer-banner.component.ts:54</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isDisclaimerVisible"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>isDisclaimerVisible</b></span>
+                        <a href="#isDisclaimerVisible"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;boolean&gt;(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/dashboard/components/disclaimer-banner.component.ts:55</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, signal} from &#x27;@angular/core&#x27;;
+import { InlineSVGModule } from &#x27;ng-inline-svg-2&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+import { Card } from &#x27;primeng/card&#x27;;
+import { Dialog } from &#x27;primeng/dialog&#x27;;
+import { Button } from &#x27;primeng/button&#x27;;
+
+@Component({
+    selector: &#x27;onconova-disclaimer-banner&#x27;,
+    imports: [
+        InlineSVGModule, CommonModule,
+        Card, Dialog, Button
+    ],
+    template: &#x60;
+        &lt;p-card styleClass&#x3D;&quot;onconova-disclaimer-banner-card&quot;&gt;
+            &lt;h5 class&#x3D;&quot;mb-3 font-semibold&quot;&gt;Remember · Research-use only&lt;/h5&gt;
+            &lt;div class&#x3D;&quot;onconova-disclaimer-banner-content&quot;&gt;
+                &lt;div class&#x3D;&quot;onconova-disclaimer-banner-content-text&quot;&gt;
+                    &lt;div &gt;
+                        This platform is intended for &lt;b class&#x3D;&quot;font-medium&quot;&gt;research and informational purposes&lt;/b&gt; only.
+                    &lt;/div&gt;
+                    &lt;div class&#x3D;&quot;mt-2&quot;&gt;
+                        The information and resources presented here are &lt;b  class&#x3D;&quot;font-medium&quot;&gt;not intended for use in diagnosing or treating health problems or diseases&lt;/b&gt; under any circumstances.
+                    &lt;/div&gt;
+                    &lt;p-button icon&#x3D;&quot;pi pi-info-circle&quot; styleClass&#x3D;&quot;my-3&quot; (click)&#x3D;&quot;isDisclaimerVisible.set(true)&quot; label&#x3D;&quot;View disclaimer&quot; /&gt;
+                    &lt;div style&#x3D;&quot;max-width: 35rem;&quot;&gt;
+                        &lt;small class&#x3D;&quot;text-muted&quot;&gt; 
+                        *By using this platform, you are agreeing to comply with and be bound by the terms and conditions of use.    
+                        &lt;/small&gt;
+                    &lt;/div&gt;
+                    &lt;p-dialog 
+                        header&#x3D;&quot;Terms and Conditions of Use&quot; 
+                        [modal]&#x3D;&quot;true&quot; 
+                        [(visible)]&#x3D;&quot;isDisclaimerVisible&quot; 
+                        [style]&#x3D;&quot;{ width: &#x27;40rem&#x27; }&quot;&gt;
+                        &lt;div class&#x3D;&quot;flex items-center gap-4 mb-4&quot;&gt;
+                            By accessing and using this website, you agree to comply with and be bound by the following terms and conditions. The content provided on this platform is intended solely for general informational and research purposes. While we strive to ensure the information is accurate and reliable, we do not make any express or implied warranties about the accuracy, adequacy, validity, reliability, availability, or completeness of the content.
+                            &lt;br&gt;&lt;br&gt;
+                            The information presented on this platform is provided in good faith. However, we do not accept any liability for any loss or damage incurred as a result of using the site or relying on the information provided. Your use of this site and any reliance on the content is solely at your own risk.
+                            &lt;br&gt;&lt;br&gt;                    
+                            These terms and conditions may be updated from time to time, and it is your responsibility to review them regularly to ensure compliance.
+                        &lt;/div&gt;
+                        &lt;div class&#x3D;&quot;flex justify-end gap-2&quot;&gt;
+                            &lt;p-button label&#x3D;&quot;Close&quot; (click)&#x3D;&quot;isDisclaimerVisible.set(false)&quot; /&gt;
+                        &lt;/div&gt;
+                    &lt;/p-dialog&gt;
+                &lt;/div&gt;
+                &lt;div [inlineSVG]&#x3D;&quot;illustration&quot; class&#x3D;&quot;onconova-disclaimer-banner-illustration&quot;&gt;&lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/p-card&gt;
+    &#x60;
+})
+export class DisclaimerBannerComponent {
+    public readonly illustration: string &#x3D; &#x27;assets/images/landing/researcher.svg&#x27;;
+    public isDisclaimerVisible &#x3D; signal&lt;boolean&gt;(false);
+
+}
+</code></pre>
+    </div>
+
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><p-card styleClass="onconova-disclaimer-banner-card">    <h5 class="mb-3 font-semibold">Remember · Research-use only</h5>    <div class="onconova-disclaimer-banner-content">        <div class="onconova-disclaimer-banner-content-text">            <div >                This platform is intended for <b class="font-medium">research and informational purposes</b> only.            </div>            <div class="mt-2">                The information and resources presented here are <b  class="font-medium">not intended for use in diagnosing or treating health problems or diseases</b> under any circumstances.            </div>            <p-button icon="pi pi-info-circle" styleClass="my-3" (click)="isDisclaimerVisible.set(true)" label="View disclaimer" />            <div style="max-width: 35rem;">                <small class="text-muted">                *By using this platform, you are agreeing to comply with and be bound by the terms and conditions of use.                </small>            </div>            <p-dialog                header="Terms and Conditions of Use"                [modal]="true"                [(visible)]="isDisclaimerVisible"                [style]="{ width: \'40rem\' }">                <div class="flex items-center gap-4 mb-4">                    By accessing and using this website, you agree to comply with and be bound by the following terms and conditions. The content provided on this platform is intended solely for general informational and research purposes. While we strive to ensure the information is accurate and reliable, we do not make any express or implied warranties about the accuracy, adequacy, validity, reliability, availability, or completeness of the content.                    <br><br>                    The information presented on this platform is provided in good faith. However, we do not accept any liability for any loss or damage incurred as a result of using the site or relying on the information provided. Your use of this site and any reliance on the content is solely at your own risk.                    <br><br>                    These terms and conditions may be updated from time to time, and it is your responsibility to review them regularly to ensure compliance.                </div>                <div class="flex justify-end gap-2">                    <p-button label="Close" (click)="isDisclaimerVisible.set(false)" />                </div>            </p-dialog>        </div>        <div [inlineSVG]="illustration" class="onconova-disclaimer-banner-illustration"></div>    </div></p-card></div>'
+    var COMPONENTS = [{'name': 'AbstractFormBase', 'selector': ''},{'name': 'AdverseEventFormComponent', 'selector': 'adverse-event-form'},{'name': 'AppComponent', 'selector': 'onconova-root'},{'name': 'AppFooterComponent', 'selector': 'onconova-footer'},{'name': 'AppLayoutComponent', 'selector': 'onconova-layout'},{'name': 'AppSidebarMenuComponent', 'selector': 'onconova-sidebar-menu'},{'name': 'AppTopBarComponent', 'selector': 'onconova-topbar'},{'name': 'AuthCallbackComponent', 'selector': 'app-auth-callback'},{'name': 'AuthLayoutComponent', 'selector': 'onconova-auth-layout'},{'name': 'BoxPlotComponent', 'selector': 'onconova-box-plot'},{'name': 'CancerIconComponent', 'selector': 'onconova-cancer-icon'},{'name': 'CaseImporterBundleViewerComponent', 'selector': 'onconova-case-importer-bundle-viewer'},{'name': 'CaseImporterComponent', 'selector': 'onconova-case-importer'},{'name': 'CaseManagerComponent', 'selector': 'onconova-case-manager'},{'name': 'CaseManagerDrawerComponent', 'selector': 'onconova-case-manager-drawer'},{'name': 'CaseManagerPanelComponent', 'selector': 'onconova-case-manager-panel'},{'name': 'CaseManagerPanelTimelineComponent', 'selector': 'onconova-case-manager-panel-timeline'},{'name': 'CaseSearchComponent', 'selector': ''},{'name': 'CaseSearchItemCardComponent', 'selector': 'onconova-case-search-item,[onconova-case-search-item]'},{'name': 'CodedConceptTreeComponent', 'selector': 'onconova-coded-concept-tree'},{'name': 'CohortBuilderComponent', 'selector': 'onconova-cohort-manager'},{'name': 'CohortContributorsComponent', 'selector': 'onconova-cohort-contributors'},{'name': 'CohortFormComponent', 'selector': 'cohort-form'},{'name': 'CohortGraphsComponent', 'selector': 'onconova-cohort-graphs'},{'name': 'CohortGraphsContextMenu', 'selector': 'onconova-cohort-graph-context-menu'},{'name': 'CohortQueryBuilderComponent', 'selector': 'onconova-cohort-query-builder'},{'name': 'CohortSearchComponent', 'selector': ''},{'name': 'CohortSearchItemComponent', 'selector': 'onconova-cohort-search-item, [onconova-cohort-search-item]'},{'name': 'CohortTraitPanel', 'selector': 'onconova-cohort-trait'},{'name': 'ComorbiditiesAssessmentFormComponent', 'selector': 'comorbidities-form'},{'name': 'ConceptSelectorComponent', 'selector': 'onconova-concept-selector'},{'name': 'ConsentNoticeModalComponent', 'selector': 'onconova-consent-modal'},{'name': 'DashboardComponent', 'selector': 'onconova-dashboard'},{'name': 'DataCompletionStatsComponent', 'selector': 'onconova-data-completion-stats'},{'name': 'DatasetComposerComponent', 'selector': 'onconova-dataset-composer'},{'name': 'DataSummaryComponent', 'selector': 'onconova-data-summary'},{'name': 'DataSummaryCounterComponent', 'selector': 'onconova-data-summary-counter'},{'name': 'DatePickerComponent', 'selector': 'onconova-datepicker'},{'name': 'DisclaimerBannerComponent', 'selector': 'onconova-disclaimer-banner'},{'name': 'DistributionGraphComponent', 'selector': 'onconova-distribution-graph'},{'name': 'DoughnutGraphComponent', 'selector': 'onconova-doughnut-graph'},{'name': 'DrawerDataPropertiesComponent', 'selector': 'onconova-drawer-properties'},{'name': 'ErrorComponent', 'selector': 'onconova-error'},{'name': 'ExportConfirmDialogComponent', 'selector': 'onconova-export-confirm-dialog'},{'name': 'FamilyHistoryFormComponent', 'selector': 'family-history-form'},{'name': 'FormControlErrorComponent', 'selector': 'onconova-form-control-error'},{'name': 'GenomicSignatureFormComponent', 'selector': 'genomic-signature-form'},{'name': 'GenomicVariantFormComponent', 'selector': 'genomic-variant-form'},{'name': 'IdenticonComponent', 'selector': 'onconova-identicon'},{'name': 'KapplerMeierCurveComponent', 'selector': 'onconova-kappler-meier-curve'},{'name': 'LifestyleFormComponent', 'selector': 'lifestyle-form'},{'name': 'LoginComponent', 'selector': 'onconova-login'},{'name': 'MeasureInputComponent', 'selector': 'onconova-measure-input'},{'name': 'ModalFormHeaderComponent', 'selector': 'onconova-modal-form-header'},{'name': 'MultiReferenceSelectComponent', 'selector': 'onconova-multi-reference-select'},{'name': 'NeoplasticEntityFormComponent', 'selector': 'neoplastic-entity-form'},{'name': 'NestedTableComponent', 'selector': 'onconova-nested-table'},{'name': 'OncoplotComponent', 'selector': 'onconova-oncoplot'},{'name': 'PasswordResetFormComponent', 'selector': 'onconova-password-reset-dialog'},{'name': 'PatientFormComponent', 'selector': 'patient-form'},{'name': 'PerformanceStatusFormComponent', 'selector': 'performance-status-form'},{'name': 'PopoverFilterButtonComponent', 'selector': 'onconova-popover-filter-button'},{'name': 'PrimaryEntitiesTableComponent', 'selector': 'onconova-primary-entities-table'},{'name': 'ProjectFormComponent', 'selector': 'project-form'},{'name': 'ProjectManagementComponent', 'selector': 'onconova-project-management'},{'name': 'ProjectSearchComponent', 'selector': 'onconova-project-search'},{'name': 'ProjectSearchItemComponent', 'selector': 'onconova-project-search-item, [onconova-project-search-item]'},{'name': 'ProviderSignupComponent', 'selector': 'app-signup'},{'name': 'RadioSelectComponent', 'selector': 'onconova-radio-select'},{'name': 'RadiotherapyFormComponent', 'selector': 'radiotherapy-form'},{'name': 'RandomPaperComponent', 'selector': 'onconova-random-paper'},{'name': 'RangeInputComponent', 'selector': 'onconova-range-input'},{'name': 'RiskAssessmentFormComponent', 'selector': 'risk-assessment-form'},{'name': 'SettingsDialogComponent', 'selector': 'onconova-settings-dialog'},{'name': 'StagingFormComponent', 'selector': 'staging-form'},{'name': 'SurgeryFormComponent', 'selector': 'surgery-form'},{'name': 'SystemicTherapyFormComponent', 'selector': 'systemic-therapy-form'},{'name': 'TreatmentResponseFormComponent', 'selector': 'treatment-response-form'},{'name': 'TumorBoardFormComponent', 'selector': 'tumor-board-form'},{'name': 'TumorMarkerFormComponent', 'selector': 'tumor-marker-form'},{'name': 'UserBadgeComponent', 'selector': 'onconova-user-badge'},{'name': 'UserDetailsComponent', 'selector': 'onconova-user-details'},{'name': 'UserFormComponent', 'selector': 'onconova-user-form'},{'name': 'UserSelectorComponent', 'selector': 'onconova-user-selector'},{'name': 'UsersManagementCompnent', 'selector': 'onconova-users-management'},{'name': 'VitalsFormComponent', 'selector': 'vitals-form'}];
+    var DIRECTIVES = [{'name': 'DateMaskDirective', 'selector': '[dateMask]'}];
+    var ACTUAL_COMPONENT = {'name': 'DisclaimerBannerComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'DisclaimerBannerComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

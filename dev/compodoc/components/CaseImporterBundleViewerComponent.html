@@ -1,0 +1,819 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Application documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+        <link rel="stylesheet" href="../styles/material.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Application documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  CaseImporterBundleViewerComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>/home/runner/work/onconova/onconova/client/src/app/features/cases/case-importer/components/case-importer-bundle-viewer/case-importer-bundle-viewer.component.ts</code>
+</p>
+
+
+
+
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>onconova-case-importer-bundle-viewer</code></td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                            <code>CommonModule</code>
+                            <code>FormsModule</code>
+                            <code>NgxJsonViewerModule</code>
+                            <code>InlineSVGModule</code>
+                            <code>AvatarModule</code>
+                            <code>Badge</code>
+                            <code>Divider</code>
+                            <code>SelectButtonModule</code>
+                            <code>StepperModule</code>
+                            <code>TabsModule</code>
+                            <code>TreeModule</code>
+                                <code><a href="../components/IdenticonComponent.html" target="_self" >IdenticonComponent</a></code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>case-importer-bundle-viewer.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#authService" >authService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#bundleTreeNodes" >bundleTreeNodes</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#constructBundleTree" >constructBundleTree</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnChanges" >ngOnChanges</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#bundle" >bundle</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+    <section data-compodoc="block-inputs">
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="bundle"></a>
+                        <b>bundle</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>PatientCaseBundle</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Required : </i>&nbsp;<b>true</b>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cases/case-importer/components/case-importer-bundle-viewer/case-importer-bundle-viewer.component.ts:40</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="constructBundleTree"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>constructBundleTree</b></span>
+                        <a href="#constructBundleTree"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>constructBundleTree(bundle: PatientCaseBundle)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="54"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cases/case-importer/components/case-importer-bundle-viewer/case-importer-bundle-viewer.component.ts:54</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>bundle</td>
+                                            <td>
+                                                        <code>PatientCaseBundle</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>TreeNode[]</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnChanges"></a>
+                    <span class="name">
+                        <span ><b>ngOnChanges</b></span>
+                        <a href="#ngOnChanges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnChanges(changes: SimpleChanges)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="44"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cases/case-importer/components/case-importer-bundle-viewer/case-importer-bundle-viewer.component.ts:44</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>changes</td>
+                                            <td>
+                                                        <code>SimpleChanges</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="50"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cases/case-importer/components/case-importer-bundle-viewer/case-importer-bundle-viewer.component.ts:50</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="authService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>authService</b></span>
+                        <a href="#authService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(AuthService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cases/case-importer/components/case-importer-bundle-viewer/case-importer-bundle-viewer.component.ts:41</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="bundleTreeNodes"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>bundleTreeNodes</b></span>
+                        <a href="#bundleTreeNodes"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>TreeNode[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cases/case-importer/components/case-importer-bundle-viewer/case-importer-bundle-viewer.component.ts:42</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, inject, Input, SimpleChanges } from &#x27;@angular/core&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+import { FormsModule } from &#x27;@angular/forms&#x27;;
+
+import { PatientCaseBundle } from &#x27;onconova-api-client&#x27;;
+
+import { TreeNode } from &#x27;primeng/api&#x27;;
+import { TabsModule } from &#x27;primeng/tabs&#x27;;
+import { SelectButtonModule } from &#x27;primeng/selectbutton&#x27;;
+import { StepperModule } from &#x27;primeng/stepper&#x27;;
+
+import { NgxJsonViewerModule } from &#x27;ngx-json-viewer&#x27;;
+import { TreeModule } from &#x27;primeng/tree&#x27;;
+import { AvatarModule } from &#x27;primeng/avatar&#x27;;
+import { Divider } from &#x27;primeng/divider&#x27;;
+import { AuthService } from &#x27;src/app/core/auth/services/auth.service&#x27;;
+import { InlineSVGModule } from &#x27;ng-inline-svg-2&#x27;;
+import { Badge } from &#x27;primeng/badge&#x27;;
+import { IdenticonComponent } from &quot;../../../../../shared/components/identicon/identicon.component&quot;;
+
+@Component({
+    selector: &#x27;onconova-case-importer-bundle-viewer&#x27;,
+    templateUrl: &#x27;case-importer-bundle-viewer.component.html&#x27;,
+    imports: [
+        CommonModule,
+        FormsModule,
+        NgxJsonViewerModule,
+        InlineSVGModule,
+        AvatarModule,
+        Badge,
+        Divider,
+        SelectButtonModule,
+        StepperModule,
+        TabsModule,
+        TreeModule,
+        IdenticonComponent
+    ]
+})
+export class CaseImporterBundleViewerComponent {
+    @Input({required: true}) bundle!: PatientCaseBundle;
+    public readonly authService: AuthService &#x3D; inject(AuthService);
+    public bundleTreeNodes: TreeNode[] &#x3D; [];
+
+    ngOnChanges(changes: SimpleChanges) {
+        if (changes[&#x27;bundle&#x27;] &amp;&amp; this.bundle) {
+            this.bundleTreeNodes &#x3D; this.constructBundleTree(this.bundle);
+        }
+    }
+
+    ngOnInit() {
+        this.bundleTreeNodes &#x3D; this.constructBundleTree(this.bundle);
+    }
+
+    private constructBundleTree(bundle: PatientCaseBundle): TreeNode[] {
+        return Object.entries(bundle)
+            .filter(([key,value]) &#x3D;&gt; Array.isArray(value) &amp;&amp; key!&#x3D;&#x27;updatedBy&#x27;) // Only process array properties
+            .map(([key,value]) &#x3D;&gt; ({
+                label: key
+                    .replace(/([a-z])([A-Z])/g, &#x27;$1 $2&#x27;)
+                    .replace(/^./, (str) &#x3D;&gt; str.toUpperCase()),
+                type: &#x27;category&#x27;,
+                children: value.map((item: any) &#x3D;&gt; ({
+                    label: item.description,
+                    type: &#x27;resource&#x27;,
+                    data: item,
+                })),
+            }));
+    }
+}</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;!-- Case summary --&gt;
+&lt;div class&#x3D;&quot;mt-3 flex header&quot; style&#x3D;&quot;background: var(--p-content-background); color: var(--p-text-color); width: fit-content;&quot;&gt;
+    &lt;onconova-identicon [value]&#x3D;&quot;bundle.pseudoidentifier&quot;/&gt;
+    &lt;div class&#x3D;&quot;ml-3 my-auto&quot;&gt;
+        &lt;span class&#x3D;&quot;text-muted&quot;&gt;Case&lt;/span&gt;
+        &lt;h2 class&#x3D;&quot;text-monospace my-0&quot;&gt;
+            {{ bundle.pseudoidentifier }}
+        &lt;/h2&gt;
+        &lt;div&gt;
+            {{ bundle.gender.display }}, 
+            {{ bundle.age }} years@if (bundle.vitalStatus &#x3D;&#x3D; &#x27;deceased&#x27;){, †}
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;p-divider layout&#x3D;&quot;vertical&quot;&gt;&lt;/p-divider&gt;
+    &lt;div class&#x3D;&quot;&quot;&gt;
+        &lt;div class&#x3D;&quot;text-left&quot;&gt;
+            &lt;small class&#x3D;&quot;text-muted&quot;&gt;Overall survival&lt;/small&gt;
+            &lt;div&gt;
+                &lt;span&gt;{{ (bundle.overallSurvival | number:&#x27;1.0-0&#x27;) || &#x27;?&#x27;}} months&lt;/span&gt;      
+            &lt;/div&gt;
+        &lt;/div&gt; 
+
+        &lt;div class&#x3D;&quot;text-left mt-1&quot;&gt;
+            &lt;small class&#x3D;&quot;text-muted&quot;&gt;Cause of death&lt;/small&gt;
+            &lt;div&gt;
+                &lt;span&gt;{{ bundle.causeOfDeath ? bundle.causeOfDeath.display : &#x27;-&#x27; }}&lt;/span&gt;
+            &lt;/div&gt;
+        &lt;/div&gt; 
+    &lt;/div&gt;
+    &lt;p-divider layout&#x3D;&quot;vertical&quot;&gt;&lt;/p-divider&gt;
+    &lt;div class&#x3D;&quot;&quot;&gt;
+        &lt;div class&#x3D;&quot;text-left&quot;&gt;
+            &lt;small class&#x3D;&quot;text-muted&quot;&gt;Clinical center&lt;/small&gt;
+            &lt;div&gt;
+                &lt;span&gt;{{ bundle.clinicalCenter }}&lt;/span&gt;      
+            &lt;/div&gt;
+        &lt;/div&gt; 
+
+        &lt;div class&#x3D;&quot;text-left mt-1&quot;&gt;
+            &lt;small class&#x3D;&quot;text-muted&quot;&gt;Clinical Identifier&lt;/small&gt;
+            &lt;div&gt;
+                @if (!authService.user().canManageCases){
+                    &lt;span class&#x3D;&quot;opacity-50&quot;&gt;🞸🞸🞸🞸🞸🞸🞸&lt;/span&gt;                    
+                } @else {
+                    {{ bundle.clinicalIdentifier}}
+                }
+            &lt;/div&gt;
+        &lt;/div&gt; 
+    &lt;/div&gt;
+    &lt;p-divider layout&#x3D;&quot;vertical&quot;&gt;&lt;/p-divider&gt;
+    &lt;div class&#x3D;&quot;&quot;&gt;
+        &lt;div class&#x3D;&quot;text-left&quot;&gt;
+            &lt;small class&#x3D;&quot;text-muted&quot;&gt;Created&lt;/small&gt;
+            &lt;div&gt;
+                &lt;span&gt;{{ bundle.createdAt | date }}&lt;/span&gt;      
+            &lt;/div&gt;
+        &lt;/div&gt; 
+
+        &lt;div class&#x3D;&quot;text-left mt-1&quot;&gt;
+            &lt;small class&#x3D;&quot;text-muted&quot;&gt;Last updated&lt;/small&gt;
+            &lt;div&gt;
+                &lt;span&gt;{{ bundle.updatedAt | date }}&lt;/span&gt;      
+            &lt;/div&gt;
+        &lt;/div&gt; 
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p-divider layout&#x3D;&quot;horizontal&quot;&gt;&lt;/p-divider&gt;
+
+&lt;small class&#x3D;&quot;text-muted&quot;&gt;Case resources&lt;/small&gt;
+&lt;p-tree [value]&#x3D;&quot;bundleTreeNodes&quot; styleClass&#x3D;&quot;py-0 pl-0&quot;&gt;
+    &lt;ng-template let-node pTemplate&#x3D;&quot;category&quot;&gt;                        
+        &lt;div class&#x3D;&quot;flex gap-2&quot;&gt;
+            &lt;div&gt;{{ node.label }}&lt;/div&gt; &lt;p-badge badgeSize&#x3D;&quot;small&quot; [value]&#x3D;&quot;node.children.length&quot; [severity]&#x3D;&quot;node.children.length ? &#x27;success&#x27; : &#x27;secondary&#x27;&quot;/&gt;
+        &lt;/div&gt;
+    &lt;/ng-template&gt;
+    &lt;ng-template let-node pTemplate&#x3D;&quot;resource&quot;&gt;                        
+        &lt;div class&#x3D;&quot;flex gap-2&quot;&gt;
+            &lt;i class&#x3D;&quot;pi pi-file&quot;&gt;&lt;/i&gt;&lt;div class&#x3D;&quot;font-semibold&quot;&gt;&lt;small&gt;{{ node.data.date | date }}&lt;/small&gt;&lt;/div&gt;&lt;div&gt;{{ node.label }}&lt;/div&gt; 
+        &lt;/div&gt;
+    &lt;/ng-template&gt;
+&lt;/p-tree&gt;</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><!-- Case summary --><div class="mt-3 flex header" style="background: var(--p-content-background); color: var(--p-text-color); width: fit-content;">    <onconova-identicon [value]="bundle.pseudoidentifier"/>    <div class="ml-3 my-auto">        <span class="text-muted">Case</span>        <h2 class="text-monospace my-0">            {{ bundle.pseudoidentifier }}        </h2>        <div>            {{ bundle.gender.display }},             {{ bundle.age }} years@if (bundle.vitalStatus == \'deceased\'){, †}        </div>    </div>    <p-divider layout="vertical"></p-divider>    <div class="">        <div class="text-left">            <small class="text-muted">Overall survival</small>            <div>                <span>{{ (bundle.overallSurvival | number:\'1.0-0\') || \'?\'}} months</span>                  </div>        </div>         <div class="text-left mt-1">            <small class="text-muted">Cause of death</small>            <div>                <span>{{ bundle.causeOfDeath ? bundle.causeOfDeath.display : \'-\' }}</span>            </div>        </div>     </div>    <p-divider layout="vertical"></p-divider>    <div class="">        <div class="text-left">            <small class="text-muted">Clinical center</small>            <div>                <span>{{ bundle.clinicalCenter }}</span>                  </div>        </div>         <div class="text-left mt-1">            <small class="text-muted">Clinical Identifier</small>            <div>                @if (!authService.user().canManageCases){                    <span class="opacity-50">🞸🞸🞸🞸🞸🞸🞸</span>                                    } @else {                    {{ bundle.clinicalIdentifier}}                }            </div>        </div>     </div>    <p-divider layout="vertical"></p-divider>    <div class="">        <div class="text-left">            <small class="text-muted">Created</small>            <div>                <span>{{ bundle.createdAt | date }}</span>                  </div>        </div>         <div class="text-left mt-1">            <small class="text-muted">Last updated</small>            <div>                <span>{{ bundle.updatedAt | date }}</span>                  </div>        </div>     </div></div><p-divider layout="horizontal"></p-divider><small class="text-muted">Case resources</small><p-tree [value]="bundleTreeNodes" styleClass="py-0 pl-0">    <ng-template let-node pTemplate="category">                                <div class="flex gap-2">            <div>{{ node.label }}</div> <p-badge badgeSize="small" [value]="node.children.length" [severity]="node.children.length ? \'success\' : \'secondary\'"/>        </div>    </ng-template>    <ng-template let-node pTemplate="resource">                                <div class="flex gap-2">            <i class="pi pi-file"></i><div class="font-semibold"><small>{{ node.data.date | date }}</small></div><div>{{ node.label }}</div>         </div>    </ng-template></p-tree></div>'
+    var COMPONENTS = [{'name': 'AbstractFormBase', 'selector': ''},{'name': 'AdverseEventFormComponent', 'selector': 'adverse-event-form'},{'name': 'AppComponent', 'selector': 'onconova-root'},{'name': 'AppFooterComponent', 'selector': 'onconova-footer'},{'name': 'AppLayoutComponent', 'selector': 'onconova-layout'},{'name': 'AppSidebarMenuComponent', 'selector': 'onconova-sidebar-menu'},{'name': 'AppTopBarComponent', 'selector': 'onconova-topbar'},{'name': 'AuthCallbackComponent', 'selector': 'app-auth-callback'},{'name': 'AuthLayoutComponent', 'selector': 'onconova-auth-layout'},{'name': 'BoxPlotComponent', 'selector': 'onconova-box-plot'},{'name': 'CancerIconComponent', 'selector': 'onconova-cancer-icon'},{'name': 'CaseImporterBundleViewerComponent', 'selector': 'onconova-case-importer-bundle-viewer'},{'name': 'CaseImporterComponent', 'selector': 'onconova-case-importer'},{'name': 'CaseManagerComponent', 'selector': 'onconova-case-manager'},{'name': 'CaseManagerDrawerComponent', 'selector': 'onconova-case-manager-drawer'},{'name': 'CaseManagerPanelComponent', 'selector': 'onconova-case-manager-panel'},{'name': 'CaseManagerPanelTimelineComponent', 'selector': 'onconova-case-manager-panel-timeline'},{'name': 'CaseSearchComponent', 'selector': ''},{'name': 'CaseSearchItemCardComponent', 'selector': 'onconova-case-search-item,[onconova-case-search-item]'},{'name': 'CodedConceptTreeComponent', 'selector': 'onconova-coded-concept-tree'},{'name': 'CohortBuilderComponent', 'selector': 'onconova-cohort-manager'},{'name': 'CohortContributorsComponent', 'selector': 'onconova-cohort-contributors'},{'name': 'CohortFormComponent', 'selector': 'cohort-form'},{'name': 'CohortGraphsComponent', 'selector': 'onconova-cohort-graphs'},{'name': 'CohortGraphsContextMenu', 'selector': 'onconova-cohort-graph-context-menu'},{'name': 'CohortQueryBuilderComponent', 'selector': 'onconova-cohort-query-builder'},{'name': 'CohortSearchComponent', 'selector': ''},{'name': 'CohortSearchItemComponent', 'selector': 'onconova-cohort-search-item, [onconova-cohort-search-item]'},{'name': 'CohortTraitPanel', 'selector': 'onconova-cohort-trait'},{'name': 'ComorbiditiesAssessmentFormComponent', 'selector': 'comorbidities-form'},{'name': 'ConceptSelectorComponent', 'selector': 'onconova-concept-selector'},{'name': 'ConsentNoticeModalComponent', 'selector': 'onconova-consent-modal'},{'name': 'DashboardComponent', 'selector': 'onconova-dashboard'},{'name': 'DataCompletionStatsComponent', 'selector': 'onconova-data-completion-stats'},{'name': 'DatasetComposerComponent', 'selector': 'onconova-dataset-composer'},{'name': 'DataSummaryComponent', 'selector': 'onconova-data-summary'},{'name': 'DataSummaryCounterComponent', 'selector': 'onconova-data-summary-counter'},{'name': 'DatePickerComponent', 'selector': 'onconova-datepicker'},{'name': 'DisclaimerBannerComponent', 'selector': 'onconova-disclaimer-banner'},{'name': 'DistributionGraphComponent', 'selector': 'onconova-distribution-graph'},{'name': 'DoughnutGraphComponent', 'selector': 'onconova-doughnut-graph'},{'name': 'DrawerDataPropertiesComponent', 'selector': 'onconova-drawer-properties'},{'name': 'ErrorComponent', 'selector': 'onconova-error'},{'name': 'ExportConfirmDialogComponent', 'selector': 'onconova-export-confirm-dialog'},{'name': 'FamilyHistoryFormComponent', 'selector': 'family-history-form'},{'name': 'FormControlErrorComponent', 'selector': 'onconova-form-control-error'},{'name': 'GenomicSignatureFormComponent', 'selector': 'genomic-signature-form'},{'name': 'GenomicVariantFormComponent', 'selector': 'genomic-variant-form'},{'name': 'IdenticonComponent', 'selector': 'onconova-identicon'},{'name': 'KapplerMeierCurveComponent', 'selector': 'onconova-kappler-meier-curve'},{'name': 'LifestyleFormComponent', 'selector': 'lifestyle-form'},{'name': 'LoginComponent', 'selector': 'onconova-login'},{'name': 'MeasureInputComponent', 'selector': 'onconova-measure-input'},{'name': 'ModalFormHeaderComponent', 'selector': 'onconova-modal-form-header'},{'name': 'MultiReferenceSelectComponent', 'selector': 'onconova-multi-reference-select'},{'name': 'NeoplasticEntityFormComponent', 'selector': 'neoplastic-entity-form'},{'name': 'NestedTableComponent', 'selector': 'onconova-nested-table'},{'name': 'OncoplotComponent', 'selector': 'onconova-oncoplot'},{'name': 'PasswordResetFormComponent', 'selector': 'onconova-password-reset-dialog'},{'name': 'PatientFormComponent', 'selector': 'patient-form'},{'name': 'PerformanceStatusFormComponent', 'selector': 'performance-status-form'},{'name': 'PopoverFilterButtonComponent', 'selector': 'onconova-popover-filter-button'},{'name': 'PrimaryEntitiesTableComponent', 'selector': 'onconova-primary-entities-table'},{'name': 'ProjectFormComponent', 'selector': 'project-form'},{'name': 'ProjectManagementComponent', 'selector': 'onconova-project-management'},{'name': 'ProjectSearchComponent', 'selector': 'onconova-project-search'},{'name': 'ProjectSearchItemComponent', 'selector': 'onconova-project-search-item, [onconova-project-search-item]'},{'name': 'ProviderSignupComponent', 'selector': 'app-signup'},{'name': 'RadioSelectComponent', 'selector': 'onconova-radio-select'},{'name': 'RadiotherapyFormComponent', 'selector': 'radiotherapy-form'},{'name': 'RandomPaperComponent', 'selector': 'onconova-random-paper'},{'name': 'RangeInputComponent', 'selector': 'onconova-range-input'},{'name': 'RiskAssessmentFormComponent', 'selector': 'risk-assessment-form'},{'name': 'SettingsDialogComponent', 'selector': 'onconova-settings-dialog'},{'name': 'StagingFormComponent', 'selector': 'staging-form'},{'name': 'SurgeryFormComponent', 'selector': 'surgery-form'},{'name': 'SystemicTherapyFormComponent', 'selector': 'systemic-therapy-form'},{'name': 'TreatmentResponseFormComponent', 'selector': 'treatment-response-form'},{'name': 'TumorBoardFormComponent', 'selector': 'tumor-board-form'},{'name': 'TumorMarkerFormComponent', 'selector': 'tumor-marker-form'},{'name': 'UserBadgeComponent', 'selector': 'onconova-user-badge'},{'name': 'UserDetailsComponent', 'selector': 'onconova-user-details'},{'name': 'UserFormComponent', 'selector': 'onconova-user-form'},{'name': 'UserSelectorComponent', 'selector': 'onconova-user-selector'},{'name': 'UsersManagementCompnent', 'selector': 'onconova-users-management'},{'name': 'VitalsFormComponent', 'selector': 'vitals-form'}];
+    var DIRECTIVES = [{'name': 'DateMaskDirective', 'selector': '[dateMask]'}];
+    var ACTUAL_COMPONENT = {'name': 'CaseImporterBundleViewerComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'CaseImporterBundleViewerComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

@@ -1,0 +1,2379 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Application documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+        <link rel="stylesheet" href="../styles/material.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Application documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  TumorMarkerFormComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>/home/runner/work/onconova/onconova/client/src/app/features/forms/tumor-marker-form/tumor-marker-form.component.ts</code>
+</p>
+
+
+
+    <p class="comment">
+        <h3>Extends</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="../components/AbstractFormBase.html" target="_self" >AbstractFormBase</a></code>
+    </p>
+
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+            <tr>
+                <td class="col-md-3">encapsulation</td>
+                <td class="col-md-9"><code>ViewEncapsulation.None</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>tumor-marker-form</code></td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                            <code>CommonModule</code>
+                            <code>ReactiveFormsModule</code>
+                            <code>FormsModule</code>
+                                <code><a href="../components/DatePickerComponent.html" target="_self" >DatePickerComponent</a></code>
+                            <code>Fluid</code>
+                            <code>RadioButton</code>
+                            <code>SelectButton</code>
+                            <code>Tooltip</code>
+                            <code>ButtonModule</code>
+                                <code><a href="../components/RadioSelectComponent.html" target="_self" >RadioSelectComponent</a></code>
+                                <code><a href="../components/MeasureInputComponent.html" target="_self" >MeasureInputComponent</a></code>
+                                <code><a href="../components/MultiReferenceSelectComponent.html" target="_self" >MultiReferenceSelectComponent</a></code>
+                                <code><a href="../components/FormControlErrorComponent.html" target="_self" >FormControlErrorComponent</a></code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./tumor-marker-form.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="##currentAnalyte" >#currentAnalyte</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="##currentValueType" >#currentValueType</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                    <span class="modifier">Private</span>
+                                <a href="##fb" >#fb</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                    <span class="modifier">Private</span>
+                                <a href="##neoplasticEntitiesService" >#neoplasticEntitiesService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="##onAnalyteChangeEffect" >#onAnalyteChangeEffect</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                    <span class="modifier">Private</span>
+                                <a href="##onInitialDataChangeEffect" >#onInitialDataChangeEffect</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="##onValueTypeChangeEffect" >#onValueTypeChangeEffect</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="##setSingleValueTypeEffect" >#setSingleValueTypeEffect</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                    <span class="modifier">Private</span>
+                                <a href="##terminologyService" >#terminologyService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                    <span class="modifier">Private</span>
+                                <a href="##tumorMarkersService" >#tumorMarkersService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#allowedResultTypes" >allowedResultTypes</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#analyteResultTypeChoices" >analyteResultTypeChoices</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#analyteResultTypes" >analyteResultTypes</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#analytes" >analytes</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#createService" >createService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#form" >form</a>
+                            </li>
+                            <li>
+                                <a href="#initialData" >initialData</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#payload" >payload</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#relatedEntities" >relatedEntities</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#tumorMarkerImmuneCellScoreChoices" >tumorMarkerImmuneCellScoreChoices</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#tumorMarkerImmunohistochemicalScoreChoices" >tumorMarkerImmunohistochemicalScoreChoices</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#tumorMarkerNuclearExpressionStatusChoices" >tumorMarkerNuclearExpressionStatusChoices</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#tumorMarkerPresenceChoices" >tumorMarkerPresenceChoices</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#tumorMarkerTumorProportionScoreChoices" >tumorMarkerTumorProportionScoreChoices</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#updateService" >updateService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="##dynamicDialogRef" >#dynamicDialogRef</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="##messageService" >#messageService</a>
+                            </li>
+                            <li>
+                                <a href="#caseId" >caseId</a>
+                            </li>
+                            <li>
+                                <a href="#isSaving" >isSaving</a>
+                            </li>
+                            <li>
+                                <a href="#resourceId" >resourceId</a>
+                            </li>
+                            <li>
+                                <a href="#subformsServices" >subformsServices</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#updateValidators" >updateValidators</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Abstract</span>
+                                <a href="#createService" >createService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Abstract</span>
+                                <a href="#payload" >payload</a>
+                            </li>
+                            <li>
+                                <a href="#submitFormData" >submitFormData</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Abstract</span>
+                                <a href="#updateService" >updateService</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#initialData" >initialData</a>
+                            </li>
+                            <li>
+                                <a href="#caseId" >caseId</a>
+                            </li>
+                            <li>
+                                <a href="#resourceId" >resourceId</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+    <section data-compodoc="block-inputs">
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="initialData"></a>
+                        <b>initialData</b>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4" colspan="2">
+                                    <div class="io-line">Inherited from         <code><a href="../components/AbstractFormBase.html" target="_self" >AbstractFormBase</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in         <code><a href="../components/AbstractFormBase.html#source" target="_self" >AbstractFormBase:77</a></code>
+</div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="caseId"></a>
+                        <b>caseId</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>InputSignal&lt;string&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Required : </i>&nbsp;<b>true</b>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4" colspan="2">
+                                    <div class="io-line">Inherited from         <code><a href="../components/AbstractFormBase.html" target="_self" >AbstractFormBase</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in         <code><a href="../components/AbstractFormBase.html#source" target="_self" >AbstractFormBase:26</a></code>
+</div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="resourceId"></a>
+                        <b>resourceId</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>InputSignal&lt;string | undefined&gt;</code>
+
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4" colspan="2">
+                                    <div class="io-line">Inherited from         <code><a href="../components/AbstractFormBase.html" target="_self" >AbstractFormBase</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in         <code><a href="../components/AbstractFormBase.html#source" target="_self" >AbstractFormBase:27</a></code>
+</div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateValidators"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>updateValidators</b></span>
+                        <a href="#updateValidators"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateValidators(valueType: string | null | undefined)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="224"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/tumor-marker-form/tumor-marker-form.component.ts:224</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>valueType</td>
+                                            <td>
+                                                        <code>string | null | undefined</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="createService"></a>
+                    <span class="name">
+                            <span class="modifier">Abstract</span>
+                        <span ><b>createService</b></span>
+                        <a href="#createService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>createService(payload: <a href="../interfaces/ResourceCreate.html" target="_self">ResourceCreate</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/AbstractFormBase.html" target="_self" >AbstractFormBase</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/AbstractFormBase.html#source" target="_self" >AbstractFormBase:39</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>payload</td>
+                                            <td>
+                                                            <code><a href="../interfaces/ResourceCreate.html" target="_self" >ResourceCreate</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="payload"></a>
+                    <span class="name">
+                            <span class="modifier">Abstract</span>
+                        <span ><b>payload</b></span>
+                        <a href="#payload"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>payload(data?: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/AbstractFormBase.html" target="_self" >AbstractFormBase</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/AbstractFormBase.html#source" target="_self" >AbstractFormBase:41</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>data</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="submitFormData"></a>
+                    <span class="name">
+                        <span ><b>submitFormData</b></span>
+                        <a href="#submitFormData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>submitFormData()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/AbstractFormBase.html" target="_self" >AbstractFormBase</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/AbstractFormBase.html#source" target="_self" >AbstractFormBase:43</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateService"></a>
+                    <span class="name">
+                            <span class="modifier">Abstract</span>
+                        <span ><b>updateService</b></span>
+                        <a href="#updateService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateService(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, payload: <a href="../interfaces/ResourceCreate.html" target="_self">ResourceCreate</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/AbstractFormBase.html" target="_self" >AbstractFormBase</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/AbstractFormBase.html#source" target="_self" >AbstractFormBase:40</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>id</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>payload</td>
+                                            <td>
+                                                            <code><a href="../interfaces/ResourceCreate.html" target="_self" >ResourceCreate</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#currentAnalyte"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>#currentAnalyte</b></span>
+                        <a href="##currentAnalyte"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>toSignal(this.form.controls[&#x27;analyte&#x27;].valueChanges)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="210" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/tumor-marker-form/tumor-marker-form.component.ts:210</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#currentValueType"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>#currentValueType</b></span>
+                        <a href="##currentValueType"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>toSignal(this.form.controls[&#x27;valueType&#x27;].valueChanges)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="211" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/tumor-marker-form/tumor-marker-form.component.ts:211</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#fb"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                            <span class="modifier">Private</span>
+                        <span ><b>#fb</b></span>
+                        <a href="##fb"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(FormBuilder)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="83" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/tumor-marker-form/tumor-marker-form.component.ts:83</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#neoplasticEntitiesService"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                            <span class="modifier">Private</span>
+                        <span ><b>#neoplasticEntitiesService</b></span>
+                        <a href="##neoplasticEntitiesService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>NeoplasticEntitiesService</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(NeoplasticEntitiesService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="81" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/tumor-marker-form/tumor-marker-form.component.ts:81</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#onAnalyteChangeEffect"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>#onAnalyteChangeEffect</b></span>
+                        <a href="##onAnalyteChangeEffect"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>effect(() &#x3D;&gt; {
+    this.allowedResultTypes.set(this.#currentAnalyte()? this.#currentAnalyte()!.properties![&#x27;valueTypes&#x27;] : []);    
+  })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="213" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/tumor-marker-form/tumor-marker-form.component.ts:213</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#onInitialDataChangeEffect"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                            <span class="modifier">Private</span>
+                        <span ><b>#onInitialDataChangeEffect</b></span>
+                        <a href="##onInitialDataChangeEffect"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>effect((): void &#x3D;&gt; {
+    const data &#x3D; this.initialData();
+    if (!data) return;  
+    this.form.patchValue({
+      date: data.date ?? null,
+      stagedEntities: data.relatedEntitiesIds ?? [],
+      analyte: data.analyte ?? null,
+      massConcentration: data.massConcentration ?? null,
+      substanceConcentration: data.substanceConcentration ?? null,
+      arbitraryConcentration: data.arbitraryConcentration ?? null,
+      fraction: data.fraction ?? null,
+      immunoHistoChemicalScore: data.immunohistochemicalScore ?? null,
+      presence: data.presence ?? null,
+      nuclearExpressionStatus: data.nuclearExpressionStatus ?? null,
+      immuneCellScore: data.immuneCellScore ?? null,
+      tumorProportionScore: data.tumorProportionScore ?? null,
+      combinedPositiveScore: data.combinedPositiveScore ?? null,
+      valueType: this.initialData() ? Object.entries(valueTypeMap).filter(([key, value]) &#x3D;&gt; (this.initialData() as TumorMarker)[key as keyof TumorMarker]).map(([key, value]) &#x3D;&gt; value)[0] : null,
+    });
+  })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="109" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/tumor-marker-form/tumor-marker-form.component.ts:109</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#onValueTypeChangeEffect"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>#onValueTypeChangeEffect</b></span>
+                        <a href="##onValueTypeChangeEffect"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>effect(() &#x3D;&gt; this.updateValidators(this.#currentValueType()))</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="212" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/tumor-marker-form/tumor-marker-form.component.ts:212</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#setSingleValueTypeEffect"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>#setSingleValueTypeEffect</b></span>
+                        <a href="##setSingleValueTypeEffect"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>effect(() &#x3D;&gt; {
+    if (this.allowedResultTypes().length &#x3D;&#x3D; 1){
+      this.form.get(&#x27;valueType&#x27;)?.setValue(this.allowedResultTypes()[0])
+    } else if (!this.allowedResultTypes().includes(this.form.get(&#x27;valueType&#x27;)?.value || &#x27;&#x27;)) {
+      this.form.get(&#x27;valueType&#x27;)?.setValue(null)
+    }
+  })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="216" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/tumor-marker-form/tumor-marker-form.component.ts:216</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#terminologyService"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                            <span class="modifier">Private</span>
+                        <span ><b>#terminologyService</b></span>
+                        <a href="##terminologyService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>TerminologyService</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(TerminologyService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="82" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/tumor-marker-form/tumor-marker-form.component.ts:82</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#tumorMarkersService"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                            <span class="modifier">Private</span>
+                        <span ><b>#tumorMarkersService</b></span>
+                        <a href="##tumorMarkersService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/variables.html#Tumor" target="_self" >TumorMarkersService</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(TumorMarkersService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="80" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/tumor-marker-form/tumor-marker-form.component.ts:80</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="allowedResultTypes"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>allowedResultTypes</b></span>
+                        <a href="#allowedResultTypes"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal([] as string[])</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="208" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/tumor-marker-form/tumor-marker-form.component.ts:208</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="analyteResultTypeChoices"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>analyteResultTypeChoices</b></span>
+                        <a href="#analyteResultTypeChoices"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>RadioChoice[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+    { name: &#x27;Mass Concentration&#x27;, value: AnalyteResultType.MassConcentration }, 
+    { name: &#x27;Substance Concentration&#x27;, value: AnalyteResultType.SubstanceConcentration }, 
+    { name: &#x27;Arbitrary Concentration&#x27;, value: AnalyteResultType.ArbitraryConcentration }, 
+    { name: &#x27;Fraction&#x27;, value: AnalyteResultType.Fraction }, 
+    { name: &#x27;Immunohistochemical Score&#x27;, value: AnalyteResultType.ImmunoHistoChemicalScore }, 
+    { name: &#x27;Presence&#x27;, value: AnalyteResultType.Presence }, 
+    { name: &#x27;Nuclear Expression Status&#x27;, value: AnalyteResultType.NuclearExpressionStatus }, 
+    { name: &#x27;Immune Cells Score&#x27;, value: AnalyteResultType.ImmuneCellsScore }, 
+    { name: &#x27;Tumor Proportion Score&#x27;, value: AnalyteResultType.TumorProportionScore }, 
+    { name: &#x27;Combined Positive Score&#x27;, value: AnalyteResultType.CombinedPositiveScore },
+  ]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="165" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/tumor-marker-form/tumor-marker-form.component.ts:165</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="analyteResultTypes"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>analyteResultTypes</b></span>
+                        <a href="#analyteResultTypes"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>AnalyteResultType</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="164" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/tumor-marker-form/tumor-marker-form.component.ts:164</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="analytes"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>analytes</b></span>
+                        <a href="#analytes"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>rxResource({
+    request: () &#x3D;&gt; ({terminologyName: &#x27;TumorMarkerAnalyte&#x27;, limit: 50}),
+    loader: ({request}) &#x3D;&gt; this.#terminologyService.getTerminologyConcepts(request).pipe(map(response &#x3D;&gt; response.items)),
+  })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="152" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/tumor-marker-form/tumor-marker-form.component.ts:152</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="createService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>createService</b></span>
+                        <a href="#createService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>() &#x3D;&gt; {...}</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="86" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/tumor-marker-form/tumor-marker-form.component.ts:86</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="form"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>form</b></span>
+                        <a href="#form"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.#fb.group({
+    date: this.#fb.control&lt;string | null&gt;(null, Validators.required),
+    stagedEntities: this.#fb.control&lt;string[]&gt;([], Validators.required),
+    analyte: this.#fb.control&lt;CodedConcept | null&gt;(null, Validators.required),
+    valueType: this.#fb.control&lt;string | null&gt;(&#x27;&#x27;, Validators.required),
+    massConcentration: this.#fb.control&lt;Measure | null&gt;(null),
+    substanceConcentration: this.#fb.control&lt;Measure | null&gt;(null),
+    arbitraryConcentration: this.#fb.control&lt;Measure | null&gt;(null),
+    fraction: this.#fb.control&lt;Measure | null&gt;(null),
+    immunoHistoChemicalScore: this.#fb.control&lt;TumorMarkerImmunohistochemicalScoreChoices | null&gt;(null),
+    presence: this.#fb.control&lt;TumorMarkerPresenceChoices | null&gt;(null),
+    nuclearExpressionStatus: this.#fb.control&lt;TumorMarkerNuclearExpressionStatusChoices | null&gt;(null),
+    immuneCellScore: this.#fb.control&lt;TumorMarkerImmuneCellScoreChoices | null&gt;(null),
+    tumorProportionScore: this.#fb.control&lt;TumorMarkerTumorProportionScoreChoices | null&gt;(null),
+    combinedPositiveScore: this.#fb.control&lt;Measure | null&gt;(null),
+  })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="91" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/tumor-marker-form/tumor-marker-form.component.ts:91</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initialData"></a>
+                    <span class="name">
+                        <span ><b>initialData</b></span>
+                        <a href="#initialData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/AbstractFormBase.html" target="_self" >AbstractFormBase</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/AbstractFormBase.html#source" target="_self" >AbstractFormBase:77</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="payload"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>payload</b></span>
+                        <a href="#payload"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>() &#x3D;&gt; {...}</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="131" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/tumor-marker-form/tumor-marker-form.component.ts:131</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="relatedEntities"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>relatedEntities</b></span>
+                        <a href="#relatedEntities"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>rxResource({
+    request: () &#x3D;&gt; ({caseId: this.caseId()}),
+    loader: ({request}) &#x3D;&gt; this.#neoplasticEntitiesService.getNeoplasticEntities(request).pipe(map(response &#x3D;&gt; response.items)),
+  })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="158" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/tumor-marker-form/tumor-marker-form.component.ts:158</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="tumorMarkerImmuneCellScoreChoices"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>tumorMarkerImmuneCellScoreChoices</b></span>
+                        <a href="#tumorMarkerImmuneCellScoreChoices"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>RadioChoice[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+    { name: &#x27;IC0&#x27;, value: TumorMarkerImmuneCellScoreChoices.Ic0 },
+    { name: &#x27;IC1&#x27;, value: TumorMarkerImmuneCellScoreChoices.Ic1 },
+    { name: &#x27;IC2&#x27;, value: TumorMarkerImmuneCellScoreChoices.Ic2 },
+    { name: &#x27;IC3&#x27;, value: TumorMarkerImmuneCellScoreChoices.Ic3 }
+  ]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="195" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/tumor-marker-form/tumor-marker-form.component.ts:195</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="tumorMarkerImmunohistochemicalScoreChoices"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>tumorMarkerImmunohistochemicalScoreChoices</b></span>
+                        <a href="#tumorMarkerImmunohistochemicalScoreChoices"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>RadioChoice[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+    { name: &#x27;0&#x27;, value: TumorMarkerImmunohistochemicalScoreChoices._0 },
+    { name: &#x27;1+&#x27;, value: TumorMarkerImmunohistochemicalScoreChoices._1 },
+    { name: &#x27;2+&#x27;, value: TumorMarkerImmunohistochemicalScoreChoices._2 },
+    { name: &#x27;3+&#x27;, value: TumorMarkerImmunohistochemicalScoreChoices._3 },
+    { name: &#x27;Indeterminate&#x27;, value: TumorMarkerImmunohistochemicalScoreChoices.Indeterminate }
+  ]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="188" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/tumor-marker-form/tumor-marker-form.component.ts:188</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="tumorMarkerNuclearExpressionStatusChoices"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>tumorMarkerNuclearExpressionStatusChoices</b></span>
+                        <a href="#tumorMarkerNuclearExpressionStatusChoices"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>RadioChoice[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+    { name: &#x27;Intact&#x27;, value: TumorMarkerNuclearExpressionStatusChoices.Intact },
+    { name: &#x27;Loss&#x27;, value: TumorMarkerNuclearExpressionStatusChoices.Loss },
+    { name: &#x27;Indeterminate&#x27;, value: TumorMarkerNuclearExpressionStatusChoices.Indeterminate }
+  ]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="183" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/tumor-marker-form/tumor-marker-form.component.ts:183</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="tumorMarkerPresenceChoices"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>tumorMarkerPresenceChoices</b></span>
+                        <a href="#tumorMarkerPresenceChoices"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>RadioChoice[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+    { name: &#x27;Positive&#x27;, value: TumorMarkerPresenceChoices.Positive },
+    { name: &#x27;Negative&#x27;, value: TumorMarkerPresenceChoices.Negative },
+    { name: &#x27;Indeterminate&#x27;, value: TumorMarkerPresenceChoices.Indeterminate,
+    },
+  ]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="177" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/tumor-marker-form/tumor-marker-form.component.ts:177</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="tumorMarkerTumorProportionScoreChoices"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>tumorMarkerTumorProportionScoreChoices</b></span>
+                        <a href="#tumorMarkerTumorProportionScoreChoices"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>RadioChoice[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+    { name: &#x27;TC0&#x27;, value: TumorMarkerTumorProportionScoreChoices.Tc0 },
+    { name: &#x27;TC1&#x27;, value: TumorMarkerTumorProportionScoreChoices.Tc1 },
+    { name: &#x27;TC2&#x27;, value: TumorMarkerTumorProportionScoreChoices.Tc2 },
+    { name: &#x27;TC3&#x27;, value: TumorMarkerTumorProportionScoreChoices.Tc3 }
+  ]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="201" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/tumor-marker-form/tumor-marker-form.component.ts:201</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>updateService</b></span>
+                        <a href="#updateService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>() &#x3D;&gt; {...}</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="87" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/tumor-marker-form/tumor-marker-form.component.ts:87</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#dynamicDialogRef"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>#dynamicDialogRef</b></span>
+                        <a href="##dynamicDialogRef"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(DynamicDialogRef)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/AbstractFormBase.html" target="_self" >AbstractFormBase</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/AbstractFormBase.html#source" target="_self" >AbstractFormBase:23</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#messageService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>#messageService</b></span>
+                        <a href="##messageService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(MessageService)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/AbstractFormBase.html" target="_self" >AbstractFormBase</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/AbstractFormBase.html#source" target="_self" >AbstractFormBase:24</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="caseId"></a>
+                    <span class="name">
+                        <span ><b>caseId</b></span>
+                        <a href="#caseId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>InputSignal&lt;string&gt;</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/AbstractFormBase.html" target="_self" >AbstractFormBase</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/AbstractFormBase.html#source" target="_self" >AbstractFormBase:26</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isSaving"></a>
+                    <span class="name">
+                        <span ><b>isSaving</b></span>
+                        <a href="#isSaving"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>WritableSignal&lt;boolean&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/AbstractFormBase.html" target="_self" >AbstractFormBase</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/AbstractFormBase.html#source" target="_self" >AbstractFormBase:28</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="resourceId"></a>
+                    <span class="name">
+                        <span ><b>resourceId</b></span>
+                        <a href="#resourceId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>InputSignal&lt;string | undefined&gt;</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/AbstractFormBase.html" target="_self" >AbstractFormBase</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/AbstractFormBase.html#source" target="_self" >AbstractFormBase:27</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="subformsServices"></a>
+                    <span class="name">
+                        <span ><b>subformsServices</b></span>
+                        <a href="#subformsServices"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>literal type[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/AbstractFormBase.html" target="_self" >AbstractFormBase</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/AbstractFormBase.html#source" target="_self" >AbstractFormBase:29</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, computed, effect, inject, input,signal,ViewEncapsulation } from &#x27;@angular/core&#x27;;
+import { FormBuilder, Validators } from &#x27;@angular/forms&#x27;;
+import { FormsModule, ReactiveFormsModule } from &#x27;@angular/forms&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+import { map } from &#x27;rxjs&#x27;;
+import { rxResource, toSignal } from &#x27;@angular/core/rxjs-interop&#x27;;
+
+import { ButtonModule } from &#x27;primeng/button&#x27;;
+import { Fluid } from &#x27;primeng/fluid&#x27;;
+import { SelectButton } from &#x27;primeng/selectbutton&#x27;;
+import { Tooltip } from &#x27;primeng/tooltip&#x27;;
+import { RadioButton } from &#x27;primeng/radiobutton&#x27;;
+
+import { 
+  NeoplasticEntitiesService, 
+  TumorMarkerCreate,
+  TumorMarkersService,
+  AnalyteResultType,
+  TumorMarkerPresenceChoices,
+  TumorMarkerImmuneCellScoreChoices,
+  TumorMarkerTumorProportionScoreChoices,
+  TumorMarkerImmunohistochemicalScoreChoices,
+  TumorMarkerNuclearExpressionStatusChoices,
+  TerminologyService,
+  CodedConcept,
+  TumorMarker,
+  Measure,
+} from &#x27;onconova-api-client&#x27;
+
+import { 
+  DatePickerComponent,
+  FormControlErrorComponent ,
+  MeasureInputComponent,
+  MultiReferenceSelectComponent,
+  RadioSelectComponent, 
+  RadioChoice
+} from &#x27;../../../shared/components&#x27;;
+
+import { AbstractFormBase } from &#x27;../abstract-form-base.component&#x27;;
+
+const valueTypeMap &#x3D; {
+  immuneCellScore: AnalyteResultType.ImmuneCellsScore,
+  tumorProportionScore: AnalyteResultType.TumorProportionScore,
+  combinedPositiveScore: AnalyteResultType.CombinedPositiveScore,
+  massConcentration: AnalyteResultType.MassConcentration,
+  substanceConcentration: AnalyteResultType.SubstanceConcentration,
+  arbitraryConcentration: AnalyteResultType.ArbitraryConcentration,
+  fraction: AnalyteResultType.Fraction,
+  immunohistochemicalScore: AnalyteResultType.ImmunoHistoChemicalScore,
+  presence: AnalyteResultType.Presence,
+  nuclearExpressionStatus: AnalyteResultType.NuclearExpressionStatus,
+};
+
+@Component({
+    selector: &#x27;tumor-marker-form&#x27;,
+    templateUrl: &#x27;./tumor-marker-form.component.html&#x27;,
+    encapsulation: ViewEncapsulation.None,
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        FormsModule,
+        DatePickerComponent,
+        Fluid,
+        RadioButton,
+        SelectButton,
+        Tooltip,
+        ButtonModule,
+        RadioSelectComponent,
+        MeasureInputComponent,
+        MultiReferenceSelectComponent,
+        FormControlErrorComponent,
+    ]
+})
+export class TumorMarkerFormComponent extends AbstractFormBase {
+
+  // Input signal for initial data passed to the form
+  initialData &#x3D; input&lt;TumorMarker&gt;();
+
+  // Service injections
+  readonly #tumorMarkersService: TumorMarkersService &#x3D; inject(TumorMarkersService);
+  readonly #neoplasticEntitiesService: NeoplasticEntitiesService &#x3D; inject(NeoplasticEntitiesService);
+  readonly #terminologyService: TerminologyService &#x3D; inject(TerminologyService);
+  readonly #fb &#x3D; inject(FormBuilder);
+
+  // Create and update service methods for the form data
+  public readonly createService &#x3D; (payload: TumorMarkerCreate) &#x3D;&gt; this.#tumorMarkersService.createTumorMarker({tumorMarkerCreate: payload})
+  public readonly updateService &#x3D; (id: string, payload: TumorMarkerCreate) &#x3D;&gt; this.#tumorMarkersService.updateTumorMarkerById({tumorMarkerId: id, tumorMarkerCreate: payload})
+
+
+  // Define the form
+  public form &#x3D; this.#fb.group({
+    date: this.#fb.control&lt;string | null&gt;(null, Validators.required),
+    stagedEntities: this.#fb.control&lt;string[]&gt;([], Validators.required),
+    analyte: this.#fb.control&lt;CodedConcept | null&gt;(null, Validators.required),
+    valueType: this.#fb.control&lt;string | null&gt;(&#x27;&#x27;, Validators.required),
+    massConcentration: this.#fb.control&lt;Measure | null&gt;(null),
+    substanceConcentration: this.#fb.control&lt;Measure | null&gt;(null),
+    arbitraryConcentration: this.#fb.control&lt;Measure | null&gt;(null),
+    fraction: this.#fb.control&lt;Measure | null&gt;(null),
+    immunoHistoChemicalScore: this.#fb.control&lt;TumorMarkerImmunohistochemicalScoreChoices | null&gt;(null),
+    presence: this.#fb.control&lt;TumorMarkerPresenceChoices | null&gt;(null),
+    nuclearExpressionStatus: this.#fb.control&lt;TumorMarkerNuclearExpressionStatusChoices | null&gt;(null),
+    immuneCellScore: this.#fb.control&lt;TumorMarkerImmuneCellScoreChoices | null&gt;(null),
+    tumorProportionScore: this.#fb.control&lt;TumorMarkerTumorProportionScoreChoices | null&gt;(null),
+    combinedPositiveScore: this.#fb.control&lt;Measure | null&gt;(null),
+  });
+  
+  // Effect to update the form when the initial data passed
+  readonly #onInitialDataChangeEffect &#x3D; effect((): void &#x3D;&gt; {
+    const data &#x3D; this.initialData();
+    if (!data) return;  
+    this.form.patchValue({
+      date: data.date ?? null,
+      stagedEntities: data.relatedEntitiesIds ?? [],
+      analyte: data.analyte ?? null,
+      massConcentration: data.massConcentration ?? null,
+      substanceConcentration: data.substanceConcentration ?? null,
+      arbitraryConcentration: data.arbitraryConcentration ?? null,
+      fraction: data.fraction ?? null,
+      immunoHistoChemicalScore: data.immunohistochemicalScore ?? null,
+      presence: data.presence ?? null,
+      nuclearExpressionStatus: data.nuclearExpressionStatus ?? null,
+      immuneCellScore: data.immuneCellScore ?? null,
+      tumorProportionScore: data.tumorProportionScore ?? null,
+      combinedPositiveScore: data.combinedPositiveScore ?? null,
+      valueType: this.initialData() ? Object.entries(valueTypeMap).filter(([key, value]) &#x3D;&gt; (this.initialData() as TumorMarker)[key as keyof TumorMarker]).map(([key, value]) &#x3D;&gt; value)[0] : null,
+    });
+  });
+
+  // API Payload construction function
+  readonly payload &#x3D; (): TumorMarkerCreate &#x3D;&gt; {    
+    const data &#x3D; this.form.value;
+    return {
+      caseId: this.caseId(),
+      relatedEntitiesIds: data.stagedEntities!,
+      date: data.date!,
+      analyte: data.analyte!,
+      massConcentration: data.valueType&#x3D;&#x3D;AnalyteResultType.MassConcentration ? data.massConcentration! : undefined,
+      substanceConcentration: data.valueType&#x3D;&#x3D;AnalyteResultType.SubstanceConcentration ? data.substanceConcentration! : undefined,
+      arbitraryConcentration: data.valueType&#x3D;&#x3D;AnalyteResultType.ArbitraryConcentration ? data.arbitraryConcentration! : undefined,
+      fraction: data.valueType&#x3D;&#x3D;AnalyteResultType.Fraction ? data.fraction! : undefined,
+      immunohistochemicalScore: data.valueType&#x3D;&#x3D;AnalyteResultType.ImmunoHistoChemicalScore ? data.immunoHistoChemicalScore! : undefined,
+      presence: data.valueType&#x3D;&#x3D;AnalyteResultType.Presence ? data.presence! : undefined,
+      nuclearExpressionStatus: data.valueType&#x3D;&#x3D;AnalyteResultType.NuclearExpressionStatus ? data.nuclearExpressionStatus! : undefined,
+      immuneCellScore: data.valueType&#x3D;&#x3D;AnalyteResultType.ImmuneCellsScore ? data.immuneCellScore! : undefined,
+      tumorProportionScore: data.valueType&#x3D;&#x3D;AnalyteResultType.TumorProportionScore ? data.tumorProportionScore! : undefined,
+      combinedPositiveScore: data.valueType&#x3D;&#x3D;AnalyteResultType.CombinedPositiveScore ? data.combinedPositiveScore! : undefined,
+    };
+  }
+
+  // All analytes supported by the platform
+  public analytes &#x3D; rxResource({
+    request: () &#x3D;&gt; ({terminologyName: &#x27;TumorMarkerAnalyte&#x27;, limit: 50}),
+    loader: ({request}) &#x3D;&gt; this.#terminologyService.getTerminologyConcepts(request).pipe(map(response &#x3D;&gt; response.items)),
+  }) 
+
+  // All neoplastic entities related to this patient case
+  public relatedEntities &#x3D; rxResource({
+    request: () &#x3D;&gt; ({caseId: this.caseId()}),
+    loader: ({request}) &#x3D;&gt; this.#neoplasticEntitiesService.getNeoplasticEntities(request).pipe(map(response &#x3D;&gt; response.items)),
+  }) 
+
+  // Human readable choices for UI elements
+  public readonly analyteResultTypes &#x3D; AnalyteResultType;
+  public readonly analyteResultTypeChoices: RadioChoice[] &#x3D; [
+    { name: &#x27;Mass Concentration&#x27;, value: AnalyteResultType.MassConcentration }, 
+    { name: &#x27;Substance Concentration&#x27;, value: AnalyteResultType.SubstanceConcentration }, 
+    { name: &#x27;Arbitrary Concentration&#x27;, value: AnalyteResultType.ArbitraryConcentration }, 
+    { name: &#x27;Fraction&#x27;, value: AnalyteResultType.Fraction }, 
+    { name: &#x27;Immunohistochemical Score&#x27;, value: AnalyteResultType.ImmunoHistoChemicalScore }, 
+    { name: &#x27;Presence&#x27;, value: AnalyteResultType.Presence }, 
+    { name: &#x27;Nuclear Expression Status&#x27;, value: AnalyteResultType.NuclearExpressionStatus }, 
+    { name: &#x27;Immune Cells Score&#x27;, value: AnalyteResultType.ImmuneCellsScore }, 
+    { name: &#x27;Tumor Proportion Score&#x27;, value: AnalyteResultType.TumorProportionScore }, 
+    { name: &#x27;Combined Positive Score&#x27;, value: AnalyteResultType.CombinedPositiveScore },
+  ]
+  public readonly tumorMarkerPresenceChoices: RadioChoice[] &#x3D; [
+    { name: &#x27;Positive&#x27;, value: TumorMarkerPresenceChoices.Positive },
+    { name: &#x27;Negative&#x27;, value: TumorMarkerPresenceChoices.Negative },
+    { name: &#x27;Indeterminate&#x27;, value: TumorMarkerPresenceChoices.Indeterminate,
+    },
+  ]
+  public readonly tumorMarkerNuclearExpressionStatusChoices: RadioChoice[] &#x3D; [
+    { name: &#x27;Intact&#x27;, value: TumorMarkerNuclearExpressionStatusChoices.Intact },
+    { name: &#x27;Loss&#x27;, value: TumorMarkerNuclearExpressionStatusChoices.Loss },
+    { name: &#x27;Indeterminate&#x27;, value: TumorMarkerNuclearExpressionStatusChoices.Indeterminate }
+  ]
+  public readonly tumorMarkerImmunohistochemicalScoreChoices: RadioChoice[] &#x3D; [
+    { name: &#x27;0&#x27;, value: TumorMarkerImmunohistochemicalScoreChoices._0 },
+    { name: &#x27;1+&#x27;, value: TumorMarkerImmunohistochemicalScoreChoices._1 },
+    { name: &#x27;2+&#x27;, value: TumorMarkerImmunohistochemicalScoreChoices._2 },
+    { name: &#x27;3+&#x27;, value: TumorMarkerImmunohistochemicalScoreChoices._3 },
+    { name: &#x27;Indeterminate&#x27;, value: TumorMarkerImmunohistochemicalScoreChoices.Indeterminate }
+  ]
+  public readonly tumorMarkerImmuneCellScoreChoices: RadioChoice[] &#x3D; [
+    { name: &#x27;IC0&#x27;, value: TumorMarkerImmuneCellScoreChoices.Ic0 },
+    { name: &#x27;IC1&#x27;, value: TumorMarkerImmuneCellScoreChoices.Ic1 },
+    { name: &#x27;IC2&#x27;, value: TumorMarkerImmuneCellScoreChoices.Ic2 },
+    { name: &#x27;IC3&#x27;, value: TumorMarkerImmuneCellScoreChoices.Ic3 }
+  ]
+  public readonly tumorMarkerTumorProportionScoreChoices: RadioChoice[] &#x3D; [
+    { name: &#x27;TC0&#x27;, value: TumorMarkerTumorProportionScoreChoices.Tc0 },
+    { name: &#x27;TC1&#x27;, value: TumorMarkerTumorProportionScoreChoices.Tc1 },
+    { name: &#x27;TC2&#x27;, value: TumorMarkerTumorProportionScoreChoices.Tc2 },
+    { name: &#x27;TC3&#x27;, value: TumorMarkerTumorProportionScoreChoices.Tc3 }
+  ]
+
+  public allowedResultTypes &#x3D; signal([] as string[]);
+  
+  #currentAnalyte &#x3D; toSignal(this.form.controls[&#x27;analyte&#x27;].valueChanges);
+  #currentValueType &#x3D; toSignal(this.form.controls[&#x27;valueType&#x27;].valueChanges);
+  #onValueTypeChangeEffect &#x3D; effect(() &#x3D;&gt; this.updateValidators(this.#currentValueType()))
+  #onAnalyteChangeEffect &#x3D; effect(() &#x3D;&gt; {
+    this.allowedResultTypes.set(this.#currentAnalyte()? this.#currentAnalyte()!.properties![&#x27;valueTypes&#x27;] : []);    
+  })
+  #setSingleValueTypeEffect &#x3D; effect(() &#x3D;&gt; {
+    if (this.allowedResultTypes().length &#x3D;&#x3D; 1){
+      this.form.get(&#x27;valueType&#x27;)?.setValue(this.allowedResultTypes()[0])
+    } else if (!this.allowedResultTypes().includes(this.form.get(&#x27;valueType&#x27;)?.value || &#x27;&#x27;)) {
+      this.form.get(&#x27;valueType&#x27;)?.setValue(null)
+    }
+  })
+
+  private updateValidators(valueType: string | null | undefined): void {
+    if (!valueType) {
+      return;
+    }
+    const massConcentrationControl &#x3D; this.form.get(&#x27;massConcentration&#x27;);
+    const arbitraryConcentrationControl &#x3D; this.form.get(&#x27;arbitraryConcentration&#x27;);
+    const substanceConcentrationControl &#x3D; this.form.get(&#x27;substanceConcentration&#x27;);
+    const fractionControl &#x3D; this.form.get(&#x27;fraction&#x27;);
+    const presenceControl &#x3D; this.form.get(&#x27;presence&#x27;);
+    const immunoHistoChemicalScoreControl &#x3D; this.form.get(&#x27;immunoHistoChemicalScore&#x27;);
+    const nuclearExpressionStatusControl &#x3D; this.form.get(&#x27;nuclearExpressionStatus&#x27;);
+    const immuneCellScoreControl &#x3D; this.form.get(&#x27;immuneCellScore&#x27;);
+    const tumorProportionScoreControl &#x3D; this.form.get(&#x27;tumorProportionScore&#x27;);
+    const combinedPositiveScoreControl &#x3D; this.form.get(&#x27;combinedPositiveScore&#x27;);
+
+    const controls &#x3D; [
+      massConcentrationControl, arbitraryConcentrationControl, substanceConcentrationControl, fractionControl,
+      presenceControl, immunoHistoChemicalScoreControl, nuclearExpressionStatusControl,
+      tumorProportionScoreControl, tumorProportionScoreControl, combinedPositiveScoreControl
+    ]
+    
+    controls.forEach(control &#x3D;&gt; {
+      control?.removeValidators(Validators.required);
+    });
+
+    switch (valueType) {
+      case AnalyteResultType.MassConcentration:
+        massConcentrationControl?.addValidators(Validators.required);
+        break;
+      case AnalyteResultType.ArbitraryConcentration:
+        arbitraryConcentrationControl?.addValidators(Validators.required);
+        break;
+      case AnalyteResultType.SubstanceConcentration:
+        substanceConcentrationControl?.addValidators(Validators.required);
+        break;
+      case AnalyteResultType.Fraction:
+        fractionControl?.addValidators(Validators.required);
+        break;
+      case AnalyteResultType.Presence:
+        presenceControl?.addValidators(Validators.required);
+        break;
+      case AnalyteResultType.ImmunoHistoChemicalScore:
+        immunoHistoChemicalScoreControl?.addValidators(Validators.required);
+        break;
+      case AnalyteResultType.NuclearExpressionStatus:
+        nuclearExpressionStatusControl?.addValidators(Validators.required);
+        break;
+      case AnalyteResultType.ImmuneCellsScore:
+        immuneCellScoreControl?.addValidators(Validators.required);
+        break;
+      case AnalyteResultType.TumorProportionScore:
+        tumorProportionScoreControl?.addValidators(Validators.required);
+        break;
+      case AnalyteResultType.CombinedPositiveScore:
+        combinedPositiveScoreControl?.addValidators(Validators.required);
+        break;
+    }
+    controls.forEach(control &#x3D;&gt; {
+      control?.updateValueAndValidity();
+    });
+  };
+
+}</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;p-fluid&gt;
+    &lt;form  [formGroup]&#x3D;&quot;form&quot; (ngSubmit)&#x3D;&quot;submitFormData()&quot;&gt;
+
+        &lt;div class&#x3D;&quot;field&quot;&gt;
+            &lt;label for&#x3D;&quot;date&quot; class&#x3D;&quot;form-label required&quot;&gt;Date of the analysis&lt;/label&gt;
+            &lt;onconova-datepicker 
+                formControlName&#x3D;&quot;date&quot;
+            /&gt;
+            &lt;onconova-form-control-error controlName&#x3D;&quot;date&quot;&gt;&lt;/onconova-form-control-error&gt;
+        &lt;/div&gt;
+        
+
+        &lt;div class&#x3D;&quot;field&quot;&gt;
+            &lt;label class&#x3D;&quot;form-label required&quot;&gt;Neoplastic entities assessed&lt;/label&gt;
+            &lt;onconova-multi-reference-select 
+            [options]&#x3D;&quot;relatedEntities.value() || []&quot; 
+            formControlName&#x3D;&quot;stagedEntities&quot;/&gt;
+            &lt;onconova-form-control-error controlName&#x3D;&quot;stagedEntities&quot;&gt;&lt;/onconova-form-control-error&gt;
+        &lt;/div&gt;
+
+        &lt;div class&#x3D;&quot;field&quot;&gt;
+            &lt;label class&#x3D;&quot;form-label required&quot;&gt;Analyte&lt;/label&gt;
+            &lt;p-selectbutton [options]&#x3D;&quot;analytes.value() || []&quot; formControlName&#x3D;&quot;analyte&quot; class&#x3D;&quot;tumor-markers&quot;&gt;
+                &lt;ng-template #item let-analyte&gt;
+                    &lt;span pTooltip&#x3D;&quot;{{ analyte.properties.display }}&quot; tooltipPosition&#x3D;&quot;bottom&quot;&gt;{{ analyte.properties.acronym }}&lt;/span&gt;
+                &lt;/ng-template&gt;
+            &lt;/p-selectbutton&gt;
+            &lt;onconova-form-control-error controlName&#x3D;&quot;analyte&quot;&gt;&lt;/onconova-form-control-error&gt;
+        &lt;/div&gt;
+        
+        &lt;div class&#x3D;&quot;field&quot;&gt;
+            &lt;label class&#x3D;&quot;form-label required&quot;&gt;Result type&lt;/label&gt;
+            @if (allowedResultTypes().length &gt; 0) {
+                &lt;div class&#x3D;&quot;flex flex-wrap gap-4&quot;&gt;
+                    @for (type of analyteResultTypeChoices; track $index;) {
+                        @if (allowedResultTypes().includes(type.value)) {
+                            &lt;div class&#x3D;&quot;flex items-center&quot;&gt;
+                                &lt;p-radiobutton [inputId]&#x3D;&quot;type.value&quot; [value]&#x3D;&quot;type.value&quot; formControlName&#x3D;&quot;valueType&quot; /&gt;
+                                &lt;label [for]&#x3D;&quot;type.value&quot; class&#x3D;&quot;ml-2&quot;&gt;{{ type.name }}&lt;/label&gt;
+                            &lt;/div&gt;    
+                        }
+                    }
+
+                &lt;/div&gt;
+            } @else {
+                &lt;div class&#x3D;&quot;text-muted&quot;&gt;Select an analyte to show choices&lt;/div&gt;
+            }
+        &lt;/div&gt;
+        
+        &lt;div class&#x3D;&quot;field&quot;&gt;
+            &lt;label class&#x3D;&quot;form-label required&quot;&gt;Tumor marker result&lt;/label&gt;
+            @switch (form.value.valueType) {
+                @case (analyteResultTypes.MassConcentration) {
+                    &lt;onconova-measure-input formControlName&#x3D;&quot;massConcentration&quot; measure&#x3D;&quot;MassConcentration&quot;/&gt;
+                }
+                @case (analyteResultTypes.SubstanceConcentration) {
+                    &lt;onconova-measure-input formControlName&#x3D;&quot;substanceConcentration&quot; measure&#x3D;&quot;SubstanceConcentration&quot;/&gt;
+                }
+                @case (analyteResultTypes.ArbitraryConcentration) {
+                    &lt;onconova-measure-input formControlName&#x3D;&quot;arbitraryConcentration&quot; measure&#x3D;&quot;ArbitraryConcentration&quot; defaultUnit&#x3D;&quot;kIU/l&quot;/&gt;
+                }
+                @case (analyteResultTypes.Fraction) {
+                    &lt;onconova-measure-input formControlName&#x3D;&quot;fraction&quot; measure&#x3D;&quot;Fraction&quot;/&gt;
+                }
+                @case (analyteResultTypes.Presence) {
+                    &lt;onconova-radio-select formControlName&#x3D;&quot;presence&quot; [choices]&#x3D;&quot;tumorMarkerPresenceChoices&quot; class&#x3D;&quot;flex flex-wrap gap-4&quot;/&gt;
+                }
+                @case (analyteResultTypes.ImmunoHistoChemicalScore) {
+                    &lt;onconova-radio-select formControlName&#x3D;&quot;immunoHistoChemicalScore&quot; [choices]&#x3D;&quot;tumorMarkerImmunohistochemicalScoreChoices&quot; class&#x3D;&quot;flex flex-wrap gap-4&quot;/&gt;
+                }
+                @case (analyteResultTypes.NuclearExpressionStatus) {
+                    &lt;onconova-radio-select formControlName&#x3D;&quot;nuclearExpressionStatus&quot; [choices]&#x3D;&quot;tumorMarkerNuclearExpressionStatusChoices&quot; class&#x3D;&quot;flex flex-wrap gap-4&quot;/&gt;
+                }
+                @case (analyteResultTypes.TumorProportionScore) {
+                    &lt;onconova-radio-select formControlName&#x3D;&quot;tumorProportionScore&quot; [choices]&#x3D;&quot;tumorMarkerTumorProportionScoreChoices&quot; class&#x3D;&quot;flex flex-wrap gap-4&quot;/&gt;
+                }
+                @case (analyteResultTypes.ImmuneCellsScore) {
+                    &lt;onconova-radio-select formControlName&#x3D;&quot;immuneCellScore&quot; [choices]&#x3D;&quot;tumorMarkerImmuneCellScoreChoices&quot; class&#x3D;&quot;flex flex-wrap gap-4&quot;/&gt;
+                }
+                @case (analyteResultTypes.CombinedPositiveScore) {
+                    &lt;onconova-measure-input formControlName&#x3D;&quot;combinedPositiveScore&quot; measure&#x3D;&quot;Fraction&quot;/&gt;
+                }
+                @default {
+                    &lt;div class&#x3D;&quot;text-muted&quot;&gt;Select an result type first&lt;/div&gt;
+                }
+            }
+        &lt;/div&gt;
+        
+        &lt;p-button 
+            type&#x3D;&quot;submit&quot; 
+            label&#x3D;&quot;Save&quot; 
+            styleClass&#x3D;&quot;w-full p-3 mt-2&quot;  
+            [loading]&#x3D;&quot;isSaving()&quot;
+            [disabled]&#x3D;&quot;form.invalid&quot; /&gt;
+    &lt;/form&gt;
+&lt;/p-fluid&gt;</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><p-fluid>    <form  [formGroup]="form" (ngSubmit)="submitFormData()">        <div class="field">            <label for="date" class="form-label required">Date of the analysis</label>            <onconova-datepicker                 formControlName="date"            />            <onconova-form-control-error controlName="date"></onconova-form-control-error>        </div>                <div class="field">            <label class="form-label required">Neoplastic entities assessed</label>            <onconova-multi-reference-select             [options]="relatedEntities.value() || []"             formControlName="stagedEntities"/>            <onconova-form-control-error controlName="stagedEntities"></onconova-form-control-error>        </div>        <div class="field">            <label class="form-label required">Analyte</label>            <p-selectbutton [options]="analytes.value() || []" formControlName="analyte" class="tumor-markers">                <ng-template #item let-analyte>                    <span pTooltip="{{ analyte.properties.display }}" tooltipPosition="bottom">{{ analyte.properties.acronym }}</span>                </ng-template>            </p-selectbutton>            <onconova-form-control-error controlName="analyte"></onconova-form-control-error>        </div>                <div class="field">            <label class="form-label required">Result type</label>            @if (allowedResultTypes().length > 0) {                <div class="flex flex-wrap gap-4">                    @for (type of analyteResultTypeChoices; track $index;) {                        @if (allowedResultTypes().includes(type.value)) {                            <div class="flex items-center">                                <p-radiobutton [inputId]="type.value" [value]="type.value" formControlName="valueType" />                                <label [for]="type.value" class="ml-2">{{ type.name }}</label>                            </div>                            }                    }                </div>            } @else {                <div class="text-muted">Select an analyte to show choices</div>            }        </div>                <div class="field">            <label class="form-label required">Tumor marker result</label>            @switch (form.value.valueType) {                @case (analyteResultTypes.MassConcentration) {                    <onconova-measure-input formControlName="massConcentration" measure="MassConcentration"/>                }                @case (analyteResultTypes.SubstanceConcentration) {                    <onconova-measure-input formControlName="substanceConcentration" measure="SubstanceConcentration"/>                }                @case (analyteResultTypes.ArbitraryConcentration) {                    <onconova-measure-input formControlName="arbitraryConcentration" measure="ArbitraryConcentration" defaultUnit="kIU/l"/>                }                @case (analyteResultTypes.Fraction) {                    <onconova-measure-input formControlName="fraction" measure="Fraction"/>                }                @case (analyteResultTypes.Presence) {                    <onconova-radio-select formControlName="presence" [choices]="tumorMarkerPresenceChoices" class="flex flex-wrap gap-4"/>                }                @case (analyteResultTypes.ImmunoHistoChemicalScore) {                    <onconova-radio-select formControlName="immunoHistoChemicalScore" [choices]="tumorMarkerImmunohistochemicalScoreChoices" class="flex flex-wrap gap-4"/>                }                @case (analyteResultTypes.NuclearExpressionStatus) {                    <onconova-radio-select formControlName="nuclearExpressionStatus" [choices]="tumorMarkerNuclearExpressionStatusChoices" class="flex flex-wrap gap-4"/>                }                @case (analyteResultTypes.TumorProportionScore) {                    <onconova-radio-select formControlName="tumorProportionScore" [choices]="tumorMarkerTumorProportionScoreChoices" class="flex flex-wrap gap-4"/>                }                @case (analyteResultTypes.ImmuneCellsScore) {                    <onconova-radio-select formControlName="immuneCellScore" [choices]="tumorMarkerImmuneCellScoreChoices" class="flex flex-wrap gap-4"/>                }                @case (analyteResultTypes.CombinedPositiveScore) {                    <onconova-measure-input formControlName="combinedPositiveScore" measure="Fraction"/>                }                @default {                    <div class="text-muted">Select an result type first</div>                }            }        </div>                <p-button             type="submit"             label="Save"             styleClass="w-full p-3 mt-2"              [loading]="isSaving()"            [disabled]="form.invalid" />    </form></p-fluid></div>'
+    var COMPONENTS = [{'name': 'AbstractFormBase', 'selector': ''},{'name': 'AdverseEventFormComponent', 'selector': 'adverse-event-form'},{'name': 'AppComponent', 'selector': 'onconova-root'},{'name': 'AppFooterComponent', 'selector': 'onconova-footer'},{'name': 'AppLayoutComponent', 'selector': 'onconova-layout'},{'name': 'AppSidebarMenuComponent', 'selector': 'onconova-sidebar-menu'},{'name': 'AppTopBarComponent', 'selector': 'onconova-topbar'},{'name': 'AuthCallbackComponent', 'selector': 'app-auth-callback'},{'name': 'AuthLayoutComponent', 'selector': 'onconova-auth-layout'},{'name': 'BoxPlotComponent', 'selector': 'onconova-box-plot'},{'name': 'CancerIconComponent', 'selector': 'onconova-cancer-icon'},{'name': 'CaseImporterBundleViewerComponent', 'selector': 'onconova-case-importer-bundle-viewer'},{'name': 'CaseImporterComponent', 'selector': 'onconova-case-importer'},{'name': 'CaseManagerComponent', 'selector': 'onconova-case-manager'},{'name': 'CaseManagerDrawerComponent', 'selector': 'onconova-case-manager-drawer'},{'name': 'CaseManagerPanelComponent', 'selector': 'onconova-case-manager-panel'},{'name': 'CaseManagerPanelTimelineComponent', 'selector': 'onconova-case-manager-panel-timeline'},{'name': 'CaseSearchComponent', 'selector': ''},{'name': 'CaseSearchItemCardComponent', 'selector': 'onconova-case-search-item,[onconova-case-search-item]'},{'name': 'CodedConceptTreeComponent', 'selector': 'onconova-coded-concept-tree'},{'name': 'CohortBuilderComponent', 'selector': 'onconova-cohort-manager'},{'name': 'CohortContributorsComponent', 'selector': 'onconova-cohort-contributors'},{'name': 'CohortFormComponent', 'selector': 'cohort-form'},{'name': 'CohortGraphsComponent', 'selector': 'onconova-cohort-graphs'},{'name': 'CohortGraphsContextMenu', 'selector': 'onconova-cohort-graph-context-menu'},{'name': 'CohortQueryBuilderComponent', 'selector': 'onconova-cohort-query-builder'},{'name': 'CohortSearchComponent', 'selector': ''},{'name': 'CohortSearchItemComponent', 'selector': 'onconova-cohort-search-item, [onconova-cohort-search-item]'},{'name': 'CohortTraitPanel', 'selector': 'onconova-cohort-trait'},{'name': 'ComorbiditiesAssessmentFormComponent', 'selector': 'comorbidities-form'},{'name': 'ConceptSelectorComponent', 'selector': 'onconova-concept-selector'},{'name': 'ConsentNoticeModalComponent', 'selector': 'onconova-consent-modal'},{'name': 'DashboardComponent', 'selector': 'onconova-dashboard'},{'name': 'DataCompletionStatsComponent', 'selector': 'onconova-data-completion-stats'},{'name': 'DatasetComposerComponent', 'selector': 'onconova-dataset-composer'},{'name': 'DataSummaryComponent', 'selector': 'onconova-data-summary'},{'name': 'DataSummaryCounterComponent', 'selector': 'onconova-data-summary-counter'},{'name': 'DatePickerComponent', 'selector': 'onconova-datepicker'},{'name': 'DisclaimerBannerComponent', 'selector': 'onconova-disclaimer-banner'},{'name': 'DistributionGraphComponent', 'selector': 'onconova-distribution-graph'},{'name': 'DoughnutGraphComponent', 'selector': 'onconova-doughnut-graph'},{'name': 'DrawerDataPropertiesComponent', 'selector': 'onconova-drawer-properties'},{'name': 'ErrorComponent', 'selector': 'onconova-error'},{'name': 'ExportConfirmDialogComponent', 'selector': 'onconova-export-confirm-dialog'},{'name': 'FamilyHistoryFormComponent', 'selector': 'family-history-form'},{'name': 'FormControlErrorComponent', 'selector': 'onconova-form-control-error'},{'name': 'GenomicSignatureFormComponent', 'selector': 'genomic-signature-form'},{'name': 'GenomicVariantFormComponent', 'selector': 'genomic-variant-form'},{'name': 'IdenticonComponent', 'selector': 'onconova-identicon'},{'name': 'KapplerMeierCurveComponent', 'selector': 'onconova-kappler-meier-curve'},{'name': 'LifestyleFormComponent', 'selector': 'lifestyle-form'},{'name': 'LoginComponent', 'selector': 'onconova-login'},{'name': 'MeasureInputComponent', 'selector': 'onconova-measure-input'},{'name': 'ModalFormHeaderComponent', 'selector': 'onconova-modal-form-header'},{'name': 'MultiReferenceSelectComponent', 'selector': 'onconova-multi-reference-select'},{'name': 'NeoplasticEntityFormComponent', 'selector': 'neoplastic-entity-form'},{'name': 'NestedTableComponent', 'selector': 'onconova-nested-table'},{'name': 'OncoplotComponent', 'selector': 'onconova-oncoplot'},{'name': 'PasswordResetFormComponent', 'selector': 'onconova-password-reset-dialog'},{'name': 'PatientFormComponent', 'selector': 'patient-form'},{'name': 'PerformanceStatusFormComponent', 'selector': 'performance-status-form'},{'name': 'PopoverFilterButtonComponent', 'selector': 'onconova-popover-filter-button'},{'name': 'PrimaryEntitiesTableComponent', 'selector': 'onconova-primary-entities-table'},{'name': 'ProjectFormComponent', 'selector': 'project-form'},{'name': 'ProjectManagementComponent', 'selector': 'onconova-project-management'},{'name': 'ProjectSearchComponent', 'selector': 'onconova-project-search'},{'name': 'ProjectSearchItemComponent', 'selector': 'onconova-project-search-item, [onconova-project-search-item]'},{'name': 'ProviderSignupComponent', 'selector': 'app-signup'},{'name': 'RadioSelectComponent', 'selector': 'onconova-radio-select'},{'name': 'RadiotherapyFormComponent', 'selector': 'radiotherapy-form'},{'name': 'RandomPaperComponent', 'selector': 'onconova-random-paper'},{'name': 'RangeInputComponent', 'selector': 'onconova-range-input'},{'name': 'RiskAssessmentFormComponent', 'selector': 'risk-assessment-form'},{'name': 'SettingsDialogComponent', 'selector': 'onconova-settings-dialog'},{'name': 'StagingFormComponent', 'selector': 'staging-form'},{'name': 'SurgeryFormComponent', 'selector': 'surgery-form'},{'name': 'SystemicTherapyFormComponent', 'selector': 'systemic-therapy-form'},{'name': 'TreatmentResponseFormComponent', 'selector': 'treatment-response-form'},{'name': 'TumorBoardFormComponent', 'selector': 'tumor-board-form'},{'name': 'TumorMarkerFormComponent', 'selector': 'tumor-marker-form'},{'name': 'UserBadgeComponent', 'selector': 'onconova-user-badge'},{'name': 'UserDetailsComponent', 'selector': 'onconova-user-details'},{'name': 'UserFormComponent', 'selector': 'onconova-user-form'},{'name': 'UserSelectorComponent', 'selector': 'onconova-user-selector'},{'name': 'UsersManagementCompnent', 'selector': 'onconova-users-management'},{'name': 'VitalsFormComponent', 'selector': 'vitals-form'}];
+    var DIRECTIVES = [{'name': 'DateMaskDirective', 'selector': '[dateMask]'}];
+    var ACTUAL_COMPONENT = {'name': 'TumorMarkerFormComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'TumorMarkerFormComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

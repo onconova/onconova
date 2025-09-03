@@ -1,0 +1,733 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Application documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+        <link rel="stylesheet" href="../styles/material.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Application documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content interface">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Interfaces</li>
+  <li class="breadcrumb-item"
+  >
+  AccountConfiguration</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>/home/runner/work/onconova/onconova/client/src/app/core/auth/services/allauth-api.service.ts</code>
+        </p>
+
+
+
+
+        <section data-compodoc="block-index">
+            <h3 id="index">Index</h3>
+            <table class="table table-sm table-bordered index-table">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Properties</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                        <a href="#email_verification_by_code_enabled" 
+>
+                                            email_verification_by_code_enabled
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#is_open_for_signup" 
+>
+                                            is_open_for_signup
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#login_by_code_enabled" 
+>
+                                            login_by_code_enabled
+                                        </a>
+                                </li>
+                                <li>
+                                            <span class="modifier">Optional</span>
+                                        <a href="#login_methods" 
+>
+                                            login_methods
+                                        </a>
+                                </li>
+                                <li>
+                                            <span class="modifier">Optional</span>
+                                        <a href="#password_reset_by_code_enabled" 
+>
+                                            password_reset_by_code_enabled
+                                        </a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+
+
+            <section data-compodoc="block-properties">
+                <h3 id="inputs">Properties</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="email_verification_by_code_enabled"></a>
+                                        <span class="name "><b>email_verification_by_code_enabled</b>
+                                            <a href="#email_verification_by_code_enabled">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>email_verification_by_code_enabled:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="is_open_for_signup"></a>
+                                        <span class="name "><b>is_open_for_signup</b>
+                                            <a href="#is_open_for_signup">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>is_open_for_signup:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="login_by_code_enabled"></a>
+                                        <span class="name "><b>login_by_code_enabled</b>
+                                            <a href="#login_by_code_enabled">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>login_by_code_enabled:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="login_methods"></a>
+                                        <span class="name "><b>login_methods</b>
+                                            <a href="#login_methods">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>login_methods:     <code>string[]</code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>    <code>string[]</code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="password_reset_by_code_enabled"></a>
+                                        <span class="name "><b>password_reset_by_code_enabled</b>
+                                            <a href="#password_reset_by_code_enabled">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>password_reset_by_code_enabled:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
+
+
+
+
+                        </tbody>
+                    </table>
+            </section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">export interface AuthenticationMeta {
+  session_token?: string;
+  access_token?: string;
+  is_authenticated: boolean;
+}
+
+
+export interface AllAuthResponse {
+  status: string;
+  data?: any | any[]; 
+  errors?: any[];
+  meta?: AuthenticationMeta;
+}
+
+export interface AccountConfiguration {
+  login_methods?: string[];
+  is_open_for_signup: boolean;
+  email_verification_by_code_enabled: boolean;
+  login_by_code_enabled: boolean;
+  password_reset_by_code_enabled?: boolean;
+}
+
+export interface SocialAccountConfiguration {
+  description: string;
+  providers: ProviderConfig[];
+}
+
+export interface ProviderConfig {
+  id: string;
+  name: string;
+  client_id?: string;
+  openid_configuration_url?: string;
+  flows: (&#x27;provider_redirect&#x27; | &#x27;provider_token&#x27;)[];
+}
+
+export interface MFAConfiguration {
+  supported_types: string[];  // assuming an array of strings for MFA types (e.g., [&#x27;totp&#x27;, &#x27;sms&#x27;])
+}
+
+export interface UserSessionsConfiguration {
+  track_activity: boolean;
+}
+
+export interface AllAuthConfiguration {
+  account: AccountConfiguration;
+  socialaccount?: SocialAccountConfiguration;
+  mfa?: MFAConfiguration;
+  usersessions?: UserSessionsConfiguration;
+}
+
+export const Client &#x3D; Object.freeze({
+  APP: &#x27;app&#x27;,
+  BROWSER: &#x27;browser&#x27;
+})
+
+export const settings &#x3D; {
+  client: Client.APP,
+  baseUrl: &#x60;api/allauth/${Client.BROWSER}/v1&#x60;,
+  withCredentials: false
+}
+
+const ACCEPT_JSON &#x3D; {
+  accept: &#x27;application/json&#x27;
+}
+
+export const AuthProcess &#x3D; Object.freeze({
+  LOGIN: &#x27;login&#x27;,
+  CONNECT: &#x27;connect&#x27;
+})
+
+export const Flows &#x3D; Object.freeze({
+  LOGIN: &#x27;login&#x27;,
+  LOGIN_BY_CODE: &#x27;login_by_code&#x27;,
+  MFA_AUTHENTICATE: &#x27;mfa_authenticate&#x27;,
+  MFA_REAUTHENTICATE: &#x27;mfa_reauthenticate&#x27;,
+  MFA_TRUST: &#x27;mfa_trust&#x27;,
+  MFA_WEBAUTHN_SIGNUP: &#x27;mfa_signup_webauthn&#x27;,
+  PASSWORD_RESET_BY_CODE: &#x27;password_reset_by_code&#x27;,
+  PROVIDER_REDIRECT: &#x27;provider_redirect&#x27;,
+  PROVIDER_SIGNUP: &#x27;provider_signup&#x27;,
+  REAUTHENTICATE: &#x27;reauthenticate&#x27;,
+  SIGNUP: &#x27;signup&#x27;,
+  VERIFY_EMAIL: &#x27;verify_email&#x27;,
+})
+
+export const URLs &#x3D; Object.freeze({
+  // Meta
+  CONFIG: &#x27;/config&#x27;,
+
+  // Account management
+  CHANGE_PASSWORD: &#x27;/account/password/change&#x27;,
+  EMAIL: &#x27;/account/email&#x27;,
+  PROVIDERS: &#x27;/account/providers&#x27;,
+
+  // Account management: 2FA
+  AUTHENTICATORS: &#x27;/account/authenticators&#x27;,
+  RECOVERY_CODES: &#x27;/account/authenticators/recovery-codes&#x27;,
+  TOTP_AUTHENTICATOR: &#x27;/account/authenticators/totp&#x27;,
+
+  // Auth: Basics
+  LOGIN: &#x27;/auth/login&#x27;,
+  REQUEST_LOGIN_CODE: &#x27;/auth/code/request&#x27;,
+  CONFIRM_LOGIN_CODE: &#x27;/auth/code/confirm&#x27;,
+  SESSION: &#x27;/auth/session&#x27;,
+  REAUTHENTICATE: &#x27;/auth/reauthenticate&#x27;,
+  REQUEST_PASSWORD_RESET: &#x27;/auth/password/request&#x27;,
+  RESET_PASSWORD: &#x27;/auth/password/reset&#x27;,
+  SIGNUP: &#x27;/auth/signup&#x27;,
+  VERIFY_EMAIL: &#x27;/auth/email/verify&#x27;,
+
+  // Auth: 2FA
+  MFA_AUTHENTICATE: &#x27;/auth/2fa/authenticate&#x27;,
+  MFA_REAUTHENTICATE: &#x27;/auth/2fa/reauthenticate&#x27;,
+  MFA_TRUST: &#x27;/auth/2fa/trust&#x27;,
+
+  // Auth: Social
+  PROVIDER_SIGNUP: &#x27;/auth/provider/signup&#x27;,
+  REDIRECT_TO_PROVIDER: &#x27;/auth/provider/redirect&#x27;,
+  PROVIDER_TOKEN: &#x27;/auth/provider/token&#x27;,
+
+  // Auth: Sessions
+  SESSIONS: &#x27;/auth/sessions&#x27;,
+
+  // Auth: WebAuthn
+  REAUTHENTICATE_WEBAUTHN: &#x27;/auth/webauthn/reauthenticate&#x27;,
+  AUTHENTICATE_WEBAUTHN: &#x27;/auth/webauthn/authenticate&#x27;,
+  LOGIN_WEBAUTHN: &#x27;/auth/webauthn/login&#x27;,
+  SIGNUP_WEBAUTHN: &#x27;/auth/webauthn/signup&#x27;,
+  WEBAUTHN_AUTHENTICATOR: &#x27;/account/authenticators/webauthn&#x27;
+})
+
+export const AuthenticatorType &#x3D; Object.freeze({
+  TOTP: &#x27;totp&#x27;,
+  RECOVERY_CODES: &#x27;recovery_codes&#x27;,
+  WEBAUTHN: &#x27;webauthn&#x27;
+})
+
+import { Injectable } from &#x27;@angular/core&#x27;;
+import { HttpClient, HttpHeaders } from &#x27;@angular/common/http&#x27;;
+import { map, Observable, tap } from &#x27;rxjs&#x27;
+
+@Injectable({
+  providedIn: &#x27;root&#x27;
+})
+export class AllAuthApiService {
+
+  private readonly baseUrl &#x3D; &#x27;/api/allauth/app/v1&#x27;;
+
+  private readonly httpOptions &#x3D; {
+    headers: new HttpHeaders({
+      &#x27;Content-Type&#x27;: &#x27;application/json&#x27;,
+      &#x27;Accept&#x27;: &#x27;application/json&#x27;
+    })
+  };
+
+  constructor(private http: HttpClient) { }
+
+  // Meta
+  getConfig(): Observable&lt;AllAuthConfiguration&gt; {
+    return this.http.get&lt;AllAuthResponse&gt;(&#x60;${this.baseUrl}/config&#x60;, this.httpOptions).pipe(map((response: AllAuthResponse) &#x3D;&gt; response.data));
+  }
+
+  // Account management
+  changePassword(data: any): Observable&lt;any&gt; {
+    return this.http.post(&#x60;${this.baseUrl}/account/password/change&#x60;, data, this.httpOptions);
+  }
+
+  getEmail(): Observable&lt;any&gt; {
+    return this.http.get(&#x60;${this.baseUrl}/account/email&#x60;, this.httpOptions);
+  }
+
+  getProviders(): Observable&lt;any&gt; {
+    return this.http.get(&#x60;${this.baseUrl}/account/providers&#x60;, this.httpOptions);
+  }
+
+  // Account management: 2FA
+  getAuthenticators(): Observable&lt;any&gt; {
+    return this.http.get(&#x60;${this.baseUrl}/account/authenticators&#x60;, this.httpOptions);
+  }
+
+  getRecoveryCodes(): Observable&lt;any&gt; {
+    return this.http.get(&#x60;${this.baseUrl}/account/authenticators/recovery-codes&#x60;, this.httpOptions);
+  }
+
+  getTotpAuthenticator(): Observable&lt;any&gt; {
+    return this.http.get(&#x60;${this.baseUrl}/account/authenticators/totp&#x60;, this.httpOptions);
+  }
+
+  // Auth: Basics
+  login(data: any): Observable&lt;any&gt; {
+    return this.http.post(&#x60;${this.baseUrl}/auth/login&#x60;, data, this.httpOptions);
+  }
+
+  requestLoginCode(data: any): Observable&lt;any&gt; {
+    return this.http.post(&#x60;${this.baseUrl}/auth/code/request&#x60;, data, this.httpOptions);
+  }
+
+  confirmLoginCode(data: any): Observable&lt;any&gt; {
+    return this.http.post(&#x60;${this.baseUrl}/auth/code/confirm&#x60;, data, this.httpOptions);
+  }
+
+  getSession(): Observable&lt;any&gt; {
+    return this.http.get(&#x60;${this.baseUrl}/auth/session&#x60;, this.httpOptions);
+  }
+
+  reauthenticate(data: any): Observable&lt;any&gt; {
+    return this.http.post(&#x60;${this.baseUrl}/auth/reauthenticate&#x60;, data, this.httpOptions);
+  }
+
+  requestPasswordReset(data: any): Observable&lt;any&gt; {
+    return this.http.post(&#x60;${this.baseUrl}/auth/password/request&#x60;, data, this.httpOptions);
+  }
+
+  resetPassword(data: any): Observable&lt;any&gt; {
+    return this.http.post(&#x60;${this.baseUrl}/auth/password/reset&#x60;, data, this.httpOptions);
+  }
+
+  signup(data: any): Observable&lt;any&gt; {
+    return this.http.post(&#x60;${this.baseUrl}/auth/signup&#x60;, data, this.httpOptions);
+  }
+
+  verifyEmail(data: any): Observable&lt;any&gt; {
+    return this.http.post(&#x60;${this.baseUrl}/auth/email/verify&#x60;, data, this.httpOptions);
+  }
+
+  // Auth: 2FA
+  mfaAuthenticate(data: any): Observable&lt;any&gt; {
+    return this.http.post(&#x60;${this.baseUrl}/auth/2fa/authenticate&#x60;, data, this.httpOptions);
+  }
+
+  mfaReauthenticate(data: any): Observable&lt;any&gt; {
+    return this.http.post(&#x60;${this.baseUrl}/auth/2fa/reauthenticate&#x60;, data, this.httpOptions);
+  }
+
+  mfaTrust(data: any): Observable&lt;any&gt; {
+    return this.http.post(&#x60;${this.baseUrl}/auth/2fa/trust&#x60;, data, this.httpOptions);
+  }
+
+
+  // Auth: Social
+  providerSignup(data: any, sessionToken: string): Observable&lt;any&gt; {
+    return this.http.post(&#x60;${this.baseUrl}/auth/provider/signup&#x60;, data, {headers: new HttpHeaders({
+      &#x27;Content-Type&#x27;: &#x27;application/json&#x27;,
+      &#x27;Accept&#x27;: &#x27;application/json&#x27;,
+      &#x27;X-SESSION-TOKEN&#x27;: sessionToken,
+    })});
+  }
+
+  getproviderSignupInfo(sessionToken: string): Observable&lt;any&gt; {
+    return this.http.get(&#x60;${this.baseUrl}/auth/provider/signup&#x60;, {headers: new HttpHeaders({
+      &#x27;Content-Type&#x27;: &#x27;application/json&#x27;,
+      &#x27;Accept&#x27;: &#x27;application/json&#x27;,
+      &#x27;X-SESSION-TOKEN&#x27;: sessionToken,
+    })});
+  }
+  
+  redirectToProvider(data: any): Observable&lt;any&gt; {
+    return this.http.post(&#x60;${this.baseUrl}/auth/provider/redirect&#x60;, data, this.httpOptions);
+  }
+
+  authenticateWithProviderToken(data: any): Observable&lt;any&gt; {
+    return this.http.post(&#x60;${this.baseUrl}/auth/provider/token&#x60;, data, this.httpOptions);
+  }
+
+  // Auth: Sessions
+  logoutCurrentSession(): Observable&lt;any&gt; {
+    return this.http.delete(&#x60;${this.baseUrl}/auth/sessions&#x60;, this.httpOptions);
+  }
+  getSessions(): Observable&lt;any&gt; {
+    return this.http.get(&#x60;${this.baseUrl}/auth/sessions&#x60;, this.httpOptions);
+  }
+
+  // Auth: WebAuthn
+  reauthenticateWebauthn(data: any): Observable&lt;any&gt; {
+    return this.http.post(&#x60;${this.baseUrl}/auth/webauthn/reauthenticate&#x60;, data, this.httpOptions);
+  }
+
+  authenticateWebauthn(data: any): Observable&lt;any&gt; {
+    return this.http.post(&#x60;${this.baseUrl}/auth/webauthn/authenticate&#x60;, data, this.httpOptions);
+  }
+
+  loginWebauthn(data: any): Observable&lt;any&gt; {
+    return this.http.post(&#x60;${this.baseUrl}/auth/webauthn/login&#x60;, data, this.httpOptions);
+  }
+
+}</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
+            var COMPODOC_CURRENT_PAGE_URL = 'AccountConfiguration.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

@@ -1,0 +1,2825 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Application documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+        <link rel="stylesheet" href="../styles/material.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Application documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  ProjectManagementComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>/home/runner/work/onconova/onconova/client/src/app/features/project-management/project-management.component.ts</code>
+</p>
+
+
+
+
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">providers</td>
+                <td class="col-md-9">
+                            <code>ConfirmationService</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>onconova-project-management</code></td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                            <code>Fluid</code>
+                            <code>FormsModule</code>
+                            <code>CommonModule</code>
+                            <code>Skeleton</code>
+                                <code><a href="../components/UserBadgeComponent.html" target="_self" >UserBadgeComponent</a></code>
+                            <code>Divider</code>
+                            <code>Popover</code>
+                            <code>Card</code>
+                            <code>ConfirmDialog</code>
+                            <code>ToggleSwitch</code>
+                            <code>TagModule</code>
+                            <code>DataView</code>
+                            <code>TableModule</code>
+                            <code>DatePicker</code>
+                            <code>Menu</code>
+                            <code>Button</code>
+                                <code><a href="../components/UserSelectorComponent.html" target="_self" >UserSelectorComponent</a></code>
+                                <code><a href="../components/CohortSearchItemComponent.html" target="_self" >CohortSearchItemComponent</a></code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./project-management.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                    <span class="modifier">Private</span>
+                                <a href="##authService" >#authService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                    <span class="modifier">Private</span>
+                                <a href="##cohortsService" >#cohortsService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                    <span class="modifier">Private</span>
+                                <a href="##confirmationService" >#confirmationService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                    <span class="modifier">Private</span>
+                                <a href="##datasetsService" >#datasetsService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                    <span class="modifier">Private</span>
+                                <a href="##messageService" >#messageService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                    <span class="modifier">Private</span>
+                                <a href="##projectsService" >#projectsService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                    <span class="modifier">Private</span>
+                                <a href="##userService" >#userService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#authDialogConfirmation" >authDialogConfirmation</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#authDialogExpirationMaxDate" >authDialogExpirationMaxDate</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#authDialogExpirationMinDate" >authDialogExpirationMinDate</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#authDialogMember" >authDialogMember</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#authDialogValidityPeriod" >authDialogValidityPeriod</a>
+                            </li>
+                            <li>
+                                <a href="#canEditAuthorizations" >canEditAuthorizations</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#cohorts" >cohorts</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#cohortsPageSizeChoices" >cohortsPageSizeChoices</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#cohortsPagination" >cohortsPagination</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#currentUser" >currentUser</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#datasets" >datasets</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#datasetsPageSizeChoices" >datasetsPageSizeChoices</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#datasetsPagination" >datasetsPagination</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#dynamicMenuItems$" >dynamicMenuItems$</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#members" >members</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#membersPlaceholder" >membersPlaceholder</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#project" >project</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#projectId" >projectId</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#selectedUser" >selectedUser</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#totalCohorts" >totalCohorts</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#totalDatasets" >totalDatasets</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#addMember" >addMember</a>
+                            </li>
+                            <li>
+                                <a href="#confirmMemberRemoval" >confirmMemberRemoval</a>
+                            </li>
+                            <li>
+                                <a href="#getDaysDifference" >getDaysDifference</a>
+                            </li>
+                            <li>
+                                <a href="#getMemberMenuItems" >getMemberMenuItems</a>
+                            </li>
+                            <li>
+                                <a href="#getValidityPeriodAnnotation" >getValidityPeriodAnnotation</a>
+                            </li>
+                            <li>
+                                <a href="#grantNewAuthorization" >grantNewAuthorization</a>
+                            </li>
+                            <li>
+                                <a href="#matchCohort" >matchCohort</a>
+                            </li>
+                            <li>
+                                <a href="#parseStatus" >parseStatus</a>
+                            </li>
+                            <li>
+                                <a href="#revokeAuthorization" >revokeAuthorization</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#updateProjectMembers" >updateProjectMembers</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#projectId" >projectId</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+    <section data-compodoc="block-inputs">
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="projectId"></a>
+                        <b>projectId</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Required : </i>&nbsp;<b>true</b>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-management/project-management.component.ts:60</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addMember"></a>
+                    <span class="name">
+                        <span ><b>addMember</b></span>
+                        <a href="#addMember"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>addMember(member: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="307"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-management/project-management.component.ts:307</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>member</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="confirmMemberRemoval"></a>
+                    <span class="name">
+                        <span ><b>confirmMemberRemoval</b></span>
+                        <a href="#confirmMemberRemoval"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>confirmMemberRemoval(event: Event, member: <a href="../interfaces/ProjectMember.html" target="_self">ProjectMember</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="285"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-management/project-management.component.ts:285</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                        <code>Event</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>member</td>
+                                            <td>
+                                                            <code><a href="../interfaces/ProjectMember.html" target="_self" >ProjectMember</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getDaysDifference"></a>
+                    <span class="name">
+                        <span ><b>getDaysDifference</b></span>
+                        <a href="#getDaysDifference"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getDaysDifference(start: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank">Date</a>, end: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank">Date</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="155"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-management/project-management.component.ts:155</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>start</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank" >Date</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>end</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date" target="_blank" >Date</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getMemberMenuItems"></a>
+                    <span class="name">
+                        <span ><b>getMemberMenuItems</b></span>
+                        <a href="#getMemberMenuItems"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getMemberMenuItems(member: <a href="../interfaces/ProjectMember.html" target="_self">ProjectMember</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="176"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-management/project-management.component.ts:176</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>member</td>
+                                            <td>
+                                                            <code><a href="../interfaces/ProjectMember.html" target="_self" >ProjectMember</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getValidityPeriodAnnotation"></a>
+                    <span class="name">
+                        <span ><b>getValidityPeriodAnnotation</b></span>
+                        <a href="#getValidityPeriodAnnotation"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getValidityPeriodAnnotation(period: Period)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="137"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-management/project-management.component.ts:137</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>period</td>
+                                            <td>
+                                                        <code>Period</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="grantNewAuthorization"></a>
+                    <span class="name">
+                        <span ><b>grantNewAuthorization</b></span>
+                        <a href="#grantNewAuthorization"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>grantNewAuthorization(event: Event, member: <a href="../interfaces/ProjectMember.html" target="_self">ProjectMember</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="222"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-management/project-management.component.ts:222</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                        <code>Event</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>member</td>
+                                            <td>
+                                                            <code><a href="../interfaces/ProjectMember.html" target="_self" >ProjectMember</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="matchCohort"></a>
+                    <span class="name">
+                        <span ><b>matchCohort</b></span>
+                        <a href="#matchCohort"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>matchCohort(cohortId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="151"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-management/project-management.component.ts:151</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>cohortId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>(cohort: Cohort) &#x3D;&gt; boolean</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="parseStatus"></a>
+                    <span class="name">
+                        <span ><b>parseStatus</b></span>
+                        <a href="#parseStatus"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>parseStatus(status: ProjectStatusChoices)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="207"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-management/project-management.component.ts:207</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>status</td>
+                                            <td>
+                                                        <code>ProjectStatusChoices</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>literal type</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="revokeAuthorization"></a>
+                    <span class="name">
+                        <span ><b>revokeAuthorization</b></span>
+                        <a href="#revokeAuthorization"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>revokeAuthorization(event: Event, member: <a href="../interfaces/ProjectMember.html" target="_self">ProjectMember</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="254"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-management/project-management.component.ts:254</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                        <code>Event</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>member</td>
+                                            <td>
+                                                            <code><a href="../interfaces/ProjectMember.html" target="_self" >ProjectMember</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateProjectMembers"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>updateProjectMembers</b></span>
+                        <a href="#updateProjectMembers"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateProjectMembers(members: string[])</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="311"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-management/project-management.component.ts:311</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>members</td>
+                                            <td>
+                                                        <code>string[]</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#authService"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                            <span class="modifier">Private</span>
+                        <span ><b>#authService</b></span>
+                        <a href="##authService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(AuthService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-management/project-management.component.ts:64</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#cohortsService"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                            <span class="modifier">Private</span>
+                        <span ><b>#cohortsService</b></span>
+                        <a href="##cohortsService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(CohortsService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-management/project-management.component.ts:67</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#confirmationService"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                            <span class="modifier">Private</span>
+                        <span ><b>#confirmationService</b></span>
+                        <a href="##confirmationService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(ConfirmationService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-management/project-management.component.ts:66</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#datasetsService"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                            <span class="modifier">Private</span>
+                        <span ><b>#datasetsService</b></span>
+                        <a href="##datasetsService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(DatasetsService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-management/project-management.component.ts:68</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#messageService"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                            <span class="modifier">Private</span>
+                        <span ><b>#messageService</b></span>
+                        <a href="##messageService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(MessageService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-management/project-management.component.ts:65</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#projectsService"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                            <span class="modifier">Private</span>
+                        <span ><b>#projectsService</b></span>
+                        <a href="##projectsService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(ProjectsService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-management/project-management.component.ts:62</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#userService"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                            <span class="modifier">Private</span>
+                        <span ><b>#userService</b></span>
+                        <a href="##userService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(UsersService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-management/project-management.component.ts:63</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="authDialogConfirmation"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>authDialogConfirmation</b></span>
+                        <a href="#authDialogConfirmation"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;boolean&gt;(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="113" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-management/project-management.component.ts:113</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="authDialogExpirationMaxDate"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>authDialogExpirationMaxDate</b></span>
+                        <a href="#authDialogExpirationMaxDate"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; {
+        const start &#x3D; this.authDialogValidityPeriod()![0];
+        if (!start) {
+            return null
+        }
+        return new Date(start.getTime() + 31 * 24 * 60 * 60 * 1000)
+    })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="116" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-management/project-management.component.ts:116</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="authDialogExpirationMinDate"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>authDialogExpirationMinDate</b></span>
+                        <a href="#authDialogExpirationMinDate"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Date()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="115" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-management/project-management.component.ts:115</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="authDialogMember"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>authDialogMember</b></span>
+                        <a href="#authDialogMember"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;ProjectMember | null&gt;(null)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="112" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-management/project-management.component.ts:112</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="authDialogValidityPeriod"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>authDialogValidityPeriod</b></span>
+                        <a href="#authDialogValidityPeriod"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;Date[]&gt;([])</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="114" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-management/project-management.component.ts:114</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="canEditAuthorizations"></a>
+                    <span class="name">
+                        <span ><b>canEditAuthorizations</b></span>
+                        <a href="#canEditAuthorizations"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; 
+        this.project.value() &amp;&amp; (this.currentUser()?.accessLevel || 0) &gt; 1 &amp;&amp; (
+            (this.currentUser()?.accessLevel || 0) &gt; 2 ||
+            this.currentUser().username &#x3D;&#x3D; this.project.value()?.leader 
+            || 
+            (this.project.value()?.members || []).includes(this.currentUser().username)
+         ) &amp;&amp; !(
+            this.project.value()?.status &#x3D;&#x3D;&#x3D; ProjectStatusChoices.Completed 
+            || this.project.value()?.status &#x3D;&#x3D;&#x3D; ProjectStatusChoices.Aborted
+        ) 
+    )</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="161" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-management/project-management.component.ts:161</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cohorts"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>cohorts</b></span>
+                        <a href="#cohorts"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>rxResource({
+        request: () &#x3D;&gt; ({projectId: this.projectId()}),
+        loader: ({request}) &#x3D;&gt; this.#cohortsService.getCohorts(request).pipe(map(response &#x3D;&gt; {
+            this.totalCohorts.set(response.count)
+            return response.items
+        }))
+    })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="97" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-management/project-management.component.ts:97</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cohortsPageSizeChoices"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>cohortsPageSizeChoices</b></span>
+                        <a href="#cohortsPageSizeChoices"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>number[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[4, 8, 12]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="127" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-management/project-management.component.ts:127</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cohortsPagination"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>cohortsPagination</b></span>
+                        <a href="#cohortsPagination"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal({limit: this.cohortsPageSizeChoices[0], offset: 0})</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="128" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-management/project-management.component.ts:128</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="currentUser"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>currentUser</b></span>
+                        <a href="#currentUser"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; this.#authService.user())</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-management/project-management.component.ts:70</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="datasets"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>datasets</b></span>
+                        <a href="#datasets"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>rxResource({
+        request: () &#x3D;&gt; ({projectId: this.projectId()}),
+        loader: ({request}) &#x3D;&gt; this.#datasetsService.getDatasets(request).pipe(map(response &#x3D;&gt; {
+            this.totalDatasets.set(response.count)
+            return response.items
+        }))
+    })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="104" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-management/project-management.component.ts:104</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="datasetsPageSizeChoices"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>datasetsPageSizeChoices</b></span>
+                        <a href="#datasetsPageSizeChoices"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>number[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[4, 8, 12]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="130" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-management/project-management.component.ts:130</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="datasetsPagination"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>datasetsPagination</b></span>
+                        <a href="#datasetsPagination"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal({limit: this.cohortsPageSizeChoices[0], offset: 0})</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="131" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-management/project-management.component.ts:131</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="dynamicMenuItems$"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>dynamicMenuItems$</b></span>
+                        <a href="#dynamicMenuItems$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>BehaviorSubject&lt;MenuItem[]&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new BehaviorSubject(
+        [] as MenuItem[]
+    )</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="173" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-management/project-management.component.ts:173</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="members"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>members</b></span>
+                        <a href="#members"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>rxResource({
+        request: () &#x3D;&gt; ({usernameAnyOf: this.project.value()?.members ?? []}),
+        loader: ({request}) &#x3D;&gt; this.#userService.getUsers(request).pipe(
+            map(response &#x3D;&gt; response.items),       
+            mergeMap(users &#x3D;&gt; from(users)),
+            mergeMap((user): Observable&lt;ProjectMember&gt; &#x3D;&gt;
+                forkJoin({
+                authorization: this.#projectsService.getProjectDataManagerGrant({projectId: this.projectId(), memberId: user.id}).pipe(map(response &#x3D;&gt; response.items[0])),
+                }).pipe(
+                map(results &#x3D;&gt; ({
+                    ...user,
+                    ...results
+                }))
+                )
+            ),
+            toArray()
+        )
+    })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="78" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-management/project-management.component.ts:78</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="membersPlaceholder"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>membersPlaceholder</b></span>
+                        <a href="#membersPlaceholder"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[1,3,4,5] as unknown as ProjectMember[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-management/project-management.component.ts:77</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="project"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>project</b></span>
+                        <a href="#project"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>rxResource({
+        request: () &#x3D;&gt; ({projectId: this.projectId()}),
+        loader: ({request}) &#x3D;&gt; this.#projectsService.getProjectById(request)
+    })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-management/project-management.component.ts:72</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="projectId"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>projectId</b></span>
+                        <a href="#projectId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-management/project-management.component.ts:60</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectedUser"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>selectedUser</b></span>
+                        <a href="#selectedUser"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;string&gt;(&#x27;&#x27;)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="134" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-management/project-management.component.ts:134</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="totalCohorts"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>totalCohorts</b></span>
+                        <a href="#totalCohorts"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(0)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="129" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-management/project-management.component.ts:129</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="totalDatasets"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>totalDatasets</b></span>
+                        <a href="#totalDatasets"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(0)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="132" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-management/project-management.component.ts:132</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommonModule } from &quot;@angular/common&quot;;
+import { Component, computed, inject, input, signal } from &quot;@angular/core&quot;;
+import { rxResource } from &quot;@angular/core/rxjs-interop&quot;;
+import { FormsModule } from &quot;@angular/forms&quot;;
+import { ConfirmationService, MenuItem, MessageService } from &quot;primeng/api&quot;;
+import { Button } from &quot;primeng/button&quot;;
+import { ConfirmDialog } from &quot;primeng/confirmdialog&quot;;
+import { DataView } from &quot;primeng/dataview&quot;;
+import { DatePicker } from &quot;primeng/datepicker&quot;;
+import { Fluid } from &quot;primeng/fluid&quot;;
+import { Menu } from &quot;primeng/menu&quot;;
+import { Skeleton } from &quot;primeng/skeleton&quot;;
+import { TableModule } from &quot;primeng/table&quot;;
+import { TagModule } from &quot;primeng/tag&quot;;
+import { ToggleSwitch } from &quot;primeng/toggleswitch&quot;;
+import { BehaviorSubject, forkJoin, from, map, mergeMap, Observable, toArray } from &quot;rxjs&quot;;
+import { UserBadgeComponent } from &quot;src/app/shared/components/user-badge/user-badge.component&quot;;
+import { AccessRoles, Cohort, CohortsService, DatasetsService, Period, ProjectCreate, ProjectDataManagerGrant, ProjectsService, ProjectStatusChoices, User, UsersService } from &quot;onconova-api-client&quot;;
+import { CohortSearchItemComponent } from &quot;../cohorts/cohort-search/components/cohort-search-item/cohort-search-item.component&quot;;
+import { AuthService } from &quot;src/app/core/auth/services/auth.service&quot;;
+import { ResolveResourcePipe } from &quot;src/app/shared/pipes/resolve-resource.pipe&quot;;
+import { Popover } from &quot;primeng/popover&quot;;
+import { UserSelectorComponent } from &quot;src/app/shared/components/user-selector/user-selector.component&quot;;
+import { Divider } from &quot;primeng/divider&quot;;
+import { Card } from &quot;primeng/card&quot;;
+
+interface ProjectMember extends User {
+    authorization: ProjectDataManagerGrant
+}
+
+@Component({
+    selector: &#x27;onconova-project-management&#x27;,
+    templateUrl: &#x27;./project-management.component.html&#x27;,
+    providers: [
+        ConfirmationService
+    ],
+    imports: [
+        Fluid,
+        FormsModule,
+        CommonModule,
+        Skeleton,
+        UserBadgeComponent,
+        Divider,
+        Popover,
+        Card,
+        ConfirmDialog,
+        ToggleSwitch,
+        TagModule,
+        DataView,
+        TableModule,
+        DatePicker,
+        Menu,
+        Button,
+        UserSelectorComponent,
+        CohortSearchItemComponent,
+    ]
+})
+export class ProjectManagementComponent {
+    
+    readonly projectId &#x3D; input.required&lt;string&gt;();
+    
+    readonly #projectsService &#x3D; inject(ProjectsService);
+    readonly #userService &#x3D; inject(UsersService);
+    readonly #authService &#x3D; inject(AuthService);
+    readonly #messageService &#x3D; inject(MessageService);
+    readonly #confirmationService &#x3D; inject(ConfirmationService);
+    readonly #cohortsService &#x3D; inject(CohortsService);
+    readonly #datasetsService &#x3D; inject(DatasetsService);
+
+    public readonly currentUser &#x3D; computed(() &#x3D;&gt; this.#authService.user())
+
+    protected project &#x3D; rxResource({
+        request: () &#x3D;&gt; ({projectId: this.projectId()}),
+        loader: ({request}) &#x3D;&gt; this.#projectsService.getProjectById(request)
+    });
+    
+    protected readonly membersPlaceholder &#x3D; [1,3,4,5] as unknown as ProjectMember[];
+    protected members &#x3D; rxResource({
+        request: () &#x3D;&gt; ({usernameAnyOf: this.project.value()?.members ?? []}),
+        loader: ({request}) &#x3D;&gt; this.#userService.getUsers(request).pipe(
+            map(response &#x3D;&gt; response.items),       
+            mergeMap(users &#x3D;&gt; from(users)),
+            mergeMap((user): Observable&lt;ProjectMember&gt; &#x3D;&gt;
+                forkJoin({
+                authorization: this.#projectsService.getProjectDataManagerGrant({projectId: this.projectId(), memberId: user.id}).pipe(map(response &#x3D;&gt; response.items[0])),
+                }).pipe(
+                map(results &#x3D;&gt; ({
+                    ...user,
+                    ...results
+                }))
+                )
+            ),
+            toArray()
+        )
+    });
+
+    protected cohorts &#x3D; rxResource({
+        request: () &#x3D;&gt; ({projectId: this.projectId()}),
+        loader: ({request}) &#x3D;&gt; this.#cohortsService.getCohorts(request).pipe(map(response &#x3D;&gt; {
+            this.totalCohorts.set(response.count)
+            return response.items
+        }))
+    });
+    protected datasets &#x3D; rxResource({
+        request: () &#x3D;&gt; ({projectId: this.projectId()}),
+        loader: ({request}) &#x3D;&gt; this.#datasetsService.getDatasets(request).pipe(map(response &#x3D;&gt; {
+            this.totalDatasets.set(response.count)
+            return response.items
+        }))
+    });
+
+    protected authDialogMember &#x3D; signal&lt;ProjectMember | null&gt;(null);
+    protected authDialogConfirmation &#x3D; signal&lt;boolean&gt;(false);
+    protected authDialogValidityPeriod &#x3D; signal&lt;Date[]&gt;([]);
+    protected authDialogExpirationMinDate &#x3D; new Date();
+    protected authDialogExpirationMaxDate &#x3D; computed(() &#x3D;&gt; {
+        const start &#x3D; this.authDialogValidityPeriod()![0];
+        if (!start) {
+            return null
+        }
+        return new Date(start.getTime() + 31 * 24 * 60 * 60 * 1000)
+    })
+    
+
+
+    // Pagination and search settings
+    public readonly cohortsPageSizeChoices: number[] &#x3D; [4, 8, 12];
+    public cohortsPagination &#x3D; signal({limit: this.cohortsPageSizeChoices[0], offset: 0});
+    public totalCohorts&#x3D; signal(0);
+    public readonly datasetsPageSizeChoices: number[] &#x3D; [4, 8, 12];
+    public datasetsPagination &#x3D; signal({limit: this.cohortsPageSizeChoices[0], offset: 0});
+    public totalDatasets&#x3D; signal(0);
+
+    public selectedUser &#x3D; signal&lt;string&gt;(&#x27;&#x27;)
+
+
+    getValidityPeriodAnnotation(period: Period) {
+        const today &#x3D; new Date()
+        const begin &#x3D; new Date(period.start!)
+        const expiration &#x3D; new Date(period.end!)
+        if (today &lt; begin) {
+            return &#x60;Begins in ${this.getDaysDifference(today, begin)} day(s)&#x60;
+        } else if (today &lt; expiration) {
+            return &#x60;Expires in ${this.getDaysDifference(today, expiration)} day(s)&#x60;
+        } else {
+            return &#x27;Expired&#x27;
+        }
+    }
+
+
+    matchCohort(cohortId: string) {
+        return (cohort: Cohort): boolean &#x3D;&gt; cohort.id &#x3D;&#x3D; cohortId
+    }
+    
+    getDaysDifference(start: Date, end: Date) {
+        const oneDayMs &#x3D; 1000 * 60 * 60 * 24; // milliseconds in one day
+        const diffMs &#x3D; end.getTime() - start.getTime();
+        return Math.ceil(diffMs / oneDayMs);
+    }
+
+    canEditAuthorizations &#x3D; computed(() &#x3D;&gt; 
+        this.project.value() &amp;&amp; (this.currentUser()?.accessLevel || 0) &gt; 1 &amp;&amp; (
+            (this.currentUser()?.accessLevel || 0) &gt; 2 ||
+            this.currentUser().username &#x3D;&#x3D; this.project.value()?.leader 
+            || 
+            (this.project.value()?.members || []).includes(this.currentUser().username)
+         ) &amp;&amp; !(
+            this.project.value()?.status &#x3D;&#x3D;&#x3D; ProjectStatusChoices.Completed 
+            || this.project.value()?.status &#x3D;&#x3D;&#x3D; ProjectStatusChoices.Aborted
+        ) 
+    )
+
+    public dynamicMenuItems$: BehaviorSubject&lt;MenuItem[]&gt; &#x3D; new BehaviorSubject(
+        [] as MenuItem[]
+    );
+    getMemberMenuItems(member: ProjectMember) {
+        this.dynamicMenuItems$.next([{
+            label: &#x27;Actions for &#x27; + member.fullName,
+            items: [
+                {
+                    label: &#x27;Grant data management authorization&#x27;,
+                    icon: &#x27;pi pi-plus&#x27;,
+                    disabled: !this.canEditAuthorizations() 
+                            || (member?.accessLevel || 0) &gt;&#x3D; 2 
+                            || !!member.authorization,
+                    command: (event: any) &#x3D;&gt; this.grantNewAuthorization(event, member)
+                },
+                {
+                    label: &#x27;Revoke data management authorization&#x27;,
+                    disabled: !this.canEditAuthorizations() 
+                            || (member?.accessLevel || 0) &gt;&#x3D; 2 
+                            || !member.authorization 
+                            || (new Date(member.authorization.validityPeriod.end as string) &lt; new Date()),
+                    icon: &#x27;pi pi-times&#x27;,
+                    command: (event: any) &#x3D;&gt; this.revokeAuthorization(event, member)
+                },
+                {
+                    label: &#x27;Remove member&#x27;,
+                    disabled: !this.canEditAuthorizations() || this.currentUser().username &#x3D;&#x3D; member.username || this.project.value()?.leader &#x3D;&#x3D; member.username,
+                    icon: &#x27;pi pi-trash&#x27;,
+                    command: (event: any) &#x3D;&gt; this.confirmMemberRemoval(event, member)
+                },
+            ]
+        }])
+    };
+
+    parseStatus(status: ProjectStatusChoices): {value: string, icon: string, severity: string} {
+        switch (status) {
+            case ProjectStatusChoices.Planned:
+                return {value: &#x27;Planned&#x27;, icon: &#x27;pi pi-info&#x27;, severity: &#x27;secondary&#x27;}
+            case ProjectStatusChoices.Ongoing:
+                return {value: &#x27;Ongoing&#x27;, icon: &#x27;pi pi-info&#x27;, severity: &#x27;info&#x27;}
+            case ProjectStatusChoices.Completed:
+                return {value: &#x27;Completed&#x27;, icon: &#x27;pi pi-check&#x27;, severity: &#x27;success&#x27;}
+            case ProjectStatusChoices.Aborted:
+                return {value: &#x27;Aborted&#x27;, icon: &#x27;pi pi-times&#x27;, severity: &#x27;danger&#x27;}
+            default: 
+                throw new Error(&#x60;Unknown status: ${status}&#x60;);
+        }
+    };
+
+    grantNewAuthorization(event: Event, member: ProjectMember) {
+        this.authDialogMember.set(member)
+        this.authDialogValidityPeriod.set([])
+        this.authDialogConfirmation.set(false)
+        this.#confirmationService.confirm({
+            target: event.target as EventTarget,
+            closable: true,
+            key: &#x27;authorize&#x27;,
+            closeOnEscape: true,
+            accept: () &#x3D;&gt; {
+                this.#projectsService.createProjectDataManagerGrant({
+                    projectId: this.projectId(),
+                    memberId: member.id,
+                    projectDataManagerGrantCreate: {
+                        validityPeriod: {
+                            start: this.authDialogValidityPeriod()[0].toISOString().split(&#x27;T&#x27;)[0],
+                            end: this.authDialogValidityPeriod()[1].toISOString().split(&#x27;T&#x27;)[0],
+                        }
+                    }
+                }).subscribe({
+                    complete: () &#x3D;&gt; {
+                        this.#messageService.add({ severity: &#x27;success&#x27;, summary: &#x27;Authorization&#x27;, detail: &#x27;Successfully updated authorization for &#x27; + member.fullName });
+                        this.project.reload()    
+                    }
+                })
+                
+            },
+            reject: () &#x3D;&gt; {},
+        });
+    };
+
+    
+    revokeAuthorization(event: Event, member: ProjectMember) {
+        this.#confirmationService.confirm({
+            target: event.target as EventTarget,
+            key: &#x27;revoke&#x27;,
+            closable: true,
+            message: &#x60;Do you want to revoke ${member.fullName} data management authorization?&#x60;,
+            icon: &#x27;pi pi-info-circle&#x27;,
+            rejectButtonProps: {
+                label: &#x27;Cancel&#x27;,
+                severity: &#x27;secondary&#x27;,
+                outlined: true
+            },
+            acceptButtonProps: {
+                label: &#x27;Delete&#x27;,
+                severity: &#x27;danger&#x27;
+            },
+            accept: () &#x3D;&gt; this.#projectsService.revokeProjectDataManagerGrant({
+                    projectId: this.projectId(),
+                    memberId: member.id,
+                    grantId: member.authorization.id
+                }).subscribe({
+                    complete: () &#x3D;&gt; {
+                        this.#messageService.add({ severity: &#x27;info&#x27;, summary: &#x27;Confirmed&#x27;, detail: &#x27;Authorization revoked for &#x27; + member.fullName })
+                        this.project.reload()
+                    }
+                }),
+            reject: () &#x3D;&gt; {}
+        });
+    }
+    
+
+    confirmMemberRemoval(event: Event, member: ProjectMember) {
+        this.#confirmationService.confirm({
+            key: &#x27;remove&#x27;,
+            header: &#x27;Danger Zone&#x27;,
+            message: &#x27;Do you want to remove &#x27; + member.fullName + &#x27; from the project?&#x27;,
+            icon: &#x27;pi pi-info-circle&#x27;,
+            rejectButtonProps: {
+                label: &#x27;Cancel&#x27;,
+                severity: &#x27;secondary&#x27;,
+                outlined: true
+            },
+            acceptButtonProps: {
+                label: &#x27;Delete&#x27;,
+                severity: &#x27;danger&#x27;
+            },
+            accept: () &#x3D;&gt; {
+                const members &#x3D; this.project.value()?.members?.filter(m &#x3D;&gt; m !&#x3D;&#x3D; member.username) || []
+                this.updateProjectMembers(members)
+            },
+        });
+    }
+
+    addMember(member: string) {
+        this.updateProjectMembers([...(this.project.value()?.members || []), member])
+    }
+
+    private updateProjectMembers(members: string[]) {
+        const payload &#x3D; {
+                leader: this.project.value()?.leader,
+                status: this.project.value()?.status,
+                title: this.project.value()?.title,
+                summary: this.project.value()?.description,
+                clinicalCenters: this.project.value()?.clinicalCenters,
+                ethicsApprovalNumber: this.project.value()?.ethicsApprovalNumber,
+                members: members
+            } as ProjectCreate
+        this.#projectsService.updateProjectById({
+            projectId: this.projectId(),
+            projectCreate: payload
+        }).subscribe({
+            complete: () &#x3D;&gt; {
+                this.#messageService.add({ severity: &#x27;success&#x27;, summary: &#x27;Project update&#x27;, detail: &#x27;Successfully updated project members.&#x27; })
+                this.project.reload()
+            }
+        })
+    }
+
+}</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">
+&lt;div class&#x3D;&quot;text-sm font-semibold text-muted&quot;&gt;
+    Project
+&lt;/div&gt;
+&lt;div&gt;
+    @if (project.isLoading()) {
+        &lt;p-skeleton width&#x3D;&quot;100%&quot; height&#x3D;&quot;2rem&quot;/&gt;
+    } @else {
+        &lt;h1 class&#x3D;&quot;my-0 mr-2&quot;&gt;{{ project.value()!.title }}&lt;/h1&gt;      
+    }
+&lt;/div&gt;
+
+
+&lt;h4 class&#x3D;&quot;mb-1&quot;&gt;Summary&lt;/h4&gt;
+&lt;p-divider layout&#x3D;&quot;horizontal&quot; class&#x3D;&quot;mt-0&quot;/&gt;
+&lt;p-card&gt;
+    &lt;div class&#x3D;&quot;text-sm text-muted mt-3&quot;&gt;
+        Project ID
+    &lt;/div&gt;
+    &lt;div&gt;
+        @if (project.isLoading()) {
+            &lt;p-skeleton width&#x3D;&quot;10rem&quot; height&#x3D;&quot;2rem&quot;/&gt;
+        } @else {
+            &lt;span class&#x3D;&quot;text-monospace text-sm&quot;&gt;
+                {{ project.value()?.id }}
+            &lt;/span&gt; 
+        }
+    &lt;/div&gt;
+    &lt;div class&#x3D;&quot;flex gap-4&quot;&gt;
+        &lt;div&gt;
+            &lt;div class&#x3D;&quot;text-sm text-muted mt-3&quot;&gt;
+                Project Leader
+            &lt;/div&gt;
+            &lt;div&gt;
+                @if (project.isLoading()) {
+                    &lt;p-skeleton width&#x3D;&quot;10rem&quot; height&#x3D;&quot;2rem&quot;/&gt;
+                } @else {
+                    &lt;onconova-user-badge [username]&#x3D;&quot;project.value()!.leader&quot; [showName]&#x3D;&quot;true&quot;/&gt;
+                }
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;div&gt;
+            &lt;div class&#x3D;&quot;text-sm text-muted mt-3 mb-1&quot;&gt;
+                Status
+            &lt;/div&gt;
+            &lt;div&gt;
+                @if (project.isLoading()) {
+                    &lt;p-skeleton width&#x3D;&quot;10rem&quot; height&#x3D;&quot;2rem&quot;/&gt;
+                } @else {
+                    @let status &#x3D; parseStatus(project.value()!.status!);
+                    &lt;p-tag [value]&#x3D;&quot;status.value&quot; [severity]&#x3D;&quot;status.severity&quot;/&gt;   
+                }
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class&#x3D;&quot;flex gap-4 mb-2&quot;&gt;
+        
+        &lt;div&gt;
+            &lt;div class&#x3D;&quot;text-sm text-muted mt-3 mb-1&quot;&gt;
+                Ethic Approval
+            &lt;/div&gt;
+            &lt;div&gt;
+                @if (project.isLoading()) {
+                    &lt;p-skeleton width&#x3D;&quot;10rem&quot; height&#x3D;&quot;2rem&quot;/&gt;
+                } @else {                
+                    {{ project.value()!.ethicsApprovalNumber }}
+                }
+            &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+                &lt;div class&#x3D;&quot;text-sm text-muted mt-3 mb-1&quot;&gt;
+                    Created
+                &lt;/div&gt;
+                &lt;div&gt;
+                    @if (project.isLoading()) {
+                        &lt;p-skeleton width&#x3D;&quot;10rem&quot; height&#x3D;&quot;2rem&quot;/&gt;
+                    } @else {                
+                        {{ (project.value()!.createdAt | date) ?? &#x27;-&#x27;  }}
+                    }
+                &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+            &lt;div class&#x3D;&quot;text-sm text-muted mt-3 mb-1&quot;&gt;
+                Last updated
+            &lt;/div&gt;
+            &lt;div&gt;
+                @if (project.isLoading()) {
+                    &lt;p-skeleton width&#x3D;&quot;10rem&quot; height&#x3D;&quot;2rem&quot;/&gt;
+                } @else {                
+                    {{ (project.value()!.updatedAt | date) ?? &#x27;-&#x27;  }}
+                }
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class&#x3D;&quot;text-sm text-muted mt-2&quot;&gt;
+        Description
+    &lt;/div&gt;
+    &lt;div class&#x3D;&quot;mb-5&quot;&gt;
+        @if (project.isLoading()) {
+            &lt;p-skeleton width&#x3D;&quot;100%&quot; height&#x3D;&quot;4rem&quot;/&gt;
+        } @else {
+            &lt;p&gt;{{ project.value()!.summary }}&lt;/p&gt;
+        }
+    &lt;/div&gt;
+&lt;/p-card&gt;
+
+
+
+&lt;h4 class&#x3D;&quot;mb-1&quot;&gt;Members&lt;/h4&gt;
+&lt;p-divider layout&#x3D;&quot;horizontal&quot; class&#x3D;&quot;mt-0&quot;/&gt;
+
+&lt;p-card styleClass&#x3D;&quot;pt-1&quot;&gt;
+    &lt;p-popover #addMemberSelect&gt;
+        &lt;div class&#x3D;&quot;flex flex-col gap-4&quot;&gt;
+            &lt;div&gt;
+                &lt;span class&#x3D;&quot;font-medium block mb-2&quot;&gt;Select a user to add as a member:&lt;/span&gt;
+                &lt;onconova-user-selector [(ngModel)]&#x3D;&quot;selectedUser&quot;/&gt;
+                &lt;div class&#x3D;&quot;w-12 mt-3&quot;&gt;
+                    &lt;p-button label&#x3D;&quot;Confirm&quot; (onClick)&#x3D;&quot;addMember(selectedUser()!); addMemberSelect.toggle($event)&quot; styleClass&#x3D;&quot;w-7 mr-2&quot; [disabled]&#x3D;&quot;!selectedUser()&quot;/&gt;
+                    &lt;p-button label&#x3D;&quot;Cancel&quot; (onClick)&#x3D;&quot;selectedUser.set(&#x27;&#x27;); addMemberSelect.toggle($event)&quot; styleClass&#x3D;&quot;w-4&quot; severity&#x3D;&quot;secondary&quot; [outlined]&#x3D;&quot;true&quot;/&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/p-popover&gt;
+
+    &lt;p-table 
+        [value]&#x3D;&quot;members.value() ?? membersPlaceholder&quot;
+        sortField&#x3D;&quot;fullName&quot;
+        &gt;
+        &lt;ng-template #header&gt;
+
+            &lt;tr&gt;
+                &lt;th colspan&#x3D;&quot;2&quot; class&#x3D;&quot;pt-0&quot;&gt;Member&lt;/th&gt;
+                &lt;th colspan&#x3D;&quot;3&quot; class&#x3D;&quot;pt-0&quot;&gt;Data Management&lt;/th&gt;
+                &lt;th colspan&#x3D;&quot;1&quot; class&#x3D;&quot;pt-0&quot;&gt;
+                    &lt;p-button 
+                        icon&#x3D;&quot;pi pi-plus&quot; 
+                        label&#x3D;&quot;Add member&quot; 
+                        id&#x3D;&quot;add-member-button&quot; 
+                        class&#x3D;&quot;ml-auto&quot; 
+                        severity&#x3D;&quot;primary&quot; 
+                        (onClick)&#x3D;&quot;addMemberSelect.toggle($event);&quot; 
+                        [disabled]&#x3D;&quot;!canEditAuthorizations()&quot;/&gt;
+                &lt;/th&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+                &lt;th&gt;Name&lt;/th&gt;
+                &lt;th&gt;Role&lt;/th&gt;
+
+                &lt;th&gt;Status&lt;/th&gt;
+                &lt;th&gt;Authorization granted by&lt;/th&gt;
+                &lt;th&gt;Validity&lt;/th&gt;
+                &lt;th&gt;Actions&lt;/th&gt;
+            &lt;/tr&gt;
+        &lt;/ng-template&gt;
+        &lt;ng-template #body let-member&gt;
+            @if (members.isLoading()) {
+                &lt;tr&gt;
+                    &lt;td&gt;&lt;p-skeleton height&#x3D;&quot;2rem&quot; width&#x3D;&quot;100%&quot;/&gt;&lt;/td&gt;
+                    &lt;td&gt;&lt;p-skeleton height&#x3D;&quot;2rem&quot; width&#x3D;&quot;100%&quot;/&gt;&lt;/td&gt;
+                    &lt;td&gt;&lt;p-skeleton height&#x3D;&quot;2rem&quot; width&#x3D;&quot;100%&quot;/&gt;&lt;/td&gt;
+                    &lt;td&gt;&lt;p-skeleton height&#x3D;&quot;2rem&quot; width&#x3D;&quot;100%&quot;/&gt;&lt;/td&gt;
+                    &lt;td&gt;&lt;p-skeleton height&#x3D;&quot;2rem&quot; width&#x3D;&quot;100%&quot;/&gt;&lt;/td&gt;
+                    &lt;td&gt;&lt;p-skeleton height&#x3D;&quot;2rem&quot; width&#x3D;&quot;100%&quot;/&gt;&lt;/td&gt;
+                &lt;/tr&gt;
+            } @else {
+                &lt;tr&gt;
+                    &lt;td&gt;&lt;i class&#x3D;&quot;pi pi-user text-primary mr-2&quot;&gt;&lt;/i&gt;{{member.fullName.trim() || member.username}}@if(member.username &#x3D;&#x3D; project.value()?.leader){&lt;p-tag value&#x3D;&quot;Leader&quot; severity&#x3D;&quot;secondary&quot; class&#x3D;&quot;ml-2&quot;/&gt;}&lt;/td&gt;
+                    &lt;td&gt;&lt;span class&#x3D;&quot;text-muted&quot;&gt;&lt;i class&#x3D;&quot;pi pi-lock&quot;&gt;&lt;/i&gt; {{member.accessLevel}}&lt;/span&gt; - {{member.role}}&lt;/td&gt;
+                    &lt;td&gt;
+                        @if (member.canManageCases) {
+                            &lt;p-tag value&#x3D;&quot;Authorized&quot; severity&#x3D;&quot;success&quot;/&gt;
+                        } @else {
+                            &lt;p-tag value&#x3D;&quot;Unauthorized&quot; severity&#x3D;&quot;danger&quot;/&gt;   
+                        }
+                    &lt;/td&gt;
+                    &lt;td&gt;
+                        @if (member.authorization; as authorization) {
+                            &lt;div&gt;
+                                &lt;onconova-user-badge [username]&#x3D;&quot;authorization.grantedBy&quot; [showName]&#x3D;&quot;true&quot;/&gt;
+                            &lt;/div&gt;
+                            &lt;div class&#x3D;&quot;text-muted text-sm authorization-granter-subtitle&quot;&gt;
+                                on {{ authorization.createdAt | date }}
+                            &lt;/div&gt;
+                        } @else if (member.accessLevel &gt;&#x3D; 4) {
+                            &lt;span class&#x3D;&quot;text-muted&quot;&gt;System&lt;/span&gt;
+                        } @else {
+                            &lt;span class&#x3D;&quot;text-muted&quot;&gt;-&lt;/span&gt;
+                        }
+                    &lt;/td&gt;
+                    &lt;td&gt;
+                        @if (member.authorization; as authorization) {
+                            &lt;div&gt; 
+                                {{authorization.validityPeriod.start | date}}
+                                -
+                                {{authorization.validityPeriod.end | date}}
+                            &lt;/div&gt;
+                            &lt;div class&#x3D;&quot;text-muted text-sm&quot;&gt;
+                                @if (authorization.revoked) {
+                                    Revoked
+                                } @else {
+                                    {{ getValidityPeriodAnnotation(authorization.validityPeriod) }}
+                                }
+                            &lt;/div&gt;
+                        } @else if (member.accessLevel &gt;&#x3D; 4) {
+                            &lt;span class&#x3D;&quot;text-muted&quot;&gt;Always&lt;/span&gt;
+                        } @else {
+                            &lt;span class&#x3D;&quot;text-muted&quot;&gt;-&lt;/span&gt;
+                        }
+                    &lt;/td&gt;
+                    &lt;td&gt;
+                        &lt;p-menu #menu [model]&#x3D;&quot;(dynamicMenuItems$ | async)!&quot; (onShow)&#x3D;&quot;getMemberMenuItems(member)&quot; [popup]&#x3D;&quot;true&quot; appendTo&#x3D;&quot;body&quot; [tabindex]&#x3D;&quot;undefined&quot;/&gt;
+                        &lt;p-button (click)&#x3D;&quot;menu.toggle($event)&quot; icon&#x3D;&quot;pi pi-ellipsis-v&quot; [disabled]&#x3D;&quot;!canEditAuthorizations() &quot;/&gt;
+                    &lt;/td&gt;
+                &lt;/tr&gt;
+            }
+        &lt;/ng-template&gt;
+    &lt;/p-table&gt;
+&lt;/p-card&gt;
+
+
+
+&lt;h4 class&#x3D;&quot;mb-1&quot;&gt;Cohorts&lt;/h4&gt;
+&lt;p-divider layout&#x3D;&quot;horizontal&quot; class&#x3D;&quot;mt-0&quot;/&gt;
+&lt;p-card&gt;
+    &lt;p-dataView
+        styleClass&#x3D;&quot;onconova-case-search-dataview&quot;
+        [value]&#x3D;&quot;cohorts.value() || [1,2,3,4,5,6,7,8,9,10, 12]&quot;
+        [paginator]&#x3D;&quot;true&quot; 
+        [rows]&#x3D;&quot;cohortsPagination().limit&quot; 
+        layout&#x3D;&quot;list&quot;
+        sortField&#x3D;&quot;createdAt&quot;
+        lazy&#x3D;&quot;true&quot;
+        [rowsPerPageOptions]&#x3D;&quot;cohortsPageSizeChoices&quot;
+        [totalRecords]&#x3D;&quot;totalCohorts()&quot;
+        (onLazyLoad)&#x3D;&quot;cohortsPagination.set({limit: $event.rows, offset: $event.first})&quot;
+        class&#x3D;&quot;no-background&quot;&gt;
+
+        &lt;ng-template #list let-data&gt;
+            &lt;p-table [value]&#x3D;&quot;data&quot; styleClass&#x3D;&quot;mt-3&quot;&gt;
+                &lt;ng-template pTemplate&#x3D;&quot;header&quot;&gt;
+                    &lt;tr&gt;
+                        &lt;th&gt;Title&lt;/th&gt;
+                        &lt;th class&#x3D;&quot;text-center&quot;&gt;Population&lt;/th&gt;
+                        &lt;th&gt;Project&lt;/th&gt;
+                        &lt;th&gt;Predominant Topography&lt;/th&gt;
+                        &lt;th&gt;Median Age&lt;/th&gt;
+                        &lt;th&gt;Median Completion&lt;/th&gt;
+                        &lt;th class&#x3D;&quot;text-center&quot;&gt;Created&lt;/th&gt;
+                        &lt;th class&#x3D;&quot;text-center&quot;&gt;Last Updated&lt;/th&gt;
+                        &lt;th&gt;&lt;/th&gt;
+                    &lt;/tr&gt;
+                &lt;/ng-template&gt;
+                &lt;ng-template pTemplate&#x3D;&quot;body&quot; let-cohort&gt;
+                    &lt;tr onconova-cohort-search-item 
+                        layout&#x3D;&quot;row&quot;
+                        [cohort]&#x3D;&quot;cohort&quot;
+                        &gt;&lt;/tr&gt;
+                &lt;/ng-template&gt;
+            &lt;/p-table&gt;
+        &lt;/ng-template&gt;    
+    &lt;/p-dataView&gt;
+&lt;/p-card&gt;
+
+&lt;h4 class&#x3D;&quot;mb-1&quot;&gt;Datasets&lt;/h4&gt;
+&lt;p-divider layout&#x3D;&quot;horizontal&quot; class&#x3D;&quot;mt-0&quot;/&gt;
+&lt;p-card&gt;
+    &lt;p-dataView
+        styleClass&#x3D;&quot;onconova-case-search-dataview&quot;
+        [value]&#x3D;&quot;datasets.value() || [1,2,3,4,5,6,7,8,9,10, 12]&quot;
+        [paginator]&#x3D;&quot;true&quot; 
+        [rows]&#x3D;&quot;cohortsPagination().limit&quot; 
+        layout&#x3D;&quot;list&quot;
+        sortField&#x3D;&quot;createdAt&quot;
+        lazy&#x3D;&quot;true&quot;
+        [rowsPerPageOptions]&#x3D;&quot;datasetsPageSizeChoices&quot;
+        [totalRecords]&#x3D;&quot;totalDatasets()&quot;
+        (onLazyLoad)&#x3D;&quot;datasetsPagination.set({limit: $event.rows, offset: $event.first})&quot;
+        class&#x3D;&quot;no-background mb-5&quot;&gt;
+
+        &lt;ng-template #list let-data&gt;
+            &lt;p-table [value]&#x3D;&quot;data&quot; styleClass&#x3D;&quot;mt-3&quot;&gt;
+                &lt;ng-template pTemplate&#x3D;&quot;header&quot;&gt;
+                    &lt;tr&gt;
+                        &lt;th&gt;Title&lt;/th&gt;
+                        &lt;th&gt;Description&lt;/th&gt;
+                        &lt;th class&#x3D;&quot;text-center&quot;&gt;Data Points&lt;/th&gt;
+                        &lt;th class&#x3D;&quot;text-center&quot;&gt;Exports&lt;/th&gt;
+                        &lt;th class&#x3D;&quot;text-center&quot;&gt;Last Export&lt;/th&gt;
+                        &lt;th&gt;Related Cohorts&lt;/th&gt;
+                        &lt;th class&#x3D;&quot;text-center&quot;&gt;Created&lt;/th&gt;
+                        &lt;th class&#x3D;&quot;text-center&quot;&gt;Last Updated&lt;/th&gt;
+                    &lt;/tr&gt;
+                &lt;/ng-template&gt;
+                &lt;ng-template pTemplate&#x3D;&quot;body&quot; let-dataset&gt;
+                    &lt;tr&gt;
+                        &lt;td&gt;{{ dataset.name }}&lt;/td&gt;
+                        &lt;td&gt;{{ dataset.summary | slice:0:30 }}&lt;/td&gt;
+                        &lt;td class&#x3D;&quot;text-center&quot;&gt;{{ dataset.rules?.length }}&lt;/td&gt;
+                        &lt;td class&#x3D;&quot;text-center&quot;&gt;{{ dataset.totalExports }}&lt;/td&gt;
+                        &lt;td class&#x3D;&quot;text-center&quot;&gt;{{ dataset.lastExport | date }}&lt;/td&gt;
+                        &lt;td&gt;
+                            @if (dataset.cohortsIds?.length &gt; 0) {
+                                &lt;ul class&#x3D;&quot;pl-0 ml-3 my-1&quot;&gt;
+                                    @for (cohortId of dataset.cohortsIds; track $index) {
+                                        &lt;li&gt;{{cohorts.value()?.find(matchCohort(cohortId))?.name}}&lt;/li&gt;
+                                    }
+                                &lt;/ul&gt;
+                            } @else {
+                                -
+                            }    
+                        &lt;/td&gt;
+                        &lt;td class&#x3D;&quot;text-center&quot;&gt;{{ (dataset.createdAt | date) || &#x27;-&#x27; }}&lt;/td&gt;
+                        &lt;td class&#x3D;&quot;text-center&quot;&gt;{{ (dataset.updatedAt | date) || &#x27;-&#x27; }}&lt;/td&gt;
+                    &lt;/tr&gt;
+                &lt;/ng-template&gt;
+            &lt;/p-table&gt;
+        &lt;/ng-template&gt;    
+
+    &lt;/p-dataView&gt;
+&lt;/p-card&gt;
+
+
+
+
+&lt;p-confirmdialog key&#x3D;&quot;revoke&quot;/&gt;
+&lt;p-confirmdialog key&#x3D;&quot;authorize&quot;&gt;
+    &lt;ng-template #headless let-message let-onAccept&#x3D;&quot;onAccept&quot; let-onReject&#x3D;&quot;onReject&quot;&gt;
+        &lt;div class&#x3D;&quot;p-4&quot;&gt;
+            &lt;h5 class&#x3D;&quot;mb-4&quot;&gt;
+                Data management authorization
+            &lt;/h5&gt; 
+            &lt;div&gt;
+                You are about to change the data management authorization for this project&#x27;s member:
+            &lt;/div&gt; 
+            &lt;div class&#x3D;&quot;flex gap-4 border-round	border-1 p-2 mt-2 surface-border	&quot;&gt;
+                &lt;div class&#x3D;&quot;ml-auto&quot;&gt;
+                    &lt;div class&#x3D;&quot;text-sm text-muted&quot;&gt;
+                        Name
+                    &lt;/div&gt;
+                    &lt;div&gt;
+                        {{authDialogMember()!.fullName}}
+                    &lt;/div&gt;    
+                &lt;/div&gt;
+                &lt;div class&#x3D;&quot;mr-auto&quot;&gt;
+                    &lt;div class&#x3D;&quot;text-sm text-muted&quot;&gt;
+                        Role
+                    &lt;/div&gt;
+                    &lt;div&gt;
+                        &lt;span class&#x3D;&quot;text-muted&quot;&gt;&lt;i class&#x3D;&quot;pi pi-lock&quot;&gt;&lt;/i&gt; {{authDialogMember()!.accessLevel}}&lt;/span&gt; - {{authDialogMember()!.role}}
+                    &lt;/div&gt;    
+                &lt;/div&gt;
+            &lt;/div&gt;
+            
+            &lt;p-fluid&gt;
+                &lt;div class&#x3D;&quot;field mt-4&quot; &gt;
+                    &lt;label class&#x3D;&quot;form-label required&quot;&gt;Authorization period&lt;/label&gt;
+                    &lt;div class&#x3D;&quot;text-muted text-sm mb-2&quot;&gt;
+                        A maximal duration of 31 days can be specified. 
+                    &lt;/div&gt;
+                    &lt;p-datepicker class&#x3D;&quot;max-w-full mt-2&quot;
+                         [(ngModel)]&#x3D;&quot;authDialogValidityPeriod&quot; 
+                         [minDate]&#x3D;&quot;authDialogExpirationMinDate&quot;
+                         [maxDate]&#x3D;&quot;authDialogExpirationMaxDate()&quot;
+                         selectionMode&#x3D;&quot;range&quot;
+                         [selectOtherMonths]&#x3D;&quot;true&quot;
+                         [inline]&#x3D;&quot;true&quot;/&gt;
+                &lt;/div&gt;    
+                @if (authDialogValidityPeriod()[1]) {
+                    &lt;div class&#x3D;&quot;text-center&quot;&gt;
+                        &lt;div class&#x3D;&quot;text-sm&quot;&gt;Selected period&lt;/div&gt;
+                        &lt;div class&#x3D;&quot;text-primary&quot;&gt;From &lt;span class&#x3D;&quot;font-semibold&quot;&gt;{{ authDialogValidityPeriod()![0] | date }}&lt;/span&gt; until &lt;span class&#x3D;&quot;font-semibold&quot;&gt;{{ authDialogValidityPeriod()![1] | date }}&lt;/span&gt; ({{getDaysDifference(authDialogValidityPeriod()![0], authDialogValidityPeriod()![1])}} days)&lt;/div&gt;                        
+                    &lt;/div&gt;    
+                }
+                &lt;div class&#x3D;&quot;field mt-4&quot; &gt;
+                    &lt;div class&#x3D;&quot;text-muted text-sm&quot;&gt;
+                        Please confirm the following:
+                    &lt;/div&gt;
+                    &lt;div class&#x3D;&quot;field flex mt-3&quot;  formGroupName&#x3D;&quot;consent&quot;&gt;
+                        &lt;p-toggleswitch [(ngModel)]&#x3D;&quot;authDialogConfirmation&quot; /&gt;
+                        &lt;label class&#x3D;&quot;form-label ml-2 my-auto required&quot;&gt;
+                            I hereby authorize and accept responsibility for {{authDialogMember()!.fullName}} as a member of this project, granting them permission to manage (create, edit, and delete) patient cases and related data. 
+                            This authorization also includes access to pseudonymized case data for the specified time period.
+                        &lt;/label&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;  
+            &lt;/p-fluid&gt;
+
+
+            &lt;div class&#x3D;&quot;flex items-center gap-2 mt-6&quot;&gt;
+                &lt;p-button label&#x3D;&quot;Authorize Data Manager&quot; (onClick)&#x3D;&quot;onAccept()&quot; styleClass&#x3D;&quot;w-20rem&quot; [disabled]&#x3D;&quot;!authDialogConfirmation() || !authDialogValidityPeriod()[1]&quot;&gt;&lt;/p-button&gt;
+                &lt;p-button label&#x3D;&quot;Cancel&quot; [outlined]&#x3D;&quot;true&quot; (onClick)&#x3D;&quot;onReject()&quot; styleClass&#x3D;&quot;w-32&quot;&gt;&lt;/p-button&gt;
+            &lt;/div&gt;    
+        &lt;/div&gt;
+    &lt;/ng-template&gt;
+&lt;/p-confirmdialog&gt;
+
+
+&lt;p-confirmdialog key&#x3D;&quot;remove&quot;/&gt;</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="text-sm font-semibold text-muted">    Project</div><div>    @if (project.isLoading()) {        <p-skeleton width="100%" height="2rem"/>    } @else {        <h1 class="my-0 mr-2">{{ project.value()!.title }}</h1>          }</div><h4 class="mb-1">Summary</h4><p-divider layout="horizontal" class="mt-0"/><p-card>    <div class="text-sm text-muted mt-3">        Project ID    </div>    <div>        @if (project.isLoading()) {            <p-skeleton width="10rem" height="2rem"/>        } @else {            <span class="text-monospace text-sm">                {{ project.value()?.id }}            </span>         }    </div>    <div class="flex gap-4">        <div>            <div class="text-sm text-muted mt-3">                Project Leader            </div>            <div>                @if (project.isLoading()) {                    <p-skeleton width="10rem" height="2rem"/>                } @else {                    <onconova-user-badge [username]="project.value()!.leader" [showName]="true"/>                }            </div>        </div>        <div>            <div class="text-sm text-muted mt-3 mb-1">                Status            </div>            <div>                @if (project.isLoading()) {                    <p-skeleton width="10rem" height="2rem"/>                } @else {                    @let status = parseStatus(project.value()!.status!);                    <p-tag [value]="status.value" [severity]="status.severity"/>                   }            </div>        </div>    </div>    <div class="flex gap-4 mb-2">                <div>            <div class="text-sm text-muted mt-3 mb-1">                Ethic Approval            </div>            <div>                @if (project.isLoading()) {                    <p-skeleton width="10rem" height="2rem"/>                } @else {                                    {{ project.value()!.ethicsApprovalNumber }}                }            </div>        </div>        <div>                <div class="text-sm text-muted mt-3 mb-1">                    Created                </div>                <div>                    @if (project.isLoading()) {                        <p-skeleton width="10rem" height="2rem"/>                    } @else {                                        {{ (project.value()!.createdAt | date) ?? \'-\'  }}                    }                </div>        </div>        <div>            <div class="text-sm text-muted mt-3 mb-1">                Last updated            </div>            <div>                @if (project.isLoading()) {                    <p-skeleton width="10rem" height="2rem"/>                } @else {                                    {{ (project.value()!.updatedAt | date) ?? \'-\'  }}                }            </div>        </div>    </div>    <div class="text-sm text-muted mt-2">        Description    </div>    <div class="mb-5">        @if (project.isLoading()) {            <p-skeleton width="100%" height="4rem"/>        } @else {            <p>{{ project.value()!.summary }}</p>        }    </div></p-card><h4 class="mb-1">Members</h4><p-divider layout="horizontal" class="mt-0"/><p-card styleClass="pt-1">    <p-popover #addMemberSelect>        <div class="flex flex-col gap-4">            <div>                <span class="font-medium block mb-2">Select a user to add as a member:</span>                <onconova-user-selector [(ngModel)]="selectedUser"/>                <div class="w-12 mt-3">                    <p-button label="Confirm" (onClick)="addMember(selectedUser()!); addMemberSelect.toggle($event)" styleClass="w-7 mr-2" [disabled]="!selectedUser()"/>                    <p-button label="Cancel" (onClick)="selectedUser.set(\'\'); addMemberSelect.toggle($event)" styleClass="w-4" severity="secondary" [outlined]="true"/>                </div>            </div>        </div>    </p-popover>    <p-table         [value]="members.value() ?? membersPlaceholder"        sortField="fullName"        >        <ng-template #header>            <tr>                <th colspan="2" class="pt-0">Member</th>                <th colspan="3" class="pt-0">Data Management</th>                <th colspan="1" class="pt-0">                    <p-button                         icon="pi pi-plus"                         label="Add member"                         id="add-member-button"                         class="ml-auto"                         severity="primary"                         (onClick)="addMemberSelect.toggle($event);"                         [disabled]="!canEditAuthorizations()"/>                </th>            </tr>            <tr>                <th>Name</th>                <th>Role</th>                <th>Status</th>                <th>Authorization granted by</th>                <th>Validity</th>                <th>Actions</th>            </tr>        </ng-template>        <ng-template #body let-member>            @if (members.isLoading()) {                <tr>                    <td><p-skeleton height="2rem" width="100%"/></td>                    <td><p-skeleton height="2rem" width="100%"/></td>                    <td><p-skeleton height="2rem" width="100%"/></td>                    <td><p-skeleton height="2rem" width="100%"/></td>                    <td><p-skeleton height="2rem" width="100%"/></td>                    <td><p-skeleton height="2rem" width="100%"/></td>                </tr>            } @else {                <tr>                    <td><i class="pi pi-user text-primary mr-2"></i>{{member.fullName.trim() || member.username}}@if(member.username == project.value()?.leader){<p-tag value="Leader" severity="secondary" class="ml-2"/>}</td>                    <td><span class="text-muted"><i class="pi pi-lock"></i> {{member.accessLevel}}</span> - {{member.role}}</td>                    <td>                        @if (member.canManageCases) {                            <p-tag value="Authorized" severity="success"/>                        } @else {                            <p-tag value="Unauthorized" severity="danger"/>                           }                    </td>                    <td>                        @if (member.authorization; as authorization) {                            <div>                                <onconova-user-badge [username]="authorization.grantedBy" [showName]="true"/>                            </div>                            <div class="text-muted text-sm authorization-granter-subtitle">                                on {{ authorization.createdAt | date }}                            </div>                        } @else if (member.accessLevel >= 4) {                            <span class="text-muted">System</span>                        } @else {                            <span class="text-muted">-</span>                        }                    </td>                    <td>                        @if (member.authorization; as authorization) {                            <div>                                 {{authorization.validityPeriod.start | date}}                                -                                {{authorization.validityPeriod.end | date}}                            </div>                            <div class="text-muted text-sm">                                @if (authorization.revoked) {                                    Revoked                                } @else {                                    {{ getValidityPeriodAnnotation(authorization.validityPeriod) }}                                }                            </div>                        } @else if (member.accessLevel >= 4) {                            <span class="text-muted">Always</span>                        } @else {                            <span class="text-muted">-</span>                        }                    </td>                    <td>                        <p-menu #menu [model]="(dynamicMenuItems$ | async)!" (onShow)="getMemberMenuItems(member)" [popup]="true" appendTo="body" [tabindex]="undefined"/>                        <p-button (click)="menu.toggle($event)" icon="pi pi-ellipsis-v" [disabled]="!canEditAuthorizations() "/>                    </td>                </tr>            }        </ng-template>    </p-table></p-card><h4 class="mb-1">Cohorts</h4><p-divider layout="horizontal" class="mt-0"/><p-card>    <p-dataView        styleClass="onconova-case-search-dataview"        [value]="cohorts.value() || [1,2,3,4,5,6,7,8,9,10, 12]"        [paginator]="true"         [rows]="cohortsPagination().limit"         layout="list"        sortField="createdAt"        lazy="true"        [rowsPerPageOptions]="cohortsPageSizeChoices"        [totalRecords]="totalCohorts()"        (onLazyLoad)="cohortsPagination.set({limit: $event.rows, offset: $event.first})"        class="no-background">        <ng-template #list let-data>            <p-table [value]="data" styleClass="mt-3">                <ng-template pTemplate="header">                    <tr>                        <th>Title</th>                        <th class="text-center">Population</th>                        <th>Project</th>                        <th>Predominant Topography</th>                        <th>Median Age</th>                        <th>Median Completion</th>                        <th class="text-center">Created</th>                        <th class="text-center">Last Updated</th>                        <th></th>                    </tr>                </ng-template>                <ng-template pTemplate="body" let-cohort>                    <tr onconova-cohort-search-item                         layout="row"                        [cohort]="cohort"                        ></tr>                </ng-template>            </p-table>        </ng-template>        </p-dataView></p-card><h4 class="mb-1">Datasets</h4><p-divider layout="horizontal" class="mt-0"/><p-card>    <p-dataView        styleClass="onconova-case-search-dataview"        [value]="datasets.value() || [1,2,3,4,5,6,7,8,9,10, 12]"        [paginator]="true"         [rows]="cohortsPagination().limit"         layout="list"        sortField="createdAt"        lazy="true"        [rowsPerPageOptions]="datasetsPageSizeChoices"        [totalRecords]="totalDatasets()"        (onLazyLoad)="datasetsPagination.set({limit: $event.rows, offset: $event.first})"        class="no-background mb-5">        <ng-template #list let-data>            <p-table [value]="data" styleClass="mt-3">                <ng-template pTemplate="header">                    <tr>                        <th>Title</th>                        <th>Description</th>                        <th class="text-center">Data Points</th>                        <th class="text-center">Exports</th>                        <th class="text-center">Last Export</th>                        <th>Related Cohorts</th>                        <th class="text-center">Created</th>                        <th class="text-center">Last Updated</th>                    </tr>                </ng-template>                <ng-template pTemplate="body" let-dataset>                    <tr>                        <td>{{ dataset.name }}</td>                        <td>{{ dataset.summary | slice:0:30 }}</td>                        <td class="text-center">{{ dataset.rules?.length }}</td>                        <td class="text-center">{{ dataset.totalExports }}</td>                        <td class="text-center">{{ dataset.lastExport | date }}</td>                        <td>                            @if (dataset.cohortsIds?.length > 0) {                                <ul class="pl-0 ml-3 my-1">                                    @for (cohortId of dataset.cohortsIds; track $index) {                                        <li>{{cohorts.value()?.find(matchCohort(cohortId))?.name}}</li>                                    }                                </ul>                            } @else {                                -                            }                            </td>                        <td class="text-center">{{ (dataset.createdAt | date) || \'-\' }}</td>                        <td class="text-center">{{ (dataset.updatedAt | date) || \'-\' }}</td>                    </tr>                </ng-template>            </p-table>        </ng-template>        </p-dataView></p-card><p-confirmdialog key="revoke"/><p-confirmdialog key="authorize">    <ng-template #headless let-message let-onAccept="onAccept" let-onReject="onReject">        <div class="p-4">            <h5 class="mb-4">                Data management authorization            </h5>             <div>                You are about to change the data management authorization for this project\'s member:            </div>             <div class="flex gap-4 border-round	border-1 p-2 mt-2 surface-border	">                <div class="ml-auto">                    <div class="text-sm text-muted">                        Name                    </div>                    <div>                        {{authDialogMember()!.fullName}}                    </div>                    </div>                <div class="mr-auto">                    <div class="text-sm text-muted">                        Role                    </div>                    <div>                        <span class="text-muted"><i class="pi pi-lock"></i> {{authDialogMember()!.accessLevel}}</span> - {{authDialogMember()!.role}}                    </div>                    </div>            </div>                        <p-fluid>                <div class="field mt-4" >                    <label class="form-label required">Authorization period</label>                    <div class="text-muted text-sm mb-2">                        A maximal duration of 31 days can be specified.                     </div>                    <p-datepicker class="max-w-full mt-2"                         [(ngModel)]="authDialogValidityPeriod"                          [minDate]="authDialogExpirationMinDate"                         [maxDate]="authDialogExpirationMaxDate()"                         selectionMode="range"                         [selectOtherMonths]="true"                         [inline]="true"/>                </div>                    @if (authDialogValidityPeriod()[1]) {                    <div class="text-center">                        <div class="text-sm">Selected period</div>                        <div class="text-primary">From <span class="font-semibold">{{ authDialogValidityPeriod()![0] | date }}</span> until <span class="font-semibold">{{ authDialogValidityPeriod()![1] | date }}</span> ({{getDaysDifference(authDialogValidityPeriod()![0], authDialogValidityPeriod()![1])}} days)</div>                                            </div>                    }                <div class="field mt-4" >                    <div class="text-muted text-sm">                        Please confirm the following:                    </div>                    <div class="field flex mt-3"  formGroupName="consent">                        <p-toggleswitch [(ngModel)]="authDialogConfirmation" />                        <label class="form-label ml-2 my-auto required">                            I hereby authorize and accept responsibility for {{authDialogMember()!.fullName}} as a member of this project, granting them permission to manage (create, edit, and delete) patient cases and related data.                             This authorization also includes access to pseudonymized case data for the specified time period.                        </label>                    </div>                </div>              </p-fluid>            <div class="flex items-center gap-2 mt-6">                <p-button label="Authorize Data Manager" (onClick)="onAccept()" styleClass="w-20rem" [disabled]="!authDialogConfirmation() || !authDialogValidityPeriod()[1]"></p-button>                <p-button label="Cancel" [outlined]="true" (onClick)="onReject()" styleClass="w-32"></p-button>            </div>            </div>    </ng-template></p-confirmdialog><p-confirmdialog key="remove"/></div>'
+    var COMPONENTS = [{'name': 'AbstractFormBase', 'selector': ''},{'name': 'AdverseEventFormComponent', 'selector': 'adverse-event-form'},{'name': 'AppComponent', 'selector': 'onconova-root'},{'name': 'AppFooterComponent', 'selector': 'onconova-footer'},{'name': 'AppLayoutComponent', 'selector': 'onconova-layout'},{'name': 'AppSidebarMenuComponent', 'selector': 'onconova-sidebar-menu'},{'name': 'AppTopBarComponent', 'selector': 'onconova-topbar'},{'name': 'AuthCallbackComponent', 'selector': 'app-auth-callback'},{'name': 'AuthLayoutComponent', 'selector': 'onconova-auth-layout'},{'name': 'BoxPlotComponent', 'selector': 'onconova-box-plot'},{'name': 'CancerIconComponent', 'selector': 'onconova-cancer-icon'},{'name': 'CaseImporterBundleViewerComponent', 'selector': 'onconova-case-importer-bundle-viewer'},{'name': 'CaseImporterComponent', 'selector': 'onconova-case-importer'},{'name': 'CaseManagerComponent', 'selector': 'onconova-case-manager'},{'name': 'CaseManagerDrawerComponent', 'selector': 'onconova-case-manager-drawer'},{'name': 'CaseManagerPanelComponent', 'selector': 'onconova-case-manager-panel'},{'name': 'CaseManagerPanelTimelineComponent', 'selector': 'onconova-case-manager-panel-timeline'},{'name': 'CaseSearchComponent', 'selector': ''},{'name': 'CaseSearchItemCardComponent', 'selector': 'onconova-case-search-item,[onconova-case-search-item]'},{'name': 'CodedConceptTreeComponent', 'selector': 'onconova-coded-concept-tree'},{'name': 'CohortBuilderComponent', 'selector': 'onconova-cohort-manager'},{'name': 'CohortContributorsComponent', 'selector': 'onconova-cohort-contributors'},{'name': 'CohortFormComponent', 'selector': 'cohort-form'},{'name': 'CohortGraphsComponent', 'selector': 'onconova-cohort-graphs'},{'name': 'CohortGraphsContextMenu', 'selector': 'onconova-cohort-graph-context-menu'},{'name': 'CohortQueryBuilderComponent', 'selector': 'onconova-cohort-query-builder'},{'name': 'CohortSearchComponent', 'selector': ''},{'name': 'CohortSearchItemComponent', 'selector': 'onconova-cohort-search-item, [onconova-cohort-search-item]'},{'name': 'CohortTraitPanel', 'selector': 'onconova-cohort-trait'},{'name': 'ComorbiditiesAssessmentFormComponent', 'selector': 'comorbidities-form'},{'name': 'ConceptSelectorComponent', 'selector': 'onconova-concept-selector'},{'name': 'ConsentNoticeModalComponent', 'selector': 'onconova-consent-modal'},{'name': 'DashboardComponent', 'selector': 'onconova-dashboard'},{'name': 'DataCompletionStatsComponent', 'selector': 'onconova-data-completion-stats'},{'name': 'DatasetComposerComponent', 'selector': 'onconova-dataset-composer'},{'name': 'DataSummaryComponent', 'selector': 'onconova-data-summary'},{'name': 'DataSummaryCounterComponent', 'selector': 'onconova-data-summary-counter'},{'name': 'DatePickerComponent', 'selector': 'onconova-datepicker'},{'name': 'DisclaimerBannerComponent', 'selector': 'onconova-disclaimer-banner'},{'name': 'DistributionGraphComponent', 'selector': 'onconova-distribution-graph'},{'name': 'DoughnutGraphComponent', 'selector': 'onconova-doughnut-graph'},{'name': 'DrawerDataPropertiesComponent', 'selector': 'onconova-drawer-properties'},{'name': 'ErrorComponent', 'selector': 'onconova-error'},{'name': 'ExportConfirmDialogComponent', 'selector': 'onconova-export-confirm-dialog'},{'name': 'FamilyHistoryFormComponent', 'selector': 'family-history-form'},{'name': 'FormControlErrorComponent', 'selector': 'onconova-form-control-error'},{'name': 'GenomicSignatureFormComponent', 'selector': 'genomic-signature-form'},{'name': 'GenomicVariantFormComponent', 'selector': 'genomic-variant-form'},{'name': 'IdenticonComponent', 'selector': 'onconova-identicon'},{'name': 'KapplerMeierCurveComponent', 'selector': 'onconova-kappler-meier-curve'},{'name': 'LifestyleFormComponent', 'selector': 'lifestyle-form'},{'name': 'LoginComponent', 'selector': 'onconova-login'},{'name': 'MeasureInputComponent', 'selector': 'onconova-measure-input'},{'name': 'ModalFormHeaderComponent', 'selector': 'onconova-modal-form-header'},{'name': 'MultiReferenceSelectComponent', 'selector': 'onconova-multi-reference-select'},{'name': 'NeoplasticEntityFormComponent', 'selector': 'neoplastic-entity-form'},{'name': 'NestedTableComponent', 'selector': 'onconova-nested-table'},{'name': 'OncoplotComponent', 'selector': 'onconova-oncoplot'},{'name': 'PasswordResetFormComponent', 'selector': 'onconova-password-reset-dialog'},{'name': 'PatientFormComponent', 'selector': 'patient-form'},{'name': 'PerformanceStatusFormComponent', 'selector': 'performance-status-form'},{'name': 'PopoverFilterButtonComponent', 'selector': 'onconova-popover-filter-button'},{'name': 'PrimaryEntitiesTableComponent', 'selector': 'onconova-primary-entities-table'},{'name': 'ProjectFormComponent', 'selector': 'project-form'},{'name': 'ProjectManagementComponent', 'selector': 'onconova-project-management'},{'name': 'ProjectSearchComponent', 'selector': 'onconova-project-search'},{'name': 'ProjectSearchItemComponent', 'selector': 'onconova-project-search-item, [onconova-project-search-item]'},{'name': 'ProviderSignupComponent', 'selector': 'app-signup'},{'name': 'RadioSelectComponent', 'selector': 'onconova-radio-select'},{'name': 'RadiotherapyFormComponent', 'selector': 'radiotherapy-form'},{'name': 'RandomPaperComponent', 'selector': 'onconova-random-paper'},{'name': 'RangeInputComponent', 'selector': 'onconova-range-input'},{'name': 'RiskAssessmentFormComponent', 'selector': 'risk-assessment-form'},{'name': 'SettingsDialogComponent', 'selector': 'onconova-settings-dialog'},{'name': 'StagingFormComponent', 'selector': 'staging-form'},{'name': 'SurgeryFormComponent', 'selector': 'surgery-form'},{'name': 'SystemicTherapyFormComponent', 'selector': 'systemic-therapy-form'},{'name': 'TreatmentResponseFormComponent', 'selector': 'treatment-response-form'},{'name': 'TumorBoardFormComponent', 'selector': 'tumor-board-form'},{'name': 'TumorMarkerFormComponent', 'selector': 'tumor-marker-form'},{'name': 'UserBadgeComponent', 'selector': 'onconova-user-badge'},{'name': 'UserDetailsComponent', 'selector': 'onconova-user-details'},{'name': 'UserFormComponent', 'selector': 'onconova-user-form'},{'name': 'UserSelectorComponent', 'selector': 'onconova-user-selector'},{'name': 'UsersManagementCompnent', 'selector': 'onconova-users-management'},{'name': 'VitalsFormComponent', 'selector': 'vitals-form'}];
+    var DIRECTIVES = [{'name': 'DateMaskDirective', 'selector': '[dateMask]'}];
+    var ACTUAL_COMPONENT = {'name': 'ProjectManagementComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'ProjectManagementComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>
