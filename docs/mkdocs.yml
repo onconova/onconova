@@ -47,6 +47,7 @@ theme:
     - content.code.annotate
 plugins:
   - search
+  - mike
   - neoteroi.mkdocsoad:
       use_pymdownx: true
   - document-dates:
@@ -107,6 +108,9 @@ markdown_extensions:
       line_spans: __span
       pygments_lang_class: true
   - pymdownx.snippets
+extra:
+  version:
+    provider: mike
 extra_css:
   - assets/css/style.css
   - assets/css/home.css

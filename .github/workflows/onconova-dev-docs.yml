@@ -1,0 +1,45 @@
+#
+name: Dev Documentation Deployment
+
+on:
+  push:
+    branches:
+      - master
+    tags-ignore: ['**']
+    
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+          
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: '16.x'
+
+      - name: Install dependencies
+        run: |
+          cd docs
+          python -m pip install --upgrade pip
+          pip install .
+          pip install ../server
+
+      - name: Setup Docs Deploy
+        run: |
+          git config --global user.name github-actions[bot]
+          git config --global user.email 41898282+github-actions[bot]@users.noreply.github.com
+
+      - name: Build and deploy documentation
+        run: |
+          npx @compodoc/compodoc -p ../client/tsconfig.doc.json -d ./src/compodoc/ -y src/assets/css/compodoc/ --hideGenerator --theme material
+          mike deploy --push dev
