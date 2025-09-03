@@ -41,5 +41,6 @@ jobs:
 
       - name: Build and deploy documentation
         run: |
+          cd docs
           npx @compodoc/compodoc -p ../client/tsconfig.doc.json -d ./src/compodoc/ -y src/assets/css/compodoc/ --hideGenerator --theme material
           mike deploy --push dev
