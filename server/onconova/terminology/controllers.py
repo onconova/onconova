@@ -60,21 +60,6 @@ class TerminologyController(ControllerBase):
     ):
         """        
         Retrieves terminology concepts from the specified terminology, applying optional filters and search criteria.
-
-        Args:
-            terminologyName (str): The name of the terminology to query.
-            query (Query[TerminologyFilters]): An object containing filter parameters, including:
-
-                - search_term (str, optional): A term to search for in concept codes, display names, or synonyms.
-                - codes (List[str], optional): A list of codes to filter the concepts.
-
-        Returns:
-            (QuerySet): A Django QuerySet of filtered and annotated terminology concepts, ordered by matching score if a search term is provided.
-
-        Notes:
-            - If a search term is provided, concepts are matched against code, display, and synonyms fields.
-            - Matching concepts are annotated with a matching score based on relevance.
-            - If codes are provided, the queryset is further filtered to include only those codes.
         """
         queryset = getattr(terminologies, terminologyName).objects.all()
         if query.search_term:

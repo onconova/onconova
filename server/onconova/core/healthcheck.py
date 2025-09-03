@@ -62,16 +62,6 @@ class HealthCheckController(ControllerBase):
     def health_check(self):
         """
         Performs a health check of the server, database connection, and database migrations.
-
-        Returns:
-            (HealthCheck): An object containing the status of the server, database, database connection time in milliseconds, and migration status.
-
-        Notes:
-            Checks performed:
-
-            - Server status (always "ok" if this method is called).
-            - Database connection status and measures connection speed.
-            - Unapplied database migrations status.
         """
         # Check server status (if this endpoint is hit, server is up)
         server_status = "ok"

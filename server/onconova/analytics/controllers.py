@@ -54,9 +54,6 @@ class DashboardController(ControllerBase):
         """
         Retrieves comprehensive statistics for the full cohort, including counts of cases, primary sites,
         entries, mutations, clinical centers, contributors, cohorts, and projects.
-
-        Returns:
-            (DataPlatformStatistics): An object containing the statistics over the whole platform
         """
         return DataPlatformStatistics(
             cases=oncological_models.PatientCase.objects.count(),
@@ -96,9 +93,6 @@ class DashboardController(ControllerBase):
         3. Calculates the population size and the median data completion rate for each cohort.
         4. Constructs a list of EntityStatistics objects containing the computed statistics and topography information.
         5. Sorts the statistics by population size in descending order.
-
-        Returns:
-            (List[EntityStatistics]): A sorted list of statistics for each primary site topography group.
         """
         primary_entities = (
             oncological_models.NeoplasticEntity.objects.select_properties(
@@ -141,11 +135,6 @@ class DashboardController(ControllerBase):
     def get_cases_over_time(self):
         """
         Retrieves the cumulative count of patient cases over time, grouped by month.
-
-        Returns:
-            (QuerySet): A queryset containing dictionaries with 'month' and 'cumulativeCount' keys,
-                      where 'month' is the truncated month of case creation and 'cumulativeCount'
-                      is the running total of cases up to that month.
         """
         return (
             oncological_models.PatientCase.objects.select_properties("created_at")
@@ -168,14 +157,10 @@ class DashboardController(ControllerBase):
         """
         Computes and returns statistics on data completion for patient cases.
 
-        Returns:
-            (Tuple[int, DataCompletionStatistics]): A tuple containing the HTTP status code (200) and a `DataCompletionStatistics` object.
-
-        Notes:
-            - If there are no patient cases, returns zeroed statistics.
-            - Uses Django ORM aggregation and annotation for efficient computation.
-            - Identifies most incomplete categories and the most affected sites for each.
-            - Tracks completion progress over time using monthly aggregation.
+        - If there are no patient cases, returns zeroed statistics.
+        - Uses Django ORM aggregation and annotation for efficient computation.
+        - Identifies most incomplete categories and the most affected sites for each.
+        - Tracks completion progress over time using monthly aggregation.
         """
         # Total count of PatientCases (denominator for percentages)
         total_cases = oncological_models.PatientCase.objects.count()
