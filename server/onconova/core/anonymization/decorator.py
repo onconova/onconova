@@ -19,6 +19,19 @@ from onconova.core.auth import permissions
 class AnonymizationBase(ABC):
     """
     Base class for implementing anonymization logic in data access layers.
+
+    Attributes:
+        InputSource: Query parameter for input source (type: Query).
+        Input (Schema): Nested schema class with an 'anonymized' boolean field to indicate whether data should be anonymized.
+
+    Args:
+        pass_parameter (str | None): Optional parameter to pass through the anonymization process.
+        **kwargs (Any): Additional keyword arguments.
+
+    Methods:
+        anonymize_queryset(data, anonymized=True, **params):
+
+                data (QuerySet | DjangoModel | Schema | Iterable[DjangoModel]): The data to be anonymized.
     """
 
     InputSource = Query(...)  # type: ignore
@@ -156,6 +169,18 @@ def anonymize(
 def anonymize(
     func_or_pgn_class: Any = NOT_SET, **anonymization_params: Any
 ) -> Callable[..., Any]:
+    """
+    Decorator to inject anonymization logic into a function or class.
+
+    This decorator can be used without parameters: `@anonymize`
+
+    Args:
+        func_or_pgn_class (Any, optional): The function or class to be decorated. Defaults to NOT_SET.
+        **anonymization_params (Any): Additional parameters for anonymization.
+
+    Returns:
+        Callable[..., Any]: The decorated function or class with anonymization logic applied.
+    """
     isfunction = inspect.isfunction(func_or_pgn_class)
     is_not_set = func_or_pgn_class == NOT_SET
 

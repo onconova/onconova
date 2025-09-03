@@ -12,6 +12,21 @@ from onconova.oncology.models import PatientCase
 
 @pghistory.track()
 class Lifestyle(BaseModel):
+    """
+    Represents a patient's lifestyle assessment, including smoking, alcohol, sleep, drug use, and exposure history.
+
+    Attributes:
+        case (models.ForeignKey[PatientCase]): Reference to the patient's case being assessed.
+        date (models.DateField): Date of lifestyle assessment.
+        smoking_status (termfields.CodedConceptField[terminologies.SmokingStatus]): Tobacco consumption status.
+        smoking_packyears (models.FloatField): Number of smoking pack-years, if applicable.
+        smoking_quited (MeasurementField): Time since quitting smoking, if applicable.
+        alcohol_consumption (termfields.CodedConceptField[terminologies.AlcoholConsumptionFrequency]): Frequency of alcohol consumption.
+        night_sleep (MeasurementField): Average sleep time per night.
+        recreational_drugs (termfields.CodedConceptField[terminologies.RecreationalDrug]): Recreational drugs used by the patient.
+        exposures (termfields.CodedConceptField[terminologies.ExposureAgent]): Environmental or occupational exposures to hazards or carcinogens.
+        description (str): Human-readable summary of the patient's lifestyle factors.
+    """
 
     case = models.ForeignKey(
         verbose_name=_("Patient case"),

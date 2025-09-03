@@ -1,5 +1,5 @@
 #
-name: Build & Push Docker Images on Release
+name: Continuous Deployment on Release
 
 on:
   release:
@@ -54,3 +54,39 @@ jobs:
           tags: |
             ghcr.io/${{ env.REPOSITORY }}/client:${{ env.RELEASE_TAG }}
             ghcr.io/${{ env.REPOSITORY }}/client:latest
+
+  build-and-deploy-docs:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+          
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: '16.x'
+
+      - name: Install dependencies
+        run: |
+          cd docs
+          python -m pip install --upgrade pip
+          pip install .
+          pip install ../server
+
+      - name: Setup Docs Deploy
+        run: |
+          git config --global user.name github-actions[bot]
+          git config --global user.email 41898282+github-actions[bot]@users.noreply.github.com
+
+      - name: Build and deploy documentation
+        run: |
+          npx @compodoc/compodoc -p ../client/tsconfig.doc.json -d ./src/compodoc/ -y src/assets/css/compodoc/ --hideGenerator --theme material
+          mike deploy --push --update-aliases $(echo "${{ github.event.release.tag_name }}" | grep -oP '^\d+\.\d+') latest
+          mike set-default latest

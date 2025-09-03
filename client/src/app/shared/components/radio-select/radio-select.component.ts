@@ -1,3 +1,21 @@
+/**
+ * A reusable Angular component for rendering a group of radio buttons using PrimeNG's `p-radiobutton`.
+ * Implements `ControlValueAccessor` for use with Angular forms.
+ *
+ * - The `choices` input is required and should be an array of objects with `name` and `value` properties.
+ * - The `class` input allows custom styling of the radio group container.
+ * - Integrates seamlessly with reactive and template-driven forms.
+ * - Uses the new Angular `input()` function for input binding.
+ *
+ * ```html
+ * <onconova-radio-select
+ *   [choices]="[{ name: 'Option 1', value: 1 }, { name: 'Option 2', value: 2 }]"
+ *   [class]="'my-custom-class'"
+ *   [(ngModel)]="selectedValue">
+ * </onconova-radio-select>
+ * 
+ * ```
+ */
 import { Component, Input, forwardRef, input } from '@angular/core';
 import { ControlValueAccessor, FormControl, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CommonModule} from '@angular/common';
@@ -8,6 +26,7 @@ export interface RadioChoice {
     name: string 
     value: any
 }
+
 
 @Component({
     selector: 'onconova-radio-select',

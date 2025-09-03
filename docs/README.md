@@ -1,17 +1,29 @@
+# Mkdocs Onconova Documentation 
 
+## Installation 
 
-### Generate database schema documentation.
+1. Install compodoc
 
-From root of project:
+```shell
+npm install -g @compodoc/compodoc
 ```
-docker compose run -v ${PWD}/docs/scripts:/app/src/scripts server python scripts/document_db.py
+
+2. Install Mkdocs and dependencies
+
+```shell
+pip install .
 ```
 
+3. Install server package 
 
-### Generate dependencies report documentation.
-
-From root of project:
+```shell
+pip install ../server
 ```
-python docs/scripts/dependencies_report.py --pyproject server/pyproject.toml docs/pyproject.toml --packagejson onconova
--client/package.json
+
+## Build full docs 
+
+```shell
+rm -rf src/compodoc/ && \
+npx @compodoc/compodoc -p ../client/tsconfig.doc.json -d ./src/compodoc/ -y src/assets/css/compodoc/ --hideGenerator --theme material && \
+mkdocs serve
 ```

@@ -1,8 +1,21 @@
+
 import { Injectable } from '@angular/core';
 import { Chart, ChartConfiguration, ChartType } from 'chart.js';
-
 import { zipSync, strToU8 } from 'fflate';
 
+
+/**
+ * This service provides utility methods for exporting data and charts in various formats,
+ * including JSON, CSV, ZIP, and high-resolution images. It is designed for use in Angular applications
+ * and supports flattening nested data structures for CSV export, packaging multiple CSVs into a ZIP file,
+ * and exporting Chart.js charts as PNG images with optional high resolution.
+ *
+ * - The service automatically flattens nested objects and arrays for CSV export.
+ * - When exporting as ZIP, each nested array/object is saved as a separate CSV file.
+ * - High-resolution chart export increases font and point sizes for clarity.
+ * - All downloads are triggered client-side using Blob and anchor elements.
+ * - The service is provided in the root injector and can be injected into any Angular component or service.
+ */
 @Injectable({
   providedIn: 'root'
 })

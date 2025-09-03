@@ -13,6 +13,25 @@ import { TerminologyService, CodedConcept, PaginatedCodedConcept } from 'onconov
 import { rxResource } from '@angular/core/rxjs-interop';
 import { Skeleton } from "primeng/skeleton";
 
+/**
+ * 
+ * This component provides a flexible UI for selecting coded concepts from a terminology source.
+ * It supports autocomplete, radio button, and select button widgets, and can handle single or multiple selections.
+ * The component integrates with Angular forms via ControlValueAccessor, and can return either the full concept object or just the code.
+ * 
+ * ```html
+ * <onconova-concept-selector
+ *   [terminology]="CancerMorphology"
+ *   [multiple]="false"
+ *   [widget]="'autocomplete'"
+ *   [showCodes]="true"
+ *   (selected)="onConceptSelected($event)">
+ * </onconova-concept-selector>
+ * ```
+ * 
+ * ## Notes
+ * - It fetches concepts from the provided TerminologyService.
+ */
 @Component({
     selector: 'onconova-concept-selector',
     templateUrl: './concept-selector.component.html',

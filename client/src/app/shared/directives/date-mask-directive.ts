@@ -3,6 +3,22 @@ import { NgControl } from '@angular/forms';
 import { DatePicker } from 'primeng/datepicker';
 import IMask from 'imask';
 
+/**
+ * 
+ * Applies an input mask to date fields using IMask, tailored for PrimeNG DatePicker components.
+ * The mask pattern and placeholder are dynamically set based on the DatePicker's view and selection mode.
+ * Supports masking for date, month, year, and datetime formats, as well as range selection.
+ *
+ * - This directive is intended to be used with PrimeNG's DatePicker component.
+ * - The mask adapts automatically to the DatePicker's `view` (`date`, `month`, `year`, or other) and `selectionMode` (`single` or `range`).
+ * - The directive updates the form control value only when the input is complete according to the mask.
+ * - Ensure that the directive is applied to a PrimeNG DatePicker element for correct behavior.
+ * 
+ * ```html
+ * <p-calendar dateMask [(ngModel)]="date"></p-calendar>
+ * ```
+ * 
+ */
 @Directive({
   standalone: true,
   selector: '[dateMask]'

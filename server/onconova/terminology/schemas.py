@@ -3,7 +3,18 @@ from typing import Any
 
 class CodedConcept(Schema):
     """
-    A coded concept as described by a standardized terminology
+    Represents a coded concept from a terminology system, including its code, system, display name, definition, version, hierarchical parent, synonyms, and additional properties.
+
+    Attributes:
+        code (str): A symbol representing the concept, expressed in the syntax defined by the code system.
+        system (str | None): The unique identifier (usually a canonical URL) of the code system that establishes the meaning of the code.
+        display (str | None): A human-friendly rendering of the concept as defined by the code system, intended for display to end users.
+        definition (str | None): A formal and precise narrative description of the concept, as provided by the code system's definition.
+        version (str | None): The specific version of the code system from which this code was selected.
+        parent (str | None): The code of the immediate parent concept, establishing hierarchical relationships within the code system.
+        synonyms (list[str]): Alternative human-readable terms or phrases for the concept.
+        properties (dict[str, Any] | None): Additional attributes or metadata for the concept, as defined by the code system's property definitions.
+
     """
 
     code: str = Field(

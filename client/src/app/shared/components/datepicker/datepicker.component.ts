@@ -1,3 +1,4 @@
+
 import { Component, forwardRef, input } from '@angular/core';
 import { ControlValueAccessor, FormControl, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CommonModule, formatDate} from '@angular/common';
@@ -6,6 +7,30 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { DateMaskDirective } from '../../directives/date-mask-directive';
 import { Message } from 'primeng/message';
 
+
+/**
+ * A reusable Angular date picker component with customizable format, placeholder, and selection mode.
+ * Integrates with Angular forms and supports validation for date ranges, past/future limits, and invalid dates.
+ * Uses PrimeNG's `p-datepicker` and displays error messages for invalid input.
+ *
+ * - Supports single, multiple, and range selection modes.
+ * - Validates dates to ensure they are within the last 200 years and not in the future.
+ * - Displays contextual error messages for invalid input.
+ * - Converts between ISO date strings and user-friendly display formats.
+ * - Designed to be used as a form control with Angular's reactive or template-driven forms.
+ *
+ * ```html
+ * <onconova-datepicker
+ *   [dateFormat]="'dd/mm/yy'"
+ *   [placeholder]="'DD/MM/YYYY'"
+ *   [selectionMode]="'range'"
+ *   [view]="'date'"
+ *   [(ngModel)]="selectedDateRange"
+ * ></onconova-datepicker>
+ * ```
+ *
+ * See [PrimeNG DatePicker Documentation](https://www.primefaces.org/primeng/showcase/#/datepicker)
+ */
 @Component({
     selector: 'onconova-datepicker',
     template: `

@@ -1,3 +1,9 @@
+"""
+This module defines and configures the main Onconova API using NinjaExtraAPI, providing a secure, 
+standards-based interface for cancer genomics and clinical research data management. It registers all core, 
+oncology, research, and interoperability controllers, and sets up OpenAPI documentation with custom settings and license information.
+"""
+
 from ninja import Redoc
 from ninja_extra import NinjaExtraAPI
 
@@ -36,9 +42,38 @@ from onconova.research.controllers.dataset import DatasetsController
 from onconova.research.controllers.project import ProjectController
 from onconova.terminology.controllers import TerminologyController
 
+api:NinjaExtraAPI 
+"""The main Onconova API instance, configured with custom OpenAPI documentation, authentication requirements,
+and registered controllers for health checks, authentication, user management, oncology, research, interoperability,
+terminology, and analytics. This API serves as the entry point for all RESTful endpoints related to cancer genomics
+and clinical research data management."""
+
 api = NinjaExtraAPI(
     title="Onconova API",
-    description="""
+    urls_namespace="onconova",
+    servers=[
+        dict(
+            url="https://{domain}:{port}/api",
+            description="API server",
+            variables={"port": {"default": "4443"}, "domain": {"default": "localhost"}},
+        ),
+    ],
+    openapi_extra=dict(
+        info=dict(
+            license=dict(
+                name="MIT",
+                url="https://github.com/luisfabib/onconova/blob/main/LICENSE",
+            )
+        )
+    ),
+    docs=Redoc(
+        settings={
+            "showExtensions": ["x-terminology", "x-measure", "x-default-unit"],
+            "generateCodeSamples": {"languages": [{"lang": "curl"}]},
+        }
+    ),
+)
+api.description = """
 Welcome to the Onconova API — a secure, standards-based interface designed to facilitate the exchange, management, and 
 analysis of research data related to cancer genomics, clinical records, and associated metadata. This API provides an extensive set of RESTful endpoints enabling authorized users to perform full CRUD (Create, Read, Update, Delete) operations on various resources within the platform’s data ecosystem.
 
@@ -51,7 +86,7 @@ A valid session token must be obtained prior to accessing any protected endpoint
 
 The authentication and authorization flows for obtaining and managing session tokens are provided through the AllAuth authentication service. 
 This includes endpoints for user login, logout, password management, and token renewal. For complete details on implementing authentication and 
-managing session tokens, please refer to the [AllAuth API documentation](/api/allauth/openapi.html).
+managing session tokens, please refer to the [AllAuth API documentation](https://docs.allauth.org/en/latest/headless/openapi-specification/).
 
 **Important:** Unauthorized requests or those missing valid authentication tokens will receive an `HTTP 401 Unauthorized` response.
 
@@ -71,30 +106,7 @@ These terms and conditions may be updated from time to time, and it is your resp
 ### License 
 The Onconova API specification is made available under the MIT License, a permissive open-source license that allows users to freely use, copy,
 modify, merge, publish, distribute, sublicense, and/or sell copies of the software, subject to the inclusion of the original copyright and license.
-    """,
-    urls_namespace="onconova",
-    servers=[
-        dict(
-            url="https://{domain}:{port}/api",
-            description="API server",
-            variables={"port": {"default": "4443"}, "domain": {"default": "localhost"}},
-        ),
-    ],
-    openapi_extra=dict(
-        info=dict(
-            license=dict(
-                name="MIT",
-                url="https://github.com/precisionmedicineinitiative/ONCONOVA/blob/main/LICENSE",
-            )
-        )
-    ),
-    docs=Redoc(
-        settings={
-            "showExtensions": ["x-terminology", "x-measure", "x-default-unit"],
-            "generateCodeSamples": {"languages": [{"lang": "curl"}]},
-        }
-    ),
-)
+    """
 api.register_controllers(
     HealthCheckController,
     AuthController,

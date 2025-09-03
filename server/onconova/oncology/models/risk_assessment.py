@@ -11,9 +11,15 @@ from onconova.oncology.models import NeoplasticEntity, PatientCase
 @pghistory.track()
 class RiskAssessment(BaseModel):
     """
-    A risk assessment may be done by collecting information about a person's age, sex, personal
-    and family medical history, ethnic background, lifestyle, and other factors and
-    using statistics tools to calculate risk
+    Represents a risk assessment for a patient's cancer case.
+
+    Attributes:
+        case (models.ForeignKey[PatientCase]): Reference to the patient's case being assessed.
+        date (models.DateField): Date when the risk assessment was performed and recorded.
+        assessed_entities (models.ManyToManyField[NeoplasticEntity]): Neoplastic entities assessed to estimate risk.
+        methodology (termfields.CodedConceptField[terminologies.CancerRiskAssessmentMethod]): Method or type of risk assessment used.
+        risk (termfields.CodedConceptField[terminologies.CancerRiskAssessmentClassification]): Assessed risk classification.
+        score (models.FloatField): Quantitative score used to classify the risk (optional).
     """
 
     case = models.ForeignKey(
@@ -69,6 +75,19 @@ class RiskAssessment(BaseModel):
 
 
 def validate_risk_classification(assessment):
+    """
+    Validates that the risk classification code in the given assessment matches the expected codes
+    for the specified risk assessment methodology.
+
+    The function checks the `assessment.methodology.code` and asserts that `assessment.risk.code`
+    is one of the allowed codes for that methodology.
+
+    Args:
+        assessment (RiskAssessment | RiskAssessmentSchema): An object containing `methodology.code` and `risk.code` attributes.
+
+    Raises:
+        AssertionError: If the risk code does not match the expected codes for the methodology.
+    """
     if (
         assessment.methodology.code == "C136962"
     ):  # Follicular Lymphoma International Prognostic Index (FLIPI)

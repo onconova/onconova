@@ -11,8 +11,16 @@ from onconova.core.auth.schemas import UserExportSchema
 from onconova.core.history.schemas import HistoryEvent
 from onconova.oncology.models.patient_case import PatientCaseDataCategories
 
-
 class ExportMetadata(BaseModel):
+    """
+    Represents metadata information for an exported resource.
+
+    Attributes:
+        exportedAt (datetime): The datetime when the resource was exported.
+        exportedBy (str): Username of the user who performed the export.
+        exportVersion (str): Version tag of the exporting system.
+        checksum (str): Checksum (e.g., SHA256) of the exported content for integrity verification.
+    """
     exportedAt: datetime = Field(
         ...,
         title="Export Timestamp",
@@ -34,7 +42,45 @@ class ExportMetadata(BaseModel):
 
 
 class PatientCaseBundle(sc.PatientCaseSchema):
-    """The order of the properties matters for the import tool (based on references tree)"""
+    """
+    PatientCaseBundle aggregates all relevant patient case data for interoperability and import/export operations.
+
+    This schema extends PatientCaseSchema and organizes multiple related entities, such as neoplastic entities, stagings, tumor markers, risk assessments, therapies, surgeries, adverse events, treatment responses, performance status, comorbidities, genomic variants, genomic signatures, vitals, lifestyles, family history, tumor boards, completed data categories, and history events.
+
+    The order of properties is significant for import tools that rely on reference trees.
+
+    Attributes:
+        neoplasticEntities (List[NeoplasticEntitySchema]): List of neoplastic entities associated with the patient case.
+        stagings (List[Union[...]]): List of staging schemas (e.g., TNM, FIGO, Binet, etc.).
+        tumorMarkers (List[TumorMarkerSchema]): List of tumor marker schemas.
+        riskAssessments (List[RiskAssessmentSchema]): List of risk assessment schemas.
+        therapyLines (List[TherapyLineSchema]): List of therapy line schemas.
+        systemicTherapies (List[SystemicTherapySchema]): List of systemic therapy schemas.
+        surgeries (List[SurgerySchema]): List of surgery schemas.
+        radiotherapies (List[RadiotherapySchema]): List of radiotherapy schemas.
+        adverseEvents (List[AdverseEventSchema]): List of adverse event schemas.
+        treatmentResponses (List[TreatmentResponseSchema]): List of treatment response schemas.
+        performanceStatus (List[PerformanceStatusSchema]): List of performance status schemas.
+        comorbidities (List[ComorbiditiesAssessmentSchema]): List of comorbidities assessment schemas.
+        genomicVariants (List[GenomicVariantSchema]): List of genomic variant schemas.
+        genomicSignatures (List[Union[...]]): List of genomic signature schemas (e.g., TMB, MSI, LOH, etc.).
+        vitals (List[VitalsSchema]): List of vitals schemas.
+        lifestyles (List[LifestyleSchema]): List of lifestyle schemas.
+        familyHistory (List[FamilyHistorySchema]): List of family history schemas.
+        tumorBoards (List[Union[UnspecifiedTumorBoardSchema, MolecularTumorBoardSchema]]): List of tumor board schemas.
+        completedDataCategories (Dict[PatientCaseDataCategories, PatientCaseDataCompletionStatusSchema]): Mapping of data categories to their completion status.
+        history (List[HistoryEvent]): List of history events related to the patient case.
+
+    Methods:
+        resolve_stagings(obj): Resolves and serializes staging data for the patient case.
+        resolve_genomicSignatures(obj): Resolves and serializes genomic signature data.
+        resolve_tumorBoards(obj): Resolves and serializes tumor board data.
+        resolve_completedDataCategories(obj): Resolves completion status for each data category.
+        resolve_history(obj): Resolves and retrieves history events for the patient case.
+
+    Config:
+        model_config: Serialization configuration (serialize_by_alias=False).
+    """
 
     neoplasticEntities: List[sc.NeoplasticEntitySchema] = Field(
         default=[],

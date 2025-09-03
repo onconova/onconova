@@ -398,12 +398,8 @@ class AnnotationCompiler:
         Case 3: Simple annotations. The key is the name of the annotation and the
         value is the Django ORM expression for the annotation.
 
-        Args:
-            None
-
         Returns:
-            A tuple of two elements. The first element is a dictionary of
-            annotations and the second element is a list of field names.
+            (tuple[dict, list]): A tuple of two elements. The first element is a dictionary of annotations and the second element is a list of field names.
         """
         annotations = {}
         queryset_fields = ["pseudoidentifier"]

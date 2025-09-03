@@ -12,6 +12,18 @@ from onconova.research.models.project import Project
 
 @pghistory.track()
 class Dataset(BaseModel):
+    """
+    Represents a dataset within a research project.
+
+    Attributes:
+        name (models.CharField): The name of the dataset.
+        summary (models.TextField): A brief summary of the dataset (optional).
+        rules (models.JSONField): Composition rules for the dataset, validated as a list.
+        project (models.ForeignKey[Project]): Reference to the associated Project.
+        last_export (AnnotationProperty): Timestamp of the last export event.
+        total_exports (AnnotationProperty): Total number of export events.
+        cohorts_ids (AnnotationProperty): List of cohort IDs associated with export events.
+    """
 
     name = models.CharField(
         verbose_name=_("Dataset name"),
@@ -57,6 +69,23 @@ class Dataset(BaseModel):
     )
 
     def save(self, *args, **kwargs):
+        """
+        Saves the current instance after validating its rules.
+
+        This method performs the following steps:
+        1. Imports the DatasetRule schema for rule validation.
+        2. Ensures that the 'rules' attribute is a list; raises ValueError if not.
+        3. Validates each rule in the 'rules' list using DatasetRule.model_validate.
+        4. Calls the superclass's save method to persist the instance.
+
+        Args:
+            args (list): Variable length argument list passed to the superclass save method.
+            kwargs (dict): Arbitrary keyword arguments passed to the superclass save method.
+
+        Raises:
+            ValueError: If 'rules' is not a list.
+            ValidationError: If any rule fails validation via DatasetRule.model_validate.
+        """
         from onconova.research.schemas.dataset import DatasetRule
 
         # Validate the rules
@@ -68,4 +97,10 @@ class Dataset(BaseModel):
 
     @property
     def description(self):
+        """
+        Returns a string describing the dataset.
+
+        Returns:
+            (str): A formatted description of the dataset.
+        """
         return f'Dataset "{self.name}"'

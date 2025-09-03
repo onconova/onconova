@@ -37,12 +37,12 @@ DataResource = Enum(
 
 class DatasetRule(Schema):
     """
-    A rule defining how a dataset is composed from a specific resource and field.
+    Schema representing a rule applied to a dataset resource.
 
     Attributes:
-        resource (DataResource): The resource (model type) this rule applies to.
-        field (str): Dot-separated path to the target field within the resource.
-        transform (Nullable[Union[str, Tuple[str, Any]]]): Nullable transformation or expression to apply.
+        resource (DataResource): The oncology resource this rule references.
+        field (str): Dot-separated path of the field within the resource (e.g. 'medications.drug').
+        transform (Nullable[str | Tuple[str, Any]]): Nullable transform expression or mapping applied to the field's value.
     """
 
     resource: DataResource = Field(  # type: ignore
@@ -63,7 +63,14 @@ class DatasetRule(Schema):
 
 class Dataset(ModelGetSchema):
     """
-    Schema for retrieving a dataset definition, including its composition rules.
+    Represents a dataset schema with composition rules, export metadata, and associated cohorts.
+
+    Attributes:
+        rules (List[DatasetRule]): List of composition rules that define the dataset's structure.
+        lastExport (Nullable[datetime]): The datetime of the last export of this dataset.
+        totalExports (int): The total number of times this dataset has been exported.
+        cohortsIds (List[str]): List of cohort IDs that have been exported with this dataset.
+        config (SchemaConfig): Configuration linking the schema to the ORM Dataset model.
     """
 
     rules: List[DatasetRule] = Field(
@@ -97,7 +104,11 @@ class Dataset(ModelGetSchema):
 
 class DatasetCreate(ModelCreateSchema):
     """
-    Schema for creating a new dataset, including its composition rules.
+    Schema for creating a new Dataset instance.
+
+    Attributes:
+        rules (List[DatasetRule]): List of composition rules that define the dataset's structure.
+        config (SchemaConfig): Configuration specifying the ORM model associated with this schema.
     """
 
     rules: List[DatasetRule] = Field(
@@ -114,9 +125,6 @@ DatasetFiltersBase = create_filters_schema(schema=Dataset, name="DatasetFilters"
 
 
 class DatasetFilters(DatasetFiltersBase):
-    """
-    Additional query filters for datasets.
-    """
 
     createdBy: Nullable[str] = Field(
         default=None,
@@ -232,6 +240,52 @@ partial_schemas = {
 
 
 class PatientCaseDataset(partial_schemas["PatientCase"]):
+    """
+    PatientCaseDataset schema representing a comprehensive dataset for a patient case in oncological research.
+
+    Attributes:
+        pseudoidentifier (str): Unique pseudoidentifier for the patient case.
+        neoplasticEntities (Optional[List[NeoplasticEntity]]): List of neoplastic entities associated with the case.
+        tnmStagings (Optional[List[TNMStaging]]): List of TNM staging resources.
+        figoStagings (Optional[List[TNMStaging]]): List of FIGO staging resources.
+        binetStagings (Optional[List[BinetStaging]]): List of Binet staging resources.
+        raiStagings (Optional[List[RaiStaging]]): List of Rai staging resources.
+        breslowStagings (Optional[List[BreslowDepth]]): List of Breslow depth resources.
+        clarkStagings (Optional[List[ClarkStaging]]): List of Clark staging resources.
+        issStagings (Optional[List[ISSStaging]]): List of ISS staging resources.
+        rissStagings (Optional[List[RISSStaging]]): List of RISS staging resources.
+        inssStagings (Optional[List[INSSStage]]): List of INSS staging resources.
+        inrgssStagings (Optional[List[INRGSSStage]]): List of INRGSS staging resources.
+        gleasonStagings (Optional[List[GleasonGrade]]): List of Gleason grade resources.
+        rhabdomyosarcomaGroups (Optional[List[RhabdomyosarcomaClinicalGroup]]): List of rhabdomyosarcoma clinical group resources.
+        wilmsStagings (Optional[List[WilmsStage]]): List of Wilms staging resources.
+        lymphomaStagings (Optional[List[LymphomaStaging]]): List of lymphoma staging resources.
+        tumorMarkers (Optional[List[TumorMarker]]): List of tumor marker resources.
+        riskAssessments (Optional[List[RiskAssessment]]): List of risk assessment resources.
+        therapyLines (Optional[List[TherapyLine]]): List of therapy line resources.
+        systemicTherapies (Optional[List[SystemicTherapy]]): List of systemic therapy resources.
+        surgeries (Optional[List[Surgery]]): List of surgery resources.
+        radiotherapies (Optional[List[Radiotherapy]]): List of radiotherapy resources.
+        adverseEvents (Optional[List[AdverseEvent]]): List of adverse event resources.
+        treatmentResponses (Optional[List[TreatmentResponse]]): List of treatment response resources.
+        performanceStatus (Optional[List[PerformanceStatus]]): List of performance status resources.
+        comorbidities (Optional[List[ComorbiditiesAssessment]]): List of comorbidities assessment resources.
+        genomicVariants (Optional[List[GenomicVariant]]): List of genomic variant resources.
+        tumorMutationalBurdens (Optional[List[TumorMutationalBurden]]): List of tumor mutational burden resources.
+        microsatelliteInstabilities (Optional[List[MicrosatelliteInstability]]): List of microsatellite instability resources.
+        lossesOfHeterozygosity (Optional[List[LossOfHeterozygosity]]): List of loss of heterozygosity resources.
+        homologousRecombinationDeficiencies (Optional[List[HomologousRecombinationDeficiency]]): List of homologous recombination deficiency resources.
+        tumorNeoantigenBurdens (Optional[List[TumorNeoantigenBurden]]): List of tumor neoantigen burden resources.
+        aneuploidScores (Optional[List[AneuploidScore]]): List of aneuploid score resources.
+        vitals (Optional[List[Vitals]]): List of vital sign resources.
+        lifestyles (Optional[List[Lifestyle]]): List of lifestyle resources.
+        familyHistory (Optional[List[FamilyHistory]]): List of family history resources.
+        unspecifiedTumorBoards (Optional[List[UnspecifiedTumorBoard]]): List of unspecified tumor board resources.
+        molecularTumorBoards (Optional[List[UnspecifiedTumorBoard]]): List of molecular tumor board resources.
+
+    Note:
+        All attributes are nullable and may contain lists of corresponding schema resources.
+    """
 
     pseudoidentifier: str = Field(title="Pseudoidentifier")
     neoplasticEntities: Nullable[List[partial_schemas["NeoplasticEntity"]]] = Field(  # type: ignore

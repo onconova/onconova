@@ -2,6 +2,22 @@ import { Component, computed, input, signal } from '@angular/core';
 import { InlineSVGModule } from 'ng-inline-svg-2';
 import { Skeleton } from 'primeng/skeleton';
 
+/**
+ * 
+ * Displays an avatar icon representing a specific cancer topography code.
+ * 
+ * This component maps ICD-O topography codes to corresponding body part icons and renders
+ * the appropriate SVG image. If the provided code does not match any known mapping, a default
+ * "unknown" icon is shown. The component also displays a skeleton loader while the SVG is loading.
+ *
+ * ```html
+ * <onconova-cancer-icon topography="C37" height="2rem" width="2rem"/>
+ * ```
+ *
+ * #### Notes
+ * - Uses `ng-inline-svg-2` for SVG rendering and `primeng/skeleton` for loading state.
+ * - Accepts optional `height` and `width` inputs to control icon size.
+ */
 @Component({
     selector: 'onconova-cancer-icon',
     template: `
@@ -21,7 +37,7 @@ import { Skeleton } from 'primeng/skeleton';
 })
 export class CancerIconComponent {
 
-    // Component inputs
+
     readonly topography = input.required<string>();
     readonly height = input<string>('2rem');
     readonly width = input<string>('2rem');

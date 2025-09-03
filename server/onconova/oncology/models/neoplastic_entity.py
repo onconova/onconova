@@ -18,6 +18,15 @@ REGIONAL_RECURRENCE = "regional_recurrence"
 
 
 class NeoplasticEntityRelationship(models.TextChoices):
+    """
+    An enumeration of possible relationships between neoplastic entities.
+
+    Attributes:
+        PRIMARY: Indicates the neoplastic entity is a primary tumor.
+        METASTATIC: Indicates the neoplastic entity is a metastasis.
+        LOCAL_RECURRENCE: Indicates the neoplastic entity is a local recurrence of a previous tumor.
+        REGIONAL_RECURRENCE: Indicates the neoplastic entity is a regional recurrence of a previous tumor.
+    """
     PRIMARY = PRIMARY
     METASTATIC = METASTATIC
     LOCAL_RECURRENCE = LOCAL_RECURRENCE
@@ -26,6 +35,25 @@ class NeoplasticEntityRelationship(models.TextChoices):
 
 @pghistory.track()
 class NeoplasticEntity(BaseModel):
+    """
+    Represents a neoplastic entity (tumor or neoplasm) associated with a patient case, including its anatomical location, morphology, relationship to other neoplasms, and additional qualifiers.
+
+    Attributes:
+        objects (QueryablePropertiesManager): Manager for queryable properties.
+        case (models.ForeignKey[PatientCase]): Reference to the patient case associated with the neoplasm.
+        relationship (models.CharField[NeoplasticEntityRelationship]): Relationship linking secondary and recurrent tumors to their primary origin or distinguishing disease phases.
+        related_primary (models.ForeignKey[NeoplasticEntity]): Reference to the primary neoplasm from which this neoplasm originated (nullable).
+        assertion_date (models.DateField): Date when the existence of the neoplasm was first asserted.
+        topography (termfields.CodedConceptField[terminologies.CancerTopography]): Anatomical location of the neoplasm.
+        morphology (termfields.CodedConceptField[terminologies.CancerMorphology]): Cell type and biologic activity of the tumor.
+        topography_group (SubqueryObjectProperty[terminologies.CancerTopography]): Grouping of topography codes for classification.
+        differentiation (termfields.CodedConceptField[terminologies.CancerDifferentiation]): Morphologic differentiation characteristics (nullable).
+        laterality (termfields.CodedConceptField[terminologies.CancerLaterality]): Laterality qualifier for the neoplasm's location (nullable).
+        description (str): Human-readable description of the neoplastic entity, including morphology, topography, laterality, differentiation, and relationship.
+
+    Constraints:
+        Ensures that a primary neoplasm cannot have a related primary.
+    """
 
     objects = QueryablePropertiesManager()
 

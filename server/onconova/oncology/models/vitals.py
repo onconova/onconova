@@ -12,6 +12,21 @@ from onconova.oncology.models import PatientCase
 
 @pghistory.track()
 class Vitals(BaseModel):
+    """
+    Represents a set of vital signs recorded for a patient case.
+
+    Attributes:
+        objects (QueryablePropertiesManager): Manager for querying properties.
+        case (models.ForeignKey[PatientCase]): Reference to the associated PatientCase.
+        date (models.DateField): Date when the vitals were assessed.
+        height (MeasurementField[measures.Distance]): Patient's height (default unit: meters).
+        weight (MeasurementField[measures.Mass]): Patient's weight (default unit: kilograms).
+        body_mass_index (AnnotationProperty): Calculated BMI (kg/m²).
+        blood_pressure_systolic (MeasurementField[measures.Pressure]): Systolic blood pressure (default unit: mmHg).
+        blood_pressure_diastolic (MeasurementField[measures.Pressure]): Diastolic blood pressure (default unit: mmHg).
+        temperature (MeasurementField[measures.Temperature]): Patient's temperature (default unit: Celsius).
+        description (str): Comma-separated string summarizing available vital measurements.
+    """
 
     objects = QueryablePropertiesManager()
 

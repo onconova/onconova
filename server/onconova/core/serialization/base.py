@@ -30,6 +30,41 @@ _DjangoModel = TypeVar("_DjangoModel", bound=DjangoModel)
 
 
 class BaseSchema(Schema):
+    """
+    
+    A base schema class that extends Pydantic's Schema class to provide seamless integration between
+    Pydantic models and Django ORM models, with support for serialization and deserialization.
+
+    This class provides functionality to:
+    - Map Django model fields to Pydantic schema fields
+    - Handle relationships (one-to-one, one-to-many, many-to-many)
+    - Support custom field resolution
+    - Manage ORM metadata and model associations
+    - Handle measurement fields and coded concepts
+    - Process Django model properties
+
+    Attributes:
+        __orm_model__ (ClassVar[Type[UntrackedBaseModel]]): The associated Django model class
+        __orm_meta__ (ClassVar[Mapping[str, DjangoField]]): Mapping of field names to Django field instances
+
+    Example:
+        ```python
+        class UserSchema(BaseSchema):
+            id: int
+            username: str
+            email: str
+
+            class Config:
+                from_attributes = True
+
+            def __init_subclass__(cls):
+                cls.set_orm_model(User)
+                cls.set_orm_metadata(
+                    id=User._meta.get_field('id'),
+                    username=User._meta.get_field('username'),
+                    email=User._meta.get_field('email')
+        ```
+    """
 
     # Pydantic model configuration
     model_config = ConfigDict(
@@ -43,6 +78,18 @@ class BaseSchema(Schema):
 
     @classmethod
     def set_orm_metadata(cls, **metadata: DjangoField) -> None:
+        """
+        Sets ORM metadata for the class using Django model field instances.
+
+        This class method allows setting metadata for ORM operations by associating Django model fields
+        with the class. The metadata is stored in the `__orm_meta__` class attribute.
+
+        Args:
+            **metadata (DjangoField): Keyword arguments where each value must be a Django model field instance.
+
+        Raises:
+            TypeError: If any of the provided metadata values is not a Django model field instance.
+        """
         for field in metadata.values():
             if not isinstance(field, DjangoField):
                 raise TypeError(
@@ -52,10 +99,33 @@ class BaseSchema(Schema):
 
     @classmethod
     def get_orm_metadata(cls):
+        """
+        Retrieves the ORM metadata associated with the class.
+
+        Returns:
+            (dict): A dictionary containing the ORM metadata information stored in the __orm_meta__ attribute. This metadata typically includes configuration for database mapping and relationships.
+        """
         return cls.__orm_meta__
 
     @classmethod
     def set_orm_model(cls, model: Type[UntrackedBaseModel] | Type[BaseModel]) -> None:
+        """Sets the ORM model class for the serializer.
+
+        This class method associates a Django model class with the serializer, enabling direct
+        model-serializer mapping for database operations.
+
+        Args:
+            model (Type[UntrackedBaseModel] | Type[BaseModel]): The Django model class to be
+                associated with the serializer. Must be a subclass of either UntrackedBaseModel
+                or BaseModel.
+
+        Raises:
+            TypeError: If the provided model is not a valid Django model class (not a subclass
+                of UntrackedBaseModel or BaseModel).
+
+        Note:
+            This method modifies the `__orm_model__` class attribute of the serializer class.
+        """
         if model is not None:
             if not isinstance(model, type) and not issubclass(
                 model, (UntrackedBaseModel, BaseModel)
@@ -67,6 +137,13 @@ class BaseSchema(Schema):
 
     @classmethod
     def get_orm_model(cls):
+        """
+        Retrieves the ORM model class associated with this serializer.
+
+        Returns:
+            (type): The ORM model class that this serializer is mapped to.
+                This is typically defined as the __orm_model__ class attribute.
+        """
         return cls.__orm_model__
 
     @model_validator(mode="wrap")
@@ -89,7 +166,18 @@ class BaseSchema(Schema):
 
     def model_dump(self, *args, **kwargs):
         """
-        Overrides the Pydantic `model_dump` method to always exclude `None` values from the output for clarity and maintainability.
+        Override the default model_dump method to exclude None values by default.
+
+        This method enhances the base model_dump functionality by setting 'exclude_none=True'
+        as a default parameter, ensuring that fields with None values are not included in the
+        output dictionary.
+
+        Args:
+            args (list): Variable length argument list to pass to parent model_dump.
+            kwargs (dict): Arbitrary keyword arguments to pass to parent model_dump.
+
+        Returns:
+            (dict): A dictionary representation of the model with None values excluded by default.
         """
         kwargs.setdefault("exclude_none", True)
         return super().model_dump(*args, **kwargs)
@@ -105,6 +193,36 @@ class BaseSchema(Schema):
 
     @classmethod
     def model_validate(cls, obj=None, *args, **kwargs):
+        """
+        Validates and converts a Django model instance into a schema-compliant dictionary.
+
+        This class method handles the conversion of Django model instances into a format that can be
+        validated by the schema. It processes various field types including:
+        - Regular model fields
+        - Foreign keys and related fields
+        - Many-to-many relationships
+        - Custom property fields
+        - Measurement fields
+        - Custom resolver methods (prefixed with 'resolve_')
+
+        Args:
+            obj (Optional[DjangoModel]): The Django model instance to validate
+            args (list): Additional positional arguments passed to the parent validator
+            kwargs (dict): Additional keyword arguments passed to the parent validator
+
+        Returns:
+            (Any): The validated model instance converted to the schema format
+
+        Raises:
+            NotImplementedError: If the superclass doesn't implement a custom `model_validate` method
+
+        Notes:
+            - Custom field resolvers should be defined as methods prefixed with 'resolve_'
+            - Resolver methods can optionally accept a context parameter
+            - The method skips processing of 'events' and 'parent_events' fields
+            - Field names are converted to camelCase in the output
+            - The superclass must implement a custom `model_validate` method (e.g., inherit from Pydantic's BaseModel)
+        """
         # Check if the object is a Django model instance
         if isinstance(obj, DjangoModel):
             data = {}  # Initialize an empty dictionary to hold field data
@@ -223,6 +341,26 @@ class BaseSchema(Schema):
         create: Optional[bool] = None,
         **fields,
     ) -> _DjangoModel:
+        """
+        Serializes the current schema instance and applies its data to a Django model instance.
+
+        This method handles both the creation of new model instances and updating existing ones.
+        It supports relational fields (ForeignKey, ManyToMany, OneToMany), measurement fields, and range fields.
+        Relational fields are resolved and set appropriately, including expanded data for related instances.
+        Many-to-many and one-to-many relationships are set after the main instance is saved, within a database transaction.
+
+        Args:
+            model (Optional[Type[_DjangoModel]]): The Django model class to use. If not provided, attempts to retrieve from schema.
+            instance (Optional[_DjangoModel]): An existing Django model instance to update. If not provided, a new instance is created.
+            create (Optional[bool]): Whether to create a new instance. If None, determined by presence of `instance`.
+            fields (dict): Additional field values to set on the model instance.
+
+        Returns:
+            (_DjangoModel): The saved Django model instance with all fields and relationships set.
+
+        Raises:
+            ValueError: If no model is provided or found, or if no instance is provided or created.
+        """
 
         m2m_relations: dict[str, list[DjangoModel]] = {}
         o2m_relations: dict[DjangoField, dict] = {}
@@ -433,7 +571,7 @@ class BaseSchema(Schema):
             field (FieldInfo): A Pydantic FieldInfo object to analyze.
 
         Returns:
-            Optional[Type[PydanticBaseModel]]: The related Pydantic model, or None if no model is found.
+            (Optional[Type[PydanticBaseModel]]): The related Pydantic model, or None if no model is found.
         """
 
         def get_model_from_type(typ: Any) -> Optional[Type[PydanticBaseModel]]:

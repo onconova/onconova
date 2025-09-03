@@ -8,6 +8,35 @@ from measurement.base import BidimensionalMeasure, MeasureBase, BidimensionalMea
 from .measures import get_measurement
 
 class MeasurementField(FloatField):
+    """
+    A custom Django model field for storing, retrieving, and converting measurement values.
+    MeasurementField extends FloatField to handle values of MeasureBase or BidimensionalMeasure,
+    allowing for unit-aware storage and conversion. It supports specifying the measurement class,
+    default unit, and unit choices, and provides serialization/deserialization methods for
+    database and string representations.
+
+    Attributes:
+        description (str): Description of the field's purpose.
+        empty_strings_allowed (bool): Disallow empty strings as valid values.
+        measurement (type): The measurement class (MeasureBase or BidimensionalMeasure).
+        default_unit (str | None): The default unit for the measurement.
+        unit_choices (list[str] | tuple[str] | None): Allowed unit choices.
+        MEASURE_BASES (tuple): Tuple of valid measurement base classes.
+        default_error_messages (dict): Error messages for invalid types.
+
+    Args:
+        verbose_name (str | None): Human-readable name for the field.
+        name (str | None): Name of the field.
+        measurement (type | None): The measurement class to use.
+        measurement_class (str | None): Deprecated; name of the measurement class.
+        default_unit (str | None): Default unit for the measurement.
+        unit_choices (list[str] | tuple[str] | None): Allowed unit choices.
+        args (list): Additional positional arguments.
+        kwargs (dict): Additional keyword arguments.
+
+    Raises:
+        TypeError: If no measurement class is provided or if it is not a valid subclass.
+    """
     description = "Easily store, retrieve, and convert python measures."
     empty_strings_allowed = False
     measurement: type[MeasureBase] | type[BidimensionalMeasure]
@@ -73,6 +102,19 @@ class MeasurementField(FloatField):
         return name, path, args, kwargs
 
     def get_prep_value(self, value):
+        """
+        Prepares the value for database storage.
+
+        If the value is None, returns None.
+        If the value is an instance of MEASURE_BASES, converts its 'standard' attribute to a float.
+        Otherwise, delegates preparation to the superclass implementation.
+
+        Args:
+            value (Any): The value to prepare for storage.
+
+        Returns:
+            (Any): The prepared value suitable for database storage.
+        """
         if value is None:
             return None
 
@@ -87,6 +129,16 @@ class MeasurementField(FloatField):
             return super(MeasurementField, self).get_prep_value(value)
 
     def get_default_unit(self):
+        """
+        Returns the default unit for the measurement field.
+
+        The method checks for a default unit specified in `widget_args["default_unit"]`.
+        If not found, it returns the first unit from `widget_args["unit_choices"]`.
+        If neither is available, it falls back to the standard unit defined in `self.measurement.STANDARD_UNIT`.
+
+        Returns:
+            (str): The default unit for the measurement field.
+        """
         default_unit = self.widget_args["default_unit"]
         if default_unit:
             return default_unit
@@ -96,6 +148,17 @@ class MeasurementField(FloatField):
         return self.measurement.STANDARD_UNIT
 
     def from_db_value(self, value, *args, **kwargs):
+        """
+        Converts a value retrieved from the database into a measurement object.
+
+        Args:
+            value (Any): The value retrieved from the database.
+            args (list): Additional positional arguments (unused).
+            kwargs (dict): Additional keyword arguments (unused).
+
+        Returns:
+            (Measure | None): A measurement object created using the specified measure, value, and the default unit, or None if the value is None.
+        """
         if value is None:
             return None
 
@@ -106,12 +169,37 @@ class MeasurementField(FloatField):
         )
 
     def value_to_string(self, obj):
+        """
+        Converts the value obtained from the given object to its string representation.
+
+        If the value is not an instance of MEASURE_BASES, it returns the value as is.
+        Otherwise, it returns a string in the format 'value:unit', where 'value' and 'unit'
+        are attributes of the MEASURE_BASES instance.
+
+        Args:
+            obj (object): The object from which to extract the value.
+
+        Returns:
+            (str): The string representation of the value.
+        """
         value = self.value_from_object(obj)
         if not isinstance(value, self.MEASURE_BASES):
             return value
         return "%s:%s" % (value.value, value.unit)
 
     def deserialize_value_from_string(self, s: str):
+        """
+        Deserializes a string representation of a measurement value and unit.
+
+        The input string should be in the format "value:unit", where `value` is a float
+        and `unit` is a string representing the measurement unit.
+
+        Args:
+            s (str): The string to deserialize, expected in the format "value:unit".
+
+        Returns:
+            (Measure | None): A Measurement object constructed from the value and unit, or None if the input string is not in the expected format.
+        """
         parts = s.split(":", 1)
         if len(parts) != 2:
             return None
@@ -120,6 +208,24 @@ class MeasurementField(FloatField):
         return measure
 
     def to_python(self, value):
+        """
+        Converts the input value to a measurement object of the expected type.
+
+        Handles various input types:
+        - If `value` is None, returns None.
+        - If `value` is already an instance of the expected measurement base type, returns it as-is.
+        - If `value` is a string, attempts to deserialize it into a measurement object.
+        - Otherwise, uses the superclass's `to_python` method to process the value.
+
+        If the value is not already a measurement object, constructs one using the default unit,
+        and logs a message indicating the type conversion and the guessed unit.
+
+        Args:
+            value (Any): The input value to be converted.
+
+        Returns:
+            (Measure | None): An instance of the expected measurement type, or None if input is None.
+        """
 
         if value is None:
             return value

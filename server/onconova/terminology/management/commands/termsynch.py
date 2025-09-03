@@ -19,10 +19,8 @@ class Command(BaseCommand):
     It provides options to skip existing valuesets, force a reset, and specify
     which valuesets to synchronize.
 
-    Usage:
-        python manage.py termsynch --valuesets <valueset_names> --skip-existing --force-reset
+    Options:
 
-    Args:
         --valuesets: A list of valueset names to synchronize. Use 'all' to synchronize all valuesets.
         --skip-existing: Skip valuesets that already contain entries.
         --force-reset: Reset all valuesets prior to synchronization (WARNING: Will trigger deletion cascades in the rest of the database).
@@ -80,8 +78,8 @@ class Command(BaseCommand):
         Main handler for the 'termsynch' command.
 
         Args:
-            *args: Unused positional arguments.
-            **options: Command-line options.
+            args (list): Unused positional arguments.
+            options (dict): Command-line options.
         """
         # Get list of models defined on Django
         if options["models"] == "all":

@@ -36,6 +36,24 @@ KARNOFSKY_INTEPRETATION = {
 
 @pghistory.track()
 class PerformanceStatus(BaseModel):
+    """Model representing a patient's performance status assessment, supporting both ECOG and Karnofsky scoring systems.
+
+    Attributes:
+        objects (QueryablePropertiesManager): Custom manager for queryable properties.
+        case (models.ForeignKey[PatientCase]): Reference to the patient case being assessed.
+        date (models.DateField): Date of the performance status assessment.
+        ecog_score (models.PositiveSmallIntegerField): ECOG Performance Status Score (0-5).
+        karnofsky_score (models.PositiveSmallIntegerField): Karnofsky Performance Status Score (0-100).
+        ecog_interpretation (SubqueryObjectProperty[terminologies.ECOGPerformanceStatusInterpretation]): Interpretation of the ECOG score using standardized terminology.
+        karnofsky_interpretation (SubqueryObjectProperty[terminologies.KarnofskyPerformanceStatusInterpretation]): Interpretation of the Karnofsky score using standardized terminology.
+        description (str): Returns a string description of the performance status based on available score.
+
+    Constraints: 
+        Ensures at least one of ECOG or Karnofsky scores is set.
+
+    References:
+        - Oken et al., Am. J. Clin. Oncol. 5(6):649-655, 1982.
+    """
 
     objects = QueryablePropertiesManager()
 

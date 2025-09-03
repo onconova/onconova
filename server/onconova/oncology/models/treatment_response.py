@@ -10,6 +10,19 @@ from onconova.oncology.models import NeoplasticEntity, PatientCase
 
 @pghistory.track()
 class TreatmentResponse(BaseModel):
+    """
+    Represents a clinical assessment of a patient's response to treatment.
+
+    Attributes:
+        case (models.ForeignKey[PatientCase]): The patient case associated with this treatment response.
+        date (models.DateField): The date when the treatment response was assessed.
+        assessed_entities (models.ManyToManyField[NeoplasticEntity]): Neoplastic entities evaluated for treatment response.
+        recist (termfields.CodedConceptField[terminologies.CancerTreatmentResponse]): RECIST classification of the treatment response.
+        recist_interpreted (models.BooleanField): Indicates if the RECIST value was interpreted or taken directly from the radiology report.
+        methodology (termfields.CodedConceptField[terminologies.CancerTreatmentResponseObservationMethod]): Method used to assess and classify the treatment response.
+        assessed_bodysites (termfields.CodedConceptField[terminologies.ObservationBodySite]): Anatomical locations assessed to determine the treatment response.
+        description (str): Returns a human-readable description of the treatment response, including RECIST classification and assessment methodology.
+    """
 
     case = models.ForeignKey(
         verbose_name=_("Patient case"),
@@ -59,6 +72,16 @@ class TreatmentResponse(BaseModel):
     )
 
     def assign_therapy_line(self):
+        """
+        Assigns therapy lines to the current case and refreshes the instance from the database.
+
+        This method imports the `TherapyLine` model and calls its `assign_therapy_lines` method,
+        passing the current case as an argument. After assignment, it refreshes the instance
+        from the database to ensure updated data is loaded.
+
+        Returns:
+            (Self): The updated instance after refreshing from the database.
+        """
         from onconova.oncology.models.therapy_line import TherapyLine
 
         TherapyLine.assign_therapy_lines(self.case)

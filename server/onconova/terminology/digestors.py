@@ -1,3 +1,7 @@
+"""
+This module provides classes for digesting various terminology files into standardized CodedConcept and code system objects.
+"""
+
 import csv
 import glob
 import json
@@ -137,9 +141,6 @@ class TerminologyDigestor:
     def _digest_concepts(self) -> None:
         """
         Reads through a file containing concepts and processes each row.
-
-        Returns:
-            None
         """
         # Read through file containing the concepts
         with open(self.file_location) as file:
@@ -172,11 +173,36 @@ class TerminologyDigestor:
 
 
 class NCITDigestor(TerminologyDigestor):
+    """
+    NCITDigestor is a specialized TerminologyDigestor for parsing and ingesting NCIT (National Cancer Institute Thesaurus) concepts from a TSV file.
+
+    Attributes:
+        LABEL (str): Identifier label for this digestor ("ncit").
+        FILENAME (str): Expected filename containing NCIT data ("ncit.tsv").
+        CANONICAL_URL (str): The canonical URL for the NCIT ontology.
+    """
     LABEL = "ncit"
     FILENAME = "ncit.tsv"
     CANONICAL_URL = "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl"
 
     def _digest_concept_row(self, row):
+        """
+        Processes a single concept row and adds a CodedConcept instance to the concepts dictionary.
+
+        Args:
+            row (dict): A dictionary containing concept data with keys:
+                - "code": The unique code for the concept.
+                - "parents": Parent concept(s) code(s), or None.
+                - "synonyms": Pipe-separated string of synonyms, or None.
+                - "display name": Display name for the concept, or None.
+                - "definition": Definition of the concept.
+
+        Notes:
+
+            - The first synonym is used as the display name if "display name" is not provided.
+            - Synonyms are processed to ensure they fit within string limits.
+            - Only non-empty synonyms (excluding the first) are included in the CodedConcept.
+        """
         # Get core coding elements
         code = row["code"]
         parents = row["parents"] or None
@@ -201,6 +227,17 @@ class NCITDigestor(TerminologyDigestor):
 
 
 class SNOMEDCTDigestor(TerminologyDigestor):
+    """
+    SNOMEDCTDigestor is a specialized TerminologyDigestor for processing SNOMED CT terminology data.
+
+    Attributes:
+        LABEL (str): Identifier label for SNOMED CT.
+        FILENAME (str): Filename for SNOMED CT concepts data.
+        CANONICAL_URL (str): Canonical URL for SNOMED CT system.
+        RELATIONSHIPS_FILENAME (str): Filename for SNOMED CT relationships data.
+        SNOMED_IS_A (str): SNOMED CT relationship type ID for "is a" relationships.
+        SNOMED_DESIGNATION_USES (dict): Mapping of SNOMED CT designation type IDs to usage labels.
+    """
     LABEL = "snomedct"
     FILENAME = "snomedct.tsv"
     CANONICAL_URL = "http://snomed.info/sct"
@@ -212,6 +249,18 @@ class SNOMEDCTDigestor(TerminologyDigestor):
     }
 
     def digest(self):
+        """
+        Processes and updates concept relationships and display names.
+
+        This method first calls the parent class's `digest` method, then processes relationships
+        specific to this class using `_digest_relationships()`. For each concept in `self.concepts`,
+        if the length of the concept's display name is greater than the length of its first synonym,
+        the display name is appended to the synonyms list and the display name is replaced with the
+        first synonym. Returns the updated concepts dictionary.
+
+        Returns:
+            (dict): The updated concepts dictionary after processing relationships and display names.
+        """
         super().digest()
         self._digest_relationships()
         for code, concept in self.concepts.items():
@@ -221,6 +270,17 @@ class SNOMEDCTDigestor(TerminologyDigestor):
         return self.concepts
 
     def _digest_relationships(self):
+        """
+        Processes a relationships file to establish parent-child relationships between concepts.
+
+        Reads the relationships file specified by `self.PATH` and `self.RELATIONSHIPS_FILENAME`.
+        For each active relationship of type `self.SNOMED_IS_A`, sets the parent code for the child concept
+        in `self.concepts`. Displays a progress bar if `self.verbose` is True, and prints a success message
+        upon completion.
+
+        Raises:
+            KeyError: If a concept referenced in the relationships file is not found in `self.concepts`.
+        """
         file_location = get_file_location(self.PATH, self.RELATIONSHIPS_FILENAME)
         # Read through file containing the relationships
         with open(file_location) as file:
@@ -243,6 +303,19 @@ class SNOMEDCTDigestor(TerminologyDigestor):
             print(f"\r✓ All relationships sucessfully digested")
 
     def _digest_concept_row(self, row):
+        """
+        Processes a single concept row and updates the internal concepts dictionary.
+
+        Args:
+            row (dict): A dictionary representing a concept row with keys such as
+                'active', 'conceptId', 'typeId', and 'term'.
+
+        Notes:
+
+            - Only processes rows where 'active' is truthy.
+            - Uses self.SNOMED_DESIGNATION_USES to determine the usage type from 'typeId'.
+            - Ensures the 'term' value is within string limits before assignment.
+        """
         if not bool(row["active"]):
             return
         code = row["conceptId"]
@@ -261,6 +334,14 @@ class SNOMEDCTDigestor(TerminologyDigestor):
 
 
 class LOINCDigestor(TerminologyDigestor):
+    """
+    Digestor class for processing LOINC terminology files.
+    Attributes:
+        FILENAME (str): Name of the main LOINC CSV file.
+        LABEL (str): Label for the terminology.
+        CANONICAL_URL (str): Canonical URL for the LOINC system.
+        LOINC_PROPERTIES (list): List of LOINC property fields to extract.
+    """
     FILENAME = "loinc.csv"
     LABEL = "loinc"
     CANONICAL_URL = "http://loinc.org"
@@ -278,12 +359,32 @@ class LOINCDigestor(TerminologyDigestor):
     ]
 
     def digest(self):
+        """
+        Processes and digests terminology data by invoking parent digest logic,
+        extracting part codes, and compiling answer lists.
+
+        Returns:
+            (list): A list of digested concepts.
+        """
         super().digest()
         self._digest_part_codes()
         self._digest_answer_lists()
         return self.concepts
 
     def _digest_concept_row(self, row):
+        """
+        Processes a single row of LOINC concept data and adds a CodedConcept instance to the concepts dictionary.
+
+        Args:
+            row (dict): A dictionary representing a row of LOINC concept data, containing keys such as `LOINC_NUM`, `LONG_COMMON_NAME`, `DisplayName`, and other properties defined in `self.LOINC_PROPERTIES`.
+
+        Notes:
+
+            - Ensures string values are within allowed limits using `ensure_within_string_limits`.
+            - Adds synonyms if `"DisplayName"` is present in the row.
+            - Sets concept properties from `self.LOINC_PROPERTIES`.
+            - Uses `self.CANONICAL_URL` as the coding system.
+        """
         # Get core coding elements
         code = row["LOINC_NUM"]
         display = ensure_within_string_limits(row["LONG_COMMON_NAME"])
@@ -301,6 +402,13 @@ class LOINCDigestor(TerminologyDigestor):
         )
 
     def _digest_part_codes(self):
+        """
+        Processes the `loinc_parts.csv` file to extract and store LOINC part codes as `CodedConcept` objects.
+
+        Iterates through each row in the CSV file, filtering for codes that start with `LP`. For each valid code,
+        creates a `CodedConcept` instance with the code, display text, immediate parent, and canonical URL, and stores
+        it in the `self.concepts` dictionary. Optionally displays progress and a success message if verbose mode is enabled.
+        """
         # Go over all translation files
         filename = f"loinc_parts.csv"
         with open(get_file_location(self.PATH, filename)) as file:
@@ -326,6 +434,23 @@ class LOINCDigestor(TerminologyDigestor):
                 print(f"\r• Sucessfully digested all parts")
 
     def _digest_answer_lists(self):
+        """
+        Processes the `loinc_answer_lists.csv` file to extract and store coded concepts for answer lists and their corresponding answers.
+
+        This method reads the CSV file containing answer lists and their associated answers, then iterates through each row to:
+        
+        - Extract the answer list code and display name.
+        - Extract the answer code and display text.
+        - Add unique answer list concepts to `self.concepts`.
+        - Add answer concepts to `self.concepts`.
+        - Optionally displays a progress bar if verbosity is enabled.
+
+        The processed concepts are stored in the `self.concepts` dictionary, keyed by their respective codes.
+
+        Raises:
+            FileNotFoundError: If the CSV file does not exist at the specified location.
+            KeyError: If expected columns are missing in the CSV file.
+        """
         # Go over all translation files
         filename = f"loinc_answer_lists.csv"
         with open(get_file_location(self.PATH, filename)) as file:
@@ -361,11 +486,30 @@ class LOINCDigestor(TerminologyDigestor):
 
 
 class ICD10Digestor(TerminologyDigestor):
+    """
+    ICD10Digestor is a specialized TerminologyDigestor for processing ICD-10 terminology data.
+
+    Attributes:
+        LABEL (str): Identifier label for the digestor ("icd10").
+        FILENAME (str): Name of the file containing ICD-10 data ("icd10.tsv").
+        CANONICAL_URL (str): Canonical URL for the ICD-10 code system.
+    """
     LABEL = "icd10"
     FILENAME = "icd10.tsv"
     CANONICAL_URL = "http://hl7.org/fhir/sid/icd-10"
 
     def _digest_concept_row(self, row):
+        """
+        Processes a single concept row and adds a CodedConcept to the concepts dictionary.
+
+        Args:
+            row (dict): A dictionary containing concept information with keys "code" and "display".
+
+        Notes:
+
+            - If the "display" value exceeds 2000 characters, it is truncated to 2000 characters.
+            - The concept is stored in self.concepts using the "code" as the key.
+        """
         code = row["code"]
         display = row["display"]
         if len(display) > 2000:
@@ -377,48 +521,27 @@ class ICD10Digestor(TerminologyDigestor):
         )
 
 
-class ICD10CMDigestor(TerminologyDigestor):
-    LABEL = "icd10cm"
-    FILENAME = "icd10cm"
-    ICD10CM_CODE_STRING_LENGTH = 7
-    CANONICAL_URL = "ttp://hl7.org/fhir/sid/icd-10-cm"
-
-    def _digest_concept_row(self, row):
-        code = row["term"][: self.ICD10CM_CODE_STRING_LENGTH].strip()
-        display = row["term"][self.ICD10CM_CODE_STRING_LENGTH + 1 :].strip()
-        if len(display) > 2000:
-            display = display[:2000]
-        self.concepts[code] = CodedConcept(
-            code=code,
-            display=display,
-            system=self.CANONICAL_URL,
-        )
-
-
-class ICD10PCSDigestor(TerminologyDigestor):
-    LABEL = "icd10pcs"
-    FILENAME = "icd10pcs"
-    ICD10PCS_CODE_STRING_LENGTH = 7
-    CANONICAL_URL = "http://hl7.org/fhir/sid/icd-10-pcs"
-
-    def _digest_concept_row(self, row):
-        code = row["term"][: self.ICD10PCS_CODE_STRING_LENGTH].strip()
-        display = row["term"][self.ICD10PCS_CODE_STRING_LENGTH + 1 :].strip()
-        if len(display) > 2000:
-            display = display[:2000]
-        self.concepts[code] = CodedConcept(
-            code=code,
-            display=display,
-            system=self.CANONICAL_URL,
-        )
-
 
 class ICDO3DifferentiationDigestor(TerminologyDigestor):
+    """
+    ICDO3DifferentiationDigestor is a specialized TerminologyDigestor for processing ICD-O-3 differentiation concepts.
+
+    Attributes:
+        LABEL (str): Identifier label for this digestor.
+        FILENAME (str): Name of the TSV file containing differentiation concepts.
+        CANONICAL_URL (str): URL of the HL7 ICD-O-3 differentiation code system.
+    """
     LABEL = "icdo3diff"
     FILENAME = "icdo3diff.tsv"
     CANONICAL_URL = "http://terminology.hl7.org/CodeSystem/icd-o-3-differentiation"
 
     def _digest_concept_row(self, row):
+        """
+        Processes a single concept row and adds a CodedConcept instance to the concepts dictionary.
+
+        Args:
+            row (dict): A dictionary containing concept data with keys "code" and "display".
+        """
         code = row["code"]
         display = ensure_within_string_limits(row["display"])
         self.concepts[code] = CodedConcept(
@@ -429,11 +552,31 @@ class ICDO3DifferentiationDigestor(TerminologyDigestor):
 
 
 class ICDO3MorphologyDigestor(TerminologyDigestor):
+    """
+    Digestor for ICD-O-3 Morphology terminology.
+
+    Attributes:
+        LABEL (str): Identifier label for this digestor.
+        FILENAME (str): Name of the TSV file containing ICD-O-3 Morphology data.
+        CANONICAL_URL (str): Canonical URL for the ICD-O-3 Morphology code system.
+    """
     LABEL = "icdo3morph"
     FILENAME = "icdo3morph.tsv"
     CANONICAL_URL = "http://terminology.hl7.org/CodeSystem/icd-o-3-morphology"
 
     def _digest_concept_row(self, row):
+        """
+        Processes a single concept row and updates the internal concepts dictionary.
+
+        Args:
+            row (dict): A dictionary representing a concept row with keys "Code", "Label", and "Struct".
+
+        Notes:
+
+            - If the concept code does not exist in self.concepts, creates a new CodedConcept with the given code, display, and system.
+            - If the "Struct" value is "title", updates the display attribute of the concept.
+            - If the "Struct" value is "sub", appends the display value to the concept's synonyms list.
+        """
         code = row["Code"]
         display = ensure_within_string_limits(row["Label"])
         if code not in self.concepts:
@@ -449,11 +592,31 @@ class ICDO3MorphologyDigestor(TerminologyDigestor):
 
 
 class ICDO3TopographyDigestor(TerminologyDigestor):
+    """
+    Digestor for ICD-O-3 Topography terminology.
+
+    Attributes:
+        LABEL (str): Label for the digestor.
+        FILENAME (str): Name of the TSV file containing the terminology data.
+        CANONICAL_URL (str): Canonical URL for the ICD-O-3 Topography code system.
+    """
     LABEL = "icdo3topo"
     FILENAME = "icdo3topo.tsv"
     CANONICAL_URL = "http://terminology.hl7.org/CodeSystem/icd-o-3-topography"
 
     def _digest_concept_row(self, row):
+        """
+        Processes a single concept row and updates the internal concepts dictionary.
+
+        Args:
+            row (dict): A dictionary representing a concept row with keys "Code", "Title", and "Lvl".
+
+        Notes:
+
+            - Adds a new CodedConcept to self.concepts if the code is not already present.
+            - Sets the concept's display name, capitalizing it if the level is "3".
+            - Appends the display name as a synonym if the level is "incl".
+        """
         code = row["Code"]
         display = ensure_within_string_limits(row["Title"])
         if code not in self.concepts:
@@ -472,11 +635,31 @@ class ICDO3TopographyDigestor(TerminologyDigestor):
 
 
 class HGNCGenesDigestor(TerminologyDigestor):
+    """
+    Digestor for HGNC gene terminology data.
+
+    Attributes:
+        LABEL (str): Identifier label for the digestor ("hgnc").
+        FILENAME (str): Expected filename for HGNC data ("hgnc.tsv").
+        CANONICAL_URL (str): Base URL for HGNC gene identifiers.
+    """
     LABEL = "hgnc"
     FILENAME = "hgnc.tsv"
     CANONICAL_URL = "http://www.genenames.org/geneId"
 
     def _digest_concept_row(self, row):
+        """
+        Processes a single concept row from a data source and adds a CodedConcept to the concepts dictionary.
+
+        Args:
+            row (dict): A dictionary containing concept data with keys such as 'hgnc_id', 'symbol', 'alias_symbol', 'alias_name', 'prev_symbol', 'prev_name', 'name', 'locus_group', 'locus_type', 'location', and 'refseq_accession'.
+
+        Notes:
+
+            - Synonyms are compiled from 'alias_symbol', 'alias_name', 'prev_symbol', and 'prev_name' fields.
+            - All synonyms are processed with ensure_within_string_limits.
+            - Concept properties are extracted from relevant fields in the row.
+        """
         # Get core coding elements
         code = row["hgnc_id"]
         display = row["symbol"]
@@ -508,11 +691,25 @@ class HGNCGenesDigestor(TerminologyDigestor):
 
 
 class HGNCGroupDigestor(TerminologyDigestor):
+    """
+    Digestor for HGNC gene group terminology.
+
+    Attributes:
+        LABEL (str): Identifier label for this digestor.
+        FILENAME (str): Name of the TSV file containing gene group data.
+        CANONICAL_URL (str): URL representing the HGNC gene group system.
+    """
     LABEL = "hgnc-group"
     FILENAME = "hgnc.tsv"
     CANONICAL_URL = "http://www.genenames.org/genegroup"
 
     def _digest_concept_row(self, row):
+        """
+        Processes a row containing gene group information and adds unique coded concepts to the `self.concepts` dictionary.
+
+        Args:
+            row (dict): A dictionary containing 'gene_group_id' and 'gene_group' keys, where values are pipe-separated strings.
+        """
         codes = row["gene_group_id"].split("|")
         displays = row["gene_group"].split("|")
         for code, display in zip(codes, displays):
@@ -528,10 +725,28 @@ class HGNCGroupDigestor(TerminologyDigestor):
 
 
 class EnsemblExonsDigestor(TerminologyDigestor):
+    """
+    Processed and normalizes exon data from Ensembl gene annotations.
+
+    Attributes:
+        LABEL (str): Identifier label for the digestor ("ensembl").
+        FILENAME (str): Expected filename for input data ("ensembl_exons.tsv").
+        exons (defaultdict): Stores lists of GeneExon objects keyed by gene name.
+    """
     LABEL = "ensembl"
     FILENAME = "ensembl_exons.tsv"
 
     class GeneExon(BaseModel):
+        """
+        Represents an exon within a gene, including its rank and coding region coordinates.
+
+        Attributes:
+            rank (int): The order of the exon within the gene.
+            coding_dna_start (int | None): The start position of the coding region in DNA coordinates, if available.
+            coding_dna_end (int | None): The end position of the coding region in DNA coordinates, if available.
+            coding_genomic_start (int | None): The start position of the coding region in genomic coordinates, if available.
+            coding_genomic_end (int | None): The end position of the coding region in genomic coordinates, if available.
+        """
         rank: int
         coding_dna_start: int | None = None
         coding_dna_end: int | None = None
@@ -543,6 +758,17 @@ class EnsemblExonsDigestor(TerminologyDigestor):
         self.exons = defaultdict(list)
 
     def digest(self):
+        """
+        Adjusts the cDNA positions of exons for each gene by normalizing them to the start of the coding DNA region.
+
+        This method iterates through all genes and their associated exons, recalculating the `coding_dna_start` and
+        `coding_dna_end` for each exon so that positions are relative to the first coding DNA position in the gene.
+        If an exon does not have a `coding_dna_start`, it is skipped for normalization. The method returns the updated
+        exons dictionary.
+
+        Returns:
+            (dict): A dictionary mapping gene names to lists of exons with updated cDNA positions.
+        """
         super().digest()
         for gene, exons in self.exons.items():
             # Adjust the the cDNA position from the position in the gene reference sequence to position in the cDNA
@@ -563,6 +789,19 @@ class EnsemblExonsDigestor(TerminologyDigestor):
         return self.exons
 
     def _digest_concept_row(self, row):
+        """
+        Processes a single concept row and appends a GeneExon object to the exons dictionary for the corresponding gene.
+
+        Args:
+            row (dict): A dictionary containing exon and coding region information with keys:
+
+                - "gene": The gene identifier.
+                - "exon_rank": The rank or order of the exon.
+                - "cdna_coding_start": The start position of the coding region in cDNA coordinates.
+                - "cdna_coding_end": The end position of the coding region in cDNA coordinates.
+                - "genomic_coding_start": The start position of the coding region in genomic coordinates.
+                - "genomic_coding_end": The end position of the coding region in genomic coordinates.
+        """
         gene = row["gene"]
         # Add the concept
         exon_rank = row["exon_rank"]
@@ -586,12 +825,36 @@ class EnsemblExonsDigestor(TerminologyDigestor):
 
 
 class SequenceOntologyDigestor(TerminologyDigestor):
+    """
+    Digestor for the Sequence Ontology (SO) terminology.
+
+    Attributes:
+        LABEL (str): Short label for the terminology.
+        FILENAME (str): Filename of the OBO file containing the ontology.
+        CANONICAL_URL (str): Canonical URL for the Sequence Ontology.
+        OTHER_URLS (list): Alternative URLs for the Sequence Ontology.
+    """
     LABEL = "so"
     FILENAME = "so.obo"
     CANONICAL_URL = "http://www.sequenceontology.org"
     OTHER_URLS = ["http://sequenceontology.org"]
 
     def _digest_concept_row(self, row):
+        """
+        Processes a single concept row and adds a CodedConcept to the concepts dictionary.
+
+        Args:
+            row (dict): A dictionary representing a concept row, containing keys such as "id", "name", "def", "synonym", "is_obsolete", and "is_a".
+
+
+        Notes:
+
+            - Skips processing if the concept is marked as obsolete.
+            - Extracts the concept code, display name, definition, parent, and synonyms.
+            - Ensures string values are within allowed limits.
+            - Parses synonyms using a regular expression.
+            - Adds the processed concept to the `self.concepts` dictionary.
+        """
         if bool(row.get("is_obsolete")):
             return
         # Get core coding elements
@@ -624,11 +887,27 @@ class SequenceOntologyDigestor(TerminologyDigestor):
 
 
 class CTCAEDigestor(TerminologyDigestor):
+    """
+    CTCAEDigestor is a specialized TerminologyDigestor for parsing CTCAE (Common Terminology Criteria for Adverse Events) concepts from a CSV file.
+
+    Attributes:
+        LABEL (str): Identifier label for the digestor ("ctcae").
+        FILENAME (str): Name of the CSV file containing CTCAE data ("ctcae.csv").
+        CANONICAL_URL (str): Canonical URL for the terminology system (empty by default).
+    """
     LABEL = "ctcae"
     FILENAME = "ctcae.csv"
     CANONICAL_URL = ""
 
     def _digest_concept_row(self, row):
+        """
+        Processes a single concept row and adds a CodedConcept instance to the `concepts` dictionary.
+
+        Args:
+            row (dict): A dictionary containing concept data with keys such as
+                "MedDRA Code", "CTCAE Term", "Definition", "MedDRA SOC", "Grade 1",
+                "Grade 2", "Grade 3", "Grade 4", and "Grade 5".
+        """
         code = row["MedDRA Code"]
         display = row["CTCAE Term"]
         self.concepts[code] = CodedConcept(
@@ -649,65 +928,29 @@ class CTCAEDigestor(TerminologyDigestor):
             system=self.CANONICAL_URL,
         )
 
-
-class UCUMDigestor(TerminologyDigestor):
-    LABEL = "ucum"
-    FILENAME = "ucum.csv"
-    CANONICAL_URL = "http://unitsofmeasure.org"
-
-    def _digest_concept_row(self, row):
-        code = row["UCUM_CODE"]
-        display = row["Description"]
-        self.concepts[code] = CodedConcept(
-            code=code,
-            display=display,
-            system=self.CANONICAL_URL,
-        )
-
-
-class RxNormDigestor(TerminologyDigestor):
-    LABEL = "rxnorm"
-    FILENAME = "rxnorm.csv"
-    CANONICAL_URL = "http://www.nlm.nih.gov/research/umls/rxnorm"
-
-    def _digest_concept_row(self, row):
-        code = row["rxcui"]
-        display = ensure_within_string_limits(row["name"])
-        self.concepts[code] = CodedConcept(
-            code=code,
-            display=display,
-            system=self.CANONICAL_URL,
-        )
-
-
-class WHOATCDigestor(TerminologyDigestor):
-    LABEL = "atc"
-    FILENAME = "atc.csv"
-    CANONICAL_URL = "http://www.whocc.no/atc"
-
-    def _digest_concept_row(self, row):
-        code = row["atc_code"]
-        display = ensure_within_string_limits(row["atc_name"])
-        self.concepts[code] = CodedConcept(
-            code=code,
-            display=display,
-            properties={
-                "defined_daily_dose": row["ddd"] if row["ddd"] != "NA" else None,
-                "defined_daily_dose_units": row["uom"] if row["uom"] != "NA" else None,
-                "adminsitration_route": row["adm_r"] if row["adm_r"] != "NA" else None,
-                "note": row["note"] if row["note"] != "NA" else None,
-            },
-            system=self.CANONICAL_URL,
-        )
-
-
 class OncoTreeDigestor(TerminologyDigestor):
+    """
+    Digestor for the OncoTree terminology.
+
+    Attributes:
+        LABEL (str): Identifier label for the terminology.
+        FILENAME (str): Default filename for the OncoTree JSON data.
+        CANONICAL_URL (str): Canonical URL for the OncoTree CodeSystem.
+        VERSION (str): Version string based on the current date.
+    """
     LABEL = "oncotree"
     FILENAME = "oncotree.json"
     CANONICAL_URL = "http://oncotree.mskcc.org/fhir/CodeSystem/snapshot"
     VERSION = datetime.now().strftime("%d%m%Y")
 
     def digest(self):
+        """
+        Parses the OncoTree JSON file specified by `self.file_location`, recursively processes its branches,
+        and populates `self.concepts` with the digested concepts.
+
+        Returns:
+            (dict): A dictionary containing the processed concepts from the OncoTree.
+        """
         self.concepts = {}
         with open(self.file_location) as file:
             self.oncotree = json.load(file)
@@ -717,6 +960,14 @@ class OncoTreeDigestor(TerminologyDigestor):
         return self.concepts
 
     def _digest_branch(self, branch):
+        """
+        Recursively processes a branch of the oncotree, adding its code and associated metadata 
+        to the concepts dictionary, and then processes all child branches.
+
+        Args:
+            branch (dict): A dictionary representing a branch in the oncotree, containing keys such as 'code', 'name', 'parent', 'tissue', 'level', and 'children'.
+
+        """
         code = branch["code"]
         display = ensure_within_string_limits(branch["name"])
         # Add current oncotree code
@@ -738,16 +989,11 @@ DIGESTORS = [
     SNOMEDCTDigestor,
     SequenceOntologyDigestor,
     CTCAEDigestor,
-    UCUMDigestor,
-    RxNormDigestor,
-    WHOATCDigestor,
     LOINCDigestor,
     ICDO3MorphologyDigestor,
     ICDO3TopographyDigestor,
     ICDO3DifferentiationDigestor,
     ICD10Digestor,
-    ICD10CMDigestor,
-    ICD10PCSDigestor,
     HGNCGenesDigestor,
     HGNCGroupDigestor,
     OncoTreeDigestor,

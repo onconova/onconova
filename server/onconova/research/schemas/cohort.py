@@ -21,7 +21,13 @@ from onconova.research.models import cohort as orm
 
 
 class RulesetCondition(str, Enum):
-    """Logical connector for combining multiple cohort rules."""
+    """
+    An enumeration representing logical conditions for rulesets.
+
+    Attributes:
+        AND (str): Represents the logical 'and' condition.
+        OR (str): Represents the logical 'or' condition.
+    """
 
     AND = "and"
     OR = "or"
@@ -33,6 +39,7 @@ CohortQueryEntity = Enum(
     {model.__name__: model.__name__ for model in oncology_models.MODELS},
     type=str,
 )
+"""Enumeration of case-related resource entities for cohort queries."""
 
 # Dynamically create an Enum from available filter class names
 CohortQueryFilter = Enum(
@@ -40,11 +47,19 @@ CohortQueryFilter = Enum(
     {filter.__name__: filter.__name__ for filter in filters_module.ALL_FILTERS},
     type=str,
 )
+"""Enumeration of available filter operators for cohort queries."""
 
 
 class CohortRuleFilter(Schema):
     """
-    Represents a single filter within a cohort rule, applied to a model field.
+    Schema representing a filter rule for cohort queries.
+
+    Attributes:
+        field (str): Dot-separated path of the resource field (e.g. 'medications.drug').
+        operator (CohortQueryFilter): Name of the filter operator to be applied to the field.
+        value (Any): Filter value to be applied to the field using the rule's operator.
+        db_value (Any): Returns the value formatted for database queries. If the value is a dictionary with 'unit' and 'value', it converts it using `get_measure_db_value`. If it contains 'start' and 'end', returns a tuple of (start, end). Otherwise, returns the value as-is.
+        db_field (Any): Converts the dot-separated field path into Django ORM double-underscore syntax (e.g. 'medications.drug' -> 'medications__drug').
     """
 
     field: str = Field(
@@ -80,7 +95,11 @@ class CohortRuleFilter(Schema):
 
 class CohortRule(Schema):
     """
-    Represents a set of filters applied to a specific entity (model/table).
+    Represents a rule for cohort selection, specifying an entity and a set of filters.
+
+    Attributes:
+        entity (CohortQueryEntity): The case-related resource to which the rule applies.
+        filters (List[CohortRuleFilter]): A list of filters to be applied to the resource.
     """
 
     entity: CohortQueryEntity = Field(  # type: ignore
@@ -94,8 +113,16 @@ class CohortRule(Schema):
 
     def convert_to_query(self) -> Iterator[Q]:
         """
-        Converts this rule's filters into a Django Q object query.
-        Yields either a subquery Q or existence subquery, depending on the model.
+        Converts the cohort filters into Django Q objects for querying the database.
+
+        Iterates over the filters defined in the cohort, applies the corresponding operator
+        to each filter, and combines them using logical AND. If the entity is a PatientCase,
+        yields the combined Q object directly. Otherwise, constructs a subquery that filters
+        related PatientCase objects and yields a Q object representing the existence of such
+        cases.
+
+        Yields:
+            Iterator[Q]: An iterator of Django Q objects representing the query for the cohort.
         """
         model = getattr(oncology_models, self.entity)
         subquery = Q()
@@ -113,8 +140,12 @@ class CohortRule(Schema):
 
 class CohortRuleset(Schema):
     """
-    A ruleset combines multiple rules (or nested rulesets) using AND/OR logic.
-    """
+    Represents a set of cohort rules combined by a logical condition (AND/OR).
+
+    Attributes:
+        condition (RulesetCondition): Logical condition used to chain the rules within the ruleset.
+        rules (List[Union[CohortRule, CohortRuleset]]): List of rules or nested rulesets that define the fields and values to use for filtering.
+    """    
 
     condition: RulesetCondition = Field(
         default=RulesetCondition.AND,
@@ -128,7 +159,14 @@ class CohortRuleset(Schema):
 
     def convert_to_query(self) -> Iterator[Q]:
         """
-        Recursively converts this ruleset and its children into a Django Q object.
+        Converts the ruleset into a Django Q object query iterator.
+
+        Iterates through each rule in the ruleset, combining their queries using the specified logical condition
+        (AND/OR). For each rule, its query is combined with the accumulated query using the condition. The final
+        combined query is yielded as an iterator.
+
+        Returns:
+            Iterator[Q]: An iterator yielding the combined Q object representing the ruleset's logic.
         """
         query = Q()
         for rule in self.rules:
@@ -143,7 +181,13 @@ class CohortRuleset(Schema):
 
 class CohortSchema(ModelGetSchema):
     """
-    Schema for retrieving a cohort record.
+    Schema for representing a Cohort entity.
+
+    Attributes:
+        population (int): The size of the cohort population. This field uses the database alias 'db_population' and supports validation using either 'db_population' or 'population'.
+
+    Config:
+        model (orm.Cohort): Specifies the ORM model associated with this schema.
     """
 
     population: int = Field(
@@ -157,7 +201,20 @@ class CohortSchema(ModelGetSchema):
 
 class CohortCreateSchema(ModelCreateSchema):
     """
-    Schema for creating a new cohort, including cohort logic definitions.
+    Schema for creating a Cohort instance.
+
+    Attributes:
+        includeCriteria (Optional[CohortRuleset]): Logic rules to filter and constrain the cases to be included in the cohort.
+            - Title: Inclusion criteria
+            - Description: Logic rules to filter and constrain the cases to be included in the cohort
+            - Aliases: "includeCriteria", "include_criteria"
+
+        excludeCriteria (Optional[CohortRuleset]): Logic rules to filter and constrain the cases to be excluded from the cohort.
+            - Title: Exclusion criteria
+            - Description: Logic rules to filter and constrain the cases to be excluded from the cohort
+            - Aliases: "excludeCriteria", "exclude_criteria"
+
+        config (SchemaConfig): Configuration for the schema, specifying the ORM model to use.
     """
 
     includeCriteria: Nullable[CohortRuleset] = Field(
@@ -178,9 +235,6 @@ class CohortCreateSchema(ModelCreateSchema):
 
 
 class CohortFilters(create_filters_schema(schema=CohortSchema, name="CohortFilters")):
-    """
-    Additional filters for cohort listings.
-    """
 
     createdBy: Nullable[str] = Field(
         None,
@@ -197,8 +251,11 @@ class CohortFilters(create_filters_schema(schema=CohortSchema, name="CohortFilte
 
 class CohortTraitAverage(Schema):
     """
-    Descriptive statistics schema representing the average and optional standard deviation
-    for a numeric cohort trait.
+    Schema representing the average and standard deviation of a trait within a cohort.
+
+    Attributes:
+        average (float): The mean value for the cohort trait.
+        standardDeviation (Optional[float]): The standard deviation for the cohort trait, if applicable. May be None.
     """
 
     average: float = Field(
@@ -213,8 +270,11 @@ class CohortTraitAverage(Schema):
 
 class CohortTraitMedian(Schema):
     """
-    Descriptive statistics schema representing the median and interquartile range
-    for a numeric cohort trait.
+    Schema representing the median and interquartile range (IQR) for a cohort trait.
+
+    Attributes:
+        median (float | None): The median value for the cohort trait.
+        interQuartalRange (Tuple[float, float] | None): The lower and upper bounds of the interquartile range (IQR).
     """
 
     median: float | None = Field(
@@ -231,7 +291,12 @@ class CohortTraitMedian(Schema):
 
 class CohortTraitCounts(Schema):
     """
-    Frequency distribution schema for categorical cohort traits.
+    Schema representing the count and percentage of records for a specific cohort trait category.
+
+    Attributes:
+        category (str): The category or group label for the cohort trait value.
+        counts (int): The number of records in this category.
+        percentage (float): The percentage of the total cohort population in this category.
     """
 
     category: str = Field(
@@ -248,6 +313,18 @@ class CohortTraitCounts(Schema):
 
 
 class CohortTraits(Schema):
+    """
+    Schema representing key traits and distributions within a patient cohort.
+
+    Attributes:
+        age (CohortTraitMedian): Median age of individuals in the cohort.
+        dataCompletion (CohortTraitMedian): Median percentage of completed data per patient.
+        overallSurvival (Nullable[CohortTraitMedian]): Median overall survival time in the cohort, if available.
+        genders (List[CohortTraitCounts]): Distribution of genders within the cohort.
+        neoplasticSites (List[CohortTraitCounts]): Distribution of neoplastic (tumor) sites in the cohort.
+        therapyLines (List[CohortTraitCounts]): Distribution of therapy lines received by patients in the cohort.
+        consentStatus (List[CohortTraitCounts]): Distribution of consent statuses for data use among cohort participants.
+    """
     age: CohortTraitMedian = Field(
         ..., title="Age", description="Median age of individuals in the cohort."
     )
@@ -282,7 +359,11 @@ class CohortTraits(Schema):
 
 class CohortContribution(Schema):
     """
-    Cohort contribution summary per contributor.
+    Schema representing a user's contribution to a cohort.
+
+    Attributes:
+        contributor (str): Username or identifier of the contributing user.
+        contributions (int): The number of records or actions contributed by this user.
     """
 
     contributor: str = Field(
@@ -296,6 +377,12 @@ class CohortContribution(Schema):
 
 
 class ExportedCohortDefinition(ExportMetadata):
+    """
+    Represents an exported cohort definition along with its export metadata.
+
+    Attributes:
+        definition (CohortCreateSchema): The cohort definition, including its title and description.
+    """
     definition: CohortCreateSchema = Field(
         title="Cohort Definition",
         description="The cohort definition",

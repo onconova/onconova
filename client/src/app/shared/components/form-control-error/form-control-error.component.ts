@@ -1,3 +1,29 @@
+/**
+ * Displays validation error messages for a specific form control within a form group.
+ *
+ * This component listens to validation errors on a given form control and displays the corresponding error message.
+ * It supports both default and custom error messages, and updates the displayed message on value changes or form submission.
+ *
+ * - This component must be used inside a form group directive (e.g., within a `<form [formGroup]>`).
+ * - The `controlName` input is required and should match the name of the control in the parent form group.
+ * - Custom error messages can be provided via the `customErrors` input; otherwise, default messages are used.
+ * - Error messages are shown only when the control has validation errors.
+ *
+ * ```html
+ * <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+ *   <input formControlName="email" />
+ *   <onconova-form-control-error [controlName]="'email'"></onconova-form-control-error>
+ * </form>
+ * ```
+ *
+ * ```html
+ * <!-- Providing custom error messages: -->
+ * <onconova-form-control-error
+ *   [controlName]="'phone'"
+ *   [customErrors]="{ required: 'Phone number is required!', pattern: 'Invalid phone format.' }">
+ * </onconova-form-control-error>
+ * ```
+ */
 import { inject, Component, OnDestroy, input, signal, effect} from '@angular/core';
 import { InjectionToken } from '@angular/core';
 import { ValidationErrors, AbstractControl, ControlContainer } from '@angular/forms';
@@ -23,6 +49,8 @@ export const FORM_ERRORS = new InjectionToken('FORM_ERRORS', {
   providedIn: 'root',
   factory: () => DEFAULT_ERRORS
 });
+
+
 
 @Component({
     selector: 'onconova-form-control-error',

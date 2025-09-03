@@ -18,24 +18,12 @@ class UntrackedBaseModel(models.Model):
     This model uses a custom manager (`QueryablePropertiesManager`) and includes fields for external data source tracking.
 
     Attributes:
-        objects (QueryablePropertiesManager): The default manager for querying model instances.
-        id (UUIDField): Primary key, automatically generated UUID.
-        external_source (CharField): Optional. The digital source of the data, useful for automated data imports.
-        external_source_id (CharField): Optional. The identifier of the data at the external source.
-
-    Meta:
-        abstract (bool): Indicates that this model is abstract and should not be used to create any database table.
-
-    Properties:
-        description (str): Human-readable description of the model instance. Must be implemented by subclasses.
-
-    Methods:
-        __str__(): Returns the description of the instance, or a fallback string if not implemented.
+        objects (QueryablePropertiesManager): The default manager for querying model instances with annotated properties.
+        id (models.UUIDField): Primary key, automatically generated UUID.
+        external_source (models.CharField): Optional. The digital source of the data, useful for automated data imports.
+        external_source_id (models.CharField): Optional. The identifier of the data at the external source.
     """
 
-    
-    # NOTE: This model uses QueryablePropertiesManager as the default manager.
-    # All subclasses must be compatible with this manager.
     objects = QueryablePropertiesManager()
 
     id = models.UUIDField(primary_key=True, help_text=_("Unique identifier of the resource (UUID v4)."), default=uuid.uuid4, editable=False)
@@ -62,6 +50,9 @@ class UntrackedBaseModel(models.Model):
         """A human-readable description of the model instance.
 
         Subclasses must implement this property to provide a string suitable for display to users.
+
+        Raises:
+            NotImplementedError: If the subclass does not implement the description property.
         """
         raise NotImplementedError("Subclasses must implement the description property")
 
@@ -77,8 +68,8 @@ class BaseModel(UntrackedBaseModel):
     Abstract base model that provides annotated properties for tracking creation and update metadata.
 
     Attributes:
-        created_at (AnnotationProperty): The earliest creation timestamp from related events with label "create".
-        updated_at (AnnotationProperty): The latest update timestamp from related events with label "update".
+        created_at (AnnotationProperty): The earliest creation timestamp from related events with label `create`.
+        updated_at (AnnotationProperty): The latest update timestamp from related events with label `update`.
         created_by (AnnotationProperty): The username associated with the creation event.
         updated_by (AnnotationProperty): A list of distinct usernames associated with update events.
 

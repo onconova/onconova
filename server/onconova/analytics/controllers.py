@@ -1,3 +1,9 @@
+"""
+This module provides API endpoints for dashboard analytics in the Onconova platform.
+It exposes statistics and metrics related to patient cases, primary sites, data completion,
+and temporal trends for use in dashboard visualizations.
+"""
+
 from collections import Counter
 from typing import List
 
@@ -33,6 +39,11 @@ from onconova.terminology.models import CancerTopographyGroup
 
 @api_controller("/dashboard", auth=[XSessionTokenAuth()], tags=["Dashboard"])
 class DashboardController(ControllerBase):
+    """
+    DashboardController provides API endpoints for retrieving various analytics and statistics
+    related to oncological data on the platform. Each endpoint returns structured data models 
+    representing the requested statistics, supporting data-driven insights for platform users.
+    """
 
     @route.get(
         path="/stats",
@@ -40,6 +51,10 @@ class DashboardController(ControllerBase):
         operation_id="getFullCohortStatistics",
     )
     def get_full_cohort_statistics(self):
+        """
+        Retrieves comprehensive statistics for the full cohort, including counts of cases, primary sites,
+        entries, mutations, clinical centers, contributors, cohorts, and projects.
+        """
         return DataPlatformStatistics(
             cases=oncological_models.PatientCase.objects.count(),
             primarySites=oncological_models.NeoplasticEntity.objects.select_properties(
@@ -68,6 +83,17 @@ class DashboardController(ControllerBase):
         operation_id="getPrimarySiteStatistics",
     )
     def get_primary_site_statistics(self):
+        """
+        Retrieves statistical data for primary neoplastic entities grouped by topography.
+
+        This method performs the following steps:
+        
+        1. Selects distinct topography groups from primary neoplastic entities.
+        2. For each topography group, identifies the cohort of patient cases associated with primary neoplastic entities matching the group's code.
+        3. Calculates the population size and the median data completion rate for each cohort.
+        4. Constructs a list of EntityStatistics objects containing the computed statistics and topography information.
+        5. Sorts the statistics by population size in descending order.
+        """
         primary_entities = (
             oncological_models.NeoplasticEntity.objects.select_properties(
                 "topography_group"
@@ -107,6 +133,9 @@ class DashboardController(ControllerBase):
         operation_id="getCasesOverTime",
     )
     def get_cases_over_time(self):
+        """
+        Retrieves the cumulative count of patient cases over time, grouped by month.
+        """
         return (
             oncological_models.PatientCase.objects.select_properties("created_at")
             .annotate(month=TruncMonth("created_at"))
@@ -125,6 +154,14 @@ class DashboardController(ControllerBase):
         operation_id="getDataCompletionStats",
     )
     def get_data_completion_statistics(self):
+        """
+        Computes and returns statistics on data completion for patient cases.
+
+        - If there are no patient cases, returns zeroed statistics.
+        - Uses Django ORM aggregation and annotation for efficient computation.
+        - Identifies most incomplete categories and the most affected sites for each.
+        - Tracks completion progress over time using monthly aggregation.
+        """
         # Total count of PatientCases (denominator for percentages)
         total_cases = oncological_models.PatientCase.objects.count()
         if total_cases == 0:

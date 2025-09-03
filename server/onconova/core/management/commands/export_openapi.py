@@ -12,15 +12,20 @@ from ninja.responses import NinjaJSONEncoder
 
 class Command(BaseCommand):
     """
-    Example:
+    Django management command to export the OpenAPI schema from a NinjaAPI instance.
 
-        ```terminal
-        python manage.py export_openapi_schema
-        ```
+    This command allows you to export the OpenAPI schema for your API, either to stdout or to a specified file.
+    You can specify the API instance to use, customize the JSON output formatting, and control key sorting and ASCII encoding.
 
-        ```terminal
-        python manage.py export_openapi_schema --api project.urls.api
-        ```
+    Options:
+        --api           Specify the import path to the NinjaAPI instance (default: 'onconova.api.api').
+        --output        Output the schema to a file (if omitted, outputs to stdout).
+        --indent        Indent level for pretty-printing the JSON output.
+        --sorted        Sort the JSON keys alphabetically.
+        --ensure-ascii  Ensure ASCII encoding for the JSON output.
+
+    Example usage:
+        python manage.py export_openapi_schema --api project.urls.api --output schema.json --indent 2 --sorted
     """
 
     help = "Exports Open API schema"

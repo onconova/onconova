@@ -15,6 +15,14 @@ from onconova.oncology.models import NeoplasticEntity, PatientCase
 
 
 class ComorbiditiesPanel(models.TextChoices):
+    """
+    An enumeration of comorbidity panel types used in oncology models.
+
+    Attributes:
+        CHARLSON: Represents the Charlson comorbidity index panel.
+        ELIXHAUSER: Represents the Elixhauser comorbidity index panel.
+        NCI: Represents the National Cancer Institute (NCI) comorbidity index panel.
+    """
     CHARLSON = "Charlson"
     ELIXHAUSER = "Elixhauser"
     NCI = "NCI"
@@ -22,6 +30,19 @@ class ComorbiditiesPanel(models.TextChoices):
 
 @dataclass
 class ComorbidityPanelCategory:
+    """
+    Represents a category within a comorbidity panel, including its label, default value, associated codes, and weight.
+
+    Attributes:
+        label (str): The display name of the comorbidity category.
+        default (str): The default value or code for the category.
+        codes (List[str]): A list of codes associated with this category.
+        weight (int | float): The numerical weight assigned to this category.
+
+    Methods:
+        get_weight(codes: List[str]) -> int | float:
+            Returns the weight of the category if any of the provided codes match the category's codes; otherwise, returns 0.
+    """
     label: str
     default: str
     codes: List[str]
@@ -31,13 +52,16 @@ class ComorbidityPanelCategory:
         return self.weight if any([code in codes for code in self.codes]) else 0
 
 
-# -------------------------------------
-# References:
-# - van Walraven al., Medical Care 47(6):p 626-633, June 2009.
-# - Quan H et al., Medical Care 2005; 43(11):1130-1139.
-# -------------------------------------
 @dataclass
 class ElixhauserPanelDetails:
+    """
+    This class defines the Elixhauser comorbidity index panel, mapping ICD codes to comorbidity categories and their respective weights.
+    Each comorbidity is represented as a class attribute, instantiated as a `ComorbidityPanelCategory` with a label, default ICD code, a list of ICD codes, and a weight.
+
+    References:
+        - van Walraven al., Medical Care 47(6):p 626-633, June 2009.
+        - Quan H et al., Medical Care 2005; 43(11):1130-1139.
+    """
 
     chf = ComorbidityPanelCategory(
         label="Congestive heart failure",
@@ -511,7 +535,18 @@ class ElixhauserPanelDetails:
     )
 
     @classmethod
-    def get_score_annotation(cls):
+    def get_score_annotation(cls) -> Sum:
+        """
+        Calculates the total comorbidity score annotation for a queryset by summing the weights of present conditions.
+
+        This method returns a Django ORM annotation that uses a conditional sum (Sum + Case + When) to assign
+        specific weights to each condition code found in `present_conditions__code`. Each condition group (e.g., chf, carit, valv)
+        has its own set of codes and associated weight. If a condition code matches one of the predefined groups,
+        its corresponding weight is added to the total score. If no match is found, a default value of 0 is used.
+
+        Returns:
+            (django.db.models.Sum): An annotation that can be used in queryset aggregation to compute the total score.
+        """
         return Sum(
             Case(
                 When(present_conditions__code__in=cls.chf.codes, then=cls.chf.weight),
@@ -581,13 +616,15 @@ class ElixhauserPanelDetails:
         )
 
 
-# -------------------------------------
-# References:
-# - C. N. Klabunde et al., Annals of Epidemiology,Volume 17, Issue 8, 2007, 584-590
-# - Quan H et al., Medical Care 2005; 43(11):1130-1139.
-# -------------------------------------
 @dataclass(kw_only=True)
 class CharlsonPanelDetails:
+    """
+    Class that provides comorbidity categories and scoring logic for the Charlson Comorbidity Index.
+
+    References:
+        - C. N. Klabunde et al., Annals of Epidemiology,Volume 17, Issue 8, 2007, 584-590
+        - Quan H et al., Medical Care 2005; 43(11):1130-1139.
+    """
 
     acute_mi = ComorbidityPanelCategory(
         label="Acute myocardial infarction",
@@ -801,7 +838,16 @@ class CharlsonPanelDetails:
     )
 
     @classmethod
-    def get_score_annotation(cls):
+    def get_score_annotation(cls) -> Sum:
+        """
+        Constructs a Django ORM annotation that calculates the total comorbidity score for a patient
+        based on the presence of specific condition codes. Each condition code is mapped to a weight,
+        and the sum of these weights is computed using conditional logic.
+
+        Returns:
+            (django.db.models.Sum): An annotation expression that can be used in queryset aggregation
+            to compute the total comorbidity score for each patient.
+        """
         return Sum(
             Case(
                 When(
@@ -879,13 +925,16 @@ class CharlsonPanelDetails:
         )
 
 
-# -------------------------------------
-# References:
-# - C. N. Klabunde et al., Annals of Epidemiology, Volume 17, Issue 8, 2007, 584-590
-# - Quan H et al., Medical Care 2005; 43(11):1130-1139.
-# -------------------------------------
 @dataclass
 class NciPanelDetails:
+    """
+    This class defines comorbidity categories and their associated ICD codes and weights for the NCI comorbidity panel. 
+    Each comorbidity is represented as a `ComorbidityPanelCategory` with a label, default ICD code, a list of ICD codes, and a weight.
+
+    References:
+        - C. N. Klabunde et al., Annals of Epidemiology, Volume 17, Issue 8, 2007, 584-590
+        - Quan H et al., Medical Care 2005; 43(11):1130-1139.
+    """
 
     acute_mi = ComorbidityPanelCategory(
         label="Acute myocardial infarction",
@@ -1099,7 +1148,18 @@ class NciPanelDetails:
     )
 
     @classmethod
-    def get_score_annotation(cls):
+    def get_score_annotation(cls) -> Sum:
+        """
+        Generates a Django ORM annotation that calculates the weighted comorbidity score for a queryset.
+
+        The score is computed by summing the weights of present comorbid conditions, based on their codes.
+        Each condition is checked against its respective code list, and the corresponding weight is applied.
+        Special handling is provided for diabetes and liver disease, where the weight depends on whether
+        complications or severity are present.
+
+        Returns:
+            Sum: A Django ORM annotation representing the total comorbidity score as a float.
+        """
         return Sum(
             Case(
                 When(
@@ -1172,6 +1232,20 @@ class NciPanelDetails:
 
 @pghistory.track()
 class ComorbiditiesAssessment(BaseModel):
+    """
+    Represents an assessment of patient comorbidities within a specific clinical case.
+
+    Attributes:
+        COMORBIDITY_PANELS_DETAILS (dict): Maps comorbidity panel types to their detail classes.
+        objects (QueryablePropertiesManager): Custom manager for querying properties.
+        case (models.ForeignKey[PatientCase]): Reference to the patient case being assessed.
+        date (models.DateField): Date when the comorbidities assessment was performed.
+        index_condition (models.ForeignKey[NeoplasticEntity]): The primary neoplastic entity for comorbidity assessment.
+        panel (models.CharField): Type of comorbidities panel used for assessment.
+        present_conditions (termfields.CodedConceptField[terminologies.ICD10Condition]): List of present comorbid conditions (ICD-10).
+        absent_conditions (termfields.CodedConceptField[terminologies.ICD10Condition]): List of absent comorbid conditions (ICD-10).
+        score (AnnotationProperty): Calculated comorbidity score based on the selected panel.
+    """
 
     COMORBIDITY_PANELS_DETAILS = {
         ComorbiditiesPanel.CHARLSON: CharlsonPanelDetails,

@@ -20,7 +20,7 @@ hide:
     </p>
     <p>
       <a class="md-button md-button--primary" href="./get-started/installation/">Get Started</a>
-      <a class="md-button md-button--secondary" href="#">Download</a>
+      <a class="md-button md-button--secondary" href="./guide/about/">Learn more</a>
     </p>
   </div>
 

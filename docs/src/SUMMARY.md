@@ -1,0 +1,30 @@
+- [Home](index.md)
+- Get Started
+    - [Requirements](get-started/requirements.md)
+    - [Installation](get-started/installation.md)
+    - [Configuration](get-started/configuration.md)
+    - [License](get-started/license.md)
+- Guide
+    - [About](guide/about.md)
+    - Security
+        - [Authentication](guide/security/authentication.md)
+        - [Authorization](guide/security/permissions.md)
+        - [Data Protection](guide/security/data-security.md)
+        - [Audit Trail](guide/security/audit-trail.md)
+    - API
+        - [Overview](guide/api/overview.md)
+        - [Specification](guide/api/specification.md)
+    - Database
+        - [Schema](guide/database/db_schema.md)
+        - [Migrations](guide/database/migrations.md)
+    - Developers Guide
+        - [Contributing](guide/developers/contributing.md)
+        - [Microservices](guide/developers/microservices.md)
+        - [Client Plugins](guide/developers/plugins.md)
+        - [Code Of Conduct](guide/developers/code_of_conduct.md)
+- [FAQs](faq.md)
+- [Credits](credits.md)
+- [Release Notes](changelog.md)
+- Server API Reference
+    -  ./server-reference/onconova/*
+- [Client API Reference](reference/client-docs.md)

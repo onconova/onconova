@@ -15,6 +15,13 @@ from onconova.oncology.models.tumor_marker import TumorMarker
 
 
 class TumorBoardSpecialties(models.TextChoices):
+    """
+    An enumeration of specialties relevant to a tumor board.
+
+    Attributes:
+        UNSPECIFIED: Represents an unspecified specialty.
+        MOLECULAR: Represents the molecular specialty.
+    """
     UNSPECIFIED = "unspecified"
     MOLECULAR = "molecular"
 
@@ -26,6 +33,18 @@ class TumorBoardSpecialties(models.TextChoices):
     )
 )
 class TumorBoard(BaseModel):
+    """
+    Represents a tumor board meeting associated with a patient case.
+
+    Attributes:
+        case (models.ForeignKey[PatientCase]): Reference to the patient case discussed at the tumor board.
+        date (models.DateField): Date of the tumor board meeting or when recommendations were provided.
+        related_entities (models.ManyToManyField[NeoplasticEntity]): Neoplastic entities that were the focus of the tumor board.
+        recommendations (termfields.CodedConceptField[terminologies.TumorBoardRecommendation]): Recommendations provided by the board regarding patient care.
+        tumor_board_specialty (str): Returns the specialty type of the tumor board, if available.
+        specialized_tumor_board (TumorBoard): Returns the specialized tumor board instance based on its specialty.
+        description (str): Returns a description of the tumor board, either from the specialized board or a summary of recommendations.
+    """
 
     case = models.ForeignKey(
         verbose_name=_("Patient case"),
@@ -84,6 +103,15 @@ class TumorBoard(BaseModel):
 
 @pghistory.track()
 class UnspecifiedTumorBoard(TumorBoard):
+    """
+    Represents a specialized TumorBoard instance with unspecified specialties.
+
+    This model extends the TumorBoard model using a one-to-one relationship,
+    serving as a proxy for tumor boards that do not have a specified specialty.
+
+    Attributes:
+        tumor_board (models.OneToOneField[TumorBoard]): The associated TumorBoard instance, acting as the primary key for this model.
+    """
 
     tumor_board = models.OneToOneField(
         to=TumorBoard,
@@ -96,6 +124,18 @@ class UnspecifiedTumorBoard(TumorBoard):
 
 @pghistory.track()
 class MolecularTumorBoard(TumorBoard):
+    """
+    Represents a Molecular Tumor Board, a specialized tumor board focused on molecular diagnostics and characterization.
+
+    Attributes:
+        tumor_board (models.OneToOneField[TumorBoard]): Links to the base TumorBoard instance, serving as the primary key.
+        conducted_molecular_comparison (models.BooleanField): Indicates if a molecular comparison was conducted during the board meeting.
+        molecular_comparison_match (models.ForeignKey[NeoplasticEntity]): References the neoplastic entity matched during molecular comparison.
+        conducted_cup_characterization (models.BooleanField): Indicates if a cancer of unknown primary (CUP) characterization was performed.
+        characterized_cup (models.BooleanField): Indicates if the CUP characterization was successful.
+        reviewed_reports (models.ArrayField[models.CharField]): List of genomic reports reviewed during the board meeting.
+        description (str): Returns a summary of the board review, including the number of recommendations.
+    """
 
     tumor_board = models.OneToOneField(
         to=TumorBoard,
@@ -161,6 +201,22 @@ class MolecularTumorBoard(TumorBoard):
 
 @pghistory.track()
 class MolecularTherapeuticRecommendation(BaseModel):
+    """
+    Represents a therapeutic recommendation issued by a molecular tumor board, including recommended drugs, expected effects, clinical trial enrollment, and supporting molecular evidence.
+
+    Attributes:
+        molecular_tumor_board (models.ForeignKey[MolecularTumorBoard]): Reference to the molecular tumor board where the recommendation was issued.
+        expected_effect (termfields.CodedConceptField[terminologies.ExpectedDrugAction]): Classification of the expected effect of the recommended drug(s).
+        clinical_trial (models.CharField): NCT-Identifier of the recommended clinical trial for patient enrollment.
+        drugs (termfields.CodedConceptField[terminologies.AntineoplasticAgent]): Drug(s) being recommended, classified as antineoplastic agents.
+        off_label_use (models.BooleanField): Indicates if the recommended medication(s) are off-label.
+        within_soc (models.BooleanField): Indicates if the recommended medication(s) are within standard of care.
+        supporting_genomic_variants (models.ManyToManyField[GenomicVariant]): Genomic variants supporting the recommendation.
+        supporting_genomic_signatures (models.ManyToManyField[GenomicSignature]): Genomic signatures supporting the recommendation.
+        supporting_tumor_markers (models.ManyToManyField[TumorMarker]): Tumor markers supporting the recommendation.
+        supporting (list): Aggregated supporting genomic variants, signatures, and tumor markers.
+        description (str): Human-readable summary of the recommendation, including drugs and expected effect.
+    """
 
     molecular_tumor_board = models.ForeignKey(
         verbose_name=_("Molecular tumor board"),

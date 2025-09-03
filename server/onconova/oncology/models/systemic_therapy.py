@@ -19,6 +19,26 @@ from onconova.oncology.models.therapy_line import TherapyLine
 
 @pghistory.track()
 class SystemicTherapy(BaseModel):
+    """
+    Represents a systemic therapy administered to a patient within an oncology context.
+
+    Attributes:
+        objects (QueryablePropertiesManager): Custom manager for querying properties.
+        case (models.ForeignKey[PatientCase]): Reference to the patient case receiving the therapy.
+        period (postgres.DateRangeField): Clinically relevant period during which the therapy was administered.
+        duration (AnnotationProperty): Duration of treatment, calculated from the period.
+        targeted_entities (models.ManyToManyField[NeoplasticEntity]): Neoplastic entities targeted by the therapy.
+        cycles (models.PositiveIntegerField): Total number of treatment cycles during the period.
+        intent (models.CharField): Treatment intent (curative or palliative).
+        adjunctive_role (termfields.CodedConceptField[terminologies.AdjunctiveRole]): Role of adjunctive therapy, if applicable.
+        is_adjunctive (models.GeneratedField): Indicates if the therapy is adjunctive.
+        termination_reason (termfields.CodedConceptField[terminologies.TerminationReason]): Reason for termination of the therapy.
+        therapy_line (models.ForeignKey[TherapyLine]): Therapy line assignment for the systemic therapy.
+        drug_combination (AnnotationProperty): String representation of the drug combination used.
+        drugs (list): List of drugs used in the therapy.
+        description (str): Human-readable description of the therapy, including line and drugs.
+
+    """
 
     objects = QueryablePropertiesManager()
 
@@ -149,6 +169,25 @@ class SystemicTherapy(BaseModel):
 
 @pghistory.track()
 class SystemicTherapyMedication(BaseModel):
+    """
+    Represents a medication administered as part of a systemic therapy regimen.
+
+    Attributes:
+        systemic_therapy (models.ForeignKey[SystemicTherapy]): Reference to the associated SystemicTherapy instance.
+        drug (termfields.CodedConceptField[AntineoplasticAgent]): The antineoplastic drug/medication administered to the patient.
+        route (termfields.CodedConceptField[DosageRoute]): The route of drug administration (optional).
+        used_offlabel (models.BooleanField): Indicates if the medication was used off-label at the time of administration (optional).
+        within_soc (models.BooleanField): Indicates if the medication was within standard of care (SOC) at the time of administration (optional).
+        dosage_mass_concentration (MeasurementField[measures.MassConcentration]): Dosage expressed in mass concentration (optional).
+        dosage_mass (MeasurementField[measures.Mass]): Dosage expressed as a fixed mass (optional).
+        dosage_volume (MeasurementField[measures.Volume]): Dosage expressed in volume (optional).
+        dosage_mass_surface (MeasurementField[measures.MassSurfaceArea]): Dosage expressed in mass per body surface area (optional).
+        dosage_rate_mass_concentration (MeasurementField[measures.MassConcentration]): Dosage rate expressed in mass concentration per time (optional).
+        dosage_rate_mass (MeasurementField[measures.Mass]): Dosage rate expressed as a fixed mass per time (optional).
+        dosage_rate_volume (MeasurementField[measures.Volume]): Dosage rate expressed in volume per time (optional).
+        dosage_rate_mass_surface (MeasurementField[measures.MassSurfaceArea]): Dosage rate expressed in mass per body surface area per time (optional).
+        description (str): Returns a string representation of the drug.
+    """
 
     systemic_therapy = models.ForeignKey(
         verbose_name=_("Systemic therapy"),

@@ -17,12 +17,35 @@ from onconova.oncology.models.systemic_therapy import (
 
 @pghistory.track()
 class AdverseEvent(BaseModel):
+    """
+    Represents an adverse event experienced by a patient during oncology treatment.
+
+    Attributes:
+        case (models.ForeignKey[PatientCase]): Reference to the patient case associated with the adverse event.
+        date (models.DateField): The clinically relevant date when the adverse event occurred.
+        event (termfields.CodedConceptField[terminologies.AdverseEventTerm]): Classification of the adverse event using CTCAE criteria.
+        grade (models.PositiveSmallIntegerField): Severity grade of the adverse event, following CTCAE criteria (0-5).
+        outcome (models.CharField): Outcome of the adverse event, selected from predefined choices.
+        date_resolved (models.DateField): Date when the adverse event ended or returned to baseline.
+        is_resolved (models.BooleanField): Indicates whether the adverse event has been resolved.
+    """
 
     class AdverseEventOutcome(models.TextChoices):
+        """
+        Enumeration of possible outcomes for an adverse event.
+
+        Attributes:
+            RESOLVED: The adverse event has been resolved.
+            RESOLVED_WITH_SEQUELAE: The adverse event has resolved but with lasting effects (sequelae).
+            RECOVERING: The subject is currently recovering from the adverse event.
+            ONGOING: The adverse event is ongoing.
+            FATAL: The adverse event resulted in death.
+            UNKNOWN: The outcome of the adverse event is unknown.
+        """
         RESOLVED = "resolved"
         RESOLVED_WITH_SEQUELAE = "resolved-with-sequelae"
         RECOVERING = "recovering"
-        ONGOIND = "ongoing"
+        ONGOING = "ongoing"
         FATAL = "fatal"
         UNKNOWN = "unknown"
 
@@ -89,6 +112,17 @@ class AdverseEvent(BaseModel):
 
 @pghistory.track()
 class AdverseEventSuspectedCause(BaseModel):
+    """
+    Represents a suspected cause of an adverse event in oncology.
+
+    Attributes:
+        adverse_event (models.ForeignKey): Reference to the associated AdverseEvent.
+        systemic_therapy (models.ForeignKey[SystemicTherapy]): Suspected systemic therapy causing the adverse event.
+        medication (models.ForeignKey[SystemicTherapyMedication]): Suspected medication causing the adverse event.
+        radiotherapy (models.ForeignKey[Radiotherapy]): Suspected radiotherapy causing the adverse event.
+        surgery (models.ForeignKey[Surgery]): Suspected surgery causing the adverse event.
+        causality (models.CharField[AdverseEventCausality]): Assessment of the potential causality, chosen from predefined options.
+    """
 
     class AdverseEventCausality(models.TextChoices):
         UNRELATED = "unrelated"
@@ -154,6 +188,12 @@ class AdverseEventSuspectedCause(BaseModel):
 
     @property
     def cause(self):
+        """
+        Determines the cause of the adverse event by checking related treatment attributes.
+
+        Returns:
+            (Any): The first non-falsy value among systemic_therapy, medication, radiotherapy, or surgery, indicating the treatment responsible for the adverse event. If none are present, returns None.
+        """
         return (
             self.systemic_therapy
             or self.medication
@@ -171,6 +211,17 @@ class AdverseEventSuspectedCause(BaseModel):
 
 @pghistory.track()
 class AdverseEventMitigation(BaseModel):
+    """
+    Model representing a mitigation strategy for an adverse event in oncology.
+
+    Attributes:
+        adverse_event (models.ForeignKey[AdverseEvent]): Reference to the associated AdverseEvent instance.
+        category (models.CharField[AdverseEventMitigationCategory]): Type of mitigation employed, chosen from adjustment, pharmacological, or procedure.
+        adjustment (termfields.CodedConceptField[terminologies.AdverseEventMitigationTreatmentAdjustment]): Classification of treatment adjustment used to mitigate the adverse event (optional).
+        drug (termfields.CodedConceptField[terminologies.AdverseEventMitigationDrug]): Classification of pharmacological treatment used to mitigate the adverse event (optional).
+        procedure (termfields.CodedConceptField[terminologies.AdverseEventMitigationProcedure]): Classification of non-pharmacological procedure used to mitigate the adverse event (optional).
+        management (termfields.CodedConceptField[terminologies.AdverseEventMitigationManagement]): Management type of the adverse event mitigation (optional).
+    """
 
     class AdverseEventMitigationCategory(models.TextChoices):
         ADJUSTMENT = "adjustment"

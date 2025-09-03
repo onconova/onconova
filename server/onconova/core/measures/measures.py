@@ -1,3 +1,7 @@
+"""
+This module provides classes and utilities for representing and converting scientific measurements with unit handling and support for bidimensional measures.
+"""
+
 from typing import Any
 
 from measurement.base import BidimensionalMeasure as BidimensionalMeasureBase
@@ -8,14 +12,51 @@ from sympy import S, Symbol
 
 
 class Measure(MeasureBase):
+    """
+    Represents a measurement with unit handling and alias support.
+
+    Attributes:
+        STANDARD_UNIT (str): The standard unit for the measure.
+        unit (str): Gets or sets the current unit for the measure. Setting the unit validates against known units and aliases.
+
+    Methods:
+        get_aliases(): Returns a mapping of unit aliases to their canonical names.
+        get_lowercase_aliases(): Returns a mapping of lowercase unit aliases to their canonical names.
+        get_units(): Returns a list of valid units.
+        __str__(): Returns a string representation of the measure in the format '<value> <unit>' rounded to two decimal places.
+
+    Raises:
+        ValueError: If an invalid unit is provided when setting the unit.
+    """
     STANDARD_UNIT: str
 
     @property
     def unit(self):
+        """
+        Returns the default unit associated with the measure.
+
+        Returns:
+            (str): The default unit of the measure.
+        """
         return self._default_unit
 
     @unit.setter
     def unit(self, value):
+        """
+        Determines and sets the default unit for the given value.
+
+        Args:
+            value (str): The unit value or its alias to be resolved.
+
+        Returns:
+            None
+
+        Raises:
+            ValueError: If the provided value does not correspond to a valid unit or alias.
+
+        Side Effects:
+            Sets self._default_unit to the resolved unit.
+        """
         aliases = self.get_aliases()
         laliases = self.get_lowercase_aliases()
         units = self.get_units()
@@ -40,6 +81,29 @@ class Measure(MeasureBase):
 
 
 class BidimensionalMeasure(BidimensionalMeasureBase):
+    """
+    BidimensionalMeasure represents a measure composed of two dimensions: a primary and a reference dimension.
+    It extends BidimensionalMeasureBase and provides functionality for handling units, aliases, and string representation
+    of bidimensional measures.
+
+    Attributes:
+        PRIMARY_DIMENSION (type): The class/type representing the primary dimension.
+        REFERENCE_DIMENSION (type): The class/type representing the reference dimension.
+
+    Methods:
+        get_units():
+            Returns a dictionary mapping combined unit strings (primary__reference) to their magnitudes, calculated as reference magnitude divided by primary magnitude.
+
+        _get_unit_parts(measure_string):
+            Splits a combined unit string into primary and reference units, handling aliases and fallback to base implementation.
+
+        __getattr__(measure_string):
+            Handles attribute access, fixing issues with meta attributes and delegating to the superclass as needed.
+
+        __str__():
+            Returns a human-readable string representation of the bidimensional measure, including value and units,
+            using aliases if available.
+    """
     PRIMARY_DIMENSION: type[Measure] | type[MeasureBase] | type["BidimensionalMeasure"]
     REFERENCE_DIMENSION: (
         type[Measure] | type[MeasureBase] | type["BidimensionalMeasure"]
@@ -47,6 +111,12 @@ class BidimensionalMeasure(BidimensionalMeasureBase):
 
     @classmethod
     def get_units(cls):
+        """
+        Generates a dictionary of unit conversion factors between all combinations of primary and reference dimensions.
+
+        Returns:
+            (dict): A dictionary where each key is a string in the format `"{primary}__{reference}"`, representing a unit combination, and each value is the conversion factor calculated as `reference_magnitude` divided by `primary_magnitude`.
+        """
         return {
             f"{primary}__{reference}": reference_magnitude / primary_magnitude
             for primary, primary_magnitude in cls.PRIMARY_DIMENSION.get_units().items()
@@ -55,6 +125,14 @@ class BidimensionalMeasure(BidimensionalMeasureBase):
 
     @property
     def unit(self):
+        """
+        Returns a string representing the combined units of the primary and reference attributes.
+
+        The format of the returned string is "<primary_unit>__<reference_unit>".
+
+        Returns:
+            (str): The combined unit string.
+        """
         return "%s__%s" % (
             self.primary.unit,
             self.reference.unit,
@@ -62,6 +140,19 @@ class BidimensionalMeasure(BidimensionalMeasureBase):
 
     @unit.setter
     def unit(self, value):
+        """
+        Sets the units for the primary and reference dimensions based on the provided value.
+
+        The input `value` should be a string in the format `"primary_unit__reference_unit"`.
+        If the reference unit changes, the method adjusts the primary standard value to maintain consistency
+        with the new reference unit.
+
+        Args:
+            value (str): A string specifying the primary and reference units, separated by `'__'`.
+
+        Raises:
+            KeyError: If the specified reference unit is not found in the reference units dictionary.
+        """
         primary, reference = value.rsplit("__", 1)
         reference_units = self.REFERENCE_DIMENSION.get_units()
         if reference != self.reference.unit:
@@ -119,7 +210,7 @@ def get_measurement(
         original_unit (str, optional): The original unit of the measurement, if different from `unit`.
 
     Returns:
-        Measure: An instance of the measure class with the specified value and unit.
+        (Measure): An instance of the measure class with the specified value and unit.
     """
     if not measure and (unit or original_unit):
         from onconova.core.measures import ALL_MEASURES
@@ -145,12 +236,38 @@ def get_measurement(
     return m
 
 
-def get_measure_db_value(value, unit):
+def get_measure_db_value(value: int | float, unit: str):
+    """
+    Converts a measurement value with a specified unit to its standardized database value.
+
+    Args:
+        value (int | float): The numeric value of the measurement.
+        unit (str): The unit of the measurement (e.g., 'mg', 'ml', etc.).
+
+    Returns:
+        (float): The value of the measurement converted to the standard unit used in the database.
+
+    Raises:
+        AttributeError: If the measurement object does not have the STANDARD_UNIT attribute.
+        Exception: Any exception raised by get_measurement.
+    """
     measurement = get_measurement(value=value, unit=unit)
     return getattr(measurement, measurement.STANDARD_UNIT)
 
 
 class Temperature(Measure):
+    """
+    Temperature measurement. 
+
+    Examples:
+        >>> temp = Temperature(25, 'celsius')
+        >>> print(temp)
+        25 °C
+
+        >>> temp = Temperature(298.15, 'kelvin')
+        >>> print(temp)
+        298.15 K
+    """
     SU = Symbol("kelvin")
     STANDARD_UNIT = "kelvin"
     UNITS = {
@@ -169,15 +286,14 @@ class Unit(Measure):
     """
     International Unit (IU) of measurement.
 
-    Notes
-    -----
-    The International Unit (IU) is a unit of measurement that is used to quantify the activity of certain substances, such as vitamins and hormones. It is defined as the amount of the substance that is needed to produce a specific biological effect.
+    The International Unit (IU) is a unit of measurement that is used to quantify the activity 
+    of certain substances, such as vitamins and hormones. It is defined as the amount of the 
+    substance that is needed to produce a specific biological effect.
 
-    Examples
-    --------
-    >>> unit = Unit(10)
-    >>> print(unit)
-    10 IU
+    Examples:
+        >>> unit = Unit(10)
+        >>> print(unit)
+        10 IU
     """
 
     STANDARD_UNIT = "IU"
@@ -196,19 +312,18 @@ class Substance(Measure):
 
     The substance is a base physical quantity and the International System of Units (SI) defines the mole (mol) as its unit.
 
-    Examples
-    --------
-    >>> substance = Substance(1)
-    >>> print(substance)
-    1 mol
+    Examples:
+        >>> substance = Substance(1)
+        >>> print(substance)
+        1 mol
 
-    >>> substance = Substance(1, 'mol')
-    >>> print(substance)
-    1 mol
+        >>> substance = Substance(1, 'mol')
+        >>> print(substance)
+        1 mol
 
-    >>> substance = Substance(1, 'gram')
-    >>> print(substance)
-    0.016042773999999998 mol
+        >>> substance = Substance(1, 'gram')
+        >>> print(substance)
+        0.016042773999999998 mol
     """
 
     STANDARD_UNIT = "mol"
@@ -225,22 +340,19 @@ class MultipleOfMedian(Measure):
     """
     A measure of quantity as a multiple of the median.
 
-    Notes
-    -----
     The Multiple of Median (M.o.M) is a measure of quantity that is
     relative to the median value of a specific population. It is
     commonly used to express the value of a particular quantity in
     terms of the median value of the population.
 
-    Examples
-    --------
-    >>> mom = MultipleOfMedian(10)
-    >>> print(mom)
-    10 M.o.M
+    Examples:
+        >>> mom = MultipleOfMedian(10)
+        >>> print(mom)
+        10 M.o.M
 
-    >>> mom = MultipleOfMedian(10, 'M.o.M')
-    >>> print(mom)
-    10 M.o.M
+        >>> mom = MultipleOfMedian(10, 'M.o.M')
+        >>> print(mom)
+        10 M.o.M
     """
 
     STANDARD_UNIT = "multiple_of_median"
@@ -259,14 +371,13 @@ class Pressure(Measure):
     The Pressure class is used for representing and converting pressure
     values in various units. The standard unit is Pascal (Pa).
 
-    Examples
-    --------
-    >>> pressure = Pressure(Pa=100)
-    >>> print(pressure)
-    100 Pa
+    Examples:
+        >>> pressure = Pressure(Pa=100)
+        >>> print(pressure)
+        100 Pa
 
-    >>> pressure.convert_to('atm')
-    0.0009869250513319517 atm
+        >>> pressure.convert_to('atm')
+        0.0009869250513319517 atm
     """
 
     STANDARD_UNIT = "Pa"
@@ -296,14 +407,13 @@ class RadiationDose(Measure):
     The RadiationDose class is used for representing and converting radiation
     dose values in various units. The standard unit is Gray (Gy).
 
-    Examples
-    --------
-    >>> radiation_dose = RadiationDose(Gy=10)
-    >>> print(radiation_dose)
-    10 Gy
+    Examples:
+        >>> radiation_dose = RadiationDose(Gy=10)
+        >>> print(radiation_dose)
+        10 Gy
 
-    >>> radiation_dose.convert_to('Rad')
-    100 Rad
+        >>> radiation_dose.convert_to('Rad')
+        100 Rad
     """
 
     STANDARD_UNIT = "Gy"
@@ -323,14 +433,13 @@ class Time(Measure):
     The Time class is used for representing and converting time values in
     various units. The standard unit is seconds (s).
 
-    Examples
-    --------
-    >>> time = Time(s=10)
-    >>> print(time)
-    10 s
+    Examples:
+        >>> time = Time(s=10)
+        >>> print(time)
+        10 s
 
-    >>> time.convert_to('min')
-    0.166666667 min
+        >>> time.convert_to('min')
+        0.166666667 min
     """
 
     STANDARD_UNIT = "s"

@@ -19,7 +19,32 @@ from onconova.oncology.models import PatientCase
 
 
 class HGVSRegex:
-    """BASED ON v21.1.2 of HGVS"""
+    """
+    A collection of regular expressions for parsing and validating HGVS (Human Genome Variation Society) nomenclature strings.
+
+    References:
+        - HGVS v21.1.2 specification
+        - NCBI RefSeq accession formats
+
+    Attributes:
+        AMINOACID (str): Regex for valid amino acid codes.
+        REPETITION_COPIES (str): Regex for repetition copy notation.
+        VERSIONED_NUMBER (str): Regex for versioned numbers.
+        GENOMIC_REFSEQ (str): Regex for genomic reference sequence identifiers.
+        RNA_REFSEQ (str): Regex for RNA reference sequence identifiers.
+        PROTEIN_REFSEQ (str): Regex for protein reference sequence identifiers.
+        NUCLEOTIDE_POSITION_OR_RANGE (str): Regex for nucleotide positions and ranges.
+        AMINOACID_POSITION_OR_RANGE (str): Regex for amino acid positions and ranges.
+        DNA_CHANGE_DESCRIPTION (str): Regex for DNA change descriptions.
+        RNA_CHANGE_DESCRIPTION (str): Regex for RNA change descriptions.
+        PROTEIN_CHANGE_DESCRIPTION (str): Regex for protein change descriptions.
+        DNA_HGVS (str): Complete regex for HGVS strings for DNA.
+        RNA_HGVS (str): Complete regex for HGVS strings for RNA.
+        PROTEIN_HGVS (str): Complete regex for HGVS strings for protein.
+
+    Usage:
+        Use these regex patterns to match, validate, or extract components from HGVS variant strings in genomic data processing pipelines.
+    """
 
     AMINOACID = r"(?:Ter|(?:Gly|Ala|Val|Leu|Ile|Met|Phe|Trp|Pro|Ser|Thr|Cys|Tyr|Asn|Gln|Asp|Glu|Lys|Arg|His))"
     REPETITION_COPIES = r"\[(?:\d+|(?:\(\d+_\d+\)))\]"
@@ -137,16 +162,23 @@ class HGVSRegex:
 
 class RegexpMatchSubstring(Func):
     """
-    Extracts the nth matching group from an HGVS expression using PostgreSQL's `regexp_match()`.
+    A custom Django Func expression to extract a substring from a field using a regular expression.
 
-    :param expression: The database column containing the HGVS string.
-    :param group: The group to capture.
-    :param group_index: The index of the capturing group to extract (1-based).
+    This class wraps the PostgreSQL `substring` function, allowing you to specify a regular expression
+    to match and extract a substring from a given expression (typically a model field).
+
+    Args:
+        expression (Any): The database field or expression to apply the regular expression to.
+        regex (str): The regular expression pattern to use for matching the substring.
+        extra (dict): Additional keyword arguments passed to the parent Func class.
+
+    Example:
+        RegexpMatchSubstring('field_name', r'[A-Za-z]+')
     """
 
     function = "substring"
 
-    def __init__(self, expression, regex, **extra):
+    def __init__(self, expression, regex: str, **extra):
         # PostgreSQL regexp_match() returns an array, so we extract the nth element
         template = "(%(function)s(%(expressions)s, '%(regex)s'))"
         super().__init__(expression, regex=regex, template=template, **extra)
@@ -154,21 +186,99 @@ class RegexpMatchSubstring(Func):
 
 @pghistory.track()
 class GenomicVariant(BaseModel):
+    """
+    Represents a clinically relevant genomic variant detected in a patient's case.
+
+    This model captures detailed information about a genomic variant, including its assessment, confidence, clinical relevance, molecular consequence, and sequence-level changes at the DNA, RNA, and protein levels. It supports annotation and querying of variant properties, such as affected genes, cytogenetic location, chromosomes, and variant type, using HGVS expressions and coded concepts.
+
+    Attributes:
+        case (models.ForeignKey[PatientCase]): Reference to the patient case associated with the variant.
+        date (models.DateField): Date relevant to the variant (e.g., specimen collection).
+        assessment_date (models.DateField): Date the variant was assessed or reported.
+        gene_panel (models.CharField): Name of the gene panel used for testing.
+        assessment (models.CharField): Classification of variant presence/absence.
+        confidence (models.CharField): Confidence level of the variant call.
+        analysis_method (termfields.CodedConceptField[terminologies.GenomicVariantAnalysisMethod]): Method used to detect the variant.
+        clinical_relevance (models.CharField): Pathogenicity or clinical relevance classification.
+        is_vus (models.GeneratedField): Indicates if the variant is of unknown significance.
+        is_pathogenic (models.GeneratedField): Indicates if the variant is pathogenic.
+        genes (termfields.CodedConceptField[terminologies.Gene]): Genes affected by the variant.
+        cytogenetic_location (models.AnnotationProperty): Cytogenetic location(s) of affected genes.
+        chromosomes (models.AnnotationProperty): Chromosomes involved in the variant.
+        genome_assembly_version (termfields.CodedConceptField[terminologies.GenomeAssemblyVersion]): Reference genome assembly version.
+        dna_hgvs (models.CharField): HGVS DNA-level expression.
+        dna_reference_sequence (AnnotationProperty): DNA reference sequence from HGVS.
+        dna_change_position_range_start (AnnotationProperty): Start position of DNA change range.
+        dna_change_position_range_end (AnnotationProperty): End position of DNA change range.
+        dna_change_position_range (AnnotationProperty): Range of DNA change positions.
+        dna_change_position (AnnotationProperty): Single DNA change position.
+        dna_change_position_intron (AnnotationProperty): Intron position of DNA change.
+        regions (AnnotationProperty): Genomic regions affected (exon, intron, UTR).
+        dna_change_type (AnnotationProperty): Type of DNA change (e.g., substitution, deletion).
+        rna_hgvs (models.CharField): HGVS RNA-level expression.
+        rna_reference_sequence (AnnotationProperty): RNA reference sequence from HGVS.
+        rna_change_position (AnnotationProperty): RNA change position or range.
+        rna_change_type (AnnotationProperty): Type of RNA change.
+        protein_hgvs (models.CharField): HGVS protein-level expression.
+        protein_reference_sequence (AnnotationProperty): Protein reference sequence from HGVS.
+        protein_change_type (AnnotationProperty): Type of protein change.
+        nucleotides_length (AnnotationProperty): Total affected nucleotides.
+        molecular_consequence (termfields.CodedConceptField[terminologies.MolecularConsequence]): Effect of the variant on transcript/protein.
+        copy_number (models.PositiveSmallIntegerField): Structural variant copy number.
+        allele_frequency (models.FloatField): Relative frequency of the allele in the sample.
+        allele_depth (models.PositiveIntegerField): Number of reads supporting the allele.
+        zygosity (termfields.CodedConceptField[terminologies.Zygosity]): Zygosity of the variant.
+        inheritance (termfields.CodedConceptField[terminologies.Inheritance]): Inheritance origin of the variant.
+        coordinate_system (termfields.CodedConceptField[terminologies.GenomicCoordinateSystem]): Genomic coordinate system used.
+        clinvar (models.CharField): ClinVar accession number for cross-reference.
+
+    Constraints:
+        Constraints ensure valid HGVS expressions for DNA, RNA, and protein change fields.
+
+    """
 
     objects = QueryablePropertiesManager()
 
     class GenomicVariantAssessment(models.TextChoices):
+        """
+        An enumeration representing possible assessments for a genomic variant.
+
+        Attributes:
+            PRESENT: Indicates the variant is present.
+            ABSENT: Indicates the variant is absent.
+            NOCALL: Indicates the variant call could not be made.
+            INDETERMINATE: Indicates the assessment is inconclusive.
+        """
         PRESENT = "present"
         ABSENT = "absent"
         NOCALL = "no-call"
         INDETERMINATE = "indeterminate"
 
     class GenomicVariantConfidence(models.TextChoices):
+        """
+        An enumeration representing the confidence level assigned to a genomic variant.
+
+        Attributes:
+            LOW: Indicates low confidence in the variant call.
+            HIGH: Indicates high confidence in the variant call.
+            INDETERMINATE: Indicates that the confidence level could not be determined.
+        """
         LOW = "low"
         HIGH = "high"
         INDETERMINATE = "indeterminate"
 
     class GenomicVariantClinicalRelevance(models.TextChoices):
+        """
+        An enumeration of clinical relevance categories for genomic variants.
+
+        Attributes:
+            PATHOGENIC: Indicates the variant is pathogenic.
+            LIKELY_PATHOGENIC: Indicates the variant is likely pathogenic.
+            UNCERTAIN_SIGNIFICANCE: Indicates the variant has uncertain clinical significance.
+            AMBIGUOUS: Indicates the variant's relevance is ambiguous.
+            LIKELY_BENIGN: Indicates the variant is likely benign.
+            BENIGN: Indicates the variant is benign.
+        """
         PATHOGENIC = "pathogenic"
         LIKELY_PATHOGENIC = "likely_pathogenic"
         UNCERTAIN_SIGNIFICANCE = "uncertain_significance"
@@ -177,6 +287,24 @@ class GenomicVariant(BaseModel):
         BENIGN = "benign"
 
     class DNAChangeType(models.TextChoices):
+        """
+        An enumeration of possible DNA change types for genomic variants.
+
+        Attributes:
+            SUBSTITUTION: A single nucleotide is replaced by another.
+            DELETION_INSERTION: A combination of deletion and insertion at the same location.
+            INSERTION: Addition of one or more nucleotides into the DNA sequence.
+            DELETION: Removal of one or more nucleotides from the DNA sequence.
+            DUPLICATION: A segment of DNA is duplicated.
+            INVERSION: A segment of DNA is reversed end to end.
+            UNCHANGED: No change detected in the DNA sequence.
+            REPETITION: A sequence motif is repeated multiple times.
+            TRANSLOCATION: A segment of DNA is moved to a different location.
+            TRANSPOSITION: Movement of a DNA segment to a new position within the genome.
+            METHYLATION_GAIN: Gain of methylation at a specific DNA region.
+            METHYLATION_LOSS: Loss of methylation at a specific DNA region.
+            METHYLATION_UNCHANGED: No change in methylation status.
+        """
         SUBSTITUTION = "substitution"
         DELETION_INSERTION = "deletion-insertion"
         INSERTION = "insertion"
@@ -192,6 +320,19 @@ class GenomicVariant(BaseModel):
         METHYLATION_UNCHANGED = "methylation-unchanged"
 
     class RNAChangeType(models.TextChoices):
+        """
+        An enumeration of possible RNA change types for genomic variants.
+
+        Attributes:
+            SUBSTITUTION: Represents a substitution mutation in RNA.
+            DELETION_INSERTION: Represents a combined deletion and insertion mutation.
+            INSERTION: Represents an insertion mutation in RNA.
+            DELETION: Represents a deletion mutation in RNA.
+            DUPLICATION: Represents a duplication mutation in RNA.
+            INVERSION: Represents an inversion mutation in RNA.
+            UNCHANGED: Indicates no change in the RNA sequence.
+            REPETITION: Represents a repetition mutation in RNA.
+        """
         SUBSTITUTION = "substitution"
         DELETION_INSERTION = "deletion-insertion"
         INSERTION = "insertion"
@@ -202,6 +343,23 @@ class GenomicVariant(BaseModel):
         REPETITION = "repetition"
 
     class ProteinChangeType(models.TextChoices):
+        """
+        An enumeration of protein change types observed in genomic variants.
+
+        Attributes:
+            MISSENSE: A single nucleotide change resulting in a different amino acid.
+            NONSENSE: A mutation introducing a premature stop codon.
+            DELETION_INSERTION: A complex event involving both deletion and insertion of nucleotides.
+            INSERTION: Addition of one or more nucleotides into the DNA sequence.
+            DELETION: Removal of one or more nucleotides from the DNA sequence.
+            DUPLICATION: Duplication of a segment of DNA.
+            FRAMESHIFT: A mutation that shifts the reading frame of the genetic code.
+            EXTENSION: Extension of the protein sequence beyond its normal length.
+            SILENT: A mutation that does not alter the amino acid sequence.
+            NO_PROTEIN: No protein product is produced due to the mutation.
+            UNKNOWN: The effect of the mutation on the protein is unknown.
+            REPETITION: Repetition of a segment within the protein sequence.
+        """
         MISSENSE = "missense"
         NONSENSE = "nonsense"
         DELETION_INSERTION = "deletion-insertion"

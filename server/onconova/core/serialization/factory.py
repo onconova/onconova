@@ -25,17 +25,6 @@ class SchemaFactory(NinjaSchemaFactory):
 
     Attributes:
         IGNORE_FIELDS (List[str]): List of model field names to ignore when generating schemas.
-
-    Methods:
-        create_schema(
-            Dynamically creates a Pydantic schema class for the given ORM model.
-            Allows customization of included/excluded fields, optional fields, custom fields,
-            and base classes. Handles field resolvers and ORM metadata.
-
-        create_filters_schema(
-            Dynamically creates a filter schema class based on an existing schema.
-            Used for building query filters, with support for field inclusion/exclusion
-            and custom filter resolvers.
     """
 
     IGNORE_FIELDS = [

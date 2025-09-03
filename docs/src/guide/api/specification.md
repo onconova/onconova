@@ -1,2 +1,2 @@
-[OAD(./src/guide/api/openapi.json)]
+[OAD(../client/openapi.json)]
 

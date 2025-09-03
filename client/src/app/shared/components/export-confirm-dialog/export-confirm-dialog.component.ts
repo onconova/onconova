@@ -1,6 +1,24 @@
-import { Component, input, signal } from "@angular/core";
+/**
+ * A confirmation dialog component for exporting sensitive healthcare data.
+ * 
+ * This dialog presents users with a compliance acknowledgement and requires explicit confirmation
+ * that valid patient consent has been obtained before proceeding with data download. It records the
+ * user's action and links it to their credentials, emphasizing legal and ethical responsibilities.
+ * 
+ * - The component enforces compliance with data protection legislation and institutional policies.
+ * - Both `onAccept` and `onReject` callbacks are required and must be provided by the parent component.
+ * - Uses PrimeNG Button for consistent UI styling.
+ * 
+ * ```html
+ * <onconova-export-confirm-dialog
+ *   [onAccept]="handleAccept"
+ *   [onReject]="handleReject">
+ * </onconova-export-confirm-dialog>
+ * ``` 
+ */
+import { Component, input } from "@angular/core";
 import { Button } from "primeng/button";
-import { ConfirmDialog } from "primeng/confirmdialog";
+
 
 @Component({
     selector: 'onconova-export-confirm-dialog',

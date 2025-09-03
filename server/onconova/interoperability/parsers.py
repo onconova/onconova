@@ -196,7 +196,7 @@ class BundleParser:
                     )
         return schema_instance
 
-    def import_history_events(self, orm_instance, resourceId) -> None:
+    def import_history_events(self, orm_instance: DjangoModel, resourceId: str) -> None:
         """
         Imports history events associated with a specific resource into the ORM instance.
 
@@ -205,8 +205,8 @@ class BundleParser:
         manually sets the event timestamp, and finally adds a manual event indicating the import.
 
         Args:
-            orm_instance: The ORM instance to which events will be imported.
-            resourceId: The identifier of the resource whose events are to be imported.
+            orm_instance (DjangoModel): The ORM instance to which events will be imported.
+            resourceId (str): The identifier of the resource whose events are to be imported.
         """
         events = [
             event
@@ -243,7 +243,7 @@ class BundleParser:
         Args:
             resource (Schema): The resource object to import, which must have an 'id' attribute.
             instance (T | None, optional): An existing ORM instance to update, or None to create a new one.
-            **fields: Additional fields to pass to the model's dump method.
+            fields (dict): Additional fields to pass to the model's dump method.
 
         Raises:
             ValueError: If the resource does not have an 'id'.
