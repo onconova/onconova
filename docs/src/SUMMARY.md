@@ -24,6 +24,7 @@
         - [Code Of Conduct](guide/developers/code_of_conduct.md)
 - [FAQs](faq.md)
 - [Credits](credits.md)
+- [Release Notes](changelog.md)
 - Server API Reference
     -  ./server-reference/onconova/*
 - [Client API Reference](reference/client-docs.md)
