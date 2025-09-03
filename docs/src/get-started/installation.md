@@ -12,37 +12,52 @@ Make sure that your hardware and network fulfill the [minimal requirements](requ
     If a command requires an active internet connection, you can switch to a tab where the same command with the added configuration for your network will be shown.
 
 
-### Install From Source
+### Instructions
 
 Follow these steps to install and set up Onconova from its source code.
 
-1. **Clone the Repository**
+1. **Download Required Files**
+    
+    === "Installing Public Release"
 
-    Download the Onconova source code and navigate to the project directory:
-    ```bash
-    git clone https://github.com/luisfabib/onconova.git
-    cd onconova
-    ```
+        Download the Docker compose orchestration file from [here](https://raw.githubusercontent.com/luisfabib/onconova/refs/tags/1.0.0/.env.sample).
+
+    === "Installing From Source"
+
+        Download the Onconova source code and navigate to the project directory:
+        ```bash
+        git clone https://github.com/luisfabib/onconova.git
+        cd onconova
+        ```
    
 2. **Setup Host SSL Certificates**
 
-    SSL certificates (, i.e `.pem` files) are required to serve the application securely.
+    SSL certificates (i.e `.pem` files) are required to serve the application securely.
         
     === "Local hosting"
 
-        To generate self-signed certificates for local hosting, you can use certbot:
-        ```bash 
-        sudo certbot certonly --standalone --preferred-challenges http -d localhost -d localhost
-        ``` 
+        To generate self-signed certificates for local hosting, you can use:
 
-        This will generate your certificates, typically at:
+        === "OpenSSL"
 
-        ```
-        /etc/letsencrypt/live/localhost/fullchain.pem
-        /etc/letsencrypt/live/localhost/privkey.pem
-        ```
+            ```shell
+            openssl req -x509 -newkey rsa:4096 -keyout localhost-key.pem -out localhost.pem -sha256 -days 3650 -nodes -subj "/C=XX/ST=Local/L=Local/O=localhost/OU=localhost/CN=localhost"
+            ```
 
-        Adjust the paths in your `.env` accordingly (see below).
+        === "Certbot"
+
+            ```shell 
+            sudo certbot certonly --standalone --preferred-challenges http -d localhost
+            ``` 
+            
+            This will generate your certificates, typically at:
+
+            ```
+            /etc/letsencrypt/live/localhost/fullchain.pem
+            /etc/letsencrypt/live/localhost/privkey.pem
+            ```
+
+        Note the path where the certificate and the private key files have been generated for the next step.
 
     === "Hosting Within an Organization"
 
@@ -54,15 +69,22 @@ Follow these steps to install and set up Onconova from its source code.
 
     Set up the environment variables to configure the installation for your machine and network:
 
-    - Copy the provided `.env.sample` to `.env`.
-        ```bash
-        cp .env.sample .env
-        ```
+    === "Installing Public Release"
+
+        - Download the sample environment [here](https://raw.githubusercontent.com/luisfabib/onconova/refs/tags/1.0.0/compose.yml) and save it under `.env`.
+
+    === "Installing From Source"
+
+        - Copy the provided `.env.sample` to `.env`.
+            ```bash
+            cp .env.sample .env
+            ```
 
     - Update the `.env` file with your configuration settings:
-        - Set the absolute paths to your SSL certificates:
+
+        - Set the absolute paths to the SSL certificates you obtained or generated in the previous step:
             ```bash
-            ONCONOVA_REVERSE_PROXY_SSL_CERTIFICATE_BUNDLE='/path/to/fullchain.pem'
+            ONCONOVA_REVERSE_PROXY_SSL_CERTIFICATE_BUNDLE='/path/to/certificate.pem'
             ONCONOVA_REVERSE_PROXY_SSL_CERTIFICATE_PRIVATE_KEY='/path/to/privkey.pem'
             ```
 
@@ -82,38 +104,48 @@ Follow these steps to install and set up Onconova from its source code.
 
         - Set all other non-optional environment variables listed in the [Configuration section](configuration.md#onconova-environment-variables-reference) based on your environment.
 
-4. **Build and Run the Containers**
+4. **Start the Containers**
 
-    Build and start the Onconova containers:
+    === "Installing Public Release"
 
-    === "Normal"
+        Start the Onconova containers by running:
 
         ```bash
-        docker compose up --build -d
+        docker compose up -d
         ```
 
-    === "With proxy and/or root certificates"
+    
+    === "Installing From Source"
+        Build and start the Onconova containers:
 
-        1. Copy the root CA certificates
-            ```bash 
-            cp <local-path/root-ca-certificates.pem> ./certificates/root-ca-certificates.pem
-            ```
-
-        2. Build the Onconova images:
+        === "Normal"
 
             ```bash
-            docker compose build \
-                --build-arg http_proxy='http://<username>:<password>@<hostname>:<port>' \
-                --build-arg https_proxy='http://<username>:<password>@<hostname>:<port>' \
-                --build-arg ROOT_CA_CERTIFICATES='root-ca-certificates.pem'
+            docker compose up --build -d
             ```
-            Replace proxy credentials based on your environment.
 
-        3. Start the containers:
+        === "With proxy and/or root certificates"
 
-            ```bash
-            docker compose up -d
-            ```
+            1. Copy the root CA certificates
+                ```bash 
+                cp <local-path/root-ca-certificates.pem> ./certificates/root-ca-certificates.pem
+                ```
+
+            2. Build the Onconova images:
+
+                ```bash
+                docker compose build \
+                    --build-arg http_proxy='http://<username>:<password>@<hostname>:<port>' \
+                    --build-arg https_proxy='http://<username>:<password>@<hostname>:<port>' \
+                    --build-arg ROOT_CA_CERTIFICATES='root-ca-certificates.pem'
+                ```
+                Replace proxy credentials based on your environment.
+
+            3. Start the containers:
+
+                ```bash
+                docker compose up -d
+                ```
 
     Check that the containers are running:
     ```bash
@@ -121,21 +153,36 @@ Follow these steps to install and set up Onconova from its source code.
 
     CONTAINER ID   IMAGE                COMMAND                  NAMES
     ************   nginx:1.23           "/docker-entrypoint.…"   onconova-reverse-proxy
-    ************   client           "docker-entrypoint.s…"   client
-    ************   server           "python manage.py ru…"   server
-    ************   docs             "mkdocs serve -a 0.0…"   docs
+    ************   client               "docker-entrypoint.s…"   onconova-client
+    ************   server               "python manage.py ru…"   onconova-server
     ************   postgres:13-alpine   "docker-entrypoint.s…"   onconova-database
     ```
 
 
 
-5. **Access the Web Application**
+5. **Checks**
 
-    Open your browser and visit:
-    ```
-    https://${ONCONOVA_REVERSE_PROXY_HOST}:${ONCONOVA_REVERSE_PROXY_HTTPS_PORT}/
-    ```
-    Verify that the login page loads correctly. If so, the Onconova components have been successfully installed. 
+    To verify that the server and client containers are running and operational, execute the following commands:
+
+    === "Server"
+
+        ```sh
+        bash -c 'export $(grep -v "^#" .env | xargs); \
+        curl https://${ONCONOVA_REVERSE_PROXY_HOST}:${ONCONOVA_REVERSE_PROXY_HTTPS_PORT}/api/v1/healthcheck \
+        --cacert ./certificates/cert.pem -f -o /dev/null;'
+        ```
+
+    === "Client"
+
+        ```sh
+        bash -c 'export $(grep -v "^#" .env | xargs); \
+        curl https://${ONCONOVA_REVERSE_PROXY_HOST}:${ONCONOVA_REVERSE_PROXY_HTTPS_PORT}/login \
+        --cacert ./certificates/cert.pem -f -o /dev/null;'
+        ```
+
+    If the `curl` command does not raise any errors, then the services are operational. 
+
+!!! important "Follow-up steps"
 
     If this is a fresh install of Onconova, please proceed to the next section and complete its steps before using the platform any further.
 
