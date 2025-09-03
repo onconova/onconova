@@ -1,0 +1,57 @@
+name: onconova
+services:
+    server:
+        image: ghcr.io/luisfabib/onconova/server:1.0.0
+        restart: unless-stopped
+        env_file: .env
+        expose:
+            - 8000
+        depends_on:
+            - database
+
+    client:
+        image: ghcr.io/luisfabib/onconova/client:1.0.0
+        restart: unless-stopped
+        env_file: .env
+
+    reverse-proxy:
+        image: nginx:1.23        
+        container_name: "${COMPOSE_PROJECT_NAME}-nginx"
+        restart: unless-stopped
+        volumes:
+            - ./nginx.conf:/etc/nginx/conf.d/default.conf
+            - ${ONCONOVA_REVERSE_PROXY_SSL_CERTIFICATE_BUNDLE}:/etc/nginx/ssl/cert_host.pem
+            - ${ONCONOVA_REVERSE_PROXY_SSL_CERTIFICATE_PRIVATE_KEY}:/etc/nginx/ssl/cert_host.key 
+        expose:
+            - 80
+            - 443
+        ports:
+            - "${ONCONOVA_REVERSE_PROXY_HTTPS_PORT:-443}:443"
+            - "${ONCONOVA_REVERSE_PROXY_HTTP_PORT:-80}:80"
+        env_file: .env
+        depends_on:
+            - database
+            - server
+            - client
+
+    database:
+        image: postgres:13-alpine
+        container_name: "${COMPOSE_PROJECT_NAME}-postgres"
+        restart: unless-stopped
+        volumes:
+            - postgresql-data:/var/lib/postgresql/data/
+        env_file: .env
+        environment:
+            - POSTGRES_DB=${ONCONOVA_POSTGRES_DATABASE}
+            - POSTGRES_USER=${ONCONOVA_POSTGRES_USER}
+            - POSTGRES_PASSWORD=${ONCONOVA_POSTGRES_PASSWORD}
+            - PGPORT=${ONCONOVA_POSTGRES_PORT}
+        expose:
+            - ${ONCONOVA_POSTGRES_PORT}
+        ports:
+            - ${ONCONOVA_POSTGRES_PORT}
+        command: 
+            - -p ${ONCONOVA_POSTGRES_PORT}      
+
+volumes:
+    postgresql-data:

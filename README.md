@@ -1,7 +1,10 @@
 <br />
 <div align="center">
     <a href="https://github.com/luisfabib/onconova">
-        <img src="client/src/assets/images/logo.svg" width="10%">
+        <picture>
+            <source srcset="docs/src/assets/img/logo-white.svg" media="(prefers-color-scheme: dark)" width="12%"/>
+            <img src="docs/src/assets/img/logo.svg" alt="Onconova Logo" width="12%"/>
+        </picture>
     </a>
     <h1>Onconova</h1>
     <h3>Precision Oncology Data Platform</h3>
@@ -18,12 +21,10 @@
 
 
   <p align="center">
-    Onconova is an open-source project aimed at capturing and structuring cancer-related clinical data, while enabling interactive aggregated data analysis.
+    Onconova is an open-source data platform aiming to enable reliable, structured data collection and analysis in precision oncology. 
+    Our goal is to support clinical research and development through interoperable, accessible software.
     <br />
-    <br />
-    <a href="https://luisfabib.github.io/onconova "><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
+    <h3><a href="https://luisfabib.github.io/onconova/latest/">Explore the documentation »</a></h3>
     <a href="https://github.com/luisfabib/onconova/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
     ·
     <a href="https://github.com/luisfabib/onconova/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
@@ -33,36 +34,36 @@
 
 ## Features
 
- **🖥️ API Server**  
-    Robust CRUD API for clinical resources, designed with the OpenAPI 3.1 standard for seamless data manipulation and exchange.
+**🖥️ API Server**  
+A robust CRUD API for clinical resources, built on the OpenAPI 3.1 standard to facilitate seamless data management and integration.
 
 **🌐 Web Client**  
-    Modern Angular-based interface for intuitive interaction with clinical data and API endpoints.
+A modern Angular-based interface offering intuitive access to clinical data and API endpoints.
 
 **📋 Structured Data Collection**  
-    Streamlined capture of research data in standardized formats, securely stored in a relational PostgreSQL database.
+Efficient capture of research data in standardized formats, securely managed within a relational PostgreSQL database.
 
 **📊 Interactive Data Exploration**  
-    Powerful cohort creation, real-time filtering, and visualization tools for dynamic data analysis.
+Advanced tools for cohort creation, real-time filtering, and data visualization, supporting dynamic and insightful analysis.
 
 **🔒 Data Protection**  
-    Automated anonymization features to help ensure compliance with data privacy regulations.
+Automated anonymization capabilities designed to support compliance with data privacy regulations.
 
 **🚀 Effortless Deployment**  
-    Fully Dockerized architecture for quick setup and reliable production deployment.
+A fully Dockerized architecture enabling rapid setup and dependable production deployment.
 
 **🧩 Extensible & Customizable**  
-    Plugin system enables institution-specific enhancements without altering the core platform.
+A flexible plugin system allows for institution-specific enhancements without modifying the core platform.
 
 ## Installation
 
-Checkout the [Installation Guide](https://luisfabib.github.io/onconova/get-started/installation/) for detailed setup instructions.
+Checkout the [Installation Guide](https://luisfabib.github.io/onconova/latest/get-started/installation/) for detailed setup instructions.
 
-If you need help, consult the [FAQ](https://luisfabib.github.io/onconova/get-started/faq/) or [open an issue](https://github.com/luisfabib/onconova/issues).
+If you need help, consult the [FAQ](https://luisfabib.github.io/onconova/latest/faq/) or [open an issue](https://github.com/luisfabib/onconova/issues).
 
 ### Prerequisites
 
-See the [requirements](https://luisfabib.github.io/onconova/get-started/requirements/) for supported platforms and dependencies.
+See the [requirements](https://luisfabib.github.io/onconova/latest/get-started/requirements/) for supported platforms and dependencies.
 
 
 <!-- CONTRIBUTING -->
@@ -74,15 +75,11 @@ If you have a suggestion that would make this better, please fork the repo and c
 
 ### Development Setup
 
-Follow the [Installation Guide](../../get-started/installation.md) to set up Onconova for local development using Docker Compose.
+Follow the [Installation Guide](https://luisfabib.github.io/onconova/latest)/get-started/installation.md) to set up Onconova for local development using Docker Compose.
 
 Use the `compose.dev.yml` file for development. You can specify it directly when starting the containers:
 ```sh
 docker compose -f compose.dev.yml up --build -d
-```
-or set the environment variable:
-```sh
-export COMPOSE_FILE=compose.dev.yml
 ```
 
 The development containers are configured to mount your local source code into the container. Any changes you make to your code are immediately reflected inside the container, automatically restarting the server or client as needed. This enables live development without requiring you to install all dependencies on your local machine.
