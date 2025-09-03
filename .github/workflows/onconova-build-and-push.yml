@@ -89,5 +89,6 @@ jobs:
         run: |
           cd docs
           npx @compodoc/compodoc -p ../client/tsconfig.doc.json -d ./src/compodoc/ -y src/assets/css/compodoc/ --hideGenerator --theme material
+          git fetch origin gh-pages --depth=1
           mike deploy --push --update-aliases $(echo "${{ github.event.release.tag_name }}" | grep -oP '^\d+\.\d+') latest
           mike set-default latest

@@ -43,4 +43,5 @@ jobs:
         run: |
           cd docs
           npx @compodoc/compodoc -p ../client/tsconfig.doc.json -d ./src/compodoc/ -y src/assets/css/compodoc/ --hideGenerator --theme material
+          git fetch origin gh-pages --depth=1
           mike deploy --push dev
