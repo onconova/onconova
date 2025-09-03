@@ -1,0 +1,1214 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Application documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+        <link rel="stylesheet" href="../styles/material.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Application documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Injectables</li>
+  <li class="breadcrumb-item" >DownloadService</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>/home/runner/work/onconova/onconova/client/src/app/shared/services/download.service.ts</code>
+        </p>
+
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>This service provides utility methods for exporting data and charts in various formats,
+including JSON, CSV, ZIP, and high-resolution images. It is designed for use in Angular applications
+and supports flattening nested data structures for CSV export, packaging multiple CSVs into a ZIP file,
+and exporting Chart.js charts as PNG images with optional high resolution.</p>
+<ul>
+<li>The service automatically flattens nested objects and arrays for CSV export.</li>
+<li>When exporting as ZIP, each nested array/object is saved as a separate CSV file.</li>
+<li>High-resolution chart export increases font and point sizes for clarity.</li>
+<li>All downloads are triggered client-side using Blob and anchor elements.</li>
+<li>The service is provided in the root injector and can be injected into any Angular component or service.</li>
+</ul>
+
+            </p>
+
+
+
+            <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#addCsvToZip" >addCsvToZip</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#download" >download</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#downloadAsFlatCsv" >downloadAsFlatCsv</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#downloadAsJson" >downloadAsJson</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#downloadAsZip" >downloadAsZip</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#downloadChart" >downloadChart</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#downloadHighResChart" >downloadHighResChart</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#flattenObject" >flattenObject</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+            <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addCsvToZip"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>addCsvToZip</b></span>
+                        <a href="#addCsvToZip"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>addCsvToZip(zipContents: literal type, filename: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, data: any[])</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="85"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/shared/services/download.service.ts:85</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>zipContents</td>
+                                            <td>
+                                                        <code>literal type</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>filename</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>data</td>
+                                            <td>
+                                                        <code>any[]</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="download"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>download</b></span>
+                        <a href="#download"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>download(filename: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, url: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="115"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/shared/services/download.service.ts:115</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>filename</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>url</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="downloadAsFlatCsv"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>downloadAsFlatCsv</b></span>
+                        <a href="#downloadAsFlatCsv"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>downloadAsFlatCsv(data: any[], filename: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="30"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/shared/services/download.service.ts:30</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Default value</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>data</td>
+                                            <td>
+                                                        <code>any[]</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>filename</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>&#x27;data.csv&#x27;</code>
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="downloadAsJson"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>downloadAsJson</b></span>
+                        <a href="#downloadAsJson"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>downloadAsJson(data: any[] | any, filename: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="24"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/shared/services/download.service.ts:24</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Default value</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>data</td>
+                                            <td>
+                                                        <code>any[] | any</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>filename</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>&#x27;data.json&#x27;</code>
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="downloadAsZip"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>downloadAsZip</b></span>
+                        <a href="#downloadAsZip"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>downloadAsZip(data: any[], zipFilename: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="44"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/shared/services/download.service.ts:44</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Default value</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>data</td>
+                                            <td>
+                                                        <code>any[]</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>zipFilename</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>&#x27;data.zip&#x27;</code>
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="downloadChart"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>downloadChart</b></span>
+                        <a href="#downloadChart"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>downloadChart(chart: Chart, filename: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="126"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/shared/services/download.service.ts:126</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Default value</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>chart</td>
+                                            <td>
+                                                        <code>Chart</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>filename</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>&#x27;onconova-chart.png&#x27;</code>
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="downloadHighResChart"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>downloadHighResChart</b></span>
+                        <a href="#downloadHighResChart"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>downloadHighResChart(originalChart: Chart, filename: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="132"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/shared/services/download.service.ts:132</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Default value</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>originalChart</td>
+                                            <td>
+                                                        <code>Chart</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>filename</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>&#x27;onconova-chart-HD.png&#x27;</code>
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="flattenObject"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>flattenObject</b></span>
+                        <a href="#flattenObject"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>flattenObject(obj: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, parentKey: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="96"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/shared/services/download.service.ts:96</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Default value</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>obj</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>parentKey</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>&#x27;&#x27;</code>
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>any[]</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+import { Chart, ChartConfiguration, ChartType } from &#x27;chart.js&#x27;;
+import { zipSync, strToU8 } from &#x27;fflate&#x27;;
+
+
+/**
+ * This service provides utility methods for exporting data and charts in various formats,
+ * including JSON, CSV, ZIP, and high-resolution images. It is designed for use in Angular applications
+ * and supports flattening nested data structures for CSV export, packaging multiple CSVs into a ZIP file,
+ * and exporting Chart.js charts as PNG images with optional high resolution.
+ *
+ * - The service automatically flattens nested objects and arrays for CSV export.
+ * - When exporting as ZIP, each nested array/object is saved as a separate CSV file.
+ * - High-resolution chart export increases font and point sizes for clarity.
+ * - All downloads are triggered client-side using Blob and anchor elements.
+ * - The service is provided in the root injector and can be injected into any Angular component or service.
+ */
+@Injectable({
+  providedIn: &#x27;root&#x27;
+})
+export class DownloadService {
+
+    public downloadAsJson(data: any[] | any, filename: string &#x3D; &#x27;data.json&#x27;): void {
+        const blob &#x3D; new Blob([JSON.stringify(data, null, 2)], { type: &#x27;application/json&#x27; });
+        const url &#x3D; window.URL.createObjectURL(blob);
+        this.download(filename, url)
+      }
+
+    public downloadAsFlatCsv(data: any[], filename: string &#x3D; &#x27;data.csv&#x27;): void {
+        if (data.length &#x3D;&#x3D;&#x3D; 0) return;
+                
+        const flattenedData &#x3D; data.flatMap(item &#x3D;&gt; this.flattenObject(item));
+        const headers &#x3D; Array.from(new Set(flattenedData.flatMap(row &#x3D;&gt; Object.keys(row))));
+        const csvRows &#x3D; flattenedData.map(row &#x3D;&gt; headers.map(header &#x3D;&gt; JSON.stringify(row[header] || &#x27;&#x27;)).join(&#x27;,&#x27;));
+        csvRows.unshift(headers.join(&#x27;,&#x27;)); // Add header row
+        
+        const csvString &#x3D; csvRows.join(&#x27;\n&#x27;);
+        const blob &#x3D; new Blob([csvString], { type: &#x27;text/csv&#x27; });
+        const url &#x3D; window.URL.createObjectURL(blob);
+        this.download(filename, url)
+      }
+
+    public downloadAsZip(data: any[], zipFilename: string &#x3D; &#x27;data.zip&#x27;): void {
+        const zipContents: { [filename: string]: Uint8Array } &#x3D; {};
+      
+        const mainData: any[] &#x3D; [];
+        const nestedDataMap: { [key: string]: any[] } &#x3D; {};
+      
+        data.forEach(item &#x3D;&gt; {
+          const flatObj: any &#x3D; {};
+          const pseudoIdentifier &#x3D; item.pseudoidentifier || &#x27;&#x27;;
+      
+          Object.entries(item).forEach(([key, value]) &#x3D;&gt; {
+            if (Array.isArray(value)) {
+              if (!nestedDataMap[key]) nestedDataMap[key] &#x3D; [];
+              value.forEach(subItem &#x3D;&gt; {
+                const nestedRow &#x3D; { pseudoidentifier: pseudoIdentifier, ...this.flattenObject(subItem)[0] };
+                nestedDataMap[key].push(nestedRow);
+              });
+            } else if (typeof value &#x3D;&#x3D;&#x3D; &#x27;object&#x27; &amp;&amp; value !&#x3D;&#x3D; null) {
+              if (!nestedDataMap[key]) nestedDataMap[key] &#x3D; [];
+              const nestedRow &#x3D; { pseudoidentifier: pseudoIdentifier, ...this.flattenObject(value)[0] };
+              nestedDataMap[key].push(nestedRow);
+            } else {
+              flatObj[key] &#x3D; value;
+            }
+          });
+      
+          mainData.push(flatObj);
+        });
+      
+        this.addCsvToZip(zipContents, &#x27;main.csv&#x27;, mainData);
+      
+        Object.entries(nestedDataMap).forEach(([key, nestedData]) &#x3D;&gt; {
+          this.addCsvToZip(zipContents, &#x60;${key}.csv&#x60;, nestedData);
+        });
+      
+        const zipped &#x3D; zipSync(zipContents);
+        const blob &#x3D; new Blob([zipped], { type: &#x27;application/zip&#x27; });
+        const url &#x3D; window.URL.createObjectURL(blob);
+        this.download(zipFilename, url);
+      }
+        
+    private addCsvToZip(zipContents: { [filename: string]: Uint8Array }, filename: string, data: any[]): void {
+        if (data.length &#x3D;&#x3D;&#x3D; 0) return;
+    
+        const headers &#x3D; Array.from(new Set(data.flatMap(row &#x3D;&gt; Object.keys(row))));
+        const csvRows &#x3D; data.map(row &#x3D;&gt; headers.map(header &#x3D;&gt; JSON.stringify(row[header] ?? &#x27;&#x27;)).join(&#x27;,&#x27;));
+        csvRows.unshift(headers.join(&#x27;,&#x27;));
+    
+        const csvString &#x3D; csvRows.join(&#x27;\n&#x27;);
+        zipContents[filename] &#x3D; strToU8(csvString);
+    }
+
+    private flattenObject(obj: any, parentKey &#x3D; &#x27;&#x27;): any[] {
+        let rows: any[] &#x3D; [{}];
+        if (!obj) return rows
+        Object.entries(obj).forEach(([key, value]) &#x3D;&gt; {
+            const newKey &#x3D; parentKey ? &#x60;${parentKey}.${key}&#x60; : key;
+            
+            if (Array.isArray(value)) {
+            const expandedRows &#x3D; value.flatMap(item &#x3D;&gt; this.flattenObject(item, newKey));
+            rows &#x3D; expandedRows.map(expandedRow &#x3D;&gt; ({ ...rows[0], ...expandedRow }));
+            } else if (typeof value &#x3D;&#x3D;&#x3D; &#x27;object&#x27; &amp;&amp; value !&#x3D;&#x3D; null) {
+            rows &#x3D; rows.map(row &#x3D;&gt; ({ ...row, ...this.flattenObject(value, newKey)[0] }));
+            } else {
+            rows.forEach(row &#x3D;&gt; row[newKey] &#x3D; value);
+            }
+        });
+        
+        return rows;
+    }
+
+    private download(filename: string, url: string) {
+        const a &#x3D; document.createElement(&#x27;a&#x27;);
+        a.href &#x3D; url;
+        a.download &#x3D; filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+    }
+
+
+    public downloadChart(chart: Chart, filename: string &#x3D; &#x27;onconova-chart.png&#x27;) {
+        const url &#x3D; chart.toBase64Image(&#x27;image/png&#x27;, 1);
+        this.download(filename, url)
+    }
+
+
+    public downloadHighResChart(originalChart: Chart, filename: string &#x3D; &#x27;onconova-chart-HD.png&#x27;) {
+        if (!originalChart || !originalChart.canvas) {
+          throw new Error(&#x27;Invalid Chart.js instance&#x27;);
+        }
+      
+        // Get original canvas and context
+        const originalCanvas &#x3D; originalChart.canvas;
+        const originalWidth &#x3D; originalCanvas.width;
+        const originalHeight &#x3D; originalCanvas.height;
+      
+        // Create a new canvas with increased resolution
+    const scaleFactor &#x3D; 5;
+        const newCanvas &#x3D; document.createElement(&#x27;canvas&#x27;);
+        newCanvas.width &#x3D; originalWidth * scaleFactor;
+        newCanvas.height &#x3D; originalHeight * scaleFactor;
+        newCanvas.style.width &#x3D; &#x60;${originalWidth}px&#x60;;
+        newCanvas.style.height &#x3D; &#x60;${originalHeight}px&#x60;;
+      
+        const ctx &#x3D; newCanvas.getContext(&#x27;2d&#x27;);
+        if (!ctx) {
+          throw new Error(&#x27;Failed to get canvas context&#x27;);
+        }
+      
+        // Extract the type correctly
+        const chartConfig &#x3D; originalChart.config as ChartConfiguration&lt;ChartType&gt;;
+        const chartType &#x3D; chartConfig.type as ChartType; // Ensure correct type assertion
+
+        // Deep clone data and options using JSON serialization
+        const clonedData &#x3D; JSON.parse(JSON.stringify(originalChart.data));
+        const clonedOptions &#x3D; JSON.parse(JSON.stringify(originalChart.options));
+        
+        // Disable animations to speed up rendering
+        clonedOptions.animation &#x3D; false;
+
+        // Scale font sizes and point sizes
+        if (clonedOptions.scales) {
+            Object.values(clonedOptions.scales).forEach((scale: any) &#x3D;&gt; {
+                if (scale.ticks) {
+                    scale.ticks.font &#x3D; scale.ticks.font || {};
+                    scale.ticks.font.size &#x3D; (scale.ticks.font.size ?? 12) * scaleFactor;
+                }
+                if (scale.title) {
+                    scale.title.font &#x3D; scale.title.font || {};
+                    scale.title.font.size &#x3D; (scale.title.font.size ?? 12) * scaleFactor;
+                }
+            });
+        }
+
+        if (clonedOptions.plugins?.legend) {
+            clonedOptions.plugins.legend.labels &#x3D; clonedOptions.plugins.legend.labels || {};
+            clonedOptions.plugins.legend.labels.font &#x3D; clonedOptions.plugins.legend.labels.font || {};
+            clonedOptions.plugins.legend.labels.font.size &#x3D; (clonedOptions.plugins.legend.labels.font.size || 12) * scaleFactor;
+        }
+
+        if (clonedOptions.plugins?.tooltip) {
+            clonedOptions.plugins.tooltip.bodyFont &#x3D; clonedOptions.plugins.tooltip.bodyFont || {};
+            clonedOptions.plugins.tooltip.bodyFont.size &#x3D; (clonedOptions.plugins.tooltip.bodyFont.size || 12) * scaleFactor;
+        }
+
+        // Scale dataset point radius
+        if (clonedData.datasets) {
+            clonedData.datasets.forEach((dataset: any) &#x3D;&gt; {
+                dataset.borderWidth &#x3D; (dataset.borderWidth ?? 3) * scaleFactor;
+                dataset.pointRadius &#x3D; (dataset.pointRadius ?? 3) * scaleFactor;
+                dataset.pointHoverRadius &#x3D; (dataset.pointHoverRadius ?? 4) * scaleFactor;
+            });
+        }
+
+        // Clone chart configuration
+        const newConfig: ChartConfiguration &#x3D; {
+            type: chartType,
+            data: clonedData,
+            options: {
+                ...clonedOptions,
+                responsive: false,
+                maintainAspectRatio: false,
+            },
+        };
+
+        // Create a new chart with increased resolution
+        const newChart &#x3D; new Chart(ctx, newConfig);
+
+      
+        // Wait for chart to finish rendering
+        const url &#x3D; newChart.toBase64Image(&#x27;image/png&#x27;, 1);
+        this.download(filename, url)
+      }
+      
+
+}</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'DownloadService.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

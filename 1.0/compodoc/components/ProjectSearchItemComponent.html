@@ -1,0 +1,1263 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Application documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+        <link rel="stylesheet" href="../styles/material.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Application documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  ProjectSearchItemComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>/home/runner/work/onconova/onconova/client/src/app/features/project-search/components/project-search-item.component.ts</code>
+</p>
+
+
+
+
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">providers</td>
+                <td class="col-md-9">
+                            <code>ConfirmationService</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>onconova-project-search-item, [onconova-project-search-item]</code></td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                            <code>CommonModule</code>
+                            <code>FormsModule</code>
+                            <code>RouterModule</code>
+                            <code>NgxJdenticonModule</code>
+                            <code>LucideAngularModule</code>
+                            <code>AvatarModule</code>
+                            <code>AvatarGroupModule</code>
+                            <code>DividerModule</code>
+                            <code>SplitButtonModule</code>
+                            <code>ConfirmDialogModule</code>
+                            <code>ChipModule</code>
+                            <code>SkeletonModule</code>
+                                <code><a href="../components/UserBadgeComponent.html" target="_self" >UserBadgeComponent</a></code>
+                            <code>TagModule</code>
+                            <code>OverlayBadgeModule</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./project-search-item.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                    <span class="modifier">Private</span>
+                                <a href="##authService" >#authService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                    <span class="modifier">Private</span>
+                                <a href="##cohortsService" >#cohortsService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                    <span class="modifier">Private</span>
+                                <a href="##datasetsService" >#datasetsService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                    <span class="modifier">Private</span>
+                                <a href="##router" >#router</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#actionItems" >actionItems</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#cohortsCount" >cohortsCount</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#currentUser" >currentUser</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#currentUserCanEdit" >currentUserCanEdit</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#datasetsCount" >datasetsCount</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#layout" >layout</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#onDelete" >onDelete</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#onEdit" >onEdit</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#project" >project</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#openProjectManagement" >openProjectManagement</a>
+                            </li>
+                            <li>
+                                <a href="#parseStatus" >parseStatus</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#project" >project</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Outputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#onDelete" >onDelete</a>
+                            </li>
+                            <li>
+                                <a href="#onEdit" >onEdit</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+    <section data-compodoc="block-inputs">
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="project"></a>
+                        <b>project</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Required : </i>&nbsp;<b>true</b>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-search/components/project-search-item.component.ts:57</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+    <section data-compodoc="block-outputs">
+    <h3 id="outputs">Outputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="onDelete"></a>
+                        <b>onDelete</b>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-search/components/project-search-item.component.ts:59</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="onEdit"></a>
+                        <b>onEdit</b>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-search/components/project-search-item.component.ts:60</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="openProjectManagement"></a>
+                    <span class="name">
+                        <span ><b>openProjectManagement</b></span>
+                        <a href="#openProjectManagement"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>openProjectManagement()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="95"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-search/components/project-search-item.component.ts:95</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="parseStatus"></a>
+                    <span class="name">
+                        <span ><b>parseStatus</b></span>
+                        <a href="#parseStatus"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>parseStatus(status: ProjectStatusChoices)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="99"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-search/components/project-search-item.component.ts:99</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>status</td>
+                                            <td>
+                                                        <code>ProjectStatusChoices</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>literal type</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#authService"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                            <span class="modifier">Private</span>
+                        <span ><b>#authService</b></span>
+                        <a href="##authService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(AuthService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-search/components/project-search-item.component.ts:63</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#cohortsService"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                            <span class="modifier">Private</span>
+                        <span ><b>#cohortsService</b></span>
+                        <a href="##cohortsService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(CohortsService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-search/components/project-search-item.component.ts:65</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#datasetsService"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                            <span class="modifier">Private</span>
+                        <span ><b>#datasetsService</b></span>
+                        <a href="##datasetsService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(DatasetsService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-search/components/project-search-item.component.ts:66</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#router"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                            <span class="modifier">Private</span>
+                        <span ><b>#router</b></span>
+                        <a href="##router"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(Router)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-search/components/project-search-item.component.ts:64</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="actionItems"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>actionItems</b></span>
+                        <a href="#actionItems"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+        {
+            label: &#x27;Edit&#x27;,
+            icon: &#x27;pi pi-pencil&#x27;,
+            disabled: !this.currentUser().canManageProjects,
+            command: (event: any) &#x3D;&gt; this.onEdit.emit(this.project()),
+        },
+    ]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="76" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-search/components/project-search-item.component.ts:76</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cohortsCount"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>cohortsCount</b></span>
+                        <a href="#cohortsCount"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>rxResource({
+        request: () &#x3D;&gt; ({projectId: this.project().id}),
+        loader: ({request}) &#x3D;&gt; this.#cohortsService.getCohorts(request).pipe(map(response &#x3D;&gt; response.count))
+    })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="85" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-search/components/project-search-item.component.ts:85</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="currentUser"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>currentUser</b></span>
+                        <a href="#currentUser"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; this.#authService.user())</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-search/components/project-search-item.component.ts:70</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="currentUserCanEdit"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>currentUserCanEdit</b></span>
+                        <a href="#currentUserCanEdit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; 
+        (this.currentUser().role &#x3D;&#x3D; AccessRoles.ProjectManager &amp;&amp; this.project().leader &#x3D;&#x3D; this.currentUser().username) 
+        || [AccessRoles.PlatformManager, AccessRoles.SystemAdministrator].includes(this.currentUser().role)
+    )</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-search/components/project-search-item.component.ts:71</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="datasetsCount"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>datasetsCount</b></span>
+                        <a href="#datasetsCount"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>rxResource({
+        request: () &#x3D;&gt; ({projectId: this.project().id}),
+        loader: ({request}) &#x3D;&gt; this.#datasetsService.getDatasets(request).pipe(map(response &#x3D;&gt; response.count))
+    })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="89" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-search/components/project-search-item.component.ts:89</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="layout"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>layout</b></span>
+                        <a href="#layout"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>input&lt;&#x27;card&#x27; | &#x27;row&#x27;&gt;(&#x27;card&#x27;)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-search/components/project-search-item.component.ts:58</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onDelete"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>onDelete</b></span>
+                        <a href="#onDelete"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-search/components/project-search-item.component.ts:59</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onEdit"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>onEdit</b></span>
+                        <a href="#onEdit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-search/components/project-search-item.component.ts:60</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="project"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>project</b></span>
+                        <a href="#project"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/project-search/components/project-search-item.component.ts:57</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommonModule } from &#x27;@angular/common&#x27;;
+import { Component, computed, inject, input, output} from &#x27;@angular/core&#x27;;
+
+import { AccessRoles, Cohort, CohortsService, CohortTraitCounts, CohortTraitMedian, DatasetsService, Project, ProjectStatusChoices } from &#x27;onconova-api-client&#x27;;
+import { Router, RouterModule } from &#x27;@angular/router&#x27;;
+import { FormsModule } from &#x27;@angular/forms&#x27;;
+import { Observable, catchError, first, map, of } from &#x27;rxjs&#x27;;
+
+import { DividerModule } from &#x27;primeng/divider&#x27;;
+import { AvatarGroupModule } from &#x27;primeng/avatargroup&#x27;;
+import { ChipModule } from &#x27;primeng/chip&#x27;;
+import { AvatarModule } from &#x27;primeng/avatar&#x27;;
+import { SplitButtonModule } from &#x27;primeng/splitbutton&#x27;;
+import { ConfirmationService, MessageService } from &#x27;primeng/api&#x27;;
+import { ConfirmDialogModule } from &#x27;primeng/confirmdialog&#x27;;
+import { SkeletonModule } from &#x27;primeng/skeleton&#x27;;
+
+import { Users } from &#x27;lucide-angular&#x27;;
+import { LucideAngularModule } from &#x27;lucide-angular&#x27;;
+
+import { NgxJdenticonModule } from &quot;ngx-jdenticon&quot;;
+
+import { AuthService } from &#x27;src/app/core/auth/services/auth.service&#x27;;
+import { DownloadService } from &#x27;src/app/shared/services/download.service&#x27;;
+import { rxResource } from &#x27;@angular/core/rxjs-interop&#x27;;
+import { UserBadgeComponent } from &quot;../../../shared/components/user-badge/user-badge.component&quot;;
+import { TagModule } from &#x27;primeng/tag&#x27;;
+import { OverlayBadgeModule } from &#x27;primeng/overlaybadge&#x27;;
+
+@Component({
+    selector: &#x27;onconova-project-search-item, [onconova-project-search-item]&#x27;,
+    templateUrl: &#x27;./project-search-item.component.html&#x27;,
+    providers: [
+        ConfirmationService,
+    ],
+    imports: [
+    CommonModule,
+    FormsModule,
+    RouterModule,
+    NgxJdenticonModule,
+    LucideAngularModule,
+    AvatarModule,
+    AvatarGroupModule,
+    DividerModule,
+    SplitButtonModule,
+    ConfirmDialogModule,
+    ChipModule,
+    SkeletonModule,
+    UserBadgeComponent,
+    TagModule,
+    OverlayBadgeModule,
+]
+})
+export class ProjectSearchItemComponent {
+
+    // Component input/output signals
+    public project &#x3D; input.required&lt;Project&gt;();    
+    public layout &#x3D; input&lt;&#x27;card&#x27; | &#x27;row&#x27;&gt;(&#x27;card&#x27;);
+    public onDelete &#x3D; output&lt;void&gt;();
+    public onEdit &#x3D; output&lt;Project&gt;();
+
+    // Injected services
+    readonly #authService &#x3D; inject(AuthService);
+    readonly #router &#x3D; inject(Router);
+    readonly #cohortsService &#x3D; inject(CohortsService);
+    readonly #datasetsService &#x3D; inject(DatasetsService);
+
+
+    // Other properties
+    public readonly currentUser &#x3D; computed(() &#x3D;&gt; this.#authService.user());
+    public readonly currentUserCanEdit &#x3D; computed(() &#x3D;&gt; 
+        (this.currentUser().role &#x3D;&#x3D; AccessRoles.ProjectManager &amp;&amp; this.project().leader &#x3D;&#x3D; this.currentUser().username) 
+        || [AccessRoles.PlatformManager, AccessRoles.SystemAdministrator].includes(this.currentUser().role)
+    )
+    // Other properties
+    public readonly actionItems &#x3D; [
+        {
+            label: &#x27;Edit&#x27;,
+            icon: &#x27;pi pi-pencil&#x27;,
+            disabled: !this.currentUser().canManageProjects,
+            command: (event: any) &#x3D;&gt; this.onEdit.emit(this.project()),
+        },
+    ];
+
+    protected cohortsCount &#x3D; rxResource({
+        request: () &#x3D;&gt; ({projectId: this.project().id}),
+        loader: ({request}) &#x3D;&gt; this.#cohortsService.getCohorts(request).pipe(map(response &#x3D;&gt; response.count))
+    })
+    protected datasetsCount &#x3D; rxResource({
+        request: () &#x3D;&gt; ({projectId: this.project().id}),
+        loader: ({request}) &#x3D;&gt; this.#datasetsService.getDatasets(request).pipe(map(response &#x3D;&gt; response.count))
+    })
+    
+
+    openProjectManagement() {
+        this.#router.navigate([&#x27;projects/&#x27;,this.project().id, &#x27;management&#x27;])
+    }
+
+    parseStatus(status: ProjectStatusChoices): {value: string, icon: string, severity: string} {
+        switch (status) {
+            case ProjectStatusChoices.Planned:
+                return {value: &#x27;Planned&#x27;, icon: &#x27;pi pi-info&#x27;, severity: &#x27;secondary&#x27;}
+            case ProjectStatusChoices.Ongoing:
+                return {value: &#x27;Ongoing&#x27;, icon: &#x27;pi pi-info&#x27;, severity: &#x27;info&#x27;}
+            case ProjectStatusChoices.Completed:
+                return {value: &#x27;Completed&#x27;, icon: &#x27;pi pi-check&#x27;, severity: &#x27;success&#x27;}
+            case ProjectStatusChoices.Aborted:
+                return {value: &#x27;Aborted&#x27;, icon: &#x27;pi pi-times&#x27;, severity: &#x27;danger&#x27;}
+            default: 
+                throw new Error(&#x60;Unknown status: ${status}&#x60;);
+        }
+    }
+}</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">
+@if (layout() &#x3D;&#x3D;&#x3D; &#x27;card&#x27;) {
+    &lt;div class&#x3D;&quot;onconova-project-search-item-card shadow-1&quot;&gt;
+        
+        &lt;div class&#x3D;&quot;flex gap-3&quot;&gt;
+
+            &lt;!-- Cohort title --&gt;
+            &lt;div class&#x3D;&quot;flex flex-column mb-3&quot;&gt;
+                &lt;small class&#x3D;&quot;text-muted mb-1&quot;&gt;Title&lt;/small&gt;
+                &lt;h5 class&#x3D;&quot;project-search-item-title my-0&quot;&gt;{{ project().title }}&lt;/h5&gt;
+                @if (project().summary.length &gt; 150) {
+                    &lt;div class&#x3D;&quot;text-muted text-sm&quot;&gt;{{ project().summary | slice:0:150 }}... &lt;/div&gt;                
+                } @else {
+                    &lt;div class&#x3D;&quot;text-muted text-sm&quot;&gt;{{ project().summary }} &lt;/div&gt;
+                }
+            &lt;/div&gt;
+
+            &lt;!-- Project status --&gt;
+            &lt;div class&#x3D;&quot;flex flex-column ml-auto&quot;&gt;
+                &lt;div class&#x3D;&quot;project-search-item-chip text-md mt-2&quot;&gt;
+                    @let status &#x3D; parseStatus(project().status!);
+                    &lt;p-tag [value]&#x3D;&quot;status.value&quot; [severity]&#x3D;&quot;status.severity&quot;/&gt;    
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Project leader --&gt;
+        &lt;div class&#x3D;&quot;flex flex-column mb-2&quot;&gt;
+            &lt;small class&#x3D;&quot;text-muted mb-1&quot;&gt;Project leader&lt;/small&gt; 
+            &lt;ng-template [ngTemplateOutlet]&#x3D;&quot;ProjectLeader&quot;&gt;&lt;/ng-template&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Project members --&gt;
+        &lt;div class&#x3D;&quot;flex flex-column mb-2&quot;&gt;
+            &lt;small class&#x3D;&quot;text-muted mb-1&quot;&gt;Members&lt;/small&gt;
+            &lt;ng-template [ngTemplateOutlet]&#x3D;&quot;ProjectMembers&quot;&gt;&lt;/ng-template&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Clinical centers --&gt;
+        &lt;div class&#x3D;&quot;flex flex-column mb-2&quot;&gt;
+            &lt;small class&#x3D;&quot;text-muted mb-1&quot;&gt;Clinical centers&lt;/small&gt;
+            &lt;div class&#x3D;&quot;flex my-auto gap-1&quot;&gt;
+                @if (project().clinicalCenters.length) {
+                    &lt;ul class&#x3D;&quot;list-none pl-0 my-0&quot;&gt;
+                        @for (center of project().clinicalCenters; track $index) {
+                            &lt;li&gt; 
+                                &lt;i class&#x3D;&quot;hospital-icon&quot;&gt;
+                                    &lt;svg width&#x3D;&quot;15&quot; height&#x3D;&quot;15&quot; viewBox&#x3D;&quot;0 0 24 24&quot; fill&#x3D;&quot;none&quot; class&#x3D;&quot;text-muted&quot;&gt;
+                                        &lt;path d&#x3D;&quot;M13 6.70557V5.19384H11V6.70557H9.48804V8.70557H11V10.2162H13V8.70557H14.5119V6.70557H13Z&quot; fill&#x3D;&quot;currentColor&quot;/&gt;
+                                        &lt;path fill-rule&#x3D;&quot;evenodd&quot; clip-rule&#x3D;&quot;evenodd&quot; d&#x3D;&quot;M4 21C2.89543 21 2 20.1048 2 19.0006V9.71051C2 8.60628 2.89543 7.71113 4 7.71113H6.05267V3.99938C6.05267 2.89515 6.9481 2 8.05267 2H15.9473C17.0518 2 17.9473 2.89515 17.9473 3.99938V7.71051L19.9999 7.71113C21.1045 7.71113 21.9999 8.60628 21.9999 9.71051V19.0006C21.9999 20.1048 21.1045 21 19.9999 21H4ZM6.05267 9.71051H4L4 19L4.05267 19.0006H6.05267V9.71051ZM9.43759 19H8.05267V4H15.9473V19H14.5623V13.5511H9.43759V19ZM17.9473 19.0006H19.9999V9.71113L19.9473 9.71051H17.9473V19.0006ZM11.1484 18.9801V15.5199H12.8515V18.9801H11.1484Z&quot; fill&#x3D;&quot;currentColor&quot;/&gt;
+                                    &lt;/svg&gt;
+                                &lt;/i&gt;
+                                {{center}}
+                            &lt;/li&gt;
+                        }
+                    &lt;/ul&gt;   
+                } @else {
+                    - 
+                }
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+
+        &lt;div class&#x3D;&quot;flex gap-3&quot;&gt;
+
+            &lt;div class&#x3D;&quot;flex flex-column&quot;&gt;
+                &lt;small class&#x3D;&quot;text-muted mb-1&quot;&gt;Cohorts&lt;/small&gt;
+                &lt;div class&#x3D;&quot;flex my-auto gap-1&quot;&gt;
+                    &lt;div&gt;{{cohortsCount.value() || &#x27;-&#x27; }}&lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;flex flex-column&quot;&gt;
+                &lt;small class&#x3D;&quot;text-muted mb-1&quot;&gt;Datasets&lt;/small&gt;
+                &lt;div class&#x3D;&quot;flex my-auto gap-1&quot;&gt;
+                    &lt;div&gt;{{datasetsCount.value() || &#x27;-&#x27; }}&lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;!-- Metadata --&gt;
+            &lt;div class&#x3D;&quot;flex flex-column&quot;&gt;
+                &lt;small class&#x3D;&quot;text-muted mb-1&quot;&gt;Created&lt;/small&gt;
+                &lt;div class&#x3D;&quot;flex my-auto gap-1&quot;&gt;
+                    &lt;div&gt;{{project().createdAt | date }}&lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;flex flex-column&quot;&gt;
+                &lt;small class&#x3D;&quot;text-muted mb-1&quot;&gt;Last updated&lt;/small&gt;
+                &lt;div class&#x3D;&quot;flex my-auto gap-1&quot;&gt;
+                    &lt;div&gt;{{ (project().updatedAt | date) || &#x27;-&#x27; }}&lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+
+
+        &lt;/div&gt;
+
+        &lt;div class&#x3D;&quot;mt-3&quot;&gt;
+            &lt;ng-template *ngTemplateOutlet&#x3D;&quot;ActionButton; context: {$implicit: &#x27;Open project management&#x27;}&quot;&gt;&lt;/ng-template&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+
+
+} @else {
+        &lt;td&gt; 
+            {{project().title}} 
+        &lt;/td&gt;
+        &lt;td&gt;            
+            &lt;ng-template [ngTemplateOutlet]&#x3D;&quot;StatusBadge&quot;&gt;&lt;/ng-template&gt;
+        &lt;/td&gt;
+        &lt;td class&#x3D;&quot;mx-auto&quot;&gt;
+             &lt;ng-template [ngTemplateOutlet]&#x3D;&quot;ProjectLeader&quot;&gt;&lt;/ng-template&gt;
+        &lt;/td&gt;
+        &lt;td&gt;
+             &lt;ng-template [ngTemplateOutlet]&#x3D;&quot;ProjectMembers&quot;&gt;&lt;/ng-template&gt;
+        &lt;/td&gt;
+        &lt;td class&#x3D;&quot;text-center&quot;&gt;
+            {{ cohortsCount.value() || &#x27;-&#x27; }}
+        &lt;/td&gt;
+        &lt;td class&#x3D;&quot;text-center&quot;&gt;
+            {{ datasetsCount.value() || &#x27;-&#x27; }}
+        &lt;/td&gt;
+        &lt;td class&#x3D;&quot;text-center&quot;&gt;
+            {{ (project().createdAt | date) || &#x27;-&#x27; }}
+        &lt;/td&gt;
+        &lt;td class&#x3D;&quot;text-center&quot;&gt;
+            {{ (project().updatedAt | date) || &#x27;-&#x27; }}
+        &lt;/td&gt;
+        &lt;td&gt;
+            &lt;ng-template *ngTemplateOutlet&#x3D;&quot;ActionButton; context: {$implicit: &#x27;Open&#x27;}&quot;&gt;&lt;/ng-template&gt;
+        &lt;/td&gt;
+}
+
+&lt;p-confirmdialog /&gt;
+
+&lt;ng-template #StatusBadge&gt;
+    @let status &#x3D; parseStatus(project().status!);
+    &lt;div&gt;
+        &lt;p-tag [value]&#x3D;&quot;status.value&quot; [severity]&#x3D;&quot;status.severity&quot;/&gt;    
+    &lt;/div&gt;
+&lt;/ng-template&gt;
+
+&lt;ng-template #ProjectLeader&gt;
+    &lt;div class&#x3D;&quot;flex my-auto gap-1&quot;&gt;
+        &lt;onconova-user-badge [username]&#x3D;&quot;project().leader&quot; [showName]&#x3D;&quot;true&quot;&gt;&lt;/onconova-user-badge&gt;
+    &lt;/div&gt;
+&lt;/ng-template&gt;
+
+
+&lt;ng-template #ProjectMembers&gt;
+    &lt;div class&#x3D;&quot;flex my-auto gap-1&quot;&gt;
+        @for (member of project().members; track member;) {
+            @if (member !&#x3D;&#x3D; project().leader) { 
+                &lt;onconova-user-badge [username]&#x3D;&quot;member&quot;&gt;&lt;/onconova-user-badge&gt;
+            }
+        }
+    &lt;/div&gt;
+&lt;/ng-template&gt;
+
+&lt;ng-template #ActionButton let-label&gt;
+    &lt;p-splitbutton
+        [label]&#x3D;&quot;label&quot;
+        class&#x3D;&quot;mt-auto&quot;
+        [model]&#x3D;&quot;actionItems&quot;
+        (onClick)&#x3D;&quot;openProjectManagement()&quot;
+        [menuButtonDisabled]&#x3D;&quot;!currentUserCanEdit()&quot;
+        [dropdownIcon]&#x3D;&quot;currentUserCanEdit() ? &#x27;pi pi-cog&#x27; : &#x27;pi pi-lock&#x27;&quot; 
+        /&gt;
+&lt;/ng-template&gt;</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div>@if (layout() === \'card\') {    <div class="onconova-project-search-item-card shadow-1">                <div class="flex gap-3">            <!-- Cohort title -->            <div class="flex flex-column mb-3">                <small class="text-muted mb-1">Title</small>                <h5 class="project-search-item-title my-0">{{ project().title }}</h5>                @if (project().summary.length > 150) {                    <div class="text-muted text-sm">{{ project().summary | slice:0:150 }}... </div>                                } @else {                    <div class="text-muted text-sm">{{ project().summary }} </div>                }            </div>            <!-- Project status -->            <div class="flex flex-column ml-auto">                <div class="project-search-item-chip text-md mt-2">                    @let status = parseStatus(project().status!);                    <p-tag [value]="status.value" [severity]="status.severity"/>                    </div>            </div>        </div>        <!-- Project leader -->        <div class="flex flex-column mb-2">            <small class="text-muted mb-1">Project leader</small>             <ng-template [ngTemplateOutlet]="ProjectLeader"></ng-template>        </div>        <!-- Project members -->        <div class="flex flex-column mb-2">            <small class="text-muted mb-1">Members</small>            <ng-template [ngTemplateOutlet]="ProjectMembers"></ng-template>        </div>        <!-- Clinical centers -->        <div class="flex flex-column mb-2">            <small class="text-muted mb-1">Clinical centers</small>            <div class="flex my-auto gap-1">                @if (project().clinicalCenters.length) {                    <ul class="list-none pl-0 my-0">                        @for (center of project().clinicalCenters; track $index) {                            <li>                                 <i class="hospital-icon">                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" class="text-muted">                                        <path d="M13 6.70557V5.19384H11V6.70557H9.48804V8.70557H11V10.2162H13V8.70557H14.5119V6.70557H13Z" fill="currentColor"/>                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M4 21C2.89543 21 2 20.1048 2 19.0006V9.71051C2 8.60628 2.89543 7.71113 4 7.71113H6.05267V3.99938C6.05267 2.89515 6.9481 2 8.05267 2H15.9473C17.0518 2 17.9473 2.89515 17.9473 3.99938V7.71051L19.9999 7.71113C21.1045 7.71113 21.9999 8.60628 21.9999 9.71051V19.0006C21.9999 20.1048 21.1045 21 19.9999 21H4ZM6.05267 9.71051H4L4 19L4.05267 19.0006H6.05267V9.71051ZM9.43759 19H8.05267V4H15.9473V19H14.5623V13.5511H9.43759V19ZM17.9473 19.0006H19.9999V9.71113L19.9473 9.71051H17.9473V19.0006ZM11.1484 18.9801V15.5199H12.8515V18.9801H11.1484Z" fill="currentColor"/>                                    </svg>                                </i>                                {{center}}                            </li>                        }                    </ul>                   } @else {                    -                 }            </div>        </div>        <div class="flex gap-3">            <div class="flex flex-column">                <small class="text-muted mb-1">Cohorts</small>                <div class="flex my-auto gap-1">                    <div>{{cohortsCount.value() || \'-\' }}</div>                </div>            </div>            <div class="flex flex-column">                <small class="text-muted mb-1">Datasets</small>                <div class="flex my-auto gap-1">                    <div>{{datasetsCount.value() || \'-\' }}</div>                </div>            </div>            <!-- Metadata -->            <div class="flex flex-column">                <small class="text-muted mb-1">Created</small>                <div class="flex my-auto gap-1">                    <div>{{project().createdAt | date }}</div>                </div>            </div>            <div class="flex flex-column">                <small class="text-muted mb-1">Last updated</small>                <div class="flex my-auto gap-1">                    <div>{{ (project().updatedAt | date) || \'-\' }}</div>                </div>            </div>        </div>        <div class="mt-3">            <ng-template *ngTemplateOutlet="ActionButton; context: {$implicit: \'Open project management\'}"></ng-template>        </div>    </div>} @else {        <td>             {{project().title}}         </td>        <td>                        <ng-template [ngTemplateOutlet]="StatusBadge"></ng-template>        </td>        <td class="mx-auto">             <ng-template [ngTemplateOutlet]="ProjectLeader"></ng-template>        </td>        <td>             <ng-template [ngTemplateOutlet]="ProjectMembers"></ng-template>        </td>        <td class="text-center">            {{ cohortsCount.value() || \'-\' }}        </td>        <td class="text-center">            {{ datasetsCount.value() || \'-\' }}        </td>        <td class="text-center">            {{ (project().createdAt | date) || \'-\' }}        </td>        <td class="text-center">            {{ (project().updatedAt | date) || \'-\' }}        </td>        <td>            <ng-template *ngTemplateOutlet="ActionButton; context: {$implicit: \'Open\'}"></ng-template>        </td>}<p-confirmdialog /><ng-template #StatusBadge>    @let status = parseStatus(project().status!);    <div>        <p-tag [value]="status.value" [severity]="status.severity"/>        </div></ng-template><ng-template #ProjectLeader>    <div class="flex my-auto gap-1">        <onconova-user-badge [username]="project().leader" [showName]="true"></onconova-user-badge>    </div></ng-template><ng-template #ProjectMembers>    <div class="flex my-auto gap-1">        @for (member of project().members; track member;) {            @if (member !== project().leader) {                 <onconova-user-badge [username]="member"></onconova-user-badge>            }        }    </div></ng-template><ng-template #ActionButton let-label>    <p-splitbutton        [label]="label"        class="mt-auto"        [model]="actionItems"        (onClick)="openProjectManagement()"        [menuButtonDisabled]="!currentUserCanEdit()"        [dropdownIcon]="currentUserCanEdit() ? \'pi pi-cog\' : \'pi pi-lock\'"         /></ng-template></div>'
+    var COMPONENTS = [{'name': 'AbstractFormBase', 'selector': ''},{'name': 'AdverseEventFormComponent', 'selector': 'adverse-event-form'},{'name': 'AppComponent', 'selector': 'onconova-root'},{'name': 'AppFooterComponent', 'selector': 'onconova-footer'},{'name': 'AppLayoutComponent', 'selector': 'onconova-layout'},{'name': 'AppSidebarMenuComponent', 'selector': 'onconova-sidebar-menu'},{'name': 'AppTopBarComponent', 'selector': 'onconova-topbar'},{'name': 'AuthCallbackComponent', 'selector': 'app-auth-callback'},{'name': 'AuthLayoutComponent', 'selector': 'onconova-auth-layout'},{'name': 'BoxPlotComponent', 'selector': 'onconova-box-plot'},{'name': 'CancerIconComponent', 'selector': 'onconova-cancer-icon'},{'name': 'CaseImporterBundleViewerComponent', 'selector': 'onconova-case-importer-bundle-viewer'},{'name': 'CaseImporterComponent', 'selector': 'onconova-case-importer'},{'name': 'CaseManagerComponent', 'selector': 'onconova-case-manager'},{'name': 'CaseManagerDrawerComponent', 'selector': 'onconova-case-manager-drawer'},{'name': 'CaseManagerPanelComponent', 'selector': 'onconova-case-manager-panel'},{'name': 'CaseManagerPanelTimelineComponent', 'selector': 'onconova-case-manager-panel-timeline'},{'name': 'CaseSearchComponent', 'selector': ''},{'name': 'CaseSearchItemCardComponent', 'selector': 'onconova-case-search-item,[onconova-case-search-item]'},{'name': 'CodedConceptTreeComponent', 'selector': 'onconova-coded-concept-tree'},{'name': 'CohortBuilderComponent', 'selector': 'onconova-cohort-manager'},{'name': 'CohortContributorsComponent', 'selector': 'onconova-cohort-contributors'},{'name': 'CohortFormComponent', 'selector': 'cohort-form'},{'name': 'CohortGraphsComponent', 'selector': 'onconova-cohort-graphs'},{'name': 'CohortGraphsContextMenu', 'selector': 'onconova-cohort-graph-context-menu'},{'name': 'CohortQueryBuilderComponent', 'selector': 'onconova-cohort-query-builder'},{'name': 'CohortSearchComponent', 'selector': ''},{'name': 'CohortSearchItemComponent', 'selector': 'onconova-cohort-search-item, [onconova-cohort-search-item]'},{'name': 'CohortTraitPanel', 'selector': 'onconova-cohort-trait'},{'name': 'ComorbiditiesAssessmentFormComponent', 'selector': 'comorbidities-form'},{'name': 'ConceptSelectorComponent', 'selector': 'onconova-concept-selector'},{'name': 'ConsentNoticeModalComponent', 'selector': 'onconova-consent-modal'},{'name': 'DashboardComponent', 'selector': 'onconova-dashboard'},{'name': 'DataCompletionStatsComponent', 'selector': 'onconova-data-completion-stats'},{'name': 'DatasetComposerComponent', 'selector': 'onconova-dataset-composer'},{'name': 'DataSummaryComponent', 'selector': 'onconova-data-summary'},{'name': 'DataSummaryCounterComponent', 'selector': 'onconova-data-summary-counter'},{'name': 'DatePickerComponent', 'selector': 'onconova-datepicker'},{'name': 'DisclaimerBannerComponent', 'selector': 'onconova-disclaimer-banner'},{'name': 'DistributionGraphComponent', 'selector': 'onconova-distribution-graph'},{'name': 'DoughnutGraphComponent', 'selector': 'onconova-doughnut-graph'},{'name': 'DrawerDataPropertiesComponent', 'selector': 'onconova-drawer-properties'},{'name': 'ErrorComponent', 'selector': 'onconova-error'},{'name': 'ExportConfirmDialogComponent', 'selector': 'onconova-export-confirm-dialog'},{'name': 'FamilyHistoryFormComponent', 'selector': 'family-history-form'},{'name': 'FormControlErrorComponent', 'selector': 'onconova-form-control-error'},{'name': 'GenomicSignatureFormComponent', 'selector': 'genomic-signature-form'},{'name': 'GenomicVariantFormComponent', 'selector': 'genomic-variant-form'},{'name': 'IdenticonComponent', 'selector': 'onconova-identicon'},{'name': 'KapplerMeierCurveComponent', 'selector': 'onconova-kappler-meier-curve'},{'name': 'LifestyleFormComponent', 'selector': 'lifestyle-form'},{'name': 'LoginComponent', 'selector': 'onconova-login'},{'name': 'MeasureInputComponent', 'selector': 'onconova-measure-input'},{'name': 'ModalFormHeaderComponent', 'selector': 'onconova-modal-form-header'},{'name': 'MultiReferenceSelectComponent', 'selector': 'onconova-multi-reference-select'},{'name': 'NeoplasticEntityFormComponent', 'selector': 'neoplastic-entity-form'},{'name': 'NestedTableComponent', 'selector': 'onconova-nested-table'},{'name': 'OncoplotComponent', 'selector': 'onconova-oncoplot'},{'name': 'PasswordResetFormComponent', 'selector': 'onconova-password-reset-dialog'},{'name': 'PatientFormComponent', 'selector': 'patient-form'},{'name': 'PerformanceStatusFormComponent', 'selector': 'performance-status-form'},{'name': 'PopoverFilterButtonComponent', 'selector': 'onconova-popover-filter-button'},{'name': 'PrimaryEntitiesTableComponent', 'selector': 'onconova-primary-entities-table'},{'name': 'ProjectFormComponent', 'selector': 'project-form'},{'name': 'ProjectManagementComponent', 'selector': 'onconova-project-management'},{'name': 'ProjectSearchComponent', 'selector': 'onconova-project-search'},{'name': 'ProjectSearchItemComponent', 'selector': 'onconova-project-search-item, [onconova-project-search-item]'},{'name': 'ProviderSignupComponent', 'selector': 'app-signup'},{'name': 'RadioSelectComponent', 'selector': 'onconova-radio-select'},{'name': 'RadiotherapyFormComponent', 'selector': 'radiotherapy-form'},{'name': 'RandomPaperComponent', 'selector': 'onconova-random-paper'},{'name': 'RangeInputComponent', 'selector': 'onconova-range-input'},{'name': 'RiskAssessmentFormComponent', 'selector': 'risk-assessment-form'},{'name': 'SettingsDialogComponent', 'selector': 'onconova-settings-dialog'},{'name': 'StagingFormComponent', 'selector': 'staging-form'},{'name': 'SurgeryFormComponent', 'selector': 'surgery-form'},{'name': 'SystemicTherapyFormComponent', 'selector': 'systemic-therapy-form'},{'name': 'TreatmentResponseFormComponent', 'selector': 'treatment-response-form'},{'name': 'TumorBoardFormComponent', 'selector': 'tumor-board-form'},{'name': 'TumorMarkerFormComponent', 'selector': 'tumor-marker-form'},{'name': 'UserBadgeComponent', 'selector': 'onconova-user-badge'},{'name': 'UserDetailsComponent', 'selector': 'onconova-user-details'},{'name': 'UserFormComponent', 'selector': 'onconova-user-form'},{'name': 'UserSelectorComponent', 'selector': 'onconova-user-selector'},{'name': 'UsersManagementCompnent', 'selector': 'onconova-users-management'},{'name': 'VitalsFormComponent', 'selector': 'vitals-form'}];
+    var DIRECTIVES = [{'name': 'DateMaskDirective', 'selector': '[dateMask]'}];
+    var ACTUAL_COMPONENT = {'name': 'ProjectSearchItemComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'ProjectSearchItemComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

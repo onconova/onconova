@@ -1,0 +1,2505 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Application documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+        <link rel="stylesheet" href="../styles/material.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Application documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content miscellaneous-variables">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Miscellaneous</li>
+  <li class="breadcrumb-item">Variables</li>
+</ol>
+
+<section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <ul class="index-list">
+                        <li>
+                            <a href="#ACCEPT_JSON" title="/home/runner/work/onconova/onconova/client/src/app/core/auth/services/allauth-api.service.ts" ><b>ACCEPT_JSON</b>&nbsp;&nbsp;&nbsp;(/.../allauth-api.service.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#AdverseEvent" title="/home/runner/work/onconova/onconova/client/src/assets/images/icons/adverse_event.ts" ><b>AdverseEvent</b>&nbsp;&nbsp;&nbsp;(/.../adverse_event.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#appConfig" title="/home/runner/work/onconova/onconova/client/src/app/app.config.ts" ><b>appConfig</b>&nbsp;&nbsp;&nbsp;(/.../app.config.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#AppThemePreset" title="/home/runner/work/onconova/onconova/client/src/app/app.preset.ts" ><b>AppThemePreset</b>&nbsp;&nbsp;&nbsp;(/.../app.preset.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#AppThemes" title="/home/runner/work/onconova/onconova/client/src/app/app.preset.ts" ><b>AppThemes</b>&nbsp;&nbsp;&nbsp;(/.../app.preset.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#AuthenticatorType" title="/home/runner/work/onconova/onconova/client/src/app/core/auth/services/allauth-api.service.ts" ><b>AuthenticatorType</b>&nbsp;&nbsp;&nbsp;(/.../allauth-api.service.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#AuthProcess" title="/home/runner/work/onconova/onconova/client/src/app/core/auth/services/allauth-api.service.ts" ><b>AuthProcess</b>&nbsp;&nbsp;&nbsp;(/.../allauth-api.service.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#Board" title="/home/runner/work/onconova/onconova/client/src/assets/images/icons/board.ts" ><b>Board</b>&nbsp;&nbsp;&nbsp;(/.../board.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#Client" title="/home/runner/work/onconova/onconova/client/src/app/core/auth/services/allauth-api.service.ts" ><b>Client</b>&nbsp;&nbsp;&nbsp;(/.../allauth-api.service.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#Comorbidities" title="/home/runner/work/onconova/onconova/client/src/assets/images/icons/comorbidities.ts" ><b>Comorbidities</b>&nbsp;&nbsp;&nbsp;(/.../comorbidities.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#CONTROL_VALUE_ACCESSOR" title="/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/components/cohort-query-builder/cohort-query-builder.component.ts" ><b>CONTROL_VALUE_ACCESSOR</b>&nbsp;&nbsp;&nbsp;(/.../cohort-query-builder.component.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#DEFAULT_ERRORS" title="/home/runner/work/onconova/onconova/client/src/app/shared/components/form-control-error/form-control-error.component.ts" ><b>DEFAULT_ERRORS</b>&nbsp;&nbsp;&nbsp;(/.../form-control-error.component.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#Diagnostics" title="/home/runner/work/onconova/onconova/client/src/assets/images/icons/diagnostics.ts" ><b>Diagnostics</b>&nbsp;&nbsp;&nbsp;(/.../diagnostics.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#dynamicEnv" title="/home/runner/work/onconova/onconova/client/src/environments/environment.dev.ts" ><b>dynamicEnv</b>&nbsp;&nbsp;&nbsp;(/.../environment.dev.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#dynamicEnv" title="/home/runner/work/onconova/onconova/client/src/environments/environment.ts" ><b>dynamicEnv</b>&nbsp;&nbsp;&nbsp;(/.../environment.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#environment" title="/home/runner/work/onconova/onconova/client/src/environments/environment.dev.ts" ><b>environment</b>&nbsp;&nbsp;&nbsp;(/.../environment.dev.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#environment" title="/home/runner/work/onconova/onconova/client/src/environments/environment.ts" ><b>environment</b>&nbsp;&nbsp;&nbsp;(/.../environment.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#Flows" title="/home/runner/work/onconova/onconova/client/src/app/core/auth/services/allauth-api.service.ts" ><b>Flows</b>&nbsp;&nbsp;&nbsp;(/.../allauth-api.service.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#FORM_ERRORS" title="/home/runner/work/onconova/onconova/client/src/app/shared/components/form-control-error/form-control-error.component.ts" ><b>FORM_ERRORS</b>&nbsp;&nbsp;&nbsp;(/.../form-control-error.component.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#GenomicSignature" title="/home/runner/work/onconova/onconova/client/src/assets/images/icons/genomic_signature.ts" ><b>GenomicSignature</b>&nbsp;&nbsp;&nbsp;(/.../genomic_signature.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#OPENID_CALLBACK_URL" title="/home/runner/work/onconova/onconova/client/src/app/core/auth/services/auth.service.ts" ><b>OPENID_CALLBACK_URL</b>&nbsp;&nbsp;&nbsp;(/.../auth.service.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#Risk" title="/home/runner/work/onconova/onconova/client/src/assets/images/icons/risk.ts" ><b>Risk</b>&nbsp;&nbsp;&nbsp;(/.../risk.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#Scan" title="/home/runner/work/onconova/onconova/client/src/assets/images/icons/scan.ts" ><b>Scan</b>&nbsp;&nbsp;&nbsp;(/.../scan.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#settings" title="/home/runner/work/onconova/onconova/client/src/app/core/auth/services/allauth-api.service.ts" ><b>settings</b>&nbsp;&nbsp;&nbsp;(/.../allauth-api.service.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#shades" title="/home/runner/work/onconova/onconova/client/src/app/app.preset.ts" ><b>shades</b>&nbsp;&nbsp;&nbsp;(/.../app.preset.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#TourDriverConfig" title="/home/runner/work/onconova/onconova/client/src/app/features/project-search/project-search.tour.ts" ><b>TourDriverConfig</b>&nbsp;&nbsp;&nbsp;(/.../project-search.tour.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#TourDriverConfig" title="/home/runner/work/onconova/onconova/client/src/app/features/cases/case-manager/case-manager.tour.ts" ><b>TourDriverConfig</b>&nbsp;&nbsp;&nbsp;(/.../case-manager.tour.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#TourDriverConfig" title="/home/runner/work/onconova/onconova/client/src/app/features/cases/case-search/case-search.tour.ts" ><b>TourDriverConfig</b>&nbsp;&nbsp;&nbsp;(/.../case-search.tour.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#TourDriverConfig" title="/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/cohort-manager.tour.ts" ><b>TourDriverConfig</b>&nbsp;&nbsp;&nbsp;(/.../cohort-manager.tour.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#TourDriverConfig" title="/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-search/cohort-search.tour.ts" ><b>TourDriverConfig</b>&nbsp;&nbsp;&nbsp;(/.../cohort-search.tour.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#Tumor" title="/home/runner/work/onconova/onconova/client/src/assets/images/icons/tumor.ts" ><b>Tumor</b>&nbsp;&nbsp;&nbsp;(/.../tumor.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#URLs" title="/home/runner/work/onconova/onconova/client/src/app/core/auth/services/allauth-api.service.ts" ><b>URLs</b>&nbsp;&nbsp;&nbsp;(/.../allauth-api.service.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#VALIDATOR" title="/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/components/cohort-query-builder/cohort-query-builder.component.ts" ><b>VALIDATOR</b>&nbsp;&nbsp;&nbsp;(/.../cohort-query-builder.component.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#valueTypeMap" title="/home/runner/work/onconova/onconova/client/src/app/features/forms/tumor-marker-form/tumor-marker-form.component.ts" ><b>valueTypeMap</b>&nbsp;&nbsp;&nbsp;(/.../tumor-marker-form.component.ts)</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+    <h3>/home/runner/work/onconova/onconova/client/src/app/core/auth/services/allauth-api.service.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ACCEPT_JSON"></a>
+                    <span class="name">
+                        <span ><b>ACCEPT_JSON</b></span>
+                        <a href="#ACCEPT_JSON"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  accept: &#x27;application/json&#x27;
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="AuthenticatorType"></a>
+                    <span class="name">
+                        <span ><b>AuthenticatorType</b></span>
+                        <a href="#AuthenticatorType"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>Object.freeze({
+  TOTP: &#x27;totp&#x27;,
+  RECOVERY_CODES: &#x27;recovery_codes&#x27;,
+  WEBAUTHN: &#x27;webauthn&#x27;
+})</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="AuthProcess"></a>
+                    <span class="name">
+                        <span ><b>AuthProcess</b></span>
+                        <a href="#AuthProcess"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>Object.freeze({
+  LOGIN: &#x27;login&#x27;,
+  CONNECT: &#x27;connect&#x27;
+})</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="Client"></a>
+                    <span class="name">
+                        <span ><b>Client</b></span>
+                        <a href="#Client"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>Object.freeze({
+  APP: &#x27;app&#x27;,
+  BROWSER: &#x27;browser&#x27;
+})</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="Flows"></a>
+                    <span class="name">
+                        <span ><b>Flows</b></span>
+                        <a href="#Flows"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>Object.freeze({
+  LOGIN: &#x27;login&#x27;,
+  LOGIN_BY_CODE: &#x27;login_by_code&#x27;,
+  MFA_AUTHENTICATE: &#x27;mfa_authenticate&#x27;,
+  MFA_REAUTHENTICATE: &#x27;mfa_reauthenticate&#x27;,
+  MFA_TRUST: &#x27;mfa_trust&#x27;,
+  MFA_WEBAUTHN_SIGNUP: &#x27;mfa_signup_webauthn&#x27;,
+  PASSWORD_RESET_BY_CODE: &#x27;password_reset_by_code&#x27;,
+  PROVIDER_REDIRECT: &#x27;provider_redirect&#x27;,
+  PROVIDER_SIGNUP: &#x27;provider_signup&#x27;,
+  REAUTHENTICATE: &#x27;reauthenticate&#x27;,
+  SIGNUP: &#x27;signup&#x27;,
+  VERIFY_EMAIL: &#x27;verify_email&#x27;,
+})</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="settings"></a>
+                    <span class="name">
+                        <span ><b>settings</b></span>
+                        <a href="#settings"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  client: Client.APP,
+  baseUrl: &#x60;api/allauth/${Client.BROWSER}/v1&#x60;,
+  withCredentials: false
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="URLs"></a>
+                    <span class="name">
+                        <span ><b>URLs</b></span>
+                        <a href="#URLs"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>Object.freeze({
+  // Meta
+  CONFIG: &#x27;/config&#x27;,
+
+  // Account management
+  CHANGE_PASSWORD: &#x27;/account/password/change&#x27;,
+  EMAIL: &#x27;/account/email&#x27;,
+  PROVIDERS: &#x27;/account/providers&#x27;,
+
+  // Account management: 2FA
+  AUTHENTICATORS: &#x27;/account/authenticators&#x27;,
+  RECOVERY_CODES: &#x27;/account/authenticators/recovery-codes&#x27;,
+  TOTP_AUTHENTICATOR: &#x27;/account/authenticators/totp&#x27;,
+
+  // Auth: Basics
+  LOGIN: &#x27;/auth/login&#x27;,
+  REQUEST_LOGIN_CODE: &#x27;/auth/code/request&#x27;,
+  CONFIRM_LOGIN_CODE: &#x27;/auth/code/confirm&#x27;,
+  SESSION: &#x27;/auth/session&#x27;,
+  REAUTHENTICATE: &#x27;/auth/reauthenticate&#x27;,
+  REQUEST_PASSWORD_RESET: &#x27;/auth/password/request&#x27;,
+  RESET_PASSWORD: &#x27;/auth/password/reset&#x27;,
+  SIGNUP: &#x27;/auth/signup&#x27;,
+  VERIFY_EMAIL: &#x27;/auth/email/verify&#x27;,
+
+  // Auth: 2FA
+  MFA_AUTHENTICATE: &#x27;/auth/2fa/authenticate&#x27;,
+  MFA_REAUTHENTICATE: &#x27;/auth/2fa/reauthenticate&#x27;,
+  MFA_TRUST: &#x27;/auth/2fa/trust&#x27;,
+
+  // Auth: Social
+  PROVIDER_SIGNUP: &#x27;/auth/provider/signup&#x27;,
+  REDIRECT_TO_PROVIDER: &#x27;/auth/provider/redirect&#x27;,
+  PROVIDER_TOKEN: &#x27;/auth/provider/token&#x27;,
+
+  // Auth: Sessions
+  SESSIONS: &#x27;/auth/sessions&#x27;,
+
+  // Auth: WebAuthn
+  REAUTHENTICATE_WEBAUTHN: &#x27;/auth/webauthn/reauthenticate&#x27;,
+  AUTHENTICATE_WEBAUTHN: &#x27;/auth/webauthn/authenticate&#x27;,
+  LOGIN_WEBAUTHN: &#x27;/auth/webauthn/login&#x27;,
+  SIGNUP_WEBAUTHN: &#x27;/auth/webauthn/signup&#x27;,
+  WEBAUTHN_AUTHENTICATOR: &#x27;/account/authenticators/webauthn&#x27;
+})</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>/home/runner/work/onconova/onconova/client/src/assets/images/icons/adverse_event.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="AdverseEvent"></a>
+                    <span class="name">
+                        <span ><b>AdverseEvent</b></span>
+                        <a href="#AdverseEvent"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>LucideIconData</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+  [
+    &quot;path&quot;,
+    {
+      &quot;fill&quot;: &quot;red&quot;,
+      &quot;stroke-width&quot;: &quot;2&quot;,
+      &quot;d&quot;: &quot;m3.99 2.01 3.07 3H4.03l3 3.21M20 2.01l-3.06 3h3.03l-3 3.21M11.98 2l.99 1.97-1.99.01 1.04 2&quot;
+    }
+  ],
+  [
+    &quot;path&quot;,
+    {
+      &quot;stroke-width&quot;: &quot;2.59&quot;,
+      &quot;d&quot;: &quot;M4.14-31.11a3.36 3.36 0 0 1-3.82 2.43 3.36 3.36 0 0 1-2.77-3.59A3.36 3.36 0 0 1 .9-35.33&quot;,
+      &quot;transform&quot;: &quot;matrix(-.49466 .5947 -.58582 -.50516 -6.35 -2.09)&quot;
+    }
+  ],
+  [
+    &quot;path&quot;,
+    {
+      &quot;stroke-width&quot;: &quot;2.56&quot;,
+      &quot;d&quot;: &quot;M20.96 23.84c.75.68-.27 2.1-1.11 2.14H15.9l1.35-3.94c1.25-2.52-2.85-4.16-3.94-1.28l-2.46 6.53c-.47 1.3.68 2.56 1.23 2.56l5.17-.04v1.36m9.2-7.34c-.76.69.26 2.1 1.1 2.15h3.94l-1.35-3.94c-1.25-2.52 2.85-4.16 3.94-1.28l2.46 6.53c.46 1.3-.68 2.56-1.23 2.56l-5.17-.04v1.36&quot;,
+      &quot;transform&quot;: &quot;matrix(.77291 0 0 .78696 -6.34 -2.52)&quot;
+    }
+  ]
+]</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>/home/runner/work/onconova/onconova/client/src/app/app.config.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="appConfig"></a>
+                    <span class="name">
+                        <span ><b>appConfig</b></span>
+                        <a href="#appConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ApplicationConfig</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+    providers: [
+        AppConfigService,
+        MessageService,
+        DialogService,
+        provideHttpClient(withInterceptorsFromDi()), 
+        { 
+            provide: HTTP_INTERCEPTORS,
+            useClass: APIAuthInterceptor,
+            multi: true,
+        },
+        { 
+            provide: HTTP_INTERCEPTORS,
+            useClass: UnauthorizedInterceptor,
+            multi: true,
+        },
+        provideZoneChangeDetection({ 
+            eventCoalescing: true 
+        }), 
+        provideRouter(routes, withComponentInputBinding()),
+        provideAnimationsAsync(),
+        providePrimeNG({ 
+            ripple: true,
+            theme: {
+                preset: AppThemePreset,
+                options: {
+                    darkModeSelector: &#x27;.dark-mode&#x27;
+                }
+            }
+        }),  
+        { provide: BASE_PATH, useValue: environment.apiServerBasePath },
+        { provide: JDENTICON_CONFIG, useValue: {
+            hues: [0, 0],
+            lightness: {
+                color: [0.21, 0.9],
+                grayscale: [0.23, 0.62],
+            },
+            saturation: {
+                color: 0.80,
+                grayscale: 0.50,
+            },
+        }},
+        provideNgxCountAnimations(),
+    ]
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>/home/runner/work/onconova/onconova/client/src/app/app.preset.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="AppThemePreset"></a>
+                    <span class="name">
+                        <span ><b>AppThemePreset</b></span>
+                        <a href="#AppThemePreset"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>definePreset(Aura, {
+    semantic: {
+        colorScheme: {
+            light: {
+                primary: AppThemes.blue,
+                surface: {
+                    0: &#x27;#FAFAFA&#x27;,
+                    ...get_color_scheme(&#x27;zinc&#x27;),
+                }
+            },
+            dark: {
+                primary: AppThemes.blue,
+                surface: {
+                    0: &#x27;#FAFAFA&#x27;,
+                    ...get_color_scheme(&#x27;slate&#x27;),
+                }
+            }
+        }
+    }
+})</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="AppThemes"></a>
+                    <span class="name">
+                        <span ><b>AppThemes</b></span>
+                        <a href="#AppThemes"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+    emerald: get_color_scheme(&#x27;emerald&#x27;),
+    green: get_color_scheme(&#x27;green&#x27;),
+    lime: get_color_scheme(&#x27;lime&#x27;),
+    red: get_color_scheme(&#x27;red&#x27;),
+    orange: get_color_scheme(&#x27;orange&#x27;),
+    amber: get_color_scheme(&#x27;amber&#x27;),
+    yellow: get_color_scheme(&#x27;yellow&#x27;),
+    teal: get_color_scheme(&#x27;teal&#x27;),
+    cyan: get_color_scheme(&#x27;cyan&#x27;),
+    sky: get_color_scheme(&#x27;sky&#x27;),
+    blue: get_color_scheme(&#x27;blue&#x27;),
+    indigo: get_color_scheme(&#x27;indigo&#x27;),
+    violet: get_color_scheme(&#x27;violet&#x27;),
+    purple: get_color_scheme(&#x27;purple&#x27;),
+    fuchsia: get_color_scheme(&#x27;fuchsia&#x27;),
+    pink: get_color_scheme(&#x27;pink&#x27;),
+    rose: get_color_scheme(&#x27;rose&#x27;),
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="shades"></a>
+                    <span class="name">
+                        <span ><b>shades</b></span>
+                        <a href="#shades"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>number[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[50,100, 200, 300, 400, 500, 600, 700, 800, 900, 950]</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>/home/runner/work/onconova/onconova/client/src/assets/images/icons/board.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="Board"></a>
+                    <span class="name">
+                        <span ><b>Board</b></span>
+                        <a href="#Board"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>LucideIconData</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+  [
+    &quot;path&quot;,
+    {
+      &quot;d&quot;: &quot;M3 9.94v6.19h3.65l1.33 4.83M21.05 10v6.1h-3.66l-1.4 4.93&quot;,
+      &quot;stroke-width&quot;: &quot;2&quot;
+    }
+  ],
+  [
+    &quot;circle&quot;,
+    {
+      &quot;cx&quot;: &quot;3.02&quot;,
+      &quot;cy&quot;: &quot;6.05&quot;,
+      &quot;r&quot;: &quot;.96&quot;,
+      &quot;fill&quot;: &quot;#000&quot;,
+      &quot;stroke-width&quot;: &quot;2.05&quot;
+    }
+  ],
+  [
+    &quot;circle&quot;,
+    {
+      &quot;cx&quot;: &quot;11.98&quot;,
+      &quot;cy&quot;: &quot;3.03&quot;,
+      &quot;r&quot;: &quot;.97&quot;,
+      &quot;fill&quot;: &quot;#000&quot;,
+      &quot;stroke-width&quot;: &quot;2.07&quot;
+    }
+  ],
+  [
+    &quot;circle&quot;,
+    {
+      &quot;cx&quot;: &quot;20.98&quot;,
+      &quot;cy&quot;: &quot;5.98&quot;,
+      &quot;r&quot;: &quot;.97&quot;,
+      &quot;fill&quot;: &quot;#000&quot;,
+      &quot;stroke-width&quot;: &quot;2.07&quot;
+    }
+  ],
+  [
+    &quot;path&quot;,
+    {
+      &quot;d&quot;: &quot;M6.93 12.98H17&quot;,
+      &quot;stroke-width&quot;: &quot;2&quot;
+    }
+  ],
+  [
+    &quot;path&quot;,
+    {
+      &quot;d&quot;: &quot;m9.97 9.98.01-2.08c.05-.57.26-1.01 1.01-1.02h1.93c.5.06.84.34.93.9v2.2zm.41 5.92h3.06L11.92 22z&quot;,
+      &quot;fill&quot;: &quot;#000&quot;,
+      &quot;stroke-width&quot;: &quot;1.98&quot;
+    }
+  ]
+]</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>/home/runner/work/onconova/onconova/client/src/assets/images/icons/comorbidities.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="Comorbidities"></a>
+                    <span class="name">
+                        <span ><b>Comorbidities</b></span>
+                        <a href="#Comorbidities"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>LucideIconData</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+  [
+    &quot;path&quot;,
+    {
+      &quot;d&quot;: &quot;m 12,7.4029099 c 1.3807,0 2.5,-1.11929 2.5,-2.5 0,-1.38071 -1.1193,-2.5 -2.5,-2.5 -1.3807,0 -2.5,1.11929 -2.5,2.5 0,1.38071 1.1193,2.5 2.5,2.5 z&quot;,
+      &quot;fill&quot;: &quot;currentColor&quot;,
+      &quot;id&quot;: &quot;path1&quot;,
+      &quot;style&quot;: &quot;stroke:currentColor;stroke-opacity:1;stroke-width:0.00911681;stroke-dasharray:none&quot;
+    }
+  ],
+  [
+    &quot;path&quot;,
+    {
+      &quot;fill-rule&quot;: &quot;evenodd&quot;,
+      &quot;clip-rule&quot;: &quot;evenodd&quot;,
+      &quot;d&quot;: &quot;m 7.26757,8.3626189 c 0.34581,-0.5978 0.99215,-1 1.73243,-1 0.74028,0 1.3866,0.4022 1.7324,1 H 17 c 0.5523,0 1,0.44772 1,1 0,0.55228 -0.4477,1.0000001 -1,1.0000001 h -1.208 c 0.1338,0.3062 0.208,0.6444 0.208,1 0,0.8179 -0.3928,1.5441 -1,2.0002 v 1.5892 l 2.2256,5.5447 c 0.2137,0.5325 0.0034,1.1412 -0.4935,1.4281 -0.497,0.2869 -1.1292,0.1647 -1.4835,-0.2866 l -3.2665,-4.1615 -0.4973,0.6335 c -0.092,0.7452 -0.5939,1.3635 -1.2733,1.6221 l -1.49596,1.9059 c -0.35429,0.4513 -0.98655,0.5735 -1.48348,0.2866 -0.49692,-0.2869 -0.70726,-0.8956 -0.49352,-1.4281 l 0.83742,-2.0863 C 7.52648,18.236319 7.5,18.052619 7.5,17.862619 c 0,-0.7355 0.39707,-1.3784 0.98855,-1.7258 L 9,14.862619 v -3.5 c -0.74028,0 -1.38662,-0.4022 -1.73243,-1 H 7 c -0.55228,0 -1,-0.4477101 -1,-1.0000001 0,-0.55228 0.44772,-1 1,-1 z M 9,10.362619 c 0.55229,0 1,-0.4477201 1,-1.0000001 0,-0.55228 -0.44771,-1 -1,-1 -0.55228,0 -1,0.44772 -1,1 0,0.55228 0.44772,1.0000001 1,1.0000001 z m 4.5,2.5 c 0.8284,0 1.5,-0.6716 1.5,-1.5 0,-0.8284 -0.6716,-1.5000001 -1.5,-1.5000001 -0.8284,0 -1.5,0.6716001 -1.5,1.5000001 0,0.8284 0.6716,1.5 1.5,1.5 z m -4,6 c 0.5523,0 1,-0.4477 1,-1 0,-0.5523 -0.4477,-1 -1,-1 -0.55228,0 -1,0.4477 -1,1 0,0.5523 0.44772,1 1,1 z&quot;,
+      &quot;fill&quot;: &quot;currentColor&quot;,
+      &quot;id&quot;: &quot;path4&quot;,
+      &quot;style&quot;: &quot;stroke-width:0.00911681;stroke-dasharray:none;stroke:currentColor;stroke-opacity:1&quot;
+    }
+  ],
+  [
+    &quot;path&quot;,
+    {
+      &quot;style&quot;: &quot;fill:none;fill-opacity:1;stroke:currentColor;stroke-width:1.82336;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none&quot;,
+      &quot;id&quot;: &quot;path8&quot;,
+      &quot;sodipodi:type&quot;: &quot;arc&quot;,
+      &quot;sodipodi:cx&quot;: &quot;11.668163&quot;,
+      &quot;sodipodi:cy&quot;: &quot;12.052452&quot;,
+      &quot;sodipodi:rx&quot;: &quot;8.8061371&quot;,
+      &quot;sodipodi:ry&quot;: &quot;8.8061371&quot;,
+      &quot;sodipodi:start&quot;: &quot;2.4434659&quot;,
+      &quot;sodipodi:end&quot;: &quot;4.1004936&quot;,
+      &quot;sodipodi:open&quot;: &quot;true&quot;,
+      &quot;sodipodi:arc-type&quot;: &quot;arc&quot;,
+      &quot;d&quot;: &quot;M 4.9222429,17.712895 A 8.8061371,8.8061371 0 0 1 2.9367759,10.907496 8.8061371,8.8061371 0 0 1 6.6097423,4.844094&quot;
+    }
+  ],
+  [
+    &quot;path&quot;,
+    {
+      &quot;style&quot;: &quot;fill:none;fill-opacity:1;stroke:currentColor;stroke-width:1.82336;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none&quot;,
+      &quot;id&quot;: &quot;path8-8&quot;,
+      &quot;sodipodi:type&quot;: &quot;arc&quot;,
+      &quot;sodipodi:cx&quot;: &quot;-12.281775&quot;,
+      &quot;sodipodi:cy&quot;: &quot;12.032307&quot;,
+      &quot;sodipodi:rx&quot;: &quot;8.8061371&quot;,
+      &quot;sodipodi:ry&quot;: &quot;8.8061371&quot;,
+      &quot;sodipodi:start&quot;: &quot;2.4434659&quot;,
+      &quot;sodipodi:end&quot;: &quot;4.1004936&quot;,
+      &quot;sodipodi:open&quot;: &quot;true&quot;,
+      &quot;sodipodi:arc-type&quot;: &quot;arc&quot;,
+      &quot;d&quot;: &quot;m -19.027696,17.692749 a 8.8061371,8.8061371 0 0 1 -1.985467,-6.805398 8.8061371,8.8061371 0 0 1 3.672966,-6.0634025&quot;,
+      &quot;transform&quot;: &quot;scale(-1,1)&quot;
+    }
+  ]
+]</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/components/cohort-query-builder/cohort-query-builder.component.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="CONTROL_VALUE_ACCESSOR"></a>
+                    <span class="name">
+                        <span ><b>CONTROL_VALUE_ACCESSOR</b></span>
+                        <a href="#CONTROL_VALUE_ACCESSOR"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  provide: NG_VALUE_ACCESSOR,
+  useExisting: forwardRef(() &#x3D;&gt; CohortQueryBuilderComponent),
+  multi: true
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="VALIDATOR"></a>
+                    <span class="name">
+                        <span ><b>VALIDATOR</b></span>
+                        <a href="#VALIDATOR"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  provide: NG_VALIDATORS,
+  useExisting: forwardRef(() &#x3D;&gt; CohortQueryBuilderComponent),
+  multi: true
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>/home/runner/work/onconova/onconova/client/src/app/shared/components/form-control-error/form-control-error.component.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="DEFAULT_ERRORS"></a>
+                    <span class="name">
+                        <span ><b>DEFAULT_ERRORS</b></span>
+                        <a href="#DEFAULT_ERRORS"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  required: () &#x3D;&gt; &#x60;This field is required.&#x60;,
+  pattern: () &#x3D;&gt; &#x60;This field has an invalid format.&#x60;,
+  minlength: (err: {requiredLength: number, actualLength: number}) &#x3D;&gt; &#x60;Minimum length is ${err.requiredLength} characters.&#x60;,
+  maxlength: (err: {requiredLength: number, actualLength: number}) &#x3D;&gt; &#x60;Maximum length is ${err.requiredLength} characters.&#x60;,
+  email: () &#x3D;&gt; &#x60;Please enter a valid email address.&#x60;,
+  min: (err: {min: number, actual: number}) &#x3D;&gt; &#x60;Value must be greater than or equal to ${err.min}.&#x60;,
+  max: (err: {max: number, actual: number}) &#x3D;&gt; &#x60;Value must be less than or equal to ${err.max}.&#x60;,
+  // Adding custom error messages for some common validation checks
+  validateDate: () &#x3D;&gt; &#x60;Please enter a valid date.&#x60;,
+  validateNumber: () &#x3D;&gt; &#x60;Please enter a valid number.&#x60;,
+  validatePhone: () &#x3D;&gt; &#x60;Please enter a valid phone number.&#x60;,
+  validateZip: () &#x3D;&gt; &#x60;Please enter a valid ZIP code.&#x60;,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="FORM_ERRORS"></a>
+                    <span class="name">
+                        <span ><b>FORM_ERRORS</b></span>
+                        <a href="#FORM_ERRORS"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new InjectionToken(&#x27;FORM_ERRORS&#x27;, {
+  providedIn: &#x27;root&#x27;,
+  factory: () &#x3D;&gt; DEFAULT_ERRORS
+})</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>/home/runner/work/onconova/onconova/client/src/assets/images/icons/diagnostics.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="Diagnostics"></a>
+                    <span class="name">
+                        <span ><b>Diagnostics</b></span>
+                        <a href="#Diagnostics"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>LucideIconData</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+  [
+    &quot;defs&quot;,
+    {
+      &quot;id&quot;: &quot;defs2&quot;
+    }
+  ],
+  [
+    &quot;sodipodi:namedview&quot;,
+    {
+      &quot;id&quot;: &quot;namedview2&quot;,
+      &quot;pagecolor&quot;: &quot;#ffffff&quot;,
+      &quot;bordercolor&quot;: &quot;currentColor&quot;,
+      &quot;borderopacity&quot;: &quot;0.25&quot;,
+      &quot;inkscape:showpageshadow&quot;: &quot;2&quot;,
+      &quot;inkscape:pageopacity&quot;: &quot;0.0&quot;,
+      &quot;inkscape:pagecheckerboard&quot;: &quot;0&quot;,
+      &quot;inkscape:deskcolor&quot;: &quot;#d1d1d1&quot;,
+      &quot;showgrid&quot;: &quot;true&quot;,
+      &quot;showguides&quot;: &quot;true&quot;,
+      &quot;inkscape:zoom&quot;: &quot;32&quot;,
+      &quot;inkscape:cx&quot;: &quot;6.40625&quot;,
+      &quot;inkscape:cy&quot;: &quot;16.328125&quot;,
+      &quot;inkscape:window-width&quot;: &quot;1920&quot;,
+      &quot;inkscape:window-height&quot;: &quot;1017&quot;,
+      &quot;inkscape:window-x&quot;: &quot;1912&quot;,
+      &quot;inkscape:window-y&quot;: &quot;-8&quot;,
+      &quot;inkscape:window-maximized&quot;: &quot;1&quot;,
+      &quot;inkscape:current-layer&quot;: &quot;svg2&quot;
+    }
+  ],
+  [
+    &quot;circle&quot;,
+    {
+      &quot;style&quot;: &quot;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none&quot;,
+      &quot;id&quot;: &quot;path6&quot;,
+      &quot;cx&quot;: &quot;18.353037&quot;,
+      &quot;cy&quot;: &quot;8.3634539&quot;,
+      &quot;r&quot;: &quot;2.3138301&quot;
+    }
+  ],
+  [
+    &quot;path&quot;,
+    {
+      &quot;style&quot;: &quot;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round&quot;,
+      &quot;d&quot;: &quot;M 21.982948,1.9878197 H 1.9878197 V 17.042631 H 22.01218&quot;,
+      &quot;id&quot;: &quot;path3&quot;
+    }
+  ],
+  [
+    &quot;path&quot;,
+    {
+      &quot;style&quot;: &quot;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round&quot;,
+      &quot;d&quot;: &quot;m 12.009619,17.094586 v 4.878262 H 17.011904 6.9659923&quot;,
+      &quot;id&quot;: &quot;path4&quot;
+    }
+  ],
+  [
+    &quot;path&quot;,
+    {
+      &quot;style&quot;: &quot;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none&quot;,
+      &quot;d&quot;: &quot;m 2.9965911,10.006523 2.0034805,0.01563 2.0281183,-5.0259742 2.076373,9.0237172 1.9865471,-4.9984072 1.896345,-0.00781&quot;,
+      &quot;id&quot;: &quot;path5&quot;,
+      &quot;sodipodi:nodetypes&quot;: &quot;cccccc&quot;
+    }
+  ],
+  [
+    &quot;path&quot;,
+    {
+      &quot;style&quot;: &quot;display:inline;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none&quot;,
+      &quot;d&quot;: &quot;M 22.022442,13.002451 20.050519,10.748662&quot;,
+      &quot;id&quot;: &quot;path7&quot;,
+      &quot;sodipodi:nodetypes&quot;: &quot;cc&quot;
+    }
+  ]
+]</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>/home/runner/work/onconova/onconova/client/src/environments/environment.dev.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="dynamicEnv"></a>
+                    <span class="name">
+                        <span ><b>dynamicEnv</b></span>
+                        <a href="#dynamicEnv"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(window as any).coreConfig || {}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="environment"></a>
+                    <span class="name">
+                        <span ><b>environment</b></span>
+                        <a href="#environment"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  production: false,
+  apiServerBasePath: dynamicEnv.popServerAddress ? &#x60;https://${dynamicEnv.popServerAddress}&#x60; : &#x60;${window.location.protocol}//${window.location.host}&#x60;,
+  docsServerBasePath: dynamicEnv.docsServerAddress ? &#x60;https://${dynamicEnv.docsServerAddress}&#x60; : &#x60;${window.location.protocol}//${window.location.host}&#x60;,
+  organizationName: dynamicEnv.organizationName
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>/home/runner/work/onconova/onconova/client/src/environments/environment.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="dynamicEnv"></a>
+                    <span class="name">
+                        <span ><b>dynamicEnv</b></span>
+                        <a href="#dynamicEnv"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>(window as any).coreConfig || {}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="environment"></a>
+                    <span class="name">
+                        <span ><b>environment</b></span>
+                        <a href="#environment"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  production: true,
+  apiServerBasePath: dynamicEnv.popServerAddress ? &#x60;https://${dynamicEnv.popServerAddress}&#x60; : &#x60;${window.location.protocol}//${window.location.host}&#x60;,
+  docsServerBasePath: dynamicEnv.docsServerAddress ? &#x60;https://${dynamicEnv.docsServerAddress}&#x60; : &#x60;${window.location.protocol}//${window.location.host}&#x60;,
+  organizationName: dynamicEnv.organizationName
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>/home/runner/work/onconova/onconova/client/src/assets/images/icons/genomic_signature.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="GenomicSignature"></a>
+                    <span class="name">
+                        <span ><b>GenomicSignature</b></span>
+                        <a href="#GenomicSignature"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>LucideIconData</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+  [
+    &quot;path&quot;,
+    {
+      &quot;d&quot;: &quot;M 15.832 17.967 A2.168 2.168 0 0 1 18 15.799&quot;
+    }
+  ],
+  [
+    &quot;path&quot;,
+    {
+      &quot;d&quot;: &quot;M 18 15.799 A2.168 2.168 0 0 1 20.168 17.967&quot;
+    }
+  ],
+  [
+    &quot;path&quot;,
+    {
+      &quot;d&quot;: &quot;M 18 20.135 A2.168 2.168 0 0 1 15.832 17.967&quot;
+    }
+  ],
+  [
+    &quot;path&quot;,
+    {
+      &quot;d&quot;: &quot;M 19.5 19.5 L 21 21&quot;
+    }
+  ],
+  [
+    &quot;path&quot;,
+    {
+      &quot;d&quot;: &quot;M 20.168 17.967 A2.168 2.168 0 0 1 18 20.135&quot;
+    }
+  ],
+  [
+    &quot;path&quot;,
+    {
+      &quot;d&quot;: &quot;m10 16 1.5 1.5&quot;
+    }
+  ],
+  [
+    &quot;path&quot;,
+    {
+      &quot;d&quot;: &quot;m14 8-1.5-1.5&quot;
+    }
+  ],
+  [
+    &quot;path&quot;,
+    {
+      &quot;d&quot;: &quot;M15 2c-1.798 1.998-2.518 3.995-2.807 5.993&quot;
+    }
+  ],
+  [
+    &quot;path&quot;,
+    {
+      &quot;d&quot;: &quot;m16.5 10.5 1 1&quot;
+    }
+  ],
+  [
+    &quot;path&quot;,
+    {
+      &quot;d&quot;: &quot;m17 6-2.891-2.891&quot;
+    }
+  ],
+  [
+    &quot;path&quot;,
+    {
+      &quot;d&quot;: &quot;M2 15c6.667-6 13.333 0 20-6&quot;
+    }
+  ],
+  [
+    &quot;path&quot;,
+    {
+      &quot;d&quot;: &quot;m20 9 .891.891&quot;
+    }
+  ],
+  [
+    &quot;path&quot;,
+    {
+      &quot;d&quot;: &quot;M3.109 14.109 4 15&quot;
+    }
+  ],
+  [
+    &quot;path&quot;,
+    {
+      &quot;d&quot;: &quot;m6.5 12.5 1 1&quot;
+    }
+  ],
+  [
+    &quot;path&quot;,
+    {
+      &quot;d&quot;: &quot;m7 18 2.891 2.891&quot;
+    }
+  ],
+  [
+    &quot;path&quot;,
+    {
+      &quot;d&quot;: &quot;M9 22c1.798-1.998 2.518-3.995 2.807-5.993&quot;
+    }
+  ]
+]</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>/home/runner/work/onconova/onconova/client/src/app/core/auth/services/auth.service.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="OPENID_CALLBACK_URL"></a>
+                    <span class="name">
+                        <span ><b>OPENID_CALLBACK_URL</b></span>
+                        <a href="#OPENID_CALLBACK_URL"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;/auth/callback&#x27;</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>/home/runner/work/onconova/onconova/client/src/assets/images/icons/risk.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="Risk"></a>
+                    <span class="name">
+                        <span ><b>Risk</b></span>
+                        <a href="#Risk"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>LucideIconData</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+  [
+    &quot;path&quot;,
+    {
+      &quot;d&quot;: &quot;M 12.021 17.016 L 12.021 17.016&quot;
+    }
+  ],
+  [
+    &quot;path&quot;,
+    {
+      &quot;d&quot;: &quot;m12 10 .014 3.994&quot;
+    }
+  ],
+  [
+    &quot;path&quot;,
+    {
+      &quot;d&quot;: &quot;m14 6.5-1.954-3.425L1.97 20.885&quot;
+    }
+  ],
+  [
+    &quot;path&quot;,
+    {
+      &quot;d&quot;: &quot;m2 21 19.063-.045&quot;
+    }
+  ],
+  [
+    &quot;path&quot;,
+    {
+      &quot;d&quot;: &quot;m20 12.5 1.5 2&quot;
+    }
+  ],
+  [
+    &quot;path&quot;,
+    {
+      &quot;d&quot;: &quot;m22 21-2-3.5&quot;
+    }
+  ],
+  [
+    &quot;circle&quot;,
+    {
+      &quot;cx&quot;: &quot;18.605&quot;,
+      &quot;cy&quot;: &quot;10.448&quot;,
+      &quot;r&quot;: &quot;2.168&quot;
+    }
+  ]
+]</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>/home/runner/work/onconova/onconova/client/src/assets/images/icons/scan.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="Scan"></a>
+                    <span class="name">
+                        <span ><b>Scan</b></span>
+                        <a href="#Scan"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>LucideIconData</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+  [
+    &quot;defs&quot;,
+    {
+      &quot;id&quot;: &quot;defs4&quot;
+    }
+  ],
+  [
+    &quot;sodipodi:namedview&quot;,
+    {
+      &quot;id&quot;: &quot;namedview4&quot;,
+      &quot;pagecolor&quot;: &quot;#ffffff&quot;,
+      &quot;bordercolor&quot;: &quot;currentColor&quot;,
+      &quot;borderopacity&quot;: &quot;0.25&quot;,
+      &quot;inkscape:showpageshadow&quot;: &quot;2&quot;,
+      &quot;inkscape:pageopacity&quot;: &quot;0.0&quot;,
+      &quot;inkscape:pagecheckerboard&quot;: &quot;0&quot;,
+      &quot;inkscape:deskcolor&quot;: &quot;#d1d1d1&quot;,
+      &quot;showgrid&quot;: &quot;true&quot;,
+      &quot;inkscape:zoom&quot;: &quot;16&quot;,
+      &quot;inkscape:cx&quot;: &quot;24.3125&quot;,
+      &quot;inkscape:cy&quot;: &quot;16.78125&quot;,
+      &quot;inkscape:window-width&quot;: &quot;1920&quot;,
+      &quot;inkscape:window-height&quot;: &quot;1017&quot;,
+      &quot;inkscape:window-x&quot;: &quot;1912&quot;,
+      &quot;inkscape:window-y&quot;: &quot;-8&quot;,
+      &quot;inkscape:window-maximized&quot;: &quot;1&quot;,
+      &quot;inkscape:current-layer&quot;: &quot;svg4&quot;
+    }
+  ],
+  [
+    &quot;path&quot;,
+    {
+      &quot;style&quot;: &quot;fill:none;fill-opacity:1;stroke:currentColor;stroke-width:2.0276;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1&quot;,
+      &quot;d&quot;: &quot;m 11.964713,22.984811 -5.8949813,0.02067 C 1.2776412,22.934663 0.34753466,23.38381 3.3464605,19.852791 L 7.6874501,14.450893 C 8.282775,13.960312 7.4050455,14.038886 9.8393768,14.034794 m 2.1253362,8.950017 5.894981,0.02067 c 4.792091,-0.07082 5.722197,0.378329 2.723271,-3.15269 l -4.340989,-5.401898 c -0.595325,-0.490581 0.282404,-0.412007 -2.151927,-0.416099&quot;,
+      &quot;id&quot;: &quot;path9&quot;,
+      &quot;sodipodi:nodetypes&quot;: &quot;ccccc&quot;,
+      &quot;inkscape:path-effect&quot;: &quot;#path-effect10&quot;,
+      &quot;inkscape:original-d&quot;: &quot;m 11.964713,22.984811 -5.8949813,0.02067 C 1.2776412,22.934663 0.34753466,23.38381 3.3464605,19.852791 L 7.6874501,14.450893 C 8.282775,13.960312 7.4050455,14.038886 9.8393768,14.034794&quot;,
+      &quot;transform&quot;: &quot;matrix(0.97025867,0,0,1.0027869,0.41887578,-1.0394399)&quot;
+    }
+  ],
+  [
+    &quot;path&quot;,
+    {
+      &quot;style&quot;: &quot;fill:none;fill-opacity:1;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1&quot;,
+      &quot;id&quot;: &quot;path12-3&quot;,
+      &quot;sodipodi:type&quot;: &quot;arc&quot;,
+      &quot;sodipodi:cx&quot;: &quot;-13.108274&quot;,
+      &quot;sodipodi:cy&quot;: &quot;10.748258&quot;,
+      &quot;sodipodi:rx&quot;: &quot;5.9911923&quot;,
+      &quot;sodipodi:ry&quot;: &quot;5.9911923&quot;,
+      &quot;sodipodi:start&quot;: &quot;4.4505896&quot;,
+      &quot;sodipodi:end&quot;: &quot;2.0943951&quot;,
+      &quot;sodipodi:open&quot;: &quot;true&quot;,
+      &quot;sodipodi:arc-type&quot;: &quot;arc&quot;,
+      &quot;d&quot;: &quot;m -14.658909,4.9612102 a 5.9911923,5.9911923 0 0 1 6.7391593,2.7914513 5.9911923,5.9911923 0 0 1 -0.952112,7.2320085 5.9911923,5.9911923 0 0 1 -7.2320093,0.952112&quot;,
+      &quot;transform&quot;: &quot;rotate(-95.699743)&quot;
+    }
+  ],
+  [
+    &quot;path&quot;,
+    {
+      &quot;style&quot;: &quot;fill:none;fill-opacity:1;stroke:currentColor;stroke-width:2.009;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1&quot;,
+      &quot;id&quot;: &quot;path12-3-8&quot;,
+      &quot;sodipodi:type&quot;: &quot;arc&quot;,
+      &quot;sodipodi:cx&quot;: &quot;-13.142022&quot;,
+      &quot;sodipodi:cy&quot;: &quot;10.74495&quot;,
+      &quot;sodipodi:rx&quot;: &quot;9.9571199&quot;,
+      &quot;sodipodi:ry&quot;: &quot;9.9571199&quot;,
+      &quot;sodipodi:start&quot;: &quot;4.1887902&quot;,
+      &quot;sodipodi:end&quot;: &quot;2.3350945&quot;,
+      &quot;sodipodi:open&quot;: &quot;true&quot;,
+      &quot;sodipodi:arc-type&quot;: &quot;arc&quot;,
+      &quot;d&quot;: &quot;M -18.120582,2.1218315 A 9.9571199,9.9571199 0 0 1 -5.0259969,4.976556 9.9571199,9.9571199 0 0 1 -6.6350507,18.281764 9.9571199,9.9571199 0 0 1 -20.032653,17.932679&quot;,
+      &quot;transform&quot;: &quot;rotate(-95.699743)&quot;
+    }
+  ]
+]</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>/home/runner/work/onconova/onconova/client/src/app/features/project-search/project-search.tour.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="TourDriverConfig"></a>
+                    <span class="name">
+                        <span ><b>TourDriverConfig</b></span>
+                        <a href="#TourDriverConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Config</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+    showProgress: true,
+    steps: [
+        { element: &#x27;.project-search-filters&#x27;, popover: { 
+            side: &quot;bottom&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;Filters&#x27;,
+            description: &#x27;These widgets allow you to filter projects by their attributes.&#x27;, 
+        }},
+        { element: &#x27;#project-search-refresh-projects-button&#x27;, popover: { 
+            side: &quot;bottom&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;Refresh Projects&#x27;,
+            description: &#x27;You can manually refresh the results using this button.&#x27;, 
+        }},
+        { element: &#x27;#project-search-new-project-button&#x27;, popover: { 
+            side: &quot;bottom&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;Adding New Projects&#x27;,
+            description: &#x27;If you have the appropriate permissions, clicking this button will open a form to register a new project.&#x27;, 
+        }},
+        { element: &#x27;.project-search-results-count&#x27;, popover: { 
+            side: &quot;bottom&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;Result Count&#x27;,
+            description: &#x27;Shows the total number of projects that match the search criteria.&#x27;, 
+        }},
+        { element: &#x27;.project-search-sorting&#x27;, popover: { 
+            side: &quot;bottom&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;Result Ordering&#x27;,
+            description: &#x27;You can change the order of the results using these widgets.&#x27;, 
+        }},
+        { element: &#x27;.layout-buttons&#x27;, popover: { 
+            side: &quot;bottom&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;Layout&#x27;,
+            description: &#x27;You can change the layout of the results between a list and a grid using these widgets.&#x27;, 
+        }},
+        { element: &#x27;onconova-project-search-item:nth-of-type(1)&#x27;, popover: { 
+            side: &quot;right&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;Project Overview&#x27;,
+            description: &#x27;For each project matching your search criteria you will see a card containing an overview of the project.&#x27;, 
+        }},
+        { element: &#x27;onconova-project-search-item:nth-of-type(1) .p-splitbutton-button&#x27;, popover: { 
+            side: &quot;right&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;Opening the Project&#x27;,
+            description: &#x27;Click to open the details and management page for the selected project.&#x27;, 
+            onNextClick: (el, step, {config, state, driver}) &#x3D;&gt; {
+                const element &#x3D; document.querySelector(&#x27;onconova-project-search-item:nth-of-type(1) .p-splitbutton-dropdown&#x27;) as HTMLElement;
+                if (element) {
+                    element.click();
+                }
+                setTimeout(() &#x3D;&gt; {
+                        driver.moveNext();
+                }, 250);
+            }
+        }},
+        { element: &#x27;onconova-project-search-item:nth-of-type(1) .p-tieredmenu-item:nth-of-type(1)&#x27;, popover: { 
+            side: &quot;right&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;Updating Project Details&#x27;,
+            description: &#x27;Opens a form to update the details of the project.&#x27;, 
+            onNextClick: (el, step, {config, state, driver}) &#x3D;&gt; {
+                (document.querySelector(&#x27;body&#x27;) as HTMLElement).click()
+                driver.moveNext();
+            }
+        }},
+        { element: &#x27;.p-paginator&#x27;, popover: { 
+            side: &quot;top&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;Pagination&#x27;,
+            description: &#x27;You can browse through the different result pages using this toolbar.&#x27;, 
+        }},
+        {popover: { 
+            side: &quot;left&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;Finished&#x27;,
+            description: &#x60;Congratulations! This is the end of the tour for the project explorer page.&#x60;, 
+        }},
+    ]
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>/home/runner/work/onconova/onconova/client/src/app/features/cases/case-manager/case-manager.tour.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="TourDriverConfig"></a>
+                    <span class="name">
+                        <span ><b>TourDriverConfig</b></span>
+                        <a href="#TourDriverConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Config</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+    showProgress: true,
+    steps: [
+        { element: &#x27;.case-manager-header-summary&#x27;, popover: { 
+            side: &quot;bottom&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;Case Summary&#x27;,
+            description: &#x27;Here you can view a summary of the patient case that will automatically update as data is added or updated.&#x27;, 
+        }},
+        { element: &#x27;.case-manager-header-data-completion&#x27;, popover: { 
+            side: &quot;bottom&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;Case Data Completion&#x27;,
+            description: &#x27;This meter will show the percentage of data categories that have been marked as completed. It serves as a proxy for the overall data quality of the patient case.&#x27;, 
+        }},
+        { element: &#x27;.case-manager-header-metadata&#x27;, popover: { 
+            side: &quot;bottom&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;Metadata&#x27;,
+            description: &#x27;The rest of the summary contains metadata such as the anonymization status of the data shown, data contributors for the case, and other information.&#x27;, 
+        }},
+        { element: &#x27;#case-manager-export-case-button&#x27;, popover: { 
+            side: &quot;bottom&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;Exporting the Case&#x27;,
+            description: &#x27;Users with elevated rights (e.g. project leaders) can export the patient case data as a bundle that can be imported into other systems.&#x27;, 
+        }},
+        { element: &#x27;#case-manager-data-management-button&#x27;, popover: { 
+            side: &quot;bottom&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;Data Management Mode&#x27;,
+            description: &#x27;By default cases cannot be edited. To enable/disable data management mode and remove the anonymization of the data, click on this button. This may require either an elevated role or permission from your project leader(s).&#x27;, 
+        }},
+        { element: &#x27;onconova-case-manager-panel:nth-of-type(1)&#x27;, popover: { 
+            side: &quot;right&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;Data Category Panels&#x27;,
+            description: &#x27;This is a data category panel where you can view, create and update data for the patient case.&#x27;, 
+        }},
+        { element: &#x27;.onconova-case-manager-counter-badge:nth-of-type(1)&#x27;, popover: { 
+            side: &quot;right&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;Entries Counter&#x27;,
+            description: &#x27;This small badge indicates the number of entries for the data category for the current patient case.&#x27;, 
+        }},
+        { element: &#x27;.onconova-case-manager-completion-indicator:nth-of-type(1)&#x27;, popover: { 
+            side: &quot;right&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;Completion Indicator&#x27;,
+            description: &#x60;If a data category is marked as completed, a small star ★ icon will appear to indicate that this category has been completed.
+            Completed categories will contribute towards the completion rate of the patient case. Note that completed categories cannot be modified unless they are reopened.&#x60;, 
+        }},
+        { element: &#x27;.onconova-case-manager-menu-button:nth-of-type(1)&#x27;, popover: { 
+            side: &quot;right&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;Adding New Entries&#x27;,
+            description: &#x60;The &quot;Add&quot; button will open a modal form to create a new entry for the data category.&lt;br&gt;This option is only enabled if the data category is not completed and if data management has been enabled.&#x60;, 
+        }},
+        { element: &#x27;.onconova-case-manager-menu-button:nth-of-type(2)&#x27;, popover: { 
+            side: &quot;right&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;Context Menu&#x27;,
+            description: &#x60;Each data category has a button which will open its own dedicated submenu.&#x60;, 
+            onNextClick: (el, step, {config, state, driver}) &#x3D;&gt; {
+                const element &#x3D; document.querySelector(&#x27;.onconova-case-manager-menu-button:nth-of-type(2)&#x27;) as HTMLElement;
+                if (element) {
+                    element.click();
+                }
+                setTimeout(() &#x3D;&gt; {
+                        driver.moveNext();
+                }, 250);
+            }
+        }},
+        { element: &#x27;onconova-case-manager-panel .p-menu-item:nth-of-type(1)&#x27;, popover: { 
+            side: &quot;right&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;Adding New Entries&#x27;,
+            description: &#x60;You can also add a new entry for the data category using this menu option.&lt;br&gt;Again, this option is only enabled if the data category is not completed and if data management has been enabled.&#x60;, 
+        }},
+        { element: &#x27;onconova-case-manager-panel .p-menu-item:nth-of-type(2)&#x27;, popover: { 
+            side: &quot;right&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;Refreshing Data&#x27;,
+            description: &#x60;The &quot;Refresh&quot; button can be used to reload the data for the data category from the server.&#x60;, 
+        }},
+        { element: &#x27;onconova-case-manager-panel .p-menu-item:nth-of-type(4)&#x27;, popover: { 
+            side: &quot;right&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;Completing A Category&#x27;,
+            description: &#x60;This last button allows the marking of a data category as complete or incomplete. Use this once all entries for a data category have been collected or when a completed category has developed new entries.&#x60;, 
+            onNextClick: (el, step, {config, state, driver}) &#x3D;&gt; {
+                (document.querySelector(&#x27;body&#x27;) as HTMLElement).click()
+                const element &#x3D; document.querySelector(&#x27;.onconova-case-manager-panel-timeline-event-entry:nth-of-type(1)&#x27;) as HTMLElement;
+                if (!element) {
+                    driver.destroy()
+                } else {
+                    driver.moveNext()
+                }
+            }
+        }},
+        { element: &#x27;onconova-case-manager-panel-timeline:nth-of-type(1)&#x27;, popover: { 
+            side: &quot;bottom&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;Timelines&#x27;,
+            description: &#x60;For each data category a timeline is provided listing all existing entries for that category.&#x60;, 
+        }},
+        { element: &#x27;.onconova-case-manager-panel-timeline-event-entry:nth-of-type(1)&#x27;, popover: { 
+            side: &quot;bottom&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;Data Entries&#x27;,
+            description: &#x60;For each data entry a short description is provided. You can click on the entry to see the full details.&#x60;, 
+            onNextClick: (el, step, {config, state, driver}) &#x3D;&gt; {
+                const element &#x3D; document.querySelector(&#x27;.onconova-case-manager-panel-timeline-event-entry:nth-of-type(1)&#x27;) as HTMLElement;
+                if (element) {
+                    element.click();
+                }
+                setTimeout(() &#x3D;&gt; {
+                        driver.moveNext();
+                }, 250);
+            }
+        }},
+        { element: &#x27;.p-drawer&#x27;, popover: { 
+            side: &quot;left&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;Data Details&#x27;,
+            description: &#x60;This panel contains the full details for the selected data entry.&#x60;, 
+        }},
+        { element: &#x27;onconova-drawer-properties&#x27;, popover: { 
+            side: &quot;left&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;Properties&#x27;,
+            description: &#x60;The section includes all editable data for the selected resource. Certain property values (e.g. codeable concepts) can be expanded to reveal additional information.&#x60;, 
+        }},
+        { element: &#x27;.onconova-case-manager-drawer-metadata&#x27;, popover: { 
+            side: &quot;left&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;Metadata&#x27;,
+            description: &#x60;The section provides non-editable information about the selected resource.&#x60;, 
+        }},
+        { element: &#x27;.onconova-case-manager-drawer-history&#x27;, popover: { 
+            side: &quot;left&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;History&#x27;,
+            description: &#x60;The section provides the full audit trail for this specific resource. You can check who and when the resource was created and/or updated.&#x60;, 
+        }},
+        { element: &#x27;.p-splitbutton-button&#x27;, popover: { 
+            side: &quot;left&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;Updating resources&#x27;,
+            description: &#x60;Use this button to open the edit form for the selected resource if data management has been enabled.&#x60;, 
+        }},
+        { element: &#x27;.p-splitbutton-dropdown&#x27;, popover: { 
+            side: &quot;left&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;Other actions&#x27;,
+            description: &#x60;Open this menu to access other actions related to the resource, such as deleting or exporting it.&#x60;, 
+            onNextClick: (el, step, {config, state, driver}) &#x3D;&gt; {
+                (document.querySelector(&#x27;.onconova-case-manager-drawer-hide-button&#x27;) as HTMLElement).click()
+                driver.moveNext()
+            }
+        }},
+        {popover: { 
+            side: &quot;left&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;Finished&#x27;,
+            description: &#x60;Congratulations! This is the end of the tour for the case manager page.&#x60;, 
+        }},
+    ]
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>/home/runner/work/onconova/onconova/client/src/app/features/cases/case-search/case-search.tour.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="TourDriverConfig"></a>
+                    <span class="name">
+                        <span ><b>TourDriverConfig</b></span>
+                        <a href="#TourDriverConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Config</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+    showProgress: true,
+    steps: [
+        { element: &#x27;.case-search-filters&#x27;, popover: { 
+            side: &quot;bottom&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;Filters&#x27;,
+            description: &#x27;These widgets allow you to filter cases by their attributes.&#x27;, 
+        }},
+        { element: &#x27;#case-manager-refresh-cases-button&#x27;, popover: { 
+            side: &quot;bottom&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;Refresh Cases&#x27;,
+            description: &#x27;You can manually refresh the results using this button.&#x27;, 
+        }},
+        { element: &#x27;#case-manager-new-case-button&#x27;, popover: { 
+            side: &quot;bottom&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;Adding New Cases&#x27;,
+            description: &#x27;If you have the appropriate permissions, clicking this button will open a form to register a new patient case.&#x27;, 
+        }},
+        { element: &#x27;.case-search-results-count&#x27;, popover: { 
+            side: &quot;bottom&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;Result Count&#x27;,
+            description: &#x27;Shows the total number of cases that match the search criteria.&#x27;, 
+        }},
+        { element: &#x27;.case-search-sorting&#x27;, popover: { 
+            side: &quot;bottom&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;Result Ordering&#x27;,
+            description: &#x27;You can change the order of the results using these widgets.&#x27;, 
+        }},
+        { element: &#x27;.layout-buttons&#x27;, popover: { 
+            side: &quot;bottom&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;Layout&#x27;,
+            description: &#x27;You can change the layout of the results between a list and a grid using these widgets.&#x27;, 
+        }},
+        { element: &#x27;onconova-case-search-item:nth-of-type(1), tr:nth-of-type(2)&#x27;, popover: { 
+            side: &quot;right&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;Case Details&#x27;,
+            description: &#x27;For each case matching your search criteria you will see a card containing the basic details of the case.&#x27;, 
+        }},
+        { element: &#x27;onconova-case-search-item:nth-of-type(1) .p-splitbutton-button, tr:nth-of-type(2) .p-splitbutton-button&#x27;, popover: { 
+            side: &quot;right&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;Accessing the Case&#x27;,
+            description: &#x27;This button will open the case details and management page for the selected case.&#x27;, 
+            onNextClick: (el, step, {config, state, driver}) &#x3D;&gt; {
+                const element &#x3D; document.querySelector(&#x27;onconova-case-search-item:nth-of-type(1) .p-splitbutton-dropdown, tr:nth-of-type(2) .p-splitbutton-dropdown&#x27;) as HTMLElement;
+                if (element) {
+                    element.click();
+                }
+                setTimeout(() &#x3D;&gt; {
+                        driver.moveNext();
+                }, 250);
+            }
+        }},
+        { element: &#x27;.p-tieredmenu-item:nth-of-type(1)&#x27;, popover: { 
+            side: &quot;right&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;Exporting Cases&#x27;,
+            description: &#x27;Users with elevated rights (e.g. project leaders) can export the patient case data as a bundle that can be imported into other systems.&#x27;, 
+        }},
+        { element: &#x27;.p-tieredmenu-item:nth-of-type(2)&#x27;, popover: { 
+            side: &quot;right&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;Exporting Cases&#x27;,
+            description: &#x27;You can delete an erroneous patient case with this option.&#x27;, 
+        }},
+        { element: &#x27;.p-tieredmenu-item:nth-of-type(3)&#x27;, popover: { 
+            side: &quot;right&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;Updating Patient Details&#x27;,
+            description: &#x27;Opens a form to update the details of the patient case.&#x27;, 
+            onNextClick: (el, step, {config, state, driver}) &#x3D;&gt; {
+                (document.querySelector(&#x27;body&#x27;) as HTMLElement).click()
+                driver.moveNext();
+            }
+        }},
+        { element: &#x27;.p-paginator&#x27;, popover: { 
+            side: &quot;top&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;Pagination&#x27;,
+            description: &#x27;You can browse through the different result pages using this toolbar.&#x27;, 
+        }},
+        {popover: { 
+            side: &quot;left&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;Finished&#x27;,
+            description: &#x60;Congratulations! This is the end of the tour for the case explorer page.&#x60;, 
+        }},
+    ]
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/cohort-manager.tour.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="TourDriverConfig"></a>
+                    <span class="name">
+                        <span ><b>TourDriverConfig</b></span>
+                        <a href="#TourDriverConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Config</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+    showProgress: true,
+    steps: [
+        { element: &#x27;.onconova-cohort-manager-header&#x27;, popover: { 
+            side: &quot;right&quot;, align: &#x27;start&#x27;, 
+            title: &#x27;Cohort Information&#x27;,
+            description: &#x27;You can see all metadata associated with this cohort&#x27;, 
+        }},
+        { element: &#x27;#cohort-manager-edit-name-button&#x27;, popover: { 
+            side: &quot;right&quot;, align: &#x27;start&#x27;, 
+            title: &quot;Change the Cohort&#x27;s Title&quot;,
+            description: &#x27;You can change the title of this cohort by clicking this button.&#x27;, 
+        }},
+        { element: &#x27;.onconova-cohort-manager-summary&#x27;, popover: { 
+            side: &quot;right&quot;, align: &#x27;start&#x27;, 
+            title: &quot;Cohort Summary&quot;,
+            description: &#x27;A collection of information and aggregated statistics that will update as the cohort is updated. Uncertainties are shown for certain values as interquartile ranges.&#x27;, 
+        }},
+        { element: &#x27;.cohort-manager-cohort-definition&#x27;, popover: { 
+            side: &quot;right&quot;, align: &#x27;start&#x27;, 
+            title: &quot;Cohort Composition Criteria&quot;,
+            description: &#x27;These widget allow you to define the criteria used to define which cases are included and/or excluded in this cohort.&#x27;, 
+        }},
+        { element: &#x27;onconova-cohort-query-builder:nth-of-type(1)&#x27;, popover: { 
+            side: &quot;top&quot;, align: &#x27;start&#x27;, 
+            title: &quot;Cohort Ruleset&quot;,
+            description: &#x27;This is a ruleset, a a set of rules chained by logical operators (and/or).&#x27;, 
+        }},
+        { element: &#x27;.q-condition-select:nth-of-type(1)&#x27;, popover: { 
+            side: &quot;top&quot;, align: &#x27;start&#x27;, 
+            title: &quot;Logical Operators&quot;,
+            description: &#x27;Use this selector to define the logical operator used to chain the rules within the ruleset.&#x27;, 
+        }},
+        { element: &#x27;.q-rule:nth-of-type(1)&#x27;, popover: { 
+            side: &quot;top&quot;, align: &#x27;start&#x27;, 
+            title: &quot;Rules&quot;,
+            description: &#x27;This is a rule, the basic element for creating the query that will be used to filter the cohort cases.&#x27;, 
+        }},
+        { element: &#x27;.q-entity-select:nth-of-type(1)&#x27;, popover: { 
+            side: &quot;top&quot;, align: &#x27;center&#x27;, 
+            title: &quot;Rule - Resource&quot;,
+            description: &#x27;A rule centers around a resource and a set of conditions. This rule will select all patient cases that have such a resource matching all conditions.&#x27;, 
+        }},
+        { element: &#x27;.q-filters-container:nth-of-type(1)&#x27;, popover: { 
+            side: &quot;top&quot;, align: &#x27;center&#x27;, 
+            title: &quot;Rule - Conditions&quot;,
+            description: &#x27;This one of the conditions of a rule that will be applied to the resource.&#x27;, 
+        }},
+        { element: &#x27;.q-field-select:nth-of-type(1)&#x27;, popover: { 
+            side: &quot;top&quot;, align: &#x27;center&#x27;, 
+            title: &quot;Rules - Field&quot;,
+            description: &#x27;Each condition is applied to a specific property of the resource&#x27;, 
+        }},
+        { element: &#x27;.q-filters-description-icon:nth-of-type(1)&#x27;, popover: { 
+            side: &quot;top&quot;, align: &#x27;center&#x27;, 
+            title: &quot;Rules - Field Description&quot;,
+            description: &#x27;Hovering over this question mark will display the description of the selected property.&#x27;, 
+        }},
+        { element: &#x27;.q-operator-select&#x27;, popover: { 
+            side: &quot;top&quot;, align: &#x27;center&#x27;, 
+            title: &quot;Rules - Operator&quot;,
+            description: &#x27;The operator choice will determine the type of filter/comparison that will be applied to the that property.&#x27;, 
+        }},
+        { element: &#x27;.q-rule-value-container:nth-of-type(1)&#x27;, popover: { 
+            side: &quot;top&quot;, align: &#x27;center&#x27;, 
+            title: &quot;Rules - Value&quot;,
+            description: &#x27;You will be prompted to enter a value against which to evaluate the condition.&#x27;, 
+        }},
+        { element: &#x27;.rule-filter-button-group:nth-of-type(1)&#x27;, popover: { 
+            side: &quot;left&quot;, align: &#x27;center&#x27;, 
+            title: &quot;Rules - Actions&quot;,
+            description: &#x27;You can add and remove conditions to a rule by using these buttons.&#x27;, 
+        }},
+        { element: &#x27;.q-rule-add-button:nth-of-type(1)&#x27;, popover: { 
+            side: &quot;left&quot;, align: &#x27;center&#x27;, 
+            title: &quot;Chaining Rules&quot;,
+            description: &#x27;You can add and chain additional rules within a ruleset by clicking this button.&#x27;, 
+        }},
+        { element: &#x27;.q-ruleset-add-button:nth-of-type(1)&#x27;, popover: { 
+            side: &quot;left&quot;, align: &#x27;center&#x27;, 
+            title: &quot;Nested Rulesets&quot;,
+            description: &#x27;Similarly, you can create nested rulesets by clicking this button. Nested rulesets can have different logical operators allowing you to create complex queries.&#x27;, 
+        }},
+
+        { element: &#x27;.cohort-manager-save-button&#x27;, popover: { 
+            side: &quot;top&quot;, align: &#x27;center&#x27;, 
+            title: &quot;Updating the Cohort&quot;,
+            description: &#x27;Submits the current cohort definition criteria and updates the cases in the cohort (and all other derived metrics).&#x27;, 
+        }},
+        { element: &#x27;.p-tablist&#x27;, popover: { 
+            side: &quot;top&quot;, align: &#x27;center&#x27;, 
+            title: &quot;Cohort Composition&quot;,
+            description: &#x27;A collection of results related to the cohort composition. You can switch betewen the different tabs.&#x27;,
+        }},
+        { element: &#x27;.onconova-cohort-manager-tabs .p-tab:nth-of-type(1)&#x27;, popover: { 
+            side: &quot;top&quot;, align: &#x27;center&#x27;, 
+            title: &quot;Cohort Composition&quot;,
+            description: &#x27;A list of all cases included in the cohort (including cases with revoked or unknown consents). &#x27;,
+            onNextClick: (el, step, {config, state, driver}) &#x3D;&gt; {
+                const element &#x3D; document.querySelector(&#x27;.onconova-cohort-manager-tabs .p-tab:nth-of-type(1)&#x27;) as HTMLElement;
+                if (element) {
+                    element.click();
+                }
+                driver.moveNext()
+            },
+        }},
+        { element: &#x27;.p-tabpanels&#x27;, popover: { 
+            side: &quot;top&quot;, align: &#x27;start&#x27;, 
+            title: &quot;Cohort Composition&quot;,
+            description: &#x27;If a case has an unknown or revoked consent status, the case will be still shown, but will be dimmed to indicate that it will not be used for any further analyses.&#x27;,  
+            onNextClick: (el, step, {config, state, driver}) &#x3D;&gt; {
+                const element &#x3D; document.querySelector(&#x27;.onconova-cohort-manager-tabs .p-tab:nth-of-type(2)&#x27;) as HTMLElement;
+                if (element) {
+                    element.click();
+                }
+                driver.moveNext()
+            },
+        }},
+        { element: &#x27;.onconova-cohort-manager-tabs .p-tab:nth-of-type(2)&#x27;, popover: { 
+            side: &quot;top&quot;, align: &#x27;center&#x27;, 
+            title: &quot;Cohort Analysis&quot;,
+            description: &#x27;A collection of of aggregated data analyses represented graphically.&#x27;, 
+            onPrevClick: (el, step, {config, state, driver}) &#x3D;&gt; {
+                const element &#x3D; document.querySelector(&#x27;.onconova-cohort-manager-tabs .p-tab:nth-of-type(1)&#x27;) as HTMLElement;
+                if (element) {
+                    element.click();
+                }
+                driver.movePrevious()
+            }
+        }},
+        { element: &#x27;.p-tabpanels canvas:nth-of-type(1)&#x27;, popover: { 
+            side: &quot;top&quot;, align: &#x27;start&#x27;, 
+            title: &quot;Cohort Analysis Graphs&quot;,
+            description: &quot;All graphs are interactive and show additiona data when hovered over. Categories can be blended in and out by interacting with the legend. You can download the graph&#x27;s data or the graph itself as an image by right-clicking any graph.&quot;,  
+            onNextClick: (el, step, {config, state, driver}) &#x3D;&gt; {
+                const element &#x3D; document.querySelector(&#x27;.onconova-cohort-manager-tabs .p-tab:nth-of-type(3)&#x27;) as HTMLElement;
+                if (element) {
+                    element.click();
+                }
+                driver.moveNext()
+            },
+        }},
+        { element: &#x27;.onconova-cohort-manager-tabs .p-tab:nth-of-type(3)&#x27;, popover: { 
+            side: &quot;top&quot;, align: &#x27;center&#x27;, 
+            title: &quot;Datasets&quot;,
+            description: &#x27;A tool to view, manage, adn export data associated with this cohort.&#x27;, 
+            onPrevClick: (el, step, {config, state, driver}) &#x3D;&gt; {
+                const element &#x3D; document.querySelector(&#x27;.onconova-cohort-manager-tabs .p-tab:nth-of-type(2)&#x27;) as HTMLElement;
+                if (element) {
+                    element.click();
+                }
+                driver.movePrevious()
+            }
+        }},
+        { element: &#x27;.load-dataset-button&#x27;, popover: { 
+            side: &quot;top&quot;, align: &#x27;center&#x27;, 
+            title: &quot;Loading datasets&quot;,
+            description: &#x60;If available, you can load any of your project&#x27;s dataset definitions.&#x60;,
+        }},
+        { element: &#x27;.onconova-data-selector-tree&#x27;, popover: { 
+            side: &quot;top&quot;, align: &#x27;center&#x27;, 
+            title: &quot;Creating Datasets&quot;,
+            description: &#x60;Search and select any data elements and they will be added to the dataset preview table.&#x60;,
+        }},
+        { element: &#x27;.onconova-dataset-table&#x27;, popover: { 
+            side: &quot;top&quot;, align: &#x27;center&#x27;, 
+            title: &quot;Dataset Preview&quot;,
+            description: &#x60;You can interact with the live dataset data in this table. Nested data elements can be expanded and collapsed by clicking on them.&#x60;,
+        }},
+        { element: &#x27;.dataset-save-button&#x27;, popover: { 
+            side: &quot;top&quot;, align: &#x27;center&#x27;, 
+            title: &quot;Dataset Saving&quot;,
+            description: &#x60;Before a dataset can be exported, any changes must be saved.&#x60;,
+        }},
+        { element: &#x27;.dataset-metadata-form&#x27;, popover: { 
+            side: &quot;top&quot;, align: &#x27;center&#x27;, 
+            title: &quot;Dataset Details&quot;,
+            description: &#x60;To save the dataset, you may need to add some details.&#x60;,
+        }},
+        { element: &#x27;.dataset-download-button&#x27;, popover: { 
+            side: &quot;top&quot;, align: &#x27;center&#x27;, 
+            title: &quot;Exporting Datasets&quot;,
+            description: &#x60;The saved dataset can be exported for all cases in the cohort. Clicking will prompt you to select a data format. Only project leaders (or administrators) can export datasets for other users.&#x60;,
+            onNextClick: (el, step, {config, state, driver}) &#x3D;&gt; {
+                const element &#x3D; document.querySelector(&#x27;.onconova-cohort-manager-tabs .p-tab:nth-of-type(4)&#x27;) as HTMLElement;
+                if (element) {
+                    element.click();
+                }
+                driver.moveNext()
+            },
+        }},
+        { element: &#x27;.onconova-cohort-manager-tabs .p-tab:nth-of-type(4)&#x27;, popover: { 
+            side: &quot;top&quot;, align: &#x27;center&#x27;, 
+            title: &quot;Contributors&quot;,
+            description: &#x27;A ranking of contributors to the data contained in this cohort.&#x27;, 
+            onNextClick: (el, step, {config, state, driver}) &#x3D;&gt; {
+                const element &#x3D; document.querySelector(&#x27;.onconova-cohort-manager-tabs .p-tab:nth-of-type(5)&#x27;) as HTMLElement;
+                if (element) {
+                    element.click();
+                }
+                driver.moveNext()
+            },
+            onPrevClick: (el, step, {config, state, driver}) &#x3D;&gt; {
+                const element &#x3D; document.querySelector(&#x27;.onconova-cohort-manager-tabs .p-tab:nth-of-type(3)&#x27;) as HTMLElement;
+                if (element) {
+                    element.click();
+                }
+                driver.movePrevious()
+            }
+        }},
+        { element: &#x27;.onconova-cohort-manager-tabs .p-tab:nth-of-type(5)&#x27;, popover: { 
+            side: &quot;top&quot;, align: &#x27;center&#x27;, 
+            title: &quot;History&quot;,
+            description: &#x27;The audit trail of the cohort, containing all changes and data exports associated to the cohort.&#x27;, 
+            onPrevClick: (el, step, {config, state, driver}) &#x3D;&gt; {
+                const element &#x3D; document.querySelector(&#x27;.onconova-cohort-manager-tabs .p-tab:nth-of-type(4)&#x27;) as HTMLElement;
+                if (element) {
+                    element.click();
+                }
+                driver.movePrevious()
+            }
+        }},
+        {popover: { 
+            side: &quot;left&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;Finished&#x27;,
+            description: &#x60;Congratulations! This is the end of the tour for the cohort manager page.&#x60;, 
+        }},
+    ]
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-search/cohort-search.tour.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="TourDriverConfig"></a>
+                    <span class="name">
+                        <span ><b>TourDriverConfig</b></span>
+                        <a href="#TourDriverConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Config</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+    showProgress: true,
+    steps: [
+        { element: &#x27;.cohort-search-filters&#x27;, popover: { 
+            side: &quot;bottom&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;Filters&#x27;,
+            description: &#x27;These widgets allow you to filter cohorts by their attributes.&#x27;, 
+        }},
+        { element: &#x27;#cohort-search-refresh-cohorts-button&#x27;, popover: { 
+            side: &quot;bottom&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;Refresh Cohorts&#x27;,
+            description: &#x27;You can manually refresh the results using this button.&#x27;, 
+        }},
+        { element: &#x27;#cohort-search-new-cohort-button&#x27;, popover: { 
+            side: &quot;bottom&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;Adding New Cohorts&#x27;,
+            description: &#x27;If you have the appropriate permissions, clicking this button will open a form to register a new cohort.&#x27;, 
+        }},
+        { element: &#x27;.cohort-search-results-count&#x27;, popover: { 
+            side: &quot;bottom&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;Result Count&#x27;,
+            description: &#x27;Shows the total number of cohorts that match the search criteria.&#x27;, 
+        }},
+        { element: &#x27;.cohort-search-sorting&#x27;, popover: { 
+            side: &quot;bottom&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;Result Ordering&#x27;,
+            description: &#x27;You can change the order of the results using these widgets.&#x27;, 
+        }},
+        { element: &#x27;.layout-buttons&#x27;, popover: { 
+            side: &quot;bottom&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;Layout&#x27;,
+            description: &#x27;You can change the layout of the results between a list and a grid using these widgets.&#x27;, 
+        }},
+        { element: &#x27;onconova-cohort-search-item:nth-of-type(1)&#x27;, popover: { 
+            side: &quot;right&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;Cohort Overview&#x27;,
+            description: &#x27;For each cohort matching your search criteria you will see a card containing an overview of the cohort.&#x27;, 
+        }},
+        { element: &#x27;onconova-cohort-search-item:nth-of-type(1) .p-splitbutton-button&#x27;, popover: { 
+            side: &quot;right&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;Opening the Cohort&#x27;,
+            description: &#x27;Click to open the details and management page for the selected cohort.&#x27;, 
+            onNextClick: (el, step, {config, state, driver}) &#x3D;&gt; {
+                const element &#x3D; document.querySelector(&#x27;onconova-cohort-search-item:nth-of-type(1) .p-splitbutton-dropdown&#x27;) as HTMLElement;
+                if (element) {
+                    element.click();
+                }
+                setTimeout(() &#x3D;&gt; {
+                        driver.moveNext();
+                }, 250);
+            }
+        }},
+        { element: &#x27;onconova-cohort-search-item:nth-of-type(1) .p-tieredmenu-item.export-action&#x27;, popover: { 
+            side: &quot;right&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;Exporting Cohort Definitions&#x27;,
+            description: &#x27;The definition of a cohort (not its data) can be exported as in a format that can be imported into other systems.&#x27;, 
+        }},
+        { element: &#x27;onconova-cohort-search-item:nth-of-type(1) .p-tieredmenu-item.delete-action&#x27;, popover: { 
+            side: &quot;right&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;Deleting Cohort&#x27;,
+            description: &#x27;Administrators can delete cohort cases in exceptional cases.&#x27;, 
+            onNextClick: (el, step, {config, state, driver}) &#x3D;&gt; {
+                (document.querySelector(&#x27;body&#x27;) as HTMLElement).click()
+                driver.moveNext();
+            }
+        }},
+        { element: &#x27;.p-paginator&#x27;, popover: { 
+            side: &quot;top&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;Pagination&#x27;,
+            description: &#x27;You can browse through the different result pages using this toolbar.&#x27;, 
+        }},
+        {popover: { 
+            side: &quot;left&quot;, align: &#x27;center&#x27;, 
+            title: &#x27;Finished&#x27;,
+            description: &#x60;Congratulations! This is the end of the tour for the cohort explorer page.&#x60;, 
+        }},
+    ]
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>/home/runner/work/onconova/onconova/client/src/assets/images/icons/tumor.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="Tumor"></a>
+                    <span class="name">
+                        <span ><b>Tumor</b></span>
+                        <a href="#Tumor"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>LucideIconData</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+  [
+    &quot;defs&quot;,
+    {
+      &quot;id&quot;: &quot;defs1&quot;
+    }
+  ],
+  [
+    &quot;sodipodi:namedview&quot;,
+    {
+      &quot;id&quot;: &quot;namedview1&quot;,
+      &quot;pagecolor&quot;: &quot;#ffffff&quot;,
+      &quot;bordercolor&quot;: &quot;currentColor&quot;,
+      &quot;borderopacity&quot;: &quot;0.25&quot;,
+      &quot;inkscape:showpageshadow&quot;: &quot;2&quot;,
+      &quot;inkscape:pageopacity&quot;: &quot;0.0&quot;,
+      &quot;inkscape:pagecheckerboard&quot;: &quot;0&quot;,
+      &quot;inkscape:deskcolor&quot;: &quot;#d1d1d1&quot;,
+      &quot;showgrid&quot;: &quot;true&quot;,
+      &quot;inkscape:zoom&quot;: &quot;8.5520833&quot;,
+      &quot;inkscape:cx&quot;: &quot;27.712546&quot;,
+      &quot;inkscape:cy&quot;: &quot;0.99390986&quot;,
+      &quot;inkscape:window-width&quot;: &quot;1920&quot;,
+      &quot;inkscape:window-height&quot;: &quot;1017&quot;,
+      &quot;inkscape:window-x&quot;: &quot;1912&quot;,
+      &quot;inkscape:window-y&quot;: &quot;-8&quot;,
+      &quot;inkscape:window-maximized&quot;: &quot;1&quot;,
+      &quot;inkscape:current-layer&quot;: &quot;svg1&quot;
+    }
+  ],
+  [
+    &quot;circle&quot;,
+    {
+      &quot;style&quot;: &quot;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:1.94;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1&quot;,
+      &quot;id&quot;: &quot;path2&quot;,
+      &quot;cx&quot;: &quot;10.035575&quot;,
+      &quot;cy&quot;: &quot;8.0718689&quot;,
+      &quot;r&quot;: &quot;1.0025241&quot;
+    }
+  ],
+  [
+    &quot;circle&quot;,
+    {
+      &quot;style&quot;: &quot;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:1.94;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1&quot;,
+      &quot;id&quot;: &quot;path2-4&quot;,
+      &quot;cx&quot;: &quot;16.984138&quot;,
+      &quot;cy&quot;: &quot;16.00481&quot;,
+      &quot;r&quot;: &quot;1.0025241&quot;
+    }
+  ],
+  [
+    &quot;circle&quot;,
+    {
+      &quot;style&quot;: &quot;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:3.92;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1&quot;,
+      &quot;id&quot;: &quot;path2-4-3&quot;,
+      &quot;cx&quot;: &quot;9.0304937&quot;,
+      &quot;cy&quot;: &quot;14.04059&quot;,
+      &quot;r&quot;: &quot;2.0257189&quot;
+    }
+  ],
+  [
+    &quot;circle&quot;,
+    {
+      &quot;style&quot;: &quot;fill:currentColor;fill-opacity:1;stroke:none;stroke-width:2.87348;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1&quot;,
+      &quot;id&quot;: &quot;path2-4-3-2&quot;,
+      &quot;cx&quot;: &quot;14.527581&quot;,
+      &quot;cy&quot;: &quot;9.517087&quot;,
+      &quot;r&quot;: &quot;1.484915&quot;
+    }
+  ],
+  [
+    &quot;path&quot;,
+    {
+      &quot;style&quot;: &quot;fill:none;fill-opacity:1;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1&quot;,
+      &quot;d&quot;: &quot;M 11.684527,20.026865 C 11.301343,21.630019 9.6150113,22.221909 8.3770486,21.819787 6.1548039,21.097944 7.363566,18.452544 6.5006077,18.842611 4.8270913,19.599062 2.6773772,19.313454 2.0843602,17.179231 1.5607712,15.294875 4.161141,14.271256 3.9512068,13.907625 3.0836122,12.404851 2.3183857,12.054696 2.766424,10.751113 3.4664218,8.7144452 7.0180901,10.293384 6.3349436,8.6569423 5.7596591,7.2788778 4.5773907,4.5297083 8.4884899,4.6056662 c 0.6888946,0.013379 0.071459,-2.4996019 2.9000791,-2.5685057 1.396983,-0.034029 2.881531,-0.096697 3.5279,2.2611219 0.17746,0.6473383 2.524073,-0.052082 2.591119,1.2479843 0.131459,2.5490502 2.235892,0.588414 2.510919,2.7678719 0.207004,1.6404075 -1.380677,1.7145784 -1.18357,3.7627994 0.129733,1.34812 2.264201,1.096693 2.921513,2.67731 0.823892,1.981185 -1.289075,2.531871 -1.29412,3.333108 -0.0075,1.186446 -1.032843,2.562564 -2.429641,2.660705 -1.059843,0.07447 -2.639848,0.257201 -3.619027,0.174911 -1.318033,-0.110767 -2.729135,-1.562742 -2.729135,-0.896104 z&quot;,
+      &quot;id&quot;: &quot;path3&quot;,
+      &quot;sodipodi:nodetypes&quot;: &quot;sssssssssssssssssss&quot;
+    }
+  ]
+]</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+    <h3>/home/runner/work/onconova/onconova/client/src/app/features/forms/tumor-marker-form/tumor-marker-form.component.ts</h3>
+    <section data-compodoc="block-properties">
+    <h3></h3>    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="valueTypeMap"></a>
+                    <span class="name">
+                        <span ><b>valueTypeMap</b></span>
+                        <a href="#valueTypeMap"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+  immuneCellScore: AnalyteResultType.ImmuneCellsScore,
+  tumorProportionScore: AnalyteResultType.TumorProportionScore,
+  combinedPositiveScore: AnalyteResultType.CombinedPositiveScore,
+  massConcentration: AnalyteResultType.MassConcentration,
+  substanceConcentration: AnalyteResultType.SubstanceConcentration,
+  arbitraryConcentration: AnalyteResultType.ArbitraryConcentration,
+  fraction: AnalyteResultType.Fraction,
+  immunohistochemicalScore: AnalyteResultType.ImmunoHistoChemicalScore,
+  presence: AnalyteResultType.Presence,
+  nuclearExpressionStatus: AnalyteResultType.NuclearExpressionStatus,
+}</code>
+                    </td>
+                </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'miscellaneous-variables';
+            var COMPODOC_CURRENT_PAGE_URL = 'variables.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

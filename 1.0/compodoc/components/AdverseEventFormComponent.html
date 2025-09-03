@@ -1,0 +1,3171 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Application documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+        <link rel="stylesheet" href="../styles/material.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Application documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  AdverseEventFormComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>/home/runner/work/onconova/onconova/client/src/app/features/forms/adverse-event-form/adverse-event-form.component.ts</code>
+</p>
+
+
+
+    <p class="comment">
+        <h3>Extends</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="../components/AbstractFormBase.html" target="_self" >AbstractFormBase</a></code>
+    </p>
+
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>adverse-event-form</code></td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                            <code>CommonModule</code>
+                            <code>ReactiveFormsModule</code>
+                            <code>FormsModule</code>
+                            <code>SelectModule</code>
+                            <code>MultiSelectModule</code>
+                            <code>RadioButton</code>
+                                <code><a href="../components/DatePickerComponent.html" target="_self" >DatePickerComponent</a></code>
+                            <code>Fluid</code>
+                                <code><a href="../interfaces/Field.html" target="_self" >Fieldset</a></code>
+                            <code>InputMaskModule</code>
+                            <code>ButtonModule</code>
+                            <code>getEventGradesPipe</code>
+                                <code><a href="../components/ConceptSelectorComponent.html" target="_self" >ConceptSelectorComponent</a></code>
+                                <code><a href="../components/RadioSelectComponent.html" target="_self" >RadioSelectComponent</a></code>
+                                <code><a href="../components/FormControlErrorComponent.html" target="_self" >FormControlErrorComponent</a></code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./adverse-event-form.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                    <span class="modifier">Private</span>
+                                <a href="##adverseEventsService" >#adverseEventsService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="##deletedMitigations" >#deletedMitigations</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="##deletedSuspectedCauses" >#deletedSuspectedCauses</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                    <span class="modifier">Private</span>
+                                <a href="##fb" >#fb</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="##mitigationForm" >#mitigationForm</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                    <span class="modifier">Private</span>
+                                <a href="##onInitialDataChangeEffect" >#onInitialDataChangeEffect</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                    <span class="modifier">Private</span>
+                                <a href="##radiotherapiesService" >#radiotherapiesService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                    <span class="modifier">Private</span>
+                                <a href="##surgeriesService" >#surgeriesService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="##suspectedCauseForm" >#suspectedCauseForm</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="##suspectedMedicationsIds" >#suspectedMedicationsIds</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="##suspectedRadiotherapiesIds" >#suspectedRadiotherapiesIds</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="##suspectedSurgeriesIds" >#suspectedSurgeriesIds</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="##suspectedSystemicTherapiesIds" >#suspectedSystemicTherapiesIds</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                    <span class="modifier">Private</span>
+                                <a href="##systemicTherapiesService" >#systemicTherapiesService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#AdverseEventMitigationCategoryChoices" >AdverseEventMitigationCategoryChoices</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#AdverseEventOutcomeChoices" >AdverseEventOutcomeChoices</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#AdverseEventSuspectedCauseCausalityChoices" >AdverseEventSuspectedCauseCausalityChoices</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#causalityChoices" >causalityChoices</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#createService" >createService</a>
+                            </li>
+                            <li>
+                                <a href="#dateResolvedAfterDateValidator" >dateResolvedAfterDateValidator</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#form" >form</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#initialData" >initialData</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#mitigationCategoryChoices" >mitigationCategoryChoices</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#outcomeChoices" >outcomeChoices</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#payload" >payload</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#relatedSuspectedCauses" >relatedSuspectedCauses</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                <a href="#subformsServices" >subformsServices</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#updateService" >updateService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="##dynamicDialogRef" >#dynamicDialogRef</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="##messageService" >#messageService</a>
+                            </li>
+                            <li>
+                                <a href="#caseId" >caseId</a>
+                            </li>
+                            <li>
+                                <a href="#isSaving" >isSaving</a>
+                            </li>
+                            <li>
+                                <a href="#resourceId" >resourceId</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="##isRadiotherapy" >#isRadiotherapy</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="##isSurgery" >#isSurgery</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="##isSystemicTherapy" >#isSystemicTherapy</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="##isSystemicTherapyMedication" >#isSystemicTherapyMedication</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#addMitigation" >addMitigation</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#addSuspectedCause" >addSuspectedCause</a>
+                            </li>
+                            <li>
+                                <a href="#getdeletedMitigations" >getdeletedMitigations</a>
+                            </li>
+                            <li>
+                                <a href="#getdeletedSuspectedCauses" >getdeletedSuspectedCauses</a>
+                            </li>
+                            <li>
+                                <a href="#mitigationsPayloads" >mitigationsPayloads</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#removeMitigation" >removeMitigation</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#removeSuspectedCause" >removeSuspectedCause</a>
+                            </li>
+                            <li>
+                                <a href="#suspectedCausesPayloads" >suspectedCausesPayloads</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Abstract</span>
+                                <a href="#createService" >createService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Abstract</span>
+                                <a href="#payload" >payload</a>
+                            </li>
+                            <li>
+                                <a href="#submitFormData" >submitFormData</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Abstract</span>
+                                <a href="#updateService" >updateService</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#initialData" >initialData</a>
+                            </li>
+                            <li>
+                                <a href="#caseId" >caseId</a>
+                            </li>
+                            <li>
+                                <a href="#resourceId" >resourceId</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+    <section data-compodoc="block-inputs">
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="initialData"></a>
+                        <b>initialData</b>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4" colspan="2">
+                                    <div class="io-line">Inherited from         <code><a href="../components/AbstractFormBase.html" target="_self" >AbstractFormBase</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in         <code><a href="../components/AbstractFormBase.html#source" target="_self" >AbstractFormBase:92</a></code>
+</div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="caseId"></a>
+                        <b>caseId</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>InputSignal&lt;string&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Required : </i>&nbsp;<b>true</b>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4" colspan="2">
+                                    <div class="io-line">Inherited from         <code><a href="../components/AbstractFormBase.html" target="_self" >AbstractFormBase</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in         <code><a href="../components/AbstractFormBase.html#source" target="_self" >AbstractFormBase:26</a></code>
+</div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="resourceId"></a>
+                        <b>resourceId</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>InputSignal&lt;string | undefined&gt;</code>
+
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4" colspan="2">
+                                    <div class="io-line">Inherited from         <code><a href="../components/AbstractFormBase.html" target="_self" >AbstractFormBase</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in         <code><a href="../components/AbstractFormBase.html#source" target="_self" >AbstractFormBase:27</a></code>
+</div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#isRadiotherapy"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>#isRadiotherapy</b></span>
+                        <a href="##isRadiotherapy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>#isRadiotherapy(obj: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="338"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/adverse-event-form/adverse-event-form.component.ts:338</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>obj</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Radiotherapy</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#isSurgery"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>#isSurgery</b></span>
+                        <a href="##isSurgery"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>#isSurgery(obj: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="334"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/adverse-event-form/adverse-event-form.component.ts:334</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>obj</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>Surgery</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#isSystemicTherapy"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>#isSystemicTherapy</b></span>
+                        <a href="##isSystemicTherapy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>#isSystemicTherapy(obj: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="326"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/adverse-event-form/adverse-event-form.component.ts:326</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>obj</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>SystemicTherapy</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#isSystemicTherapyMedication"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>#isSystemicTherapyMedication</b></span>
+                        <a href="##isSystemicTherapyMedication"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>#isSystemicTherapyMedication(obj: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="330"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/adverse-event-form/adverse-event-form.component.ts:330</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>obj</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>SystemicTherapyMedication</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addMitigation"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>addMitigation</b></span>
+                        <a href="#addMitigation"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>addMitigation()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="290"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/adverse-event-form/adverse-event-form.component.ts:290</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addSuspectedCause"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>addSuspectedCause</b></span>
+                        <a href="#addSuspectedCause"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>addSuspectedCause()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="285"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/adverse-event-form/adverse-event-form.component.ts:285</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getdeletedMitigations"></a>
+                    <span class="name">
+                        <span ><b>getdeletedMitigations</b></span>
+                        <a href="#getdeletedMitigations"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getdeletedMitigations()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="317"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/adverse-event-form/adverse-event-form.component.ts:317</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>string[]</code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getdeletedSuspectedCauses"></a>
+                    <span class="name">
+                        <span ><b>getdeletedSuspectedCauses</b></span>
+                        <a href="#getdeletedSuspectedCauses"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getdeletedSuspectedCauses()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="313"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/adverse-event-form/adverse-event-form.component.ts:313</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>string[]</code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mitigationsPayloads"></a>
+                    <span class="name">
+                        <span ><b>mitigationsPayloads</b></span>
+                        <a href="#mitigationsPayloads"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>mitigationsPayloads()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="229"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/adverse-event-form/adverse-event-form.component.ts:229</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../miscellaneous/variables.html#AdverseEvent" target="_self" >AdverseEventMitigationCreate[]</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="removeMitigation"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>removeMitigation</b></span>
+                        <a href="#removeMitigation"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>removeMitigation(index: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="304"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/adverse-event-form/adverse-event-form.component.ts:304</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>index</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="removeSuspectedCause"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>removeSuspectedCause</b></span>
+                        <a href="#removeSuspectedCause"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>removeSuspectedCause(index: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="295"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/adverse-event-form/adverse-event-form.component.ts:295</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>index</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="suspectedCausesPayloads"></a>
+                    <span class="name">
+                        <span ><b>suspectedCausesPayloads</b></span>
+                        <a href="#suspectedCausesPayloads"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>suspectedCausesPayloads()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="218"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/adverse-event-form/adverse-event-form.component.ts:218</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../miscellaneous/variables.html#AdverseEvent" target="_self" >AdverseEventSuspectedCauseCreate[]</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="createService"></a>
+                    <span class="name">
+                            <span class="modifier">Abstract</span>
+                        <span ><b>createService</b></span>
+                        <a href="#createService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>createService(payload: <a href="../interfaces/ResourceCreate.html" target="_self">ResourceCreate</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/AbstractFormBase.html" target="_self" >AbstractFormBase</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/AbstractFormBase.html#source" target="_self" >AbstractFormBase:39</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>payload</td>
+                                            <td>
+                                                            <code><a href="../interfaces/ResourceCreate.html" target="_self" >ResourceCreate</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="payload"></a>
+                    <span class="name">
+                            <span class="modifier">Abstract</span>
+                        <span ><b>payload</b></span>
+                        <a href="#payload"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>payload(data?: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/AbstractFormBase.html" target="_self" >AbstractFormBase</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/AbstractFormBase.html#source" target="_self" >AbstractFormBase:41</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>data</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="submitFormData"></a>
+                    <span class="name">
+                        <span ><b>submitFormData</b></span>
+                        <a href="#submitFormData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>submitFormData()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/AbstractFormBase.html" target="_self" >AbstractFormBase</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/AbstractFormBase.html#source" target="_self" >AbstractFormBase:43</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateService"></a>
+                    <span class="name">
+                            <span class="modifier">Abstract</span>
+                        <span ><b>updateService</b></span>
+                        <a href="#updateService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>updateService(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, payload: <a href="../interfaces/ResourceCreate.html" target="_self">ResourceCreate</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Inherited from         <code><a href="../components/AbstractFormBase.html" target="_self" >AbstractFormBase</a></code>
+</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/AbstractFormBase.html#source" target="_self" >AbstractFormBase:40</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>id</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>payload</td>
+                                            <td>
+                                                            <code><a href="../interfaces/ResourceCreate.html" target="_self" >ResourceCreate</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#adverseEventsService"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                            <span class="modifier">Private</span>
+                        <span ><b>#adverseEventsService</b></span>
+                        <a href="##adverseEventsService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../miscellaneous/variables.html#AdverseEvent" target="_self" >AdverseEventsService</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(AdverseEventsService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="98" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/adverse-event-form/adverse-event-form.component.ts:98</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#deletedMitigations"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>#deletedMitigations</b></span>
+                        <a href="##deletedMitigations"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>string[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="122" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/adverse-event-form/adverse-event-form.component.ts:122</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#deletedSuspectedCauses"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>#deletedSuspectedCauses</b></span>
+                        <a href="##deletedSuspectedCauses"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>string[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="123" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/adverse-event-form/adverse-event-form.component.ts:123</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#fb"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                            <span class="modifier">Private</span>
+                        <span ><b>#fb</b></span>
+                        <a href="##fb"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(FormBuilder)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="99" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/adverse-event-form/adverse-event-form.component.ts:99</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#mitigationForm"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>#mitigationForm</b></span>
+                        <a href="##mitigationForm"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>() &#x3D;&gt; {...}</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="185" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/adverse-event-form/adverse-event-form.component.ts:185</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#onInitialDataChangeEffect"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                            <span class="modifier">Private</span>
+                        <span ><b>#onInitialDataChangeEffect</b></span>
+                        <a href="##onInitialDataChangeEffect"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>effect((): void &#x3D;&gt; {
+        const data &#x3D; this.initialData();
+        if (!data) return;       
+        this.form.patchValue({
+            date: data.date ?? null,
+            event: data.event || null,
+            grade: data.grade ?? null,
+            outcome: data.outcome ?? null,
+            dateResolved: data.dateResolved ?? null,
+        });
+        (data.suspectedCauses || []).forEach((initialData: AdverseEventSuspectedCause) &#x3D;&gt;
+            this.form.controls.suspectedCauses.push(this.#suspectedCauseForm(initialData))
+        );
+        (data.mitigations || []).forEach((initialData: AdverseEventMitigation) &#x3D;&gt;
+            this.form.controls.mitigations.push(this.#mitigationForm(initialData))
+        );
+    })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="148" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/adverse-event-form/adverse-event-form.component.ts:148</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#radiotherapiesService"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                            <span class="modifier">Private</span>
+                        <span ><b>#radiotherapiesService</b></span>
+                        <a href="##radiotherapiesService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>RadiotherapiesService</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(RadiotherapiesService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="96" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/adverse-event-form/adverse-event-form.component.ts:96</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#surgeriesService"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                            <span class="modifier">Private</span>
+                        <span ><b>#surgeriesService</b></span>
+                        <a href="##surgeriesService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>SurgeriesService</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(SurgeriesService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="97" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/adverse-event-form/adverse-event-form.component.ts:97</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#suspectedCauseForm"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>#suspectedCauseForm</b></span>
+                        <a href="##suspectedCauseForm"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>() &#x3D;&gt; {...}</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="167" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/adverse-event-form/adverse-event-form.component.ts:167</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#suspectedMedicationsIds"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>#suspectedMedicationsIds</b></span>
+                        <a href="##suspectedMedicationsIds"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed( () &#x3D;&gt; this.relatedSuspectedCauses.value()!.filter((entry) &#x3D;&gt; this.#isSystemicTherapyMedication(entry))?.map((entry) &#x3D;&gt; entry.id))</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="323" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/adverse-event-form/adverse-event-form.component.ts:323</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#suspectedRadiotherapiesIds"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>#suspectedRadiotherapiesIds</b></span>
+                        <a href="##suspectedRadiotherapiesIds"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed( () &#x3D;&gt; this.relatedSuspectedCauses.value()!.filter((entry) &#x3D;&gt; this.#isRadiotherapy(entry))?.map((entry) &#x3D;&gt; entry.id))</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="325" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/adverse-event-form/adverse-event-form.component.ts:325</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#suspectedSurgeriesIds"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>#suspectedSurgeriesIds</b></span>
+                        <a href="##suspectedSurgeriesIds"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed( () &#x3D;&gt; this.relatedSuspectedCauses.value()!.filter((entry) &#x3D;&gt; this.#isSurgery(entry))?.map((entry) &#x3D;&gt; entry.id))</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="324" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/adverse-event-form/adverse-event-form.component.ts:324</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#suspectedSystemicTherapiesIds"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>#suspectedSystemicTherapiesIds</b></span>
+                        <a href="##suspectedSystemicTherapiesIds"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed( () &#x3D;&gt; this.relatedSuspectedCauses.value()!.filter((entry) &#x3D;&gt; this.#isSystemicTherapy(entry))?.map((entry) &#x3D;&gt; entry.id))</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="322" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/adverse-event-form/adverse-event-form.component.ts:322</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#systemicTherapiesService"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                            <span class="modifier">Private</span>
+                        <span ><b>#systemicTherapiesService</b></span>
+                        <a href="##systemicTherapiesService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>SystemicTherapiesService</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(SystemicTherapiesService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="95" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/adverse-event-form/adverse-event-form.component.ts:95</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="AdverseEventMitigationCategoryChoices"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>AdverseEventMitigationCategoryChoices</b></span>
+                        <a href="#AdverseEventMitigationCategoryChoices"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>AdverseEventMitigationCategoryChoices</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="278" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/adverse-event-form/adverse-event-form.component.ts:278</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="AdverseEventOutcomeChoices"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>AdverseEventOutcomeChoices</b></span>
+                        <a href="#AdverseEventOutcomeChoices"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>AdverseEventOutcomeChoices</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="258" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/adverse-event-form/adverse-event-form.component.ts:258</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="AdverseEventSuspectedCauseCausalityChoices"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>AdverseEventSuspectedCauseCausalityChoices</b></span>
+                        <a href="#AdverseEventSuspectedCauseCausalityChoices"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>AdverseEventSuspectedCauseCausalityChoices</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="268" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/adverse-event-form/adverse-event-form.component.ts:268</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="causalityChoices"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>causalityChoices</b></span>
+                        <a href="#causalityChoices"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>RadioChoice[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+        {name: &#x27;Definitely related&#x27;, value: AdverseEventSuspectedCauseCausalityChoices.DefinitelyRelated},
+        {name: &#x27;Probably related&#x27;, value: AdverseEventSuspectedCauseCausalityChoices.ProbablyRelated},
+        {name: &#x27;Possibly related&#x27;, value: AdverseEventSuspectedCauseCausalityChoices.PossiblyRelated},
+        {name: &#x27;Unrelated&#x27;, value: AdverseEventSuspectedCauseCausalityChoices.Unrelated},
+        {name: &#x27;Unlikely related&#x27;, value: AdverseEventSuspectedCauseCausalityChoices.UnlikelyRelated},
+        {name: &#x27;Conditionally related&#x27;, value: AdverseEventSuspectedCauseCausalityChoices.ConditionallyRelated},
+    ]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="269" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/adverse-event-form/adverse-event-form.component.ts:269</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="createService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>createService</b></span>
+                        <a href="#createService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>() &#x3D;&gt; {...}</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="102" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/adverse-event-form/adverse-event-form.component.ts:102</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="dateResolvedAfterDateValidator"></a>
+                    <span class="name">
+                        <span ><b>dateResolvedAfterDateValidator</b></span>
+                        <a href="#dateResolvedAfterDateValidator"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ValidatorFn</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>() &#x3D;&gt; {...}</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="126" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/adverse-event-form/adverse-event-form.component.ts:126</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="form"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>form</b></span>
+                        <a href="#form"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.#fb.group({
+        date: this.#fb.control&lt;string | null&gt;(null, Validators.required),
+        event: this.#fb.control&lt;CodedConcept | null&gt;(null, Validators.required),
+        grade: this.#fb.control&lt;number | null&gt;(null, Validators.required),
+        outcome: this.#fb.control&lt;AdverseEventOutcomeChoices | null&gt;(null, Validators.required),
+        dateResolved: this.#fb.control&lt;string | null&gt;(null),
+        suspectedCauses: this.#fb.array&lt;FormGroup&gt;([]),
+        mitigations: this.#fb.array&lt;FormGroup&gt;([]),
+      }, {
+        validators: [this.dateResolvedAfterDateValidator]
+    })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="136" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/adverse-event-form/adverse-event-form.component.ts:136</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initialData"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>initialData</b></span>
+                        <a href="#initialData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/AbstractFormBase.html" target="_self" >AbstractFormBase</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/AbstractFormBase.html#source" target="_self" >AbstractFormBase:92</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mitigationCategoryChoices"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>mitigationCategoryChoices</b></span>
+                        <a href="#mitigationCategoryChoices"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>RadioChoice[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+        {name: &#x27;Adjustment of the systemic anti-neoplastic treatment&#x27;, value: AdverseEventMitigationCategoryChoices.Adjustment},
+        {name: &#x27;Pharmacological treatment of the adverse event&#x27;, value: AdverseEventMitigationCategoryChoices.Pharmacological},
+        {name: &#x27;Non-pharmacological treatment of the adverse event&#x27;, value: AdverseEventMitigationCategoryChoices.Procedure},
+    ]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="279" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/adverse-event-form/adverse-event-form.component.ts:279</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="outcomeChoices"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>outcomeChoices</b></span>
+                        <a href="#outcomeChoices"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>RadioChoice[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+        {name: &#x27;Resolved&#x27;, value: AdverseEventOutcomeChoices.Resolved},
+        {name: &#x27;Resolved with sequelae&#x27;, value: AdverseEventOutcomeChoices.ResolvedWithSequelae},
+        {name: &#x27;Ongoing&#x27;, value: AdverseEventOutcomeChoices.Ongoing},
+        {name: &#x27;Recovering&#x27;, value: AdverseEventOutcomeChoices.Recovering},
+        {name: &#x27;Fatal&#x27;, value: AdverseEventOutcomeChoices.Fatal},
+        {name: &#x27;Unknown&#x27;, value: AdverseEventOutcomeChoices.Unknown},
+    ]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="259" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/adverse-event-form/adverse-event-form.component.ts:259</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="payload"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>payload</b></span>
+                        <a href="#payload"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>() &#x3D;&gt; {...}</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="207" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/adverse-event-form/adverse-event-form.component.ts:207</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="relatedSuspectedCauses"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>relatedSuspectedCauses</b></span>
+                        <a href="#relatedSuspectedCauses"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>rxResource({
+        request: () &#x3D;&gt; ({caseId: this.caseId()}),
+        loader: ({request}) &#x3D;&gt; forkJoin([
+            this.#systemicTherapiesService.getSystemicTherapies(request).pipe(map((response) &#x3D;&gt; response.items)),
+            this.#systemicTherapiesService.getSystemicTherapies(request).pipe(map((response) &#x3D;&gt; response.items.flatMap(therapy &#x3D;&gt; {
+                return therapy.medications
+        }))),
+            this.#radiotherapiesService.getRadiotherapies(request).pipe(map((response) &#x3D;&gt; response.items)),
+            this.#surgeriesService.getSurgeries(request).pipe(map((response) &#x3D;&gt; response.items)),
+        ]).pipe(
+            map(([systemicTherapies, medications, radiotherapies, surgeries]) &#x3D;&gt; {
+                return [...systemicTherapies, ...medications,...radiotherapies, ...surgeries];
+            })
+        )
+    })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="242" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/adverse-event-form/adverse-event-form.component.ts:242</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="subformsServices"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                        <span ><b>subformsServices</b></span>
+                        <a href="#subformsServices"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+        {
+            payloads: this.suspectedCausesPayloads.bind(this),
+            deletedEntries: this.getdeletedSuspectedCauses.bind(this),
+            delete: (parentId: string, id: string) &#x3D;&gt; this.#adverseEventsService.deleteAdverseEventSuspectedCause({adverseEventId: parentId, causeId: id}),
+            create: (parentId: string, payload: AdverseEventSuspectedCauseCreate) &#x3D;&gt; this.#adverseEventsService.createAdverseEventSuspectedCause({adverseEventId: parentId, adverseEventSuspectedCauseCreate: payload}),
+            update: (parentId: string, id: string, payload: AdverseEventSuspectedCauseCreate) &#x3D;&gt; this.#adverseEventsService.updateAdverseEventSuspectedCause({adverseEventId: parentId, causeId: id, adverseEventSuspectedCauseCreate: payload}),
+        },
+        {
+            payloads: this.mitigationsPayloads.bind(this),
+            deletedEntries: this.getdeletedMitigations.bind(this),
+            delete: (parentId: string, id: string) &#x3D;&gt; this.#adverseEventsService.deleteAdverseEventMitigation({adverseEventId: parentId, mitigationId: id}),
+            create: (parentId: string, payload: AdverseEventMitigationCreate) &#x3D;&gt; this.#adverseEventsService.createAdverseEventMitigation({adverseEventId: parentId, adverseEventMitigationCreate: payload}),
+            update: (parentId: string, id: string, payload: AdverseEventMitigationCreate) &#x3D;&gt; this.#adverseEventsService.updateAdverseEventMitigation({adverseEventId: parentId, mitigationId: id, adverseEventMitigationCreate: payload}),
+        },
+    ]</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/AbstractFormBase.html" target="_self" >AbstractFormBase</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/AbstractFormBase.html#source" target="_self" >AbstractFormBase:106</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>updateService</b></span>
+                        <a href="#updateService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>() &#x3D;&gt; {...}</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="103" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/adverse-event-form/adverse-event-form.component.ts:103</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#dynamicDialogRef"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>#dynamicDialogRef</b></span>
+                        <a href="##dynamicDialogRef"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(DynamicDialogRef)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/AbstractFormBase.html" target="_self" >AbstractFormBase</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/AbstractFormBase.html#source" target="_self" >AbstractFormBase:23</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#messageService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>#messageService</b></span>
+                        <a href="##messageService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(MessageService)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/AbstractFormBase.html" target="_self" >AbstractFormBase</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/AbstractFormBase.html#source" target="_self" >AbstractFormBase:24</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="caseId"></a>
+                    <span class="name">
+                        <span ><b>caseId</b></span>
+                        <a href="#caseId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>InputSignal&lt;string&gt;</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/AbstractFormBase.html" target="_self" >AbstractFormBase</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/AbstractFormBase.html#source" target="_self" >AbstractFormBase:26</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isSaving"></a>
+                    <span class="name">
+                        <span ><b>isSaving</b></span>
+                        <a href="#isSaving"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>WritableSignal&lt;boolean&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/AbstractFormBase.html" target="_self" >AbstractFormBase</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/AbstractFormBase.html#source" target="_self" >AbstractFormBase:28</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="resourceId"></a>
+                    <span class="name">
+                        <span ><b>resourceId</b></span>
+                        <a href="#resourceId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>InputSignal&lt;string | undefined&gt;</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../components/AbstractFormBase.html" target="_self" >AbstractFormBase</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../components/AbstractFormBase.html#source" target="_self" >AbstractFormBase:27</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, computed, effect, inject, input, Pipe, PipeTransform} from &#x27;@angular/core&#x27;;
+import { FormBuilder, Validators, FormArray, FormGroup, ValidatorFn, ValidationErrors, AbstractControl } from &#x27;@angular/forms&#x27;;
+import { FormsModule, ReactiveFormsModule } from &#x27;@angular/forms&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+import { forkJoin, map } from &#x27;rxjs&#x27;;
+
+import { Fieldset } from &#x27;primeng/fieldset&#x27;;
+import { ButtonModule } from &#x27;primeng/button&#x27;;
+import { Fluid } from &#x27;primeng/fluid&#x27;;
+import { SelectModule } from &#x27;primeng/select&#x27;;
+import { MultiSelectModule } from &#x27;primeng/multiselect&#x27;;
+import { InputMaskModule } from &#x27;primeng/inputmask&#x27;;
+import { RadioButton } from &#x27;primeng/radiobutton&#x27;;
+
+
+import { 
+    CodedConcept,
+    SystemicTherapiesService,
+    RadiotherapiesService,
+    SurgeriesService,
+    AdverseEventOutcomeChoices,
+    AdverseEventSuspectedCauseCausalityChoices,
+    AdverseEventMitigationCategoryChoices,
+    AdverseEventsService,
+    AdverseEvent,
+    AdverseEventCreate,
+    AdverseEventSuspectedCauseCreate,
+    AdverseEventSuspectedCause,
+    AdverseEventMitigation,
+    AdverseEventMitigationCreate,
+    SystemicTherapy,
+    SystemicTherapyMedication,
+    Surgery,
+    Radiotherapy,
+} from &#x27;onconova-api-client&#x27;
+
+import { 
+  ConceptSelectorComponent, 
+  DatePickerComponent,
+  FormControlErrorComponent,
+  RadioChoice,
+  RadioSelectComponent
+} from &#x27;../../../shared/components&#x27;;
+import { AbstractFormBase } from &#x27;../abstract-form-base.component&#x27;;
+import { rxResource } from &#x27;@angular/core/rxjs-interop&#x27;;
+
+@Pipe({
+    standalone: true,
+    name: &#x27;getEventGrades&#x27;
+  })
+export class getEventGradesPipe implements PipeTransform {
+  
+    transform(concept: CodedConcept | null) {
+        if (!concept) return [];
+        const grades &#x3D; Array.from({length: 5}, (_, i) &#x3D;&gt; i+1);
+        let gradeChoices &#x3D; grades.map((grade: number) &#x3D;&gt; {
+            const properties &#x3D; concept.properties as { [key: string]: any };
+            return {
+                grade: grade,
+                description: properties[&#x60;grade${grade}&#x60;].trim(),                
+            }
+        })
+        return gradeChoices.filter((choice) &#x3D;&gt; choice.description !&#x3D;&#x3D; &#x27;-&#x27;)
+    }
+}
+
+
+@Component({
+    selector: &#x27;adverse-event-form&#x27;,
+    templateUrl: &#x27;./adverse-event-form.component.html&#x27;,
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        FormsModule,
+        SelectModule,
+        MultiSelectModule,
+        RadioButton,
+        DatePickerComponent,
+        Fluid,
+        Fieldset,
+        InputMaskModule,
+        ButtonModule,
+        getEventGradesPipe,
+        ConceptSelectorComponent,
+        RadioSelectComponent,
+        FormControlErrorComponent,
+    ]
+})
+export class AdverseEventFormComponent extends AbstractFormBase {
+
+    // Input signal for initial data passed to the form
+    public initialData &#x3D; input&lt;AdverseEvent&gt;();
+
+    // Service injections
+    readonly #systemicTherapiesService: SystemicTherapiesService &#x3D; inject(SystemicTherapiesService);
+    readonly #radiotherapiesService: RadiotherapiesService &#x3D; inject(RadiotherapiesService);
+    readonly #surgeriesService: SurgeriesService &#x3D; inject(SurgeriesService);
+    readonly #adverseEventsService: AdverseEventsService &#x3D; inject(AdverseEventsService);
+    readonly #fb &#x3D; inject(FormBuilder);
+
+    // Create and update service methods for the form data
+    public readonly createService &#x3D; (payload: AdverseEventCreate) &#x3D;&gt; this.#adverseEventsService.createAdverseEvent({adverseEventCreate: payload});
+    public readonly updateService &#x3D; (id: string, payload: AdverseEventCreate) &#x3D;&gt; this.#adverseEventsService.updateAdverseEvent({adverseEventId: id, adverseEventCreate: payload});
+
+    // Services to create/update/delete related resources with data in subforms
+    override subformsServices &#x3D; [
+        {
+            payloads: this.suspectedCausesPayloads.bind(this),
+            deletedEntries: this.getdeletedSuspectedCauses.bind(this),
+            delete: (parentId: string, id: string) &#x3D;&gt; this.#adverseEventsService.deleteAdverseEventSuspectedCause({adverseEventId: parentId, causeId: id}),
+            create: (parentId: string, payload: AdverseEventSuspectedCauseCreate) &#x3D;&gt; this.#adverseEventsService.createAdverseEventSuspectedCause({adverseEventId: parentId, adverseEventSuspectedCauseCreate: payload}),
+            update: (parentId: string, id: string, payload: AdverseEventSuspectedCauseCreate) &#x3D;&gt; this.#adverseEventsService.updateAdverseEventSuspectedCause({adverseEventId: parentId, causeId: id, adverseEventSuspectedCauseCreate: payload}),
+        },
+        {
+            payloads: this.mitigationsPayloads.bind(this),
+            deletedEntries: this.getdeletedMitigations.bind(this),
+            delete: (parentId: string, id: string) &#x3D;&gt; this.#adverseEventsService.deleteAdverseEventMitigation({adverseEventId: parentId, mitigationId: id}),
+            create: (parentId: string, payload: AdverseEventMitigationCreate) &#x3D;&gt; this.#adverseEventsService.createAdverseEventMitigation({adverseEventId: parentId, adverseEventMitigationCreate: payload}),
+            update: (parentId: string, id: string, payload: AdverseEventMitigationCreate) &#x3D;&gt; this.#adverseEventsService.updateAdverseEventMitigation({adverseEventId: parentId, mitigationId: id, adverseEventMitigationCreate: payload}),
+        },
+    ]
+    #deletedMitigations: string[] &#x3D; [];
+    #deletedSuspectedCauses: string[] &#x3D; [];
+
+
+    dateResolvedAfterDateValidator: ValidatorFn &#x3D; (control: AbstractControl&lt;any, any&gt;): ValidationErrors | null &#x3D;&gt; {
+        const date &#x3D; control.get(&#x27;date&#x27;)?.value;
+        const dateResolved &#x3D; control.get(&#x27;dateResolved&#x27;)?.value;
+        if (dateResolved &amp;&amp; date &amp;&amp; new Date(dateResolved) &lt; new Date(date)) {
+            return { dateResolvedAfterDate: true };
+        }
+        return null;
+    };
+
+    // Define the main form
+    public form &#x3D; this.#fb.group({
+        date: this.#fb.control&lt;string | null&gt;(null, Validators.required),
+        event: this.#fb.control&lt;CodedConcept | null&gt;(null, Validators.required),
+        grade: this.#fb.control&lt;number | null&gt;(null, Validators.required),
+        outcome: this.#fb.control&lt;AdverseEventOutcomeChoices | null&gt;(null, Validators.required),
+        dateResolved: this.#fb.control&lt;string | null&gt;(null),
+        suspectedCauses: this.#fb.array&lt;FormGroup&gt;([]),
+        mitigations: this.#fb.array&lt;FormGroup&gt;([]),
+      }, {
+        validators: [this.dateResolvedAfterDateValidator]
+    });
+
+    readonly #onInitialDataChangeEffect &#x3D; effect((): void &#x3D;&gt; {
+        const data &#x3D; this.initialData();
+        if (!data) return;       
+        this.form.patchValue({
+            date: data.date ?? null,
+            event: data.event || null,
+            grade: data.grade ?? null,
+            outcome: data.outcome ?? null,
+            dateResolved: data.dateResolved ?? null,
+        });
+        (data.suspectedCauses || []).forEach((initialData: AdverseEventSuspectedCause) &#x3D;&gt;
+            this.form.controls.suspectedCauses.push(this.#suspectedCauseForm(initialData))
+        );
+        (data.mitigations || []).forEach((initialData: AdverseEventMitigation) &#x3D;&gt;
+            this.form.controls.mitigations.push(this.#mitigationForm(initialData))
+        );
+    });
+
+    //Definition for the dynamic subform constructor
+    #suspectedCauseForm &#x3D; (initialData: AdverseEventSuspectedCause) &#x3D;&gt; this.#fb.group({
+        id: this.#fb.control&lt;string | null&gt;(
+            initialData?.id
+        ),
+        cause: this.#fb.control&lt;string | null&gt;(
+            initialData?.medicationId || 
+            initialData?.radiotherapyId || 
+            initialData?.surgeryId || 
+            initialData?.systemicTherapyId ||
+            null,
+            Validators.required
+        ),
+        causality: this.#fb.control&lt;AdverseEventSuspectedCauseCausalityChoices | null&gt;(
+            initialData?.causality ?? null,
+        )
+    })
+
+    //Definition for the dynamic subform constructor
+    #mitigationForm &#x3D; (initialData: AdverseEventMitigation) &#x3D;&gt; this.#fb.group({
+        id: this.#fb.control&lt;string | null&gt;(
+            initialData?.id,
+        ),
+        category: this.#fb.control&lt;string | null&gt;(
+            initialData?.category, Validators.required,
+        ),
+        adjustment: this.#fb.control&lt;CodedConcept | null&gt;(
+            initialData?.adjustment ?? null,
+        ),
+        drug: this.#fb.control&lt;CodedConcept | null&gt;(
+            initialData?.drug ?? null,
+        ),
+        procedure: this.#fb.control&lt;CodedConcept | null&gt;(
+            initialData?.procedure ?? null,
+        ),
+        management: this.#fb.control&lt;CodedConcept | null&gt;(
+            initialData?.management ??  null,
+        )
+    })
+
+    // API Payload construction function s
+    readonly payload &#x3D; (): AdverseEventCreate &#x3D;&gt; {    
+        const data &#x3D; this.form.getRawValue();
+        return {
+            caseId: this.caseId(),
+            date: data.date!,
+            event: data.event!,
+            grade: data.grade!,
+            outcome: data.outcome as AdverseEventOutcomeChoices,
+            dateResolved: (data.outcome &#x3D;&#x3D;&#x3D; AdverseEventOutcomeChoices.Resolved || data.outcome &#x3D;&#x3D;&#x3D; AdverseEventOutcomeChoices.ResolvedWithSequelae) ?  (data.dateResolved ?? undefined) : undefined,
+        }
+    }
+    suspectedCausesPayloads (): AdverseEventSuspectedCauseCreate[] {
+        const data &#x3D; this.form.controls[&#x27;suspectedCauses&#x27;].value;
+        return data.map((subformData: any) &#x3D;&gt; {return {
+            id: subformData.id,
+            causality: subformData.causality,            
+            medicationId: this.#suspectedMedicationsIds().includes(subformData.cause) ? subformData.cause : null,
+            radiotherapyId: this.#suspectedRadiotherapiesIds().includes(subformData.cause) ? subformData.cause : null,
+            surgeryId: this.#suspectedSurgeriesIds().includes(subformData.cause) ? subformData.cause : null,
+            systemicTherapyId: this.#suspectedSystemicTherapiesIds().includes(subformData.cause) ? subformData.cause : null,
+        }})
+    }
+    mitigationsPayloads(): AdverseEventMitigationCreate[] {
+        const data &#x3D; this.form.controls[&#x27;mitigations&#x27;].value;
+        return data.map((subformData: any) &#x3D;&gt; {return {
+            id: subformData.id,
+            category: subformData.category,
+            adjustment: subformData.category &#x3D;&#x3D;&#x3D; AdverseEventMitigationCategoryChoices.Adjustment ?  subformData.adjustment : null, 
+            drug: subformData.category &#x3D;&#x3D;&#x3D; AdverseEventMitigationCategoryChoices.Pharmacological ? subformData.drug : null, 
+            procedure: subformData.category &#x3D;&#x3D;&#x3D; AdverseEventMitigationCategoryChoices.Procedure ?  subformData.procedure : null, 
+            management: subformData.management, 
+        }})
+    }
+    
+    // All potiential suspected causes of the adverse event
+    public relatedSuspectedCauses &#x3D; rxResource({
+        request: () &#x3D;&gt; ({caseId: this.caseId()}),
+        loader: ({request}) &#x3D;&gt; forkJoin([
+            this.#systemicTherapiesService.getSystemicTherapies(request).pipe(map((response) &#x3D;&gt; response.items)),
+            this.#systemicTherapiesService.getSystemicTherapies(request).pipe(map((response) &#x3D;&gt; response.items.flatMap(therapy &#x3D;&gt; {
+                return therapy.medications
+        }))),
+            this.#radiotherapiesService.getRadiotherapies(request).pipe(map((response) &#x3D;&gt; response.items)),
+            this.#surgeriesService.getSurgeries(request).pipe(map((response) &#x3D;&gt; response.items)),
+        ]).pipe(
+            map(([systemicTherapies, medications, radiotherapies, surgeries]) &#x3D;&gt; {
+                return [...systemicTherapies, ...medications,...radiotherapies, ...surgeries];
+            })
+        )
+    })
+
+    public readonly AdverseEventOutcomeChoices &#x3D; AdverseEventOutcomeChoices;
+    public readonly outcomeChoices: RadioChoice[] &#x3D; [
+        {name: &#x27;Resolved&#x27;, value: AdverseEventOutcomeChoices.Resolved},
+        {name: &#x27;Resolved with sequelae&#x27;, value: AdverseEventOutcomeChoices.ResolvedWithSequelae},
+        {name: &#x27;Ongoing&#x27;, value: AdverseEventOutcomeChoices.Ongoing},
+        {name: &#x27;Recovering&#x27;, value: AdverseEventOutcomeChoices.Recovering},
+        {name: &#x27;Fatal&#x27;, value: AdverseEventOutcomeChoices.Fatal},
+        {name: &#x27;Unknown&#x27;, value: AdverseEventOutcomeChoices.Unknown},
+    ]
+
+    public readonly AdverseEventSuspectedCauseCausalityChoices &#x3D; AdverseEventSuspectedCauseCausalityChoices;
+    public readonly causalityChoices: RadioChoice[] &#x3D; [
+        {name: &#x27;Definitely related&#x27;, value: AdverseEventSuspectedCauseCausalityChoices.DefinitelyRelated},
+        {name: &#x27;Probably related&#x27;, value: AdverseEventSuspectedCauseCausalityChoices.ProbablyRelated},
+        {name: &#x27;Possibly related&#x27;, value: AdverseEventSuspectedCauseCausalityChoices.PossiblyRelated},
+        {name: &#x27;Unrelated&#x27;, value: AdverseEventSuspectedCauseCausalityChoices.Unrelated},
+        {name: &#x27;Unlikely related&#x27;, value: AdverseEventSuspectedCauseCausalityChoices.UnlikelyRelated},
+        {name: &#x27;Conditionally related&#x27;, value: AdverseEventSuspectedCauseCausalityChoices.ConditionallyRelated},
+    ]
+
+    public readonly AdverseEventMitigationCategoryChoices &#x3D; AdverseEventMitigationCategoryChoices;
+    public readonly mitigationCategoryChoices: RadioChoice[] &#x3D; [
+        {name: &#x27;Adjustment of the systemic anti-neoplastic treatment&#x27;, value: AdverseEventMitigationCategoryChoices.Adjustment},
+        {name: &#x27;Pharmacological treatment of the adverse event&#x27;, value: AdverseEventMitigationCategoryChoices.Pharmacological},
+        {name: &#x27;Non-pharmacological treatment of the adverse event&#x27;, value: AdverseEventMitigationCategoryChoices.Procedure},
+    ]
+
+    public addSuspectedCause() {
+        const suspectedCauses: FormArray &#x3D; this.form.controls[&#x27;suspectedCauses&#x27;]
+        suspectedCauses.push(this.#suspectedCauseForm({} as AdverseEventSuspectedCause));
+    }
+
+    public addMitigation() {
+        const mitigations: FormArray &#x3D; this.form.controls[&#x27;mitigations&#x27;]
+        mitigations.push(this.#mitigationForm({} as AdverseEventMitigation));
+    }
+
+    public removeSuspectedCause(index: number) {
+        const suspectedCauses: FormArray &#x3D; this.form.controls[&#x27;suspectedCauses&#x27;]
+        const settingValue &#x3D; suspectedCauses.value[index];
+        if (settingValue?.id) {
+            this.#deletedSuspectedCauses.push(settingValue.id);
+        }
+        suspectedCauses.removeAt(index);
+    }
+
+    public removeMitigation(index: number) {
+        const mitigations: FormArray &#x3D; this.form.controls[&#x27;mitigations&#x27;]
+        const settingValue &#x3D; mitigations.value[index];
+        if (settingValue?.id) {
+            this.#deletedMitigations.push(settingValue.id);
+        }
+        mitigations.removeAt(index);
+    }
+
+    getdeletedSuspectedCauses(): string[] {
+        return this.#deletedSuspectedCauses;
+    }
+
+    getdeletedMitigations(): string[] {
+        return this.#deletedMitigations;
+    }
+
+
+    #suspectedSystemicTherapiesIds &#x3D; computed( () &#x3D;&gt; this.relatedSuspectedCauses.value()!.filter((entry) &#x3D;&gt; this.#isSystemicTherapy(entry))?.map((entry) &#x3D;&gt; entry.id))
+    #suspectedMedicationsIds &#x3D; computed( () &#x3D;&gt; this.relatedSuspectedCauses.value()!.filter((entry) &#x3D;&gt; this.#isSystemicTherapyMedication(entry))?.map((entry) &#x3D;&gt; entry.id))
+    #suspectedSurgeriesIds &#x3D; computed( () &#x3D;&gt; this.relatedSuspectedCauses.value()!.filter((entry) &#x3D;&gt; this.#isSurgery(entry))?.map((entry) &#x3D;&gt; entry.id))
+    #suspectedRadiotherapiesIds &#x3D; computed( () &#x3D;&gt; this.relatedSuspectedCauses.value()!.filter((entry) &#x3D;&gt; this.#isRadiotherapy(entry))?.map((entry) &#x3D;&gt; entry.id))
+    #isSystemicTherapy(obj: any): obj is SystemicTherapy {
+        return typeof obj &#x3D;&#x3D;&#x3D; &#x27;object&#x27; &amp;&amp; obj !&#x3D;&#x3D; null
+            &amp;&amp; obj.hasOwnProperty(&#x27;medications&#x27;) &amp;&amp; obj.hasOwnProperty(&#x27;period&#x27;);
+    }
+    #isSystemicTherapyMedication(obj: any): obj is SystemicTherapyMedication {
+        return typeof obj &#x3D;&#x3D;&#x3D; &#x27;object&#x27; &amp;&amp; obj !&#x3D;&#x3D; null
+        &amp;&amp; obj.hasOwnProperty(&#x27;drug&#x27;) &amp;&amp; obj.hasOwnProperty(&#x27;route&#x27;);
+    }
+    #isSurgery(obj: any): obj is Surgery {
+        return typeof obj &#x3D;&#x3D;&#x3D; &#x27;object&#x27; &amp;&amp; obj !&#x3D;&#x3D; null
+        &amp;&amp; obj.hasOwnProperty(&#x27;date&#x27;) &amp;&amp; obj.hasOwnProperty(&#x27;procedure&#x27;);
+    }
+    #isRadiotherapy(obj: any): obj is Radiotherapy {
+        return typeof obj &#x3D;&#x3D;&#x3D; &#x27;object&#x27; &amp;&amp; obj !&#x3D;&#x3D; null
+        &amp;&amp; obj.hasOwnProperty(&#x27;dosages&#x27;) &amp;&amp; obj.hasOwnProperty(&#x27;settings&#x27;);
+    }
+
+
+
+}</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;p-fluid&gt;
+    &lt;form  [formGroup]&#x3D;&quot;form&quot; (ngSubmit)&#x3D;&quot;submitFormData()&quot;&gt;
+
+        &lt;div class&#x3D;&quot;field&quot;&gt;
+            &lt;label for&#x3D;&quot;date&quot; class&#x3D;&quot;form-label required&quot;&gt;Date of the event&lt;/label&gt;
+            &lt;onconova-datepicker 
+                formControlName&#x3D;&quot;date&quot;
+            /&gt;
+            &lt;onconova-form-control-error controlName&#x3D;&quot;date&quot;&gt;&lt;/onconova-form-control-error&gt;
+        &lt;/div&gt;
+
+        &lt;div class&#x3D;&quot;field&quot;&gt;
+            &lt;label class&#x3D;&quot;form-label required&quot;&gt;Adverse event&lt;/label&gt;
+            &lt;onconova-concept-selector 
+                formControlName&#x3D;&quot;event&quot;
+                terminology&#x3D;&quot;AdverseEventTerm&quot;
+                [showSynonyms]&#x3D;&quot;false&quot;/&gt;
+            &lt;onconova-form-control-error controlName&#x3D;&quot;event&quot;&gt;&lt;/onconova-form-control-error&gt;
+        &lt;/div&gt;
+
+        &lt;div class&#x3D;&quot;field&quot;&gt;
+            &lt;label class&#x3D;&quot;form-label required&quot;&gt;Grade&lt;/label&gt;
+            &lt;div&gt;
+                @if (form.value.event; as event) {
+                    @for (option of event | getEventGrades; track option.grade;) {
+                        &lt;div class&#x3D;&quot;field-checkbox&quot;&gt;
+                            &lt;p-radiobutton 
+                                [inputId]&#x3D;&quot;option.description&quot; 
+                                [value]&#x3D;&quot;option.grade&quot; 
+                                formControlName&#x3D;&quot;grade&quot; /&gt;
+                            &lt;label [for]&#x3D;&quot;option.description&quot; class&#x3D;&quot;ml-2&quot;&gt;
+                                Grade {{ option.grade }}
+                                &lt;br&gt;
+                                &lt;small class&#x3D;&quot;text-muted&quot;&gt;{{ option.description }}&lt;/small&gt;
+                            &lt;/label&gt;
+                        &lt;/div&gt;    
+                    }
+                } @else {
+                    &lt;span class&#x3D;&quot;text-muted&quot;&gt;Please select an adverse event first&lt;/span&gt;
+                }
+            &lt;/div&gt;
+            &lt;onconova-form-control-error controlName&#x3D;&quot;grade&quot;&gt;&lt;/onconova-form-control-error&gt;
+        &lt;/div&gt;
+
+        &lt;div class&#x3D;&quot;field&quot;&gt;
+            &lt;label class&#x3D;&quot;form-label required&quot;&gt;Outcome&lt;/label&gt;
+            &lt;p-select 
+            [options]&#x3D;&quot;outcomeChoices&quot; 
+            formControlName&#x3D;&quot;outcome&quot;
+            optionLabel&#x3D;&quot;name&quot; 
+            optionValue&#x3D;&quot;value&quot;
+            appendTo&#x3D;&quot;body&quot;
+            placeholder&#x3D;&quot;Select an option&quot; /&gt;
+            &lt;onconova-form-control-error controlName&#x3D;&quot;outcome&quot;&gt;&lt;/onconova-form-control-error&gt;
+        &lt;/div&gt;
+
+        @if (form.value.outcome &#x3D;&#x3D;&#x3D; AdverseEventOutcomeChoices.Resolved || form.value.outcome &#x3D;&#x3D;&#x3D; AdverseEventOutcomeChoices.ResolvedWithSequelae) {
+            &lt;div class&#x3D;&quot;field&quot;&gt;
+                &lt;label for&#x3D;&quot;date&quot; class&#x3D;&quot;form-label required&quot;&gt;Date when the event was resolved&lt;/label&gt;
+                &lt;onconova-datepicker 
+                    formControlName&#x3D;&quot;dateResolved&quot;/&gt;
+                &lt;onconova-form-control-error controlName&#x3D;&quot;dateResolved&quot; [customErrors]&#x3D;&quot;{dateResolvedAfterDate: &#x27;Resolution date cannot be before the date of the event.&#x27;}&quot;&gt;&lt;/onconova-form-control-error&gt;
+            &lt;/div&gt;    
+            @if (form.errors?.[&#x27;dateResolvedAfterDate&#x27;]) {
+                &lt;div class&#x3D;&quot;text-danger mt-2&quot; style&#x3D;&quot;color:#e24c4c&quot;&gt;{{ &#x27;Resolution date cannot be before the date of the event.&#x27; }}&lt;/div&gt;
+            }
+        }
+
+        &lt;div formArrayName&#x3D;&quot;suspectedCauses&quot;&gt;
+            @for (control of form.controls[&#x27;suspectedCauses&#x27;].controls; track $index; let i &#x3D; $index) {
+                &lt;p-fieldset legend&#x3D;&quot;Suspected cause&quot; [toggleable]&#x3D;&quot;false&quot; [formGroupName]&#x3D;&quot;i&quot; [collapsed]&#x3D;&quot;false&quot;&gt;
+                    &lt;p-button icon&#x3D;&quot;pi pi-times&quot; (click)&#x3D;&quot;removeSuspectedCause(i)&quot; class&#x3D;&quot;subform-remove-button&quot;/&gt;
+
+                    &lt;div class&#x3D;&quot;field&quot;&gt;
+                        &lt;label class&#x3D;&quot;form-label required&quot;&gt;Suspect&lt;/label&gt;
+                        &lt;p-select 
+                        [options]&#x3D;&quot;relatedSuspectedCauses.value() || []&quot; 
+                        formControlName&#x3D;&quot;cause&quot;
+                        optionLabel&#x3D;&quot;description&quot; 
+                        optionValue&#x3D;&quot;id&quot;
+                        appendTo&#x3D;&quot;body&quot;
+                        placeholder&#x3D;&quot;Select an option&quot; /&gt;
+                    &lt;/div&gt;
+
+                    &lt;div class&#x3D;&quot;field&quot;&gt;
+                        &lt;label class&#x3D;&quot;form-label required&quot;&gt;Causality&lt;/label&gt;
+                        &lt;p-select 
+                        [options]&#x3D;&quot;causalityChoices&quot; 
+                        formControlName&#x3D;&quot;causality&quot;
+                        optionLabel&#x3D;&quot;name&quot; 
+                        optionValue&#x3D;&quot;value&quot;
+                        appendTo&#x3D;&quot;body&quot;
+                        placeholder&#x3D;&quot;Select an option&quot; /&gt;
+                    &lt;/div&gt;
+
+                &lt;/p-fieldset&gt;
+            }
+            &lt;p-button icon&#x3D;&quot;pi pi-plus&quot; label&#x3D;&quot;Add suspected cause&quot; (click)&#x3D;&quot;addSuspectedCause()&quot; class&#x3D;&quot;subform-add-button&quot;/&gt;
+        &lt;/div&gt;
+        
+
+        &lt;div formArrayName&#x3D;&quot;mitigations&quot;&gt;
+            @for (control of form.controls[&#x27;mitigations&#x27;].controls; track $index; let i &#x3D; $index) {
+                &lt;p-fieldset  legend&#x3D;&quot;Mitigation&quot; [toggleable]&#x3D;&quot;false&quot; [formGroupName]&#x3D;&quot;i&quot; [collapsed]&#x3D;&quot;false&quot;&gt;
+                    &lt;p-button icon&#x3D;&quot;pi pi-times&quot; (click)&#x3D;&quot;removeMitigation(i)&quot; class&#x3D;&quot;subform-remove-button&quot;/&gt;
+
+                    &lt;div class&#x3D;&quot;field&quot;&gt;
+                        &lt;label class&#x3D;&quot;form-label required&quot;&gt;Mitigation strategy&lt;/label&gt;
+                        &lt;onconova-radio-select  
+                        formControlName&#x3D;&quot;category&quot;
+                        [choices]&#x3D;&quot;mitigationCategoryChoices&quot;
+                        class&#x3D;&quot;flex flex-column gap-3 mt-2&quot;/&gt;
+                    &lt;/div&gt;        
+                    
+                    &lt;div class&#x3D;&quot;field&quot;&gt;
+                        @switch (control.value.category) {
+                            @case (AdverseEventMitigationCategoryChoices.Adjustment) {
+                                &lt;label class&#x3D;&quot;form-label required&quot;&gt;Type of Adjustment&lt;/label&gt;
+                                &lt;onconova-concept-selector 
+                                    formControlName&#x3D;&quot;adjustment&quot;
+                                    terminology&#x3D;&quot;AdverseEventMitigationTreatmentAdjustment&quot;
+                                    [showSynonyms]&#x3D;&quot;false&quot;/&gt;
+                            }
+                            @case (AdverseEventMitigationCategoryChoices.Pharmacological) {
+                                &lt;label class&#x3D;&quot;form-label&quot;&gt;Pharmacological treatment&lt;/label&gt;
+                                &lt;onconova-concept-selector 
+                                    formControlName&#x3D;&quot;drug&quot;
+                                    terminology&#x3D;&quot;AdverseEventMitigationDrug&quot;
+                                    [showSynonyms]&#x3D;&quot;true&quot;/&gt;
+                            }
+                            @case (AdverseEventMitigationCategoryChoices.Procedure) {
+                                &lt;label class&#x3D;&quot;form-label&quot;&gt;Procedure&lt;/label&gt;
+                                &lt;onconova-concept-selector 
+                                    formControlName&#x3D;&quot;procedure&quot;
+                                    terminology&#x3D;&quot;AdverseEventMitigationProcedure&quot;
+                                    [showSynonyms]&#x3D;&quot;false&quot;/&gt;
+                            }
+                        }
+                    &lt;/div&gt;
+
+                    &lt;div class&#x3D;&quot;field flex flex-column&quot;&gt;
+                        &lt;label class&#x3D;&quot;form-label&quot;&gt;Management&lt;/label&gt;
+                        &lt;onconova-concept-selector 
+                            formControlName&#x3D;&quot;management&quot;
+                            terminology&#x3D;&quot;AdverseEventMitigationManagement&quot;
+                            widget&#x3D;&quot;selectbutton&quot;
+                            [showSynonyms]&#x3D;&quot;false&quot;/&gt;
+                    &lt;/div&gt;
+                    
+                &lt;/p-fieldset&gt;
+            }
+            &lt;p-button icon&#x3D;&quot;pi pi-plus&quot; label&#x3D;&quot;Add mitigation&quot; (click)&#x3D;&quot;addMitigation()&quot; class&#x3D;&quot;subform-add-button&quot;/&gt;
+        &lt;/div&gt;
+
+        &lt;p-button 
+            type&#x3D;&quot;submit&quot; 
+            label&#x3D;&quot;Save&quot; 
+            styleClass&#x3D;&quot;w-full p-3 mt-4&quot;  
+            [loading]&#x3D;&quot;isSaving()&quot;
+            [disabled]&#x3D;&quot;form.invalid&quot; /&gt;
+            
+    &lt;/form&gt;
+&lt;/p-fluid&gt;</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><p-fluid>    <form  [formGroup]="form" (ngSubmit)="submitFormData()">        <div class="field">            <label for="date" class="form-label required">Date of the event</label>            <onconova-datepicker                 formControlName="date"            />            <onconova-form-control-error controlName="date"></onconova-form-control-error>        </div>        <div class="field">            <label class="form-label required">Adverse event</label>            <onconova-concept-selector                 formControlName="event"                terminology="AdverseEventTerm"                [showSynonyms]="false"/>            <onconova-form-control-error controlName="event"></onconova-form-control-error>        </div>        <div class="field">            <label class="form-label required">Grade</label>            <div>                @if (form.value.event; as event) {                    @for (option of event | getEventGrades; track option.grade;) {                        <div class="field-checkbox">                            <p-radiobutton                                 [inputId]="option.description"                                 [value]="option.grade"                                 formControlName="grade" />                            <label [for]="option.description" class="ml-2">                                Grade {{ option.grade }}                                <br>                                <small class="text-muted">{{ option.description }}</small>                            </label>                        </div>                        }                } @else {                    <span class="text-muted">Please select an adverse event first</span>                }            </div>            <onconova-form-control-error controlName="grade"></onconova-form-control-error>        </div>        <div class="field">            <label class="form-label required">Outcome</label>            <p-select             [options]="outcomeChoices"             formControlName="outcome"            optionLabel="name"             optionValue="value"            appendTo="body"            placeholder="Select an option" />            <onconova-form-control-error controlName="outcome"></onconova-form-control-error>        </div>        @if (form.value.outcome === AdverseEventOutcomeChoices.Resolved || form.value.outcome === AdverseEventOutcomeChoices.ResolvedWithSequelae) {            <div class="field">                <label for="date" class="form-label required">Date when the event was resolved</label>                <onconova-datepicker                     formControlName="dateResolved"/>                <onconova-form-control-error controlName="dateResolved" [customErrors]="{dateResolvedAfterDate: \'Resolution date cannot be before the date of the event.\'}"></onconova-form-control-error>            </div>                @if (form.errors?.[\'dateResolvedAfterDate\']) {                <div class="text-danger mt-2" style="color:#e24c4c">{{ \'Resolution date cannot be before the date of the event.\' }}</div>            }        }        <div formArrayName="suspectedCauses">            @for (control of form.controls[\'suspectedCauses\'].controls; track $index; let i = $index) {                <p-fieldset legend="Suspected cause" [toggleable]="false" [formGroupName]="i" [collapsed]="false">                    <p-button icon="pi pi-times" (click)="removeSuspectedCause(i)" class="subform-remove-button"/>                    <div class="field">                        <label class="form-label required">Suspect</label>                        <p-select                         [options]="relatedSuspectedCauses.value() || []"                         formControlName="cause"                        optionLabel="description"                         optionValue="id"                        appendTo="body"                        placeholder="Select an option" />                    </div>                    <div class="field">                        <label class="form-label required">Causality</label>                        <p-select                         [options]="causalityChoices"                         formControlName="causality"                        optionLabel="name"                         optionValue="value"                        appendTo="body"                        placeholder="Select an option" />                    </div>                </p-fieldset>            }            <p-button icon="pi pi-plus" label="Add suspected cause" (click)="addSuspectedCause()" class="subform-add-button"/>        </div>                <div formArrayName="mitigations">            @for (control of form.controls[\'mitigations\'].controls; track $index; let i = $index) {                <p-fieldset  legend="Mitigation" [toggleable]="false" [formGroupName]="i" [collapsed]="false">                    <p-button icon="pi pi-times" (click)="removeMitigation(i)" class="subform-remove-button"/>                    <div class="field">                        <label class="form-label required">Mitigation strategy</label>                        <onconova-radio-select                          formControlName="category"                        [choices]="mitigationCategoryChoices"                        class="flex flex-column gap-3 mt-2"/>                    </div>                                                <div class="field">                        @switch (control.value.category) {                            @case (AdverseEventMitigationCategoryChoices.Adjustment) {                                <label class="form-label required">Type of Adjustment</label>                                <onconova-concept-selector                                     formControlName="adjustment"                                    terminology="AdverseEventMitigationTreatmentAdjustment"                                    [showSynonyms]="false"/>                            }                            @case (AdverseEventMitigationCategoryChoices.Pharmacological) {                                <label class="form-label">Pharmacological treatment</label>                                <onconova-concept-selector                                     formControlName="drug"                                    terminology="AdverseEventMitigationDrug"                                    [showSynonyms]="true"/>                            }                            @case (AdverseEventMitigationCategoryChoices.Procedure) {                                <label class="form-label">Procedure</label>                                <onconova-concept-selector                                     formControlName="procedure"                                    terminology="AdverseEventMitigationProcedure"                                    [showSynonyms]="false"/>                            }                        }                    </div>                    <div class="field flex flex-column">                        <label class="form-label">Management</label>                        <onconova-concept-selector                             formControlName="management"                            terminology="AdverseEventMitigationManagement"                            widget="selectbutton"                            [showSynonyms]="false"/>                    </div>                                    </p-fieldset>            }            <p-button icon="pi pi-plus" label="Add mitigation" (click)="addMitigation()" class="subform-add-button"/>        </div>        <p-button             type="submit"             label="Save"             styleClass="w-full p-3 mt-4"              [loading]="isSaving()"            [disabled]="form.invalid" />                </form></p-fluid></div>'
+    var COMPONENTS = [{'name': 'AbstractFormBase', 'selector': ''},{'name': 'AdverseEventFormComponent', 'selector': 'adverse-event-form'},{'name': 'AppComponent', 'selector': 'onconova-root'},{'name': 'AppFooterComponent', 'selector': 'onconova-footer'},{'name': 'AppLayoutComponent', 'selector': 'onconova-layout'},{'name': 'AppSidebarMenuComponent', 'selector': 'onconova-sidebar-menu'},{'name': 'AppTopBarComponent', 'selector': 'onconova-topbar'},{'name': 'AuthCallbackComponent', 'selector': 'app-auth-callback'},{'name': 'AuthLayoutComponent', 'selector': 'onconova-auth-layout'},{'name': 'BoxPlotComponent', 'selector': 'onconova-box-plot'},{'name': 'CancerIconComponent', 'selector': 'onconova-cancer-icon'},{'name': 'CaseImporterBundleViewerComponent', 'selector': 'onconova-case-importer-bundle-viewer'},{'name': 'CaseImporterComponent', 'selector': 'onconova-case-importer'},{'name': 'CaseManagerComponent', 'selector': 'onconova-case-manager'},{'name': 'CaseManagerDrawerComponent', 'selector': 'onconova-case-manager-drawer'},{'name': 'CaseManagerPanelComponent', 'selector': 'onconova-case-manager-panel'},{'name': 'CaseManagerPanelTimelineComponent', 'selector': 'onconova-case-manager-panel-timeline'},{'name': 'CaseSearchComponent', 'selector': ''},{'name': 'CaseSearchItemCardComponent', 'selector': 'onconova-case-search-item,[onconova-case-search-item]'},{'name': 'CodedConceptTreeComponent', 'selector': 'onconova-coded-concept-tree'},{'name': 'CohortBuilderComponent', 'selector': 'onconova-cohort-manager'},{'name': 'CohortContributorsComponent', 'selector': 'onconova-cohort-contributors'},{'name': 'CohortFormComponent', 'selector': 'cohort-form'},{'name': 'CohortGraphsComponent', 'selector': 'onconova-cohort-graphs'},{'name': 'CohortGraphsContextMenu', 'selector': 'onconova-cohort-graph-context-menu'},{'name': 'CohortQueryBuilderComponent', 'selector': 'onconova-cohort-query-builder'},{'name': 'CohortSearchComponent', 'selector': ''},{'name': 'CohortSearchItemComponent', 'selector': 'onconova-cohort-search-item, [onconova-cohort-search-item]'},{'name': 'CohortTraitPanel', 'selector': 'onconova-cohort-trait'},{'name': 'ComorbiditiesAssessmentFormComponent', 'selector': 'comorbidities-form'},{'name': 'ConceptSelectorComponent', 'selector': 'onconova-concept-selector'},{'name': 'ConsentNoticeModalComponent', 'selector': 'onconova-consent-modal'},{'name': 'DashboardComponent', 'selector': 'onconova-dashboard'},{'name': 'DataCompletionStatsComponent', 'selector': 'onconova-data-completion-stats'},{'name': 'DatasetComposerComponent', 'selector': 'onconova-dataset-composer'},{'name': 'DataSummaryComponent', 'selector': 'onconova-data-summary'},{'name': 'DataSummaryCounterComponent', 'selector': 'onconova-data-summary-counter'},{'name': 'DatePickerComponent', 'selector': 'onconova-datepicker'},{'name': 'DisclaimerBannerComponent', 'selector': 'onconova-disclaimer-banner'},{'name': 'DistributionGraphComponent', 'selector': 'onconova-distribution-graph'},{'name': 'DoughnutGraphComponent', 'selector': 'onconova-doughnut-graph'},{'name': 'DrawerDataPropertiesComponent', 'selector': 'onconova-drawer-properties'},{'name': 'ErrorComponent', 'selector': 'onconova-error'},{'name': 'ExportConfirmDialogComponent', 'selector': 'onconova-export-confirm-dialog'},{'name': 'FamilyHistoryFormComponent', 'selector': 'family-history-form'},{'name': 'FormControlErrorComponent', 'selector': 'onconova-form-control-error'},{'name': 'GenomicSignatureFormComponent', 'selector': 'genomic-signature-form'},{'name': 'GenomicVariantFormComponent', 'selector': 'genomic-variant-form'},{'name': 'IdenticonComponent', 'selector': 'onconova-identicon'},{'name': 'KapplerMeierCurveComponent', 'selector': 'onconova-kappler-meier-curve'},{'name': 'LifestyleFormComponent', 'selector': 'lifestyle-form'},{'name': 'LoginComponent', 'selector': 'onconova-login'},{'name': 'MeasureInputComponent', 'selector': 'onconova-measure-input'},{'name': 'ModalFormHeaderComponent', 'selector': 'onconova-modal-form-header'},{'name': 'MultiReferenceSelectComponent', 'selector': 'onconova-multi-reference-select'},{'name': 'NeoplasticEntityFormComponent', 'selector': 'neoplastic-entity-form'},{'name': 'NestedTableComponent', 'selector': 'onconova-nested-table'},{'name': 'OncoplotComponent', 'selector': 'onconova-oncoplot'},{'name': 'PasswordResetFormComponent', 'selector': 'onconova-password-reset-dialog'},{'name': 'PatientFormComponent', 'selector': 'patient-form'},{'name': 'PerformanceStatusFormComponent', 'selector': 'performance-status-form'},{'name': 'PopoverFilterButtonComponent', 'selector': 'onconova-popover-filter-button'},{'name': 'PrimaryEntitiesTableComponent', 'selector': 'onconova-primary-entities-table'},{'name': 'ProjectFormComponent', 'selector': 'project-form'},{'name': 'ProjectManagementComponent', 'selector': 'onconova-project-management'},{'name': 'ProjectSearchComponent', 'selector': 'onconova-project-search'},{'name': 'ProjectSearchItemComponent', 'selector': 'onconova-project-search-item, [onconova-project-search-item]'},{'name': 'ProviderSignupComponent', 'selector': 'app-signup'},{'name': 'RadioSelectComponent', 'selector': 'onconova-radio-select'},{'name': 'RadiotherapyFormComponent', 'selector': 'radiotherapy-form'},{'name': 'RandomPaperComponent', 'selector': 'onconova-random-paper'},{'name': 'RangeInputComponent', 'selector': 'onconova-range-input'},{'name': 'RiskAssessmentFormComponent', 'selector': 'risk-assessment-form'},{'name': 'SettingsDialogComponent', 'selector': 'onconova-settings-dialog'},{'name': 'StagingFormComponent', 'selector': 'staging-form'},{'name': 'SurgeryFormComponent', 'selector': 'surgery-form'},{'name': 'SystemicTherapyFormComponent', 'selector': 'systemic-therapy-form'},{'name': 'TreatmentResponseFormComponent', 'selector': 'treatment-response-form'},{'name': 'TumorBoardFormComponent', 'selector': 'tumor-board-form'},{'name': 'TumorMarkerFormComponent', 'selector': 'tumor-marker-form'},{'name': 'UserBadgeComponent', 'selector': 'onconova-user-badge'},{'name': 'UserDetailsComponent', 'selector': 'onconova-user-details'},{'name': 'UserFormComponent', 'selector': 'onconova-user-form'},{'name': 'UserSelectorComponent', 'selector': 'onconova-user-selector'},{'name': 'UsersManagementCompnent', 'selector': 'onconova-users-management'},{'name': 'VitalsFormComponent', 'selector': 'vitals-form'}];
+    var DIRECTIVES = [{'name': 'DateMaskDirective', 'selector': '[dateMask]'}];
+    var ACTUAL_COMPONENT = {'name': 'AdverseEventFormComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'AdverseEventFormComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

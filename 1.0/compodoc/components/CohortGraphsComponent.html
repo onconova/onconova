@@ -1,0 +1,1392 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Application documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+        <link rel="stylesheet" href="../styles/material.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Application documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  CohortGraphsComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/components/cohort-graphs/cohort-graphs.component.ts</code>
+</p>
+
+
+
+
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>onconova-cohort-graphs</code></td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                            <code>CommonModule</code>
+                            <code>FormsModule</code>
+                            <code>ChartModule</code>
+                            <code>PanelModule</code>
+                                <code><a href="../components/KapplerMeierCurveComponent.html" target="_self" >KapplerMeierCurveComponent</a></code>
+                                <code><a href="../components/OncoplotComponent.html" target="_self" >OncoplotComponent</a></code>
+                                <code><a href="../components/DoughnutGraphComponent.html" target="_self" >DoughnutGraphComponent</a></code>
+                            <code>Skeleton</code>
+                                <code><a href="../components/BoxPlotComponent.html" target="_self" >BoxPlotComponent</a></code>
+                                <code><a href="../components/DistributionGraphComponent.html" target="_self" >DistributionGraphComponent</a></code>
+                            <code>MessageModule</code>
+                            <code>Card</code>
+                            <code>SplitterModule</code>
+                            <code>SelectButtonModule</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./cohort-graphs.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                    <span class="modifier">Private</span>
+                                <a href="##analysisService" >#analysisService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#ageAtDiagnosisCount" >ageAtDiagnosisCount</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#ageCount" >ageCount</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#cohort" >cohort</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#cohortGenomics" >cohortGenomics</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#genderCount" >genderCount</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#loading" >loading</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#neoplasticSitesCount" >neoplasticSitesCount</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#overallSurvivalCurve" >overallSurvivalCurve</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#selectedTherapyLine" >selectedTherapyLine</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#therapyLineCohortFractionCount" >therapyLineCohortFractionCount</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#therapyLineDrugCombinations" >therapyLineDrugCombinations</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#therapyLineOptions" >therapyLineOptions</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#therapyLinePopulation" >therapyLinePopulation</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#therapyLineResponsesCount" >therapyLineResponsesCount</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#therapyLinesCount" >therapyLinesCount</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#therapyLineSurvivalCurve" >therapyLineSurvivalCurve</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#therapyLineTherapyClassifications" >therapyLineTherapyClassifications</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#traits" >traits</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#vitalStatusCount" >vitalStatusCount</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#cohort" >cohort</a>
+                            </li>
+                            <li>
+                                <a href="#loading" >loading</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+    <section data-compodoc="block-inputs">
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="cohort"></a>
+                        <b>cohort</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Required : </i>&nbsp;<b>true</b>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/components/cohort-graphs/cohort-graphs.component.ts:45</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="loading"></a>
+                        <b>loading</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/components/cohort-graphs/cohort-graphs.component.ts:47</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#analysisService"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                            <span class="modifier">Private</span>
+                        <span ><b>#analysisService</b></span>
+                        <a href="##analysisService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(DataAnalysisService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/components/cohort-graphs/cohort-graphs.component.ts:50</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ageAtDiagnosisCount"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>ageAtDiagnosisCount</b></span>
+                        <a href="#ageAtDiagnosisCount"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>rxResource({
+        request: () &#x3D;&gt; ({cohortId: this.cohort().id, therapyLine: this.selectedTherapyLine(), property: &quot;ageAtDiagnosis&quot; as const}),
+        loader: ({request}) &#x3D;&gt; this.#analysisService.getCohortPropertyDistribution(request)
+    })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/components/cohort-graphs/cohort-graphs.component.ts:66</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ageCount"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>ageCount</b></span>
+                        <a href="#ageCount"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>rxResource({
+        request: () &#x3D;&gt; ({cohortId: this.cohort().id, therapyLine: this.selectedTherapyLine(), property: &quot;age&quot; as const}),
+        loader: ({request}) &#x3D;&gt; this.#analysisService.getCohortPropertyDistribution(request)
+    })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/components/cohort-graphs/cohort-graphs.component.ts:62</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cohort"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>cohort</b></span>
+                        <a href="#cohort"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/components/cohort-graphs/cohort-graphs.component.ts:45</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cohortGenomics"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>cohortGenomics</b></span>
+                        <a href="#cohortGenomics"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>rxResource({
+        request: () &#x3D;&gt; ({cohortId: this.cohort().id}),
+        loader: ({request}) &#x3D;&gt; this.#analysisService.getCohortOncoplot(request)
+    })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/components/cohort-graphs/cohort-graphs.component.ts:57</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="genderCount"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>genderCount</b></span>
+                        <a href="#genderCount"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>rxResource({
+        request: () &#x3D;&gt; ({cohortId: this.cohort().id, therapyLine: this.selectedTherapyLine(), property: &quot;gender&quot; as const}),
+        loader: ({request}) &#x3D;&gt; this.#analysisService.getCohortPropertyDistribution(request)
+    })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/components/cohort-graphs/cohort-graphs.component.ts:70</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loading"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>loading</b></span>
+                        <a href="#loading"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/components/cohort-graphs/cohort-graphs.component.ts:47</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="neoplasticSitesCount"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>neoplasticSitesCount</b></span>
+                        <a href="#neoplasticSitesCount"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>rxResource({
+        request: () &#x3D;&gt; ({cohortId: this.cohort().id, therapyLine: this.selectedTherapyLine(), property: &quot;neoplasticSites&quot; as const}),
+        loader: ({request}) &#x3D;&gt; this.#analysisService.getCohortPropertyDistribution(request)
+    })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/components/cohort-graphs/cohort-graphs.component.ts:74</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="overallSurvivalCurve"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>overallSurvivalCurve</b></span>
+                        <a href="#overallSurvivalCurve"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>rxResource({
+        request: () &#x3D;&gt; ({cohortId: this.cohort().id}),
+        loader: ({request}) &#x3D;&gt; this.#analysisService.getCohortOverallSurvivalCurve(request)
+    })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/components/cohort-graphs/cohort-graphs.component.ts:53</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectedTherapyLine"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>selectedTherapyLine</b></span>
+                        <a href="#selectedTherapyLine"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;string&gt;(&#x27;CLoT1&#x27;)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="99" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/components/cohort-graphs/cohort-graphs.component.ts:99</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="therapyLineCohortFractionCount"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>therapyLineCohortFractionCount</b></span>
+                        <a href="#therapyLineCohortFractionCount"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed((): CohortTraitCounts[] &#x3D;&gt; {
+        const cohortFractionCount &#x3D; this.therapyLinesCount()?.find(item&#x3D;&gt;item.category&#x3D;&#x3D;this.selectedTherapyLine())?.counts || 0
+        return [{
+            category: &#x27;Not included&#x27;,
+            counts: this.cohort().population - cohortFractionCount,
+            percentage: (this.cohort().population - cohortFractionCount) / this.cohort().population
+        }, {
+            category: &#x27;Included&#x27;,
+            counts: cohortFractionCount,
+            percentage: cohortFractionCount / this.cohort().population
+        }]
+    })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="86" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/components/cohort-graphs/cohort-graphs.component.ts:86</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="therapyLineDrugCombinations"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>therapyLineDrugCombinations</b></span>
+                        <a href="#therapyLineDrugCombinations"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>rxResource({
+        request: () &#x3D;&gt; ({cohortId: this.cohort().id, therapyLine: this.selectedTherapyLine(), categorization: &#x27;drugs&#x27;}),
+        loader: ({request}) &#x3D;&gt; this.#analysisService.getCohortLineProgressionFreeSurvivalsByCategories(request)
+    })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="100" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/components/cohort-graphs/cohort-graphs.component.ts:100</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="therapyLineOptions"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>therapyLineOptions</b></span>
+                        <a href="#therapyLineOptions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed&lt;string[]&gt;(
+        () &#x3D;&gt; this.therapyLinesCount()?.map(item&#x3D;&gt;item.category).filter(label&#x3D;&gt;label!&#x3D;&#x27;None&#x27;).sort((a, b) &#x3D;&gt; a.localeCompare(b)) || []
+    )</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="83" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/components/cohort-graphs/cohort-graphs.component.ts:83</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="therapyLinePopulation"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>therapyLinePopulation</b></span>
+                        <a href="#therapyLinePopulation"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; this.therapyLineCohortFractionCount()[1].counts)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="98" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/components/cohort-graphs/cohort-graphs.component.ts:98</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="therapyLineResponsesCount"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>therapyLineResponsesCount</b></span>
+                        <a href="#therapyLineResponsesCount"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>rxResource({
+        request: () &#x3D;&gt; ({cohortId: this.cohort().id, therapyLine: this.selectedTherapyLine(), property: &quot;responses&quot; as const}),
+        loader: ({request}) &#x3D;&gt; this.#analysisService.getCohortLinePropertyDistribution(request)
+    })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="112" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/components/cohort-graphs/cohort-graphs.component.ts:112</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="therapyLinesCount"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>therapyLinesCount</b></span>
+                        <a href="#therapyLinesCount"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; this.traits().value()?.therapyLines)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="82" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/components/cohort-graphs/cohort-graphs.component.ts:82</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="therapyLineSurvivalCurve"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>therapyLineSurvivalCurve</b></span>
+                        <a href="#therapyLineSurvivalCurve"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>rxResource({
+        request: () &#x3D;&gt; ({cohortId: this.cohort().id, therapyLine: this.selectedTherapyLine()}),
+        loader: ({request}) &#x3D;&gt; this.#analysisService.getCohortLineProgressionFreeSurvivalCurve(request)
+    })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="108" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/components/cohort-graphs/cohort-graphs.component.ts:108</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="therapyLineTherapyClassifications"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>therapyLineTherapyClassifications</b></span>
+                        <a href="#therapyLineTherapyClassifications"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>rxResource({
+        request: () &#x3D;&gt; ({cohortId: this.cohort().id, therapyLine: this.selectedTherapyLine(), categorization: &#x27;therapies&#x27;}),
+        loader: ({request}) &#x3D;&gt; this.#analysisService.getCohortLineProgressionFreeSurvivalsByCategories(request)
+    })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="104" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/components/cohort-graphs/cohort-graphs.component.ts:104</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="traits"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>traits</b></span>
+                        <a href="#traits"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>input.required&lt;ResourceRef&lt;CohortTraits | undefined&gt;&gt;()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/components/cohort-graphs/cohort-graphs.component.ts:46</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="vitalStatusCount"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>vitalStatusCount</b></span>
+                        <a href="#vitalStatusCount"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>rxResource({
+        request: () &#x3D;&gt; ({cohortId: this.cohort().id, therapyLine: this.selectedTherapyLine(), property: &quot;vitalStatus&quot; as const}),
+        loader: ({request}) &#x3D;&gt; this.#analysisService.getCohortPropertyDistribution(request)
+    })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="78" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/components/cohort-graphs/cohort-graphs.component.ts:78</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommonModule } from &#x27;@angular/common&#x27;;
+import { Component, computed, inject, input, Resource, ResourceRef, signal } from &#x27;@angular/core&#x27;;
+import { Card } from &#x27;primeng/card&#x27;;
+import { SelectButtonModule } from &#x27;primeng/selectbutton&#x27;;
+
+import { map } from &#x27;rxjs&#x27;;
+import { ChartModule } from &#x27;primeng/chart&#x27;;
+import { SplitterModule } from &#x27;primeng/splitter&#x27;;
+import { PanelModule } from &#x27;primeng/panel&#x27;;
+
+import { Cohort, CohortsService, CohortTraitCounts, CohortTraits, DataAnalysisService } from &#x27;onconova-api-client&#x27;;
+import { KapplerMeierCurveComponent } from &#x27;./components/kappler-meier-curve/kappler-meier-curve.component&#x27;;
+import { FormsModule } from &#x27;@angular/forms&#x27;;
+import { DoughnutGraphComponent } from &#x27;./components/doughnut-graph/doughnut-graph.component&#x27;;
+import { DistributionGraphComponent } from &#x27;./components/distribution-graph/distribution-graph.component&#x27;;
+import { BoxPlotComponent } from &#x27;./components/box-plot/box-plot.component&#x27;;
+import { Skeleton } from &#x27;primeng/skeleton&#x27;;
+import { OncoplotComponent } from &#x27;./components/oncoplot/oncoplot.component&#x27;;
+import { MessageModule } from &#x27;primeng/message&#x27;;
+import { rxResource } from &#x27;@angular/core/rxjs-interop&#x27;;
+
+@Component({
+    imports: [
+        CommonModule,
+        FormsModule,
+        ChartModule,
+        PanelModule,
+        KapplerMeierCurveComponent,
+        OncoplotComponent,
+        DoughnutGraphComponent,
+        Skeleton,
+        BoxPlotComponent,
+        DistributionGraphComponent,
+        MessageModule,
+        Card,
+        SplitterModule,
+        SelectButtonModule
+    ],
+    selector: &#x27;onconova-cohort-graphs&#x27;,
+    templateUrl: &#x27;./cohort-graphs.component.html&#x27;
+})
+export class CohortGraphsComponent {
+
+    // Component input signals
+    public cohort &#x3D; input.required&lt;Cohort&gt;();
+    public traits &#x3D; input.required&lt;ResourceRef&lt;CohortTraits | undefined&gt;&gt;();
+    public loading &#x3D; input&lt;boolean&gt;(false);
+
+    // Injected services
+    readonly #analysisService &#x3D; inject(DataAnalysisService);
+
+    // Resources    
+    public overallSurvivalCurve &#x3D; rxResource({
+        request: () &#x3D;&gt; ({cohortId: this.cohort().id}),
+        loader: ({request}) &#x3D;&gt; this.#analysisService.getCohortOverallSurvivalCurve(request)
+    })
+    public cohortGenomics &#x3D; rxResource({
+        request: () &#x3D;&gt; ({cohortId: this.cohort().id}),
+        loader: ({request}) &#x3D;&gt; this.#analysisService.getCohortOncoplot(request)
+    })    
+
+    public ageCount &#x3D; rxResource({
+        request: () &#x3D;&gt; ({cohortId: this.cohort().id, therapyLine: this.selectedTherapyLine(), property: &quot;age&quot; as const}),
+        loader: ({request}) &#x3D;&gt; this.#analysisService.getCohortPropertyDistribution(request)
+    })
+    public ageAtDiagnosisCount &#x3D; rxResource({
+        request: () &#x3D;&gt; ({cohortId: this.cohort().id, therapyLine: this.selectedTherapyLine(), property: &quot;ageAtDiagnosis&quot; as const}),
+        loader: ({request}) &#x3D;&gt; this.#analysisService.getCohortPropertyDistribution(request)
+    })
+    public genderCount &#x3D; rxResource({
+        request: () &#x3D;&gt; ({cohortId: this.cohort().id, therapyLine: this.selectedTherapyLine(), property: &quot;gender&quot; as const}),
+        loader: ({request}) &#x3D;&gt; this.#analysisService.getCohortPropertyDistribution(request)
+    })
+    public neoplasticSitesCount &#x3D; rxResource({
+        request: () &#x3D;&gt; ({cohortId: this.cohort().id, therapyLine: this.selectedTherapyLine(), property: &quot;neoplasticSites&quot; as const}),
+        loader: ({request}) &#x3D;&gt; this.#analysisService.getCohortPropertyDistribution(request)
+    })
+    public vitalStatusCount &#x3D; rxResource({
+        request: () &#x3D;&gt; ({cohortId: this.cohort().id, therapyLine: this.selectedTherapyLine(), property: &quot;vitalStatus&quot; as const}),
+        loader: ({request}) &#x3D;&gt; this.#analysisService.getCohortPropertyDistribution(request)
+    })
+    public therapyLinesCount &#x3D; computed(() &#x3D;&gt; this.traits().value()?.therapyLines)
+    public therapyLineOptions &#x3D; computed&lt;string[]&gt;(
+        () &#x3D;&gt; this.therapyLinesCount()?.map(item&#x3D;&gt;item.category).filter(label&#x3D;&gt;label!&#x3D;&#x27;None&#x27;).sort((a, b) &#x3D;&gt; a.localeCompare(b)) || []
+    )
+    public therapyLineCohortFractionCount &#x3D; computed((): CohortTraitCounts[] &#x3D;&gt; {
+        const cohortFractionCount &#x3D; this.therapyLinesCount()?.find(item&#x3D;&gt;item.category&#x3D;&#x3D;this.selectedTherapyLine())?.counts || 0
+        return [{
+            category: &#x27;Not included&#x27;,
+            counts: this.cohort().population - cohortFractionCount,
+            percentage: (this.cohort().population - cohortFractionCount) / this.cohort().population
+        }, {
+            category: &#x27;Included&#x27;,
+            counts: cohortFractionCount,
+            percentage: cohortFractionCount / this.cohort().population
+        }]
+    })
+    protected readonly therapyLinePopulation &#x3D; computed(() &#x3D;&gt; this.therapyLineCohortFractionCount()[1].counts) 
+    public selectedTherapyLine &#x3D; signal&lt;string&gt;(&#x27;CLoT1&#x27;);
+    public therapyLineDrugCombinations &#x3D; rxResource({
+        request: () &#x3D;&gt; ({cohortId: this.cohort().id, therapyLine: this.selectedTherapyLine(), categorization: &#x27;drugs&#x27;}),
+        loader: ({request}) &#x3D;&gt; this.#analysisService.getCohortLineProgressionFreeSurvivalsByCategories(request)
+    })
+    public therapyLineTherapyClassifications &#x3D; rxResource({
+        request: () &#x3D;&gt; ({cohortId: this.cohort().id, therapyLine: this.selectedTherapyLine(), categorization: &#x27;therapies&#x27;}),
+        loader: ({request}) &#x3D;&gt; this.#analysisService.getCohortLineProgressionFreeSurvivalsByCategories(request)
+    })
+    public therapyLineSurvivalCurve &#x3D; rxResource({
+        request: () &#x3D;&gt; ({cohortId: this.cohort().id, therapyLine: this.selectedTherapyLine()}),
+        loader: ({request}) &#x3D;&gt; this.#analysisService.getCohortLineProgressionFreeSurvivalCurve(request)
+    })
+    public therapyLineResponsesCount &#x3D; rxResource({
+        request: () &#x3D;&gt; ({cohortId: this.cohort().id, therapyLine: this.selectedTherapyLine(), property: &quot;responses&quot; as const}),
+        loader: ({request}) &#x3D;&gt; this.#analysisService.getCohortLinePropertyDistribution(request)
+    })
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">
+&lt;p-card&gt;
+    &lt;p-panel header&#x3D;&quot;Demographics&quot; [toggleable]&#x3D;&quot;true&quot;&gt;
+
+        &lt;div class&#x3D;&quot;flex flex-wrap&quot;&gt;
+            &lt;div class&#x3D;&quot;flex flex-column&quot;&gt;
+                &lt;div class&#x3D;&quot;font-semibold&quot;&gt;Patient Traits&lt;/div&gt;
+                &lt;div class&#x3D;&quot;text-muted mb-2&quot;&gt;
+                    Basic statistics over the demographical composition of the cohort.
+                &lt;/div&gt;
+                &lt;div class&#x3D;&quot;flex mx-auto my-3 gap-3 w-full&quot;&gt;
+                    &lt;div&gt;
+                        @if (loading() || traits().isLoading()) {
+                            &lt;p-skeleton height&#x3D;&quot;10rem&quot; width&#x3D;&quot;15rem&quot;/&gt;
+                        } @else {
+                            @if (genderCount.value(); as data) {
+                                &lt;onconova-doughnut-graph [data]&#x3D;&quot;data.items&quot;/&gt;
+                            }
+                        }
+                    &lt;/div&gt;
+                    &lt;div&gt;
+                        @if (loading() || traits().isLoading()) {
+                            &lt;p-skeleton height&#x3D;&quot;10rem&quot; width&#x3D;&quot;15rem&quot;/&gt;
+                        } @else {
+                            @if (vitalStatusCount.value(); as data) {
+                                &lt;onconova-doughnut-graph [data]&#x3D;&quot;data.items&quot;/&gt;
+                            }
+                        }
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div&gt;
+                    &lt;div class&#x3D;&quot;mt-3 mr-4&quot;&gt;
+                        @if (loading() || traits().isLoading()) {
+                            &lt;p-skeleton height&#x3D;&quot;15rem&quot;/&gt;
+                        } @else {
+                            @if (ageCount.value(); as data) {
+                                &lt;onconova-distribution-graph [data]&#x3D;&quot;data.items&quot;/&gt;
+                            }
+                        }
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;ml-4&quot;&gt;
+                &lt;div class&#x3D;&quot;font-semibold&quot;&gt;Age at diagnosis&lt;/div&gt;
+                &lt;div class&#x3D;&quot;text-muted mb-2&quot;&gt;
+                    Distribution of age at the time of the diagnosis of the first primary neoplastic entity. 
+                &lt;/div&gt;
+                &lt;div class&#x3D;&quot;mt-3 mr-4&quot;&gt;
+                    @if (loading() || traits().isLoading()) {
+                        &lt;p-skeleton height&#x3D;&quot;15rem&quot;/&gt;
+                    } @else {
+                        @if (ageAtDiagnosisCount.value(); as data) {
+                            &lt;onconova-distribution-graph [data]&#x3D;&quot;data.items&quot;/&gt;
+                        }
+                    }
+                &lt;/div&gt;
+                &lt;div class&#x3D;&quot;font-semibold&quot;&gt;Neoplastic sites&lt;/div&gt;
+                &lt;div class&#x3D;&quot;text-muted mb-2&quot;&gt;
+                    Distribution of general topographical sites of the neoplastic entities in the cohort. 
+                &lt;/div&gt;
+                &lt;div class&#x3D;&quot;mt-3 mr-4&quot;&gt;
+                    @if (loading() || traits().isLoading()) {
+                        &lt;p-skeleton height&#x3D;&quot;15rem&quot;/&gt;
+                    } @else {
+                        @if (neoplasticSitesCount.value(); as data) {
+                            &lt;onconova-doughnut-graph [data]&#x3D;&quot;data.items&quot; legendPosition&#x3D;&quot;right&quot; width&#x3D;&quot;30rem&quot;/&gt;
+                        }
+                    }
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;    
+    
+    &lt;/p-panel&gt;
+    
+
+    &lt;p-panel header&#x3D;&quot;Cohort Characteristics&quot; [toggleable]&#x3D;&quot;true&quot; styleClass&#x3D;&quot;mt-4&quot;&gt;      
+        &lt;div class&#x3D;&quot;font-semibold&quot;&gt;Overall survival (OS)&lt;/div&gt;
+        &lt;div class&#x3D;&quot;text-muted mb-2&quot;&gt;
+            Kaplan-Meier survival analysis of the overall survival of the patients in the cohort since the initial diagnosis. 
+        &lt;/div&gt;  
+        @if (cohort().population &lt; 10) {
+            &lt;p-message severity&#x3D;&quot;warn&quot; styleClass&#x3D;&quot;mb-5&quot;&gt;Cohort population too small. The Kaplan-Meier analysis requires at least 10 cases.&lt;/p-message&gt;
+        } @else {
+            @if (loading() || overallSurvivalCurve.isLoading()) { 
+                &lt;p-skeleton height&#x3D;&quot;30rem&quot; width&#x3D;&quot;60%&quot;/&gt;
+            } @else { 
+                @if (overallSurvivalCurve.value(); as data) {
+                    &lt;onconova-kappler-meier-curve [data]&#x3D;&quot;data&quot;/&gt;   
+                } 
+            }
+        } 
+
+        &lt;div class&#x3D;&quot;font-semibold&quot;&gt;Genomic variants (Oncoplot)&lt;/div&gt;
+        &lt;div class&#x3D;&quot;text-muted mb-2&quot;&gt;
+            A summary of the genomics of the cohort
+        &lt;/div&gt;
+        @if (cohort().population &lt; 10) {
+            &lt;p-message severity&#x3D;&quot;warn&quot; styleClass&#x3D;&quot;mb-5&quot;&gt;Cohort population too small. The Oncoplot analysis requires at least 10 cases.&lt;/p-message&gt;
+        } @else {
+            @if (loading() || cohortGenomics.isLoading()) { 
+                &lt;p-skeleton height&#x3D;&quot;30rem&quot; width&#x3D;&quot;100%&quot;/&gt;
+            } @else { 
+                @if (cohortGenomics.value(); as data) {
+                    &lt;onconova-oncoplot [data]&#x3D;&quot;data&quot;/&gt;    
+                }
+            }
+        }
+    &lt;/p-panel&gt;
+    
+    &lt;p-panel header&#x3D;&quot;Therapy lines&quot; [toggleable]&#x3D;&quot;true&quot; styleClass&#x3D;&quot;mt-4&quot;&gt;
+            
+        @if (therapyLinesCount() &amp;&amp; therapyLineOptions().length&gt;0) {
+            &lt;div class&#x3D;&quot;text-muted mb-1&quot;&gt;
+                Select the therapy line to analyze
+            &lt;/div&gt;
+            &lt;p-selectbutton 
+                [options]&#x3D;&quot;therapyLineOptions()&quot; 
+                class&#x3D;&quot;flex-wrap&quot;
+                [(ngModel)]&#x3D;&quot;selectedTherapyLine&quot; 
+                [allowEmpty]&#x3D;&quot;false&quot;/&gt;
+        }
+
+        &lt;div class&#x3D;&quot;flex flex-wrap gap-5&quot;&gt;
+            &lt;div class&#x3D;&quot;mr-4&quot;&gt;
+                &lt;div class&#x3D;&quot;font-semibold mt-4&quot;&gt;Cohort fraction&lt;/div&gt;
+                &lt;div class&#x3D;&quot;text-muted mb-2&quot;&gt;
+                    A distribution of the proportion of patients in the cohort that have received this therapy line.
+                &lt;/div&gt;    
+                @if (therapyLineOptions().length&#x3D;&#x3D;0) {
+                    &lt;p-message severity&#x3D;&quot;warn&quot; styleClass&#x3D;&quot;mb-5&quot;&gt;No therapy lines have been assigned to this cohort&#x27;s cases.&lt;/p-message&gt;
+                } @else {
+                    @if (loading() || traits().isLoading()) {
+                        &lt;p-skeleton height&#x3D;&quot;10rem&quot; width&#x3D;&quot;15rem&quot;/&gt;
+                    } @else {
+                        @if (therapyLineCohortFractionCount(); as data) {
+                            &lt;onconova-doughnut-graph [data]&#x3D;&quot;data&quot; legendPosition&#x3D;&quot;right&quot; width&#x3D;&quot;25rem&quot;/&gt;
+                        }
+                    }
+                }
+            &lt;/div&gt;
+
+            &lt;div&gt;
+                &lt;div class&#x3D;&quot;font-semibold mt-4&quot;&gt;Treatment response (RECIST)&lt;/div&gt;
+                &lt;div class&#x3D;&quot;text-muted mb-2&quot;&gt;
+                    A distribution of the responses to the therapy line of the patients in the cohort.
+                &lt;/div&gt;    
+                @if (therapyLineOptions().length&#x3D;&#x3D;0) {
+                    &lt;p-message severity&#x3D;&quot;warn&quot; styleClass&#x3D;&quot;mb-5&quot;&gt;No therapy lines have been assigned to this cohort&#x27;s cases.&lt;/p-message&gt;
+                } @else {
+                    @if (loading() || therapyLineResponsesCount.isLoading()) {
+                        &lt;p-skeleton height&#x3D;&quot;10rem&quot; width&#x3D;&quot;15rem&quot;/&gt;
+                    } @else {
+                        @if (therapyLineResponsesCount.value(); as data) {
+                            &lt;onconova-doughnut-graph [data]&#x3D;&quot;data.items&quot; legendPosition&#x3D;&quot;right&quot; width&#x3D;&quot;25rem&quot;/&gt;
+                        }
+                    }
+                }
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;div class&#x3D;&quot;font-semibold mt-4&quot;&gt;Progression-free survival (PFS)&lt;/div&gt;
+        &lt;div class&#x3D;&quot;text-muted mb-2&quot;&gt;
+            Kaplan-Meier survival analysis of the progression-free survival of the patients in the cohort during the therapy line. 
+        &lt;/div&gt;    
+        @if (therapyLineOptions().length&#x3D;&#x3D;0) {
+            &lt;p-message severity&#x3D;&quot;warn&quot; styleClass&#x3D;&quot;mb-5&quot;&gt;No therapy lines have been assigned to this cohort&#x27;s cases.&lt;/p-message&gt;
+        }@else if (cohort().population &lt; 10 || therapyLinePopulation() &lt; 10) {
+            &lt;p-message severity&#x3D;&quot;warn&quot; styleClass&#x3D;&quot;mb-5&quot;&gt;Cohort population too small. The Kaplan-Meier analysis requires at least 10 cases.&lt;/p-message&gt;
+        } @else {
+            @if (loading() || therapyLineSurvivalCurve.isLoading()) {
+                &lt;p-skeleton height&#x3D;&quot;30rem&quot; width&#x3D;&quot;60%&quot;/&gt;
+            } @else {
+                @if (therapyLineSurvivalCurve.value(); as data) {
+                    &lt;onconova-kappler-meier-curve [data]&#x3D;&quot;data&quot;/&gt;
+                }
+            }
+        }
+
+        &lt;div class&#x3D;&quot;font-semibold mt-4&quot;&gt;Performance of therapeutic approaches &lt;/div&gt;
+        &lt;div class&#x3D;&quot;text-muted mb-2&quot;&gt;
+            A comparison of the progression-free survival (PFS) under the most common therapy approaches for this cohort.
+        &lt;/div&gt;    
+        @if (therapyLineOptions().length&#x3D;&#x3D;0) {
+            &lt;p-message severity&#x3D;&quot;warn&quot; styleClass&#x3D;&quot;mb-5&quot;&gt;No therapy lines have been assigned to this cohort&#x27;s cases.&lt;/p-message&gt;
+        }@else if (cohort().population &lt; 10 || therapyLinePopulation() &lt; 10) {
+            &lt;p-message severity&#x3D;&quot;warn&quot; styleClass&#x3D;&quot;mb-5&quot;&gt;Cohort population too small. The Kaplan-Meier analysis requires at least 10 cases.&lt;/p-message&gt;
+        } @else {
+            @if (loading() || therapyLineTherapyClassifications.isLoading()) {
+                &lt;p-skeleton height&#x3D;&quot;15rem&quot;/&gt;
+            } @else {
+                @if (therapyLineTherapyClassifications.value(); as data) {
+                    &lt;onconova-box-plot [data]&#x3D;&quot;data.survivals&quot;/&gt;
+                }
+            }
+        }
+
+        &lt;div class&#x3D;&quot;font-semibold mt-4&quot;&gt;Performance of combination therapies&lt;/div&gt;
+        &lt;div class&#x3D;&quot;text-muted mb-2&quot;&gt;
+            A comparison of the progression-free survival (PFS) under the most common drug combinations for this cohort.
+        &lt;/div&gt;    
+        @if (therapyLineOptions().length&#x3D;&#x3D;0) {
+            &lt;p-message severity&#x3D;&quot;warn&quot; styleClass&#x3D;&quot;mb-5&quot;&gt;No therapy lines have been assigned to this cohort&#x27;s cases.&lt;/p-message&gt;
+        }@else if (cohort().population &lt; 10 || therapyLinePopulation() &lt; 10) {
+            &lt;p-message severity&#x3D;&quot;warn&quot; styleClass&#x3D;&quot;mb-5&quot;&gt;Cohort population too small. The Kaplan-Meier analysis requires at least 10 cases.&lt;/p-message&gt;
+        } @else {
+            @if (loading() || therapyLineDrugCombinations.isLoading()) {
+                &lt;p-skeleton height&#x3D;&quot;15rem&quot;/&gt;
+            } @else {
+                @if (therapyLineDrugCombinations.value(); as data) {
+                    &lt;onconova-box-plot [data]&#x3D;&quot;data.survivals&quot;/&gt;
+                }
+            }
+        }
+    &lt;/p-panel&gt;
+
+&lt;/p-card&gt;</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><p-card>    <p-panel header="Demographics" [toggleable]="true">        <div class="flex flex-wrap">            <div class="flex flex-column">                <div class="font-semibold">Patient Traits</div>                <div class="text-muted mb-2">                    Basic statistics over the demographical composition of the cohort.                </div>                <div class="flex mx-auto my-3 gap-3 w-full">                    <div>                        @if (loading() || traits().isLoading()) {                            <p-skeleton height="10rem" width="15rem"/>                        } @else {                            @if (genderCount.value(); as data) {                                <onconova-doughnut-graph [data]="data.items"/>                            }                        }                    </div>                    <div>                        @if (loading() || traits().isLoading()) {                            <p-skeleton height="10rem" width="15rem"/>                        } @else {                            @if (vitalStatusCount.value(); as data) {                                <onconova-doughnut-graph [data]="data.items"/>                            }                        }                    </div>                </div>                <div>                    <div class="mt-3 mr-4">                        @if (loading() || traits().isLoading()) {                            <p-skeleton height="15rem"/>                        } @else {                            @if (ageCount.value(); as data) {                                <onconova-distribution-graph [data]="data.items"/>                            }                        }                    </div>                </div>            </div>            <div class="ml-4">                <div class="font-semibold">Age at diagnosis</div>                <div class="text-muted mb-2">                    Distribution of age at the time of the diagnosis of the first primary neoplastic entity.                 </div>                <div class="mt-3 mr-4">                    @if (loading() || traits().isLoading()) {                        <p-skeleton height="15rem"/>                    } @else {                        @if (ageAtDiagnosisCount.value(); as data) {                            <onconova-distribution-graph [data]="data.items"/>                        }                    }                </div>                <div class="font-semibold">Neoplastic sites</div>                <div class="text-muted mb-2">                    Distribution of general topographical sites of the neoplastic entities in the cohort.                 </div>                <div class="mt-3 mr-4">                    @if (loading() || traits().isLoading()) {                        <p-skeleton height="15rem"/>                    } @else {                        @if (neoplasticSitesCount.value(); as data) {                            <onconova-doughnut-graph [data]="data.items" legendPosition="right" width="30rem"/>                        }                    }                </div>            </div>        </div>            </p-panel>        <p-panel header="Cohort Characteristics" [toggleable]="true" styleClass="mt-4">              <div class="font-semibold">Overall survival (OS)</div>        <div class="text-muted mb-2">            Kaplan-Meier survival analysis of the overall survival of the patients in the cohort since the initial diagnosis.         </div>          @if (cohort().population < 10) {            <p-message severity="warn" styleClass="mb-5">Cohort population too small. The Kaplan-Meier analysis requires at least 10 cases.</p-message>        } @else {            @if (loading() || overallSurvivalCurve.isLoading()) {                 <p-skeleton height="30rem" width="60%"/>            } @else {                 @if (overallSurvivalCurve.value(); as data) {                    <onconova-kappler-meier-curve [data]="data"/>                   }             }        }         <div class="font-semibold">Genomic variants (Oncoplot)</div>        <div class="text-muted mb-2">            A summary of the genomics of the cohort        </div>        @if (cohort().population < 10) {            <p-message severity="warn" styleClass="mb-5">Cohort population too small. The Oncoplot analysis requires at least 10 cases.</p-message>        } @else {            @if (loading() || cohortGenomics.isLoading()) {                 <p-skeleton height="30rem" width="100%"/>            } @else {                 @if (cohortGenomics.value(); as data) {                    <onconova-oncoplot [data]="data"/>                    }            }        }    </p-panel>        <p-panel header="Therapy lines" [toggleable]="true" styleClass="mt-4">                    @if (therapyLinesCount() && therapyLineOptions().length>0) {            <div class="text-muted mb-1">                Select the therapy line to analyze            </div>            <p-selectbutton                 [options]="therapyLineOptions()"                 class="flex-wrap"                [(ngModel)]="selectedTherapyLine"                 [allowEmpty]="false"/>        }        <div class="flex flex-wrap gap-5">            <div class="mr-4">                <div class="font-semibold mt-4">Cohort fraction</div>                <div class="text-muted mb-2">                    A distribution of the proportion of patients in the cohort that have received this therapy line.                </div>                    @if (therapyLineOptions().length==0) {                    <p-message severity="warn" styleClass="mb-5">No therapy lines have been assigned to this cohort\'s cases.</p-message>                } @else {                    @if (loading() || traits().isLoading()) {                        <p-skeleton height="10rem" width="15rem"/>                    } @else {                        @if (therapyLineCohortFractionCount(); as data) {                            <onconova-doughnut-graph [data]="data" legendPosition="right" width="25rem"/>                        }                    }                }            </div>            <div>                <div class="font-semibold mt-4">Treatment response (RECIST)</div>                <div class="text-muted mb-2">                    A distribution of the responses to the therapy line of the patients in the cohort.                </div>                    @if (therapyLineOptions().length==0) {                    <p-message severity="warn" styleClass="mb-5">No therapy lines have been assigned to this cohort\'s cases.</p-message>                } @else {                    @if (loading() || therapyLineResponsesCount.isLoading()) {                        <p-skeleton height="10rem" width="15rem"/>                    } @else {                        @if (therapyLineResponsesCount.value(); as data) {                            <onconova-doughnut-graph [data]="data.items" legendPosition="right" width="25rem"/>                        }                    }                }            </div>        </div>        <div class="font-semibold mt-4">Progression-free survival (PFS)</div>        <div class="text-muted mb-2">            Kaplan-Meier survival analysis of the progression-free survival of the patients in the cohort during the therapy line.         </div>            @if (therapyLineOptions().length==0) {            <p-message severity="warn" styleClass="mb-5">No therapy lines have been assigned to this cohort\'s cases.</p-message>        }@else if (cohort().population < 10 || therapyLinePopulation() < 10) {            <p-message severity="warn" styleClass="mb-5">Cohort population too small. The Kaplan-Meier analysis requires at least 10 cases.</p-message>        } @else {            @if (loading() || therapyLineSurvivalCurve.isLoading()) {                <p-skeleton height="30rem" width="60%"/>            } @else {                @if (therapyLineSurvivalCurve.value(); as data) {                    <onconova-kappler-meier-curve [data]="data"/>                }            }        }        <div class="font-semibold mt-4">Performance of therapeutic approaches </div>        <div class="text-muted mb-2">            A comparison of the progression-free survival (PFS) under the most common therapy approaches for this cohort.        </div>            @if (therapyLineOptions().length==0) {            <p-message severity="warn" styleClass="mb-5">No therapy lines have been assigned to this cohort\'s cases.</p-message>        }@else if (cohort().population < 10 || therapyLinePopulation() < 10) {            <p-message severity="warn" styleClass="mb-5">Cohort population too small. The Kaplan-Meier analysis requires at least 10 cases.</p-message>        } @else {            @if (loading() || therapyLineTherapyClassifications.isLoading()) {                <p-skeleton height="15rem"/>            } @else {                @if (therapyLineTherapyClassifications.value(); as data) {                    <onconova-box-plot [data]="data.survivals"/>                }            }        }        <div class="font-semibold mt-4">Performance of combination therapies</div>        <div class="text-muted mb-2">            A comparison of the progression-free survival (PFS) under the most common drug combinations for this cohort.        </div>            @if (therapyLineOptions().length==0) {            <p-message severity="warn" styleClass="mb-5">No therapy lines have been assigned to this cohort\'s cases.</p-message>        }@else if (cohort().population < 10 || therapyLinePopulation() < 10) {            <p-message severity="warn" styleClass="mb-5">Cohort population too small. The Kaplan-Meier analysis requires at least 10 cases.</p-message>        } @else {            @if (loading() || therapyLineDrugCombinations.isLoading()) {                <p-skeleton height="15rem"/>            } @else {                @if (therapyLineDrugCombinations.value(); as data) {                    <onconova-box-plot [data]="data.survivals"/>                }            }        }    </p-panel></p-card></div>'
+    var COMPONENTS = [{'name': 'AbstractFormBase', 'selector': ''},{'name': 'AdverseEventFormComponent', 'selector': 'adverse-event-form'},{'name': 'AppComponent', 'selector': 'onconova-root'},{'name': 'AppFooterComponent', 'selector': 'onconova-footer'},{'name': 'AppLayoutComponent', 'selector': 'onconova-layout'},{'name': 'AppSidebarMenuComponent', 'selector': 'onconova-sidebar-menu'},{'name': 'AppTopBarComponent', 'selector': 'onconova-topbar'},{'name': 'AuthCallbackComponent', 'selector': 'app-auth-callback'},{'name': 'AuthLayoutComponent', 'selector': 'onconova-auth-layout'},{'name': 'BoxPlotComponent', 'selector': 'onconova-box-plot'},{'name': 'CancerIconComponent', 'selector': 'onconova-cancer-icon'},{'name': 'CaseImporterBundleViewerComponent', 'selector': 'onconova-case-importer-bundle-viewer'},{'name': 'CaseImporterComponent', 'selector': 'onconova-case-importer'},{'name': 'CaseManagerComponent', 'selector': 'onconova-case-manager'},{'name': 'CaseManagerDrawerComponent', 'selector': 'onconova-case-manager-drawer'},{'name': 'CaseManagerPanelComponent', 'selector': 'onconova-case-manager-panel'},{'name': 'CaseManagerPanelTimelineComponent', 'selector': 'onconova-case-manager-panel-timeline'},{'name': 'CaseSearchComponent', 'selector': ''},{'name': 'CaseSearchItemCardComponent', 'selector': 'onconova-case-search-item,[onconova-case-search-item]'},{'name': 'CodedConceptTreeComponent', 'selector': 'onconova-coded-concept-tree'},{'name': 'CohortBuilderComponent', 'selector': 'onconova-cohort-manager'},{'name': 'CohortContributorsComponent', 'selector': 'onconova-cohort-contributors'},{'name': 'CohortFormComponent', 'selector': 'cohort-form'},{'name': 'CohortGraphsComponent', 'selector': 'onconova-cohort-graphs'},{'name': 'CohortGraphsContextMenu', 'selector': 'onconova-cohort-graph-context-menu'},{'name': 'CohortQueryBuilderComponent', 'selector': 'onconova-cohort-query-builder'},{'name': 'CohortSearchComponent', 'selector': ''},{'name': 'CohortSearchItemComponent', 'selector': 'onconova-cohort-search-item, [onconova-cohort-search-item]'},{'name': 'CohortTraitPanel', 'selector': 'onconova-cohort-trait'},{'name': 'ComorbiditiesAssessmentFormComponent', 'selector': 'comorbidities-form'},{'name': 'ConceptSelectorComponent', 'selector': 'onconova-concept-selector'},{'name': 'ConsentNoticeModalComponent', 'selector': 'onconova-consent-modal'},{'name': 'DashboardComponent', 'selector': 'onconova-dashboard'},{'name': 'DataCompletionStatsComponent', 'selector': 'onconova-data-completion-stats'},{'name': 'DatasetComposerComponent', 'selector': 'onconova-dataset-composer'},{'name': 'DataSummaryComponent', 'selector': 'onconova-data-summary'},{'name': 'DataSummaryCounterComponent', 'selector': 'onconova-data-summary-counter'},{'name': 'DatePickerComponent', 'selector': 'onconova-datepicker'},{'name': 'DisclaimerBannerComponent', 'selector': 'onconova-disclaimer-banner'},{'name': 'DistributionGraphComponent', 'selector': 'onconova-distribution-graph'},{'name': 'DoughnutGraphComponent', 'selector': 'onconova-doughnut-graph'},{'name': 'DrawerDataPropertiesComponent', 'selector': 'onconova-drawer-properties'},{'name': 'ErrorComponent', 'selector': 'onconova-error'},{'name': 'ExportConfirmDialogComponent', 'selector': 'onconova-export-confirm-dialog'},{'name': 'FamilyHistoryFormComponent', 'selector': 'family-history-form'},{'name': 'FormControlErrorComponent', 'selector': 'onconova-form-control-error'},{'name': 'GenomicSignatureFormComponent', 'selector': 'genomic-signature-form'},{'name': 'GenomicVariantFormComponent', 'selector': 'genomic-variant-form'},{'name': 'IdenticonComponent', 'selector': 'onconova-identicon'},{'name': 'KapplerMeierCurveComponent', 'selector': 'onconova-kappler-meier-curve'},{'name': 'LifestyleFormComponent', 'selector': 'lifestyle-form'},{'name': 'LoginComponent', 'selector': 'onconova-login'},{'name': 'MeasureInputComponent', 'selector': 'onconova-measure-input'},{'name': 'ModalFormHeaderComponent', 'selector': 'onconova-modal-form-header'},{'name': 'MultiReferenceSelectComponent', 'selector': 'onconova-multi-reference-select'},{'name': 'NeoplasticEntityFormComponent', 'selector': 'neoplastic-entity-form'},{'name': 'NestedTableComponent', 'selector': 'onconova-nested-table'},{'name': 'OncoplotComponent', 'selector': 'onconova-oncoplot'},{'name': 'PasswordResetFormComponent', 'selector': 'onconova-password-reset-dialog'},{'name': 'PatientFormComponent', 'selector': 'patient-form'},{'name': 'PerformanceStatusFormComponent', 'selector': 'performance-status-form'},{'name': 'PopoverFilterButtonComponent', 'selector': 'onconova-popover-filter-button'},{'name': 'PrimaryEntitiesTableComponent', 'selector': 'onconova-primary-entities-table'},{'name': 'ProjectFormComponent', 'selector': 'project-form'},{'name': 'ProjectManagementComponent', 'selector': 'onconova-project-management'},{'name': 'ProjectSearchComponent', 'selector': 'onconova-project-search'},{'name': 'ProjectSearchItemComponent', 'selector': 'onconova-project-search-item, [onconova-project-search-item]'},{'name': 'ProviderSignupComponent', 'selector': 'app-signup'},{'name': 'RadioSelectComponent', 'selector': 'onconova-radio-select'},{'name': 'RadiotherapyFormComponent', 'selector': 'radiotherapy-form'},{'name': 'RandomPaperComponent', 'selector': 'onconova-random-paper'},{'name': 'RangeInputComponent', 'selector': 'onconova-range-input'},{'name': 'RiskAssessmentFormComponent', 'selector': 'risk-assessment-form'},{'name': 'SettingsDialogComponent', 'selector': 'onconova-settings-dialog'},{'name': 'StagingFormComponent', 'selector': 'staging-form'},{'name': 'SurgeryFormComponent', 'selector': 'surgery-form'},{'name': 'SystemicTherapyFormComponent', 'selector': 'systemic-therapy-form'},{'name': 'TreatmentResponseFormComponent', 'selector': 'treatment-response-form'},{'name': 'TumorBoardFormComponent', 'selector': 'tumor-board-form'},{'name': 'TumorMarkerFormComponent', 'selector': 'tumor-marker-form'},{'name': 'UserBadgeComponent', 'selector': 'onconova-user-badge'},{'name': 'UserDetailsComponent', 'selector': 'onconova-user-details'},{'name': 'UserFormComponent', 'selector': 'onconova-user-form'},{'name': 'UserSelectorComponent', 'selector': 'onconova-user-selector'},{'name': 'UsersManagementCompnent', 'selector': 'onconova-users-management'},{'name': 'VitalsFormComponent', 'selector': 'vitals-form'}];
+    var DIRECTIVES = [{'name': 'DateMaskDirective', 'selector': '[dateMask]'}];
+    var ACTUAL_COMPONENT = {'name': 'CohortGraphsComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'CohortGraphsComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

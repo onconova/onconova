@@ -1,0 +1,651 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Application documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+        <link rel="stylesheet" href="../styles/material.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Application documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content pipe">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Pipes</li>
+  <li class="breadcrumb-item" >getEventGradesPipe</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>/home/runner/work/onconova/onconova/client/src/app/features/forms/adverse-event-form/adverse-event-form.component.ts</code>
+        </p>
+
+
+
+
+        <section data-compodoc="block-metadata">
+            <h3>Metadata</h3>
+            <table class="table table-sm table-hover metadata">
+                <tbody>
+                    <tr>
+                        <td class="col-md-3">Name</td>
+                        <td class="col-md-9">getEventGrades</td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-3">Standalone</td>
+                        <td class="col-md-9"><code>true</code></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+            <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="transform"></a>
+                    <span class="name">
+                        <span ><b>transform</b></span>
+                        <a href="#transform"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>transform(concept: CodedConcept | null)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="53"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/forms/adverse-event-form/adverse-event-form.component.ts:53</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>concept</td>
+                                            <td>
+                                                        <code>CodedConcept | null</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, computed, effect, inject, input, Pipe, PipeTransform} from &#x27;@angular/core&#x27;;
+import { FormBuilder, Validators, FormArray, FormGroup, ValidatorFn, ValidationErrors, AbstractControl } from &#x27;@angular/forms&#x27;;
+import { FormsModule, ReactiveFormsModule } from &#x27;@angular/forms&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+import { forkJoin, map } from &#x27;rxjs&#x27;;
+
+import { Fieldset } from &#x27;primeng/fieldset&#x27;;
+import { ButtonModule } from &#x27;primeng/button&#x27;;
+import { Fluid } from &#x27;primeng/fluid&#x27;;
+import { SelectModule } from &#x27;primeng/select&#x27;;
+import { MultiSelectModule } from &#x27;primeng/multiselect&#x27;;
+import { InputMaskModule } from &#x27;primeng/inputmask&#x27;;
+import { RadioButton } from &#x27;primeng/radiobutton&#x27;;
+
+
+import { 
+    CodedConcept,
+    SystemicTherapiesService,
+    RadiotherapiesService,
+    SurgeriesService,
+    AdverseEventOutcomeChoices,
+    AdverseEventSuspectedCauseCausalityChoices,
+    AdverseEventMitigationCategoryChoices,
+    AdverseEventsService,
+    AdverseEvent,
+    AdverseEventCreate,
+    AdverseEventSuspectedCauseCreate,
+    AdverseEventSuspectedCause,
+    AdverseEventMitigation,
+    AdverseEventMitigationCreate,
+    SystemicTherapy,
+    SystemicTherapyMedication,
+    Surgery,
+    Radiotherapy,
+} from &#x27;onconova-api-client&#x27;
+
+import { 
+  ConceptSelectorComponent, 
+  DatePickerComponent,
+  FormControlErrorComponent,
+  RadioChoice,
+  RadioSelectComponent
+} from &#x27;../../../shared/components&#x27;;
+import { AbstractFormBase } from &#x27;../abstract-form-base.component&#x27;;
+import { rxResource } from &#x27;@angular/core/rxjs-interop&#x27;;
+
+@Pipe({
+    standalone: true,
+    name: &#x27;getEventGrades&#x27;
+  })
+export class getEventGradesPipe implements PipeTransform {
+  
+    transform(concept: CodedConcept | null) {
+        if (!concept) return [];
+        const grades &#x3D; Array.from({length: 5}, (_, i) &#x3D;&gt; i+1);
+        let gradeChoices &#x3D; grades.map((grade: number) &#x3D;&gt; {
+            const properties &#x3D; concept.properties as { [key: string]: any };
+            return {
+                grade: grade,
+                description: properties[&#x60;grade${grade}&#x60;].trim(),                
+            }
+        })
+        return gradeChoices.filter((choice) &#x3D;&gt; choice.description !&#x3D;&#x3D; &#x27;-&#x27;)
+    }
+}
+
+
+@Component({
+    selector: &#x27;adverse-event-form&#x27;,
+    templateUrl: &#x27;./adverse-event-form.component.html&#x27;,
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        FormsModule,
+        SelectModule,
+        MultiSelectModule,
+        RadioButton,
+        DatePickerComponent,
+        Fluid,
+        Fieldset,
+        InputMaskModule,
+        ButtonModule,
+        getEventGradesPipe,
+        ConceptSelectorComponent,
+        RadioSelectComponent,
+        FormControlErrorComponent,
+    ]
+})
+export class AdverseEventFormComponent extends AbstractFormBase {
+
+    // Input signal for initial data passed to the form
+    public initialData &#x3D; input&lt;AdverseEvent&gt;();
+
+    // Service injections
+    readonly #systemicTherapiesService: SystemicTherapiesService &#x3D; inject(SystemicTherapiesService);
+    readonly #radiotherapiesService: RadiotherapiesService &#x3D; inject(RadiotherapiesService);
+    readonly #surgeriesService: SurgeriesService &#x3D; inject(SurgeriesService);
+    readonly #adverseEventsService: AdverseEventsService &#x3D; inject(AdverseEventsService);
+    readonly #fb &#x3D; inject(FormBuilder);
+
+    // Create and update service methods for the form data
+    public readonly createService &#x3D; (payload: AdverseEventCreate) &#x3D;&gt; this.#adverseEventsService.createAdverseEvent({adverseEventCreate: payload});
+    public readonly updateService &#x3D; (id: string, payload: AdverseEventCreate) &#x3D;&gt; this.#adverseEventsService.updateAdverseEvent({adverseEventId: id, adverseEventCreate: payload});
+
+    // Services to create/update/delete related resources with data in subforms
+    override subformsServices &#x3D; [
+        {
+            payloads: this.suspectedCausesPayloads.bind(this),
+            deletedEntries: this.getdeletedSuspectedCauses.bind(this),
+            delete: (parentId: string, id: string) &#x3D;&gt; this.#adverseEventsService.deleteAdverseEventSuspectedCause({adverseEventId: parentId, causeId: id}),
+            create: (parentId: string, payload: AdverseEventSuspectedCauseCreate) &#x3D;&gt; this.#adverseEventsService.createAdverseEventSuspectedCause({adverseEventId: parentId, adverseEventSuspectedCauseCreate: payload}),
+            update: (parentId: string, id: string, payload: AdverseEventSuspectedCauseCreate) &#x3D;&gt; this.#adverseEventsService.updateAdverseEventSuspectedCause({adverseEventId: parentId, causeId: id, adverseEventSuspectedCauseCreate: payload}),
+        },
+        {
+            payloads: this.mitigationsPayloads.bind(this),
+            deletedEntries: this.getdeletedMitigations.bind(this),
+            delete: (parentId: string, id: string) &#x3D;&gt; this.#adverseEventsService.deleteAdverseEventMitigation({adverseEventId: parentId, mitigationId: id}),
+            create: (parentId: string, payload: AdverseEventMitigationCreate) &#x3D;&gt; this.#adverseEventsService.createAdverseEventMitigation({adverseEventId: parentId, adverseEventMitigationCreate: payload}),
+            update: (parentId: string, id: string, payload: AdverseEventMitigationCreate) &#x3D;&gt; this.#adverseEventsService.updateAdverseEventMitigation({adverseEventId: parentId, mitigationId: id, adverseEventMitigationCreate: payload}),
+        },
+    ]
+    #deletedMitigations: string[] &#x3D; [];
+    #deletedSuspectedCauses: string[] &#x3D; [];
+
+
+    dateResolvedAfterDateValidator: ValidatorFn &#x3D; (control: AbstractControl&lt;any, any&gt;): ValidationErrors | null &#x3D;&gt; {
+        const date &#x3D; control.get(&#x27;date&#x27;)?.value;
+        const dateResolved &#x3D; control.get(&#x27;dateResolved&#x27;)?.value;
+        if (dateResolved &amp;&amp; date &amp;&amp; new Date(dateResolved) &lt; new Date(date)) {
+            return { dateResolvedAfterDate: true };
+        }
+        return null;
+    };
+
+    // Define the main form
+    public form &#x3D; this.#fb.group({
+        date: this.#fb.control&lt;string | null&gt;(null, Validators.required),
+        event: this.#fb.control&lt;CodedConcept | null&gt;(null, Validators.required),
+        grade: this.#fb.control&lt;number | null&gt;(null, Validators.required),
+        outcome: this.#fb.control&lt;AdverseEventOutcomeChoices | null&gt;(null, Validators.required),
+        dateResolved: this.#fb.control&lt;string | null&gt;(null),
+        suspectedCauses: this.#fb.array&lt;FormGroup&gt;([]),
+        mitigations: this.#fb.array&lt;FormGroup&gt;([]),
+      }, {
+        validators: [this.dateResolvedAfterDateValidator]
+    });
+
+    readonly #onInitialDataChangeEffect &#x3D; effect((): void &#x3D;&gt; {
+        const data &#x3D; this.initialData();
+        if (!data) return;       
+        this.form.patchValue({
+            date: data.date ?? null,
+            event: data.event || null,
+            grade: data.grade ?? null,
+            outcome: data.outcome ?? null,
+            dateResolved: data.dateResolved ?? null,
+        });
+        (data.suspectedCauses || []).forEach((initialData: AdverseEventSuspectedCause) &#x3D;&gt;
+            this.form.controls.suspectedCauses.push(this.#suspectedCauseForm(initialData))
+        );
+        (data.mitigations || []).forEach((initialData: AdverseEventMitigation) &#x3D;&gt;
+            this.form.controls.mitigations.push(this.#mitigationForm(initialData))
+        );
+    });
+
+    //Definition for the dynamic subform constructor
+    #suspectedCauseForm &#x3D; (initialData: AdverseEventSuspectedCause) &#x3D;&gt; this.#fb.group({
+        id: this.#fb.control&lt;string | null&gt;(
+            initialData?.id
+        ),
+        cause: this.#fb.control&lt;string | null&gt;(
+            initialData?.medicationId || 
+            initialData?.radiotherapyId || 
+            initialData?.surgeryId || 
+            initialData?.systemicTherapyId ||
+            null,
+            Validators.required
+        ),
+        causality: this.#fb.control&lt;AdverseEventSuspectedCauseCausalityChoices | null&gt;(
+            initialData?.causality ?? null,
+        )
+    })
+
+    //Definition for the dynamic subform constructor
+    #mitigationForm &#x3D; (initialData: AdverseEventMitigation) &#x3D;&gt; this.#fb.group({
+        id: this.#fb.control&lt;string | null&gt;(
+            initialData?.id,
+        ),
+        category: this.#fb.control&lt;string | null&gt;(
+            initialData?.category, Validators.required,
+        ),
+        adjustment: this.#fb.control&lt;CodedConcept | null&gt;(
+            initialData?.adjustment ?? null,
+        ),
+        drug: this.#fb.control&lt;CodedConcept | null&gt;(
+            initialData?.drug ?? null,
+        ),
+        procedure: this.#fb.control&lt;CodedConcept | null&gt;(
+            initialData?.procedure ?? null,
+        ),
+        management: this.#fb.control&lt;CodedConcept | null&gt;(
+            initialData?.management ??  null,
+        )
+    })
+
+    // API Payload construction function s
+    readonly payload &#x3D; (): AdverseEventCreate &#x3D;&gt; {    
+        const data &#x3D; this.form.getRawValue();
+        return {
+            caseId: this.caseId(),
+            date: data.date!,
+            event: data.event!,
+            grade: data.grade!,
+            outcome: data.outcome as AdverseEventOutcomeChoices,
+            dateResolved: (data.outcome &#x3D;&#x3D;&#x3D; AdverseEventOutcomeChoices.Resolved || data.outcome &#x3D;&#x3D;&#x3D; AdverseEventOutcomeChoices.ResolvedWithSequelae) ?  (data.dateResolved ?? undefined) : undefined,
+        }
+    }
+    suspectedCausesPayloads (): AdverseEventSuspectedCauseCreate[] {
+        const data &#x3D; this.form.controls[&#x27;suspectedCauses&#x27;].value;
+        return data.map((subformData: any) &#x3D;&gt; {return {
+            id: subformData.id,
+            causality: subformData.causality,            
+            medicationId: this.#suspectedMedicationsIds().includes(subformData.cause) ? subformData.cause : null,
+            radiotherapyId: this.#suspectedRadiotherapiesIds().includes(subformData.cause) ? subformData.cause : null,
+            surgeryId: this.#suspectedSurgeriesIds().includes(subformData.cause) ? subformData.cause : null,
+            systemicTherapyId: this.#suspectedSystemicTherapiesIds().includes(subformData.cause) ? subformData.cause : null,
+        }})
+    }
+    mitigationsPayloads(): AdverseEventMitigationCreate[] {
+        const data &#x3D; this.form.controls[&#x27;mitigations&#x27;].value;
+        return data.map((subformData: any) &#x3D;&gt; {return {
+            id: subformData.id,
+            category: subformData.category,
+            adjustment: subformData.category &#x3D;&#x3D;&#x3D; AdverseEventMitigationCategoryChoices.Adjustment ?  subformData.adjustment : null, 
+            drug: subformData.category &#x3D;&#x3D;&#x3D; AdverseEventMitigationCategoryChoices.Pharmacological ? subformData.drug : null, 
+            procedure: subformData.category &#x3D;&#x3D;&#x3D; AdverseEventMitigationCategoryChoices.Procedure ?  subformData.procedure : null, 
+            management: subformData.management, 
+        }})
+    }
+    
+    // All potiential suspected causes of the adverse event
+    public relatedSuspectedCauses &#x3D; rxResource({
+        request: () &#x3D;&gt; ({caseId: this.caseId()}),
+        loader: ({request}) &#x3D;&gt; forkJoin([
+            this.#systemicTherapiesService.getSystemicTherapies(request).pipe(map((response) &#x3D;&gt; response.items)),
+            this.#systemicTherapiesService.getSystemicTherapies(request).pipe(map((response) &#x3D;&gt; response.items.flatMap(therapy &#x3D;&gt; {
+                return therapy.medications
+        }))),
+            this.#radiotherapiesService.getRadiotherapies(request).pipe(map((response) &#x3D;&gt; response.items)),
+            this.#surgeriesService.getSurgeries(request).pipe(map((response) &#x3D;&gt; response.items)),
+        ]).pipe(
+            map(([systemicTherapies, medications, radiotherapies, surgeries]) &#x3D;&gt; {
+                return [...systemicTherapies, ...medications,...radiotherapies, ...surgeries];
+            })
+        )
+    })
+
+    public readonly AdverseEventOutcomeChoices &#x3D; AdverseEventOutcomeChoices;
+    public readonly outcomeChoices: RadioChoice[] &#x3D; [
+        {name: &#x27;Resolved&#x27;, value: AdverseEventOutcomeChoices.Resolved},
+        {name: &#x27;Resolved with sequelae&#x27;, value: AdverseEventOutcomeChoices.ResolvedWithSequelae},
+        {name: &#x27;Ongoing&#x27;, value: AdverseEventOutcomeChoices.Ongoing},
+        {name: &#x27;Recovering&#x27;, value: AdverseEventOutcomeChoices.Recovering},
+        {name: &#x27;Fatal&#x27;, value: AdverseEventOutcomeChoices.Fatal},
+        {name: &#x27;Unknown&#x27;, value: AdverseEventOutcomeChoices.Unknown},
+    ]
+
+    public readonly AdverseEventSuspectedCauseCausalityChoices &#x3D; AdverseEventSuspectedCauseCausalityChoices;
+    public readonly causalityChoices: RadioChoice[] &#x3D; [
+        {name: &#x27;Definitely related&#x27;, value: AdverseEventSuspectedCauseCausalityChoices.DefinitelyRelated},
+        {name: &#x27;Probably related&#x27;, value: AdverseEventSuspectedCauseCausalityChoices.ProbablyRelated},
+        {name: &#x27;Possibly related&#x27;, value: AdverseEventSuspectedCauseCausalityChoices.PossiblyRelated},
+        {name: &#x27;Unrelated&#x27;, value: AdverseEventSuspectedCauseCausalityChoices.Unrelated},
+        {name: &#x27;Unlikely related&#x27;, value: AdverseEventSuspectedCauseCausalityChoices.UnlikelyRelated},
+        {name: &#x27;Conditionally related&#x27;, value: AdverseEventSuspectedCauseCausalityChoices.ConditionallyRelated},
+    ]
+
+    public readonly AdverseEventMitigationCategoryChoices &#x3D; AdverseEventMitigationCategoryChoices;
+    public readonly mitigationCategoryChoices: RadioChoice[] &#x3D; [
+        {name: &#x27;Adjustment of the systemic anti-neoplastic treatment&#x27;, value: AdverseEventMitigationCategoryChoices.Adjustment},
+        {name: &#x27;Pharmacological treatment of the adverse event&#x27;, value: AdverseEventMitigationCategoryChoices.Pharmacological},
+        {name: &#x27;Non-pharmacological treatment of the adverse event&#x27;, value: AdverseEventMitigationCategoryChoices.Procedure},
+    ]
+
+    public addSuspectedCause() {
+        const suspectedCauses: FormArray &#x3D; this.form.controls[&#x27;suspectedCauses&#x27;]
+        suspectedCauses.push(this.#suspectedCauseForm({} as AdverseEventSuspectedCause));
+    }
+
+    public addMitigation() {
+        const mitigations: FormArray &#x3D; this.form.controls[&#x27;mitigations&#x27;]
+        mitigations.push(this.#mitigationForm({} as AdverseEventMitigation));
+    }
+
+    public removeSuspectedCause(index: number) {
+        const suspectedCauses: FormArray &#x3D; this.form.controls[&#x27;suspectedCauses&#x27;]
+        const settingValue &#x3D; suspectedCauses.value[index];
+        if (settingValue?.id) {
+            this.#deletedSuspectedCauses.push(settingValue.id);
+        }
+        suspectedCauses.removeAt(index);
+    }
+
+    public removeMitigation(index: number) {
+        const mitigations: FormArray &#x3D; this.form.controls[&#x27;mitigations&#x27;]
+        const settingValue &#x3D; mitigations.value[index];
+        if (settingValue?.id) {
+            this.#deletedMitigations.push(settingValue.id);
+        }
+        mitigations.removeAt(index);
+    }
+
+    getdeletedSuspectedCauses(): string[] {
+        return this.#deletedSuspectedCauses;
+    }
+
+    getdeletedMitigations(): string[] {
+        return this.#deletedMitigations;
+    }
+
+
+    #suspectedSystemicTherapiesIds &#x3D; computed( () &#x3D;&gt; this.relatedSuspectedCauses.value()!.filter((entry) &#x3D;&gt; this.#isSystemicTherapy(entry))?.map((entry) &#x3D;&gt; entry.id))
+    #suspectedMedicationsIds &#x3D; computed( () &#x3D;&gt; this.relatedSuspectedCauses.value()!.filter((entry) &#x3D;&gt; this.#isSystemicTherapyMedication(entry))?.map((entry) &#x3D;&gt; entry.id))
+    #suspectedSurgeriesIds &#x3D; computed( () &#x3D;&gt; this.relatedSuspectedCauses.value()!.filter((entry) &#x3D;&gt; this.#isSurgery(entry))?.map((entry) &#x3D;&gt; entry.id))
+    #suspectedRadiotherapiesIds &#x3D; computed( () &#x3D;&gt; this.relatedSuspectedCauses.value()!.filter((entry) &#x3D;&gt; this.#isRadiotherapy(entry))?.map((entry) &#x3D;&gt; entry.id))
+    #isSystemicTherapy(obj: any): obj is SystemicTherapy {
+        return typeof obj &#x3D;&#x3D;&#x3D; &#x27;object&#x27; &amp;&amp; obj !&#x3D;&#x3D; null
+            &amp;&amp; obj.hasOwnProperty(&#x27;medications&#x27;) &amp;&amp; obj.hasOwnProperty(&#x27;period&#x27;);
+    }
+    #isSystemicTherapyMedication(obj: any): obj is SystemicTherapyMedication {
+        return typeof obj &#x3D;&#x3D;&#x3D; &#x27;object&#x27; &amp;&amp; obj !&#x3D;&#x3D; null
+        &amp;&amp; obj.hasOwnProperty(&#x27;drug&#x27;) &amp;&amp; obj.hasOwnProperty(&#x27;route&#x27;);
+    }
+    #isSurgery(obj: any): obj is Surgery {
+        return typeof obj &#x3D;&#x3D;&#x3D; &#x27;object&#x27; &amp;&amp; obj !&#x3D;&#x3D; null
+        &amp;&amp; obj.hasOwnProperty(&#x27;date&#x27;) &amp;&amp; obj.hasOwnProperty(&#x27;procedure&#x27;);
+    }
+    #isRadiotherapy(obj: any): obj is Radiotherapy {
+        return typeof obj &#x3D;&#x3D;&#x3D; &#x27;object&#x27; &amp;&amp; obj !&#x3D;&#x3D; null
+        &amp;&amp; obj.hasOwnProperty(&#x27;dosages&#x27;) &amp;&amp; obj.hasOwnProperty(&#x27;settings&#x27;);
+    }
+
+
+
+}</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'pipe';
+            var COMPODOC_CURRENT_PAGE_URL = 'getEventGradesPipe.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

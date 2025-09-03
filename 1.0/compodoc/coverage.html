@@ -1,0 +1,2349 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Application documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
+	   <link rel="stylesheet" href="./styles/style.css">
+        <link rel="stylesheet" href="./styles/dark.css">
+        <link rel="stylesheet" href="./styles/material.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="./" class="navbar-brand">Application documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content coverage">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">Documentation coverage</li>
+</ol>
+
+<div>
+    <img src="./images/coverage-badge-documentation.svg">
+</div>
+
+<table class="table table-bordered coverage" id="coverage-table">
+    <thead class="coverage-header">
+        <tr>
+            <th>File</th>
+            <th>Type</th>
+            <th>Identifier</th>
+            <th style="text-align:right" class="statements" data-sort-default>Statements</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/AppComponent.html">/home/runner/work/onconova/onconova/client/src/app/app.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>AppComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./injectables/AppConfigService.html">/home/runner/work/onconova/onconova/client/src/app/app.config.service.ts</a>
+            </td>
+            <td>injectable</td>
+            <td>AppConfigService</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/12)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#appConfig">/home/runner/work/onconova/onconova/client/src/app/app.config.ts</a>
+            </td>
+            <td>variable</td>
+            <td>appConfig</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/functions.html#get_color_scheme">/home/runner/work/onconova/onconova/client/src/app/app.preset.ts</a>
+            </td>
+            <td>function</td>
+            <td>get_color_scheme</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#AppThemePreset">/home/runner/work/onconova/onconova/client/src/app/app.preset.ts</a>
+            </td>
+            <td>variable</td>
+            <td>AppThemePreset</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#AppThemes">/home/runner/work/onconova/onconova/client/src/app/app.preset.ts</a>
+            </td>
+            <td>variable</td>
+            <td>AppThemes</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#shades">/home/runner/work/onconova/onconova/client/src/app/app.preset.ts</a>
+            </td>
+            <td>variable</td>
+            <td>shades</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/functions.html#mergeRoutes">/home/runner/work/onconova/onconova/client/src/app/app.routes.ts</a>
+            </td>
+            <td>function</td>
+            <td>mergeRoutes</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/UserDetailsComponent.html">/home/runner/work/onconova/onconova/client/src/app/core/admin/components/user-details/user-details.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>UserDetailsComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/13)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/UsersManagementCompnent.html">/home/runner/work/onconova/onconova/client/src/app/core/admin/components/users-management/users-management.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>UsersManagementCompnent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/16)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/PasswordResetFormComponent.html">/home/runner/work/onconova/onconova/client/src/app/core/admin/forms/passwrd-reset-form/password-reset-form.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>PasswordResetFormComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/21)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/UserFormComponent.html">/home/runner/work/onconova/onconova/client/src/app/core/admin/forms/user-form/user-form.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>UserFormComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/24)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/AuthLayoutComponent.html">/home/runner/work/onconova/onconova/client/src/app/core/auth/components/auth-layout.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>AuthLayoutComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/5)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/ErrorComponent.html">/home/runner/work/onconova/onconova/client/src/app/core/auth/components/auth.error.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>ErrorComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/AuthCallbackComponent.html">/home/runner/work/onconova/onconova/client/src/app/core/auth/components/callback.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>AuthCallbackComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/3)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/LoginComponent.html">/home/runner/work/onconova/onconova/client/src/app/core/auth/components/login.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>LoginComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/13)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/ProviderSignupComponent.html">/home/runner/work/onconova/onconova/client/src/app/core/auth/components/provider-signup.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>ProviderSignupComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/14)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./guards/AuthGuard.html">/home/runner/work/onconova/onconova/client/src/app/core/auth/guards/auth.guard.ts</a>
+            </td>
+            <td>guard</td>
+            <td>AuthGuard</td>
+            <td align="right" data-sort="25">
+                <span class="coverage-percent">25 %</span>
+                <span class="coverage-count">(1/4)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./interceptors/APIAuthInterceptor.html">/home/runner/work/onconova/onconova/client/src/app/core/auth/interceptors/api-auth.interceptor.ts</a>
+            </td>
+            <td>interceptor</td>
+            <td>APIAuthInterceptor</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/4)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./interceptors/UnauthorizedInterceptor.html">/home/runner/work/onconova/onconova/client/src/app/core/auth/interceptors/unauthorized.interceptor.ts</a>
+            </td>
+            <td>interceptor</td>
+            <td>UnauthorizedInterceptor</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/5)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./injectables/AllAuthApiService.html">/home/runner/work/onconova/onconova/client/src/app/core/auth/services/allauth-api.service.ts</a>
+            </td>
+            <td>injectable</td>
+            <td>AllAuthApiService</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/32)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./interfaces/AccountConfiguration.html">/home/runner/work/onconova/onconova/client/src/app/core/auth/services/allauth-api.service.ts</a>
+            </td>
+            <td>interface</td>
+            <td>AccountConfiguration</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/6)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./interfaces/AllAuthConfiguration.html">/home/runner/work/onconova/onconova/client/src/app/core/auth/services/allauth-api.service.ts</a>
+            </td>
+            <td>interface</td>
+            <td>AllAuthConfiguration</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/5)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./interfaces/AllAuthResponse.html">/home/runner/work/onconova/onconova/client/src/app/core/auth/services/allauth-api.service.ts</a>
+            </td>
+            <td>interface</td>
+            <td>AllAuthResponse</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/5)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./interfaces/AuthenticationMeta.html">/home/runner/work/onconova/onconova/client/src/app/core/auth/services/allauth-api.service.ts</a>
+            </td>
+            <td>interface</td>
+            <td>AuthenticationMeta</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/4)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./interfaces/MFAConfiguration.html">/home/runner/work/onconova/onconova/client/src/app/core/auth/services/allauth-api.service.ts</a>
+            </td>
+            <td>interface</td>
+            <td>MFAConfiguration</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/2)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./interfaces/ProviderConfig.html">/home/runner/work/onconova/onconova/client/src/app/core/auth/services/allauth-api.service.ts</a>
+            </td>
+            <td>interface</td>
+            <td>ProviderConfig</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/6)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./interfaces/SocialAccountConfiguration.html">/home/runner/work/onconova/onconova/client/src/app/core/auth/services/allauth-api.service.ts</a>
+            </td>
+            <td>interface</td>
+            <td>SocialAccountConfiguration</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/3)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./interfaces/UserSessionsConfiguration.html">/home/runner/work/onconova/onconova/client/src/app/core/auth/services/allauth-api.service.ts</a>
+            </td>
+            <td>interface</td>
+            <td>UserSessionsConfiguration</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/2)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#ACCEPT_JSON">/home/runner/work/onconova/onconova/client/src/app/core/auth/services/allauth-api.service.ts</a>
+            </td>
+            <td>variable</td>
+            <td>ACCEPT_JSON</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#AuthenticatorType">/home/runner/work/onconova/onconova/client/src/app/core/auth/services/allauth-api.service.ts</a>
+            </td>
+            <td>variable</td>
+            <td>AuthenticatorType</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#AuthProcess">/home/runner/work/onconova/onconova/client/src/app/core/auth/services/allauth-api.service.ts</a>
+            </td>
+            <td>variable</td>
+            <td>AuthProcess</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#Client">/home/runner/work/onconova/onconova/client/src/app/core/auth/services/allauth-api.service.ts</a>
+            </td>
+            <td>variable</td>
+            <td>Client</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#Flows">/home/runner/work/onconova/onconova/client/src/app/core/auth/services/allauth-api.service.ts</a>
+            </td>
+            <td>variable</td>
+            <td>Flows</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#settings">/home/runner/work/onconova/onconova/client/src/app/core/auth/services/allauth-api.service.ts</a>
+            </td>
+            <td>variable</td>
+            <td>settings</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#URLs">/home/runner/work/onconova/onconova/client/src/app/core/auth/services/allauth-api.service.ts</a>
+            </td>
+            <td>variable</td>
+            <td>URLs</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./injectables/AuthService.html">/home/runner/work/onconova/onconova/client/src/app/core/auth/services/auth.service.ts</a>
+            </td>
+            <td>injectable</td>
+            <td>AuthService</td>
+            <td align="right" data-sort="14">
+                <span class="coverage-percent">14 %</span>
+                <span class="coverage-count">(4/27)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./interfaces/OpenIDCredentials.html">/home/runner/work/onconova/onconova/client/src/app/core/auth/services/auth.service.ts</a>
+            </td>
+            <td>interface</td>
+            <td>OpenIDCredentials</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/5)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#OPENID_CALLBACK_URL">/home/runner/work/onconova/onconova/client/src/app/core/auth/services/auth.service.ts</a>
+            </td>
+            <td>variable</td>
+            <td>OPENID_CALLBACK_URL</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/AppLayoutComponent.html">/home/runner/work/onconova/onconova/client/src/app/core/layout/app.layout.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>AppLayoutComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/14)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./injectables/LayoutService.html">/home/runner/work/onconova/onconova/client/src/app/core/layout/app.layout.service.ts</a>
+            </td>
+            <td>injectable</td>
+            <td>LayoutService</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/26)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./interfaces/AppConfig.html">/home/runner/work/onconova/onconova/client/src/app/core/layout/app.layout.service.ts</a>
+            </td>
+            <td>interface</td>
+            <td>AppConfig</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/7)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/ConsentNoticeModalComponent.html">/home/runner/work/onconova/onconova/client/src/app/core/layout/components/app.consent.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>ConsentNoticeModalComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/4)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/AppFooterComponent.html">/home/runner/work/onconova/onconova/client/src/app/core/layout/components/app.footer.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>AppFooterComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/7)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/SettingsDialogComponent.html">/home/runner/work/onconova/onconova/client/src/app/core/layout/components/app.settings.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>SettingsDialogComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/9)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/AppSidebarMenuComponent.html">/home/runner/work/onconova/onconova/client/src/app/core/layout/components/app.sidebar-menu.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>AppSidebarMenuComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/7)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/AppTopBarComponent.html">/home/runner/work/onconova/onconova/client/src/app/core/layout/components/app.topbar.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>AppTopBarComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/21)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/CaseImporterComponent.html">/home/runner/work/onconova/onconova/client/src/app/features/cases/case-importer/case-importer.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>CaseImporterComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/20)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/CaseImporterBundleViewerComponent.html">/home/runner/work/onconova/onconova/client/src/app/features/cases/case-importer/components/case-importer-bundle-viewer/case-importer-bundle-viewer.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>CaseImporterBundleViewerComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/7)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/CaseManagerComponent.html">/home/runner/work/onconova/onconova/client/src/app/features/cases/case-manager/case-manager.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>CaseManagerComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/77)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./guards/CaseResolver.html">/home/runner/work/onconova/onconova/client/src/app/features/cases/case-manager/case-manager.resolver.ts</a>
+            </td>
+            <td>guard</td>
+            <td>CaseResolver</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/3)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#TourDriverConfig">/home/runner/work/onconova/onconova/client/src/app/features/cases/case-manager/case-manager.tour.ts</a>
+            </td>
+            <td>variable</td>
+            <td>TourDriverConfig</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/CaseManagerDrawerComponent.html">/home/runner/work/onconova/onconova/client/src/app/features/cases/case-manager/components/case-manager-drawer/case-manager-drawer.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>CaseManagerDrawerComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/26)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/CodedConceptTreeComponent.html">/home/runner/work/onconova/onconova/client/src/app/features/cases/case-manager/components/case-manager-drawer/components/coded-concept-tree.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>CodedConceptTreeComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/4)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/DrawerDataPropertiesComponent.html">/home/runner/work/onconova/onconova/client/src/app/features/cases/case-manager/components/case-manager-drawer/components/drawer-data-properties.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>DrawerDataPropertiesComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/8)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/CaseManagerPanelComponent.html">/home/runner/work/onconova/onconova/client/src/app/features/cases/case-manager/components/case-manager-panel/case-manager-panel.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>CaseManagerPanelComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/37)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./interfaces/DataService.html">/home/runner/work/onconova/onconova/client/src/app/features/cases/case-manager/components/case-manager-panel/case-manager-panel.component.ts</a>
+            </td>
+            <td>interface</td>
+            <td>DataService</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/4)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/CaseManagerPanelTimelineComponent.html">/home/runner/work/onconova/onconova/client/src/app/features/cases/case-manager/components/case-manager-panel/components/case-manager-panel-timeline.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>CaseManagerPanelTimelineComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/7)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./interfaces/RadioChoice.html">/home/runner/work/onconova/onconova/client/src/app/features/cases/case-manager/components/case-manager-panel/components/case-manager-panel-timeline.component.ts</a>
+            </td>
+            <td>interface</td>
+            <td>RadioChoice</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/3)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/CaseSearchComponent.html">/home/runner/work/onconova/onconova/client/src/app/features/cases/case-search/case-search.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>CaseSearchComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/29)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#TourDriverConfig">/home/runner/work/onconova/onconova/client/src/app/features/cases/case-search/case-search.tour.ts</a>
+            </td>
+            <td>variable</td>
+            <td>TourDriverConfig</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/CaseSearchItemCardComponent.html">/home/runner/work/onconova/onconova/client/src/app/features/cases/case-search/components/case-search-item/case-search-item.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>CaseSearchItemCardComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/28)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/CohortBuilderComponent.html">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/cohort-manager.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>CohortBuilderComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/46)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#TourDriverConfig">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/cohort-manager.tour.ts</a>
+            </td>
+            <td>variable</td>
+            <td>TourDriverConfig</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/CohortContributorsComponent.html">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/components/cohort-contributors.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>CohortContributorsComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/9)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/CohortGraphsComponent.html">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/components/cohort-graphs/cohort-graphs.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>CohortGraphsComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/23)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/BoxPlotComponent.html">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/components/cohort-graphs/components/box-plot/box-plot.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>BoxPlotComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/9)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/DistributionGraphComponent.html">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/components/cohort-graphs/components/distribution-graph/distribution-graph.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>DistributionGraphComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/9)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/DoughnutGraphComponent.html">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/components/cohort-graphs/components/doughnut-graph/doughnut-graph.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>DoughnutGraphComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/9)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/CohortGraphsContextMenu.html">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/components/cohort-graphs/components/graph-context-menu/graph-context-menu.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>CohortGraphsContextMenu</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/7)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/KapplerMeierCurveComponent.html">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/components/cohort-graphs/components/kappler-meier-curve/kappler-meier-curve.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>KapplerMeierCurveComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/11)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/OncoplotComponent.html">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/components/cohort-graphs/components/oncoplot/oncoplot.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>OncoplotComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/11)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/CohortQueryBuilderComponent.html">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/components/cohort-query-builder/cohort-query-builder.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>CohortQueryBuilderComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/61)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#CONTROL_VALUE_ACCESSOR">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/components/cohort-query-builder/cohort-query-builder.component.ts</a>
+            </td>
+            <td>variable</td>
+            <td>CONTROL_VALUE_ACCESSOR</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#VALIDATOR">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/components/cohort-query-builder/cohort-query-builder.component.ts</a>
+            </td>
+            <td>variable</td>
+            <td>VALIDATOR</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./interfaces/Entity.html">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/components/cohort-query-builder/cohort-query-builder.interfaces.ts</a>
+            </td>
+            <td>interface</td>
+            <td>Entity</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/4)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./interfaces/EntityMap.html">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/components/cohort-query-builder/cohort-query-builder.interfaces.ts</a>
+            </td>
+            <td>interface</td>
+            <td>EntityMap</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./interfaces/Field.html">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/components/cohort-query-builder/cohort-query-builder.interfaces.ts</a>
+            </td>
+            <td>interface</td>
+            <td>Field</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/15)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./interfaces/FieldMap.html">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/components/cohort-query-builder/cohort-query-builder.interfaces.ts</a>
+            </td>
+            <td>interface</td>
+            <td>FieldMap</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./interfaces/InputContext.html">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/components/cohort-query-builder/cohort-query-builder.interfaces.ts</a>
+            </td>
+            <td>interface</td>
+            <td>InputContext</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/5)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./interfaces/Option.html">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/components/cohort-query-builder/cohort-query-builder.interfaces.ts</a>
+            </td>
+            <td>interface</td>
+            <td>Option</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/3)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./interfaces/QueryBuilderConfig.html">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/components/cohort-query-builder/cohort-query-builder.interfaces.ts</a>
+            </td>
+            <td>interface</td>
+            <td>QueryBuilderConfig</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/15)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./interfaces/Rule.html">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/components/cohort-query-builder/cohort-query-builder.interfaces.ts</a>
+            </td>
+            <td>interface</td>
+            <td>Rule</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/3)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./interfaces/RuleFilter.html">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/components/cohort-query-builder/cohort-query-builder.interfaces.ts</a>
+            </td>
+            <td>interface</td>
+            <td>RuleFilter</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/4)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./interfaces/RuleSet.html">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/components/cohort-query-builder/cohort-query-builder.interfaces.ts</a>
+            </td>
+            <td>interface</td>
+            <td>RuleSet</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/5)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./pipes/MapOperatorsPipe.html">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/components/cohort-query-builder/query-builder-operators.pipe.ts</a>
+            </td>
+            <td>pipe</td>
+            <td>MapOperatorsPipe</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/functions.html#mapOperator">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/components/cohort-query-builder/query-builder-operators.pipe.ts</a>
+            </td>
+            <td>function</td>
+            <td>mapOperator</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/CohortTraitPanel.html">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/components/cohort-trait-panel.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>CohortTraitPanel</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/6)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/DatasetComposerComponent.html">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/components/dataset-composer/dataset-composer.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>DatasetComposerComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/42)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./pipes/IsStringPipe.html">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/components/dataset-composer/dataset-composer.component.ts</a>
+            </td>
+            <td>pipe</td>
+            <td>IsStringPipe</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/functions.html#getColumns">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/components/dataset-composer/dataset-composer.component.ts</a>
+            </td>
+            <td>function</td>
+            <td>getColumns</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./injectables/DatasetComposeService.html">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/components/dataset-composer/dataset-composer.service.ts</a>
+            </td>
+            <td>injectable</td>
+            <td>DatasetComposeService</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/5)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/typealiases.html#OpenAPIProperty">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/components/dataset-composer/dataset-composer.service.ts</a>
+            </td>
+            <td>type alias</td>
+            <td>OpenAPIProperty</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/CohortSearchComponent.html">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-search/cohort-search.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>CohortSearchComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/24)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#TourDriverConfig">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-search/cohort-search.tour.ts</a>
+            </td>
+            <td>variable</td>
+            <td>TourDriverConfig</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/CohortSearchItemComponent.html">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-search/components/cohort-search-item/cohort-search-item.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>CohortSearchItemComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/23)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/DataCompletionStatsComponent.html">/home/runner/work/onconova/onconova/client/src/app/features/dashboard/components/data-completion.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>DataCompletionStatsComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/9)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/DataSummaryCounterComponent.html">/home/runner/work/onconova/onconova/client/src/app/features/dashboard/components/data-summary-counter.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>DataSummaryCounterComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/6)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/DataSummaryComponent.html">/home/runner/work/onconova/onconova/client/src/app/features/dashboard/components/data-summary.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>DataSummaryComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/9)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/DisclaimerBannerComponent.html">/home/runner/work/onconova/onconova/client/src/app/features/dashboard/components/disclaimer-banner.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>DisclaimerBannerComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/3)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/PrimaryEntitiesTableComponent.html">/home/runner/work/onconova/onconova/client/src/app/features/dashboard/components/primary-entities-table.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>PrimaryEntitiesTableComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/3)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/RandomPaperComponent.html">/home/runner/work/onconova/onconova/client/src/app/features/dashboard/components/random-paper.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>RandomPaperComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/7)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/DashboardComponent.html">/home/runner/work/onconova/onconova/client/src/app/features/dashboard/dashboard.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>DashboardComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/7)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/AbstractFormBase.html">/home/runner/work/onconova/onconova/client/src/app/features/forms/abstract-form-base.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>AbstractFormBase</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/14)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./interfaces/Resource.html">/home/runner/work/onconova/onconova/client/src/app/features/forms/abstract-form-base.component.ts</a>
+            </td>
+            <td>interface</td>
+            <td>Resource</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/2)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./interfaces/ResourceCreate.html">/home/runner/work/onconova/onconova/client/src/app/features/forms/abstract-form-base.component.ts</a>
+            </td>
+            <td>interface</td>
+            <td>ResourceCreate</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/AdverseEventFormComponent.html">/home/runner/work/onconova/onconova/client/src/app/features/forms/adverse-event-form/adverse-event-form.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>AdverseEventFormComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/53)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./pipes/getEventGradesPipe.html">/home/runner/work/onconova/onconova/client/src/app/features/forms/adverse-event-form/adverse-event-form.component.ts</a>
+            </td>
+            <td>pipe</td>
+            <td>getEventGradesPipe</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/CohortFormComponent.html">/home/runner/work/onconova/onconova/client/src/app/features/forms/cohort-form/cohort-form.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>CohortFormComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/26)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/ComorbiditiesAssessmentFormComponent.html">/home/runner/work/onconova/onconova/client/src/app/features/forms/comorbidities-form/comorbidities-form.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>ComorbiditiesAssessmentFormComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/30)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/FamilyHistoryFormComponent.html">/home/runner/work/onconova/onconova/client/src/app/features/forms/family-history-form/family-history-form.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>FamilyHistoryFormComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/25)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/GenomicSignatureFormComponent.html">/home/runner/work/onconova/onconova/client/src/app/features/forms/genomic-signature-form/genomic-signature-form.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>GenomicSignatureFormComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/29)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/typealiases.html#AnyGenomicSignatureCreate">/home/runner/work/onconova/onconova/client/src/app/features/forms/genomic-signature-form/genomic-signature-form.component.ts</a>
+            </td>
+            <td>type alias</td>
+            <td>AnyGenomicSignatureCreate</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/GenomicVariantFormComponent.html">/home/runner/work/onconova/onconova/client/src/app/features/forms/genomic-variant-form/genomic-variant-form.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>GenomicVariantFormComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/28)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/LifestyleFormComponent.html">/home/runner/work/onconova/onconova/client/src/app/features/forms/lifestyle-form/lifestyle-form.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>LifestyleFormComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/23)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/ModalFormHeaderComponent.html">/home/runner/work/onconova/onconova/client/src/app/features/forms/modal-form-header.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>ModalFormHeaderComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/3)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/NeoplasticEntityFormComponent.html">/home/runner/work/onconova/onconova/client/src/app/features/forms/neoplastic-entity-form/neoplastic-entity-form.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>NeoplasticEntityFormComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/28)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/PatientFormComponent.html">/home/runner/work/onconova/onconova/client/src/app/features/forms/patient-case-form/patient-case-form.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>PatientFormComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/30)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/PerformanceStatusFormComponent.html">/home/runner/work/onconova/onconova/client/src/app/features/forms/performance-status-form/performance-status-form.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>PerformanceStatusFormComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/28)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/typealiases.html#PerformanceScoreType">/home/runner/work/onconova/onconova/client/src/app/features/forms/performance-status-form/performance-status-form.component.ts</a>
+            </td>
+            <td>type alias</td>
+            <td>PerformanceScoreType</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/ProjectFormComponent.html">/home/runner/work/onconova/onconova/client/src/app/features/forms/projects-form/projects-form.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>ProjectFormComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/27)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/RadiotherapyFormComponent.html">/home/runner/work/onconova/onconova/client/src/app/features/forms/radiotherapy-form/radiotherapy-form.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>RadiotherapyFormComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/37)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/RiskAssessmentFormComponent.html">/home/runner/work/onconova/onconova/client/src/app/features/forms/risk-assessment-form/risk-assessment-form.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>RiskAssessmentFormComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/28)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/StagingFormComponent.html">/home/runner/work/onconova/onconova/client/src/app/features/forms/staging-form/staging-form.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>StagingFormComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/28)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/typealiases.html#StagingCreate">/home/runner/work/onconova/onconova/client/src/app/features/forms/staging-form/staging-form.component.ts</a>
+            </td>
+            <td>type alias</td>
+            <td>StagingCreate</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/SurgeryFormComponent.html">/home/runner/work/onconova/onconova/client/src/app/features/forms/surgery-form/surgery-form.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>SurgeryFormComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/25)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/SystemicTherapyFormComponent.html">/home/runner/work/onconova/onconova/client/src/app/features/forms/systemic-therapy-form/systemic-therapy-form.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>SystemicTherapyFormComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/36)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/TreatmentResponseFormComponent.html">/home/runner/work/onconova/onconova/client/src/app/features/forms/treatment-response-form/treatment-response-form.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>TreatmentResponseFormComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/25)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/TumorBoardFormComponent.html">/home/runner/work/onconova/onconova/client/src/app/features/forms/tumor-board-form/tumor-board-form.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>TumorBoardFormComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/48)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/typealiases.html#AnyTumorBoardCreate">/home/runner/work/onconova/onconova/client/src/app/features/forms/tumor-board-form/tumor-board-form.component.ts</a>
+            </td>
+            <td>type alias</td>
+            <td>AnyTumorBoardCreate</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/typealiases.html#TumorTypeCategory">/home/runner/work/onconova/onconova/client/src/app/features/forms/tumor-board-form/tumor-board-form.component.ts</a>
+            </td>
+            <td>type alias</td>
+            <td>TumorTypeCategory</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/TumorMarkerFormComponent.html">/home/runner/work/onconova/onconova/client/src/app/features/forms/tumor-marker-form/tumor-marker-form.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>TumorMarkerFormComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/40)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#valueTypeMap">/home/runner/work/onconova/onconova/client/src/app/features/forms/tumor-marker-form/tumor-marker-form.component.ts</a>
+            </td>
+            <td>variable</td>
+            <td>valueTypeMap</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/VitalsFormComponent.html">/home/runner/work/onconova/onconova/client/src/app/features/forms/vitals-form/vitals-form.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>VitalsFormComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/23)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/ProjectManagementComponent.html">/home/runner/work/onconova/onconova/client/src/app/features/project-management/project-management.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>ProjectManagementComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/40)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./interfaces/ProjectMember.html">/home/runner/work/onconova/onconova/client/src/app/features/project-management/project-management.component.ts</a>
+            </td>
+            <td>interface</td>
+            <td>ProjectMember</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/2)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/ProjectSearchItemComponent.html">/home/runner/work/onconova/onconova/client/src/app/features/project-search/components/project-search-item.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>ProjectSearchItemComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/19)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/ProjectSearchComponent.html">/home/runner/work/onconova/onconova/client/src/app/features/project-search/project-search.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>ProjectSearchComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/27)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#TourDriverConfig">/home/runner/work/onconova/onconova/client/src/app/features/project-search/project-search.tour.ts</a>
+            </td>
+            <td>variable</td>
+            <td>TourDriverConfig</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/CancerIconComponent.html">/home/runner/work/onconova/onconova/client/src/app/shared/components/cancer-icon/cancer-icon.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>CancerIconComponent</td>
+            <td align="right" data-sort="11">
+                <span class="coverage-percent">11 %</span>
+                <span class="coverage-count">(1/9)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/ConceptSelectorComponent.html">/home/runner/work/onconova/onconova/client/src/app/shared/components/concept-selector/concept-selector.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>ConceptSelectorComponent</td>
+            <td align="right" data-sort="3">
+                <span class="coverage-percent">3 %</span>
+                <span class="coverage-count">(1/30)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/DatePickerComponent.html">/home/runner/work/onconova/onconova/client/src/app/shared/components/datepicker/datepicker.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>DatePickerComponent</td>
+            <td align="right" data-sort="5">
+                <span class="coverage-percent">5 %</span>
+                <span class="coverage-count">(1/18)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/ExportConfirmDialogComponent.html">/home/runner/work/onconova/onconova/client/src/app/shared/components/export-confirm-dialog/export-confirm-dialog.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>ExportConfirmDialogComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/3)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/FormControlErrorComponent.html">/home/runner/work/onconova/onconova/client/src/app/shared/components/form-control-error/form-control-error.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>FormControlErrorComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/13)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#DEFAULT_ERRORS">/home/runner/work/onconova/onconova/client/src/app/shared/components/form-control-error/form-control-error.component.ts</a>
+            </td>
+            <td>variable</td>
+            <td>DEFAULT_ERRORS</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#FORM_ERRORS">/home/runner/work/onconova/onconova/client/src/app/shared/components/form-control-error/form-control-error.component.ts</a>
+            </td>
+            <td>variable</td>
+            <td>FORM_ERRORS</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/IdenticonComponent.html">/home/runner/work/onconova/onconova/client/src/app/shared/components/identicon/identicon.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>IdenticonComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/4)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/MeasureInputComponent.html">/home/runner/work/onconova/onconova/client/src/app/shared/components/measure-input/measure-input.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>MeasureInputComponent</td>
+            <td align="right" data-sort="5">
+                <span class="coverage-percent">5 %</span>
+                <span class="coverage-count">(1/18)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./interfaces/MeasureUnit.html">/home/runner/work/onconova/onconova/client/src/app/shared/components/measure-input/measure-input.component.ts</a>
+            </td>
+            <td>interface</td>
+            <td>MeasureUnit</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/3)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/MultiReferenceSelectComponent.html">/home/runner/work/onconova/onconova/client/src/app/shared/components/multi-reference-select/multi-reference-select.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>MultiReferenceSelectComponent</td>
+            <td align="right" data-sort="14">
+                <span class="coverage-percent">14 %</span>
+                <span class="coverage-count">(1/7)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./interfaces/Reference.html">/home/runner/work/onconova/onconova/client/src/app/shared/components/multi-reference-select/multi-reference-select.component.ts</a>
+            </td>
+            <td>interface</td>
+            <td>Reference</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/3)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/NestedTableComponent.html">/home/runner/work/onconova/onconova/client/src/app/shared/components/nested-table/nested-table.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>NestedTableComponent</td>
+            <td align="right" data-sort="11">
+                <span class="coverage-percent">11 %</span>
+                <span class="coverage-count">(1/9)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/PopoverFilterButtonComponent.html">/home/runner/work/onconova/onconova/client/src/app/shared/components/popover-filter-button/popover-filter-button.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>PopoverFilterButtonComponent</td>
+            <td align="right" data-sort="11">
+                <span class="coverage-percent">11 %</span>
+                <span class="coverage-count">(1/9)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/RadioSelectComponent.html">/home/runner/work/onconova/onconova/client/src/app/shared/components/radio-select/radio-select.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>RadioSelectComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/7)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./interfaces/RadioChoice.html">/home/runner/work/onconova/onconova/client/src/app/shared/components/radio-select/radio-select.component.ts</a>
+            </td>
+            <td>interface</td>
+            <td>RadioChoice</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/3)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/RangeInputComponent.html">/home/runner/work/onconova/onconova/client/src/app/shared/components/range-input/range-input.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>RangeInputComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/13)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/UserBadgeComponent.html">/home/runner/work/onconova/onconova/client/src/app/shared/components/user-badge/user-badge.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>UserBadgeComponent</td>
+            <td align="right" data-sort="14">
+                <span class="coverage-percent">14 %</span>
+                <span class="coverage-count">(1/7)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./components/UserSelectorComponent.html">/home/runner/work/onconova/onconova/client/src/app/shared/components/user-selector/user-selector.component.ts</a>
+            </td>
+            <td>component</td>
+            <td>UserSelectorComponent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/19)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./directives/DateMaskDirective.html">/home/runner/work/onconova/onconova/client/src/app/shared/directives/date-mask-directive.ts</a>
+            </td>
+            <td>directive</td>
+            <td>DateMaskDirective</td>
+            <td align="right" data-sort="14">
+                <span class="coverage-percent">14 %</span>
+                <span class="coverage-count">(1/7)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/typealiases.html#OncologicalResource">/home/runner/work/onconova/onconova/client/src/app/shared/models/resource.type.ts</a>
+            </td>
+            <td>type alias</td>
+            <td>OncologicalResource</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./pipes/CamelCaseToTitleCasePipe.html">/home/runner/work/onconova/onconova/client/src/app/shared/pipes/camel-to-title-case.pipe.ts</a>
+            </td>
+            <td>pipe</td>
+            <td>CamelCaseToTitleCasePipe</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(1/1)</span>
+            </td>
+        </tr>
+        <tr class="very-good">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./pipes/GetFullNamePipe.html">/home/runner/work/onconova/onconova/client/src/app/shared/pipes/full-name.pipe.ts</a>
+            </td>
+            <td>pipe</td>
+            <td>GetFullNamePipe</td>
+            <td align="right" data-sort="100">
+                <span class="coverage-percent">100 %</span>
+                <span class="coverage-count">(1/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./pipes/GetNameAcronymPipe.html">/home/runner/work/onconova/onconova/client/src/app/shared/pipes/name-acronym.pipe.ts</a>
+            </td>
+            <td>pipe</td>
+            <td>GetNameAcronymPipe</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./pipes/ReplacePipe.html">/home/runner/work/onconova/onconova/client/src/app/shared/pipes/replace.pipe.ts</a>
+            </td>
+            <td>pipe</td>
+            <td>ReplacePipe</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./pipes/ResolveResourcePipe.html">/home/runner/work/onconova/onconova/client/src/app/shared/pipes/resolve-resource.pipe.ts</a>
+            </td>
+            <td>pipe</td>
+            <td>ResolveResourcePipe</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./injectables/DownloadService.html">/home/runner/work/onconova/onconova/client/src/app/shared/services/download.service.ts</a>
+            </td>
+            <td>injectable</td>
+            <td>DownloadService</td>
+            <td align="right" data-sort="11">
+                <span class="coverage-percent">11 %</span>
+                <span class="coverage-count">(1/9)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                <a href="./injectables/TypeCheckService.html">/home/runner/work/onconova/onconova/client/src/app/shared/services/type-check.service.ts</a>
+            </td>
+            <td>injectable</td>
+            <td>TypeCheckService</td>
+            <td align="right" data-sort="9">
+                <span class="coverage-percent">9 %</span>
+                <span class="coverage-count">(1/11)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#AdverseEvent">/home/runner/work/onconova/onconova/client/src/assets/images/icons/adverse_event.ts</a>
+            </td>
+            <td>variable</td>
+            <td>AdverseEvent</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#Board">/home/runner/work/onconova/onconova/client/src/assets/images/icons/board.ts</a>
+            </td>
+            <td>variable</td>
+            <td>Board</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#Comorbidities">/home/runner/work/onconova/onconova/client/src/assets/images/icons/comorbidities.ts</a>
+            </td>
+            <td>variable</td>
+            <td>Comorbidities</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#Diagnostics">/home/runner/work/onconova/onconova/client/src/assets/images/icons/diagnostics.ts</a>
+            </td>
+            <td>variable</td>
+            <td>Diagnostics</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#GenomicSignature">/home/runner/work/onconova/onconova/client/src/assets/images/icons/genomic_signature.ts</a>
+            </td>
+            <td>variable</td>
+            <td>GenomicSignature</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#Risk">/home/runner/work/onconova/onconova/client/src/assets/images/icons/risk.ts</a>
+            </td>
+            <td>variable</td>
+            <td>Risk</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#Scan">/home/runner/work/onconova/onconova/client/src/assets/images/icons/scan.ts</a>
+            </td>
+            <td>variable</td>
+            <td>Scan</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#Tumor">/home/runner/work/onconova/onconova/client/src/assets/images/icons/tumor.ts</a>
+            </td>
+            <td>variable</td>
+            <td>Tumor</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#dynamicEnv">/home/runner/work/onconova/onconova/client/src/environments/environment.dev.ts</a>
+            </td>
+            <td>variable</td>
+            <td>dynamicEnv</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#environment">/home/runner/work/onconova/onconova/client/src/environments/environment.dev.ts</a>
+            </td>
+            <td>variable</td>
+            <td>environment</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#dynamicEnv">/home/runner/work/onconova/onconova/client/src/environments/environment.ts</a>
+            </td>
+            <td>variable</td>
+            <td>dynamicEnv</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <!-- miscellaneous -->
+                        <a href="./miscellaneous/variables.html#environment">/home/runner/work/onconova/onconova/client/src/environments/environment.ts</a>
+            </td>
+            <td>variable</td>
+            <td>environment</td>
+            <td align="right" data-sort="0">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<script src="js/libs/tablesort.min.js"></script>
+<script src="js/libs/tablesort.number.min.js"></script>
+<script>
+    new Tablesort(document.getElementById('coverage-table'));
+</script>
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 0;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'coverage';
+            var COMPODOC_CURRENT_PAGE_URL = 'coverage.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="./js/libs/custom-elements.min.js"></script>
+       <script src="./js/libs/lit-html.js"></script>
+
+       <script src="./js/menu-wc.js" defer></script>
+       <script nomodule src="./js/menu-wc_es5.js" defer></script>
+
+       <script src="./js/libs/bootstrap-native.js"></script>
+
+       <script src="./js/libs/es6-shim.min.js"></script>
+       <script src="./js/libs/EventDispatcher.js"></script>
+       <script src="./js/libs/promise.min.js"></script>
+
+       <script src="./js/compodoc.js"></script>
+
+       <script src="./js/tabs.js"></script>
+       <script src="./js/menu.js"></script>
+       <script src="./js/libs/clipboard.min.js"></script>
+       <script src="./js/libs/prism.js"></script>
+       <script src="./js/sourceCode.js"></script>
+          <script src="./js/search/search.js"></script>
+          <script src="./js/search/lunr.min.js"></script>
+          <script src="./js/search/search-lunr.js"></script>
+          <script src="./js/search/search_index.js"></script>
+       <script src="./js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

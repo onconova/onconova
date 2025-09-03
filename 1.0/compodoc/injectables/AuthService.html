@@ -1,0 +1,1832 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Application documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+        <link rel="stylesheet" href="../styles/material.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Application documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Injectables</li>
+  <li class="breadcrumb-item" >AuthService</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" 
+                class="nav-link"
+                class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" 
+                class="nav-link"
+                
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>/home/runner/work/onconova/onconova/client/src/app/core/auth/services/auth.service.ts</code>
+        </p>
+
+
+
+
+
+            <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="##allAuthApiService" >#allAuthApiService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="##configService" >#configService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="##messageService" >#messageService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="##router" >#router</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="##userService" >#userService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#isAuthenticated" >isAuthenticated</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#sessionToken" >sessionToken</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#sessionUserId" >sessionUserId</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#user" >user</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#userResource" >userResource</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#generateRandomState" >generateRandomState</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getCurrentURLOpenIdCredentials" >getCurrentURLOpenIdCredentials</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#getStoredSessionToken" >getStoredSessionToken</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#getStoredSessionUserId" >getStoredSessionUserId</a>
+                            </li>
+                            <li>
+                                <a href="#handleOpenIdAuthCallback" >handleOpenIdAuthCallback</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#initiateOpenIdAuthentication" >initiateOpenIdAuthentication</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#login" >login</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#logout" >logout</a>
+                            </li>
+                            <li>
+                                <a href="#redirect" >redirect</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#removeStoredSessionToken" >removeStoredSessionToken</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#removeStoredSessionUserId" >removeStoredSessionUserId</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#setStoredSessionToken" >setStoredSessionToken</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#setStoredSessionUserId" >setStoredSessionUserId</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#signupProviderAccount" >signupProviderAccount</a>
+                            </li>
+                            <li>
+                                <a href="#updateUserDataConsent" >updateUserDataConsent</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor()</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/auth/services/auth.service.ts:44</a></div>
+                            </td>
+                        </tr>
+
+            </tbody>
+        </table>
+</section>
+
+            <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="generateRandomState"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>generateRandomState</b></span>
+                        <a href="#generateRandomState"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>generateRandomState(length: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="305"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/auth/services/auth.service.ts:305</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>length</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getCurrentURLOpenIdCredentials"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>getCurrentURLOpenIdCredentials</b></span>
+                        <a href="#getCurrentURLOpenIdCredentials"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getCurrentURLOpenIdCredentials()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="250"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/auth/services/auth.service.ts:250</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Returns an object with the OpenID Connect credentials from the current URL.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../interfaces/OpenIDCredentials.html" target="_self" >OpenIDCredentials</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getStoredSessionToken"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>getStoredSessionToken</b></span>
+                        <a href="#getStoredSessionToken"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getStoredSessionToken()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="272"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/auth/services/auth.service.ts:272</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>string | null</code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getStoredSessionUserId"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>getStoredSessionUserId</b></span>
+                        <a href="#getStoredSessionUserId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getStoredSessionUserId()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="281"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/auth/services/auth.service.ts:281</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>string | null</code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="handleOpenIdAuthCallback"></a>
+                    <span class="name">
+                        <span ><b>handleOpenIdAuthCallback</b></span>
+                        <a href="#handleOpenIdAuthCallback"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>handleOpenIdAuthCallback()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="185"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/auth/services/auth.service.ts:185</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Handle the OpenID Connect callback from a provider and authenticate the user using the authorization
+code, access token, or ID token provided by the provider.</p>
+<p>The OpenID Connect callback is handled by this method by extracting the authorization code, access
+token, and ID token from the redirect URL, and using them to authenticate the user and start a
+session.</p>
+<p>If the authentication is successful, the user is redirected to the dashboard.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initiateOpenIdAuthentication"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>initiateOpenIdAuthentication</b></span>
+                        <a href="#initiateOpenIdAuthentication"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>initiateOpenIdAuthentication(providerId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="126"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/auth/services/auth.service.ts:126</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Start the login process using the specified OpenID provider. This method redirects the user to the
+authorization endpoint of the provider, passing the client ID, redirect URI, response type, and
+scope. The user is also passed a random state and nonce, which are used to verify the response.</p>
+</div>
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Description</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>providerId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                            <td>
+                                                    <p>The ID of the OpenID provider to use for authentication.</p>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                <p>The authorization URL, or null if the client ID or authorization endpoint was not found.</p>
+
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="login"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>login</b></span>
+                        <a href="#login"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>login(credentials: literal type, nextUrl?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, loading?: Signal<boolean>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="66"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/auth/services/auth.service.ts:66</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>credentials</td>
+                                            <td>
+                                                        <code>literal type</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>nextUrl</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>loading</td>
+                                            <td>
+                                                        <code>Signal&lt;boolean&gt;</code>
+                                            </td>
+
+                                            <td>
+                                                    Yes
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="logout"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>logout</b></span>
+                        <a href="#logout"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>logout()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="104"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/auth/services/auth.service.ts:104</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-description"><p>Logout the current user session.</p>
+<p>This method sends a request to the server to delete the current user session.
+If successful, the server will respond with a 401 which will be handled by the
+interceptor and redirect the user to the login page.</p>
+</div>
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="redirect"></a>
+                    <span class="name">
+                        <span ><b>redirect</b></span>
+                        <a href="#redirect"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>redirect(url: URL)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="169"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/auth/services/auth.service.ts:169</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>url</td>
+                                            <td>
+                                                        <code>URL</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="removeStoredSessionToken"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>removeStoredSessionToken</b></span>
+                        <a href="#removeStoredSessionToken"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>removeStoredSessionToken()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="269"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/auth/services/auth.service.ts:269</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="removeStoredSessionUserId"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>removeStoredSessionUserId</b></span>
+                        <a href="#removeStoredSessionUserId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>removeStoredSessionUserId()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="278"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/auth/services/auth.service.ts:278</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setStoredSessionToken"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>setStoredSessionToken</b></span>
+                        <a href="#setStoredSessionToken"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>setStoredSessionToken(token: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="266"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/auth/services/auth.service.ts:266</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>token</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setStoredSessionUserId"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>setStoredSessionUserId</b></span>
+                        <a href="#setStoredSessionUserId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>setStoredSessionUserId(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="275"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/auth/services/auth.service.ts:275</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>userId</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="signupProviderAccount"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>signupProviderAccount</b></span>
+                        <a href="#signupProviderAccount"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>signupProviderAccount(data: literal type, sessionToken: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="229"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/auth/services/auth.service.ts:229</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>data</td>
+                                            <td>
+                                                        <code>literal type</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>sessionToken</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateUserDataConsent"></a>
+                    <span class="name">
+                        <span ><b>updateUserDataConsent</b></span>
+                        <a href="#updateUserDataConsent"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>updateUserDataConsent(shareable: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="286"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/auth/services/auth.service.ts:286</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>shareable</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+            <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#allAuthApiService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>#allAuthApiService</b></span>
+                        <a href="##allAuthApiService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(AllAuthApiService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/auth/services/auth.service.ts:26</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#configService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>#configService</b></span>
+                        <a href="##configService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(AppConfigService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/auth/services/auth.service.ts:28</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#messageService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>#messageService</b></span>
+                        <a href="##messageService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(MessageService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/auth/services/auth.service.ts:27</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#router"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>#router</b></span>
+                        <a href="##router"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(Router)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/auth/services/auth.service.ts:24</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#userService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>#userService</b></span>
+                        <a href="##userService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(UsersService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/auth/services/auth.service.ts:25</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isAuthenticated"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>isAuthenticated</b></span>
+                        <a href="#isAuthenticated"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; !!this.sessionToken())</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/auth/services/auth.service.ts:35</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="sessionToken"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>sessionToken</b></span>
+                        <a href="#sessionToken"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;string | null&gt;(this.getStoredSessionToken())</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/auth/services/auth.service.ts:32</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="sessionUserId"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>sessionUserId</b></span>
+                        <a href="#sessionUserId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;string | null&gt;(this.getStoredSessionUserId())</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/auth/services/auth.service.ts:31</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="user"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>user</b></span>
+                        <a href="#user"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>linkedSignal(() &#x3D;&gt; this.userResource.value() as User)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/auth/services/auth.service.ts:44</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="userResource"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>userResource</b></span>
+                        <a href="#userResource"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>rxResource({
+    request: () &#x3D;&gt; ({userId: this.sessionUserId() as string}),
+    loader: ({request}): Observable&lt;User&gt; &#x3D;&gt; this.isAuthenticated() ? this.#userService.getUserById(request) : of({username: &#x27;anonymous&#x27;, id: &#x27;&#x27;, email: &#x27;&#x27;, accessLevel: 0} as User),
+  })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/auth/services/auth.service.ts:38</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { computed, effect, inject, Injectable, linkedSignal, Signal, signal } from &#x27;@angular/core&#x27;;
+import { iif, map, Observable, of, switchMap, throwError } from &#x27;rxjs&#x27;
+import { UsersService, User} from &#x27;onconova-api-client&#x27;;
+import { rxResource } from &#x27;@angular/core/rxjs-interop&#x27;;
+import { Router } from &#x27;@angular/router&#x27;;
+import { AllAuthApiService, AllAuthResponse } from &#x27;./allauth-api.service&#x27;;
+import { AppConfigService } from &#x27;src/app/app.config.service&#x27;;
+import { MessageService } from &#x27;primeng/api&#x27;;
+
+export const OPENID_CALLBACK_URL &#x3D; &#x27;/auth/callback&#x27;
+export interface OpenIDCredentials {
+  accessToken: string | null,
+  idToken: string | null,
+  authorizationCode: string | null,
+  state: string | null
+}
+
+@Injectable({
+  providedIn: &#x27;root&#x27;
+})
+export class AuthService {
+
+  // Injected services
+  #router &#x3D; inject(Router);
+  #userService &#x3D; inject(UsersService);
+  #allAuthApiService &#x3D; inject(AllAuthApiService);
+  #messageService &#x3D; inject(MessageService);
+  #configService &#x3D; inject(AppConfigService);
+
+  // Signals initialized from localStorage
+  public sessionUserId &#x3D; signal&lt;string | null&gt;(this.getStoredSessionUserId());
+  public sessionToken &#x3D; signal&lt;string | null&gt;(this.getStoredSessionToken());
+
+  // Computed: isAuthenticated (reactive, based on session token)
+  public isAuthenticated &#x3D; computed(() &#x3D;&gt; !!this.sessionToken());
+
+  // Reactive user resource (refetches on username change)
+  public userResource &#x3D; rxResource({
+    request: () &#x3D;&gt; ({userId: this.sessionUserId() as string}),
+    loader: ({request}): Observable&lt;User&gt; &#x3D;&gt; this.isAuthenticated() ? this.#userService.getUserById(request) : of({username: &#x27;anonymous&#x27;, id: &#x27;&#x27;, email: &#x27;&#x27;, accessLevel: 0} as User),
+  });  
+
+  // Computed: Current user value from resource
+  public user &#x3D; linkedSignal(() &#x3D;&gt; this.userResource.value() as User);
+
+  constructor() {
+    // Keep localStorage in sync with the signal
+    effect(() &#x3D;&gt; {
+      const token &#x3D; this.sessionToken();
+      if (token) {
+        this.setStoredSessionToken(token);
+      } else {
+        this.removeStoredSessionToken();
+      }
+    });
+    effect(() &#x3D;&gt; {
+      const userId &#x3D; this.sessionUserId();
+      if (userId) {
+        this.setStoredSessionUserId(userId);
+      } else {
+        this.removeStoredSessionUserId();
+      }
+    });
+  }
+
+  public login(credentials: {username: string, password: string}, nextUrl?: string, loading?: Signal&lt;boolean&gt;): void {
+    // @ts-ignore
+    if (loading) loading.set(true)
+    this.#allAuthApiService.login(credentials)
+      .pipe(
+        // Set the session token and user ID signals after a successful login
+        map( (response: AllAuthResponse) &#x3D;&gt; {
+          this.sessionToken.set(response.meta?.session_token || null);
+          this.sessionUserId.set(response.data.user.id);
+        })
+      ).subscribe({
+        next: () &#x3D;&gt; {
+            this.#router.navigateByUrl(nextUrl || &#x27;/&#x27;).then(() &#x3D;&gt; 
+                this.#messageService.add({ severity: &#x27;success&#x27;, summary: &#x27;Login&#x27;, detail: &#x27;Succesful login&#x27; })
+            )
+        },
+        error: (response) &#x3D;&gt; {
+            if ([400, 410,].includes(response.status)) {
+                const errors &#x3D; response.error.errors
+                const errorMessage &#x3D; (errors &amp;&amp; errors.length) ? errors[0].message : &#x60;${response.status} HTTP Error&#x60; 
+                this.#messageService.add({ severity: &#x27;error&#x27;, summary: &#x27;Login failed&#x27;, detail: errorMessage });
+            } else {
+                this.#messageService.add({ severity: &#x27;error&#x27;, summary: &#x27;Network error&#x27;, detail: response.error.message });
+            }
+            // @ts-ignore
+            if (loading) loading.set(false)
+        }
+    });
+  }
+  
+  /**
+   * Logout the current user session.
+   *
+   * This method sends a request to the server to delete the current user session. 
+   * If successful, the server will respond with a 401 which will be handled by the 
+   * interceptor and redirect the user to the login page.
+   *
+   */
+  public logout(): void {
+    if (!this.sessionToken()) {
+      this.#messageService.add({ severity: &#x27;error&#x27;, summary: &#x27;Logout failed&#x27;, detail: &#x60;There is no active user session.&#x60; });
+      throw new Error(&#x27;There is no active session to log out&#x27;);
+    }
+    // Send a request to the server to delete the current user session
+    this.#allAuthApiService.logoutCurrentSession().subscribe({
+      next: () &#x3D;&gt; {
+        this.sessionToken.set(null);
+        this.sessionUserId.set(null);
+      }
+    });
+  }
+
+  /**
+   * Start the login process using the specified OpenID provider. This method redirects the user to the
+   * authorization endpoint of the provider, passing the client ID, redirect URI, response type, and
+   * scope. The user is also passed a random state and nonce, which are used to verify the response.
+   *
+   * @param providerId The ID of the OpenID provider to use for authentication.
+   * @returns The authorization URL, or null if the client ID or authorization endpoint was not found.
+   */
+  public initiateOpenIdAuthentication(providerId: string): void {
+    if (!providerId) {
+      throw new Error(&#x27;Invalid provider ID&#x27;);
+    }
+    const config &#x3D; this.#configService;
+    const callbackUrl &#x3D; config.BASE_PATH + OPENID_CALLBACK_URL;
+    const scope &#x3D; &#x27;openid email profile&#x27;;
+    const responseType &#x3D; &#x27;token id_token&#x27;;
+    const state &#x3D; this.generateRandomState(16);
+    const nonce &#x3D; this.generateRandomState(16);
+
+    // Get the client ID for the provider from the server
+    const clientId &#x3D; config.getIdentityProviderClientId(providerId);    
+    if (!clientId) {
+      this.#messageService.add({ severity: &#x27;error&#x27;, summary: &#x27;Login failed&#x27;, detail: &#x60;No client ID found for provider &#x27;${providerId}&#x27;&#x60; });
+      throw new Error(&#x60;No client ID found for provider ${providerId}&#x60;);
+    }
+
+    // Get the authorization endpoint from the OpenID configuration
+    config.getOpenIdAuthorizationEndpoint(providerId).pipe(
+      map((authorizationEndpoint) &#x3D;&gt; {
+        if (!authorizationEndpoint) {
+          this.#messageService.add({ severity: &#x27;error&#x27;, summary: &#x27;Login failed&#x27;, detail: &#x60;No authorization endpoint was specified by the &#x27;${providerId}&#x27; openID configuration&#x60; });
+          throw new Error(&#x60;No authorization endpoint was specified by the ${providerId} openID configuration&#x60;);
+        }
+        // Construct the authorization URL
+        const url &#x3D; new URL(authorizationEndpoint);
+        url.searchParams.set(&#x27;client_id&#x27;, clientId);
+        url.searchParams.set(&#x27;redirect_uri&#x27;, callbackUrl);
+        url.searchParams.set(&#x27;response_type&#x27;, responseType);
+        url.searchParams.set(&#x27;scope&#x27;, scope);
+        url.searchParams.set(&#x27;state&#x27;, state);
+        url.searchParams.set(&#x27;nonce&#x27;, nonce);
+        this.redirect(url);
+      })
+    ).subscribe({
+      error: (error) &#x3D;&gt; {
+        this.#messageService.add({ severity: &#x27;error&#x27;, summary: &#x27;Could not retrieve authorization endpoint from OpenID provider&#x27;, detail: error });
+        console.error(error);
+      }
+    });
+  }
+
+  redirect(url: URL): void {
+    // Return the authorization URL
+    window.location.href &#x3D; url.toString();
+  }
+
+  /**
+   * Handle the OpenID Connect callback from a provider and authenticate the user using the authorization
+   * code, access token, or ID token provided by the provider.
+   *
+   * The OpenID Connect callback is handled by this method by extracting the authorization code, access
+   * token, and ID token from the redirect URL, and using them to authenticate the user and start a
+   * session.
+   *
+   * If the authentication is successful, the user is redirected to the dashboard.
+   *
+   */
+  handleOpenIdAuthCallback(): void {
+    const provider &#x3D; localStorage.getItem(&#x27;login_provider&#x27;)!;
+    const client_id &#x3D; localStorage.getItem(&#x27;login_client_id&#x27;)!;
+
+    // Get the OpdnID callback parameters encoded in the redirect URL
+    const credentials &#x3D; this.getCurrentURLOpenIdCredentials();
+
+    of(credentials).pipe(
+      // If OpenID Connect access token or ID token is present, just return the credentials
+      switchMap((creds: OpenIDCredentials): Observable&lt;OpenIDCredentials&gt; &#x3D;&gt; iif(() &#x3D;&gt; Boolean(creds.idToken || creds.accessToken), of(creds),
+        // Otherwise, if authorization code is present exchange it
+        iif(() &#x3D;&gt; Boolean(creds.authorizationCode),
+          // To be implemented...
+          throwError(() &#x3D;&gt; &#x27;The OpenID authorization code flow is not supported.&#x27;),
+          // If no credentials are found, throw an error
+          throwError(() &#x3D;&gt; &#x27;No OpenID Connect access token, ID token, or authorization code found in callback&#x27;)
+        )
+      )),
+      // Use the ID token or access token to authenticate the user and start a session
+      switchMap((creds: OpenIDCredentials): Observable&lt;AllAuthResponse&gt; &#x3D;&gt; this.#allAuthApiService.authenticateWithProviderToken({
+        provider: provider, process: &quot;login&quot;,
+        token: {client_id: client_id, id_token: creds.idToken, access_token: creds.accessToken,}
+      }))
+    ).subscribe({
+          next: (response: AllAuthResponse) &#x3D;&gt; {
+            this.sessionToken.set(response.meta!.session_token || &#x27;&#x27;);
+            this.sessionUserId.set(response.data.user.id);
+            // Redirect the user to the dashboard
+            this.#router.navigate([&#x27;/dashboard&#x27;]);
+          },
+          error: (error) &#x3D;&gt; {
+            if (error?.status &#x3D;&#x3D; 401 &amp;&amp; error.error?.meta.session_token) {
+              // If the authentication failed because the user needs to create a Onconova username,
+              // redirect the user to a signup form to create a Onconova username
+              this.#router.navigate([&#x27;/auth/signup&#x27;,provider, error.error.meta.session_token])
+            } else {
+              console.error(&#x27;OpenID Connect callback authentication failed:&#x27;, error);
+              this.#router.navigate([&#x27;/auth/login&#x27;]);
+            }
+          },
+        });
+  }
+
+
+  public signupProviderAccount(data: {username: string, email: string}, sessionToken: string): void {
+    this.#allAuthApiService.providerSignup(data, sessionToken)
+      .subscribe({
+        next: (response: AllAuthResponse) &#x3D;&gt; {
+            // Store the session token locally
+            this.sessionToken.set(response.meta!.session_token || &#x27;&#x27;);
+            this.sessionUserId.set(response.data.user.id);
+            // Redirect the user to the dashboard
+            this.#router.navigate([&#x27;/dashboard&#x27;]);
+        },
+        error: (error) &#x3D;&gt; {
+          const message &#x3D; error?.error?.errors?.map((e: any) &#x3D;&gt; e?.message || &#x27;a&#x27;).join(&#x27;, &#x27;);
+          this.#messageService.add({ severity: &#x27;error&#x27;, summary: &#x27;Identity Provider Signup&#x27;, detail: message });
+          console.error(error);
+        }
+      });
+  }
+
+  /**
+   * Returns an object with the OpenID Connect credentials from the current URL.
+   */
+  public getCurrentURLOpenIdCredentials(): OpenIDCredentials {
+    // Parse the URL search parameters (e.g. ?access_token&#x3D;...)
+    const searchParams &#x3D; new URLSearchParams(window.location.search);
+    // Parse the URL hash parameters (e.g. #access_token&#x3D;...)
+    const hashParams &#x3D; new URLSearchParams(window.location.hash.substring(1));
+    // Helper function to get a parameter value from either the URL search or hash parameters.
+    const getURLParam &#x3D; (name: string) &#x3D;&gt; searchParams.get(name) || hashParams.get(name);
+    // Return the OpenID Connect credentials
+    return {
+      accessToken: getURLParam(&#x27;access_token&#x27;),
+      idToken: getURLParam(&#x27;id_token&#x27;),
+      authorizationCode: getURLParam(&#x27;code&#x27;),
+      state: getURLParam(&#x27;state&#x27;),
+    }
+  }
+
+  private setStoredSessionToken(token: string) {
+    localStorage.setItem(&#x27;sessionToken&#x27;, token);
+  }
+  private removeStoredSessionToken() {
+    localStorage.removeItem(&#x27;sessionToken&#x27;);
+  }
+  private getStoredSessionToken(): string | null {
+    return localStorage.getItem(&#x27;sessionToken&#x27;);
+  }
+  private setStoredSessionUserId(userId: string) {
+    localStorage.setItem(&#x27;sessionUserId&#x27;, userId);
+  }
+  private removeStoredSessionUserId() {
+    localStorage.removeItem(&#x27;sessionUserId&#x27;);
+  }
+  private getStoredSessionUserId(): string | null {
+    return localStorage.getItem(&#x27;sessionUserId&#x27;);
+  }
+
+  
+  updateUserDataConsent(shareable: boolean) {
+      this.#userService.updateUser({userId: this.user().id, userCreate: {
+          username: this.user().username!,
+          firstName: this.user().firstName ?? undefined,
+          lastName: this.user().lastName ?? undefined,
+          email: this.user().email ?? undefined,
+          organization: this.user().organization ?? undefined,
+          department: this.user().department ?? undefined,
+          accessLevel: this.user().accessLevel!,
+          shareable: shareable, 
+          isServiceAccount: this.user().isServiceAccount ?? false,
+      }}).subscribe({
+          next: () &#x3D;&gt; {
+            this.userResource.reload();
+            this.#messageService.add({ severity: &#x27;success&#x27;, summary: &#x27;Success&#x27;, detail: &#x27;User data sharing has been &#x27; + (shareable ? &#x27;enabled&#x27; : &#x27;disabled&#x27;)});
+        },
+      })    
+  }
+
+  private generateRandomState(length: number) {
+    const chars &#x3D; &#x27;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789&#x27;;
+    return Array.from({ length }, () &#x3D;&gt; chars.charAt(Math.floor(Math.random() * chars.length))).join(&#x27;&#x27;);
+  }
+}</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'AuthService.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

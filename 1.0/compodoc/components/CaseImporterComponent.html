@@ -1,0 +1,1488 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Application documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+        <link rel="stylesheet" href="../styles/material.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Application documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  CaseImporterComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>/home/runner/work/onconova/onconova/client/src/app/features/cases/case-importer/case-importer.component.ts</code>
+</p>
+
+
+
+
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>onconova-case-importer</code></td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                            <code>CommonModule</code>
+                            <code>FormsModule</code>
+                            <code>NgxJsonViewerModule</code>
+                            <code>InlineSVGModule</code>
+                            <code>MessageModule</code>
+                            <code>Button</code>
+                            <code>ToggleSwitch</code>
+                            <code>RadioButtonModule</code>
+                            <code>NgxJdenticonModule</code>
+                            <code>ImageCompareModule</code>
+                            <code>AvatarModule</code>
+                            <code>SelectButtonModule</code>
+                            <code>StepperModule</code>
+                            <code>TabsModule</code>
+                                <code><a href="../components/CaseImporterBundleViewerComponent.html" target="_self" >CaseImporterBundleViewerComponent</a></code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>case-importer.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#authService" >authService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#bundle" >bundle</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#bundleTree" >bundleTree</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#casesService" >casesService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#conflictingBundle" >conflictingBundle</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#conflictResolution" >conflictResolution</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#consentIllustration" >consentIllustration</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#consentValid" >consentValid</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#importFormat" >importFormat</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#importLoading" >importLoading</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#importOptions" >importOptions</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#interoperabilityService" >interoperabilityService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#messageService" >messageService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#router" >router</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#uploadedFile" >uploadedFile</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#uploadedLoading" >uploadedLoading</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#constructBundleTree" >constructBundleTree</a>
+                            </li>
+                            <li>
+                                <a href="#onFileChange" >onFileChange</a>
+                            </li>
+                            <li>
+                                <a href="#onImportBundle" >onImportBundle</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="constructBundleTree"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>constructBundleTree</b></span>
+                        <a href="#constructBundleTree"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>constructBundleTree(bundle: PatientCaseBundle)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="140"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cases/case-importer/case-importer.component.ts:140</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>bundle</td>
+                                            <td>
+                                                        <code>PatientCaseBundle</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>TreeNode[]</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onFileChange"></a>
+                    <span class="name">
+                        <span ><b>onFileChange</b></span>
+                        <a href="#onFileChange"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onFileChange(event: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="71"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cases/case-importer/case-importer.component.ts:71</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>event</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onImportBundle"></a>
+                    <span class="name">
+                        <span ><b>onImportBundle</b></span>
+                        <a href="#onImportBundle"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onImportBundle()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="122"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cases/case-importer/case-importer.component.ts:122</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="authService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>authService</b></span>
+                        <a href="#authService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(AuthService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cases/case-importer/case-importer.component.ts:54</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="bundle"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>bundle</b></span>
+                        <a href="#bundle"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>PatientCaseBundle | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cases/case-importer/case-importer.component.ts:48</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="bundleTree"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>bundleTree</b></span>
+                        <a href="#bundleTree"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>TreeNode[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cases/case-importer/case-importer.component.ts:50</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="casesService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>casesService</b></span>
+                        <a href="#casesService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>PatientCasesService</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(PatientCasesService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cases/case-importer/case-importer.component.ts:52</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="conflictingBundle"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>conflictingBundle</b></span>
+                        <a href="#conflictingBundle"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>PatientCaseBundle | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cases/case-importer/case-importer.component.ts:49</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="conflictResolution"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>conflictResolution</b></span>
+                        <a href="#conflictResolution"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cases/case-importer/case-importer.component.ts:68</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="consentIllustration"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>consentIllustration</b></span>
+                        <a href="#consentIllustration"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;assets/images/accessioning/consent.svg&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cases/case-importer/case-importer.component.ts:58</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="consentValid"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>consentValid</b></span>
+                        <a href="#consentValid"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cases/case-importer/case-importer.component.ts:59</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="importFormat"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>importFormat</b></span>
+                        <a href="#importFormat"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;onconova+json&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cases/case-importer/case-importer.component.ts:60</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="importLoading"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>importLoading</b></span>
+                        <a href="#importLoading"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cases/case-importer/case-importer.component.ts:63</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="importOptions"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>importOptions</b></span>
+                        <a href="#importOptions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>any[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+        { label: &#x27;Onconova JSON&#x27;, value: &#x27;onconova+json&#x27; },
+        // { label: &#x27;FHIR JSON&#x27;, value: &#x27;fhir+json&#x27;  }
+    ]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cases/case-importer/case-importer.component.ts:64</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="interoperabilityService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>interoperabilityService</b></span>
+                        <a href="#interoperabilityService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>InteroperabilityService</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(InteroperabilityService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cases/case-importer/case-importer.component.ts:53</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="messageService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>messageService</b></span>
+                        <a href="#messageService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>MessageService</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(MessageService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cases/case-importer/case-importer.component.ts:51</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="router"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>router</b></span>
+                        <a href="#router"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Router</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(Router)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cases/case-importer/case-importer.component.ts:55</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="uploadedFile"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>uploadedFile</b></span>
+                        <a href="#uploadedFile"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>File | null</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>null</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cases/case-importer/case-importer.component.ts:62</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="uploadedLoading"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>uploadedLoading</b></span>
+                        <a href="#uploadedLoading"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cases/case-importer/case-importer.component.ts:61</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, inject } from &#x27;@angular/core&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+import { FormsModule } from &#x27;@angular/forms&#x27;;
+
+import { InteroperabilityService, PatientCaseBundle, PatientCasesService, PatientCase } from &#x27;onconova-api-client&#x27;;
+
+import { MessageService, TreeNode } from &#x27;primeng/api&#x27;;
+import { Button } from &#x27;primeng/button&#x27;;
+import { TabsModule } from &#x27;primeng/tabs&#x27;;
+import { SelectButtonModule } from &#x27;primeng/selectbutton&#x27;;
+import { StepperModule } from &#x27;primeng/stepper&#x27;;
+import { ImageCompareModule } from &#x27;primeng/imagecompare&#x27;;
+import { MessageModule } from &#x27;primeng/message&#x27;;
+import { RadioButtonModule } from &#x27;primeng/radiobutton&#x27;;
+
+import { NgxJsonViewerModule } from &#x27;ngx-json-viewer&#x27;;
+import { NgxJdenticonModule } from &#x27;ngx-jdenticon&#x27;;
+import { AvatarModule } from &#x27;primeng/avatar&#x27;;
+import { AuthService } from &#x27;src/app/core/auth/services/auth.service&#x27;;
+import { InlineSVGModule } from &#x27;ng-inline-svg-2&#x27;;
+import { ToggleSwitch } from &#x27;primeng/toggleswitch&#x27;;
+import { CaseImporterBundleViewerComponent } from &#x27;./components/case-importer-bundle-viewer/case-importer-bundle-viewer.component&#x27;;
+import { catchError, first, mergeMap, of } from &#x27;rxjs&#x27;;
+import { Router } from &#x27;@angular/router&#x27;;
+
+@Component({
+    selector: &#x27;onconova-case-importer&#x27;,
+    templateUrl: &#x27;case-importer.component.html&#x27;,
+    imports: [
+        CommonModule,
+        FormsModule,
+        NgxJsonViewerModule,
+        InlineSVGModule,
+        MessageModule,
+        Button,
+        ToggleSwitch,
+        RadioButtonModule,
+        NgxJdenticonModule,
+        ImageCompareModule,
+        AvatarModule,
+        SelectButtonModule,
+        StepperModule,
+        TabsModule,
+        CaseImporterBundleViewerComponent,
+    ]
+})
+export class CaseImporterComponent {
+    public bundle: PatientCaseBundle | null &#x3D; null;
+    public conflictingBundle: PatientCaseBundle | null &#x3D; null;
+    public bundleTree: TreeNode[] &#x3D; [];
+    private readonly messageService: MessageService &#x3D; inject(MessageService);
+    private readonly casesService: PatientCasesService &#x3D; inject(PatientCasesService);
+    private readonly interoperabilityService: InteroperabilityService &#x3D; inject(InteroperabilityService);
+    public readonly authService: AuthService &#x3D; inject(AuthService);
+    private readonly router: Router &#x3D; inject(Router);
+
+
+    public readonly consentIllustration &#x3D; &#x27;assets/images/accessioning/consent.svg&#x27;;
+    public consentValid: boolean &#x3D; false;
+    public importFormat: string &#x3D; &#x27;onconova+json&#x27; 
+    public uploadedLoading: boolean &#x3D; false;
+    public uploadedFile: File | null &#x3D; null;
+    public importLoading: boolean &#x3D; false;
+    public readonly importOptions: any[] &#x3D; [
+        { label: &#x27;Onconova JSON&#x27;, value: &#x27;onconova+json&#x27; },
+        // { label: &#x27;FHIR JSON&#x27;, value: &#x27;fhir+json&#x27;  }
+    ];
+    public conflictResolution!: string;
+
+    
+    onFileChange(event: any): void {
+        this.bundle &#x3D; null;
+        this.uploadedFile &#x3D; event.target.files[0];
+        const isValid &#x3D; (value: PatientCaseBundle): value is PatientCaseBundle &#x3D;&gt; !!value?.id;
+
+        if (this.uploadedFile &amp;&amp; this.uploadedFile.name.endsWith(&#x27;.json&#x27;)) {
+            const reader &#x3D; new FileReader();
+            reader.onload &#x3D; (e: any) &#x3D;&gt; {
+                try {
+                    const bundle &#x3D; JSON.parse(e.target.result);
+                    // Validate against schema
+                    if (isValid(bundle)) {
+                        this.uploadedLoading &#x3D; true;
+                        this.casesService.getPatientCaseById({caseId: bundle.pseudoidentifier, type: &#x27;pseudoidentifier&#x27;}).pipe(
+                            mergeMap((response) &#x3D;&gt; this.interoperabilityService.exportPatientCaseBundle({caseId: response.id}).pipe(first())),
+                            catchError((error) &#x3D;&gt; {
+                                if (error.status !&#x3D;&#x3D; 404) {
+                                    this.messageService.add({ severity: &#x27;error&#x27;, summary: &#x27;Error&#x27;, detail: error.error.detail });
+                                    throw error;
+                                }
+                                return of(null);
+                            })
+                        ).subscribe({
+                            next: (response) &#x3D;&gt; {
+                                this.conflictingBundle &#x3D; response
+                                this.messageService.add({ severity: &#x27;warning&#x27;, summary: &#x27;Validation&#x27;, detail: &#x27;There is a conflict with your import&#x27; });                                
+                            },
+                            error: () &#x3D;&gt; {
+                                this.conflictingBundle &#x3D; null
+                            },
+                            complete: () &#x3D;&gt; {
+                                this.bundle &#x3D; bundle
+                                this.uploadedLoading &#x3D; false;
+                                this.messageService.add({ severity: &#x27;success&#x27;, summary: &#x27;Validation&#x27;, detail: &#x27;Succesfully uploaded the file&#x27; });
+                            }
+                        })
+                    } else {
+                    this.bundle &#x3D; null;
+                        this.messageService.add({ severity: &#x27;error&#x27;, summary: &#x27;Validation&#x27;, detail: &#x27;Uploaded file is invalid&#x27; });
+                    }
+                } catch (error) {
+                    this.messageService.add({ severity: &#x27;error&#x27;, summary: &#x27;Error&#x27;, detail: &#x27;Failed to parse JSON.&#x27; });
+                }
+                if (this.bundle) {
+                    this.bundleTree &#x3D; this.constructBundleTree(this.bundle)
+                }
+            };
+            reader.readAsText(this.uploadedFile);
+        }
+    }
+
+    onImportBundle() {
+        this.importLoading &#x3D; true
+        this.interoperabilityService.importPatientCaseBundle({patientCaseBundle: this.bundle!, conflict: this.conflictResolution}).subscribe({
+            next: (response) &#x3D;&gt; {
+                this.messageService.add({ severity: &#x27;success&#x27;, summary: &#x27;Import&#x27;, detail: &#x27;Succesfully imported the file&#x27; });
+                this.casesService.getPatientCaseById({caseId: response.id}).pipe(first()).subscribe({
+                    next: (response: PatientCase) &#x3D;&gt; {
+                        this.router.navigate([&#x27;cases/management&#x27;,response.pseudoidentifier])
+                    }
+                });
+            },
+            error: (error: any) &#x3D;&gt; {
+                this.messageService.add({ severity: &#x27;error&#x27;, summary: &#x27;Error&#x27;, detail: error.error.detail });
+                this.importLoading &#x3D; false;
+            },
+        })    
+    }
+
+    private constructBundleTree(bundle: PatientCaseBundle): TreeNode[] {
+        return Object.entries(bundle)
+            .filter(([key,value]) &#x3D;&gt; Array.isArray(value) &amp;&amp; key!&#x3D;&#x27;history&#x27;) // Only process array properties
+            .map(([key,value]) &#x3D;&gt; ({
+                label: key
+                    .replace(/([a-z])([A-Z])/g, &#x27;$1 $2&#x27;)
+                    .replace(/^./, (str) &#x3D;&gt; str.toUpperCase()),
+                type: &#x27;category&#x27;,
+                children: value.map((item: any) &#x3D;&gt; ({
+                    label: item.description,
+                    type: &#x27;resource&#x27;,
+                    data: item,
+                })),
+            }));
+    }
+}</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">
+&lt;h2 class&#x3D;&quot;mb-0 font-semibold&quot;&gt;Import Case Bundle&lt;/h2&gt;
+&lt;div class&#x3D;&quot;text-muted w-50rem mb-4&quot;&gt;
+    Import cases quickly and easily with our intuitive interface. Simply select the file you want to import,
+    choose your options, and let the system do the rest. Track the progress of your import and get notified when it&#x27;s complete.
+&lt;/div&gt;
+
+
+&lt;div class&#x3D;&quot;onconova-case-importer card flex py-4 header&quot; style&#x3D;&quot;background: var(--p-content-background); color: var(--p-text-color)&quot;&gt;
+    &lt;p-stepper [value]&#x3D;&quot;1&quot; [linear]&#x3D;&quot;true&quot;&gt;
+        &lt;p-step-item [value]&#x3D;&quot;1&quot;&gt;
+            &lt;p-step&gt;&lt;span class&#x3D;&quot;text-lg font-semibold&quot;&gt;Select the data format&lt;/span&gt;&lt;/p-step&gt;
+            &lt;p-step-panel&gt;
+                &lt;ng-template #content let-activateCallback&#x3D;&quot;activateCallback&quot;&gt;
+                    &lt;div class&#x3D;&quot;flex flex-col h-48&quot;&gt;
+                        &lt;div class&#x3D;&quot;flex flex-column gap-2&quot;&gt;
+                            &lt;h6 class&#x3D;&quot;text-muted font-semibold mb-1&quot;&gt;Onconova JSON Format&lt;/h6&gt; 
+                            &lt;p&gt;
+                                Select this option if you have a file in the Onconova JSON format. This format is specific to our system and is used for
+                                 storing and processing cases. If you&#x27;ve exported cases from the platform previously, they&#x27;ll be in Onconova JSON format. You can
+                                import these files directly into the platform without needing to convert them.
+                            &lt;/p&gt;
+                            &lt;!-- &lt;h6 class&#x3D;&quot;text-muted font-semibold my-1&quot;&gt;FHIR JSON Format&lt;/h6&gt; 
+                            &lt;p&gt;
+                                Select this option if you have a file in FHIR (Fast Healthcare Interoperability Resources) JSON format. 
+                                FHIR is a standardized format for exchanging healthcare data, and using this format ensures that your data is compatible 
+                                with other healthcare systems. If you&#x27;re importing data from another healthcare system or application, it&#x27;s likely in FHIR
+                                JSON format.
+                            &lt;/p&gt; --&gt;
+                            &lt;label class&#x3D;&quot;field-label required&quot;&gt;Choose a data format&lt;/label&gt;
+                            &lt;p-selectbutton 
+                                [options]&#x3D;&quot;importOptions&quot; 
+                                [(ngModel)]&#x3D;&quot;importFormat&quot; 
+                                optionLabel&#x3D;&quot;label&quot; 
+                                optionValue&#x3D;&quot;value&quot; 
+                                aria-labelledby&#x3D;&quot;basic&quot; /&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div class&#x3D;&quot;py-4&quot;&gt;
+                        &lt;p-button label&#x3D;&quot;Next&quot; [disabled]&#x3D;&quot;!importFormat&quot; styleClass&#x3D;&quot;w-15rem&quot; (onClick)&#x3D;&quot;activateCallback(2)&quot; /&gt;
+                    &lt;/div&gt;
+                &lt;/ng-template&gt;
+            &lt;/p-step-panel&gt;
+        &lt;/p-step-item&gt;
+
+        &lt;p-step-item [value]&#x3D;&quot;2&quot;&gt;
+            &lt;p-step&gt;&lt;span class&#x3D;&quot;text-lg font-semibold&quot;&gt;Upload the bundle&lt;/span&gt;&lt;/p-step&gt;
+            &lt;p-step-panel&gt;
+                &lt;ng-template #content let-activateCallback&#x3D;&quot;activateCallback&quot;&gt;
+                    &lt;div class&#x3D;&quot;flex flex-column gap-2&quot;&gt;
+                        &lt;label class&#x3D;&quot;field-label required&quot;&gt;Select the file to be imported&lt;/label&gt;
+                        &lt;div class&#x3D;&quot;flex&quot;&gt;
+                            &lt;p-button [label]&#x3D;&quot;importFormat&#x3D;&#x3D;&#x27;onconova+json&#x27; ? &#x27;Load Onconova JSON&#x27; : &#x27;Load FHIR JSON&#x27;&quot; icon&#x3D;&quot;pi pi-upload&quot; [loading]&#x3D;&quot;uploadedLoading&quot; (click)&#x3D;&quot;fileInput.click()&quot;/&gt;
+                            &lt;input type&#x3D;&quot;file&quot;
+                                accept&#x3D;&quot;application/json&quot;
+                                #fileInput
+                                style&#x3D;&quot;display: none&quot;
+                                (change)&#x3D;&quot;onFileChange($event)&quot;/&gt;
+                            &lt;div class&#x3D;&quot;ml-2 my-auto&quot;&gt;
+                                @if (uploadedFile) {
+                                    &lt;span class&#x3D;&quot;text-monospace&quot;&gt;
+                                        &lt;i class&#x3D;&quot;pi pi-file mr-2&quot;&gt;&lt;/i&gt;{{uploadedFile.name}}
+                                    &lt;/span&gt;
+                                } @else {
+                                    &lt;span&gt;No file chosen&lt;/span&gt;
+                                }                                
+                            &lt;/div&gt;    
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div class&#x3D;&quot;flex pt-4 gap-2&quot;&gt;
+                        &lt;p-button label&#x3D;&quot;Back&quot; severity&#x3D;&quot;secondary&quot; icon&#x3D;&quot;pi pi-arrow-left&quot; (onClick)&#x3D;&quot;activateCallback(1)&quot; /&gt;
+                        &lt;p-button label&#x3D;&quot;Next&quot; styleClass&#x3D;&quot;w-15rem&quot; [disabled]&#x3D;&quot;!bundle || uploadedLoading&quot; (onClick)&#x3D;&quot;activateCallback(3)&quot; /&gt;
+                    &lt;/div&gt;
+                &lt;/ng-template&gt;
+            &lt;/p-step-panel&gt;
+        &lt;/p-step-item&gt;
+
+        &lt;p-step-item [value]&#x3D;&quot;3&quot;&gt;
+            &lt;p-step&gt;&lt;span class&#x3D;&quot;text-lg font-semibold&quot;&gt;Review the data&lt;/span&gt;&lt;/p-step&gt;
+            &lt;p-step-panel&gt;
+                &lt;ng-template #content let-activateCallback&#x3D;&quot;activateCallback&quot;&gt;
+                    
+                    @if (conflictingBundle) {
+                        &lt;p-message styleClass&#x3D;&quot;my-3&quot; severity&#x3D;&quot;warn&quot; icon&#x3D;&quot;pi pi-exclamation-triangle&quot;&gt;
+                            The uploaded case bundle conflicts with an existing case. Please review the differences and choose a resolution to proceed.
+                        &lt;/p-message&gt;
+                    }
+
+                    &lt;h6 class&#x3D;&quot;text-muted font-semibold my-1&quot;&gt;
+                        Verify the Accuracy of the Case Bundle
+                    &lt;/h6&gt; 
+                    &lt;div&gt;
+                        In this step, carefully review the data in your uploaded case bundle to ensure it is accurate and complete. 
+                        This is an important step to prevent errors and inconsistencies that may impact the outcome of your case.
+                    &lt;/div&gt;
+
+                    &lt;div class&#x3D;&quot;flex flex-col h-48&quot;&gt;
+                        @if (bundle) {
+                            &lt;div&gt;
+                                &lt;p-tabs value&#x3D;&quot;uploaded-bundle&quot;&gt;
+                                    &lt;p-tablist&gt;
+                                        &lt;p-tab value&#x3D;&quot;uploaded-bundle&quot;&gt;Uploaded Case&lt;/p-tab&gt;
+                                        @if (conflictingBundle) {
+                                            &lt;p-tab value&#x3D;&quot;conflict-bundle&quot;&gt;&lt;i class&#x3D;&quot;pi pi-exclamation-triangle&quot;&gt;&lt;/i&gt; Conflicting Case&lt;/p-tab&gt;
+                                        }
+                                        &lt;p-tab value&#x3D;&quot;uploaded-json&quot; &gt;JSON Upload&lt;/p-tab&gt;
+                                        &lt;p-tab value&#x3D;&quot;uploaded-raw&quot; &gt;Raw Upload&lt;/p-tab&gt;
+                                    &lt;/p-tablist&gt;
+                                    &lt;p-tabpanels&gt;
+                                        &lt;p-tabpanel value&#x3D;&quot;uploaded-bundle&quot;&gt;
+                                            &lt;onconova-case-importer-bundle-viewer [bundle]&#x3D;&quot;bundle&quot;/&gt;
+                                        &lt;/p-tabpanel&gt;
+                                        @if (conflictingBundle) {
+                                            &lt;p-tabpanel value&#x3D;&quot;conflict-bundle&quot;&gt;
+                                                &lt;onconova-case-importer-bundle-viewer [bundle]&#x3D;&quot;conflictingBundle&quot;/&gt;
+                                            &lt;/p-tabpanel&gt;
+                                        }
+                                        &lt;p-tabpanel value&#x3D;&quot;uploaded-json&quot;&gt;
+                                            &lt;ngx-json-viewer [json]&#x3D;&quot;bundle&quot; [expanded]&#x3D;&quot;false&quot;&gt;&lt;/ngx-json-viewer&gt;
+                                        &lt;/p-tabpanel&gt;
+                                        &lt;p-tabpanel value&#x3D;&quot;uploaded-raw&quot;&gt;
+                                            &lt;pre&gt; {{ bundle | json }} &lt;/pre&gt;
+                                        &lt;/p-tabpanel&gt;
+                                    &lt;/p-tabpanels&gt;
+                                &lt;/p-tabs&gt;
+                            &lt;/div&gt;
+                        }
+                    &lt;/div&gt;
+
+                    @if (conflictingBundle) {
+                        &lt;div&gt;
+                            &lt;div class&#x3D;&quot;my-3&quot;&gt;
+                                &lt;label class&#x3D;&quot;field-label required&quot;&gt;Select a conflict resolution method&lt;/label&gt;
+                                &lt;div class&#x3D;&quot;flex items-center gap-2 mt-3&quot;&gt;
+                                    &lt;p-radiobutton [(ngModel)]&#x3D;&quot;conflictResolution&quot; value&#x3D;&quot;overwrite&quot;/&gt;
+                                    &lt;label&gt;Overwrite&lt;/label&gt;
+                                &lt;/div&gt;
+                                &lt;div class&#x3D;&quot;text-muted ml-4&quot;&gt;
+                                    Overwrite existing case with uploaded case bundle
+                                &lt;/div&gt;
+                                &lt;div class&#x3D;&quot;flex items-center gap-2 mt-3&quot;&gt;
+                                    &lt;p-radiobutton [(ngModel)]&#x3D;&quot;conflictResolution&quot; value&#x3D;&quot;reassign&quot;/&gt;
+                                    &lt;label&gt;Re-assign&lt;/label&gt;
+                                &lt;/div&gt;
+                                &lt;div class&#x3D;&quot;text-muted ml-4&quot;&gt;
+                                    Import uploaded bundle and assign a new case pseudoidentifier
+                                &lt;/div&gt;
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                    }
+
+                    &lt;div class&#x3D;&quot;flex pt-4 justify-start gap-2&quot;&gt;
+                        &lt;p-button label&#x3D;&quot;Back&quot; severity&#x3D;&quot;secondary&quot; icon&#x3D;&quot;pi pi-arrow-left&quot; (onClick)&#x3D;&quot;activateCallback(2)&quot; /&gt;
+                        &lt;p-button label&#x3D;&quot;Next&quot; styleClass&#x3D;&quot;w-15rem&quot; [disabled]&#x3D;&quot;conflictingBundle &amp;&amp; !conflictResolution&quot;  (onClick)&#x3D;&quot;activateCallback(4)&quot; /&gt;
+                    &lt;/div&gt;
+                &lt;/ng-template&gt;
+            &lt;/p-step-panel&gt;
+        &lt;/p-step-item&gt;
+
+        &lt;p-step-item [value]&#x3D;&quot;4&quot;&gt;
+            &lt;p-step&gt;&lt;span class&#x3D;&quot;text-lg font-semibold&quot;&gt;Import the case&lt;/span&gt;&lt;/p-step&gt;
+            &lt;p-step-panel&gt;
+                &lt;ng-template #content let-activateCallback&#x3D;&quot;activateCallback&quot;&gt;
+                    &lt;div class&#x3D;&quot;flex flex-column&quot; style&#x3D;&quot;max-width:55rem&quot;&gt;
+                        &lt;div class&#x3D;&quot;flex&quot;&gt;
+                            &lt;div [inlineSVG]&#x3D;&quot;consentIllustration&quot; class&#x3D;&quot;consent-illustration&quot;&gt;&lt;/div&gt;
+                            &lt;div class&#x3D;&quot;flex flex-column my-auto&quot;&gt;
+                                &lt;p&gt;Have you checked for consent/permission?&lt;/p&gt;
+                                &lt;small class&#x3D;&quot;text-muted&quot;&gt;
+                                A patient&#x27;s case may only be included in Onconova if the patient has provided explicit informed consent 
+                                (e.g., through a signed general consent) or if the managing researcher has obtained authorization from the appropriate regulatory 
+                                or ethics governance bodies to access and utilize the data in accordance with applicable legal and ethical standards.&lt;/small&gt;
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                        &lt;div class&#x3D;&quot;field flex mt-3&quot;&gt;
+                            &lt;p-toggleswitch [(ngModel)]&#x3D;&quot;consentValid&quot; /&gt;
+                            &lt;label class&#x3D;&quot;form-label ml-2 my-auto required&quot;&gt;I hereby confirm that I have the legal and ethical authorization to access and utilize this patient’s clinical data for research purposes in compliance with all applicable laws, regulations, and institutional policies.&lt;/label&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div class&#x3D;&quot;flex pt-4 justify-start gap-2&quot;&gt;
+                        &lt;p-button label&#x3D;&quot;Back&quot; severity&#x3D;&quot;secondary&quot; icon&#x3D;&quot;pi pi-arrow-left&quot; (onClick)&#x3D;&quot;activateCallback(3)&quot; /&gt;
+                        &lt;p-button label&#x3D;&quot;Import case&quot; styleClass&#x3D;&quot;w-15rem&quot; [disabled]&#x3D;&quot;!consentValid || importLoading&quot;  icon&#x3D;&quot;pi pi-cloud-upload&quot; iconPos&#x3D;&quot;right&quot; (onClick)&#x3D;&quot;onImportBundle()&quot;/&gt;
+                    &lt;/div&gt;
+                &lt;/ng-template&gt;
+            &lt;/p-step-panel&gt;
+        &lt;/p-step-item&gt;
+        
+    &lt;/p-stepper&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><h2 class="mb-0 font-semibold">Import Case Bundle</h2><div class="text-muted w-50rem mb-4">    Import cases quickly and easily with our intuitive interface. Simply select the file you want to import,    choose your options, and let the system do the rest. Track the progress of your import and get notified when it\'s complete.</div><div class="onconova-case-importer card flex py-4 header" style="background: var(--p-content-background); color: var(--p-text-color)">    <p-stepper [value]="1" [linear]="true">        <p-step-item [value]="1">            <p-step><span class="text-lg font-semibold">Select the data format</span></p-step>            <p-step-panel>                <ng-template #content let-activateCallback="activateCallback">                    <div class="flex flex-col h-48">                        <div class="flex flex-column gap-2">                            <h6 class="text-muted font-semibold mb-1">Onconova JSON Format</h6>                             <p>                                Select this option if you have a file in the Onconova JSON format. This format is specific to our system and is used for                                 storing and processing cases. If you\'ve exported cases from the platform previously, they\'ll be in Onconova JSON format. You can                                import these files directly into the platform without needing to convert them.                            </p>                            <!-- <h6 class="text-muted font-semibold my-1">FHIR JSON Format</h6>                             <p>                                Select this option if you have a file in FHIR (Fast Healthcare Interoperability Resources) JSON format.                                 FHIR is a standardized format for exchanging healthcare data, and using this format ensures that your data is compatible                                 with other healthcare systems. If you\'re importing data from another healthcare system or application, it\'s likely in FHIR                                JSON format.                            </p> -->                            <label class="field-label required">Choose a data format</label>                            <p-selectbutton                                 [options]="importOptions"                                 [(ngModel)]="importFormat"                                 optionLabel="label"                                 optionValue="value"                                 aria-labelledby="basic" />                        </div>                    </div>                    <div class="py-4">                        <p-button label="Next" [disabled]="!importFormat" styleClass="w-15rem" (onClick)="activateCallback(2)" />                    </div>                </ng-template>            </p-step-panel>        </p-step-item>        <p-step-item [value]="2">            <p-step><span class="text-lg font-semibold">Upload the bundle</span></p-step>            <p-step-panel>                <ng-template #content let-activateCallback="activateCallback">                    <div class="flex flex-column gap-2">                        <label class="field-label required">Select the file to be imported</label>                        <div class="flex">                            <p-button [label]="importFormat==\'onconova+json\' ? \'Load Onconova JSON\' : \'Load FHIR JSON\'" icon="pi pi-upload" [loading]="uploadedLoading" (click)="fileInput.click()"/>                            <input type="file"                                accept="application/json"                                #fileInput                                style="display: none"                                (change)="onFileChange($event)"/>                            <div class="ml-2 my-auto">                                @if (uploadedFile) {                                    <span class="text-monospace">                                        <i class="pi pi-file mr-2"></i>{{uploadedFile.name}}                                    </span>                                } @else {                                    <span>No file chosen</span>                                }                                                            </div>                            </div>                    </div>                    <div class="flex pt-4 gap-2">                        <p-button label="Back" severity="secondary" icon="pi pi-arrow-left" (onClick)="activateCallback(1)" />                        <p-button label="Next" styleClass="w-15rem" [disabled]="!bundle || uploadedLoading" (onClick)="activateCallback(3)" />                    </div>                </ng-template>            </p-step-panel>        </p-step-item>        <p-step-item [value]="3">            <p-step><span class="text-lg font-semibold">Review the data</span></p-step>            <p-step-panel>                <ng-template #content let-activateCallback="activateCallback">                                        @if (conflictingBundle) {                        <p-message styleClass="my-3" severity="warn" icon="pi pi-exclamation-triangle">                            The uploaded case bundle conflicts with an existing case. Please review the differences and choose a resolution to proceed.                        </p-message>                    }                    <h6 class="text-muted font-semibold my-1">                        Verify the Accuracy of the Case Bundle                    </h6>                     <div>                        In this step, carefully review the data in your uploaded case bundle to ensure it is accurate and complete.                         This is an important step to prevent errors and inconsistencies that may impact the outcome of your case.                    </div>                    <div class="flex flex-col h-48">                        @if (bundle) {                            <div>                                <p-tabs value="uploaded-bundle">                                    <p-tablist>                                        <p-tab value="uploaded-bundle">Uploaded Case</p-tab>                                        @if (conflictingBundle) {                                            <p-tab value="conflict-bundle"><i class="pi pi-exclamation-triangle"></i> Conflicting Case</p-tab>                                        }                                        <p-tab value="uploaded-json" >JSON Upload</p-tab>                                        <p-tab value="uploaded-raw" >Raw Upload</p-tab>                                    </p-tablist>                                    <p-tabpanels>                                        <p-tabpanel value="uploaded-bundle">                                            <onconova-case-importer-bundle-viewer [bundle]="bundle"/>                                        </p-tabpanel>                                        @if (conflictingBundle) {                                            <p-tabpanel value="conflict-bundle">                                                <onconova-case-importer-bundle-viewer [bundle]="conflictingBundle"/>                                            </p-tabpanel>                                        }                                        <p-tabpanel value="uploaded-json">                                            <ngx-json-viewer [json]="bundle" [expanded]="false"></ngx-json-viewer>                                        </p-tabpanel>                                        <p-tabpanel value="uploaded-raw">                                            <pre> {{ bundle | json }} </pre>                                        </p-tabpanel>                                    </p-tabpanels>                                </p-tabs>                            </div>                        }                    </div>                    @if (conflictingBundle) {                        <div>                            <div class="my-3">                                <label class="field-label required">Select a conflict resolution method</label>                                <div class="flex items-center gap-2 mt-3">                                    <p-radiobutton [(ngModel)]="conflictResolution" value="overwrite"/>                                    <label>Overwrite</label>                                </div>                                <div class="text-muted ml-4">                                    Overwrite existing case with uploaded case bundle                                </div>                                <div class="flex items-center gap-2 mt-3">                                    <p-radiobutton [(ngModel)]="conflictResolution" value="reassign"/>                                    <label>Re-assign</label>                                </div>                                <div class="text-muted ml-4">                                    Import uploaded bundle and assign a new case pseudoidentifier                                </div>                            </div>                        </div>                    }                    <div class="flex pt-4 justify-start gap-2">                        <p-button label="Back" severity="secondary" icon="pi pi-arrow-left" (onClick)="activateCallback(2)" />                        <p-button label="Next" styleClass="w-15rem" [disabled]="conflictingBundle && !conflictResolution"  (onClick)="activateCallback(4)" />                    </div>                </ng-template>            </p-step-panel>        </p-step-item>        <p-step-item [value]="4">            <p-step><span class="text-lg font-semibold">Import the case</span></p-step>            <p-step-panel>                <ng-template #content let-activateCallback="activateCallback">                    <div class="flex flex-column" style="max-width:55rem">                        <div class="flex">                            <div [inlineSVG]="consentIllustration" class="consent-illustration"></div>                            <div class="flex flex-column my-auto">                                <p>Have you checked for consent/permission?</p>                                <small class="text-muted">                                A patient\'s case may only be included in Onconova if the patient has provided explicit informed consent                                 (e.g., through a signed general consent) or if the managing researcher has obtained authorization from the appropriate regulatory                                 or ethics governance bodies to access and utilize the data in accordance with applicable legal and ethical standards.</small>                            </div>                        </div>                        <div class="field flex mt-3">                            <p-toggleswitch [(ngModel)]="consentValid" />                            <label class="form-label ml-2 my-auto required">I hereby confirm that I have the legal and ethical authorization to access and utilize this patient’s clinical data for research purposes in compliance with all applicable laws, regulations, and institutional policies.</label>                        </div>                    </div>                    <div class="flex pt-4 justify-start gap-2">                        <p-button label="Back" severity="secondary" icon="pi pi-arrow-left" (onClick)="activateCallback(3)" />                        <p-button label="Import case" styleClass="w-15rem" [disabled]="!consentValid || importLoading"  icon="pi pi-cloud-upload" iconPos="right" (onClick)="onImportBundle()"/>                    </div>                </ng-template>            </p-step-panel>        </p-step-item>            </p-stepper></div></div>'
+    var COMPONENTS = [{'name': 'AbstractFormBase', 'selector': ''},{'name': 'AdverseEventFormComponent', 'selector': 'adverse-event-form'},{'name': 'AppComponent', 'selector': 'onconova-root'},{'name': 'AppFooterComponent', 'selector': 'onconova-footer'},{'name': 'AppLayoutComponent', 'selector': 'onconova-layout'},{'name': 'AppSidebarMenuComponent', 'selector': 'onconova-sidebar-menu'},{'name': 'AppTopBarComponent', 'selector': 'onconova-topbar'},{'name': 'AuthCallbackComponent', 'selector': 'app-auth-callback'},{'name': 'AuthLayoutComponent', 'selector': 'onconova-auth-layout'},{'name': 'BoxPlotComponent', 'selector': 'onconova-box-plot'},{'name': 'CancerIconComponent', 'selector': 'onconova-cancer-icon'},{'name': 'CaseImporterBundleViewerComponent', 'selector': 'onconova-case-importer-bundle-viewer'},{'name': 'CaseImporterComponent', 'selector': 'onconova-case-importer'},{'name': 'CaseManagerComponent', 'selector': 'onconova-case-manager'},{'name': 'CaseManagerDrawerComponent', 'selector': 'onconova-case-manager-drawer'},{'name': 'CaseManagerPanelComponent', 'selector': 'onconova-case-manager-panel'},{'name': 'CaseManagerPanelTimelineComponent', 'selector': 'onconova-case-manager-panel-timeline'},{'name': 'CaseSearchComponent', 'selector': ''},{'name': 'CaseSearchItemCardComponent', 'selector': 'onconova-case-search-item,[onconova-case-search-item]'},{'name': 'CodedConceptTreeComponent', 'selector': 'onconova-coded-concept-tree'},{'name': 'CohortBuilderComponent', 'selector': 'onconova-cohort-manager'},{'name': 'CohortContributorsComponent', 'selector': 'onconova-cohort-contributors'},{'name': 'CohortFormComponent', 'selector': 'cohort-form'},{'name': 'CohortGraphsComponent', 'selector': 'onconova-cohort-graphs'},{'name': 'CohortGraphsContextMenu', 'selector': 'onconova-cohort-graph-context-menu'},{'name': 'CohortQueryBuilderComponent', 'selector': 'onconova-cohort-query-builder'},{'name': 'CohortSearchComponent', 'selector': ''},{'name': 'CohortSearchItemComponent', 'selector': 'onconova-cohort-search-item, [onconova-cohort-search-item]'},{'name': 'CohortTraitPanel', 'selector': 'onconova-cohort-trait'},{'name': 'ComorbiditiesAssessmentFormComponent', 'selector': 'comorbidities-form'},{'name': 'ConceptSelectorComponent', 'selector': 'onconova-concept-selector'},{'name': 'ConsentNoticeModalComponent', 'selector': 'onconova-consent-modal'},{'name': 'DashboardComponent', 'selector': 'onconova-dashboard'},{'name': 'DataCompletionStatsComponent', 'selector': 'onconova-data-completion-stats'},{'name': 'DatasetComposerComponent', 'selector': 'onconova-dataset-composer'},{'name': 'DataSummaryComponent', 'selector': 'onconova-data-summary'},{'name': 'DataSummaryCounterComponent', 'selector': 'onconova-data-summary-counter'},{'name': 'DatePickerComponent', 'selector': 'onconova-datepicker'},{'name': 'DisclaimerBannerComponent', 'selector': 'onconova-disclaimer-banner'},{'name': 'DistributionGraphComponent', 'selector': 'onconova-distribution-graph'},{'name': 'DoughnutGraphComponent', 'selector': 'onconova-doughnut-graph'},{'name': 'DrawerDataPropertiesComponent', 'selector': 'onconova-drawer-properties'},{'name': 'ErrorComponent', 'selector': 'onconova-error'},{'name': 'ExportConfirmDialogComponent', 'selector': 'onconova-export-confirm-dialog'},{'name': 'FamilyHistoryFormComponent', 'selector': 'family-history-form'},{'name': 'FormControlErrorComponent', 'selector': 'onconova-form-control-error'},{'name': 'GenomicSignatureFormComponent', 'selector': 'genomic-signature-form'},{'name': 'GenomicVariantFormComponent', 'selector': 'genomic-variant-form'},{'name': 'IdenticonComponent', 'selector': 'onconova-identicon'},{'name': 'KapplerMeierCurveComponent', 'selector': 'onconova-kappler-meier-curve'},{'name': 'LifestyleFormComponent', 'selector': 'lifestyle-form'},{'name': 'LoginComponent', 'selector': 'onconova-login'},{'name': 'MeasureInputComponent', 'selector': 'onconova-measure-input'},{'name': 'ModalFormHeaderComponent', 'selector': 'onconova-modal-form-header'},{'name': 'MultiReferenceSelectComponent', 'selector': 'onconova-multi-reference-select'},{'name': 'NeoplasticEntityFormComponent', 'selector': 'neoplastic-entity-form'},{'name': 'NestedTableComponent', 'selector': 'onconova-nested-table'},{'name': 'OncoplotComponent', 'selector': 'onconova-oncoplot'},{'name': 'PasswordResetFormComponent', 'selector': 'onconova-password-reset-dialog'},{'name': 'PatientFormComponent', 'selector': 'patient-form'},{'name': 'PerformanceStatusFormComponent', 'selector': 'performance-status-form'},{'name': 'PopoverFilterButtonComponent', 'selector': 'onconova-popover-filter-button'},{'name': 'PrimaryEntitiesTableComponent', 'selector': 'onconova-primary-entities-table'},{'name': 'ProjectFormComponent', 'selector': 'project-form'},{'name': 'ProjectManagementComponent', 'selector': 'onconova-project-management'},{'name': 'ProjectSearchComponent', 'selector': 'onconova-project-search'},{'name': 'ProjectSearchItemComponent', 'selector': 'onconova-project-search-item, [onconova-project-search-item]'},{'name': 'ProviderSignupComponent', 'selector': 'app-signup'},{'name': 'RadioSelectComponent', 'selector': 'onconova-radio-select'},{'name': 'RadiotherapyFormComponent', 'selector': 'radiotherapy-form'},{'name': 'RandomPaperComponent', 'selector': 'onconova-random-paper'},{'name': 'RangeInputComponent', 'selector': 'onconova-range-input'},{'name': 'RiskAssessmentFormComponent', 'selector': 'risk-assessment-form'},{'name': 'SettingsDialogComponent', 'selector': 'onconova-settings-dialog'},{'name': 'StagingFormComponent', 'selector': 'staging-form'},{'name': 'SurgeryFormComponent', 'selector': 'surgery-form'},{'name': 'SystemicTherapyFormComponent', 'selector': 'systemic-therapy-form'},{'name': 'TreatmentResponseFormComponent', 'selector': 'treatment-response-form'},{'name': 'TumorBoardFormComponent', 'selector': 'tumor-board-form'},{'name': 'TumorMarkerFormComponent', 'selector': 'tumor-marker-form'},{'name': 'UserBadgeComponent', 'selector': 'onconova-user-badge'},{'name': 'UserDetailsComponent', 'selector': 'onconova-user-details'},{'name': 'UserFormComponent', 'selector': 'onconova-user-form'},{'name': 'UserSelectorComponent', 'selector': 'onconova-user-selector'},{'name': 'UsersManagementCompnent', 'selector': 'onconova-users-management'},{'name': 'VitalsFormComponent', 'selector': 'vitals-form'}];
+    var DIRECTIVES = [{'name': 'DateMaskDirective', 'selector': '[dateMask]'}];
+    var ACTUAL_COMPONENT = {'name': 'CaseImporterComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'CaseImporterComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

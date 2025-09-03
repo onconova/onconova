@@ -1,0 +1,1088 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Application documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+        <link rel="stylesheet" href="../styles/material.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Application documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  UserDetailsComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>/home/runner/work/onconova/onconova/client/src/app/core/admin/components/user-details/user-details.component.ts</code>
+</p>
+
+
+
+
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>onconova-user-details</code></td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                            <code>CommonModule</code>
+                            <code>CamelCaseToTitleCasePipe</code>
+                                <code><a href="../interfaces/Resource.html" target="_self" >ResolveResourcePipe</a></code>
+                                <code><a href="../components/UserBadgeComponent.html" target="_self" >UserBadgeComponent</a></code>
+                            <code>Tag</code>
+                            <code>Divider</code>
+                            <code>Card</code>
+                            <code>Skeleton</code>
+                            <code>TableModule</code>
+                            <code>Avatar</code>
+                </td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">template</td>
+                <td class="col-md-9"><pre class="line-numbers"><code class="language-html">&lt;p-card&gt;
+    &lt;div class&#x3D;&quot;flex&quot;&gt;
+        &lt;p-avatar shape&#x3D;&quot;circle&quot; [label]&#x3D;&quot;initials()&quot; styleClass&#x3D;&quot;user-avatar text-7xl w-8rem h-8rem&quot;&gt;&lt;/p-avatar&gt;
+        &lt;div class&#x3D;&quot;my-auto ml-3&quot;&gt;
+            &lt;div&gt;
+                &lt;h3 class&#x3D;&quot;mb-0&quot;&gt;
+                    @if (user.value(); as user) {
+                        {{user.firstName}} {{user.lastName}}
+                    }
+                &lt;/h3&gt;
+                &lt;h6 class&#x3D;&quot;mt-1 text-muted&quot;&gt;
+                    @if (user.value(); as user) {
+                        &lt;i class&#x3D;&quot;pi pi-lock&quot;&gt;&lt;/i&gt; {{user.accessLevel}} - {{user.role}}
+                    }
+                &lt;/h6&gt;
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;mt-2 flex gap-4&quot;&gt;
+                &lt;div&gt;
+                    &lt;div class&#x3D;&quot;text-muted&quot;&gt;Username&lt;/div&gt;
+                    @if (user.value(); as user) {
+                        &lt;span class&#x3D;&quot;&quot;&gt;{{ user.username || &#x27;-&#x27; }}&lt;/span&gt;
+                    }
+                &lt;/div&gt;
+                &lt;div&gt;
+                    &lt;div class&#x3D;&quot;text-muted&quot;&gt;Last login&lt;/div&gt;
+                    @if (user.value(); as user) {
+                        {{ (user.lastLogin | date:&#x27;medium&#x27; ) || &#x27;-&#x27; }}
+                    }
+                &lt;/div&gt;
+                &lt;div&gt;
+                    &lt;div class&#x3D;&quot;text-muted&quot;&gt;Email&lt;/div&gt;
+                    @if (user.value(); as user) {
+                        {{user.email || &#x27;-&#x27; }}
+                    }
+                &lt;/div&gt;
+                &lt;div&gt;
+                    &lt;div class&#x3D;&quot;text-muted&quot;&gt;Organization&lt;/div&gt;
+                    @if (user.value(); as user) {
+                        {{user.organization || &#x27;-&#x27;}}
+                    }
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;p-divider class&#x3D;&quot;my-4&quot;&gt;&lt;/p-divider&gt;
+
+    &lt;h5 class&#x3D;&quot;mb-1 mt-5&quot;&gt;Project Memberships&lt;/h5&gt;
+    &lt;p-table [value]&#x3D;&quot;projects.value() || []&quot;&gt;
+        &lt;ng-template pTemplate&#x3D;&quot;header&quot;&gt;
+            &lt;tr&gt;
+                &lt;th&gt;Title&lt;/th&gt;
+                &lt;th&gt;Leader&lt;/th&gt;
+                &lt;th&gt;Status&lt;/th&gt;
+            &lt;/tr&gt;
+        &lt;/ng-template&gt;
+        &lt;ng-template pTemplate&#x3D;&quot;body&quot; let-project&gt;
+            &lt;tr&gt;
+                &lt;td&gt;{{project.title || &#x27;-&#x27;}}&lt;/td&gt;
+                &lt;td&gt;
+                    &lt;onconova-user-badge [username]&#x3D;&quot;project.leader&quot; [showName]&#x3D;&quot;true&quot;/&gt;
+                &lt;td&gt;@switch (project.status) {
+                        @case (projectStatus.Planned) {
+                            &lt;p-tag severity&#x3D;&quot;secondary&quot; value&#x3D;&quot;Planned&quot;&gt;&lt;/p-tag&gt;
+                        }
+                        @case (projectStatus.Ongoing) {
+                            &lt;p-tag severity&#x3D;&quot;info&quot; value&#x3D;&quot;Ongoing&quot;&gt;&lt;/p-tag&gt;
+                        }
+                        @case (projectStatus.Completed) {
+                            &lt;p-tag severity&#x3D;&quot;success&quot; value&#x3D;&quot;Completed&quot;&gt;&lt;/p-tag&gt;
+                        }
+                        @case (projectStatus.Aborted) {
+                            &lt;p-tag severity&#x3D;&quot;danger&quot; value&#x3D;&quot;Aborted&quot;&gt;&lt;/p-tag&gt;
+                        }
+                        @default {
+                            -
+                        }
+                    }&lt;/td&gt;
+            &lt;/tr&gt;
+        &lt;/ng-template&gt;
+    &lt;/p-table&gt;
+
+    &lt;p-divider class&#x3D;&quot;my-4&quot;&gt;&lt;/p-divider&gt;
+
+    &lt;h5 class&#x3D;&quot;mb-1 mt-5&quot;&gt;Activity&lt;/h5&gt;
+    &lt;p-table
+        [value]&#x3D;&quot;events.value() || []&quot;
+        [paginator]&#x3D;&quot;true&quot;
+        [showCurrentPageReport]&#x3D;&quot;true&quot;
+        lazy&#x3D;&quot;true&quot;
+        [rows]&#x3D;&quot;10&quot;
+        [totalRecords]&#x3D;&quot;totalEvents()&quot;
+        (onLazyLoad)&#x3D;&quot;eventsPaginationOffset.set($event.first || 0)&quot;
+        currentPageReportTemplate&#x3D;&quot;Showing {first} to {last} of {totalRecords} entries&quot;&gt;
+        &lt;ng-template pTemplate&#x3D;&quot;header&quot;&gt;
+            &lt;tr&gt;
+                &lt;th&gt;Timestamp&lt;/th&gt;
+                &lt;th&gt;Action&lt;/th&gt;
+                &lt;th&gt;Resource&lt;/th&gt;
+                &lt;th&gt;Details&lt;/th&gt;
+            &lt;/tr&gt;
+        &lt;/ng-template&gt;
+        &lt;ng-template pTemplate&#x3D;&quot;body&quot; let-event&gt;
+            &lt;tr&gt;
+                &lt;td&gt;{{(event.timestamp | date:&#x27;medium&#x27;) || &#x27;-&#x27;}}&lt;/td&gt;
+                &lt;td&gt; @switch (event.category) {
+                        @case (eventCategories.Import) {
+                            &lt;p-tag severity&#x3D;&quot;warning&quot; value&#x3D;&quot;Imported&quot;&gt;&lt;/p-tag&gt;
+                        }
+                        @case (eventCategories.Delete) {
+                            &lt;p-tag severity&#x3D;&quot;danger&quot; value&#x3D;&quot;Deleted&quot;&gt;&lt;/p-tag&gt;
+                        }
+                        @case (eventCategories.Create) {
+                            &lt;p-tag severity&#x3D;&quot;success&quot; value&#x3D;&quot;Created&quot;&gt;&lt;/p-tag&gt;
+                        }
+                        @case (eventCategories.Update) {
+                            &lt;p-tag severity&#x3D;&quot;info&quot; value&#x3D;&quot;Updated&quot;&gt;&lt;/p-tag&gt;
+                        }
+                        @case (eventCategories.Export) {
+                            &lt;p-tag severity&#x3D;&quot;danger&quot; value&#x3D;&quot;Exported&quot;&gt;&lt;/p-tag&gt;
+                        }
+                        @case (eventCategories.Create) {
+                            &lt;p-tag severity&#x3D;&quot;success&quot; value&#x3D;&quot;Created&quot;&gt;&lt;/p-tag&gt;
+                        }
+                        @default {
+                            -
+                        }
+                    }
+                &lt;/td&gt;
+                &lt;td&gt;{{ event.resource | camelCaseToTitleCase }}&lt;/td&gt;
+                &lt;td&gt;
+                    @let description &#x3D;event.snapshot.id | resolve | async;
+                    @if (description) {
+                        {{description}}
+                    } @else {
+                        &lt;p-skeleton height&#x3D;&quot;2rem&quot; width&#x3D;&quot;30rem&quot;/&gt;
+                    }
+
+                &lt;/td&gt;
+            &lt;/tr&gt;
+        &lt;/ng-template&gt;
+    &lt;/p-table&gt;
+&lt;/p-card&gt;
+</code></pre></td>
+            </tr>
+
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="##projectsService" >#projectsService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="##usersService" >#usersService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#eventCategories" >eventCategories</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#events" >events</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#eventsPaginationOffset" >eventsPaginationOffset</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#initials" >initials</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#projects" >projects</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#projectStatus" >projectStatus</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#totalEvents" >totalEvents</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#user" >user</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#username" >username</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#username" >username</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+    <section data-compodoc="block-inputs">
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="username"></a>
+                        <b>username</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Required : </i>&nbsp;<b>true</b>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="179" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/admin/components/user-details/user-details.component.ts:179</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#projectsService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>#projectsService</b></span>
+                        <a href="##projectsService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(ProjectsService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="182" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/admin/components/user-details/user-details.component.ts:182</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#usersService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>#usersService</b></span>
+                        <a href="##usersService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(UsersService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="181" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/admin/components/user-details/user-details.component.ts:181</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="eventCategories"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>eventCategories</b></span>
+                        <a href="#eventCategories"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>HistoryEventCategory</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="210" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/admin/components/user-details/user-details.component.ts:210</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="events"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>events</b></span>
+                        <a href="#events"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>rxResource({
+        request: () &#x3D;&gt;  this.user.hasValue() ? {userId: this.user.value()?.id || &#x27;&#x27;, limit: 10, offset: this.eventsPaginationOffset()} satisfies GetUserEventsRequestParams : undefined,
+        loader: ({request}) &#x3D;&gt; request ? this.#usersService.getUserEvents(request).pipe(
+            map(response &#x3D;&gt; {
+                this.totalEvents.set(response.count)
+                return response.items
+            })
+        ) : of(null)        
+    })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="199" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/admin/components/user-details/user-details.component.ts:199</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="eventsPaginationOffset"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>eventsPaginationOffset</b></span>
+                        <a href="#eventsPaginationOffset"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(0)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="198" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/admin/components/user-details/user-details.component.ts:198</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initials"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>initials</b></span>
+                        <a href="#initials"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; (this.user.value()?.firstName?.charAt(0) || &#x27;?&#x27;) + this.user.value()?.lastName?.charAt(0))</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="212" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/admin/components/user-details/user-details.component.ts:212</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="projects"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>projects</b></span>
+                        <a href="#projects"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>rxResource({
+        request: () &#x3D;&gt; ({membersUsername: this.username()} satisfies GetProjectsRequestParams),
+        loader: ({request}) &#x3D;&gt; this.#projectsService.getProjects(request).pipe(
+            map(response &#x3D;&gt; response.items)
+        )
+    })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="190" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/admin/components/user-details/user-details.component.ts:190</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="projectStatus"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>projectStatus</b></span>
+                        <a href="#projectStatus"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>ProjectStatusChoices</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="211" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/admin/components/user-details/user-details.component.ts:211</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="totalEvents"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>totalEvents</b></span>
+                        <a href="#totalEvents"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(0)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="196" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/admin/components/user-details/user-details.component.ts:196</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="user"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>user</b></span>
+                        <a href="#user"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>rxResource({
+        request: () &#x3D;&gt; ({username: this.username(), limit: 1} satisfies GetUsersRequestParams),
+        loader: ({request}) &#x3D;&gt; this.#usersService.getUsers(request).pipe(
+            map(response &#x3D;&gt; response.items[0])
+        )
+    })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="184" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/admin/components/user-details/user-details.component.ts:184</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="username"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                        <span ><b>username</b></span>
+                        <a href="#username"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="179" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/core/admin/components/user-details/user-details.component.ts:179</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommonModule } from &quot;@angular/common&quot;;
+import { Component, computed, inject, input, signal } from &quot;@angular/core&quot;;
+import { rxResource } from &quot;@angular/core/rxjs-interop&quot;;
+import { GetProjectsRequestParams, GetUserEventsRequestParams, GetUsersRequestParams, HistoryEventCategory, Project, ProjectsService, ProjectStatusChoices, UsersService } from &quot;onconova-api-client&quot;;
+import { Avatar } from &quot;primeng/avatar&quot;;
+import { Card } from &quot;primeng/card&quot;;
+import { Divider } from &quot;primeng/divider&quot;;
+import { Skeleton } from &quot;primeng/skeleton&quot;;
+import { Table, TableModule } from &quot;primeng/table&quot;;
+import { Tag } from &quot;primeng/tag&quot;;
+import { map, of } from &quot;rxjs&quot;;
+import { UserBadgeComponent } from &quot;src/app/shared/components/user-badge/user-badge.component&quot;;
+import { CamelCaseToTitleCasePipe } from &quot;src/app/shared/pipes/camel-to-title-case.pipe&quot;;
+import { ResolveResourcePipe } from &quot;src/app/shared/pipes/resolve-resource.pipe&quot;;
+
+@Component({
+    selector: &#x27;onconova-user-details&#x27;,
+    imports: [
+        CommonModule,
+        CamelCaseToTitleCasePipe,
+        ResolveResourcePipe,
+        UserBadgeComponent,
+        Tag,
+        Divider,
+        Card,
+        Skeleton,
+        TableModule,
+        Avatar,
+
+    ],
+    template: &#x60;
+        &lt;p-card&gt;
+            &lt;div class&#x3D;&quot;flex&quot;&gt;
+                &lt;p-avatar shape&#x3D;&quot;circle&quot; [label]&#x3D;&quot;initials()&quot; styleClass&#x3D;&quot;user-avatar text-7xl w-8rem h-8rem&quot;&gt;&lt;/p-avatar&gt;
+                &lt;div class&#x3D;&quot;my-auto ml-3&quot;&gt; 
+                    &lt;div&gt;
+                        &lt;h3 class&#x3D;&quot;mb-0&quot;&gt;
+                            @if (user.value(); as user) {
+                                {{user.firstName}} {{user.lastName}}
+                            }
+                        &lt;/h3&gt;
+                        &lt;h6 class&#x3D;&quot;mt-1 text-muted&quot;&gt;
+                            @if (user.value(); as user) {
+                                &lt;i class&#x3D;&quot;pi pi-lock&quot;&gt;&lt;/i&gt; {{user.accessLevel}} - {{user.role}}
+                            }
+                        &lt;/h6&gt;
+                    &lt;/div&gt;
+                    &lt;div class&#x3D;&quot;mt-2 flex gap-4&quot;&gt;
+                        &lt;div&gt;
+                            &lt;div class&#x3D;&quot;text-muted&quot;&gt;Username&lt;/div&gt;
+                            @if (user.value(); as user) {
+                                &lt;span class&#x3D;&quot;&quot;&gt;{{ user.username || &#x27;-&#x27; }}&lt;/span&gt;
+                            }
+                        &lt;/div&gt;
+                        &lt;div&gt;
+                            &lt;div class&#x3D;&quot;text-muted&quot;&gt;Last login&lt;/div&gt;
+                            @if (user.value(); as user) {
+                                {{ (user.lastLogin | date:&#x27;medium&#x27; ) || &#x27;-&#x27; }}
+                            }
+                        &lt;/div&gt;
+                        &lt;div&gt;
+                            &lt;div class&#x3D;&quot;text-muted&quot;&gt;Email&lt;/div&gt;
+                            @if (user.value(); as user) {
+                                {{user.email || &#x27;-&#x27; }}
+                            }
+                        &lt;/div&gt;
+                        &lt;div&gt;
+                            &lt;div class&#x3D;&quot;text-muted&quot;&gt;Organization&lt;/div&gt;
+                            @if (user.value(); as user) {
+                                {{user.organization || &#x27;-&#x27;}}
+                            }
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+
+            &lt;p-divider class&#x3D;&quot;my-4&quot;&gt;&lt;/p-divider&gt;
+
+            &lt;h5 class&#x3D;&quot;mb-1 mt-5&quot;&gt;Project Memberships&lt;/h5&gt;
+            &lt;p-table [value]&#x3D;&quot;projects.value() || []&quot;&gt;
+                &lt;ng-template pTemplate&#x3D;&quot;header&quot;&gt;
+                    &lt;tr&gt;
+                        &lt;th&gt;Title&lt;/th&gt;
+                        &lt;th&gt;Leader&lt;/th&gt;
+                        &lt;th&gt;Status&lt;/th&gt;
+                    &lt;/tr&gt;
+                &lt;/ng-template&gt;
+                &lt;ng-template pTemplate&#x3D;&quot;body&quot; let-project&gt;
+                    &lt;tr&gt;
+                        &lt;td&gt;{{project.title || &#x27;-&#x27;}}&lt;/td&gt;
+                        &lt;td&gt;
+                            &lt;onconova-user-badge [username]&#x3D;&quot;project.leader&quot; [showName]&#x3D;&quot;true&quot;/&gt;    
+                        &lt;td&gt;@switch (project.status) {
+                                @case (projectStatus.Planned) {
+                                    &lt;p-tag severity&#x3D;&quot;secondary&quot; value&#x3D;&quot;Planned&quot;&gt;&lt;/p-tag&gt;
+                                }
+                                @case (projectStatus.Ongoing) {
+                                    &lt;p-tag severity&#x3D;&quot;info&quot; value&#x3D;&quot;Ongoing&quot;&gt;&lt;/p-tag&gt;
+                                }
+                                @case (projectStatus.Completed) {
+                                    &lt;p-tag severity&#x3D;&quot;success&quot; value&#x3D;&quot;Completed&quot;&gt;&lt;/p-tag&gt;
+                                }
+                                @case (projectStatus.Aborted) {
+                                    &lt;p-tag severity&#x3D;&quot;danger&quot; value&#x3D;&quot;Aborted&quot;&gt;&lt;/p-tag&gt;
+                                }
+                                @default {
+                                    -
+                                }
+                            }&lt;/td&gt;
+                    &lt;/tr&gt;
+                &lt;/ng-template&gt;
+            &lt;/p-table&gt;
+
+            &lt;p-divider class&#x3D;&quot;my-4&quot;&gt;&lt;/p-divider&gt;
+            
+            &lt;h5 class&#x3D;&quot;mb-1 mt-5&quot;&gt;Activity&lt;/h5&gt;
+            &lt;p-table 
+                [value]&#x3D;&quot;events.value() || []&quot;
+                [paginator]&#x3D;&quot;true&quot; 
+                [showCurrentPageReport]&#x3D;&quot;true&quot;
+                lazy&#x3D;&quot;true&quot;
+                [rows]&#x3D;&quot;10&quot; 
+                [totalRecords]&#x3D;&quot;totalEvents()&quot;
+                (onLazyLoad)&#x3D;&quot;eventsPaginationOffset.set($event.first || 0)&quot;
+                currentPageReportTemplate&#x3D;&quot;Showing {first} to {last} of {totalRecords} entries&quot;&gt;
+                &lt;ng-template pTemplate&#x3D;&quot;header&quot;&gt;
+                    &lt;tr&gt;
+                        &lt;th&gt;Timestamp&lt;/th&gt;
+                        &lt;th&gt;Action&lt;/th&gt;
+                        &lt;th&gt;Resource&lt;/th&gt;
+                        &lt;th&gt;Details&lt;/th&gt;
+                    &lt;/tr&gt;
+                &lt;/ng-template&gt;
+                &lt;ng-template pTemplate&#x3D;&quot;body&quot; let-event&gt;
+                    &lt;tr&gt;
+                        &lt;td&gt;{{(event.timestamp | date:&#x27;medium&#x27;) || &#x27;-&#x27;}}&lt;/td&gt;
+                        &lt;td&gt; @switch (event.category) {
+                                @case (eventCategories.Import) {
+                                    &lt;p-tag severity&#x3D;&quot;warning&quot; value&#x3D;&quot;Imported&quot;&gt;&lt;/p-tag&gt;
+                                }
+                                @case (eventCategories.Delete) {
+                                    &lt;p-tag severity&#x3D;&quot;danger&quot; value&#x3D;&quot;Deleted&quot;&gt;&lt;/p-tag&gt;
+                                }
+                                @case (eventCategories.Create) {
+                                    &lt;p-tag severity&#x3D;&quot;success&quot; value&#x3D;&quot;Created&quot;&gt;&lt;/p-tag&gt;
+                                }
+                                @case (eventCategories.Update) {
+                                    &lt;p-tag severity&#x3D;&quot;info&quot; value&#x3D;&quot;Updated&quot;&gt;&lt;/p-tag&gt;
+                                }
+                                @case (eventCategories.Export) {
+                                    &lt;p-tag severity&#x3D;&quot;danger&quot; value&#x3D;&quot;Exported&quot;&gt;&lt;/p-tag&gt;
+                                }
+                                @case (eventCategories.Create) {
+                                    &lt;p-tag severity&#x3D;&quot;success&quot; value&#x3D;&quot;Created&quot;&gt;&lt;/p-tag&gt;
+                                }
+                                @default {
+                                    -
+                                }
+                            }
+                        &lt;/td&gt;
+                        &lt;td&gt;{{ event.resource | camelCaseToTitleCase }}&lt;/td&gt;
+                        &lt;td&gt;
+                            @let description &#x3D;event.snapshot.id | resolve | async;
+                            @if (description) {
+                                {{description}}
+                            } @else {
+                                &lt;p-skeleton height&#x3D;&quot;2rem&quot; width&#x3D;&quot;30rem&quot;/&gt;
+                            }
+
+                        &lt;/td&gt;
+                    &lt;/tr&gt;
+                &lt;/ng-template&gt;
+            &lt;/p-table&gt;
+        &lt;/p-card&gt;
+    &#x60;,
+})
+export class UserDetailsComponent {
+
+    readonly username &#x3D; input.required&lt;string&gt;();
+
+    #usersService &#x3D; inject(UsersService);
+    #projectsService &#x3D; inject(ProjectsService);
+
+    protected user &#x3D; rxResource({
+        request: () &#x3D;&gt; ({username: this.username(), limit: 1} satisfies GetUsersRequestParams),
+        loader: ({request}) &#x3D;&gt; this.#usersService.getUsers(request).pipe(
+            map(response &#x3D;&gt; response.items[0])
+        )
+    });
+    protected projects &#x3D; rxResource({
+        request: () &#x3D;&gt; ({membersUsername: this.username()} satisfies GetProjectsRequestParams),
+        loader: ({request}) &#x3D;&gt; this.#projectsService.getProjects(request).pipe(
+            map(response &#x3D;&gt; response.items)
+        )
+    })
+    protected totalEvents &#x3D; signal(0);
+
+    protected eventsPaginationOffset &#x3D; signal(0);
+    protected events &#x3D; rxResource({
+        request: () &#x3D;&gt;  this.user.hasValue() ? {userId: this.user.value()?.id || &#x27;&#x27;, limit: 10, offset: this.eventsPaginationOffset()} satisfies GetUserEventsRequestParams : undefined,
+        loader: ({request}) &#x3D;&gt; request ? this.#usersService.getUserEvents(request).pipe(
+            map(response &#x3D;&gt; {
+                this.totalEvents.set(response.count)
+                return response.items
+            })
+        ) : of(null)        
+    }) 
+
+
+    protected readonly eventCategories &#x3D; HistoryEventCategory;
+    protected readonly projectStatus &#x3D; ProjectStatusChoices;
+    protected readonly initials &#x3D; computed(() &#x3D;&gt; (this.user.value()?.firstName?.charAt(0) || &#x27;?&#x27;) + this.user.value()?.lastName?.charAt(0));
+
+}
+</code></pre>
+    </div>
+
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><p-card>    <div class="flex">        <p-avatar shape="circle" [label]="initials()" styleClass="user-avatar text-7xl w-8rem h-8rem"></p-avatar>        <div class="my-auto ml-3">            <div>                <h3 class="mb-0">                    @if (user.value(); as user) {                        {{user.firstName}} {{user.lastName}}                    }                </h3>                <h6 class="mt-1 text-muted">                    @if (user.value(); as user) {                        <i class="pi pi-lock"></i> {{user.accessLevel}} - {{user.role}}                    }                </h6>            </div>            <div class="mt-2 flex gap-4">                <div>                    <div class="text-muted">Username</div>                    @if (user.value(); as user) {                        <span class="">{{ user.username || \'-\' }}</span>                    }                </div>                <div>                    <div class="text-muted">Last login</div>                    @if (user.value(); as user) {                        {{ (user.lastLogin | date:\'medium\' ) || \'-\' }}                    }                </div>                <div>                    <div class="text-muted">Email</div>                    @if (user.value(); as user) {                        {{user.email || \'-\' }}                    }                </div>                <div>                    <div class="text-muted">Organization</div>                    @if (user.value(); as user) {                        {{user.organization || \'-\'}}                    }                </div>            </div>        </div>    </div>    <p-divider class="my-4"></p-divider>    <h5 class="mb-1 mt-5">Project Memberships</h5>    <p-table [value]="projects.value() || []">        <ng-template pTemplate="header">            <tr>                <th>Title</th>                <th>Leader</th>                <th>Status</th>            </tr>        </ng-template>        <ng-template pTemplate="body" let-project>            <tr>                <td>{{project.title || \'-\'}}</td>                <td>                    <onconova-user-badge [username]="project.leader" [showName]="true"/>                <td>@switch (project.status) {                        @case (projectStatus.Planned) {                            <p-tag severity="secondary" value="Planned"></p-tag>                        }                        @case (projectStatus.Ongoing) {                            <p-tag severity="info" value="Ongoing"></p-tag>                        }                        @case (projectStatus.Completed) {                            <p-tag severity="success" value="Completed"></p-tag>                        }                        @case (projectStatus.Aborted) {                            <p-tag severity="danger" value="Aborted"></p-tag>                        }                        @default {                            -                        }                    }</td>            </tr>        </ng-template>    </p-table>    <p-divider class="my-4"></p-divider>    <h5 class="mb-1 mt-5">Activity</h5>    <p-table        [value]="events.value() || []"        [paginator]="true"        [showCurrentPageReport]="true"        lazy="true"        [rows]="10"        [totalRecords]="totalEvents()"        (onLazyLoad)="eventsPaginationOffset.set($event.first || 0)"        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">        <ng-template pTemplate="header">            <tr>                <th>Timestamp</th>                <th>Action</th>                <th>Resource</th>                <th>Details</th>            </tr>        </ng-template>        <ng-template pTemplate="body" let-event>            <tr>                <td>{{(event.timestamp | date:\'medium\') || \'-\'}}</td>                <td> @switch (event.category) {                        @case (eventCategories.Import) {                            <p-tag severity="warning" value="Imported"></p-tag>                        }                        @case (eventCategories.Delete) {                            <p-tag severity="danger" value="Deleted"></p-tag>                        }                        @case (eventCategories.Create) {                            <p-tag severity="success" value="Created"></p-tag>                        }                        @case (eventCategories.Update) {                            <p-tag severity="info" value="Updated"></p-tag>                        }                        @case (eventCategories.Export) {                            <p-tag severity="danger" value="Exported"></p-tag>                        }                        @case (eventCategories.Create) {                            <p-tag severity="success" value="Created"></p-tag>                        }                        @default {                            -                        }                    }                </td>                <td>{{ event.resource | camelCaseToTitleCase }}</td>                <td>                    @let description =event.snapshot.id | resolve | async;                    @if (description) {                        {{description}}                    } @else {                        <p-skeleton height="2rem" width="30rem"/>                    }                </td>            </tr>        </ng-template>    </p-table></p-card></div>'
+    var COMPONENTS = [{'name': 'AbstractFormBase', 'selector': ''},{'name': 'AdverseEventFormComponent', 'selector': 'adverse-event-form'},{'name': 'AppComponent', 'selector': 'onconova-root'},{'name': 'AppFooterComponent', 'selector': 'onconova-footer'},{'name': 'AppLayoutComponent', 'selector': 'onconova-layout'},{'name': 'AppSidebarMenuComponent', 'selector': 'onconova-sidebar-menu'},{'name': 'AppTopBarComponent', 'selector': 'onconova-topbar'},{'name': 'AuthCallbackComponent', 'selector': 'app-auth-callback'},{'name': 'AuthLayoutComponent', 'selector': 'onconova-auth-layout'},{'name': 'BoxPlotComponent', 'selector': 'onconova-box-plot'},{'name': 'CancerIconComponent', 'selector': 'onconova-cancer-icon'},{'name': 'CaseImporterBundleViewerComponent', 'selector': 'onconova-case-importer-bundle-viewer'},{'name': 'CaseImporterComponent', 'selector': 'onconova-case-importer'},{'name': 'CaseManagerComponent', 'selector': 'onconova-case-manager'},{'name': 'CaseManagerDrawerComponent', 'selector': 'onconova-case-manager-drawer'},{'name': 'CaseManagerPanelComponent', 'selector': 'onconova-case-manager-panel'},{'name': 'CaseManagerPanelTimelineComponent', 'selector': 'onconova-case-manager-panel-timeline'},{'name': 'CaseSearchComponent', 'selector': ''},{'name': 'CaseSearchItemCardComponent', 'selector': 'onconova-case-search-item,[onconova-case-search-item]'},{'name': 'CodedConceptTreeComponent', 'selector': 'onconova-coded-concept-tree'},{'name': 'CohortBuilderComponent', 'selector': 'onconova-cohort-manager'},{'name': 'CohortContributorsComponent', 'selector': 'onconova-cohort-contributors'},{'name': 'CohortFormComponent', 'selector': 'cohort-form'},{'name': 'CohortGraphsComponent', 'selector': 'onconova-cohort-graphs'},{'name': 'CohortGraphsContextMenu', 'selector': 'onconova-cohort-graph-context-menu'},{'name': 'CohortQueryBuilderComponent', 'selector': 'onconova-cohort-query-builder'},{'name': 'CohortSearchComponent', 'selector': ''},{'name': 'CohortSearchItemComponent', 'selector': 'onconova-cohort-search-item, [onconova-cohort-search-item]'},{'name': 'CohortTraitPanel', 'selector': 'onconova-cohort-trait'},{'name': 'ComorbiditiesAssessmentFormComponent', 'selector': 'comorbidities-form'},{'name': 'ConceptSelectorComponent', 'selector': 'onconova-concept-selector'},{'name': 'ConsentNoticeModalComponent', 'selector': 'onconova-consent-modal'},{'name': 'DashboardComponent', 'selector': 'onconova-dashboard'},{'name': 'DataCompletionStatsComponent', 'selector': 'onconova-data-completion-stats'},{'name': 'DatasetComposerComponent', 'selector': 'onconova-dataset-composer'},{'name': 'DataSummaryComponent', 'selector': 'onconova-data-summary'},{'name': 'DataSummaryCounterComponent', 'selector': 'onconova-data-summary-counter'},{'name': 'DatePickerComponent', 'selector': 'onconova-datepicker'},{'name': 'DisclaimerBannerComponent', 'selector': 'onconova-disclaimer-banner'},{'name': 'DistributionGraphComponent', 'selector': 'onconova-distribution-graph'},{'name': 'DoughnutGraphComponent', 'selector': 'onconova-doughnut-graph'},{'name': 'DrawerDataPropertiesComponent', 'selector': 'onconova-drawer-properties'},{'name': 'ErrorComponent', 'selector': 'onconova-error'},{'name': 'ExportConfirmDialogComponent', 'selector': 'onconova-export-confirm-dialog'},{'name': 'FamilyHistoryFormComponent', 'selector': 'family-history-form'},{'name': 'FormControlErrorComponent', 'selector': 'onconova-form-control-error'},{'name': 'GenomicSignatureFormComponent', 'selector': 'genomic-signature-form'},{'name': 'GenomicVariantFormComponent', 'selector': 'genomic-variant-form'},{'name': 'IdenticonComponent', 'selector': 'onconova-identicon'},{'name': 'KapplerMeierCurveComponent', 'selector': 'onconova-kappler-meier-curve'},{'name': 'LifestyleFormComponent', 'selector': 'lifestyle-form'},{'name': 'LoginComponent', 'selector': 'onconova-login'},{'name': 'MeasureInputComponent', 'selector': 'onconova-measure-input'},{'name': 'ModalFormHeaderComponent', 'selector': 'onconova-modal-form-header'},{'name': 'MultiReferenceSelectComponent', 'selector': 'onconova-multi-reference-select'},{'name': 'NeoplasticEntityFormComponent', 'selector': 'neoplastic-entity-form'},{'name': 'NestedTableComponent', 'selector': 'onconova-nested-table'},{'name': 'OncoplotComponent', 'selector': 'onconova-oncoplot'},{'name': 'PasswordResetFormComponent', 'selector': 'onconova-password-reset-dialog'},{'name': 'PatientFormComponent', 'selector': 'patient-form'},{'name': 'PerformanceStatusFormComponent', 'selector': 'performance-status-form'},{'name': 'PopoverFilterButtonComponent', 'selector': 'onconova-popover-filter-button'},{'name': 'PrimaryEntitiesTableComponent', 'selector': 'onconova-primary-entities-table'},{'name': 'ProjectFormComponent', 'selector': 'project-form'},{'name': 'ProjectManagementComponent', 'selector': 'onconova-project-management'},{'name': 'ProjectSearchComponent', 'selector': 'onconova-project-search'},{'name': 'ProjectSearchItemComponent', 'selector': 'onconova-project-search-item, [onconova-project-search-item]'},{'name': 'ProviderSignupComponent', 'selector': 'app-signup'},{'name': 'RadioSelectComponent', 'selector': 'onconova-radio-select'},{'name': 'RadiotherapyFormComponent', 'selector': 'radiotherapy-form'},{'name': 'RandomPaperComponent', 'selector': 'onconova-random-paper'},{'name': 'RangeInputComponent', 'selector': 'onconova-range-input'},{'name': 'RiskAssessmentFormComponent', 'selector': 'risk-assessment-form'},{'name': 'SettingsDialogComponent', 'selector': 'onconova-settings-dialog'},{'name': 'StagingFormComponent', 'selector': 'staging-form'},{'name': 'SurgeryFormComponent', 'selector': 'surgery-form'},{'name': 'SystemicTherapyFormComponent', 'selector': 'systemic-therapy-form'},{'name': 'TreatmentResponseFormComponent', 'selector': 'treatment-response-form'},{'name': 'TumorBoardFormComponent', 'selector': 'tumor-board-form'},{'name': 'TumorMarkerFormComponent', 'selector': 'tumor-marker-form'},{'name': 'UserBadgeComponent', 'selector': 'onconova-user-badge'},{'name': 'UserDetailsComponent', 'selector': 'onconova-user-details'},{'name': 'UserFormComponent', 'selector': 'onconova-user-form'},{'name': 'UserSelectorComponent', 'selector': 'onconova-user-selector'},{'name': 'UsersManagementCompnent', 'selector': 'onconova-users-management'},{'name': 'VitalsFormComponent', 'selector': 'vitals-form'}];
+    var DIRECTIVES = [{'name': 'DateMaskDirective', 'selector': '[dateMask]'}];
+    var ACTUAL_COMPONENT = {'name': 'UserDetailsComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'UserDetailsComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

@@ -1,0 +1,2855 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Application documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+        <link rel="stylesheet" href="../styles/material.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">Application documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  CohortBuilderComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/cohort-manager.component.ts</code>
+</p>
+
+
+
+
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>onconova-cohort-manager</code></td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-3">imports</td>
+                <td class="col-md-9">
+                            <code>CommonModule</code>
+                            <code>FormsModule</code>
+                            <code>Paginator</code>
+                            <code>ReactiveFormsModule</code>
+                            <code>LucideAngularModule</code>
+                                <code><a href="../components/CohortGraphsComponent.html" target="_self" >CohortGraphsComponent</a></code>
+                                <code><a href="../components/CohortContributorsComponent.html" target="_self" >CohortContributorsComponent</a></code>
+                                <code><a href="../components/CohortQueryBuilderComponent.html" target="_self" >CohortQueryBuilderComponent</a></code>
+                                <code><a href="../components/CaseSearchItemCardComponent.html" target="_self" >CaseSearchItemCardComponent</a></code>
+                                <code><a href="../components/DatasetComposerComponent.html" target="_self" >DatasetComposerComponent</a></code>
+                                <code><a href="../components/CohortTraitPanel.html" target="_self" >CohortTraitPanel</a></code>
+                            <code>Panel</code>
+                                <code><a href="../interfaces/Field.html" target="_self" >Fieldset</a></code>
+                            <code>Message</code>
+                            <code>Skeleton</code>
+                            <code>InputText</code>
+                                <code><a href="../components/UserBadgeComponent.html" target="_self" >UserBadgeComponent</a></code>
+                            <code>SelectModule</code>
+                            <code>SelectButton</code>
+                            <code>TableModule</code>
+                            <code>Avatar</code>
+                            <code>TimelineModule</code>
+                            <code>Divider</code>
+                            <code>ToolbarModule</code>
+                            <code>TabsModule</code>
+                            <code>DataView</code>
+                            <code>Button</code>
+                            <code>Card</code>
+                            <code>Chip</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./cohort-manager.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section data-compodoc="block-index">
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                    <span class="modifier">Private</span>
+                                <a href="##authService" >#authService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                    <span class="modifier">Private</span>
+                                <a href="##cohortsService" >#cohortsService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                    <span class="modifier">Private</span>
+                                <a href="##fb" >#fb</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                    <span class="modifier">Private</span>
+                                <a href="##location" >#location</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                    <span class="modifier">Private</span>
+                                <a href="##messageService" >#messageService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                    <span class="modifier">Private</span>
+                                <a href="##projectsService" >#projectsService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="##setCohortDataEffect" >#setCohortDataEffect</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#casesLayout" >casesLayout</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#casesOrdering" >casesOrdering</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#casesOrderingDirection" >casesOrderingDirection</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#casesOrderingDirections" >casesOrderingDirections</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#casesOrderingField" >casesOrderingField</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#casesOrderingFields" >casesOrderingFields</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#cohort" >cohort</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#cohortAuthors" >cohortAuthors</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#cohortCases" >cohortCases</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#cohortControl" >cohortControl</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#cohortHistory" >cohortHistory</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#cohortHistoryPagination" >cohortHistoryPagination</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#cohortId" >cohortId</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#cohortNonEmpty" >cohortNonEmpty</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#cohortPopulation" >cohortPopulation</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#cohortTitle" >cohortTitle</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#cohortTraits" >cohortTraits</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#currentCohortId" >currentCohortId</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#currentUser" >currentUser</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#editCohortName" >editCohortName</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#goBack" >goBack</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#icons" >icons</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#loading" >loading</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#pagination" >pagination</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#project" >project</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#submittingCohort" >submittingCohort</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#totalHistoryEntries" >totalHistoryEntries</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#totalInvalidCases" >totalInvalidCases</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#tour" >tour</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#user" >user</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#userCanEdit" >userCanEdit</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getAllChanges" >getAllChanges</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#getChanges" >getChanges</a>
+                            </li>
+                            <li>
+                                <a href="#getPredominantCount" >getPredominantCount</a>
+                            </li>
+                            <li>
+                                <a href="#revertCohortDefinition" >revertCohortDefinition</a>
+                            </li>
+                            <li>
+                                <a href="#startTour" >startTour</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#submitCohort" >submitCohort</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#cohortId" >cohortId</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+    <section data-compodoc="block-inputs">
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="cohortId"></a>
+                        <b>cohortId</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Required : </i>&nbsp;<b>true</b>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="83" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/cohort-manager.component.ts:83</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+    <section data-compodoc="block-methods">
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getAllChanges"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>getAllChanges</b></span>
+                        <a href="#getAllChanges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getAllChanges(differential: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="258"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/cohort-manager.component.ts:258</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>differential</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>any[]</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getChanges"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>getChanges</b></span>
+                        <a href="#getChanges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getChanges(field: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, oldObj: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, newObj: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, path: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="270"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/cohort-manager.component.ts:270</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                                <td>Default value</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>field</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>oldObj</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>newObj</td>
+                                            <td>
+                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                                <td>path</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+                                            <td>
+                                                    <code>&#x27;&#x27;</code>
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>any[]</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getPredominantCount"></a>
+                    <span class="name">
+                        <span ><b>getPredominantCount</b></span>
+                        <a href="#getPredominantCount"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getPredominantCount(counts: CohortTraitCounts[])</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="304"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/cohort-manager.component.ts:304</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>counts</td>
+                                            <td>
+                                                        <code>CohortTraitCounts[]</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="revertCohortDefinition"></a>
+                    <span class="name">
+                        <span ><b>revertCohortDefinition</b></span>
+                        <a href="#revertCohortDefinition"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>revertCohortDefinition(old: Cohort, timestamp: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="211"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/cohort-manager.component.ts:211</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>old</td>
+                                            <td>
+                                                        <code>Cohort</code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>timestamp</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="startTour"></a>
+                    <span class="name">
+                        <span ><b>startTour</b></span>
+                        <a href="#startTour"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>startTour()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="308"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/cohort-manager.component.ts:308</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="submitCohort"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>submitCohort</b></span>
+                        <a href="#submitCohort"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>submitCohort()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="227"
+                                    class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/cohort-manager.component.ts:227</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section data-compodoc="block-properties">
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#authService"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                            <span class="modifier">Private</span>
+                        <span ><b>#authService</b></span>
+                        <a href="##authService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(AuthService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="90" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/cohort-manager.component.ts:90</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#cohortsService"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                            <span class="modifier">Private</span>
+                        <span ><b>#cohortsService</b></span>
+                        <a href="##cohortsService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(CohortsService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="85" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/cohort-manager.component.ts:85</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#fb"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                            <span class="modifier">Private</span>
+                        <span ><b>#fb</b></span>
+                        <a href="##fb"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(FormBuilder)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="88" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/cohort-manager.component.ts:88</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#location"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                            <span class="modifier">Private</span>
+                        <span ><b>#location</b></span>
+                        <a href="##location"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(Location)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="89" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/cohort-manager.component.ts:89</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#messageService"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                            <span class="modifier">Private</span>
+                        <span ><b>#messageService</b></span>
+                        <a href="##messageService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(MessageService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="87" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/cohort-manager.component.ts:87</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#projectsService"></a>
+                    <span class="name">
+                            <span class="modifier">Readonly</span>
+                            <span class="modifier">Private</span>
+                        <span ><b>#projectsService</b></span>
+                        <a href="##projectsService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(ProjectsService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="86" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/cohort-manager.component.ts:86</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="#setCohortDataEffect"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>#setCohortDataEffect</b></span>
+                        <a href="##setCohortDataEffect"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>effect( () &#x3D;&gt; {
+        const cohort &#x3D; this.cohort.value();
+        if (cohort &amp;&amp;!this.cohortControl.value.includeCriteria &amp;&amp; !this.cohortControl.value.includeCriteria) {
+            this.cohortControl.setValue({
+                name: cohort.name,
+                project: cohort.projectId,
+                includeCriteria: cohort.includeCriteria,
+                excludeCriteria: cohort.excludeCriteria
+            })
+            this.cohortControl.updateValueAndValidity();
+        }
+    })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="181" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/cohort-manager.component.ts:181</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="casesLayout"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>casesLayout</b></span>
+                        <a href="#casesLayout"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Signal&lt;&quot;grid&quot; | &quot;list&quot;&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(&#x27;grid&#x27;)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="149" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/cohort-manager.component.ts:149</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="casesOrdering"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>casesOrdering</b></span>
+                        <a href="#casesOrdering"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; this.casesOrderingDirection() + this.casesOrderingField())</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="162" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/cohort-manager.component.ts:162</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="casesOrderingDirection"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>casesOrderingDirection</b></span>
+                        <a href="#casesOrderingDirection"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;string&gt;(this.casesOrderingDirections[0].value)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="161" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/cohort-manager.component.ts:161</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="casesOrderingDirections"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>casesOrderingDirections</b></span>
+                        <a href="#casesOrderingDirections"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+        {label: &#x27;Descending&#x27;, value: &#x27;-&#x27;},
+        {label: &#x27;Ascending&#x27;, value: &#x27;&#x27;},
+    ]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="156" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/cohort-manager.component.ts:156</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="casesOrderingField"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>casesOrderingField</b></span>
+                        <a href="#casesOrderingField"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal&lt;string&gt;(this.casesOrderingFields[0].value)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="160" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/cohort-manager.component.ts:160</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="casesOrderingFields"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>casesOrderingFields</b></span>
+                        <a href="#casesOrderingFields"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[
+        {label: &#x27;Creation date&#x27;, value: &#x27;createdAt&#x27;},
+        {label: &#x27;Last Updated&#x27;, value: &#x27;updatedAt&#x27;},
+        {label: &#x27;Title&#x27;, value: &#x27;name&#x27;},
+        {label: &#x27;Population&#x27;, value: &#x27;population&#x27;},
+    ]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="150" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/cohort-manager.component.ts:150</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cohort"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>cohort</b></span>
+                        <a href="#cohort"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>rxResource({
+        request: () &#x3D;&gt; ({cohortId: this.cohortId()}),
+        loader: ({request}) &#x3D;&gt; this.#cohortsService.getCohortById(request).pipe(
+            catchError(
+                (error: any, caught: any) &#x3D;&gt; {
+                    this.#messageService.add({ severity: &#x27;error&#x27;, summary: &#x27;Error retrieving the cohort information&#x27;, detail: error.error.detail})
+                    return throwError(() &#x3D;&gt; new Error(error));
+                }
+            ),
+        )
+    })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="116" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/cohort-manager.component.ts:116</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cohortAuthors"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>cohortAuthors</b></span>
+                        <a href="#cohortAuthors"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(()&#x3D;&gt; new Set&lt;string | undefined&gt;([this.cohort.value()?.createdBy, ...(this.cohort.value()?.updatedBy || [])]))</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="136" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/cohort-manager.component.ts:136</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cohortCases"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>cohortCases</b></span>
+                        <a href="#cohortCases"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>rxResource({
+        request: () &#x3D;&gt; ({
+            cohortId: this.currentCohortId(), 
+            limit: this.pagination().limit, 
+            offset: this.pagination().offset, 
+            ordering: this.casesOrdering() || &#x27;-createdAt&#x27;,
+        }),
+        loader: ({request}) &#x3D;&gt; this.#cohortsService.getCohortCases(request).pipe(map(response&#x3D;&gt;response.items))
+    })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="164" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/cohort-manager.component.ts:164</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cohortControl"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>cohortControl</b></span>
+                        <a href="#cohortControl"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>FormGroup</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.#fb.group({
+        name: this.#fb.nonNullable.control&lt;string&gt;(&#x27;&#x27;, Validators.required),
+        project: this.#fb.control&lt;string | null&gt;(&#x27;&#x27;),
+        includeCriteria: this.#fb.control&lt;object | null&gt;(null),
+        excludeCriteria: this.#fb.control&lt;object | null&gt;(null),
+    })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="93" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/cohort-manager.component.ts:93</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cohortHistory"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>cohortHistory</b></span>
+                        <a href="#cohortHistory"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>rxResource({
+        request: () &#x3D;&gt; ({cohortId: this.currentCohortId(), limit: this.cohortHistoryPagination.limit(), offset: this.cohortHistoryPagination.offset(), ordering: &#x27;-pgh_created_at&#x27;}),
+        loader: ({request}) &#x3D;&gt; this.#cohortsService.getAllCohortHistoryEvents(request).pipe(map(response&#x3D;&gt;{
+            this.totalHistoryEntries.set(response.count)
+            return response.items
+        }))
+    })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="138" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/cohort-manager.component.ts:138</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cohortHistoryPagination"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>cohortHistoryPagination</b></span>
+                        <a href="#cohortHistoryPagination"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{limit: signal(10), offset: signal(0)}</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="135" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/cohort-manager.component.ts:135</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cohortId"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>cohortId</b></span>
+                        <a href="#cohortId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="83" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/cohort-manager.component.ts:83</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cohortNonEmpty"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>cohortNonEmpty</b></span>
+                        <a href="#cohortNonEmpty"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed&lt;boolean&gt;(()&#x3D;&gt; this.cohortPopulation() ? (this.cohortPopulation()! &gt; 0) : false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="134" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/cohort-manager.component.ts:134</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cohortPopulation"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>cohortPopulation</b></span>
+                        <a href="#cohortPopulation"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed&lt;number | undefined&gt;(()&#x3D;&gt; this.cohort.value()?.population)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="133" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/cohort-manager.component.ts:133</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cohortTitle"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>cohortTitle</b></span>
+                        <a href="#cohortTitle"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed&lt;string | undefined&gt;(()&#x3D;&gt; this.cohort.value()?.name)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="145" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/cohort-manager.component.ts:145</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cohortTraits"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>cohortTraits</b></span>
+                        <a href="#cohortTraits"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>rxResource({
+        request: () &#x3D;&gt; this.cohortNonEmpty() ? {cohortId: this.currentCohortId()} : undefined,
+        loader: ({request}: any) &#x3D;&gt;  this.#cohortsService.getCohortTraitsStatistics(request)
+    })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="194" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/cohort-manager.component.ts:194</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="currentCohortId"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>currentCohortId</b></span>
+                        <a href="#currentCohortId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed&lt;string&gt;(() &#x3D;&gt; this.cohort.hasValue() ? this.cohort.value()!.id : this.cohortId())</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="146" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/cohort-manager.component.ts:146</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="currentUser"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>currentUser</b></span>
+                        <a href="#currentUser"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; this.#authService.user())</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="174" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/cohort-manager.component.ts:174</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="editCohortName"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>editCohortName</b></span>
+                        <a href="#editCohortName"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="111" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/cohort-manager.component.ts:111</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="goBack"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>goBack</b></span>
+                        <a href="#goBack"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>() &#x3D;&gt; {...}</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="113" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/cohort-manager.component.ts:113</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="icons"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>icons</b></span>
+                        <a href="#icons"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+        age: CalendarClock,
+        gender: VenusAndMars,
+        site: Locate,
+        survival: Activity,
+        population: Users,
+        completion: ClipboardCheck
+    }</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="100" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/cohort-manager.component.ts:100</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loading"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>loading</b></span>
+                        <a href="#loading"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; this.cohort.isLoading() || this.submittingCohort())</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="110" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/cohort-manager.component.ts:110</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="pagination"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>pagination</b></span>
+                        <a href="#pagination"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal({limit: 15, offset: 0})</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="112" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/cohort-manager.component.ts:112</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="project"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>project</b></span>
+                        <a href="#project"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>rxResource({
+        request: () &#x3D;&gt; ({projectId: this.cohort.value()?.projectId as string}),
+        loader: ({request}) &#x3D;&gt; request.projectId ? this.#projectsService.getProjectById(request) : of(null)
+    })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="128" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/cohort-manager.component.ts:128</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="submittingCohort"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>submittingCohort</b></span>
+                        <a href="#submittingCohort"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(false)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="109" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/cohort-manager.component.ts:109</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="totalHistoryEntries"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>totalHistoryEntries</b></span>
+                        <a href="#totalHistoryEntries"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>signal(0)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="137" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/cohort-manager.component.ts:137</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="totalInvalidCases"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>totalInvalidCases</b></span>
+                        <a href="#totalInvalidCases"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; {
+        const consentStatusCounts &#x3D; this.cohortTraits.value()?.consentStatus;
+        if (consentStatusCounts) {
+            return consentStatusCounts.filter(item &#x3D;&gt; [
+                PatientCaseConsentStatusChoices.Revoked as string,
+                PatientCaseConsentStatusChoices.Unknown as string,
+            ].includes(item.category)).reduce((total: number, item: CohortTraitCounts) &#x3D;&gt; total + item.counts, 0)
+        } else {
+            return 0
+        }
+    })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="198" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/cohort-manager.component.ts:198</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="tour"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span ><b>tour</b></span>
+                        <a href="#tour"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>TourDriverConfig</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="108" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/cohort-manager.component.ts:108</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="user"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>user</b></span>
+                        <a href="#user"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; this.#authService.user())</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="114" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/cohort-manager.component.ts:114</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="userCanEdit"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>userCanEdit</b></span>
+                        <a href="#userCanEdit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>computed(() &#x3D;&gt; 
+        this.project.value()?.status &#x3D;&#x3D; &#x27;ongoing&#x27; &amp;&amp; (
+            (this.project.value()?.leader &#x3D;&#x3D; this.currentUser().username || this.project.value()?.members?.includes(this.currentUser().username)) 
+        )|| [AccessRoles.PlatformManager, AccessRoles.SystemAdministrator].includes(this.currentUser().role)
+    )</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="175" class="link-to-prism">/home/runner/work/onconova/onconova/client/src/app/features/cohorts/cohort-manager/cohort-manager.component.ts:175</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommonModule, Location } from &#x27;@angular/common&#x27;;
+import { Component, inject, computed, input, effect, signal, Signal } from &#x27;@angular/core&#x27;;
+import { FormBuilder, ReactiveFormsModule, FormGroup, FormsModule, Validators } from &#x27;@angular/forms&#x27;;
+
+import { Panel } from &#x27;primeng/panel&#x27;;
+import { Button } from &#x27;primeng/button&#x27;;
+import { MessageService } from &#x27;primeng/api&#x27;;
+import { InputText } from &#x27;primeng/inputtext&#x27;;
+import { DataView } from &#x27;primeng/dataview&#x27;;
+import { Chip } from &#x27;primeng/chip&#x27;;
+import { TabsModule } from &#x27;primeng/tabs&#x27;;
+import { Divider } from &#x27;primeng/divider&#x27;;
+
+// Icons
+import { Users, CalendarClock, ClipboardCheck, Activity, VenusAndMars, Locate } from &#x27;lucide-angular&#x27;;
+import { LucideAngularModule } from &#x27;lucide-angular&#x27;;
+
+import { CohortsService, Cohort, CohortCreate, ProjectsService, AccessRoles, CohortTraitCounts, PatientCaseConsentStatusChoices } from &#x27;onconova-api-client&#x27;;
+
+import { CohortQueryBuilderComponent } from &#x27;./components/cohort-query-builder/cohort-query-builder.component&#x27;;
+import { catchError, map, of, throwError } from &#x27;rxjs&#x27;;
+
+import { CaseSearchItemCardComponent } from &#x27;../../cases/case-search/components/case-search-item/case-search-item.component&#x27;;
+import { AuthService } from &#x27;src/app/core/auth/services/auth.service&#x27;;
+import { UserBadgeComponent } from &#x27;src/app/shared/components/user-badge/user-badge.component&#x27;;
+import { DatasetComposerComponent } from &#x27;src/app/features/cohorts/cohort-manager/components/dataset-composer/dataset-composer.component&#x27;;
+import { CohortContributorsComponent } from &#x27;./components/cohort-contributors.component&#x27;;
+import { CohortGraphsComponent } from &#x27;./components/cohort-graphs/cohort-graphs.component&#x27;;
+import { Skeleton } from &#x27;primeng/skeleton&#x27;;
+import { Message } from &#x27;primeng/message&#x27;;
+import { CohortTraitPanel } from &#x27;./components/cohort-trait-panel.component&#x27;;
+import { TimelineModule } from &#x27;primeng/timeline&#x27;;
+import { Card } from &#x27;primeng/card&#x27;;
+import { Fieldset } from &#x27;primeng/fieldset&#x27;;
+import { rxResource } from &#x27;@angular/core/rxjs-interop&#x27;;
+import { driver } from &#x27;driver.js&#x27;;
+import TourDriverConfig from &#x27;./cohort-manager.tour&#x27;;
+import { ToolbarModule } from &#x27;primeng/toolbar&#x27;;
+import { Select, SelectModule } from &#x27;primeng/select&#x27;;
+import { SelectButton } from &#x27;primeng/selectbutton&#x27;;
+import { TableModule } from &#x27;primeng/table&#x27;;
+import { Paginator } from &#x27;primeng/paginator&#x27;;
+import { Avatar } from &#x27;primeng/avatar&#x27;;
+
+
+@Component({
+    selector: &#x27;onconova-cohort-manager&#x27;,
+    templateUrl: &#x27;./cohort-manager.component.html&#x27;,
+    imports: [
+        CommonModule,
+        FormsModule,
+        Paginator,
+        ReactiveFormsModule,
+        LucideAngularModule,
+        CohortGraphsComponent,
+        CohortContributorsComponent,
+        CohortQueryBuilderComponent,
+        CaseSearchItemCardComponent,
+        DatasetComposerComponent,
+        CohortTraitPanel,
+        Panel,
+        Fieldset,
+        Message,
+        Skeleton,
+        InputText,
+        UserBadgeComponent,
+        SelectModule,
+        SelectButton,
+        TableModule,
+        Avatar,
+        TimelineModule,
+        Divider,
+        ToolbarModule,
+        TabsModule,
+        DataView,
+        Button,
+        Card,
+        Chip,
+    ]
+})
+export class CohortBuilderComponent {
+    
+    public cohortId &#x3D; input.required&lt;string&gt;()   
+    
+    readonly #cohortsService &#x3D; inject(CohortsService);
+    readonly #projectsService &#x3D; inject(ProjectsService);
+    readonly #messageService &#x3D; inject(MessageService);
+    readonly #fb &#x3D; inject(FormBuilder);
+    readonly #location &#x3D; inject(Location);
+    readonly #authService &#x3D; inject(AuthService)
+    
+    
+    public cohortControl: FormGroup &#x3D; this.#fb.group({
+        name: this.#fb.nonNullable.control&lt;string&gt;(&#x27;&#x27;, Validators.required),
+        project: this.#fb.control&lt;string | null&gt;(&#x27;&#x27;),
+        includeCriteria: this.#fb.control&lt;object | null&gt;(null),
+        excludeCriteria: this.#fb.control&lt;object | null&gt;(null),
+    });  
+
+    public icons &#x3D; {
+        age: CalendarClock,
+        gender: VenusAndMars,
+        site: Locate,
+        survival: Activity,
+        population: Users,
+        completion: ClipboardCheck
+    };
+    private readonly tour &#x3D; TourDriverConfig
+    private submittingCohort &#x3D; signal(false)
+    public loading &#x3D; computed(() &#x3D;&gt; this.cohort.isLoading() || this.submittingCohort())
+    public editCohortName: boolean &#x3D; false;
+    public pagination &#x3D; signal({limit: 15, offset: 0});
+    public goBack &#x3D; () &#x3D;&gt; this.#location.back()
+    public user &#x3D; computed(() &#x3D;&gt; this.#authService.user())
+
+    public cohort &#x3D; rxResource({
+        request: () &#x3D;&gt; ({cohortId: this.cohortId()}),
+        loader: ({request}) &#x3D;&gt; this.#cohortsService.getCohortById(request).pipe(
+            catchError(
+                (error: any, caught: any) &#x3D;&gt; {
+                    this.#messageService.add({ severity: &#x27;error&#x27;, summary: &#x27;Error retrieving the cohort information&#x27;, detail: error.error.detail})
+                    return throwError(() &#x3D;&gt; new Error(error));
+                }
+            ),
+        )
+    })
+
+    public project &#x3D; rxResource({
+        request: () &#x3D;&gt; ({projectId: this.cohort.value()?.projectId as string}),
+        loader: ({request}) &#x3D;&gt; request.projectId ? this.#projectsService.getProjectById(request) : of(null)
+    })
+
+    public cohortPopulation &#x3D; computed&lt;number | undefined&gt;(()&#x3D;&gt; this.cohort.value()?.population)
+    public cohortNonEmpty &#x3D; computed&lt;boolean&gt;(()&#x3D;&gt; this.cohortPopulation() ? (this.cohortPopulation()! &gt; 0) : false)
+    public cohortHistoryPagination &#x3D; {limit: signal(10), offset: signal(0)}
+    public cohortAuthors &#x3D; computed(()&#x3D;&gt; new Set&lt;string | undefined&gt;([this.cohort.value()?.createdBy, ...(this.cohort.value()?.updatedBy || [])]))
+    public totalHistoryEntries &#x3D; signal(0)
+    public cohortHistory &#x3D; rxResource({
+        request: () &#x3D;&gt; ({cohortId: this.currentCohortId(), limit: this.cohortHistoryPagination.limit(), offset: this.cohortHistoryPagination.offset(), ordering: &#x27;-pgh_created_at&#x27;}),
+        loader: ({request}) &#x3D;&gt; this.#cohortsService.getAllCohortHistoryEvents(request).pipe(map(response&#x3D;&gt;{
+            this.totalHistoryEntries.set(response.count)
+            return response.items
+        }))
+    })
+    public cohortTitle &#x3D; computed&lt;string | undefined&gt;(()&#x3D;&gt; this.cohort.value()?.name)
+    public currentCohortId &#x3D; computed&lt;string&gt;(() &#x3D;&gt; this.cohort.hasValue() ? this.cohort.value()!.id : this.cohortId())
+
+
+    public casesLayout: Signal&lt;&#x27;grid&#x27; | &#x27;list&#x27;&gt; &#x3D; signal(&#x27;grid&#x27;);
+    protected casesOrderingFields &#x3D; [
+        {label: &#x27;Creation date&#x27;, value: &#x27;createdAt&#x27;},
+        {label: &#x27;Last Updated&#x27;, value: &#x27;updatedAt&#x27;},
+        {label: &#x27;Title&#x27;, value: &#x27;name&#x27;},
+        {label: &#x27;Population&#x27;, value: &#x27;population&#x27;},
+    ]
+    protected casesOrderingDirections &#x3D; [
+        {label: &#x27;Descending&#x27;, value: &#x27;-&#x27;},
+        {label: &#x27;Ascending&#x27;, value: &#x27;&#x27;},
+    ]
+    protected casesOrderingField &#x3D; signal&lt;string&gt;(this.casesOrderingFields[0].value)
+    protected casesOrderingDirection &#x3D; signal&lt;string&gt;(this.casesOrderingDirections[0].value)
+    protected casesOrdering &#x3D; computed(() &#x3D;&gt; this.casesOrderingDirection() + this.casesOrderingField()) 
+
+    public cohortCases &#x3D; rxResource({
+        request: () &#x3D;&gt; ({
+            cohortId: this.currentCohortId(), 
+            limit: this.pagination().limit, 
+            offset: this.pagination().offset, 
+            ordering: this.casesOrdering() || &#x27;-createdAt&#x27;,
+        }),
+        loader: ({request}) &#x3D;&gt; this.#cohortsService.getCohortCases(request).pipe(map(response&#x3D;&gt;response.items))
+    })    
+
+    public readonly currentUser &#x3D; computed(() &#x3D;&gt; this.#authService.user());
+    public userCanEdit &#x3D; computed(() &#x3D;&gt; 
+        this.project.value()?.status &#x3D;&#x3D; &#x27;ongoing&#x27; &amp;&amp; (
+            (this.project.value()?.leader &#x3D;&#x3D; this.currentUser().username || this.project.value()?.members?.includes(this.currentUser().username)) 
+        )|| [AccessRoles.PlatformManager, AccessRoles.SystemAdministrator].includes(this.currentUser().role)
+    )
+
+    #setCohortDataEffect &#x3D; effect( () &#x3D;&gt; {
+        const cohort &#x3D; this.cohort.value();
+        if (cohort &amp;&amp;!this.cohortControl.value.includeCriteria &amp;&amp; !this.cohortControl.value.includeCriteria) {
+            this.cohortControl.setValue({
+                name: cohort.name,
+                project: cohort.projectId,
+                includeCriteria: cohort.includeCriteria,
+                excludeCriteria: cohort.excludeCriteria
+            })
+            this.cohortControl.updateValueAndValidity();
+        }
+    })
+
+    public cohortTraits &#x3D; rxResource({
+        request: () &#x3D;&gt; this.cohortNonEmpty() ? {cohortId: this.currentCohortId()} : undefined,
+        loader: ({request}: any) &#x3D;&gt;  this.#cohortsService.getCohortTraitsStatistics(request)
+    }) 
+    protected totalInvalidCases &#x3D; computed(() &#x3D;&gt; {
+        const consentStatusCounts &#x3D; this.cohortTraits.value()?.consentStatus;
+        if (consentStatusCounts) {
+            return consentStatusCounts.filter(item &#x3D;&gt; [
+                PatientCaseConsentStatusChoices.Revoked as string,
+                PatientCaseConsentStatusChoices.Unknown as string,
+            ].includes(item.category)).reduce((total: number, item: CohortTraitCounts) &#x3D;&gt; total + item.counts, 0)
+        } else {
+            return 0
+        }
+    })
+
+    
+    revertCohortDefinition(old: Cohort, timestamp: string) {
+        try {
+            this.cohortControl.setValue({
+                name: this.cohortControl.value.name,
+                includeCriteria: old?.includeCriteria || null,
+                excludeCriteria: old?.excludeCriteria || null,
+                project: this.cohortControl.value.project,
+            })
+            this.#messageService.add({ severity: &#x27;success&#x27;, summary: &#x27;Changes applied&#x27;, detail: &#x27;Applied previous cohort defintion snapshot changes from &#x27; + timestamp })
+        } catch (error) {
+            console.error(error)
+            this.#messageService.add({ severity: &#x27;error&#x27;, summary: &#x27;Error reverting cohort definition&#x27;, detail: &#x27;Cohort definition might be invalid due to updates and/or recent changes.&#x27; })
+        }
+        this.cohortControl.updateValueAndValidity();
+    }    
+    
+    public submitCohort() {
+        this.submittingCohort.set(true);
+        this.editCohortName &#x3D; false;
+        const cohortData &#x3D; this.cohortControl.value;
+        const payload: CohortCreate &#x3D; {
+            name: cohortData.name,
+            projectId: cohortData.project,
+            includeCriteria: cohortData.includeCriteria,
+            excludeCriteria: cohortData.excludeCriteria,
+        };
+        {
+        this.#cohortsService.updateCohort({cohortId: this.cohortId(), cohortCreate: payload}).subscribe({
+            next: (response) &#x3D;&gt; {
+                this.#messageService.add({ severity: &#x27;success&#x27;, summary: &#x27;Success&#x27;, detail: &#x60;Updated &quot;${response.description}&quot;&#x60; });
+                this.submittingCohort.set(false);
+                this.cohort.reload()
+                this.cohortTraits.reload()                
+            },
+            complete: () &#x3D;&gt; {
+                this.submittingCohort.set(false);
+            },
+            error: (error) &#x3D;&gt; {
+                this.#messageService.add({ severity: &#x27;error&#x27;, summary: &#x27;Error while updating&#x27;, detail: error.error.detail });
+                this.submittingCohort.set(false);
+                return throwError(() &#x3D;&gt; new Error(error));
+                
+            }                
+        });
+        } 
+    }
+    
+    public getAllChanges(differential: any): any[] {
+        return Object.entries(differential).flatMap(([key, value]) &#x3D;&gt; {
+            const oldObj &#x3D;  (value as any[])[0]
+            const newObj &#x3D;  (value as any[])[1]
+            if (oldObj &amp;&amp; newObj) {
+                return this.getChanges(key,oldObj,newObj)                
+            } else {
+                return []
+            }
+        });
+    }
+    
+    private getChanges(field: string, oldObj: any, newObj: any, path &#x3D; &#x27;&#x27;): any[] {
+        const changes: any[] &#x3D; [];
+        if (typeof newObj &#x3D;&#x3D;&#x3D; &#x27;object&#x27;) {
+            Object.keys(oldObj).forEach(key &#x3D;&gt; {
+                const newPath &#x3D; path ? &#x60;${path}.${key}&#x60; : key;
+                if (typeof oldObj[key] &#x3D;&#x3D;&#x3D; &#x27;object&#x27; &amp;&amp; typeof newObj[key] &#x3D;&#x3D;&#x3D; &#x27;object&#x27;) {
+                    const nestedChanges &#x3D; this.getChanges(
+                        field, 
+                        typeof oldObj[key] &#x3D;&#x3D;&#x3D; &#x27;object&#x27; ? oldObj[key] : oldObj, 
+                        typeof newObj[key] &#x3D;&#x3D;&#x3D; &#x27;object&#x27; ? newObj[key] : oldObj, 
+                        newPath
+                    );
+                    changes.push(...nestedChanges);
+                } else if (!(key in newObj)) {
+                    changes.push({ field: field, type: &#x27;removed&#x27;, key: newPath, oldValue: oldObj[key] });
+                }  else if (oldObj[key] !&#x3D;&#x3D; newObj[key]) {
+                    changes.push({ field: field, type: &#x27;updated&#x27;, key: newPath, oldValue: oldObj[key], value: newObj[key] });
+                }
+                
+            })
+        } else if (oldObj !&#x3D;&#x3D; newObj) {
+            changes.push({ field: field, type: &#x27;updated&#x27;, key: &#x27;&#x27;, oldValue: oldObj, value: newObj });
+        };
+        if (typeof oldObj &#x3D;&#x3D;&#x3D; &#x27;object&#x27;) {
+            Object.keys(newObj).forEach(key &#x3D;&gt; {
+                const newPath &#x3D; path ? &#x60;${path}.${key}&#x60; : key;
+                if (!(key in oldObj)) {
+                    changes.push({ field: field, type: &#x27;added&#x27;, key: newPath, value: newObj[key] });
+                }
+            }
+        )};
+        return changes;
+    }
+    
+    getPredominantCount(counts: CohortTraitCounts[]) {
+        return counts.sort((a,b) &#x3D;&gt; b.counts - a.counts)[0]
+    }
+    
+    startTour() {
+        driver(this.tour).drive()    
+    }
+    
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">
+
+&lt;form [formGroup]&#x3D;&quot;cohortControl&quot; (ngSubmit)&#x3D;&quot;submitCohort()&quot; class&#x3D;&quot;cohort-manager&quot;&gt;
+
+
+    &lt;div class&#x3D;&quot;flex mb-3 w-12&quot;&gt;
+        &lt;div class&#x3D;&quot;onconova-cohort-manager-header mt-0&quot;&gt;
+            &lt;div class&#x3D;&quot;mb-0 font-medium text-muted&quot;&gt;Cohort&lt;/div&gt;
+                &lt;div&gt;
+                    &lt;h1 class&#x3D;&quot;flex align-items-center mb-0&quot;&gt;
+                        @if (editCohortName) { 
+                            &lt;input type&#x3D;&quot;text&quot; pInputText formControlName&#x3D;&quot;name&quot; class&#x3D;&quot;mr-2&quot;/&gt;
+                            &lt;p-button 
+                                icon&#x3D;&quot;pi pi-check&quot;
+                                variant&#x3D;&quot;text&quot;
+                                [disabled]&#x3D;&quot;!userCanEdit()&quot;
+                                (onClick)&#x3D;&quot;editCohortName &#x3D; false&quot;/&gt;
+                        } @else {
+                            @if ( cohortTitle() ) {
+                                {{ cohortTitle() }}
+                                &lt;p-button 
+                                    id&#x3D;&quot;cohort-manager-edit-name-button&quot;
+                                    icon&#x3D;&quot;pi pi-pencil&quot;
+                                    variant&#x3D;&quot;text&quot;
+                                    class&#x3D;&quot;mb-3&quot;
+                                    [disabled]&#x3D;&quot;!userCanEdit()&quot;
+                                    (onClick)&#x3D;&quot;editCohortName &#x3D; true&quot;/&gt; 
+                            } @else {
+                                &lt;p-skeleton width&#x3D;&quot;15rem&quot; /&gt;
+                            }
+                        }
+                    &lt;/h1&gt;
+                &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;p-button
+            icon&#x3D;&quot;pi pi-question-circle&quot;
+            label&#x3D;&quot;Tutorial&quot; 
+            [outlined]&#x3D;&quot;true&quot;
+            class&#x3D;&quot;ml-auto&quot;
+            (onClick)&#x3D;&quot;startTour()&quot;/&gt;
+    &lt;/div&gt;
+    &lt;h4 class&#x3D;&quot;mb-1&quot;&gt;Summary&lt;/h4&gt;
+    &lt;p-divider layout&#x3D;&quot;horizontal&quot; class&#x3D;&quot;mt-0&quot;/&gt;
+
+    &lt;div class&#x3D;&quot;onconova-cohort-manager-summary &quot;&gt;
+        &lt;div class&#x3D;&quot;flex flex-column align-items-center w-12rem mx-auto my-2&quot;&gt;
+            &lt;div class&#x3D;&quot;text-muted&quot;&gt;Population&lt;/div&gt;
+            @if (cohortPopulation()) {
+                &lt;div class&#x3D;&quot;text-6xl text-primary-color font-bold&quot;&gt;
+                    {{ cohortPopulation() }}
+                &lt;/div&gt;
+            } @else {
+                &lt;p-skeleton height&#x3D;&quot;2rem&quot; width&#x3D;&quot;6rem&quot;/&gt;
+            }
+            @if (totalInvalidCases() &gt; 0) {
+                &lt;div class&#x3D;&quot; text-primary-color mb-1&quot;&gt;
+                    ({{ (cohortPopulation() || 0) - totalInvalidCases()}} valid)
+                &lt;/div&gt;
+            }
+            @else if (cohortTraits.isLoading()) {
+                &lt;p-skeleton height&#x3D;&quot;1rem&quot; width&#x3D;&quot;6rem&quot;/&gt;
+            }
+            &lt;div class&#x3D;&quot;&quot;&gt;Cases&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;p-card class&#x3D;&quot;onconova-cohort-manager-summary-details flex-grow-1&quot;&gt;
+            &lt;div class&#x3D;&quot;grid&quot;&gt;
+                &lt;div class&#x3D;&quot;col-12 md:col-6 my-auto&quot;&gt;
+
+                    &lt;onconova-cohort-trait  title&#x3D;&quot;Authors&quot; [loading]&#x3D;&quot;loading()&quot;&gt;
+                        @if (cohortAuthors()) {
+                            &lt;div class&#x3D;&quot;flex flex-wrap&quot;&gt;
+                            @for (username of cohortAuthors(); track username) {
+                                @if (username) {
+                                    &lt;onconova-user-badge [username]&#x3D;&quot;username&quot; class&#x3D;&quot;mr-2&quot;&gt;&lt;/onconova-user-badge&gt;
+                                }
+                            }
+                            &lt;/div&gt;
+                        }
+                    &lt;/onconova-cohort-trait&gt;
+
+                    &lt;onconova-cohort-trait  title&#x3D;&quot;Cohort ID&quot; [loading]&#x3D;&quot;loading()&quot;&gt;
+                        @if (cohort.value(); as value) {
+                            &lt;span class&#x3D;&quot;text-monospace text-sm&quot;&gt;
+                                {{ value.id }}
+                            &lt;/span&gt; 
+                        }
+                    &lt;/onconova-cohort-trait&gt;
+                    
+                    &lt;onconova-cohort-trait  title&#x3D;&quot;Project&quot; [loading]&#x3D;&quot;loading() || project.isLoading()&quot;&gt;
+                        @if (project.value(); as value) {
+                            {{ value.title || &#x27;-&#x27; }}
+                        }
+                    &lt;/onconova-cohort-trait&gt;
+
+                    &lt;onconova-cohort-trait  title&#x3D;&quot;Created&quot; [loading]&#x3D;&quot;loading()&quot;&gt;
+                        @if (cohort.value(); as value) {
+                            {{ value.createdAt | date }}
+                        }
+                    &lt;/onconova-cohort-trait&gt;
+
+                    &lt;onconova-cohort-trait  title&#x3D;&quot;Last Updated&quot; [loading]&#x3D;&quot;loading()&quot;&gt;
+                        @if (cohort.value(); as value) {
+                            {{ (value.updatedAt | date) || &#x27;-&#x27; }}
+                        }
+                    &lt;/onconova-cohort-trait&gt;
+
+                &lt;/div&gt;
+                &lt;div class&#x3D;&quot;col-12 md:col-6 my-auto&quot;&gt;
+
+                    &lt;onconova-cohort-trait  title&#x3D;&quot;Median Age&quot; [loading]&#x3D;&quot;loading() || cohortTraits.isLoading()&quot; [valid]&#x3D;&quot;cohort &amp;&amp; cohortNonEmpty()&quot;&gt;
+                        @if (cohortTraits.value()?.age; as age) {
+                            {{ age.median }}
+                            @if (age.interQuartalRange !&#x3D;&#x3D; undefined &amp;&amp; age.interQuartalRange !&#x3D;&#x3D; null) {
+                                ({{ age.interQuartalRange[0] }}, {{ age.interQuartalRange[1] }})
+                            } years
+                        }
+                    &lt;/onconova-cohort-trait&gt;
+
+                    &lt;onconova-cohort-trait  title&#x3D;&quot;Predominant Gender&quot; [loading]&#x3D;&quot;loading() || cohortTraits.isLoading()&quot; [valid]&#x3D;&quot;cohort &amp;&amp; cohortNonEmpty()&quot;&gt;
+                        @if (cohortTraits.value()?.genders; as genders) {
+                            @let predominantGender &#x3D; getPredominantCount(genders);
+                            @if (predominantGender.percentage !&#x3D;&#x3D; undefined &amp;&amp; predominantGender.percentage !&#x3D;&#x3D; null) {
+                                {{ predominantGender.percentage | number:&#x27;1.0-1&#x27; }}% 
+                            }
+                            {{ predominantGender.category }}
+                        }
+                    &lt;/onconova-cohort-trait&gt;
+
+                    &lt;onconova-cohort-trait  title&#x3D;&quot;Predominant Site&quot; [loading]&#x3D;&quot;loading() || cohortTraits.isLoading()&quot; [valid]&#x3D;&quot;cohort &amp;&amp; cohortNonEmpty()&quot;&gt;
+                        @if (cohortTraits.value()?.neoplasticSites; as neoplasticSites) {
+                            @let predominantSite &#x3D; getPredominantCount(neoplasticSites);
+                            @if (predominantSite.percentage !&#x3D;&#x3D; undefined &amp;&amp; predominantSite.percentage !&#x3D;&#x3D; null) {
+                                {{ predominantSite.percentage | number:&#x27;1.0-1&#x27; }}% 
+                            }
+                            {{ predominantSite.category }}
+                        }
+                    &lt;/onconova-cohort-trait&gt;
+
+                    &lt;onconova-cohort-trait  title&#x3D;&quot;Median Overall Survival&quot; [loading]&#x3D;&quot;loading() || cohortTraits.isLoading()&quot; [valid]&#x3D;&quot;cohort &amp;&amp; cohortNonEmpty()&quot;&gt;
+                        @if (cohortTraits.value()?.overallSurvival; as os) {
+                            {{ os.median | number:&#x27;1.0-0&#x27; }}
+                            @if (os.interQuartalRange !&#x3D;&#x3D; undefined &amp;&amp; os.interQuartalRange !&#x3D;&#x3D; null) {
+                                    ({{ os.interQuartalRange[0] | number:&#x27;1.0-0&#x27; }}, {{ os.interQuartalRange[1] | number:&#x27;1.0-0&#x27; }})
+                            } months
+                        }
+                    &lt;/onconova-cohort-trait&gt;
+
+                    &lt;onconova-cohort-trait  title&#x3D;&quot;Median Completion&quot; [loading]&#x3D;&quot;loading() || cohortTraits.isLoading()&quot; [valid]&#x3D;&quot;cohort &amp;&amp; cohortNonEmpty()&quot;&gt;
+                        @if (cohortTraits.value()?.dataCompletion; as completion) {
+                            {{ completion.median}}%
+                            @if (completion.interQuartalRange !&#x3D;&#x3D; undefined &amp;&amp; completion.interQuartalRange !&#x3D;&#x3D; null) {
+                                ({{ completion.interQuartalRange[0] }}, {{ completion.interQuartalRange[1] }})
+                            } categories
+                        }
+                    &lt;/onconova-cohort-trait&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/p-card&gt;
+    &lt;/div&gt;
+    @if (totalInvalidCases() &gt; 0) {
+        &lt;p-message styleClass&#x3D;&quot;mt-3&quot; icon&#x3D;&quot;pi pi-exclamation-triangle&quot; severity&#x3D;&quot;warn&quot;&gt;
+            The cohort includes {{totalInvalidCases()}} cases with revoked or unknown consent. 
+            These cases remain visible in the cohort view but are excluded from all analyses and exported datasets.
+        &lt;/p-message&gt;
+    }
+
+
+    &lt;h4 class&#x3D;&quot;mb-1&quot;&gt;Definition&lt;/h4&gt;
+    &lt;p-divider layout&#x3D;&quot;horizontal&quot; class&#x3D;&quot;mt-0&quot;/&gt;
+
+
+
+
+    &lt;div class&#x3D;&quot;cohort-manager-cohort-definition flex flex-column gap-3 mt-4&quot;&gt;
+        @if (cohortControl &amp;&amp; cohort.hasValue()) {
+            &lt;p-panel pCard class&#x3D;&quot;onconova-cohort-criteria-panel&quot; [toggleable]&#x3D;&quot;true&quot;&gt;    
+                &lt;ng-template #header&gt;
+                    &lt;div class&#x3D;&quot;flex gap-2 align-items-center&quot;&gt;
+                        &lt;p-avatar icon&#x3D;&quot;pi pi-user-plus&quot; size&#x3D;&quot;normal&quot; /&gt;
+                        &lt;div class&#x3D;&quot;font-semibold&quot;&gt;Inclusion Criteria&lt;/div&gt;
+                        @let rules &#x3D; cohortControl.value.includeCriteria ? cohortControl.value.includeCriteria.rules.length : 0;
+                        &lt;p-chip label&#x3D;&quot;{{ rules }} rule{{ rules !&#x3D;&#x3D; 1 ? &#x27;s&#x27; : &#x27;&#x27; }}&quot; class&#x3D;&quot;py-1 px-2&quot;/&gt;
+                    &lt;/div&gt;
+                &lt;/ng-template&gt;
+                &lt;onconova-cohort-query-builder formControlName&#x3D;&quot;includeCriteria&quot; [allowEmptyDefault]&#x3D;&quot;true&quot; [attr.disabled]&#x3D;&quot;!userCanEdit()&quot; [disabled]&#x3D;&quot;!userCanEdit()&quot;/&gt;
+            &lt;/p-panel&gt;
+        
+            &lt;p-panel class&#x3D;&quot;onconova-cohort-criteria-panel&quot; [toggleable]&#x3D;&quot;true&quot; [collapsed]&#x3D;&quot;cohortControl.value.excludeCriteria &#x3D;&#x3D;&#x3D; null&quot;&gt;    
+                &lt;ng-template #header&gt;
+                    &lt;div class&#x3D;&quot;flex gap-2 align-items-center&quot;&gt;
+                        &lt;p-avatar icon&#x3D;&quot;pi pi-user-minus&quot; size&#x3D;&quot;normal&quot; /&gt;
+                        &lt;div class&#x3D;&quot;font-semibold&quot;&gt;Exclusion Criteria&lt;/div&gt;
+                        &lt;p-chip label&#x3D;&quot;{{ cohortControl.value.excludeCriteria ? cohortControl.value.excludeCriteria.rules.length : 0 }} rules&quot; class&#x3D;&quot;py-1 px-2&quot;/&gt;
+                    &lt;/div&gt;
+                &lt;/ng-template&gt;
+                &lt;onconova-cohort-query-builder formControlName&#x3D;&quot;excludeCriteria&quot; [attr.disabled]&#x3D;&quot;!userCanEdit()&quot; [disabled]&#x3D;&quot;!userCanEdit()&quot;/&gt;
+            &lt;/p-panel&gt;  
+        }
+    &lt;/div&gt;
+
+    &lt;div class&#x3D;&quot;flex gap-3 mt-4&quot;&gt;
+        &lt;p-button 
+        type&#x3D;&quot;submit&quot; 
+        [icon]&#x3D;&quot;userCanEdit() ? &#x27;pi pi-sync&#x27; : &#x27;pi pi-lock&#x27;&quot;
+        label&#x3D;&quot;Save &amp; Update Cohort&quot; 
+        styleClass&#x3D;&quot;cohort-manager-save-button w-15rem p-3&quot;  
+        [loading]&#x3D;&quot;loading()&quot;
+        [disabled]&#x3D;&quot;!userCanEdit() || !cohortControl || cohortControl.invalid&quot; /&gt;
+    &lt;/div&gt;
+&lt;/form&gt;
+
+&lt;h4 class&#x3D;&quot;mb-1&quot;&gt;Details&lt;/h4&gt;
+&lt;p-divider layout&#x3D;&quot;horizontal&quot; class&#x3D;&quot;mt-0&quot;/&gt;
+
+&lt;p-card class&#x3D;&quot;onconova-cohort-manager-tabs-container&quot;&gt;
+&lt;p-tabs value&#x3D;&quot;0&quot;  class&#x3D;&quot;onconova-cohort-manager-tabs&quot;&gt;
+    &lt;p-tablist&gt;
+        &lt;p-tab value&#x3D;&quot;0&quot;&gt;&lt;i class&#x3D;&quot;pi pi-users&quot;&gt;&lt;/i&gt;Composition&lt;/p-tab&gt;
+        &lt;p-tab value&#x3D;&quot;1&quot;&gt;&lt;i class&#x3D;&quot;pi pi-chart-bar&quot;&gt;&lt;/i&gt;Analysis&lt;/p-tab&gt;
+        &lt;p-tab value&#x3D;&quot;2&quot;&gt;&lt;i class&#x3D;&quot;pi pi-cloud-download&quot;&gt;&lt;/i&gt;Datasets&lt;/p-tab&gt;
+        &lt;p-tab value&#x3D;&quot;3&quot;&gt;&lt;i class&#x3D;&quot;pi pi-user-plus&quot;&gt;&lt;/i&gt;Contributors&lt;/p-tab&gt;
+        &lt;p-tab value&#x3D;&quot;4&quot;&gt;&lt;i class&#x3D;&quot;pi pi-history&quot;&gt;&lt;/i&gt;History&lt;/p-tab&gt;
+    &lt;/p-tablist&gt;
+    @if (cohort.isLoading()) {
+        &lt;p-skeleton width&#x3D;&#x27;100%&#x27; height&#x3D;&#x27;50rem&#x27;/&gt;
+    } @else {
+        &lt;p-tabpanels&gt;
+            @if (cohort) {
+                @if (cohortNonEmpty()) {
+                    &lt;p-tabpanel value&#x3D;&quot;0&quot;&gt;
+
+                            &lt;p-toolbar styleClass&#x3D;&quot;border-transparent pb-1&quot; [style]&#x3D;&quot;{&#x27;background&#x27;: &#x27;none&#x27;}&quot;&gt;
+                                &lt;ng-template #start&gt;  
+                                    &lt;div class&#x3D;&quot;flex flex align-items-center text-muted gap-2&quot;&gt;
+                                        &lt;span class&#x3D;&quot;text-muted&quot;&gt;Sort by &lt;/span&gt;
+                                        &lt;p-select [(ngModel)]&#x3D;&quot;casesOrderingField&quot; [options]&#x3D;&quot;casesOrderingFields&quot; size&#x3D;&quot;small&quot; optionLabel&#x3D;&quot;label&quot; optionValue&#x3D;&quot;value&quot;&gt;&lt;/p-select&gt;
+                                        &lt;p-select [(ngModel)]&#x3D;&quot;casesOrderingDirection&quot; [options]&#x3D;&quot;casesOrderingDirections&quot; size&#x3D;&quot;small&quot; optionLabel&#x3D;&quot;label&quot; optionValue&#x3D;&quot;value&quot;&gt;&lt;/p-select&gt;
+                                    &lt;/div&gt;
+                                &lt;/ng-template&gt;                                
+                                &lt;ng-template #end&gt;
+                                    &lt;div class&#x3D;&quot;layout-buttons&quot;&gt;
+                                        &lt;p-selectbutton [(ngModel)]&#x3D;&quot;casesLayout&quot; [options]&#x3D;&quot;[&#x27;list&#x27;, &#x27;grid&#x27;]&quot; [allowEmpty]&#x3D;&quot;false&quot;&gt;
+                                            &lt;ng-template #item let-item&gt;
+                                                &lt;i class&#x3D;&quot;pi &quot; [ngClass]&#x3D;&quot;{ &#x27;pi-bars&#x27;: item &#x3D;&#x3D;&#x3D; &#x27;list&#x27;, &#x27;pi-table&#x27;: item &#x3D;&#x3D;&#x3D; &#x27;grid&#x27; }&quot;&gt;&lt;/i&gt;
+                                            &lt;/ng-template&gt;
+                                        &lt;/p-selectbutton&gt;
+                                    &lt;/div&gt;
+                                &lt;/ng-template&gt;
+                            &lt;/p-toolbar&gt;
+
+                            &lt;p-dataView 
+                                styleClass&#x3D;&quot;onconova-case-search-dataview&quot;
+                                [value]&#x3D;&quot;cohortCases.value() || []&quot;
+                                [paginator]&#x3D;&quot;true&quot; 
+                                [rows]&#x3D;&quot;pagination().limit&quot; 
+                                [layout]&#x3D;&quot;casesLayout()&quot;
+                                lazy&#x3D;&quot;true&quot;
+                                [totalRecords]&#x3D;&quot;cohortPopulation()&quot;
+                                (onLazyLoad)&#x3D;&quot;pagination.set({limit: $event.rows, offset: $event.first})&quot;
+                                class&#x3D;&quot;no-background&quot;&gt;
+
+
+                                &lt;ng-template #list let-data&gt;
+                                    &lt;p-table [value]&#x3D;&quot;data&quot; styleClass&#x3D;&quot;mt-3&quot;&gt;
+                                        &lt;ng-template pTemplate&#x3D;&quot;header&quot;&gt;
+                                            &lt;tr&gt;
+                                                &lt;th&gt;Case&lt;/th&gt;
+                                                &lt;th class&#x3D;&quot;text-center&quot;&gt;Diagnosis&lt;/th&gt;
+                                                &lt;th class&#x3D;&quot;text-center&quot;&gt;Contributors&lt;/th&gt;
+                                                &lt;th class&#x3D;&quot;text-center&quot;&gt;Created&lt;/th&gt;
+                                                &lt;th class&#x3D;&quot;text-center&quot;&gt;Last Updated&lt;/th&gt;
+                                                &lt;th class&#x3D;&quot;text-center&quot;&gt;Completion&lt;/th&gt;
+                                                &lt;th class&#x3D;&quot;text-center&quot;&gt;Consent&lt;/th&gt;
+                                                &lt;th&gt;&lt;/th&gt;
+                                            &lt;/tr&gt;
+                                        &lt;/ng-template&gt;
+                                        &lt;ng-template pTemplate&#x3D;&quot;body&quot; let-case&gt;
+                                            &lt;tr onconova-case-search-item 
+                                                @fadeAnimation
+                                                layout&#x3D;&quot;row&quot;
+                                                [ngClass]&#x3D;&quot;case.consentStatus !&#x3D;&#x3D; &#x27;valid&#x27; ? &#x27;onconova-cohort-invalid-case&#x27; : &#x27;&#x27;&quot;
+                                                [case]&#x3D;&quot;case&quot;
+                                                (onDelete)&#x3D;&quot;cohortCases.reload()&quot;
+                                                &gt;&lt;/tr&gt;
+                                        &lt;/ng-template&gt;
+                                    &lt;/p-table&gt;
+                                &lt;/ng-template&gt;    
+
+                                &lt;ng-template #grid let-cases&gt;
+                                    @if (cohortCases.isLoading()) {
+                                        &lt;!-- Skeleton loader --&gt;
+                                        &lt;div class&#x3D;&quot;grid gap-5 mt-5&quot;&gt;
+                                            @for (_ of [].constructor(15); track $index; let first &#x3D; $first;) { 
+                                                &lt;div class&#x3D;&quot;onconova-case-search-item-card&quot;&gt;
+                                                    &lt;div class&#x3D;&quot;flex my-3&quot;&gt;
+                                                        &lt;p-skeleton width&#x3D;&quot;5rem&quot; height&#x3D;&quot;5rem&quot;/&gt;
+                                                        &lt;div class&#x3D;&quot;flex flex-column mx-3&quot;&gt;
+                                                            &lt;p-skeleton width&#x3D;&quot;10rem&quot; height&#x3D;&quot;1.5rem&quot; class&#x3D;&quot;mb-2 mt-3&quot; /&gt;    
+                                                            &lt;p-skeleton width&#x3D;&quot;20rem&quot; height&#x3D;&quot;1.5rem&quot;/&gt;      
+                                                        &lt;/div&gt;
+                                                    &lt;/div&gt;
+                                                    &lt;div class&#x3D;&quot;mb-3 mt-4&quot;&gt;
+                                                        &lt;p-skeleton width&#x3D;&quot;100%&quot; height&#x3D;&quot;2rem&quot;/&gt;
+                                                    &lt;/div&gt;
+                                                    &lt;div class&#x3D;&quot;my-3 mb-5&quot;&gt;
+                                                        &lt;p-skeleton width&#x3D;&quot;100%&quot; height&#x3D;&quot;2rem&quot;/&gt;
+                                                    &lt;/div&gt;
+                                                    &lt;p-skeleton width&#x3D;&quot;20rem&quot; height&#x3D;&quot;2rem&quot; class&#x3D;&quot;my-3 ml-auto&quot;  /&gt;      
+                                                &lt;/div&gt;
+                                            }
+                                        &lt;/div&gt;
+                                    } @else if (cohortCases.error()) {
+                                        An error occurred while loading the cohort cases.
+                                    } @else {
+                                        &lt;div class&#x3D;&quot;grid mt-3&quot;&gt;
+                                            @for (case of cases; track case.id; let first &#x3D; $first;) { 
+                                                &lt;div class&#x3D;&quot;col p-2&quot; [ngClass]&#x3D;&quot;case.consentStatus !&#x3D;&#x3D; &#x27;valid&#x27; ? &#x27;onconova-cohort-invalid-case&#x27; : &#x27;&#x27;&quot;&gt;
+                                                    &lt;onconova-case-search-item [case]&#x3D;&quot;case&quot;/&gt;
+                                                &lt;/div&gt;    
+                                            }
+                                        &lt;/div&gt;
+                                    }
+                                &lt;/ng-template&gt;
+                            &lt;/p-dataView&gt;
+                    &lt;/p-tabpanel&gt;
+                    &lt;p-tabpanel value&#x3D;&quot;1&quot;&gt;
+                        &lt;onconova-cohort-graphs [cohort]&#x3D;&quot;cohort.value()!&quot; [traits]&#x3D;&quot;cohortTraits&quot; [loading]&#x3D;&quot;loading()&quot;/&gt;
+                    &lt;/p-tabpanel&gt;
+                    &lt;p-tabpanel value&#x3D;&quot;2&quot;&gt;
+                        &lt;onconova-dataset-composer [cohort]&#x3D;&quot;cohort.value()!&quot; [loading]&#x3D;&quot;loading()&quot;/&gt;
+                    &lt;/p-tabpanel&gt;
+                    &lt;p-tabpanel value&#x3D;&quot;3&quot;&gt;
+                        &lt;onconova-cohort-contributors [cohort]&#x3D;&quot;cohort.value()!&quot; [loading]&#x3D;&quot;loading()&quot;/&gt;
+                    &lt;/p-tabpanel&gt;
+                } @else { 
+                    &lt;p-message styleClass&#x3D;&quot;mt-3&quot; icon&#x3D;&quot;pi pi-exclamation-triangle&quot; severity&#x3D;&quot;warn&quot;&gt;
+                        No available results due to empty cohort. Adjust to definition to include and/or exclude cases.
+                    &lt;/p-message&gt;
+                }         
+            }
+            &lt;p-tabpanel value&#x3D;&quot;4&quot;&gt;          
+                @if (cohortHistory.value(); as history) {
+                    &lt;p-card&gt;
+                        &lt;h5&gt;Recent changes&lt;/h5&gt;
+                        &lt;p-paginator [style]&#x3D;&quot;{&#x27;justify-content&#x27;: &#x27;left&#x27;}&quot; 
+                            (onPageChange)&#x3D;&quot;cohortHistoryPagination.limit.set($event.rows!); cohortHistoryPagination.offset.set($event.first!);&quot; 
+                            [first]&#x3D;&quot;cohortHistoryPagination.offset()&quot; 
+                            [rows]&#x3D;&quot;cohortHistoryPagination.limit()&quot; 
+                            [totalRecords]&#x3D;&quot;totalHistoryEntries()&quot; 
+                            [rowsPerPageOptions]&#x3D;&quot;[10, 20, 30]&quot; 
+                            currentPageReportTemplate&#x3D;&quot;Showing {first} to {last} of {totalRecords}&quot;/&gt;
+                        &lt;p-timeline [value]&#x3D;&quot;history&quot; class&#x3D;&quot;onconova-cohort-manager-history&quot;&gt;
+                            &lt;ng-template pTemplate&#x3D;&quot;content&quot; let-event&gt;
+                                &lt;div class&#x3D;&quot;flex mb-4&quot; &gt;
+                                    &lt;div&gt;
+                                        &lt;div class&#x3D;&quot;timeline-event-date&quot;&gt;
+                                            {{ event.timestamp | date: &#x27;MMM d, y, h:mm&#x27; }}
+                                        &lt;/div&gt;
+                                        &lt;onconova-user-badge [username]&#x3D;&quot;event.user&quot; [showName]&#x3D;&quot;true&quot; class&#x3D;&quot;my-auto&quot;/&gt;                              
+                                    &lt;/div&gt;       
+                                    &lt;p-divider layout&#x3D;&quot;vertical&quot;/&gt;
+                                    &lt;ul class&#x3D;&quot;timeline-event-category my-auto pl-0&quot;&gt;
+                                            @switch (event.category) {
+                                                @case (&#x27;create&#x27;) {
+                                                    &lt;li&gt;&lt;i class&#x3D;&quot;pi pi-sparkles&quot;&gt;&lt;/i&gt; Created new cohort &quot;{{ event.snapshot.name }}&quot;&lt;/li&gt;
+                                                }
+                                                @case (&#x27;update&#x27;) {
+                                                    @let changes &#x3D; getAllChanges(event.differential);
+                                                    &lt;li&gt;&lt;i class&#x3D;&quot;pi pi-pencil&quot;&gt;&lt;/i&gt; Updated cohort with {{changes.length}} changes: 
+                                                    &lt;ul&gt;
+                                                        @for (change of changes; track $index;) {
+                                                            &lt;li class&#x3D;&quot;text-sm&quot;&gt;
+                                                                @if (change.type &#x3D;&#x3D;&#x3D; &#x27;added&#x27;) {
+                                                                    Added &lt;code&gt;{{ change.field }}&lt;/code&gt; property &lt;code&gt;{{change.key}}&lt;/code&gt;
+                                                                } @else if (change.type &#x3D;&#x3D;&#x3D; &#x27;removed&#x27;) {
+                                                                    Removed &lt;code&gt;{{ change.field }}&lt;/code&gt; property &lt;code&gt;{{change.key}}&lt;/code&gt;
+                                                                } @else if (change.type &#x3D;&#x3D;&#x3D; &#x27;updated&#x27;) {
+                                                                    Changed &lt;code&gt;{{ change.field }}&lt;/code&gt; property &lt;code&gt;{{change.key}}&lt;/code&gt; from &lt;code&gt;{{change.oldValue | json}}&lt;/code&gt; to &lt;code&gt;{{change.value | json}}&lt;/code&gt;
+                                                                }
+                                                            &lt;/li&gt;
+                                                        }
+                                                    &lt;/ul&gt;
+                                                
+                                                    &lt;p-button label&#x3D;&quot;Set snapshot as current definition&quot; 
+                                                            [outlined]&#x3D;&quot;true&quot; 
+                                                            size&#x3D;&quot;small&quot; 
+                                                            styleClass&#x3D;&quot;mt-2&quot;
+                                                            (onClick)&#x3D;&quot;revertCohortDefinition(event.snapshot, event.timestamp)&quot;/&gt;
+                                                &lt;/li&gt;
+                                                }
+                                                @case (&#x27;export&#x27;) {
+                                                    &lt;div class&#x3D;&quot;flex&quot;&gt; 
+                                                        &lt;div class&#x3D;&quot;mb-auto mt-2 mr-2&quot;&gt;&lt;i class&#x3D;&quot;pi pi-file-export&quot;&gt;&lt;/i&gt; Exported {{event.context.dataset.length}} data points&lt;/div&gt;
+                                                        &lt;p-fieldset legend&#x3D;&quot;Details&quot; [toggleable]&#x3D;&quot;true&quot; [collapsed]&#x3D;&quot;true&quot; class&#x3D;&quot;onconova-cohort-history-collapsable&quot;&gt;
+                                                                &lt;ul&gt;
+                                                                    &lt;li&gt;Export checksum: &lt;code&gt;{{ event.context.checksum }}&lt;/code&gt;&lt;/li&gt;
+                                                                    &lt;li&gt;Server version: &lt;code&gt;{{ event.context.version }}&lt;/code&gt;&lt;/li&gt;
+                                                                    &lt;li&gt;
+                                                                        Exported data points:
+                                                                        &lt;ul&gt;
+                                                                            @for (rule of event.context.dataset; track $index;) {
+                                                                                &lt;li&gt;&lt;code&gt;{{ rule.resource }} - {{ rule.field }}&lt;/code&gt;&lt;/li&gt;
+                                                                            }
+                                                                        &lt;/ul&gt;
+                                                                    &lt;/li&gt;
+                                                                &lt;/ul&gt;
+                                                        &lt;/p-fieldset&gt;
+                                                    &lt;/div&gt;
+                                                &lt;p-button label&#x3D;&quot;Set exported cohort as current definition&quot; 
+                                                        [outlined]&#x3D;&quot;true&quot; 
+                                                        size&#x3D;&quot;small&quot; 
+                                                        (onClick)&#x3D;&quot;revertCohortDefinition(event.snapshot, event.timestamp)&quot;/&gt;
+                                                }
+                                            }
+                                    &lt;/ul&gt;                               
+                                &lt;/div&gt;                
+                            &lt;/ng-template&gt;
+                        &lt;/p-timeline&gt;
+                    &lt;/p-card&gt;
+                }  
+            &lt;/p-tabpanel&gt; 
+        &lt;/p-tabpanels&gt;
+    }
+&lt;/p-tabs&gt;
+&lt;/p-card&gt;</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><form [formGroup]="cohortControl" (ngSubmit)="submitCohort()" class="cohort-manager">    <div class="flex mb-3 w-12">        <div class="onconova-cohort-manager-header mt-0">            <div class="mb-0 font-medium text-muted">Cohort</div>                <div>                    <h1 class="flex align-items-center mb-0">                        @if (editCohortName) {                             <input type="text" pInputText formControlName="name" class="mr-2"/>                            <p-button                                 icon="pi pi-check"                                variant="text"                                [disabled]="!userCanEdit()"                                (onClick)="editCohortName = false"/>                        } @else {                            @if ( cohortTitle() ) {                                {{ cohortTitle() }}                                <p-button                                     id="cohort-manager-edit-name-button"                                    icon="pi pi-pencil"                                    variant="text"                                    class="mb-3"                                    [disabled]="!userCanEdit()"                                    (onClick)="editCohortName = true"/>                             } @else {                                <p-skeleton width="15rem" />                            }                        }                    </h1>                </div>        </div>        <p-button            icon="pi pi-question-circle"            label="Tutorial"             [outlined]="true"            class="ml-auto"            (onClick)="startTour()"/>    </div>    <h4 class="mb-1">Summary</h4>    <p-divider layout="horizontal" class="mt-0"/>    <div class="onconova-cohort-manager-summary ">        <div class="flex flex-column align-items-center w-12rem mx-auto my-2">            <div class="text-muted">Population</div>            @if (cohortPopulation()) {                <div class="text-6xl text-primary-color font-bold">                    {{ cohortPopulation() }}                </div>            } @else {                <p-skeleton height="2rem" width="6rem"/>            }            @if (totalInvalidCases() > 0) {                <div class=" text-primary-color mb-1">                    ({{ (cohortPopulation() || 0) - totalInvalidCases()}} valid)                </div>            }            @else if (cohortTraits.isLoading()) {                <p-skeleton height="1rem" width="6rem"/>            }            <div class="">Cases</div>        </div>        <p-card class="onconova-cohort-manager-summary-details flex-grow-1">            <div class="grid">                <div class="col-12 md:col-6 my-auto">                    <onconova-cohort-trait  title="Authors" [loading]="loading()">                        @if (cohortAuthors()) {                            <div class="flex flex-wrap">                            @for (username of cohortAuthors(); track username) {                                @if (username) {                                    <onconova-user-badge [username]="username" class="mr-2"></onconova-user-badge>                                }                            }                            </div>                        }                    </onconova-cohort-trait>                    <onconova-cohort-trait  title="Cohort ID" [loading]="loading()">                        @if (cohort.value(); as value) {                            <span class="text-monospace text-sm">                                {{ value.id }}                            </span>                         }                    </onconova-cohort-trait>                                        <onconova-cohort-trait  title="Project" [loading]="loading() || project.isLoading()">                        @if (project.value(); as value) {                            {{ value.title || \'-\' }}                        }                    </onconova-cohort-trait>                    <onconova-cohort-trait  title="Created" [loading]="loading()">                        @if (cohort.value(); as value) {                            {{ value.createdAt | date }}                        }                    </onconova-cohort-trait>                    <onconova-cohort-trait  title="Last Updated" [loading]="loading()">                        @if (cohort.value(); as value) {                            {{ (value.updatedAt | date) || \'-\' }}                        }                    </onconova-cohort-trait>                </div>                <div class="col-12 md:col-6 my-auto">                    <onconova-cohort-trait  title="Median Age" [loading]="loading() || cohortTraits.isLoading()" [valid]="cohort && cohortNonEmpty()">                        @if (cohortTraits.value()?.age; as age) {                            {{ age.median }}                            @if (age.interQuartalRange !== undefined && age.interQuartalRange !== null) {                                ({{ age.interQuartalRange[0] }}, {{ age.interQuartalRange[1] }})                            } years                        }                    </onconova-cohort-trait>                    <onconova-cohort-trait  title="Predominant Gender" [loading]="loading() || cohortTraits.isLoading()" [valid]="cohort && cohortNonEmpty()">                        @if (cohortTraits.value()?.genders; as genders) {                            @let predominantGender = getPredominantCount(genders);                            @if (predominantGender.percentage !== undefined && predominantGender.percentage !== null) {                                {{ predominantGender.percentage | number:\'1.0-1\' }}%                             }                            {{ predominantGender.category }}                        }                    </onconova-cohort-trait>                    <onconova-cohort-trait  title="Predominant Site" [loading]="loading() || cohortTraits.isLoading()" [valid]="cohort && cohortNonEmpty()">                        @if (cohortTraits.value()?.neoplasticSites; as neoplasticSites) {                            @let predominantSite = getPredominantCount(neoplasticSites);                            @if (predominantSite.percentage !== undefined && predominantSite.percentage !== null) {                                {{ predominantSite.percentage | number:\'1.0-1\' }}%                             }                            {{ predominantSite.category }}                        }                    </onconova-cohort-trait>                    <onconova-cohort-trait  title="Median Overall Survival" [loading]="loading() || cohortTraits.isLoading()" [valid]="cohort && cohortNonEmpty()">                        @if (cohortTraits.value()?.overallSurvival; as os) {                            {{ os.median | number:\'1.0-0\' }}                            @if (os.interQuartalRange !== undefined && os.interQuartalRange !== null) {                                    ({{ os.interQuartalRange[0] | number:\'1.0-0\' }}, {{ os.interQuartalRange[1] | number:\'1.0-0\' }})                            } months                        }                    </onconova-cohort-trait>                    <onconova-cohort-trait  title="Median Completion" [loading]="loading() || cohortTraits.isLoading()" [valid]="cohort && cohortNonEmpty()">                        @if (cohortTraits.value()?.dataCompletion; as completion) {                            {{ completion.median}}%                            @if (completion.interQuartalRange !== undefined && completion.interQuartalRange !== null) {                                ({{ completion.interQuartalRange[0] }}, {{ completion.interQuartalRange[1] }})                            } categories                        }                    </onconova-cohort-trait>                </div>            </div>        </p-card>    </div>    @if (totalInvalidCases() > 0) {        <p-message styleClass="mt-3" icon="pi pi-exclamation-triangle" severity="warn">            The cohort includes {{totalInvalidCases()}} cases with revoked or unknown consent.             These cases remain visible in the cohort view but are excluded from all analyses and exported datasets.        </p-message>    }    <h4 class="mb-1">Definition</h4>    <p-divider layout="horizontal" class="mt-0"/>    <div class="cohort-manager-cohort-definition flex flex-column gap-3 mt-4">        @if (cohortControl && cohort.hasValue()) {            <p-panel pCard class="onconova-cohort-criteria-panel" [toggleable]="true">                    <ng-template #header>                    <div class="flex gap-2 align-items-center">                        <p-avatar icon="pi pi-user-plus" size="normal" />                        <div class="font-semibold">Inclusion Criteria</div>                        @let rules = cohortControl.value.includeCriteria ? cohortControl.value.includeCriteria.rules.length : 0;                        <p-chip label="{{ rules }} rule{{ rules !== 1 ? \'s\' : \'\' }}" class="py-1 px-2"/>                    </div>                </ng-template>                <onconova-cohort-query-builder formControlName="includeCriteria" [allowEmptyDefault]="true" [attr.disabled]="!userCanEdit()" [disabled]="!userCanEdit()"/>            </p-panel>                    <p-panel class="onconova-cohort-criteria-panel" [toggleable]="true" [collapsed]="cohortControl.value.excludeCriteria === null">                    <ng-template #header>                    <div class="flex gap-2 align-items-center">                        <p-avatar icon="pi pi-user-minus" size="normal" />                        <div class="font-semibold">Exclusion Criteria</div>                        <p-chip label="{{ cohortControl.value.excludeCriteria ? cohortControl.value.excludeCriteria.rules.length : 0 }} rules" class="py-1 px-2"/>                    </div>                </ng-template>                <onconova-cohort-query-builder formControlName="excludeCriteria" [attr.disabled]="!userCanEdit()" [disabled]="!userCanEdit()"/>            </p-panel>          }    </div>    <div class="flex gap-3 mt-4">        <p-button         type="submit"         [icon]="userCanEdit() ? \'pi pi-sync\' : \'pi pi-lock\'"        label="Save & Update Cohort"         styleClass="cohort-manager-save-button w-15rem p-3"          [loading]="loading()"        [disabled]="!userCanEdit() || !cohortControl || cohortControl.invalid" />    </div></form><h4 class="mb-1">Details</h4><p-divider layout="horizontal" class="mt-0"/><p-card class="onconova-cohort-manager-tabs-container"><p-tabs value="0"  class="onconova-cohort-manager-tabs">    <p-tablist>        <p-tab value="0"><i class="pi pi-users"></i>Composition</p-tab>        <p-tab value="1"><i class="pi pi-chart-bar"></i>Analysis</p-tab>        <p-tab value="2"><i class="pi pi-cloud-download"></i>Datasets</p-tab>        <p-tab value="3"><i class="pi pi-user-plus"></i>Contributors</p-tab>        <p-tab value="4"><i class="pi pi-history"></i>History</p-tab>    </p-tablist>    @if (cohort.isLoading()) {        <p-skeleton width=\'100%\' height=\'50rem\'/>    } @else {        <p-tabpanels>            @if (cohort) {                @if (cohortNonEmpty()) {                    <p-tabpanel value="0">                            <p-toolbar styleClass="border-transparent pb-1" [style]="{\'background\': \'none\'}">                                <ng-template #start>                                      <div class="flex flex align-items-center text-muted gap-2">                                        <span class="text-muted">Sort by </span>                                        <p-select [(ngModel)]="casesOrderingField" [options]="casesOrderingFields" size="small" optionLabel="label" optionValue="value"></p-select>                                        <p-select [(ngModel)]="casesOrderingDirection" [options]="casesOrderingDirections" size="small" optionLabel="label" optionValue="value"></p-select>                                    </div>                                </ng-template>                                                                <ng-template #end>                                    <div class="layout-buttons">                                        <p-selectbutton [(ngModel)]="casesLayout" [options]="[\'list\', \'grid\']" [allowEmpty]="false">                                            <ng-template #item let-item>                                                <i class="pi " [ngClass]="{ \'pi-bars\': item === \'list\', \'pi-table\': item === \'grid\' }"></i>                                            </ng-template>                                        </p-selectbutton>                                    </div>                                </ng-template>                            </p-toolbar>                            <p-dataView                                 styleClass="onconova-case-search-dataview"                                [value]="cohortCases.value() || []"                                [paginator]="true"                                 [rows]="pagination().limit"                                 [layout]="casesLayout()"                                lazy="true"                                [totalRecords]="cohortPopulation()"                                (onLazyLoad)="pagination.set({limit: $event.rows, offset: $event.first})"                                class="no-background">                                <ng-template #list let-data>                                    <p-table [value]="data" styleClass="mt-3">                                        <ng-template pTemplate="header">                                            <tr>                                                <th>Case</th>                                                <th class="text-center">Diagnosis</th>                                                <th class="text-center">Contributors</th>                                                <th class="text-center">Created</th>                                                <th class="text-center">Last Updated</th>                                                <th class="text-center">Completion</th>                                                <th class="text-center">Consent</th>                                                <th></th>                                            </tr>                                        </ng-template>                                        <ng-template pTemplate="body" let-case>                                            <tr onconova-case-search-item                                                 @fadeAnimation                                                layout="row"                                                [ngClass]="case.consentStatus !== \'valid\' ? \'onconova-cohort-invalid-case\' : \'\'"                                                [case]="case"                                                (onDelete)="cohortCases.reload()"                                                ></tr>                                        </ng-template>                                    </p-table>                                </ng-template>                                    <ng-template #grid let-cases>                                    @if (cohortCases.isLoading()) {                                        <!-- Skeleton loader -->                                        <div class="grid gap-5 mt-5">                                            @for (_ of [].constructor(15); track $index; let first = $first;) {                                                 <div class="onconova-case-search-item-card">                                                    <div class="flex my-3">                                                        <p-skeleton width="5rem" height="5rem"/>                                                        <div class="flex flex-column mx-3">                                                            <p-skeleton width="10rem" height="1.5rem" class="mb-2 mt-3" />                                                                <p-skeleton width="20rem" height="1.5rem"/>                                                              </div>                                                    </div>                                                    <div class="mb-3 mt-4">                                                        <p-skeleton width="100%" height="2rem"/>                                                    </div>                                                    <div class="my-3 mb-5">                                                        <p-skeleton width="100%" height="2rem"/>                                                    </div>                                                    <p-skeleton width="20rem" height="2rem" class="my-3 ml-auto"  />                                                      </div>                                            }                                        </div>                                    } @else if (cohortCases.error()) {                                        An error occurred while loading the cohort cases.                                    } @else {                                        <div class="grid mt-3">                                            @for (case of cases; track case.id; let first = $first;) {                                                 <div class="col p-2" [ngClass]="case.consentStatus !== \'valid\' ? \'onconova-cohort-invalid-case\' : \'\'">                                                    <onconova-case-search-item [case]="case"/>                                                </div>                                                }                                        </div>                                    }                                </ng-template>                            </p-dataView>                    </p-tabpanel>                    <p-tabpanel value="1">                        <onconova-cohort-graphs [cohort]="cohort.value()!" [traits]="cohortTraits" [loading]="loading()"/>                    </p-tabpanel>                    <p-tabpanel value="2">                        <onconova-dataset-composer [cohort]="cohort.value()!" [loading]="loading()"/>                    </p-tabpanel>                    <p-tabpanel value="3">                        <onconova-cohort-contributors [cohort]="cohort.value()!" [loading]="loading()"/>                    </p-tabpanel>                } @else {                     <p-message styleClass="mt-3" icon="pi pi-exclamation-triangle" severity="warn">                        No available results due to empty cohort. Adjust to definition to include and/or exclude cases.                    </p-message>                }                     }            <p-tabpanel value="4">                          @if (cohortHistory.value(); as history) {                    <p-card>                        <h5>Recent changes</h5>                        <p-paginator [style]="{\'justify-content\': \'left\'}"                             (onPageChange)="cohortHistoryPagination.limit.set($event.rows!); cohortHistoryPagination.offset.set($event.first!);"                             [first]="cohortHistoryPagination.offset()"                             [rows]="cohortHistoryPagination.limit()"                             [totalRecords]="totalHistoryEntries()"                             [rowsPerPageOptions]="[10, 20, 30]"                             currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"/>                        <p-timeline [value]="history" class="onconova-cohort-manager-history">                            <ng-template pTemplate="content" let-event>                                <div class="flex mb-4" >                                    <div>                                        <div class="timeline-event-date">                                            {{ event.timestamp | date: \'MMM d, y, h:mm\' }}                                        </div>                                        <onconova-user-badge [username]="event.user" [showName]="true" class="my-auto"/>                                                                  </div>                                           <p-divider layout="vertical"/>                                    <ul class="timeline-event-category my-auto pl-0">                                            @switch (event.category) {                                                @case (\'create\') {                                                    <li><i class="pi pi-sparkles"></i> Created new cohort "{{ event.snapshot.name }}"</li>                                                }                                                @case (\'update\') {                                                    @let changes = getAllChanges(event.differential);                                                    <li><i class="pi pi-pencil"></i> Updated cohort with {{changes.length}} changes:                                                     <ul>                                                        @for (change of changes; track $index;) {                                                            <li class="text-sm">                                                                @if (change.type === \'added\') {                                                                    Added <code>{{ change.field }}</code> property <code>{{change.key}}</code>                                                                } @else if (change.type === \'removed\') {                                                                    Removed <code>{{ change.field }}</code> property <code>{{change.key}}</code>                                                                } @else if (change.type === \'updated\') {                                                                    Changed <code>{{ change.field }}</code> property <code>{{change.key}}</code> from <code>{{change.oldValue | json}}</code> to <code>{{change.value | json}}</code>                                                                }                                                            </li>                                                        }                                                    </ul>                                                                                                    <p-button label="Set snapshot as current definition"                                                             [outlined]="true"                                                             size="small"                                                             styleClass="mt-2"                                                            (onClick)="revertCohortDefinition(event.snapshot, event.timestamp)"/>                                                </li>                                                }                                                @case (\'export\') {                                                    <div class="flex">                                                         <div class="mb-auto mt-2 mr-2"><i class="pi pi-file-export"></i> Exported {{event.context.dataset.length}} data points</div>                                                        <p-fieldset legend="Details" [toggleable]="true" [collapsed]="true" class="onconova-cohort-history-collapsable">                                                                <ul>                                                                    <li>Export checksum: <code>{{ event.context.checksum }}</code></li>                                                                    <li>Server version: <code>{{ event.context.version }}</code></li>                                                                    <li>                                                                        Exported data points:                                                                        <ul>                                                                            @for (rule of event.context.dataset; track $index;) {                                                                                <li><code>{{ rule.resource }} - {{ rule.field }}</code></li>                                                                            }                                                                        </ul>                                                                    </li>                                                                </ul>                                                        </p-fieldset>                                                    </div>                                                <p-button label="Set exported cohort as current definition"                                                         [outlined]="true"                                                         size="small"                                                         (onClick)="revertCohortDefinition(event.snapshot, event.timestamp)"/>                                                }                                            }                                    </ul>                                                               </div>                                            </ng-template>                        </p-timeline>                    </p-card>                }              </p-tabpanel>         </p-tabpanels>    }</p-tabs></p-card></div>'
+    var COMPONENTS = [{'name': 'AbstractFormBase', 'selector': ''},{'name': 'AdverseEventFormComponent', 'selector': 'adverse-event-form'},{'name': 'AppComponent', 'selector': 'onconova-root'},{'name': 'AppFooterComponent', 'selector': 'onconova-footer'},{'name': 'AppLayoutComponent', 'selector': 'onconova-layout'},{'name': 'AppSidebarMenuComponent', 'selector': 'onconova-sidebar-menu'},{'name': 'AppTopBarComponent', 'selector': 'onconova-topbar'},{'name': 'AuthCallbackComponent', 'selector': 'app-auth-callback'},{'name': 'AuthLayoutComponent', 'selector': 'onconova-auth-layout'},{'name': 'BoxPlotComponent', 'selector': 'onconova-box-plot'},{'name': 'CancerIconComponent', 'selector': 'onconova-cancer-icon'},{'name': 'CaseImporterBundleViewerComponent', 'selector': 'onconova-case-importer-bundle-viewer'},{'name': 'CaseImporterComponent', 'selector': 'onconova-case-importer'},{'name': 'CaseManagerComponent', 'selector': 'onconova-case-manager'},{'name': 'CaseManagerDrawerComponent', 'selector': 'onconova-case-manager-drawer'},{'name': 'CaseManagerPanelComponent', 'selector': 'onconova-case-manager-panel'},{'name': 'CaseManagerPanelTimelineComponent', 'selector': 'onconova-case-manager-panel-timeline'},{'name': 'CaseSearchComponent', 'selector': ''},{'name': 'CaseSearchItemCardComponent', 'selector': 'onconova-case-search-item,[onconova-case-search-item]'},{'name': 'CodedConceptTreeComponent', 'selector': 'onconova-coded-concept-tree'},{'name': 'CohortBuilderComponent', 'selector': 'onconova-cohort-manager'},{'name': 'CohortContributorsComponent', 'selector': 'onconova-cohort-contributors'},{'name': 'CohortFormComponent', 'selector': 'cohort-form'},{'name': 'CohortGraphsComponent', 'selector': 'onconova-cohort-graphs'},{'name': 'CohortGraphsContextMenu', 'selector': 'onconova-cohort-graph-context-menu'},{'name': 'CohortQueryBuilderComponent', 'selector': 'onconova-cohort-query-builder'},{'name': 'CohortSearchComponent', 'selector': ''},{'name': 'CohortSearchItemComponent', 'selector': 'onconova-cohort-search-item, [onconova-cohort-search-item]'},{'name': 'CohortTraitPanel', 'selector': 'onconova-cohort-trait'},{'name': 'ComorbiditiesAssessmentFormComponent', 'selector': 'comorbidities-form'},{'name': 'ConceptSelectorComponent', 'selector': 'onconova-concept-selector'},{'name': 'ConsentNoticeModalComponent', 'selector': 'onconova-consent-modal'},{'name': 'DashboardComponent', 'selector': 'onconova-dashboard'},{'name': 'DataCompletionStatsComponent', 'selector': 'onconova-data-completion-stats'},{'name': 'DatasetComposerComponent', 'selector': 'onconova-dataset-composer'},{'name': 'DataSummaryComponent', 'selector': 'onconova-data-summary'},{'name': 'DataSummaryCounterComponent', 'selector': 'onconova-data-summary-counter'},{'name': 'DatePickerComponent', 'selector': 'onconova-datepicker'},{'name': 'DisclaimerBannerComponent', 'selector': 'onconova-disclaimer-banner'},{'name': 'DistributionGraphComponent', 'selector': 'onconova-distribution-graph'},{'name': 'DoughnutGraphComponent', 'selector': 'onconova-doughnut-graph'},{'name': 'DrawerDataPropertiesComponent', 'selector': 'onconova-drawer-properties'},{'name': 'ErrorComponent', 'selector': 'onconova-error'},{'name': 'ExportConfirmDialogComponent', 'selector': 'onconova-export-confirm-dialog'},{'name': 'FamilyHistoryFormComponent', 'selector': 'family-history-form'},{'name': 'FormControlErrorComponent', 'selector': 'onconova-form-control-error'},{'name': 'GenomicSignatureFormComponent', 'selector': 'genomic-signature-form'},{'name': 'GenomicVariantFormComponent', 'selector': 'genomic-variant-form'},{'name': 'IdenticonComponent', 'selector': 'onconova-identicon'},{'name': 'KapplerMeierCurveComponent', 'selector': 'onconova-kappler-meier-curve'},{'name': 'LifestyleFormComponent', 'selector': 'lifestyle-form'},{'name': 'LoginComponent', 'selector': 'onconova-login'},{'name': 'MeasureInputComponent', 'selector': 'onconova-measure-input'},{'name': 'ModalFormHeaderComponent', 'selector': 'onconova-modal-form-header'},{'name': 'MultiReferenceSelectComponent', 'selector': 'onconova-multi-reference-select'},{'name': 'NeoplasticEntityFormComponent', 'selector': 'neoplastic-entity-form'},{'name': 'NestedTableComponent', 'selector': 'onconova-nested-table'},{'name': 'OncoplotComponent', 'selector': 'onconova-oncoplot'},{'name': 'PasswordResetFormComponent', 'selector': 'onconova-password-reset-dialog'},{'name': 'PatientFormComponent', 'selector': 'patient-form'},{'name': 'PerformanceStatusFormComponent', 'selector': 'performance-status-form'},{'name': 'PopoverFilterButtonComponent', 'selector': 'onconova-popover-filter-button'},{'name': 'PrimaryEntitiesTableComponent', 'selector': 'onconova-primary-entities-table'},{'name': 'ProjectFormComponent', 'selector': 'project-form'},{'name': 'ProjectManagementComponent', 'selector': 'onconova-project-management'},{'name': 'ProjectSearchComponent', 'selector': 'onconova-project-search'},{'name': 'ProjectSearchItemComponent', 'selector': 'onconova-project-search-item, [onconova-project-search-item]'},{'name': 'ProviderSignupComponent', 'selector': 'app-signup'},{'name': 'RadioSelectComponent', 'selector': 'onconova-radio-select'},{'name': 'RadiotherapyFormComponent', 'selector': 'radiotherapy-form'},{'name': 'RandomPaperComponent', 'selector': 'onconova-random-paper'},{'name': 'RangeInputComponent', 'selector': 'onconova-range-input'},{'name': 'RiskAssessmentFormComponent', 'selector': 'risk-assessment-form'},{'name': 'SettingsDialogComponent', 'selector': 'onconova-settings-dialog'},{'name': 'StagingFormComponent', 'selector': 'staging-form'},{'name': 'SurgeryFormComponent', 'selector': 'surgery-form'},{'name': 'SystemicTherapyFormComponent', 'selector': 'systemic-therapy-form'},{'name': 'TreatmentResponseFormComponent', 'selector': 'treatment-response-form'},{'name': 'TumorBoardFormComponent', 'selector': 'tumor-board-form'},{'name': 'TumorMarkerFormComponent', 'selector': 'tumor-marker-form'},{'name': 'UserBadgeComponent', 'selector': 'onconova-user-badge'},{'name': 'UserDetailsComponent', 'selector': 'onconova-user-details'},{'name': 'UserFormComponent', 'selector': 'onconova-user-form'},{'name': 'UserSelectorComponent', 'selector': 'onconova-user-selector'},{'name': 'UsersManagementCompnent', 'selector': 'onconova-users-management'},{'name': 'VitalsFormComponent', 'selector': 'vitals-form'}];
+    var DIRECTIVES = [{'name': 'DateMaskDirective', 'selector': '[dateMask]'}];
+    var ACTUAL_COMPONENT = {'name': 'CohortBuilderComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'CohortBuilderComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>
