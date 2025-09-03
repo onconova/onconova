@@ -38,7 +38,7 @@ jobs:
           push: true
           build-contexts: |
             certificates=./certificates
-          tags: 
+          tags: |
             ghcr.io/${{ env.REPOSITORY }}/server:${{ env.RELEASE_TAG }}
             ghcr.io/${{ env.REPOSITORY }}/client:latest
 
