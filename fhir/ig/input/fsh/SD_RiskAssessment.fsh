@@ -1,8 +1,13 @@
 Profile: OnconovaCancerRiskAssessment
 Id: mcode-cancer-risk-assessment
 Parent: CancerRiskAssessment
-Title: "Cancer Risk Assessment Profile"
-Description: "This profile represents a risk assessment for cancer, including the type of cancer risk and the probability of developing that cancer."
+Title: "Onconova Cancer Risk Assessment Profile"
+Description: """
+Representation of a risk assessment performed for a cancer patient, including the method used, the resulting risk level, and an optional numerical score.
+
+Conforms to the mCODE [CancerRiskAssessment](http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-cancer-risk-assessment) profile and expands the valuesets for cancer risk assessment methods and values.
+It also assumes for the status element the value 'final', as risk assessments within Onconova are collected based on finalized clinical records.
+"""
 * status = #final
 * subject only Reference(OnconovaCancerPatient)
 * code from CancerRiskAssessmentMethods (required)
