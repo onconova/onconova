@@ -1,5 +1,5 @@
-ValueSet: CausesOfDeathVS
-Id: onconova-cause-of-death-vs
+ValueSet: CausesOfDeath
+Id: onconova-vs-causes-of-death
 Title: "Cause of Death Value Set"
 Description:  "The causes of death that are relevant for a cancer patient."
 * $NCIT#C48275 "Death Related to Adverse Event"

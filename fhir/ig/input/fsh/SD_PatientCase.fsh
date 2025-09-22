@@ -97,4 +97,4 @@ Id: onconova-ext-cause-of-death
 Title: "Cause of Death"
 Description: "The cause of death for the patient."
 * value[x] only CodeableConcept
-* valueCodeableConcept from CausesOfDeathVS (required)
+* valueCodeableConcept from CausesOfDeath (required)
