@@ -25,7 +25,7 @@ Description: "A profile representing a cancer patient with specific extensions a
 
 // Add custom extensions for clinical data
 * extension contains OverallSurvival named overallSurvival 0..1 // Overall survival duration
-* extension contains Age named age 0..1 // Patient's age
+* extension contains AgeExtension named age 0..1 // Patient's age
 * extension contains AgeAtDiagnosis named ageAtDiagnosis 0..1 // Age at diagnosis
 * extension contains DataCompletionRate named dataCompletionRate 0..1 // Data completion rate
 * extension contains Contributors named contributors 0..* // Contributors to care
@@ -51,7 +51,7 @@ Description: "The duration of time from either the date of diagnosis or the star
 
 // Extension: Age
 // Captures the approximate age of the patient
-Extension: Age
+Extension: AgeExtension
 Id: onconova-ext-age
 Title: "Age"
 Description: "The approximate age of the patient."

@@ -26,8 +26,10 @@ Description: "A profile representing loss of heterozygosity for a cancer patient
 * status = #final
 * subject only Reference(OnconovaCancerPatient)
 * code = $NCIT#C18016 "Loss of Heterozygosity"
-* value[x] only decimal
-* valueDecimal 1..1
+* value[x] only Quantity
+* valueQuantity 1..1
+* valueQuantity.system = $UCUM
+* valueQuantity.code = $UCUM#%
 * insert NotUsed(interpretation)
 
 
@@ -40,8 +42,10 @@ Description: "A profile representing homologous recombination deficiency for a c
 * status = #final
 * subject only Reference(OnconovaCancerPatient)
 * code = $NCIT#C120465 "Homologous Recombination Deficiency"
-* value[x] only decimal
-* valueDecimal 1..1
+* value[x] only Quantity
+* valueQuantity 1..1
+* valueQuantity.system = $UCUM
+* valueQuantity.code = $UCUM#1
 * interpretation from https://loinc.org/LL2038-9 (required)
 
 
@@ -70,6 +74,8 @@ Description: "A profile representing aneuploid score for a cancer patient. This 
 * status = #final
 * subject only Reference(OnconovaCancerPatient)
 * code = $TBD#aneuploid-score "Aneuploid Score"
-* value[x] only decimal
-* valueDecimal 1..1
+* value[x] only Quantity
+* valueQuantity 1..1
+* valueQuantity.system = $UCUM
+* valueQuantity.code = $UCUM#1
 * insert NotUsed(interpretation)

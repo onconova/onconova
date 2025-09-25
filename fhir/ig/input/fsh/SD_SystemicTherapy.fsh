@@ -22,6 +22,8 @@ Description: "A profile representing a systemic therapy (e.g., chemotherapy, imm
 
 * statusReason from TreatmentTerminationReasons
 
+* medicationCodeableConcept from AntineoplasticAgents (required)
+
 * reasonReference only Reference(OnconovaPrimaryCancerCondition or OnconovaSecondaryCancerCondition)
 
 
