@@ -41,7 +41,7 @@ Extension: CombinedWith
 Id: onconova-ext-combined-with
 Title: "Combined With"
 Description: "Indicates that this medication administration was given in combination with another medication administration."
-* value[x] only Reference
+* value[x] only Reference(OnconovaMedicationAdministration)
 
 Extension: Cycles
 Id: onconova-ext-cycles
