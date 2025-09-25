@@ -1,4 +1,4 @@
-Profile: CancerFamilyMemberHistory
+Profile: OnconovaCancerFamilyMemberHistory
 Parent: FamilyMemberHistory
 Id: onconova-cancer-family-member-history
 Title: "Cancer Family Member History"

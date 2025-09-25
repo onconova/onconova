@@ -1,7 +1,7 @@
 Profile: OnconovaAdverseEvent
 Parent: AdverseEvent
 Id: onconova-adverse-event
-Title: "Onconova Adverse Event Profile"
+Title: "Adverse Event Profile"
 Description: "A profile representing an adverse event experienced by a cancer patient based on CTCAE, including details about the event, its severity, and related conditions. This profile extends the base FHIR AdverseEvent resource."
 // Reference Onconova resources
 * subject only Reference(OnconovaCancerPatient)
@@ -44,44 +44,24 @@ Id: onconova-ext-adverse-event-mitigation
 Title: "Adverse Event Mitigation"
 Description: "Details about the actions taken to mitigate or manage the adverse event."
 * value[x] 0..0
-* extension contains AdverseEventMitigationCategory named category 1..1 // Category of mitigation action
-* extension contains AdverseEventMitigationAdjustment named adjustment 0..1 // Treatment adjustments
-* extension contains AdverseEventMitigationDrug named drug 0..1 // Drugs used for mitigation
-* extension contains AdverseEventMitigationProcedure named procedure 0..1 // Procedures used for mitigation
-* extension contains AdverseEventMitigationManagement named management 0..1 // Overall management strategies
+* extension contains 
+    category 1..1 and 
+    adjustment 0..1 and
+    drug 0..1 and
+    procedure 0..1 and
+    management 0..1 
 
-Extension: AdverseEventMitigationCategory
-Id: onconova-ext-adverse-event-mitigation-category
-Title: "Adverse Event Mitigation Category"
-Description: "The category of mitigation or management action taken for the adverse event."
-* value[x] only CodeableConcept
-* valueCodeableConcept from AdverseEventMitigationCategories (required)
+* extension[category].value[x] only CodeableConcept
+* extension[category].valueCodeableConcept from AdverseEventMitigationCategories (required)
 
+* extension[adjustment].value[x] only CodeableConcept
+* extension[adjustment].valueCodeableConcept from AdverseEventMitigationTreatmentAdjustments (required)
 
-Extension: AdverseEventMitigationAdjustment
-Id: onconova-ext-adverse-event-mitigation-adjustment
-Title: "Adverse Event Mitigation Adjustment"
-Description: "Details about any adjustments made to the treatment regimen as a result of the adverse event."
-* value[x] only CodeableConcept
-* valueCodeableConcept from AdverseEventMitigationTreatmentAdjustments (required)
+* extension[drug].value[x] only CodeableConcept
+* extension[drug].valueCodeableConcept from AdverseEventMitigationDrugs (required)
 
-Extension: AdverseEventMitigationDrug
-Id: onconova-ext-adverse-event-mitigation-drug
-Title: "Adverse Event Mitigation Drug"
-Description: "Details about any drugs used to mitigate the adverse event."
-* value[x] only CodeableConcept
-* valueCodeableConcept from AdverseEventMitigationDrugs (required)
+* extension[procedure].value[x] only CodeableConcept
+* extension[procedure].valueCodeableConcept from AdverseEventMitigationProcedures (required)
 
-Extension: AdverseEventMitigationProcedure
-Id: onconova-ext-adverse-event-mitigation-procedure
-Title: "Adverse Event Mitigation Procedure"
-Description: "Details about any procedures used to mitigate the adverse event."
-* value[x] only CodeableConcept
-* valueCodeableConcept from AdverseEventMitigationProcedures (required)
-
-Extension: AdverseEventMitigationManagement
-Id: onconova-ext-adverse-event-mitigation-management
-Title: "Adverse Event Mitigation Management"
-Description: "Details about the overall management strategies employed to mitigate the adverse event."
-* value[x] only CodeableConcept
-* valueCodeableConcept from AdverseEventMitigationManagements (required)
+* extension[management].value[x] only CodeableConcept
+* extension[management].valueCodeableConcept from AdverseEventMitigationManagements (required)

@@ -1,7 +1,7 @@
 Profile: OnconovaMedicationAdministration
 Parent: CancerRelatedMedicationAdministration
 Id: onconova-systemic-therapy
-Title: "Onconova Systemic Therapy Profile"
+Title: "Systemic Therapy Profile"
 Description: "A profile representing a systemic therapy (e.g., chemotherapy, immunotherapy) administered to a cancer patient, including details about the medication, dosage, and administration schedule. This profile extends the base mCODE CancerRelatedMedicationAdministration profile to include specific constraints and requirements for Onconova."    
 * subject only Reference(OnconovaCancerPatient)
 

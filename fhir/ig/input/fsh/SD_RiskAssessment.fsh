@@ -1,7 +1,7 @@
 Profile: OnconovaCancerRiskAssessment
 Id: mcode-cancer-risk-assessment
 Parent: CancerRiskAssessment
-Title: "Onconova Cancer Risk Assessment Profile"
+Title: "Cancer Risk Assessment Profile"
 Description: """
 Representation of a risk assessment performed for a cancer patient, including the method used, the resulting risk level, and an optional numerical score.
 

@@ -1,7 +1,7 @@
 Profile: OnconovaTumorMutationalBurden  
 Parent: TMB
 Id: onconova-tumor-mutational-burden
-Title: "Onconova Tumor Mutational Burden Profile"
+Title: "Tumor Mutational Burden Profile"
 Description: "A profile representing tumor mutational burden for a cancer patient. This profile extends the base GenomicsReporting TumorMutationalBurden resource to include specific constraints and extensions relevant to Onconova."
 
 * status = #final
@@ -10,7 +10,7 @@ Description: "A profile representing tumor mutational burden for a cancer patien
 Profile: OnconovaMicrosatelliteInstability
 Parent: MSI
 Id: onconova-microsatellite-instability
-Title: "Onconova Microsatellite Instability Profile"
+Title: "Microsatellite Instability Profile"
 Description: "A profile representing microsatellite instability for a cancer patient. This profile extends the base GenomicsReporting MicrosatelliteInstability resource to include specific constraints and extensions relevant to Onconova."
 
 * status = #final
@@ -20,7 +20,7 @@ Description: "A profile representing microsatellite instability for a cancer pat
 Profile: OnconovaLossOfHeterozygosity
 Parent: GenomicsBase
 Id: onconova-loss-of-heterozygosity
-Title: "Onconova Loss of Heterozygosity Profile"
+Title: "Loss of Heterozygosity Profile"
 Description: "A profile representing loss of heterozygosity for a cancer patient. This profile extends the base GenomicsReporting GenomicsBase resource to include specific constraints and extensions relevant to Onconova."
 
 * status = #final
@@ -36,7 +36,7 @@ Description: "A profile representing loss of heterozygosity for a cancer patient
 Profile: OnconovaHomologousRecombinationDeficiency
 Parent: GenomicsBase
 Id: onconova-homologous-recombination-deficiency
-Title: "Onconova Homologous Recombination Deficiency Profile"
+Title: "Homologous Recombination Deficiency Profile"
 Description: "A profile representing homologous recombination deficiency for a cancer patient. This profile extends the base GenomicsReporting GenomicsBase resource to include specific constraints and extensions relevant to Onconova."
 
 * status = #final
@@ -52,7 +52,7 @@ Description: "A profile representing homologous recombination deficiency for a c
 Profile: OnconovaTumorNeoantigenBurden
 Parent: GenomicsBase
 Id: onconova-tumor-neoantigen-burden
-Title: "Onconova Tumor Neoantigen Burden Profile"
+Title: "Tumor Neoantigen Burden Profile"
 Description: "A profile representing tumor neoantigen burden for a cancer patient. This profile extends the base GenomicsReporting GenomicsBase resource to include specific constraints and extensions relevant to Onconova."  
 
 * status = #final
@@ -68,7 +68,7 @@ Description: "A profile representing tumor neoantigen burden for a cancer patien
 Profile: OnconovaAneuploidScore
 Parent: GenomicsBase
 Id: onconova-aneuploid-score
-Title: "Onconova Aneuploid Score Profile"
+Title: "Aneuploid Score Profile"
 Description: "A profile representing aneuploid score for a cancer patient. This profile extends the base GenomicsReporting GenomicsBase resource to include specific constraints and extensions relevant to Onconova."
 
 * status = #final

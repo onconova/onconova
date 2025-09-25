@@ -1,6 +1,6 @@
 Profile: OnconovaTumorMarker
 Id: onconova-tumor-marker
-Title: "Onconova Tumor Marker Profile"
+Title: "Tumor Marker Profile"
 Parent: TumorMarkerTest
 Description: "A profile representing a tumor marker observation for a cancer patient, including the type of tumor marker and its value. This profile extends the base mCODE TumorMarker profile to include specific constraints and requirements for Onconova."
 * subject only Reference(OnconovaCancerPatient)

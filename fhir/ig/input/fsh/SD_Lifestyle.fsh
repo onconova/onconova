@@ -1,7 +1,7 @@
 Profile: OnconovaLifestyle
 Parent: USCoreSimpleObservationProfile
 Id: onconova-lifestyle
-Title: "Onconova Lifestyle Profile"
+Title: "Lifestyle Profile"
 Description: "A profile representing lifestyle-related observations for a cancer patient."
 
 * subject only Reference(OnconovaCancerPatient)

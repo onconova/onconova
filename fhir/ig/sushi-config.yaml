@@ -23,6 +23,12 @@ dependencies:
     version: 4.0.0
 menu:
   Home: index.html
-  Artifacts: artifacts.html
+  Artifacts:
+    Profiles: artifacts.html#2
+    Extensions: artifacts.html#3
+    Value Sets: artifacts.html#4
+  Conformance: CapabilityStatement-onconova-capability-statement.html
+  Downloads: downloads.html
+  History: http://hl7.org/fhir/us/example/history.html
 instanceOptions:
   manualSliceOrdering: true

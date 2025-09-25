@@ -1,7 +1,7 @@
 Profile: OnconovaGenomicVariant
 Parent: GenomicVariant
 Id: onconova-genomic-variant
-Title: "Onconova Genomic Variant Profile"
+Title: "Genomic Variant Profile"
 Description: "A profile representing genomic variants for a cancer patient. This profile extends the base mCODE GenomicVariant resource to include specific constraints and extensions relevant to Onconova."
 
 * status = #final

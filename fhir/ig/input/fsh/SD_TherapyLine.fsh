@@ -1,7 +1,7 @@
 Profile: OnconovaTherapyLine
 Parent: List
 Id: onconova-therapy-line
-Title: "Onconova Therapy Line Profile"
+Title: "Therapy Line Profile"
 Description: "A profile representing a line of therapy in a cancer treatment regimen, including details about the therapy line number, associated treatments, and relevant dates. This profile is designed to capture the sequence and specifics of therapy lines administered to a cancer patient."
 
 * code = $NCIT#C133518 "Line of Therapy"

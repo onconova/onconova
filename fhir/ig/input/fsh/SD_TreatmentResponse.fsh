@@ -1,7 +1,7 @@
 Profile: OnconovaImagingDiseaseStatus
 Parent: CancerDiseaseStatus
 Id: onconova-imaging-disease-status
-Title: "Onconova Imaging Disease Status Profile"
+Title: "Imaging Disease Status Profile"
 Description: "A profile representing the imaging-based disease status of a cancer patient, including specific constraints and extensions relevant to Onconova."
 
 * subject only Reference(OnconovaCancerPatient)

@@ -1,7 +1,7 @@
 Profile: OnconovaTumorBoardReview
 Parent: Procedure
 Id: onconova-tumor-board-review
-Title: "Onconova Tumor Board Review"
+Title: "Tumor Board Review"
 Description: "A profile representing a tumor board review for a cancer patient. This profile extends the base Observation resource to include specific constraints and extensions relevant to Onconova."    
 
 // Basic constraints
@@ -38,7 +38,7 @@ Description: "A profile representing a tumor board review for a cancer patient. 
 Profile: OnconovaMolecularTumorBoardReview
 Parent: OnconovaTumorBoardReview
 Id: onconova-molecular-tumor-board-review
-Title: "Onconova Molecular Tumor Board Review"
+Title: "Molecular Tumor Board Review"
 Description: "A profile representing a molecular tumor board review for a cancer patient. This profile extends the OnconovaTumorBoardReview profile to specify that the review is focused on molecular data and recommendations."
 
 * code.extension[specialization].valueCodeableConcept = $NCIT#C20826 "Molecular Diagnosis"

@@ -1,7 +1,7 @@
 Profile: OnconovaSurgicalProcedure
 Parent: CancerRelatedSurgicalProcedure
 Id: onconova-surgical-procedure
-Title: "Onconova Surgical Procedure Profile"
+Title: "Surgical Procedure Profile"
 Description: "A profile representing a surgical procedure performed on a cancer patient, including details about the procedure, its intent, and relevant dates. This profile extends the base mCODE CancerRelatedSurgicalProcedure profile to include specific constraints and requirements for Onconova."
 * subject only Reference(OnconovaCancerPatient)
 

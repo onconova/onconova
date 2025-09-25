@@ -29,3 +29,16 @@ RuleSet: SNOINCCopyrightForVS
 RuleSet: ExtensionContext(path)
 * ^context[+].type = #element
 * ^context[=].expression = "{path}"
+
+
+RuleSet: ResourceCRUD(resourceType)
+* rest[=].resource[+].type = #{resourceType}
+* rest[=].resource[=].updateCreate = false
+* rest[=].resource[=].referencePolicy[+] = $RefPolicy#literal
+* rest[=].resource[=].interaction[+].code = #create
+* rest[=].resource[=].interaction[+].code = #read
+* rest[=].resource[=].interaction[+].code = #update
+* rest[=].resource[=].interaction[+].code = #delete
+
+RuleSet: ResourceSupportedProfile(profile)
+* rest[=].resource[=].supportedProfile[+] = Canonical({profile})

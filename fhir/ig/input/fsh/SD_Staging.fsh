@@ -1,7 +1,7 @@
 Profile: OnconovaCancerStage 
 Parent: CancerStage
 Id: onconova-cancer-stage
-Title: "Onconova Cancer Stage"
+Title: "Cancer Stage"
 Description: "A profile representing the cancer stage for a cancer patient. This profile extends the base mCODE CancerStage resource to include specific constraints and extensions relevant to Onconova."      
 * status = #final
 * subject only Reference(OnconovaCancerPatient)
@@ -9,26 +9,39 @@ Description: "A profile representing the cancer stage for a cancer patient. This
 Profile: OnconovaTNMStageGroup 
 Parent: TNMStageGroup
 Id: onconova-tnm-stage-group
-Title: "Onconova TNM Stage Group"
+Title: "TNM Stage Group"
 Description: "A profile representing the TNM stage group for a cancer patient. This profile extends the base mCODE TNMStageGroup resource to include specific constraints and extensions relevant to Onconova."      
 * status = #final
 * subject only Reference(OnconovaCancerPatient)
 * hasMember only Reference(
-    OnconovaTNMPrimaryTumorCategory or 
-    OnconovaTNMRegionalNodesCategory or 
-    OnconovaTNMDistantMetastasesCategory or 
-    OnconovaTNMLymphaticInvasionCategory or 
-    OnconovaTNMPerineuralInvasionCategory or 
-    OnconovaTNMResidualTumorCategory or 
-    OnconovaSerumTumorMarkerLevelCategory or 
-    OnconovaAneuploidScore or 
-    OnconovaTNMGradeCategory
+    TNMCategory
 )
+
+// Set profiles for existing slice
+* hasMember[TNMCategory] only Reference(
+    OnconovaTNMPrimaryTumorCategory or 
+    OnconovaTNMDistantMetastasesCategory or 
+    OnconovaTNMRegionalNodesCategory
+)
+// Add additional slices for the other TNM category profiles
+* hasMember contains lymphaticInvasionCategory 0..1 
+* hasMember[lymphaticInvasionCategory] only Reference(OnconovaTNMLymphaticInvasionCategory)
+* hasMember contains perineuralInvasionCategory 0..1 
+* hasMember[perineuralInvasionCategory] only Reference(OnconovaTNMPerineuralInvasionCategory)
+* hasMember contains residualTumorCategory 0..1 
+* hasMember[residualTumorCategory] only Reference(OnconovaTNMResidualTumorCategory)
+* hasMember contains serumTumorMarkerLevelCategory 0..1 
+* hasMember[serumTumorMarkerLevelCategory] only Reference(OnconovaTNMSerumTumorMarkerLevelCategory)
+* hasMember contains gradeCategory 0..1 
+* hasMember[gradeCategory] only Reference(OnconovaTNMGradeCategory)
+* hasMember contains venousInvasionCategory 0..1 
+* hasMember[venousInvasionCategory] only Reference(OnconovaTNMVenousInvasionCategory)
+
 
 Profile: OnconovaTNMPrimaryTumorCategory 
 Parent: TNMPrimaryTumorCategory
 Id: onconova-tnm-primary-tumor-category
-Title: "Onconova TNM Primary Tumor Category"
+Title: "TNM Primary Tumor Category"
 Description: "A profile representing the TNM primary tumor category for a cancer patient. This profile extends the base mCODE TNMPrimaryTumorCategory resource to include specific constraints and extensions relevant to Onconova."      
 * status = #final
 * subject only Reference(OnconovaCancerPatient)
@@ -38,7 +51,7 @@ Description: "A profile representing the TNM primary tumor category for a cancer
 Profile: OnconovaTNMDistantMetastasesCategory 
 Parent: TNMDistantMetastasesCategory
 Id: onconova-tnm-distant-metastases-category
-Title: "Onconova TNM Distant Metastases Category"
+Title: "TNM Distant Metastases Category"
 Description: "A profile representing the TNM distant metastases category for a cancer patient. This profile extends the base mCODE TNMDistantMetastasesCategory resource to include specific constraints and extensions relevant to Onconova."      
 * status = #final   
 * subject only Reference(OnconovaCancerPatient)
@@ -48,7 +61,7 @@ Description: "A profile representing the TNM distant metastases category for a c
 Profile: OnconovaTNMRegionalNodesCategory 
 Parent: TNMRegionalNodesCategory
 Id: onconova-tnm-regional-nodes-category
-Title: "Onconova TNM Regional Nodes Category"
+Title: "TNM Regional Nodes Category"
 Description: "A profile representing the TNM regional nodes category for a cancer patient. This profile extends the base mCODE TNMRegionalNodesCategory resource to include specific constraints and extensions relevant to Onconova."      
 * status = #final
 * subject only Reference(OnconovaCancerPatient)
@@ -57,7 +70,7 @@ Description: "A profile representing the TNM regional nodes category for a cance
 Profile: OnconovaTNMLymphaticInvasionCategory 
 Parent: TNMCategory
 Id: onconova-tnm-lymphatic-invasion-category
-Title: "Onconova TNM Lymphatic Invasion Category"
+Title: "TNM Lymphatic Invasion Category"
 Description: "A profile representing the TNM lymphatic invasion category for a cancer patient. This profile extends the base mCODE TNMCategory resource to include specific constraints and extensions relevant to Onconova."      
 * status = #final
 * subject only Reference(OnconovaCancerPatient)
@@ -67,7 +80,7 @@ Description: "A profile representing the TNM lymphatic invasion category for a c
 Profile: OnconovaTNMPerineuralInvasionCategory 
 Parent: TNMCategory
 Id: onconova-tnm-perineural-invasion-category
-Title: "Onconova TNM Perineural Invasion Category"
+Title: "TNM Perineural Invasion Category"
 Description: "A profile representing the TNM perineural invasion category for a cancer patient. This profile extends the base mCODE TNMCategory resource to include specific constraints and extensions relevant to Onconova."      
 * status = #final   
 * subject only Reference(OnconovaCancerPatient)
@@ -77,27 +90,27 @@ Description: "A profile representing the TNM perineural invasion category for a 
 Profile: OnconovaTNMResidualTumorCategory 
 Parent: TNMCategory
 Id: onconova-tnm-residual-tumor-category
-Title: "Onconova TNM Residual Tumor Category"
+Title: "TNM Residual Tumor Category"
 Description: "A profile representing the TNM residual tumor category for a cancer patient. This profile extends the base mCODE TNMCategory resource to include specific constraints and extensions relevant to Onconova."      
 * status = #final   
 * subject only Reference(OnconovaCancerPatient)
 * code = $SNOMED#37161004 "Finding of residual tumor (finding)"
 * valueCodeableConcept from TNMResidualTumorCategories (required)
 
-Profile: OnconovaSerumTumorMarkerLevelCategory
+Profile: OnconovaTNMSerumTumorMarkerLevelCategory
 Parent: TNMCategory 
 Id: onconova-serous-tumor-marker-level-category
-Title: "Onconova Serum Tumor Marker Level Category"
+Title: "Serum Tumor Marker Level Category"
 Description: "A profile representing the serum tumor marker level category for a cancer patient. This profile extends the base mCODE TNMCategory resource to include specific constraints and extensions relevant to Onconova."      
 * status = #final   
 * subject only Reference(OnconovaCancerPatient)
 * code = $SNOMED#396701002  "Finding of serum tumor marker level (finding)"
 * valueCodeableConcept from TNMSerumTumorMarkerLevelCategories (required)
 
-Profile: OnconovaVenousInvasionCategory
+Profile: OnconovaTNMVenousInvasionCategory
 Parent: TNMCategory 
 Id: onconova-venous-invasion-category
-Title: "Onconova Venous Invasion Category"
+Title: "Venous Invasion Category"
 Description: "A profile representing the venous invasion category for a cancer patient. This profile extends the base mCODE TNMCategory resource to include specific constraints and extensions relevant to Onconova."    
 * status = #final   
 * subject only Reference(OnconovaCancerPatient)
@@ -107,7 +120,7 @@ Description: "A profile representing the venous invasion category for a cancer p
 Profile: OnconovaTNMGradeCategory 
 Parent: TNMCategory
 Id: onconova-tnm-grade-category
-Title: "Onconova TNM Grade Category"
+Title: "TNM Grade Category"
 Description: "A profile representing the TNM grade category for a cancer patient. This profile extends the base mCODE TNMCategory resource to include specific constraints and extensions relevant to Onconova."      
 * status = #final   
 * subject only Reference(OnconovaCancerPatient)

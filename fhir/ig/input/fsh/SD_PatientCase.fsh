@@ -1,7 +1,7 @@
 Profile: OnconovaCancerPatient
 Parent: CancerPatient
 Id: onconova-cancer-patient
-Title: "Onconova Cancer Patient Profile"
+Title: "Cancer Patient Profile"
 Description: "A profile representing a cancer patient with specific extensions and constraints for the Onconova use case. Any Patient resource complying US Core Patient or mCODE CancerPatient profiles will also comply with Onconova CancerPatient."
 // Security label for pseudonymized data
 * meta.security = #PSEUDED

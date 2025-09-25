@@ -1,7 +1,7 @@
 Profile: OnconovaComorbidities
 Parent: Comorbidities
 Id: onconova-comorbidities
-Title: "Onconova Comorbidities Profile"
+Title: "Comorbidities Profile"
 Description: "A profile representing comorbidities for a cancer patient."
 
 * status = #final
