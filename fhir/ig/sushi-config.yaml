@@ -28,7 +28,6 @@ menu:
     Extensions: artifacts.html#3
     Value Sets: artifacts.html#4
   Conformance: CapabilityStatement-onconova-capability-statement.html
-  Downloads: downloads.html
   History: http://hl7.org/fhir/us/example/history.html
 instanceOptions:
   manualSliceOrdering: true
