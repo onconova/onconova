@@ -31,3 +31,8 @@ menu:
   History: http://hl7.org/fhir/us/example/history.html
 instanceOptions:
   manualSliceOrdering: true
+parameters:
+    no-ig-database: true
+    pin-canonicals: pin-all
+    excludexml: true
+    excludettl: true
