@@ -1,5 +1,5 @@
 ValueSet: TreatmentTerminationReasons
-Id: onconova-treatment-termination-reasons
+Id: onconova-vs-treatment-termination-reasons
 Title: "Treatment Termination Reasons"
 Description: "Codes representing reasons for terminating a treatment in oncology."
 

@@ -1,5 +1,5 @@
 ValueSet: CancerImagingMethods
-Id: onconova-cancer-imaging-methods
+Id: onconova-vs-cancer-imaging-methods
 Title: "Cancer Imaging Methods"
 Description: "Codes representing various imaging methods used in cancer diagnosis and monitoring."
 

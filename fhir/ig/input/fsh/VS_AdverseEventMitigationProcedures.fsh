@@ -1,5 +1,5 @@
 ValueSet: AdverseEventMitigationProcedures
-Id: onconova-adverse-event-mitigation-procedures
+Id: onconova-vs-adverse-event-mitigation-procedures
 Title: "Adverse Event Mitigation - Procedures"
 Description: "Procedures undertaken to mitigate the impact of an adverse event on a patient's health."
 

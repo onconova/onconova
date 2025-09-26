@@ -1,5 +1,5 @@
 ValueSet: AdjunctiveTherapyRoles
-Id: onconova-adjunctive-therapy-roles
+Id: onconova-vs-adjunctive-therapy-roles
 Title: "Adjunctive Therapy Roles"
 Description: "Codes representing roles for adjunctive therapy in oncology."
 

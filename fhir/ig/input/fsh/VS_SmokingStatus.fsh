@@ -1,5 +1,5 @@
 ValueSet: SmokingStatus
-Id: onconova-smoking-status
+Id: onconova-vs-smoking-status
 Title: "Smoking status"
 Description: "Smoking status of a patient"
 

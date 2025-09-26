@@ -59,7 +59,7 @@ Description: "TNM Residual Tumor Categories Value Set"
 * include codes from system $SNOMED where concept descendent-of #1222601005
 
 ValueSet: TNMSerumTumorMarkerLevelCategories
-Id: onconova-tnm-serum-tumor-marker-level-categories
+Id: onconova-vs-tnm-serum-tumor-marker-level-categories
 Title: "TNM Serum Tumor Marker Level Categories Value Set"
 Description: "TNM Serum Tumor Marker Level Categories Value Set"
 
@@ -71,7 +71,7 @@ Description: "TNM Serum Tumor Marker Level Categories Value Set"
 
 
 ValueSet: TNMVenousInvasionCategories
-Id: onconova-tnm-venous-invasion-categories
+Id: onconova-vs-tnm-venous-invasion-categories
 Title: "TNM Venous Invasion Categories Value Set"
 Description: "TNM Venous Invasion Categories Value Set"
 

@@ -1,5 +1,5 @@
 ValueSet: AdverseEventMitigationDrugs
-Id: onconova-adverse-event-mitigation-drugs
+Id: onconova-vs-adverse-event-mitigation-drugs
 Title: "Adverse Event Mitigation - Drugs"
 Description: "Drugs or medication categories used in the mitigation process of an adverse event."
 

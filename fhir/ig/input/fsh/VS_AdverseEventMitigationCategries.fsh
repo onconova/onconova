@@ -1,5 +1,5 @@
 ValueSet: AdverseEventMitigationCategories
-Id: onconova-adverse-event-mitigation-categories
+Id: onconova-vs-adverse-event-mitigation-categories
 Title: "Adverse Event Mitigation Categories"
 Description: "Categories of actions taken to mitigate or manage adverse events in oncology."
 

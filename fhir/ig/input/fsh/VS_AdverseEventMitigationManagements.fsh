@@ -1,5 +1,5 @@
 ValueSet: AdverseEventMitigationManagements
-Id: onconova-adverse-event-mitigation-managements
+Id: onconova-vs-adverse-event-mitigation-managements
 Title: "Adverse Event Mitigation - Management"
 Description: "Classification of actions to mitigate adverse events affecting a patient's health."
 
