@@ -32,7 +32,11 @@ menu:
 instanceOptions:
   manualSliceOrdering: true
 parameters:
-    no-ig-database: true
+    no-ig-database: 'true'
     pin-canonicals: pin-all
-    excludexml: true
-    excludettl: true
+    excludexml: 'true'
+    excludettl: 'true'
+    wantGen-ttl: 'false'
+    wantGen-ttl-html: 'false'
+    wantGen-xml: 'false'
+    wantGen-xml-html: 'false'
