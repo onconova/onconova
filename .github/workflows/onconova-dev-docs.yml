@@ -33,6 +33,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install .
           pip install ../server
+          npm install -g fsh-sushi
+          ./fhir/ig/_updatePublisher.sh
 
       - name: Setup Docs Deploy
         run: |
@@ -43,5 +45,9 @@ jobs:
         run: |
           cd docs
           npx @compodoc/compodoc -p ../client/tsconfig.doc.json -d ./src/compodoc/ -y src/assets/css/compodoc/ --hideGenerator --theme material
+          cd ../fhir/ig/ 
+          ./_genonce.sh
+          mv ./output ../../docs/src/fhir-ig 
+          cd ../../docs
           git fetch origin gh-pages --depth=1
           mike deploy --push dev
