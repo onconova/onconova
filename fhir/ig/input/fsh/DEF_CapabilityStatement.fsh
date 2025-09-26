@@ -3,19 +3,41 @@ Alias: $RefPolicy = http://hl7.org/fhir/reference-handling-policy
 Instance: onconova-capability-statement
 InstanceOf: CapabilityStatement
 Usage: #definition
-* description = "Retrieves a Bundle of Condition resources with a code in mCODE's cancer condition value set, and allows for associated Patient resources to be retrieved in a subsequent request. Use ONLY when reverse chaining AND `_include` are not available on the system."
+* description = """
+Supports the retrieval of the [mCODE Patient Bundle](http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-patient-bundle) containing all relevant mCODE resources (provided by Onconova) for a given patient. It also supports CRUD interactions on all Onconova profiles defined in this Implementation Guide.
+"""
 * name = "OnconovaCapabilityStatement"
-* title = "Onconova Capability Statement"
+* title = "Onconova FHIR REST Capability Statement"
 * format[0] = #json
-* format[1] = #xml
 * fhirVersion = #4.0.1
 * status = #draft
 * date = "2025-09-25"
 * kind = #capability
 * implementationGuide = Canonical(onconova.fhir)
 * rest[0].mode = #server
-* rest.documentation =  "An mCODE Server **SHALL**:\n\n1. Support all profiles defined in this Implementation Guide..\n1.  Implement the RESTful behavior according to the FHIR specification.\n1. Return the following response classes:\n   - (Status 400): invalid parameter\n   - (Status 401/4xx): unauthorized request\n   - (Status 403): insufficient scope\n   - (Status 404): unknown resource\n   - (Status 410): deleted resource.\n1. Support json source formats for all mCODE interactions.\n1. Identify the mCODE  profiles supported as part of the FHIR `meta.profile` attribute for each instance.\n1. Support the searchParameters on each profile individually and in combination.\n\nThe mCODE Server **SHOULD**:\n\n1. Support xml source formats for all mCODE interactions.\n"
-* rest.security.description = "1. See the [General Security Considerations](https://www.hl7.org/fhir/security.html#general) section for requirements and recommendations.\n1. A server **SHALL** reject any unauthorized requests by returning an `HTTP 401` unauthorized response code."
+* rest.documentation =  """
+As an mCODE-compliant server, the Onconova FHIR server **SHALL**:
+
+1. Support all profiles defined in this Implementation Guide.
+2. Implement the RESTful behavior according to the FHIR specification.
+3. Return the following response classes:
+    - (Status 400): invalid parameter
+    - (Status 401/4xx): unauthorized request
+    - (Status 403): insufficient scope
+    - (Status 404): unknown resource
+    - (Status 410): deleted resource.
+4. Support json source formats for all mCODE interactions.
+5. Identify the mCODE  profiles supported as part of the FHIR `meta.profile` attribute for each instance.
+6. Support the searchParameters on each profile individually and in combination.
+
+The Onconova FHIR server does **NOT**:
+
+    1. Support xml source formats for mCODE interactions.
+"""
+* rest.security.description = """
+1. See the [General Security Considerations](https://www.hl7.org/fhir/security.html#general) section for requirements and recommendations.
+2. A server **SHALL** reject any unauthorized requests by returning an `HTTP 401` unauthorized response code.
+"""
 * imports = "http://hl7.org/fhir/us/mcode/CapabilityStatement/mcode-sender-patient-bundle" 
 
 
