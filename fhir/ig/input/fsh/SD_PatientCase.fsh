@@ -2,17 +2,23 @@ Profile: OnconovaCancerPatient
 Parent: CancerPatient
 Id: onconova-cancer-patient
 Title: "Cancer Patient Profile"
-Description: "A profile representing a cancer patient with specific extensions and constraints for the Onconova use case. Any Patient resource complying US Core Patient or mCODE CancerPatient profiles will also comply with Onconova CancerPatient."
+Description: """
+A profile representing a cancer patient with specific extensions and constraints for the Onconova use case. Due to the research-scope of Onconova, the patient information is anonymized and identifying data elements are not provided. 
+
+It constrains the mCODE [CancerPatient profile](http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-cancer-patient) to ensure anonymity of the patient information and to introduce additional Onconova-specific case information. Any `Patient` resource complying with the US Core `Patient` or mCODE `CancerPatient` profiles will also comply with this profile. 
+"""
 // Security label for pseudonymized data
 * meta.security = #PSEUDED
 
 // Slicing identifier to allow for Onconova-specific pseudoidentifier
-* identifier ^slicing.rules = #open // Allow additional identifiers
-* identifier ^slicing.discriminator[0].type = #pattern // Slice by system value
+* identifier ^slicing.rules = #open 
+* identifier ^slicing.discriminator[0].type = #pattern 
 * identifier ^slicing.discriminator[0].path = "system"
-* identifier contains onconovaIdentifier 1..* // Require at least one Onconova identifier
+
+// Add slice to contain the Onconova case logical identifier
+* identifier contains onconovaIdentifier 1..* 
 * identifier[onconovaIdentifier] 1..* // Cardinality for the slice
-* identifier[onconovaIdentifier].type.coding = http://terminology.hl7.org/CodeSystem/v2-0203#ACSN "Accession Identifier" // Coding for identifier type
+* identifier[onconovaIdentifier].type = http://terminology.hl7.org/CodeSystem/v2-0203#ACSN "Accession Identifier" // Coding for identifier type
 * identifier[onconovaIdentifier].system = "Onconova" // System for Onconova pseudoidentifier
 * identifier[onconovaIdentifier].value 1..1 MS // Value is required and must-support
 * identifier[onconovaIdentifier] ^short = "Onconova Pseudoidentifier" // Short description for slice
@@ -24,13 +30,14 @@ Description: "A profile representing a cancer patient with specific extensions a
 * name.extension contains AnonymizedEntry named anonymizedEntry 1..* // Allow multiple anonymized entry extensions
 
 // Add custom extensions for clinical data
-* extension contains OverallSurvival named overallSurvival 0..1 // Overall survival duration
-* extension contains AgeExtension named age 0..1 // Patient's age
-* extension contains AgeAtDiagnosis named ageAtDiagnosis 0..1 // Age at diagnosis
-* extension contains DataCompletionRate named dataCompletionRate 0..1 // Data completion rate
-* extension contains Contributors named contributors 0..* // Contributors to care
-* extension contains CauseOfDeath named causeOfDeath 0..1 // Cause of death
-* extension contains EndOfRecords named endOfRecords 0..1 // End of records date
+* extension contains
+    OverallSurvival named overallSurvival 0..1 and
+    AgeExtension named age 0..1 and
+    AgeAtDiagnosis named ageAtDiagnosis 0..1 and
+    DataCompletionRate named dataCompletionRate 0..1 and
+    Contributors named contributors 0..* and
+    CauseOfDeath named causeOfDeath 0..1 and 
+    EndOfRecords named endOfRecords 0..1
 
 // Annotate unused elements for this profile
 * insert NotUsed(telecom) // No telecom information
@@ -40,6 +47,24 @@ Description: "A profile representing a cancer patient with specific extensions a
 * insert NotUsed(communication) // No communication info
 * insert NotUsed(photo) // No photo
 * insert NotUsed(generalPractitioner) // No general practitioner
+
+//==================
+// Extensions
+//==================
+
+Extension: AnonymizedEntry
+Id: onconova-ext-anonymized-entry 
+Title: "Anonymized Entry"
+Description: "Value not provided to maintain the anonymization of the patient's data and conform to data protection regulations for research data."
+* value[x] only code
+* value[x] = #masked
+
+Extension: UnknownEntry
+Id: onconova-ext-unknown-entry
+Title: "Unknown Entry"
+Description: "Value is not collected and cannot be provided by Onconova."
+* value[x] only code
+* value[x] = #unknown
 
 // Extension: OverallSurvival
 // Captures the duration of time from diagnosis or treatment start that a patient is still alive

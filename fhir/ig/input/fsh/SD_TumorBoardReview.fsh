@@ -2,7 +2,9 @@ Profile: OnconovaTumorBoardReview
 Parent: Procedure
 Id: onconova-tumor-board-review
 Title: "Tumor Board Review"
-Description: "A profile representing a tumor board review for a cancer patient. This profile extends the base Observation resource to include specific constraints and extensions relevant to Onconova."    
+Description: """A profile representing a tumor board review for a cancer patient.
+
+This profile extends the base FHIR `Procedure` resource since there is no equivalent mCODE profile that covers the use case. """    
 
 // Basic constraints
 * status = #completed
@@ -39,7 +41,9 @@ Profile: OnconovaMolecularTumorBoardReview
 Parent: OnconovaTumorBoardReview
 Id: onconova-molecular-tumor-board-review
 Title: "Molecular Tumor Board Review"
-Description: "A profile representing a molecular tumor board review for a cancer patient. This profile extends the OnconovaTumorBoardReview profile to specify that the review is focused on molecular data and recommendations."
+Description: """
+A profile representing a specialized molecular tumor board review for a cancer patient. This profile extends the `OnconovaTumorBoardReview` profile to specify that the review is focused on molecular diagnostics and recommendations.
+"""
 
 * code.extension[specialization].valueCodeableConcept = $NCIT#C20826 "Molecular Diagnosis"
 
@@ -62,6 +66,10 @@ Title: "Tumor Board Specialization"
 Description: "The specialization or focus area of the tumor board conducting the review, such as hematologic malignancies or solid tumors."
 * value[x] only CodeableConcept
 
+
+//==================
+// Extensions 
+//==================
 
 Extension: MolecularTumorBoardTherapeuticRecommendation
 Id: onconova-ext-molecular-tumor-board-therapeutic-recommendation

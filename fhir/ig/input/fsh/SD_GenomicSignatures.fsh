@@ -46,7 +46,7 @@ Description: "A profile representing homologous recombination deficiency for a c
 * valueQuantity 1..1
 * valueQuantity.system = $UCUM
 * valueQuantity.code = $UCUM#1
-* interpretation from https://loinc.org/LL2038-9 (required)
+* interpretation from https://fhir.loinc.org/ValueSet/?url=http://loinc.org/vs/LL2038-9 (required)
 
 
 Profile: OnconovaTumorNeoantigenBurden

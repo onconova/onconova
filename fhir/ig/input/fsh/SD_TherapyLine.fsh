@@ -2,19 +2,25 @@ Profile: OnconovaTherapyLine
 Parent: List
 Id: onconova-therapy-line
 Title: "Therapy Line Profile"
-Description: "A profile representing a line of therapy in a cancer treatment regimen, including details about the therapy line number, associated treatments, and relevant dates. This profile is designed to capture the sequence and specifics of therapy lines administered to a cancer patient."
+Description: """
+A profile representing a line of therapy in a cancer treatment regimen, including details about the therapy line number, associated treatments, and relevant dates. 
 
+Due to its abstract conceptual nature, it is based on a FHIR `List` to capture the specific resources involved in the therapy line. Therapy lines in Onconova are assigned automatically based on existing Procedure and MedicationAdministration resources and are not created manually.
+"""
+
+// Set fixed values for List attributes
 * code = $NCIT#C133518 "Line of Therapy"
 * status = #current 
 * mode = #working
 
+// Use Onconova profiles for references
 * subject only Reference(OnconovaCancerPatient)
 * subject ^short = "The patient receiving the therapy"
-
 * entry MS
-* entry ^short = "The therapies or procedures that are part of this therapy line"
 * entry.item only Reference(OnconovaMedicationAdministration or OnconovaRadiotherapySummary or OnconovaSurgicalProcedure)
+* entry ^short = "The therapies or procedures that are part of this therapy line"
 
+// Add extensions for therapy line details
 * extension contains TherapyLinePeriod named therapyLinePeriod 0..1
 * extension[therapyLinePeriod] ^short = "The period during which the therapy line was performed"
 * extension contains TherapyLineNumber named therapyLineNumber 0..1
@@ -26,10 +32,14 @@ Description: "A profile representing a line of therapy in a cancer treatment reg
 * extension contains TherapyLineProgressionDate named therapyLineProgressionDate 0..1
 * extension[therapyLineProgressionDate] ^short = "The date when disease progression was observed during or after the therapy line" 
 
-
+// Annotate unused elements
 * insert NotUsed(encounter)
 * insert NotUsed(source)
 * insert NotUsed(date)
+
+//================
+// Extensions
+//================
 
 Extension: TherapyLinePeriod 
 Id: onconova-ext-therapy-line-period

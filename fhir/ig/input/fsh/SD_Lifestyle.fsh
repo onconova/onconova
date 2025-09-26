@@ -2,7 +2,11 @@ Profile: OnconovaLifestyle
 Parent: USCoreSimpleObservationProfile
 Id: onconova-lifestyle
 Title: "Lifestyle Profile"
-Description: "A profile representing lifestyle-related observations for a cancer patient."
+Description: """
+A profile representing a (reported) observation on certain lifestyle characteristics of a cancer patient (e.g. smoking, drinking, and sleeping habits, environmental exposures, etc.). 
+
+It directly profiles the base FHIR `Observation` resource as this resource is not represented in mCODE, to add relevant observation components for the different lifestyle characteristics. 
+"""
 
 * subject only Reference(OnconovaCancerPatient)
 * status = #final

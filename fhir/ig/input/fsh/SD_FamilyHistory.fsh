@@ -2,7 +2,11 @@ Profile: OnconovaCancerFamilyMemberHistory
 Parent: FamilyMemberHistory
 Id: onconova-cancer-family-member-history
 Title: "Cancer Family Member History"
-Description: "A record of a family member's history of cancer."
+Description: """
+A profile recording of a family member's history of cancer.
+
+This profile is based on the core FHIR `FamilyMemberHistory` resource rather than the mCODE  [HistoryOfMetastaticCancer profile](http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-history-of-metastatic-cancer) to allow for a broader range of cancer history documentation (not limited to metastatic cancer). It includes constraints to ensure that at least one cancer condition is recorded, along with optional extensions for cancer morphology and topography.
+"""
 
 // Basic constraints
 * status = #completed

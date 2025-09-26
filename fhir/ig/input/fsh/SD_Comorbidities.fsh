@@ -2,11 +2,12 @@ Profile: OnconovaComorbidities
 Parent: Comorbidities
 Id: onconova-comorbidities
 Title: "Comorbidities Profile"
-Description: "A profile representing comorbidities for a cancer patient."
+Description: """
+A profile representing comorbidities for a cancer patient, i.e. other health conditions that exist alongside the primary cancer diagnosis. Supports existing comorbidity panels such as the Charlson Comorbidity Index (CCI) and Elixhauser Comorbidity Index (ECI) with comorbidity indexes.
 
+The profile constrains the mCODE [Comorbidities profile](http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-comorbidities) to ensure consistent use of ICD-10 codes for documenting comorbid conditions, and to link the comorbidity information to the Onconova primary cancer condition profile. 
+"""
 * status = #final
-
-// Reference Onconova resources
 * subject only Reference(OnconovaCancerPatient)
 * focus only Reference(OnconovaPrimaryCancerCondition)
 
