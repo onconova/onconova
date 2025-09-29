@@ -1,0 +1,60 @@
+{
+  "resourceType" : "ValueSet",
+  "id" : "onconova-vs-smoking-status",
+  "text" : {
+    "status" : "generated",
+    "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: ValueSet onconova-vs-smoking-status</b></p><a name=\"onconova-vs-smoking-status\"> </a><a name=\"hconconova-vs-smoking-status\"> </a><ul><li>Include these codes as defined in <a href=\"http://www.snomed.org/\"><code>http://snomed.info/sct</code></a><table class=\"none\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td></tr><tr><td><a href=\"http://snomed.info/id/266919005\">266919005</a></td><td>Never smoked tobacco</td></tr><tr><td><a href=\"http://snomed.info/id/266927001\">266927001</a></td><td>Tobacco smoking consumption unknown</td></tr><tr><td><a href=\"http://snomed.info/id/428041000124106\">428041000124106</a></td><td>Occasional tobacco smoker</td></tr><tr><td><a href=\"http://snomed.info/id/428061000124105\">428061000124105</a></td><td>Light tobacco smoker</td></tr><tr><td><a href=\"http://snomed.info/id/428071000124103\">428071000124103</a></td><td>Heavy tobacco smoker</td></tr><tr><td><a href=\"http://snomed.info/id/449868002\">449868002</a></td><td>Smokes tobacco daily</td></tr><tr><td><a href=\"http://snomed.info/id/77176002\">77176002</a></td><td>Smoker</td></tr><tr><td><a href=\"http://snomed.info/id/8517006\">8517006</a></td><td>Ex-smoker</td></tr></table></li></ul></div>"
+  },
+  "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-smoking-status",
+  "version" : "0.1.0",
+  "name" : "SmokingStatus",
+  "title" : "Smoking status",
+  "status" : "active",
+  "date" : "2025-09-29T08:09:08+00:00",
+  "publisher" : "Onconova",
+  "contact" : [{
+    "name" : "Onconova",
+    "telecom" : [{
+      "system" : "url",
+      "value" : "http://luisfabib.github.io/onconova"
+    }]
+  }],
+  "description" : "Smoking status of a patient",
+  "compose" : {
+    "include" : [{
+      "system" : "http://snomed.info/sct",
+      "concept" : [{
+        "code" : "266919005",
+        "display" : "Never smoked tobacco"
+      },
+      {
+        "code" : "266927001",
+        "display" : "Tobacco smoking consumption unknown"
+      },
+      {
+        "code" : "428041000124106",
+        "display" : "Occasional tobacco smoker"
+      },
+      {
+        "code" : "428061000124105",
+        "display" : "Light tobacco smoker"
+      },
+      {
+        "code" : "428071000124103",
+        "display" : "Heavy tobacco smoker"
+      },
+      {
+        "code" : "449868002",
+        "display" : "Smokes tobacco daily"
+      },
+      {
+        "code" : "77176002",
+        "display" : "Smoker"
+      },
+      {
+        "code" : "8517006",
+        "display" : "Ex-smoker"
+      }]
+    }]
+  }
+}

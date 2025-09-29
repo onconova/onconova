@@ -1,0 +1,2394 @@
+{
+  "codeSystems" : [
+    {
+      "url" : "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1010.4",
+      "version" : "20170601",
+      "status" : "active",
+      "name" : "MedicationClinicalDrug",
+      "title" : "Medication Clinical Drug",
+      "description" : "",
+      "systems" : ["http://www.nlm.nih.gov/research/umls/rxnorm"],
+      "oids" : ["2.16.840.1.113762.1.4.1010.4"],
+      "sources" : ["2.16.840.1.113762.1.4.1010.4"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-medication-administration.html" : "Medication Administration Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/address-type",
+      "version" : "4.0.1",
+      "status" : "active",
+      "name" : "AddressType",
+      "title" : "AddressType",
+      "description" : "The type of an address (physical / postal).",
+      "systems" : ["http://hl7.org/fhir/address-type"],
+      "oids" : ["2.16.840.1.113883.4.642.3.69"],
+      "sources" : ["2.16.840.1.113883.4.642.3.69"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-cancer-patient.html" : "Cancer Patient Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/address-use",
+      "version" : "4.0.1",
+      "status" : "active",
+      "name" : "AddressUse",
+      "title" : "AddressUse",
+      "description" : "The use of an address.",
+      "systems" : ["http://hl7.org/fhir/address-use"],
+      "oids" : ["2.16.840.1.113883.4.642.3.67"],
+      "sources" : ["2.16.840.1.113883.4.642.3.67"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-cancer-patient.html" : "Cancer Patient Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/administration-method-codes",
+      "version" : "4.0.1",
+      "status" : "draft",
+      "name" : "SNOMEDCTAdministrationMethodCodes",
+      "title" : "SNOMED CT Administration Method Codes",
+      "description" : "This value set includes some method codes from SNOMED CT - provided as an exemplar",
+      "systems" : ["http://snomed.info/sct"],
+      "oids" : ["2.16.840.1.113883.4.642.3.97"],
+      "sources" : ["2.16.840.1.113883.4.642.3.97"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-medication-administration.html" : "Medication Administration Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/administrative-gender",
+      "version" : "4.0.1",
+      "status" : "active",
+      "name" : "AdministrativeGender",
+      "title" : "AdministrativeGender",
+      "description" : "The gender of a person used for administrative purposes.",
+      "systems" : ["http://hl7.org/fhir/administrative-gender"],
+      "oids" : ["2.16.840.1.113883.4.642.3.1"],
+      "sources" : ["2.16.840.1.113883.4.642.3.1"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-cancer-patient.html" : "Cancer Patient Profile",
+      "StructureDefinition-onconova-cancer-family-member-history.html" : "Cancer Family Member History"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/adverse-event-actuality",
+      "version" : "4.0.1",
+      "status" : "draft",
+      "name" : "AdverseEventActuality",
+      "title" : "AdverseEventActuality",
+      "description" : "Overall nature of the adverse event, e.g. real or potential.",
+      "systems" : ["http://hl7.org/fhir/adverse-event-actuality"],
+      "oids" : ["2.16.840.1.113883.4.642.3.831"],
+      "sources" : ["2.16.840.1.113883.4.642.3.831"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-adverse-event.html" : "Adverse Event Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/adverse-event-category",
+      "version" : "4.0.1",
+      "status" : "draft",
+      "name" : "AdverseEventCategory",
+      "title" : "AdverseEventCategory",
+      "description" : "Overall categorization of the event, e.g. product-related or situational.",
+      "systems" : [
+        "http://terminology.hl7.org/CodeSystem/adverse-event-category"
+      ],
+      "oids" : ["2.16.840.1.113883.4.642.3.833"],
+      "sources" : ["2.16.840.1.113883.4.642.3.833"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-adverse-event.html" : "Adverse Event Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/adverse-event-causality-assess",
+      "version" : "4.0.1",
+      "status" : "draft",
+      "name" : "AdverseEventCausalityAssessment",
+      "title" : "AdverseEventCausalityAssessment",
+      "description" : "Codes for the assessment of whether the entity caused the event.",
+      "systems" : [
+        "http://terminology.hl7.org/CodeSystem/adverse-event-causality-assess"
+      ],
+      "oids" : ["2.16.840.1.113883.4.642.3.840"],
+      "sources" : ["2.16.840.1.113883.4.642.3.840"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-adverse-event.html" : "Adverse Event Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/adverse-event-causality-method",
+      "version" : "4.0.1",
+      "status" : "draft",
+      "name" : "AdverseEventCausalityMethod",
+      "title" : "AdverseEventCausalityMethod",
+      "description" : "TODO.",
+      "systems" : [
+        "http://terminology.hl7.org/CodeSystem/adverse-event-causality-method"
+      ],
+      "oids" : ["2.16.840.1.113883.4.642.3.842"],
+      "sources" : ["2.16.840.1.113883.4.642.3.842"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-adverse-event.html" : "Adverse Event Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/adverse-event-outcome",
+      "version" : "4.0.1",
+      "status" : "draft",
+      "name" : "AdverseEventOutcome",
+      "title" : "AdverseEventOutcome",
+      "description" : "TODO (and should this be required?).",
+      "systems" : [
+        "http://terminology.hl7.org/CodeSystem/adverse-event-outcome"
+      ],
+      "oids" : ["2.16.840.1.113883.4.642.3.836"],
+      "sources" : ["2.16.840.1.113883.4.642.3.836"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-adverse-event.html" : "Adverse Event Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/adverse-event-seriousness",
+      "version" : "4.0.1",
+      "status" : "draft",
+      "name" : "AdverseEventSeriousness",
+      "title" : "AdverseEventSeriousness",
+      "description" : "Overall seriousness of this event for the patient.",
+      "systems" : [
+        "http://terminology.hl7.org/CodeSystem/adverse-event-seriousness"
+      ],
+      "oids" : ["2.16.840.1.113883.4.642.3.838"],
+      "sources" : ["2.16.840.1.113883.4.642.3.838"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-adverse-event.html" : "Adverse Event Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/adverse-event-severity",
+      "version" : "4.0.1",
+      "status" : "draft",
+      "name" : "AdverseEventSeverity",
+      "title" : "AdverseEventSeverity",
+      "description" : "The severity of the adverse event itself, in direct relation to the subject.",
+      "systems" : [
+        "http://terminology.hl7.org/CodeSystem/adverse-event-severity"
+      ],
+      "oids" : ["2.16.840.1.113883.4.642.3.844"],
+      "sources" : ["2.16.840.1.113883.4.642.3.844"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-adverse-event.html" : "Adverse Event Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/approach-site-codes",
+      "version" : "4.0.1",
+      "status" : "draft",
+      "name" : "SNOMEDCTAnatomicalStructureForAdministrationSiteCodes",
+      "title" : "SNOMED CT Anatomical Structure for Administration Site Codes",
+      "description" : "This value set includes Anatomical Structure codes from SNOMED CT - provided as an exemplar.",
+      "systems" : ["http://snomed.info/sct"],
+      "oids" : ["2.16.840.1.113883.4.642.3.346"],
+      "sources" : ["2.16.840.1.113883.4.642.3.346"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-medication-administration.html" : "Medication Administration Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/body-site",
+      "version" : "4.0.1",
+      "status" : "draft",
+      "name" : "SNOMEDCTBodyStructures",
+      "title" : "SNOMED CT Body Structures",
+      "description" : "This value set includes all codes from [SNOMED CT](http://snomed.info/sct) where concept is-a 442083009 (Anatomical or acquired body site (body structure)).",
+      "systems" : ["http://snomed.info/sct"],
+      "oids" : ["2.16.840.1.113883.4.642.3.141"],
+      "sources" : ["2.16.840.1.113883.4.642.3.141"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-tnm-grade-category.html" : "TNM Grade Category",
+      "StructureDefinition-onconova-surgical-procedure.html" : "Surgical Procedure Profile",
+      "StructureDefinition-onconova-comorbidities.html" : "Comorbidities Profile",
+      "StructureDefinition-onconova-tnm-residual-tumor-category.html" : "TNM Residual Tumor Category",
+      "StructureDefinition-onconova-serous-tumor-marker-level-category.html" : "Serum Tumor Marker Level Category",
+      "StructureDefinition-onconova-cancer-stage.html" : "Cancer Stage",
+      "StructureDefinition-onconova-tumor-marker.html" : "Tumor Marker Profile",
+      "StructureDefinition-onconova-tumor-neoantigen-burden.html" : "Tumor Neoantigen Burden Profile",
+      "StructureDefinition-onconova-cancer-risk-assessment.html" : "Cancer Risk Assessment Profile",
+      "StructureDefinition-onconova-ecog-performance-status.html" : "ECOG Performance Status Profile",
+      "StructureDefinition-onconova-tnm-distant-metastases-category.html" : "TNM Distant Metastases Category",
+      "StructureDefinition-onconova-homologous-recombination-deficiency.html" : "Homologous Recombination Deficiency Profile",
+      "StructureDefinition-onconova-genomic-variant.html" : "Genomic Variant Profile",
+      "StructureDefinition-onconova-tnm-primary-tumor-category.html" : "TNM Primary Tumor Category",
+      "StructureDefinition-onconova-tnm-regional-nodes-category.html" : "TNM Regional Nodes Category",
+      "StructureDefinition-onconova-aneuploid-score.html" : "Aneuploid Score Profile",
+      "StructureDefinition-onconova-molecular-tumor-board-review.html" : "Molecular Tumor Board Review",
+      "StructureDefinition-onconova-tnm-lymphatic-invasion-category.html" : "TNM Lymphatic Invasion Category",
+      "StructureDefinition-onconova-tumor-mutational-burden.html" : "Tumor Mutational Burden Profile",
+      "StructureDefinition-onconova-venous-invasion-category.html" : "Venous Invasion Category",
+      "StructureDefinition-onconova-tnm-perineural-invasion-category.html" : "TNM Perineural Invasion Category",
+      "StructureDefinition-onconova-tumor-board-review.html" : "Tumor Board Review",
+      "StructureDefinition-onconova-Karnofsky-performance-status.html" : "Karnofsky Performance Status Profile",
+      "StructureDefinition-onconova-microsatellite-instability.html" : "Microsatellite Instability Profile",
+      "StructureDefinition-onconova-lifestyle.html" : "Lifestyle Profile",
+      "StructureDefinition-onconova-tnm-stage-group.html" : "TNM Stage Group",
+      "StructureDefinition-onconova-loss-of-heterozygosity.html" : "Loss of Heterozygosity Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/clinical-findings",
+      "version" : "4.0.1",
+      "status" : "draft",
+      "name" : "SNOMEDCTClinicalFindings",
+      "title" : "SNOMED CT Clinical Findings",
+      "description" : "This value set includes all the \"Clinical finding\" [SNOMED CT](http://snomed.info/sct) codes - concepts where concept is-a 404684003 (Clinical finding (finding)).",
+      "systems" : ["http://snomed.info/sct"],
+      "oids" : ["2.16.840.1.113883.4.642.3.232"],
+      "sources" : ["2.16.840.1.113883.4.642.3.232"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-cancer-family-member-history.html" : "Cancer Family Member History"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/common-tags",
+      "version" : "4.0.1",
+      "status" : "draft",
+      "name" : "CommonTags",
+      "title" : "Common Tags",
+      "description" : "Common Tag Codes defined by FHIR project",
+      "systems" : ["http://terminology.hl7.org/CodeSystem/common-tags"],
+      "oids" : ["2.16.840.1.113883.4.642.3.79"],
+      "sources" : ["2.16.840.1.113883.4.642.3.79"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-cancer-patient.html" : "Cancer Patient Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/condition-category",
+      "version" : "4.0.1",
+      "status" : "draft",
+      "name" : "ConditionCategoryCodes",
+      "title" : "Condition Category Codes",
+      "description" : "Preferred value set for Condition Categories.",
+      "systems" : ["http://terminology.hl7.org/CodeSystem/condition-category"],
+      "oids" : ["2.16.840.1.113883.4.642.3.162"],
+      "sources" : ["2.16.840.1.113883.4.642.3.162"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-secondary-cancer-condition.html" : "Secondary Cancer Condition Profile",
+      "StructureDefinition-onconova-primary-cancer-condition.html" : "Primary Cancer Condition Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/condition-clinical",
+      "version" : "4.0.1",
+      "status" : "draft",
+      "name" : "ConditionClinicalStatusCodes",
+      "title" : "Condition Clinical Status Codes",
+      "description" : "Preferred value set for Condition Clinical Status.",
+      "systems" : ["http://terminology.hl7.org/CodeSystem/condition-clinical"],
+      "oids" : ["2.16.840.1.113883.4.642.3.164"],
+      "sources" : ["2.16.840.1.113883.4.642.3.164"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-secondary-cancer-condition.html" : "Secondary Cancer Condition Profile",
+      "StructureDefinition-onconova-primary-cancer-condition.html" : "Primary Cancer Condition Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/condition-code",
+      "version" : "4.0.1",
+      "status" : "draft",
+      "name" : "Condition/Problem/DiagnosisCodes",
+      "title" : "Condition/Problem/Diagnosis Codes",
+      "description" : "Example value set for Condition/Problem/Diagnosis codes.",
+      "systems" : ["http://snomed.info/sct"],
+      "oids" : ["2.16.840.1.113883.4.642.3.161"],
+      "sources" : ["2.16.840.1.113883.4.642.3.161"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-molecular-tumor-board-review.html" : "Molecular Tumor Board Review",
+      "StructureDefinition-onconova-radiotherapy-summary.html" : "Radiotherapy Summary Profile",
+      "StructureDefinition-onconova-cancer-family-member-history.html" : "Cancer Family Member History",
+      "StructureDefinition-onconova-tumor-board-review.html" : "Tumor Board Review",
+      "StructureDefinition-onconova-surgical-procedure.html" : "Surgical Procedure Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/condition-outcome",
+      "version" : "4.0.1",
+      "status" : "draft",
+      "name" : "ConditionOutcomeCodes",
+      "title" : "Condition Outcome Codes",
+      "description" : "Example value set for condition outcomes.",
+      "systems" : ["http://snomed.info/sct"],
+      "oids" : ["2.16.840.1.113883.4.642.3.967"],
+      "sources" : ["2.16.840.1.113883.4.642.3.967"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-cancer-family-member-history.html" : "Cancer Family Member History"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/condition-severity",
+      "version" : "4.0.1",
+      "status" : "draft",
+      "name" : "Condition/DiagnosisSeverity",
+      "title" : "Condition/Diagnosis Severity",
+      "description" : "Preferred value set for Condition/Diagnosis severity grading.",
+      "systems" : ["http://snomed.info/sct"],
+      "oids" : ["2.16.840.1.113883.4.642.3.168"],
+      "sources" : ["2.16.840.1.113883.4.642.3.168"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-secondary-cancer-condition.html" : "Secondary Cancer Condition Profile",
+      "StructureDefinition-onconova-primary-cancer-condition.html" : "Primary Cancer Condition Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/condition-stage",
+      "version" : "4.0.1",
+      "status" : "draft",
+      "name" : "ConditionStage",
+      "title" : "Condition Stage",
+      "description" : "Example value set for stages of cancer and other conditions.",
+      "systems" : ["http://snomed.info/sct"],
+      "oids" : ["2.16.840.1.113883.4.642.3.170"],
+      "sources" : ["2.16.840.1.113883.4.642.3.170"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-secondary-cancer-condition.html" : "Secondary Cancer Condition Profile",
+      "StructureDefinition-onconova-primary-cancer-condition.html" : "Primary Cancer Condition Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/condition-stage-type",
+      "version" : "4.0.1",
+      "status" : "draft",
+      "name" : "ConditionStageType",
+      "title" : "Condition Stage Type",
+      "description" : "Example value set for the type of stages of cancer and other conditions",
+      "systems" : ["http://snomed.info/sct"],
+      "oids" : ["2.16.840.1.113883.4.642.3.171"],
+      "sources" : ["2.16.840.1.113883.4.642.3.171"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-secondary-cancer-condition.html" : "Secondary Cancer Condition Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/condition-ver-status",
+      "version" : "4.0.1",
+      "status" : "draft",
+      "name" : "ConditionVerificationStatus",
+      "title" : "ConditionVerificationStatus",
+      "description" : "The verification status to support or decline the clinical status of the condition or diagnosis.",
+      "systems" : ["http://terminology.hl7.org/CodeSystem/condition-ver-status"],
+      "oids" : ["2.16.840.1.113883.4.642.3.166"],
+      "sources" : ["2.16.840.1.113883.4.642.3.166"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-secondary-cancer-condition.html" : "Secondary Cancer Condition Profile",
+      "StructureDefinition-onconova-primary-cancer-condition.html" : "Primary Cancer Condition Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/contact-point-system",
+      "version" : "4.0.1",
+      "status" : "active",
+      "name" : "ContactPointSystem",
+      "title" : "ContactPointSystem",
+      "description" : "Telecommunications form for contact point.",
+      "systems" : ["http://hl7.org/fhir/contact-point-system"],
+      "oids" : ["2.16.840.1.113883.4.642.3.71"],
+      "sources" : ["2.16.840.1.113883.4.642.3.71"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-cancer-patient.html" : "Cancer Patient Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/contact-point-use",
+      "version" : "4.0.1",
+      "status" : "active",
+      "name" : "ContactPointUse",
+      "title" : "ContactPointUse",
+      "description" : "Use of contact point.",
+      "systems" : ["http://hl7.org/fhir/contact-point-use"],
+      "oids" : ["2.16.840.1.113883.4.642.3.73"],
+      "sources" : ["2.16.840.1.113883.4.642.3.73"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-cancer-patient.html" : "Cancer Patient Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/data-absent-reason",
+      "version" : "4.0.1",
+      "status" : "active",
+      "name" : "DataAbsentReason",
+      "title" : "DataAbsentReason",
+      "description" : "Used to specify why the normally expected content of the data element is missing.",
+      "systems" : ["http://terminology.hl7.org/CodeSystem/data-absent-reason"],
+      "oids" : ["2.16.840.1.113883.4.642.3.5"],
+      "sources" : ["2.16.840.1.113883.4.642.3.5"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-tnm-grade-category.html" : "TNM Grade Category",
+      "StructureDefinition-onconova-comorbidities.html" : "Comorbidities Profile",
+      "StructureDefinition-onconova-tnm-residual-tumor-category.html" : "TNM Residual Tumor Category",
+      "StructureDefinition-onconova-serous-tumor-marker-level-category.html" : "Serum Tumor Marker Level Category",
+      "StructureDefinition-onconova-cancer-stage.html" : "Cancer Stage",
+      "StructureDefinition-onconova-tumor-marker.html" : "Tumor Marker Profile",
+      "StructureDefinition-onconova-tumor-neoantigen-burden.html" : "Tumor Neoantigen Burden Profile",
+      "StructureDefinition-onconova-cancer-risk-assessment.html" : "Cancer Risk Assessment Profile",
+      "StructureDefinition-onconova-ecog-performance-status.html" : "ECOG Performance Status Profile",
+      "StructureDefinition-onconova-tnm-distant-metastases-category.html" : "TNM Distant Metastases Category",
+      "StructureDefinition-onconova-homologous-recombination-deficiency.html" : "Homologous Recombination Deficiency Profile",
+      "StructureDefinition-onconova-genomic-variant.html" : "Genomic Variant Profile",
+      "StructureDefinition-onconova-imaging-disease-status.html" : "Imaging Disease Status Profile",
+      "StructureDefinition-onconova-tnm-primary-tumor-category.html" : "TNM Primary Tumor Category",
+      "StructureDefinition-onconova-tnm-regional-nodes-category.html" : "TNM Regional Nodes Category",
+      "StructureDefinition-onconova-aneuploid-score.html" : "Aneuploid Score Profile",
+      "StructureDefinition-onconova-tnm-lymphatic-invasion-category.html" : "TNM Lymphatic Invasion Category",
+      "StructureDefinition-onconova-tumor-mutational-burden.html" : "Tumor Mutational Burden Profile",
+      "StructureDefinition-onconova-venous-invasion-category.html" : "Venous Invasion Category",
+      "StructureDefinition-onconova-tnm-perineural-invasion-category.html" : "TNM Perineural Invasion Category",
+      "StructureDefinition-onconova-Karnofsky-performance-status.html" : "Karnofsky Performance Status Profile",
+      "StructureDefinition-onconova-microsatellite-instability.html" : "Microsatellite Instability Profile",
+      "StructureDefinition-onconova-lifestyle.html" : "Lifestyle Profile",
+      "StructureDefinition-onconova-tnm-stage-group.html" : "TNM Stage Group",
+      "StructureDefinition-onconova-loss-of-heterozygosity.html" : "Loss of Heterozygosity Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/device-action",
+      "version" : "4.0.1",
+      "status" : "draft",
+      "name" : "ProcedureDeviceActionCodes",
+      "title" : "Procedure Device Action Codes",
+      "description" : "Example codes indicating the change that happened to the device during the procedure.  Note that these are in no way complete and might not even be appropriate for some uses.",
+      "systems" : ["http://snomed.info/sct"],
+      "oids" : ["2.16.840.1.113883.4.642.3.425"],
+      "sources" : ["2.16.840.1.113883.4.642.3.425"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-molecular-tumor-board-review.html" : "Molecular Tumor Board Review",
+      "StructureDefinition-onconova-radiotherapy-summary.html" : "Radiotherapy Summary Profile",
+      "StructureDefinition-onconova-tumor-board-review.html" : "Tumor Board Review",
+      "StructureDefinition-onconova-surgical-procedure.html" : "Surgical Procedure Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/device-kind",
+      "version" : "4.0.1",
+      "status" : "draft",
+      "name" : "FHIRDeviceTypes",
+      "title" : "FHIR Device Types",
+      "description" : "Codes used to identify medical devices. Includes concepts from SNOMED CT (http://www.snomed.org/) where concept is-a 49062001 (Device)  and is provided as a suggestive example.",
+      "systems" : ["http://snomed.info/sct"],
+      "oids" : ["2.16.840.1.113883.4.642.3.208"],
+      "sources" : ["2.16.840.1.113883.4.642.3.208"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-molecular-tumor-board-review.html" : "Molecular Tumor Board Review",
+      "StructureDefinition-onconova-radiotherapy-summary.html" : "Radiotherapy Summary Profile",
+      "StructureDefinition-onconova-tumor-board-review.html" : "Tumor Board Review",
+      "StructureDefinition-onconova-surgical-procedure.html" : "Surgical Procedure Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/event-status",
+      "version" : "4.0.1",
+      "status" : "draft",
+      "name" : "EventStatus",
+      "title" : "EventStatus",
+      "description" : "Codes identifying the lifecycle stage of an event.",
+      "systems" : ["http://hl7.org/fhir/event-status"],
+      "oids" : ["2.16.840.1.113883.4.642.3.109"],
+      "sources" : ["2.16.840.1.113883.4.642.3.109"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-molecular-tumor-board-review.html" : "Molecular Tumor Board Review",
+      "StructureDefinition-onconova-radiotherapy-summary.html" : "Radiotherapy Summary Profile",
+      "StructureDefinition-onconova-tumor-board-review.html" : "Tumor Board Review",
+      "StructureDefinition-onconova-surgical-procedure.html" : "Surgical Procedure Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/history-absent-reason",
+      "version" : "4.0.1",
+      "status" : "draft",
+      "name" : "FamilyHistoryAbsentReason",
+      "title" : "FamilyHistoryAbsentReason",
+      "description" : "Codes describing the reason why a family member's history is not available.",
+      "systems" : [
+        "http://terminology.hl7.org/CodeSystem/history-absent-reason"
+      ],
+      "oids" : ["2.16.840.1.113883.4.642.3.269"],
+      "sources" : ["2.16.840.1.113883.4.642.3.269"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-cancer-family-member-history.html" : "Cancer Family Member History"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/history-status",
+      "version" : "4.0.1",
+      "status" : "draft",
+      "name" : "FamilyHistoryStatus",
+      "title" : "FamilyHistoryStatus",
+      "description" : "A code that identifies the status of the family history record.",
+      "systems" : ["http://hl7.org/fhir/history-status"],
+      "oids" : ["2.16.840.1.113883.4.642.3.267"],
+      "sources" : ["2.16.840.1.113883.4.642.3.267"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-cancer-family-member-history.html" : "Cancer Family Member History"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/identifier-type",
+      "version" : "4.0.1",
+      "status" : "active",
+      "name" : "Identifier Type Codes",
+      "title" : "IdentifierType",
+      "description" : "A coded type for an identifier that can be used to determine which identifier to use for a specific purpose.",
+      "systems" : ["http://terminology.hl7.org/CodeSystem/v2-0203"],
+      "oids" : ["2.16.840.1.113883.4.642.3.45"],
+      "sources" : ["2.16.840.1.113883.4.642.3.45"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-cancer-patient.html" : "Cancer Patient Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/identifier-use",
+      "version" : "4.0.1",
+      "status" : "active",
+      "name" : "IdentifierUse",
+      "title" : "IdentifierUse",
+      "description" : "Identifies the purpose for this identifier, if known .",
+      "systems" : ["http://hl7.org/fhir/identifier-use"],
+      "oids" : ["2.16.840.1.113883.4.642.3.57"],
+      "sources" : ["2.16.840.1.113883.4.642.3.57"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-cancer-patient.html" : "Cancer Patient Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/languages",
+      "version" : "4.0.1",
+      "status" : "draft",
+      "name" : "CommonLanguages",
+      "title" : "Common Languages",
+      "description" : "This value set includes common codes from BCP-47 (http://tools.ietf.org/html/bcp47)",
+      "systems" : ["urn:ietf:bcp:47"],
+      "oids" : ["2.16.840.1.113883.4.642.3.20"],
+      "sources" : ["2.16.840.1.113883.4.642.3.20"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-secondary-cancer-condition.html" : "Secondary Cancer Condition Profile",
+      "StructureDefinition-onconova-radiotherapy-summary.html" : "Radiotherapy Summary Profile",
+      "StructureDefinition-onconova-tnm-grade-category.html" : "TNM Grade Category",
+      "StructureDefinition-onconova-surgical-procedure.html" : "Surgical Procedure Profile",
+      "StructureDefinition-onconova-comorbidities.html" : "Comorbidities Profile",
+      "StructureDefinition-onconova-tnm-residual-tumor-category.html" : "TNM Residual Tumor Category",
+      "StructureDefinition-onconova-serous-tumor-marker-level-category.html" : "Serum Tumor Marker Level Category",
+      "StructureDefinition-onconova-cancer-stage.html" : "Cancer Stage",
+      "StructureDefinition-onconova-tumor-marker.html" : "Tumor Marker Profile",
+      "StructureDefinition-onconova-primary-cancer-condition.html" : "Primary Cancer Condition Profile",
+      "StructureDefinition-onconova-tumor-neoantigen-burden.html" : "Tumor Neoantigen Burden Profile",
+      "StructureDefinition-onconova-cancer-patient.html" : "Cancer Patient Profile",
+      "StructureDefinition-onconova-cancer-risk-assessment.html" : "Cancer Risk Assessment Profile",
+      "StructureDefinition-onconova-ecog-performance-status.html" : "ECOG Performance Status Profile",
+      "StructureDefinition-onconova-tnm-distant-metastases-category.html" : "TNM Distant Metastases Category",
+      "StructureDefinition-onconova-homologous-recombination-deficiency.html" : "Homologous Recombination Deficiency Profile",
+      "StructureDefinition-onconova-genomic-variant.html" : "Genomic Variant Profile",
+      "StructureDefinition-onconova-medication-administration.html" : "Medication Administration Profile",
+      "StructureDefinition-onconova-imaging-disease-status.html" : "Imaging Disease Status Profile",
+      "StructureDefinition-onconova-tnm-primary-tumor-category.html" : "TNM Primary Tumor Category",
+      "StructureDefinition-onconova-tnm-regional-nodes-category.html" : "TNM Regional Nodes Category",
+      "StructureDefinition-onconova-therapy-line.html" : "Therapy Line Profile",
+      "StructureDefinition-onconova-aneuploid-score.html" : "Aneuploid Score Profile",
+      "StructureDefinition-onconova-adverse-event.html" : "Adverse Event Profile",
+      "StructureDefinition-onconova-molecular-tumor-board-review.html" : "Molecular Tumor Board Review",
+      "StructureDefinition-onconova-tnm-lymphatic-invasion-category.html" : "TNM Lymphatic Invasion Category",
+      "StructureDefinition-onconova-tumor-mutational-burden.html" : "Tumor Mutational Burden Profile",
+      "StructureDefinition-onconova-venous-invasion-category.html" : "Venous Invasion Category",
+      "StructureDefinition-onconova-cancer-family-member-history.html" : "Cancer Family Member History",
+      "StructureDefinition-onconova-tnm-perineural-invasion-category.html" : "TNM Perineural Invasion Category",
+      "StructureDefinition-onconova-tumor-board-review.html" : "Tumor Board Review",
+      "StructureDefinition-onconova-Karnofsky-performance-status.html" : "Karnofsky Performance Status Profile",
+      "StructureDefinition-onconova-microsatellite-instability.html" : "Microsatellite Instability Profile",
+      "StructureDefinition-onconova-lifestyle.html" : "Lifestyle Profile",
+      "StructureDefinition-onconova-tnm-stage-group.html" : "TNM Stage Group",
+      "StructureDefinition-onconova-loss-of-heterozygosity.html" : "Loss of Heterozygosity Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/link-type",
+      "version" : "4.0.1",
+      "status" : "active",
+      "name" : "LinkType",
+      "title" : "LinkType",
+      "description" : "The type of link between this patient resource and another patient resource.",
+      "systems" : ["http://hl7.org/fhir/link-type"],
+      "oids" : ["2.16.840.1.113883.4.642.3.423"],
+      "sources" : ["2.16.840.1.113883.4.642.3.423"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-cancer-patient.html" : "Cancer Patient Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/list-empty-reason",
+      "version" : "4.0.1",
+      "status" : "draft",
+      "name" : "ListEmptyReasons",
+      "title" : "List Empty Reasons",
+      "description" : "General reasons for a list to be empty. Reasons are either related to a summary list (i.e. problem or medication list) or to a workflow related list (i.e. consultation list).",
+      "systems" : ["http://terminology.hl7.org/CodeSystem/list-empty-reason"],
+      "oids" : ["2.16.840.1.113883.4.642.3.322"],
+      "sources" : ["2.16.840.1.113883.4.642.3.322"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-therapy-line.html" : "Therapy Line Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/list-example-codes",
+      "version" : "4.0.1",
+      "status" : "draft",
+      "name" : "ExampleUseCodesForList",
+      "title" : "Example Use Codes for List",
+      "description" : "Example use codes for the List resource - typical kinds of use.",
+      "systems" : [
+        "http://terminology.hl7.org/CodeSystem/list-example-use-codes"
+      ],
+      "oids" : ["2.16.840.1.113883.4.642.3.316"],
+      "sources" : ["2.16.840.1.113883.4.642.3.316"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-therapy-line.html" : "Therapy Line Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/list-item-flag",
+      "version" : "4.0.1",
+      "status" : "draft",
+      "name" : "PatientMedicineChangeTypes",
+      "title" : "Patient Medicine Change Types",
+      "description" : "Example Item Flags for the List Resource. In this case, these are the kind of flags that would be used on a medication list at the end of a consultation.",
+      "systems" : ["urn:oid:1.2.36.1.2001.1001.101.104.16592"],
+      "oids" : ["2.16.840.1.113883.4.642.3.320"],
+      "sources" : ["2.16.840.1.113883.4.642.3.320"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-therapy-line.html" : "Therapy Line Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/list-mode",
+      "version" : "4.0.1",
+      "status" : "draft",
+      "name" : "ListMode",
+      "title" : "ListMode",
+      "description" : "The processing mode that applies to this list.",
+      "systems" : ["http://hl7.org/fhir/list-mode"],
+      "oids" : ["2.16.840.1.113883.4.642.3.318"],
+      "sources" : ["2.16.840.1.113883.4.642.3.318"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-therapy-line.html" : "Therapy Line Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/list-order",
+      "version" : "4.0.1",
+      "status" : "draft",
+      "name" : "ListOrderCodes",
+      "title" : "List Order Codes",
+      "description" : "Base values for the order of the items in a list resource.",
+      "systems" : ["http://terminology.hl7.org/CodeSystem/list-order"],
+      "oids" : ["2.16.840.1.113883.4.642.3.324"],
+      "sources" : ["2.16.840.1.113883.4.642.3.324"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-therapy-line.html" : "Therapy Line Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/list-status",
+      "version" : "4.0.1",
+      "status" : "draft",
+      "name" : "ListStatus",
+      "title" : "ListStatus",
+      "description" : "The current state of the list.",
+      "systems" : ["http://hl7.org/fhir/list-status"],
+      "oids" : ["2.16.840.1.113883.4.642.3.326"],
+      "sources" : ["2.16.840.1.113883.4.642.3.326"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-therapy-line.html" : "Therapy Line Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/marital-status",
+      "version" : "4.0.1",
+      "status" : "active",
+      "name" : "Marital Status Codes",
+      "title" : "MaritalStatus",
+      "description" : "This value set defines the set of codes that can be used to indicate the marital status of a person.",
+      "systems" : [
+        "http://terminology.hl7.org/CodeSystem/v3-MaritalStatus",
+        "http://terminology.hl7.org/CodeSystem/v3-NullFlavor"
+      ],
+      "oids" : ["2.16.840.1.113883.4.642.3.29"],
+      "sources" : ["2.16.840.1.113883.4.642.3.29"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-cancer-patient.html" : "Cancer Patient Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/med-admin-perform-function",
+      "version" : "4.0.1",
+      "status" : "draft",
+      "name" : "MedicationAdministration Performer Function Codes",
+      "title" : "Medication administration  performer  function  codes",
+      "description" : "MedicationAdministration Performer Function Codes",
+      "systems" : [
+        "http://terminology.hl7.org/CodeSystem/med-admin-perform-function"
+      ],
+      "oids" : ["2.16.840.1.113883.4.642.3.349"],
+      "sources" : ["2.16.840.1.113883.4.642.3.349"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-medication-administration.html" : "Medication Administration Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/medication-admin-category",
+      "version" : "4.0.1",
+      "status" : "draft",
+      "name" : "MedicationAdministration Category Codes",
+      "title" : "Medication administration  category  codes",
+      "description" : "MedicationAdministration Category Codes",
+      "systems" : [
+        "http://terminology.hl7.org/CodeSystem/medication-admin-category"
+      ],
+      "oids" : ["2.16.840.1.113883.4.642.3.347"],
+      "sources" : ["2.16.840.1.113883.4.642.3.347"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-medication-administration.html" : "Medication Administration Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/medication-admin-status",
+      "version" : "4.0.1",
+      "status" : "draft",
+      "name" : "MedicationAdministration Status Codes",
+      "title" : "Medication administration  status  codes",
+      "description" : "MedicationAdministration Status Codes",
+      "systems" : [
+        "http://terminology.hl7.org/CodeSystem/medication-admin-status"
+      ],
+      "oids" : ["2.16.840.1.113883.4.642.3.340"],
+      "sources" : ["2.16.840.1.113883.4.642.3.340"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-medication-administration.html" : "Medication Administration Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/name-use",
+      "version" : "4.0.1",
+      "status" : "active",
+      "name" : "NameUse",
+      "title" : "NameUse",
+      "description" : "The use of a human name.",
+      "systems" : ["http://hl7.org/fhir/name-use"],
+      "oids" : ["2.16.840.1.113883.4.642.3.65"],
+      "sources" : ["2.16.840.1.113883.4.642.3.65"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-cancer-patient.html" : "Cancer Patient Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/observation-category",
+      "version" : "4.0.1",
+      "status" : "draft",
+      "name" : "ObservationCategoryCodes",
+      "title" : "Observation Category Codes",
+      "description" : "Observation Category codes.",
+      "systems" : ["http://terminology.hl7.org/CodeSystem/observation-category"],
+      "oids" : ["2.16.840.1.113883.4.642.3.403"],
+      "sources" : ["2.16.840.1.113883.4.642.3.403"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-tnm-grade-category.html" : "TNM Grade Category",
+      "StructureDefinition-onconova-comorbidities.html" : "Comorbidities Profile",
+      "StructureDefinition-onconova-tnm-residual-tumor-category.html" : "TNM Residual Tumor Category",
+      "StructureDefinition-onconova-serous-tumor-marker-level-category.html" : "Serum Tumor Marker Level Category",
+      "StructureDefinition-onconova-cancer-stage.html" : "Cancer Stage",
+      "StructureDefinition-onconova-tumor-marker.html" : "Tumor Marker Profile",
+      "StructureDefinition-onconova-tumor-neoantigen-burden.html" : "Tumor Neoantigen Burden Profile",
+      "StructureDefinition-onconova-cancer-risk-assessment.html" : "Cancer Risk Assessment Profile",
+      "StructureDefinition-onconova-ecog-performance-status.html" : "ECOG Performance Status Profile",
+      "StructureDefinition-onconova-tnm-distant-metastases-category.html" : "TNM Distant Metastases Category",
+      "StructureDefinition-onconova-homologous-recombination-deficiency.html" : "Homologous Recombination Deficiency Profile",
+      "StructureDefinition-onconova-genomic-variant.html" : "Genomic Variant Profile",
+      "StructureDefinition-onconova-imaging-disease-status.html" : "Imaging Disease Status Profile",
+      "StructureDefinition-onconova-tnm-primary-tumor-category.html" : "TNM Primary Tumor Category",
+      "StructureDefinition-onconova-tnm-regional-nodes-category.html" : "TNM Regional Nodes Category",
+      "StructureDefinition-onconova-aneuploid-score.html" : "Aneuploid Score Profile",
+      "StructureDefinition-onconova-tnm-lymphatic-invasion-category.html" : "TNM Lymphatic Invasion Category",
+      "StructureDefinition-onconova-tumor-mutational-burden.html" : "Tumor Mutational Burden Profile",
+      "StructureDefinition-onconova-venous-invasion-category.html" : "Venous Invasion Category",
+      "StructureDefinition-onconova-tnm-perineural-invasion-category.html" : "TNM Perineural Invasion Category",
+      "StructureDefinition-onconova-Karnofsky-performance-status.html" : "Karnofsky Performance Status Profile",
+      "StructureDefinition-onconova-microsatellite-instability.html" : "Microsatellite Instability Profile",
+      "StructureDefinition-onconova-lifestyle.html" : "Lifestyle Profile",
+      "StructureDefinition-onconova-tnm-stage-group.html" : "TNM Stage Group",
+      "StructureDefinition-onconova-loss-of-heterozygosity.html" : "Loss of Heterozygosity Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/observation-codes",
+      "version" : "4.0.1",
+      "status" : "draft",
+      "name" : "LOINCCodes",
+      "title" : "LOINC Codes",
+      "description" : "This value set includes all LOINC codes",
+      "systems" : ["http://loinc.org"],
+      "oids" : ["2.16.840.1.113883.4.642.3.396"],
+      "sources" : ["2.16.840.1.113883.4.642.3.396"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-tnm-lymphatic-invasion-category.html" : "TNM Lymphatic Invasion Category",
+      "StructureDefinition-onconova-tumor-mutational-burden.html" : "Tumor Mutational Burden Profile",
+      "StructureDefinition-onconova-venous-invasion-category.html" : "Venous Invasion Category",
+      "StructureDefinition-onconova-tnm-grade-category.html" : "TNM Grade Category",
+      "StructureDefinition-onconova-tnm-perineural-invasion-category.html" : "TNM Perineural Invasion Category",
+      "StructureDefinition-onconova-comorbidities.html" : "Comorbidities Profile",
+      "StructureDefinition-onconova-tnm-residual-tumor-category.html" : "TNM Residual Tumor Category",
+      "StructureDefinition-onconova-serous-tumor-marker-level-category.html" : "Serum Tumor Marker Level Category",
+      "StructureDefinition-onconova-Karnofsky-performance-status.html" : "Karnofsky Performance Status Profile",
+      "StructureDefinition-onconova-tumor-marker.html" : "Tumor Marker Profile",
+      "StructureDefinition-onconova-microsatellite-instability.html" : "Microsatellite Instability Profile",
+      "StructureDefinition-onconova-lifestyle.html" : "Lifestyle Profile",
+      "StructureDefinition-onconova-tumor-neoantigen-burden.html" : "Tumor Neoantigen Burden Profile",
+      "StructureDefinition-onconova-cancer-risk-assessment.html" : "Cancer Risk Assessment Profile",
+      "StructureDefinition-onconova-ecog-performance-status.html" : "ECOG Performance Status Profile",
+      "StructureDefinition-onconova-tnm-distant-metastases-category.html" : "TNM Distant Metastases Category",
+      "StructureDefinition-onconova-homologous-recombination-deficiency.html" : "Homologous Recombination Deficiency Profile",
+      "StructureDefinition-onconova-genomic-variant.html" : "Genomic Variant Profile",
+      "StructureDefinition-onconova-imaging-disease-status.html" : "Imaging Disease Status Profile",
+      "StructureDefinition-onconova-loss-of-heterozygosity.html" : "Loss of Heterozygosity Profile",
+      "StructureDefinition-onconova-tnm-primary-tumor-category.html" : "TNM Primary Tumor Category",
+      "StructureDefinition-onconova-tnm-regional-nodes-category.html" : "TNM Regional Nodes Category",
+      "StructureDefinition-onconova-aneuploid-score.html" : "Aneuploid Score Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/observation-interpretation",
+      "version" : "4.0.1",
+      "status" : "active",
+      "name" : "ObservationInterpretationCodes",
+      "title" : "Observation Interpretation Codes",
+      "description" : "A categorical assessment, providing a rough qualitative interpretation of the observation value,    such as “normal”/ “abnormal”,”low” / “high”, “better” / “worse”, “susceptible” / “resistant”, “expected”/ “not expected”.    The value set is intended to be for ANY use where coded representation of an interpretation is needed.   \r\n   \r\n   Notes:\r\n   \r\n   This is being communicated in v2.x in OBX-8 (Observation Interpretation), in v3 in ObservationInterpretation (CWE) in R1 (Representative Realm) and in FHIR in    Observation.interpretation. Historically these values come from the laboratory domain, and these codes are extensively    used. The value set binding is extensible, so codes outside the value set that are needed for interpretation concepts    (i.e. particular meanings) that are not included in the value set can be used, and these new codes may also be added to    the value set and published in a future version.",
+      "systems" : [
+        "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+      ],
+      "oids" : ["2.16.840.1.113883.4.642.3.399"],
+      "sources" : ["2.16.840.1.113883.4.642.3.399"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-tnm-grade-category.html" : "TNM Grade Category",
+      "StructureDefinition-onconova-comorbidities.html" : "Comorbidities Profile",
+      "StructureDefinition-onconova-tnm-residual-tumor-category.html" : "TNM Residual Tumor Category",
+      "StructureDefinition-onconova-serous-tumor-marker-level-category.html" : "Serum Tumor Marker Level Category",
+      "StructureDefinition-onconova-cancer-stage.html" : "Cancer Stage",
+      "StructureDefinition-onconova-tumor-marker.html" : "Tumor Marker Profile",
+      "StructureDefinition-onconova-tumor-neoantigen-burden.html" : "Tumor Neoantigen Burden Profile",
+      "StructureDefinition-onconova-cancer-risk-assessment.html" : "Cancer Risk Assessment Profile",
+      "StructureDefinition-onconova-ecog-performance-status.html" : "ECOG Performance Status Profile",
+      "StructureDefinition-onconova-tnm-distant-metastases-category.html" : "TNM Distant Metastases Category",
+      "StructureDefinition-onconova-homologous-recombination-deficiency.html" : "Homologous Recombination Deficiency Profile",
+      "StructureDefinition-onconova-genomic-variant.html" : "Genomic Variant Profile",
+      "StructureDefinition-onconova-imaging-disease-status.html" : "Imaging Disease Status Profile",
+      "StructureDefinition-onconova-tnm-primary-tumor-category.html" : "TNM Primary Tumor Category",
+      "StructureDefinition-onconova-tnm-regional-nodes-category.html" : "TNM Regional Nodes Category",
+      "StructureDefinition-onconova-aneuploid-score.html" : "Aneuploid Score Profile",
+      "StructureDefinition-onconova-tnm-lymphatic-invasion-category.html" : "TNM Lymphatic Invasion Category",
+      "StructureDefinition-onconova-tumor-mutational-burden.html" : "Tumor Mutational Burden Profile",
+      "StructureDefinition-onconova-venous-invasion-category.html" : "Venous Invasion Category",
+      "StructureDefinition-onconova-tnm-perineural-invasion-category.html" : "TNM Perineural Invasion Category",
+      "StructureDefinition-onconova-Karnofsky-performance-status.html" : "Karnofsky Performance Status Profile",
+      "StructureDefinition-onconova-microsatellite-instability.html" : "Microsatellite Instability Profile",
+      "StructureDefinition-onconova-lifestyle.html" : "Lifestyle Profile",
+      "StructureDefinition-onconova-tnm-stage-group.html" : "TNM Stage Group",
+      "StructureDefinition-onconova-loss-of-heterozygosity.html" : "Loss of Heterozygosity Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/observation-methods",
+      "version" : "4.0.1",
+      "status" : "draft",
+      "name" : "ObservationMethods",
+      "title" : "Observation Methods",
+      "description" : "Observation Method codes from [SNOMED CT](http://snomed.info/sct) where concept is-a 272394005 (Technique (qualifier value)) or is-a 129264002 (Action (qualifier value)) or is-a 386053000 (Evaluation procedure(procedure))",
+      "systems" : ["http://snomed.info/sct"],
+      "oids" : ["2.16.840.1.113883.4.642.3.395"],
+      "sources" : ["2.16.840.1.113883.4.642.3.395"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-tumor-mutational-burden.html" : "Tumor Mutational Burden Profile",
+      "StructureDefinition-onconova-tumor-marker.html" : "Tumor Marker Profile",
+      "StructureDefinition-onconova-microsatellite-instability.html" : "Microsatellite Instability Profile",
+      "StructureDefinition-onconova-lifestyle.html" : "Lifestyle Profile",
+      "StructureDefinition-onconova-tumor-neoantigen-burden.html" : "Tumor Neoantigen Burden Profile",
+      "StructureDefinition-onconova-cancer-risk-assessment.html" : "Cancer Risk Assessment Profile",
+      "StructureDefinition-onconova-ecog-performance-status.html" : "ECOG Performance Status Profile",
+      "StructureDefinition-onconova-homologous-recombination-deficiency.html" : "Homologous Recombination Deficiency Profile",
+      "StructureDefinition-onconova-loss-of-heterozygosity.html" : "Loss of Heterozygosity Profile",
+      "StructureDefinition-onconova-Karnofsky-performance-status.html" : "Karnofsky Performance Status Profile",
+      "StructureDefinition-onconova-aneuploid-score.html" : "Aneuploid Score Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/observation-status",
+      "version" : "4.0.1",
+      "status" : "active",
+      "name" : "ObservationStatus",
+      "title" : "ObservationStatus",
+      "description" : "Codes providing the status of an observation.",
+      "systems" : ["http://hl7.org/fhir/observation-status"],
+      "oids" : ["2.16.840.1.113883.4.642.3.400"],
+      "sources" : ["2.16.840.1.113883.4.642.3.400"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-tnm-grade-category.html" : "TNM Grade Category",
+      "StructureDefinition-onconova-comorbidities.html" : "Comorbidities Profile",
+      "StructureDefinition-onconova-tnm-residual-tumor-category.html" : "TNM Residual Tumor Category",
+      "StructureDefinition-onconova-serous-tumor-marker-level-category.html" : "Serum Tumor Marker Level Category",
+      "StructureDefinition-onconova-cancer-stage.html" : "Cancer Stage",
+      "StructureDefinition-onconova-tumor-marker.html" : "Tumor Marker Profile",
+      "StructureDefinition-onconova-tumor-neoantigen-burden.html" : "Tumor Neoantigen Burden Profile",
+      "StructureDefinition-onconova-cancer-risk-assessment.html" : "Cancer Risk Assessment Profile",
+      "StructureDefinition-onconova-ecog-performance-status.html" : "ECOG Performance Status Profile",
+      "StructureDefinition-onconova-tnm-distant-metastases-category.html" : "TNM Distant Metastases Category",
+      "StructureDefinition-onconova-homologous-recombination-deficiency.html" : "Homologous Recombination Deficiency Profile",
+      "StructureDefinition-onconova-genomic-variant.html" : "Genomic Variant Profile",
+      "StructureDefinition-onconova-imaging-disease-status.html" : "Imaging Disease Status Profile",
+      "StructureDefinition-onconova-tnm-primary-tumor-category.html" : "TNM Primary Tumor Category",
+      "StructureDefinition-onconova-tnm-regional-nodes-category.html" : "TNM Regional Nodes Category",
+      "StructureDefinition-onconova-aneuploid-score.html" : "Aneuploid Score Profile",
+      "StructureDefinition-onconova-tnm-lymphatic-invasion-category.html" : "TNM Lymphatic Invasion Category",
+      "StructureDefinition-onconova-tumor-mutational-burden.html" : "Tumor Mutational Burden Profile",
+      "StructureDefinition-onconova-venous-invasion-category.html" : "Venous Invasion Category",
+      "StructureDefinition-onconova-tnm-perineural-invasion-category.html" : "TNM Perineural Invasion Category",
+      "StructureDefinition-onconova-Karnofsky-performance-status.html" : "Karnofsky Performance Status Profile",
+      "StructureDefinition-onconova-microsatellite-instability.html" : "Microsatellite Instability Profile",
+      "StructureDefinition-onconova-lifestyle.html" : "Lifestyle Profile",
+      "StructureDefinition-onconova-tnm-stage-group.html" : "TNM Stage Group",
+      "StructureDefinition-onconova-loss-of-heterozygosity.html" : "Loss of Heterozygosity Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/patient-contactrelationship",
+      "version" : "4.0.1",
+      "status" : "active",
+      "name" : "PatientContactRelationship",
+      "title" : "Patient Contact Relationship ",
+      "description" : "The nature of the relationship between the patient and the contact person.",
+      "systems" : ["http://terminology.hl7.org/CodeSystem/v2-0131"],
+      "oids" : ["2.16.840.1.113883.4.642.3.1130"],
+      "sources" : ["2.16.840.1.113883.4.642.3.1130"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-cancer-patient.html" : "Cancer Patient Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/performer-role",
+      "version" : "4.0.1",
+      "status" : "draft",
+      "name" : "ProcedurePerformerRoleCodes",
+      "title" : "Procedure Performer Role Codes",
+      "description" : "This example value set defines the set of codes that can be used to indicate a role of a procedure performer.",
+      "systems" : ["http://snomed.info/sct"],
+      "oids" : ["2.16.840.1.113883.4.642.3.433"],
+      "sources" : ["2.16.840.1.113883.4.642.3.433"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-molecular-tumor-board-review.html" : "Molecular Tumor Board Review",
+      "StructureDefinition-onconova-radiotherapy-summary.html" : "Radiotherapy Summary Profile",
+      "StructureDefinition-onconova-tumor-board-review.html" : "Tumor Board Review",
+      "StructureDefinition-onconova-surgical-procedure.html" : "Surgical Procedure Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/procedure-category",
+      "version" : "4.0.1",
+      "status" : "draft",
+      "name" : "ProcedureCategoryCodes(SNOMEDCT)",
+      "title" : "Procedure Category Codes (SNOMED CT)",
+      "description" : "Procedure Category code: A selection of relevant SNOMED CT codes.",
+      "systems" : ["http://snomed.info/sct"],
+      "oids" : ["2.16.840.1.113883.4.642.3.430"],
+      "sources" : ["2.16.840.1.113883.4.642.3.430"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-molecular-tumor-board-review.html" : "Molecular Tumor Board Review",
+      "StructureDefinition-onconova-radiotherapy-summary.html" : "Radiotherapy Summary Profile",
+      "StructureDefinition-onconova-tumor-board-review.html" : "Tumor Board Review",
+      "StructureDefinition-onconova-surgical-procedure.html" : "Surgical Procedure Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/procedure-code",
+      "version" : "4.0.1",
+      "status" : "draft",
+      "name" : "ProcedureCodes(SNOMEDCT)",
+      "title" : "Procedure Codes (SNOMED CT)",
+      "description" : "Procedure Code: All SNOMED CT procedure codes.",
+      "systems" : ["http://snomed.info/sct"],
+      "oids" : ["2.16.840.1.113883.4.642.3.427"],
+      "sources" : ["2.16.840.1.113883.4.642.3.427"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-molecular-tumor-board-review.html" : "Molecular Tumor Board Review",
+      "StructureDefinition-onconova-tumor-board-review.html" : "Tumor Board Review"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/procedure-followup",
+      "version" : "4.0.1",
+      "status" : "draft",
+      "name" : "ProcedureFollowUpCodes(SNOMEDCT)",
+      "title" : "Procedure Follow up Codes (SNOMED CT)",
+      "description" : "Procedure follow up codes: A selection of SNOMED CT codes relevant to procedure follow up.",
+      "systems" : ["http://snomed.info/sct"],
+      "oids" : ["2.16.840.1.113883.4.642.3.429"],
+      "sources" : ["2.16.840.1.113883.4.642.3.429"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-radiotherapy-summary.html" : "Radiotherapy Summary Profile",
+      "StructureDefinition-onconova-surgical-procedure.html" : "Surgical Procedure Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/procedure-not-performed-reason",
+      "version" : "4.0.1",
+      "status" : "active",
+      "name" : "ProcedureNotPerformedReason(SNOMED-CT)",
+      "title" : "Procedure Not Performed Reason (SNOMED-CT)",
+      "description" : "Situation codes describing the reason that a procedure, which might otherwise be expected, was not performed, or a procedure that was started and was not completed. Consists of SNOMED CT codes, children of procedure contraindicated (183932001), procedure discontinued (416406003), procedure not done (416237000), procedure not indicated (428119001), procedure not offered (416064006), procedure not wanted (416432009), procedure refused (183944003), and procedure stopped (394908001).",
+      "systems" : ["http://snomed.info/sct"],
+      "oids" : ["2.16.840.1.113883.4.642.3.431"],
+      "sources" : ["2.16.840.1.113883.4.642.3.431"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-molecular-tumor-board-review.html" : "Molecular Tumor Board Review",
+      "StructureDefinition-onconova-tumor-board-review.html" : "Tumor Board Review",
+      "StructureDefinition-onconova-surgical-procedure.html" : "Surgical Procedure Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/procedure-outcome",
+      "version" : "4.0.1",
+      "status" : "draft",
+      "name" : "ProcedureOutcomeCodes(SNOMEDCT)",
+      "title" : "Procedure Outcome Codes (SNOMED CT)",
+      "description" : "Procedure Outcome code: A selection of relevant SNOMED CT codes.",
+      "systems" : ["http://snomed.info/sct"],
+      "oids" : ["2.16.840.1.113883.4.642.3.428"],
+      "sources" : ["2.16.840.1.113883.4.642.3.428"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-molecular-tumor-board-review.html" : "Molecular Tumor Board Review",
+      "StructureDefinition-onconova-radiotherapy-summary.html" : "Radiotherapy Summary Profile",
+      "StructureDefinition-onconova-tumor-board-review.html" : "Tumor Board Review",
+      "StructureDefinition-onconova-surgical-procedure.html" : "Surgical Procedure Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/procedure-reason",
+      "version" : "4.0.1",
+      "status" : "draft",
+      "name" : "ProcedureReasonCodes",
+      "title" : "Procedure Reason Codes",
+      "description" : "This example value set defines the set of codes that can be used to indicate a reason for a procedure.",
+      "systems" : ["http://snomed.info/sct"],
+      "oids" : ["2.16.840.1.113883.4.642.3.432"],
+      "sources" : ["2.16.840.1.113883.4.642.3.432"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-molecular-tumor-board-review.html" : "Molecular Tumor Board Review",
+      "StructureDefinition-onconova-tumor-board-review.html" : "Tumor Board Review"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/quantity-comparator",
+      "version" : "4.0.1",
+      "status" : "active",
+      "name" : "QuantityComparator",
+      "title" : "QuantityComparator",
+      "description" : "How the Quantity should be understood and represented.",
+      "systems" : ["http://hl7.org/fhir/quantity-comparator"],
+      "oids" : ["2.16.840.1.113883.4.642.3.59"],
+      "sources" : ["2.16.840.1.113883.4.642.3.59"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-tumor-mutational-burden.html" : "Tumor Mutational Burden Profile",
+      "StructureDefinition-onconova-lifestyle.html" : "Lifestyle Profile",
+      "StructureDefinition-onconova-tumor-neoantigen-burden.html" : "Tumor Neoantigen Burden Profile",
+      "StructureDefinition-onconova-homologous-recombination-deficiency.html" : "Homologous Recombination Deficiency Profile",
+      "StructureDefinition-onconova-genomic-variant.html" : "Genomic Variant Profile",
+      "StructureDefinition-onconova-loss-of-heterozygosity.html" : "Loss of Heterozygosity Profile",
+      "StructureDefinition-onconova-aneuploid-score.html" : "Aneuploid Score Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/referencerange-appliesto",
+      "version" : "4.0.1",
+      "status" : "draft",
+      "name" : "ObservationReferenceRangeAppliesToCodes",
+      "title" : "Observation Reference Range Applies To Codes",
+      "description" : "This value set defines a set of codes that can be used to indicate the particular target population the reference range applies to.",
+      "systems" : [
+        "http://terminology.hl7.org/CodeSystem/v3-Race",
+        "http://snomed.info/sct"
+      ],
+      "oids" : ["2.16.840.1.113883.4.642.3.407"],
+      "sources" : ["2.16.840.1.113883.4.642.3.407"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-tnm-grade-category.html" : "TNM Grade Category",
+      "StructureDefinition-onconova-comorbidities.html" : "Comorbidities Profile",
+      "StructureDefinition-onconova-tnm-residual-tumor-category.html" : "TNM Residual Tumor Category",
+      "StructureDefinition-onconova-serous-tumor-marker-level-category.html" : "Serum Tumor Marker Level Category",
+      "StructureDefinition-onconova-cancer-stage.html" : "Cancer Stage",
+      "StructureDefinition-onconova-tumor-marker.html" : "Tumor Marker Profile",
+      "StructureDefinition-onconova-tumor-neoantigen-burden.html" : "Tumor Neoantigen Burden Profile",
+      "StructureDefinition-onconova-cancer-risk-assessment.html" : "Cancer Risk Assessment Profile",
+      "StructureDefinition-onconova-ecog-performance-status.html" : "ECOG Performance Status Profile",
+      "StructureDefinition-onconova-tnm-distant-metastases-category.html" : "TNM Distant Metastases Category",
+      "StructureDefinition-onconova-homologous-recombination-deficiency.html" : "Homologous Recombination Deficiency Profile",
+      "StructureDefinition-onconova-genomic-variant.html" : "Genomic Variant Profile",
+      "StructureDefinition-onconova-imaging-disease-status.html" : "Imaging Disease Status Profile",
+      "StructureDefinition-onconova-tnm-primary-tumor-category.html" : "TNM Primary Tumor Category",
+      "StructureDefinition-onconova-tnm-regional-nodes-category.html" : "TNM Regional Nodes Category",
+      "StructureDefinition-onconova-aneuploid-score.html" : "Aneuploid Score Profile",
+      "StructureDefinition-onconova-tnm-lymphatic-invasion-category.html" : "TNM Lymphatic Invasion Category",
+      "StructureDefinition-onconova-tumor-mutational-burden.html" : "Tumor Mutational Burden Profile",
+      "StructureDefinition-onconova-venous-invasion-category.html" : "Venous Invasion Category",
+      "StructureDefinition-onconova-tnm-perineural-invasion-category.html" : "TNM Perineural Invasion Category",
+      "StructureDefinition-onconova-Karnofsky-performance-status.html" : "Karnofsky Performance Status Profile",
+      "StructureDefinition-onconova-microsatellite-instability.html" : "Microsatellite Instability Profile",
+      "StructureDefinition-onconova-lifestyle.html" : "Lifestyle Profile",
+      "StructureDefinition-onconova-tnm-stage-group.html" : "TNM Stage Group",
+      "StructureDefinition-onconova-loss-of-heterozygosity.html" : "Loss of Heterozygosity Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/referencerange-meaning",
+      "version" : "4.0.1",
+      "status" : "draft",
+      "name" : "ObservationReferenceRangeMeaningCodes",
+      "title" : "Observation Reference Range Meaning Codes",
+      "description" : "This value set defines a set of codes that can be used to indicate the meaning/use of a reference range for a particular target population.",
+      "systems" : [
+        "http://terminology.hl7.org/CodeSystem/referencerange-meaning"
+      ],
+      "oids" : ["2.16.840.1.113883.4.642.3.397"],
+      "sources" : ["2.16.840.1.113883.4.642.3.397"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-tnm-grade-category.html" : "TNM Grade Category",
+      "StructureDefinition-onconova-comorbidities.html" : "Comorbidities Profile",
+      "StructureDefinition-onconova-tnm-residual-tumor-category.html" : "TNM Residual Tumor Category",
+      "StructureDefinition-onconova-serous-tumor-marker-level-category.html" : "Serum Tumor Marker Level Category",
+      "StructureDefinition-onconova-cancer-stage.html" : "Cancer Stage",
+      "StructureDefinition-onconova-tumor-marker.html" : "Tumor Marker Profile",
+      "StructureDefinition-onconova-tumor-neoantigen-burden.html" : "Tumor Neoantigen Burden Profile",
+      "StructureDefinition-onconova-cancer-risk-assessment.html" : "Cancer Risk Assessment Profile",
+      "StructureDefinition-onconova-ecog-performance-status.html" : "ECOG Performance Status Profile",
+      "StructureDefinition-onconova-tnm-distant-metastases-category.html" : "TNM Distant Metastases Category",
+      "StructureDefinition-onconova-homologous-recombination-deficiency.html" : "Homologous Recombination Deficiency Profile",
+      "StructureDefinition-onconova-genomic-variant.html" : "Genomic Variant Profile",
+      "StructureDefinition-onconova-imaging-disease-status.html" : "Imaging Disease Status Profile",
+      "StructureDefinition-onconova-tnm-primary-tumor-category.html" : "TNM Primary Tumor Category",
+      "StructureDefinition-onconova-tnm-regional-nodes-category.html" : "TNM Regional Nodes Category",
+      "StructureDefinition-onconova-aneuploid-score.html" : "Aneuploid Score Profile",
+      "StructureDefinition-onconova-tnm-lymphatic-invasion-category.html" : "TNM Lymphatic Invasion Category",
+      "StructureDefinition-onconova-tumor-mutational-burden.html" : "Tumor Mutational Burden Profile",
+      "StructureDefinition-onconova-venous-invasion-category.html" : "Venous Invasion Category",
+      "StructureDefinition-onconova-tnm-perineural-invasion-category.html" : "TNM Perineural Invasion Category",
+      "StructureDefinition-onconova-Karnofsky-performance-status.html" : "Karnofsky Performance Status Profile",
+      "StructureDefinition-onconova-microsatellite-instability.html" : "Microsatellite Instability Profile",
+      "StructureDefinition-onconova-lifestyle.html" : "Lifestyle Profile",
+      "StructureDefinition-onconova-tnm-stage-group.html" : "TNM Stage Group",
+      "StructureDefinition-onconova-loss-of-heterozygosity.html" : "Loss of Heterozygosity Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/route-codes",
+      "version" : "4.0.1",
+      "status" : "draft",
+      "name" : "SNOMEDCTRouteCodes",
+      "title" : "SNOMED CT Route Codes",
+      "description" : "This value set includes all Route codes from SNOMED CT - provided as an exemplar.",
+      "systems" : ["http://snomed.info/sct"],
+      "oids" : ["2.16.840.1.113883.4.642.3.98"],
+      "sources" : ["2.16.840.1.113883.4.642.3.98"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-medication-administration.html" : "Medication Administration Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/security-labels",
+      "version" : "4.0.1",
+      "status" : "active",
+      "name" : "All Security Labels",
+      "title" : "SecurityLabels",
+      "description" : "A single value set for all security labels defined by FHIR.",
+      "systems" : [
+        "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+        "http://terminology.hl7.org/CodeSystem/v3-ActUSPrivacyLaw",
+        "http://terminology.hl7.org/CodeSystem/v3-ObservationValue",
+        "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "http://terminology.hl7.org/CodeSystem/v3-Confidentiality"
+      ],
+      "oids" : ["2.16.840.1.113883.4.642.3.47"],
+      "sources" : ["2.16.840.1.113883.4.642.3.47"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-cancer-patient.html" : "Cancer Patient Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/units-of-time",
+      "version" : "4.0.1",
+      "status" : "active",
+      "name" : "UnitsOfTime",
+      "title" : "UnitsOfTime",
+      "description" : "A unit of time (units from UCUM).",
+      "systems" : ["http://unitsofmeasure.org"],
+      "oids" : ["2.16.840.1.113883.4.642.3.77"],
+      "sources" : ["2.16.840.1.113883.4.642.3.77"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-lifestyle.html" : "Lifestyle Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/us/core/ValueSet/simple-language",
+      "version" : "6.1.0",
+      "status" : "active",
+      "name" : "LanguageCodesWithLanguageAndOptionallyARegionModifier",
+      "title" : "Language codes with language and optionally a region modifier",
+      "description" : "This value set includes codes from [BCP-47](http://tools.ietf.org/html/bcp47). This value set matches the ONC 2015 Edition LanguageCommunication data element value set within C-CDA to use a 2 character language code if one exists,   and a 3 character code if a 2 character code does not exist. It points back to [RFC 5646](https://tools.ietf.org/html/rfc5646), however only the language codes are required, all other elements are optional.",
+      "systems" : ["urn:ietf:bcp:47"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-cancer-patient.html" : "Cancer Patient Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/us/core/ValueSet/us-core-clinical-result-observation-category",
+      "version" : "6.1.0",
+      "status" : "active",
+      "name" : "USCoreClinicalResultObservationCategory",
+      "title" : "US Core Clinical Result Observation Category",
+      "description" : "Used to classify the context of clinical result observations.",
+      "systems" : ["http://terminology.hl7.org/CodeSystem/observation-category"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-tumor-marker.html" : "Tumor Marker Profile",
+      "StructureDefinition-onconova-ecog-performance-status.html" : "ECOG Performance Status Profile",
+      "StructureDefinition-onconova-Karnofsky-performance-status.html" : "Karnofsky Performance Status Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/us/core/ValueSet/us-core-problem-or-health-concern",
+      "version" : "6.1.0",
+      "status" : "active",
+      "name" : "USCoreProblemOrHealthConcern",
+      "title" : "US Core Problem or Health Concern",
+      "description" : "Code set for category codes for *US Core Condition Problems and Health Concerns Profile* consisting of the concepts \"problem\" and \"health-concern\".",
+      "systems" : [
+        "http://hl7.org/fhir/us/core/CodeSystem/condition-category",
+        "http://terminology.hl7.org/CodeSystem/condition-category"
+      ],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-secondary-cancer-condition.html" : "Secondary Cancer Condition Profile",
+      "StructureDefinition-onconova-primary-cancer-condition.html" : "Primary Cancer Condition Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/us/core/ValueSet/us-core-procedure-code",
+      "version" : "6.1.0",
+      "status" : "active",
+      "name" : "USCoreProcedureCodes",
+      "title" : "US Core Procedure Codes",
+      "description" : "Concepts from CPT, SNOMED CT, HCPCS Level II Alphanumeric Codes, ICD-10-PCS,CDT and LOINC code systems that can be used to indicate the type of procedure performed.",
+      "systems" : [
+        "http://www.ada.org/cdt",
+        "http://www.ama-assn.org/go/cpt",
+        "http://loinc.org",
+        "https://www.cms.gov/Medicare/Coding/HCPCSReleaseCodeSets",
+        "http://www.cms.gov/Medicare/Coding/ICD10",
+        "http://snomed.info/sct"
+      ],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-radiotherapy-summary.html" : "Radiotherapy Summary Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/us/core/ValueSet/us-core-screening-assessment-condition-category",
+      "version" : "6.1.0",
+      "status" : "active",
+      "name" : "USCoreScreeningAssessmentConditionCategory",
+      "title" : "US Core Screening Assessment Condition Category",
+      "description" : "Category codes used in the US Core Condition Screening Assessment Profile to help identify the type of USCDI Health Status/Assessment data class being reported.",
+      "systems" : ["http://hl7.org/fhir/us/core/CodeSystem/us-core-category"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-secondary-cancer-condition.html" : "Secondary Cancer Condition Profile",
+      "StructureDefinition-onconova-primary-cancer-condition.html" : "Primary Cancer Condition Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/us/core/ValueSet/us-core-simple-observation-category",
+      "version" : "6.1.0",
+      "status" : "active",
+      "name" : "USCoreSimpleObservationCategory",
+      "title" : "US Core Simple Observation Category",
+      "description" : "Used to classify the context of a survey, screening or assessment for simple observations and may be used to assist with indexing and searching for appropriate instances.",
+      "systems" : [
+        "http://hl7.org/fhir/us/core/CodeSystem/us-core-category",
+        "http://terminology.hl7.org/CodeSystem/observation-category"
+      ],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-tnm-lymphatic-invasion-category.html" : "TNM Lymphatic Invasion Category",
+      "StructureDefinition-onconova-venous-invasion-category.html" : "Venous Invasion Category",
+      "StructureDefinition-onconova-tnm-grade-category.html" : "TNM Grade Category",
+      "StructureDefinition-onconova-tnm-perineural-invasion-category.html" : "TNM Perineural Invasion Category",
+      "StructureDefinition-onconova-comorbidities.html" : "Comorbidities Profile",
+      "StructureDefinition-onconova-tnm-residual-tumor-category.html" : "TNM Residual Tumor Category",
+      "StructureDefinition-onconova-serous-tumor-marker-level-category.html" : "Serum Tumor Marker Level Category",
+      "StructureDefinition-onconova-cancer-stage.html" : "Cancer Stage",
+      "StructureDefinition-onconova-lifestyle.html" : "Lifestyle Profile",
+      "StructureDefinition-onconova-tnm-stage-group.html" : "TNM Stage Group",
+      "StructureDefinition-onconova-cancer-risk-assessment.html" : "Cancer Risk Assessment Profile",
+      "StructureDefinition-onconova-tnm-distant-metastases-category.html" : "TNM Distant Metastases Category",
+      "StructureDefinition-onconova-tnm-primary-tumor-category.html" : "TNM Primary Tumor Category",
+      "StructureDefinition-onconova-tnm-regional-nodes-category.html" : "TNM Regional Nodes Category"
+    },
+    {
+      "url" : "http://hl7.org/fhir/us/core/ValueSet/us-core-usps-state",
+      "version" : "6.1.0",
+      "status" : "active",
+      "name" : "UspsTwoLetterAlphabeticCodes",
+      "title" : "USPS Two Letter Alphabetic Codes",
+      "description" : "This value set defines two letter USPS alphabetic codes.",
+      "systems" : ["https://www.usps.com/"],
+      "oids" : ["2.16.840.1.113883.4.642.3.40"],
+      "sources" : ["2.16.840.1.113883.4.642.3.40"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-cancer-patient.html" : "Cancer Patient Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/us/mcode/ValueSet/mcode-cancer-disease-status-evidence-type-vs",
+      "version" : "4.0.0",
+      "status" : "active",
+      "name" : "CancerDiseaseStatusEvidenceTypeVS",
+      "title" : "Cancer Disease Status Evidence Type Value Set",
+      "description" : "The type of evidence backing up the clinical determination of cancer progression.",
+      "systems" : ["http://snomed.info/sct"],
+      "oids" : ["2.16.840.1.113883.4.642.40.15.48.16"],
+      "sources" : ["2.16.840.1.113883.4.642.40.15.48.16"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-secondary-cancer-condition.html" : "Secondary Cancer Condition Profile",
+      "StructureDefinition-onconova-primary-cancer-condition.html" : "Primary Cancer Condition Profile",
+      "StructureDefinition-onconova-imaging-disease-status.html" : "Imaging Disease Status Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/us/mcode/ValueSet/mcode-cancer-disorder-vs",
+      "version" : "4.0.0",
+      "status" : "active",
+      "name" : "CancerDisorderVS",
+      "title" : "Cancer Disorder Value Set",
+      "description" : "A broad cancer-related value set containing both primary and secondary tumor types, with codes from ICD-10 and SNOMED CT, including both diagnosis and histology/morphology/behavior codes. ICD-O-3 morphology codes may also be used and are considered conformant to the specification. For SNOMED, the value set includes all codes descending from 363346000 'Malignant neoplastic disease (disorder)' and 108369006 'Neoplasm (morphologic abnormality)'.",
+      "systems" : [
+        "http://hl7.org/fhir/sid/icd-10-cm",
+        "http://terminology.hl7.org/CodeSystem/icd-o-3",
+        "http://snomed.info/sct"
+      ],
+      "oids" : ["2.16.840.1.113883.4.642.40.15.48.17"],
+      "sources" : ["2.16.840.1.113883.4.642.40.15.48.17"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-radiotherapy-summary.html" : "Radiotherapy Summary Profile",
+      "StructureDefinition-onconova-surgical-procedure.html" : "Surgical Procedure Profile",
+      "StructureDefinition-onconova-medication-administration.html" : "Medication Administration Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/us/mcode/ValueSet/mcode-cancer-related-surgical-procedure-vs",
+      "version" : "4.0.0",
+      "status" : "active",
+      "name" : "CancerRelatedSurgicalProcedureVS",
+      "title" : "Cancer-Related Surgical Procedure Value Set",
+      "description" : "Includes surgical procedure codes from SNOMED CT, ICD-10-PCS and CPT. The value set may be a superset of cancer surgery codes, but narrowing the set further risks eliminating potentially useful and relevant codes.",
+      "systems" : [
+        "http://www.ama-assn.org/go/cpt",
+        "http://www.cms.gov/Medicare/Coding/ICD10",
+        "http://snomed.info/sct"
+      ],
+      "oids" : ["2.16.840.1.113883.4.642.40.15.48.18"],
+      "sources" : ["2.16.840.1.113883.4.642.40.15.48.18"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-surgical-procedure.html" : "Surgical Procedure Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/us/mcode/ValueSet/mcode-cancer-stage-type-vs",
+      "version" : "4.0.0",
+      "status" : "active",
+      "name" : "CancerStageTypeVS",
+      "title" : "Cancer Stage Type Value Set",
+      "description" : "Codes that identify the kind of stage reported in an Observation, necessary to correctly interpret the value associated with a staging Observation. In terms of the SNOMED CT hierarchy, these codes represent observable entities. If the staging system used to determine the stage is not implicit in this code, the staging system must be separately recorded in Observation.method. More specific staging profiles, if available, should be consulted before determining the correct code.",
+      "systems" : [
+        "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+        "http://snomed.info/sct"
+      ],
+      "oids" : ["2.16.840.1.113883.4.642.40.15.48.19"],
+      "sources" : ["2.16.840.1.113883.4.642.40.15.48.19"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-cancer-stage.html" : "Cancer Stage"
+    },
+    {
+      "url" : "http://hl7.org/fhir/us/mcode/ValueSet/mcode-cancer-stage-value-vs",
+      "version" : "4.0.0",
+      "status" : "active",
+      "name" : "CancerStageValueVS",
+      "title" : "Cancer Stage Value Set",
+      "description" : "A non-exhaustive value set containing codes that result from cancer staging, i.e., the stage or category of the cancer.",
+      "systems" : [
+        "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+        "http://snomed.info/sct"
+      ],
+      "oids" : ["2.16.840.1.113883.4.642.40.15.48.20"],
+      "sources" : ["2.16.840.1.113883.4.642.40.15.48.20"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-cancer-stage.html" : "Cancer Stage"
+    },
+    {
+      "url" : "http://hl7.org/fhir/us/mcode/ValueSet/mcode-cancer-staging-method-vs",
+      "version" : "4.0.0",
+      "status" : "active",
+      "name" : "CancerStagingMethodVS",
+      "title" : "Cancer Staging Method Value Set",
+      "description" : "Staging system or method used for staging cancers. The terms in this value set describe staging systems, not specific stages or descriptors used within those systems.",
+      "systems" : [
+        "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+        "http://snomed.info/sct"
+      ],
+      "oids" : ["2.16.840.1.113883.4.642.40.15.48.21"],
+      "sources" : ["2.16.840.1.113883.4.642.40.15.48.21"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-cancer-stage.html" : "Cancer Stage",
+      "StructureDefinition-onconova-primary-cancer-condition.html" : "Primary Cancer Condition Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/us/mcode/ValueSet/mcode-cancer-staging-prognostic-factor-type-vs",
+      "version" : "4.0.0",
+      "status" : "active",
+      "name" : "CancerStagingPrognosticFactorTypeVS",
+      "title" : "Cancer Staging Prognostic Factors Types",
+      "description" : "Types of prognostic factors used to determine cancer stage",
+      "systems" : ["http://snomed.info/sct"],
+      "oids" : ["2.16.840.1.113883.4.642.40.15.48.99"],
+      "sources" : ["2.16.840.1.113883.4.642.40.15.48.99"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-cancer-stage.html" : "Cancer Stage",
+      "StructureDefinition-onconova-tnm-stage-group.html" : "TNM Stage Group"
+    },
+    {
+      "url" : "http://hl7.org/fhir/us/mcode/ValueSet/mcode-cancer-staging-prognostic-factor-value-vs",
+      "version" : "4.0.0",
+      "status" : "active",
+      "name" : "CancerStagingPrognosticFactorValueVS",
+      "title" : "Cancer Staging Prognostic Factors Value",
+      "description" : "Values of prognostic factors used to determine cancer stage",
+      "systems" : ["http://snomed.info/sct"],
+      "oids" : ["2.16.840.1.113883.4.642.40.15.48.100"],
+      "sources" : ["2.16.840.1.113883.4.642.40.15.48.100"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-cancer-stage.html" : "Cancer Stage",
+      "StructureDefinition-onconova-tnm-stage-group.html" : "TNM Stage Group"
+    },
+    {
+      "url" : "http://hl7.org/fhir/us/mcode/ValueSet/mcode-condition-status-trend-vs",
+      "version" : "4.0.0",
+      "status" : "active",
+      "name" : "ConditionStatusTrendVS",
+      "title" : "Condition Status Trend Value Set",
+      "description" : "How patient's given disease, condition, or ability is trending.",
+      "systems" : ["http://snomed.info/sct"],
+      "oids" : ["2.16.840.1.113883.4.642.40.15.48.26"],
+      "sources" : ["2.16.840.1.113883.4.642.40.15.48.26"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-imaging-disease-status.html" : "Imaging Disease Status Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/us/mcode/ValueSet/mcode-primary-cancer-disorder-vs",
+      "version" : "4.0.0",
+      "status" : "active",
+      "name" : "PrimaryCancerDisorderVS",
+      "title" : "Primary Cancer Disorder Value Set",
+      "description" : "Types of primary malignant neoplastic disease, coded in SNOMED CT or ICD-10-CM.",
+      "systems" : ["http://hl7.org/fhir/sid/icd-10-cm", "http://snomed.info/sct"],
+      "oids" : ["2.16.840.1.113883.4.642.40.15.48.52"],
+      "sources" : ["2.16.840.1.113883.4.642.40.15.48.52"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-primary-cancer-condition.html" : "Primary Cancer Condition Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/us/mcode/ValueSet/mcode-procedure-intent-vs",
+      "version" : "4.0.0",
+      "status" : "active",
+      "name" : "ProcedureIntentVS",
+      "title" : "Procedure Intent Value Set",
+      "description" : "The purpose of a procedure.",
+      "systems" : ["http://snomed.info/sct"],
+      "oids" : ["2.16.840.1.113883.4.642.40.15.48.54"],
+      "sources" : ["2.16.840.1.113883.4.642.40.15.48.54"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-ext-therapy-line-intent.html" : "Therapy Line Intent"
+    },
+    {
+      "url" : "http://hl7.org/fhir/us/mcode/ValueSet/mcode-radiotherapy-treatment-location-vs",
+      "version" : "4.0.0",
+      "status" : "active",
+      "name" : "RadiotherapyTreatmentLocationVS",
+      "title" : "Radiotherapy Treatment Location Value Set",
+      "description" : "Codes describing the body locations where radiotherapy treatments can be directed. Based on TG263.",
+      "systems" : ["http://snomed.info/sct"],
+      "oids" : ["2.16.840.1.113883.4.642.40.15.48.58"],
+      "sources" : ["2.16.840.1.113883.4.642.40.15.48.58"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-radiotherapy-summary.html" : "Radiotherapy Summary Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/us/mcode/ValueSet/mcode-secondary-cancer-disorder-vs",
+      "version" : "4.0.0",
+      "status" : "active",
+      "name" : "SecondaryCancerDisorderVS",
+      "title" : "Secondary Cancer Disorder Value Set",
+      "description" : "Types of secondary malignant neoplastic disease, coded in SNOMED CT or ICD-10-CM.",
+      "systems" : ["http://hl7.org/fhir/sid/icd-10-cm", "http://snomed.info/sct"],
+      "oids" : ["2.16.840.1.113883.4.642.40.15.48.66"],
+      "sources" : ["2.16.840.1.113883.4.642.40.15.48.66"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-secondary-cancer-condition.html" : "Secondary Cancer Condition Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/us/mcode/ValueSet/mcode-tnm-distant-metastases-category-vs",
+      "version" : "4.0.0",
+      "status" : "active",
+      "name" : "TNMDistantMetastasesCategoryVS",
+      "title" : "TNM Distant Metastases Category Value Set",
+      "description" : "Result values for AJCC M category. This value set contains SNOMED-CT equivalents of AJCC codes for the M category, according to TNM staging rules.",
+      "systems" : ["http://snomed.info/sct"],
+      "oids" : ["2.16.840.1.113883.4.642.40.15.48.75"],
+      "sources" : ["2.16.840.1.113883.4.642.40.15.48.75"],
+      "uses" : {
+      },
+      "ValueSet-onconova-vs-tnm-distant-metastasis-categories.html" : "TNM Distant Metastasis Categories Value Set"
+    },
+    {
+      "url" : "http://hl7.org/fhir/us/mcode/ValueSet/mcode-tnm-distant-metastases-staging-type-vs",
+      "version" : "4.0.0",
+      "status" : "active",
+      "name" : "TNMDistantMetastasesStagingTypeVS",
+      "title" : "TNM Distant Metastases Staging Type Value Set",
+      "description" : "Identifying codes for the type of cancer staging performed, i.e., clinical, pathological, or other, for distant metastases (M) staging observation, under AJCC staging guidelines.",
+      "systems" : ["http://snomed.info/sct"],
+      "oids" : ["2.16.840.1.113883.4.642.40.15.48.77"],
+      "sources" : ["2.16.840.1.113883.4.642.40.15.48.77"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-tnm-distant-metastases-category.html" : "TNM Distant Metastases Category"
+    },
+    {
+      "url" : "http://hl7.org/fhir/us/mcode/ValueSet/mcode-tnm-primary-tumor-category-vs",
+      "version" : "4.0.0",
+      "status" : "active",
+      "name" : "TNMPrimaryTumorCategoryVS",
+      "title" : "TNM Primary Tumor Category Value Set",
+      "description" : "Result values for T category, following AJCC staging guidelines. This value set contains SNOMED-CT equivalents of AJCC codes for the T category, according to AJCC TNM staging rules.",
+      "systems" : ["http://snomed.info/sct"],
+      "oids" : ["2.16.840.1.113883.4.642.40.15.48.79"],
+      "sources" : ["2.16.840.1.113883.4.642.40.15.48.79"],
+      "uses" : {
+      },
+      "ValueSet-onconova-vs-tnm-primary-tumor-categories.html" : "TNM Primary Tumor Categories"
+    },
+    {
+      "url" : "http://hl7.org/fhir/us/mcode/ValueSet/mcode-tnm-primary-tumor-staging-type-vs",
+      "version" : "4.0.0",
+      "status" : "active",
+      "name" : "TNMPrimaryTumorStagingTypeVS",
+      "title" : "TNM Primary Tumor Staging Type Value Set",
+      "description" : "Identifying codes for the type of cancer staging performed, i.e., clinical, pathological, or other, for primary tumor (T) staging observation, under AJCC guidelines.",
+      "systems" : ["http://snomed.info/sct"],
+      "oids" : ["2.16.840.1.113883.4.642.40.15.48.81"],
+      "sources" : ["2.16.840.1.113883.4.642.40.15.48.81"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-tnm-primary-tumor-category.html" : "TNM Primary Tumor Category"
+    },
+    {
+      "url" : "http://hl7.org/fhir/us/mcode/ValueSet/mcode-tnm-regional-nodes-category-vs",
+      "version" : "4.0.0",
+      "status" : "active",
+      "name" : "TNMRegionalNodesCategoryVS",
+      "title" : "TNM Regional Nodes Category Value Set",
+      "description" : "Result values for AJCC N category. This value set contains SNOMED-CT equivalents of AJCC codes for the N category, according to AJCC TNM staging rules.",
+      "systems" : ["http://snomed.info/sct"],
+      "oids" : ["2.16.840.1.113883.4.642.40.15.48.83"],
+      "sources" : ["2.16.840.1.113883.4.642.40.15.48.83"],
+      "uses" : {
+      },
+      "ValueSet-onconova-vs-tnm-regional-nodes-categories.html" : "TNM Regional Nodes Categories Value Set"
+    },
+    {
+      "url" : "http://hl7.org/fhir/us/mcode/ValueSet/mcode-tnm-regional-nodes-staging-type-vs",
+      "version" : "4.0.0",
+      "status" : "active",
+      "name" : "TNMRegionalNodesStagingTypeVS",
+      "title" : "TNM Regional Nodes Staging Type Value Set",
+      "description" : "Identifying codes for the type of cancer staging performed for AJCC N category, i.e., clinical, pathological, or other, for regional nodes (N) staging observation.",
+      "systems" : ["http://snomed.info/sct"],
+      "oids" : ["2.16.840.1.113883.4.642.40.15.48.85"],
+      "sources" : ["2.16.840.1.113883.4.642.40.15.48.85"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-tnm-regional-nodes-category.html" : "TNM Regional Nodes Category"
+    },
+    {
+      "url" : "http://hl7.org/fhir/us/mcode/ValueSet/mcode-tnm-stage-group-staging-type-vs",
+      "version" : "4.0.0",
+      "status" : "active",
+      "name" : "TNMStageGroupStagingTypeVS",
+      "title" : "TNM Stage Group Staging Type Value Set",
+      "description" : "Identifying codes for the type of cancer staging performed, i.e., clinical, pathological, or other, for AJCC stage group observation.",
+      "systems" : ["http://snomed.info/sct"],
+      "oids" : ["2.16.840.1.113883.4.642.40.15.48.88"],
+      "sources" : ["2.16.840.1.113883.4.642.40.15.48.88"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-tnm-stage-group.html" : "TNM Stage Group"
+    },
+    {
+      "url" : "http://hl7.org/fhir/us/mcode/ValueSet/mcode-tnm-stage-group-vs",
+      "version" : "4.0.0",
+      "status" : "active",
+      "name" : "TNMStageGroupVS",
+      "title" : "TNM Stage Group Value Set",
+      "description" : "Result values for cancer stage group using TNM staging following AJCC staging guidelines. This value set contains SNOMED-CT equivalents of AJCC codes for Stage Group, according to TNM staging rules.",
+      "systems" : ["http://snomed.info/sct"],
+      "oids" : ["2.16.840.1.113883.4.642.40.15.48.89"],
+      "sources" : ["2.16.840.1.113883.4.642.40.15.48.89"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-tnm-stage-group.html" : "TNM Stage Group"
+    },
+    {
+      "url" : "http://hl7.org/fhir/us/mcode/ValueSet/mcode-tnm-staging-method-vs",
+      "version" : "4.0.0",
+      "status" : "active",
+      "name" : "TNMStagingMethodVS",
+      "title" : "TNM Staging Method Value Set",
+      "description" : "Staging method used for AJCC TNM staging, e.g., AJCC 8th edition, UICC 7th edition, etc.",
+      "systems" : [
+        "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+        "http://snomed.info/sct"
+      ],
+      "oids" : ["2.16.840.1.113883.4.642.40.15.48.90"],
+      "sources" : ["2.16.840.1.113883.4.642.40.15.48.90"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-tnm-lymphatic-invasion-category.html" : "TNM Lymphatic Invasion Category",
+      "StructureDefinition-onconova-tnm-stage-group.html" : "TNM Stage Group",
+      "StructureDefinition-onconova-tnm-distant-metastases-category.html" : "TNM Distant Metastases Category",
+      "StructureDefinition-onconova-venous-invasion-category.html" : "Venous Invasion Category",
+      "StructureDefinition-onconova-tnm-grade-category.html" : "TNM Grade Category",
+      "StructureDefinition-onconova-tnm-perineural-invasion-category.html" : "TNM Perineural Invasion Category",
+      "StructureDefinition-onconova-tnm-primary-tumor-category.html" : "TNM Primary Tumor Category",
+      "StructureDefinition-onconova-tnm-regional-nodes-category.html" : "TNM Regional Nodes Category",
+      "StructureDefinition-onconova-tnm-residual-tumor-category.html" : "TNM Residual Tumor Category",
+      "StructureDefinition-onconova-serous-tumor-marker-level-category.html" : "Serum Tumor Marker Level Category"
+    },
+    {
+      "url" : "http://hl7.org/fhir/us/mcode/ValueSet/mcode-tumor-marker-test-vs",
+      "version" : "4.0.0",
+      "status" : "active",
+      "name" : "TumorMarkerTestVS",
+      "title" : "Tumor Marker Test Value Set",
+      "description" : "Codes representing tests for tumor markers. This value set of LOINC codes is not comprehensive and can be extended. Other vocabularies can be used only if the test of interest is not covered by LOINC. Tumor marker tests differ from genetic tests in that they measure levels of protein or other substances produced downstream from RNA protein synthesis.",
+      "systems" : ["http://loinc.org"],
+      "oids" : ["2.16.840.1.113883.4.642.40.15.48.92"],
+      "sources" : ["2.16.840.1.113883.4.642.40.15.48.92"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-tumor-marker.html" : "Tumor Marker Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/uv/genomics-reporting/ValueSet/dna-change-type-vs",
+      "version" : "2.0.0",
+      "status" : "active",
+      "name" : "DNAChangeTypeVS",
+      "title" : "DNA Change Type",
+      "description" : "DNA Change Type of a variant.",
+      "systems" : ["http://sequenceontology.org"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-genomic-variant.html" : "Genomic Variant Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/uv/genomics-reporting/ValueSet/hgnc-vs",
+      "version" : "2.0.0",
+      "status" : "active",
+      "name" : "HGNCVS",
+      "title" : "HUGO Gene Nomenclature Committee Gene Names (HGNC)",
+      "description" : "This value set includes all HGNC Codes, which includes multiple code systems. In this guide, Gene IDs from HGNC are used as CodeableConcepts, which must be sent with the HGNC gene ID including the prefix 'HGNC:' as the code and the HGNC 'gene symbol' as display. CAUTION: HGNC also indexes gene groups by numeric ID (without a prefix), and older systems may send HGNC gene IDs without the prefix, so care must be taken to confirm alignment. We have separately included the genegroup code system to draw attention to this ambiguity and potential error.",
+      "systems" : [
+        "http://www.genenames.org/genegroup",
+        "http://www.genenames.org/geneId"
+      ],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-genomic-variant.html" : "Genomic Variant Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/uv/genomics-reporting/ValueSet/hgvs-vs",
+      "version" : "2.0.0",
+      "status" : "active",
+      "name" : "HGVSVS",
+      "title" : "Human Genome Variation Society (HGVS) Nomenclature",
+      "description" : "HGVS-nomenclature is used to report and exchange information regarding variants found in DNA, RNA and protein sequences and serves as an international standard. (source: varnomen.hgvs.org)",
+      "systems" : ["http://varnomen.hgvs.org"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-genomic-variant.html" : "Genomic Variant Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/uv/genomics-reporting/ValueSet/high-low-codes-vs",
+      "version" : "2.0.0",
+      "status" : "active",
+      "name" : "HighLowCodesVS",
+      "title" : "High Low codes",
+      "description" : "This value set includes high/low codes for Observation Interpretations",
+      "systems" : [
+        "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+      ],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-tumor-mutational-burden.html" : "Tumor Mutational Burden Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/uv/genomics-reporting/ValueSet/molecular-consequence-vs",
+      "version" : "2.0.0",
+      "status" : "active",
+      "name" : "MolecularConsequenceVS",
+      "title" : "Molecular Consequence",
+      "description" : "The calculated or observed effect of a variant on its downstream transcript and, if applicable, ensuing protein sequence.",
+      "systems" : ["http://sequenceontology.org"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-genomic-variant.html" : "Genomic Variant Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/uv/genomics-reporting/ValueSet/variant-confidence-status-vs",
+      "version" : "2.0.0",
+      "status" : "active",
+      "name" : "VariantConfidenceStatusVS",
+      "title" : "Variant Confidence Status",
+      "description" : "A code that classifies the confidence for calling this variant.",
+      "systems" : [
+        "http://hl7.org/fhir/uv/genomics-reporting/CodeSystem/variant-confidence-status-cs"
+      ],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-genomic-variant.html" : "Genomic Variant Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/uv/genomics-reporting/ValueSet/variant-inheritance-vs",
+      "version" : "2.0.0",
+      "status" : "active",
+      "name" : "VariantInheritanceVS",
+      "title" : "Variant Inheritances",
+      "description" : "By which parent the variant was inherited in the patient, if known.",
+      "systems" : ["http://loinc.org"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-genomic-variant.html" : "Genomic Variant Profile"
+    },
+    {
+      "url" : "http://loinc.org/vs/LL1040-6",
+      "version" : null,
+      "status" : "active",
+      "name" : "LOINCAnswersLL1040-6",
+      "title" : "LOINC Answer Codes for LL1040-6",
+      "description" : "",
+      "systems" : ["http://loinc.org"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-genomic-variant.html" : "Genomic Variant Profile"
+    },
+    {
+      "url" : "http://loinc.org/vs/LL1971-2",
+      "version" : null,
+      "status" : "active",
+      "name" : "LOINCAnswersLL1971-2",
+      "title" : "LOINC Answer Codes for LL1971-2",
+      "description" : "",
+      "systems" : ["http://loinc.org"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-genomic-variant.html" : "Genomic Variant Profile"
+    },
+    {
+      "url" : "http://loinc.org/vs/LL2179-1",
+      "version" : null,
+      "status" : "active",
+      "name" : "LOINCAnswersLL2179-1",
+      "title" : "LOINC Answer Codes for LL2179-1",
+      "description" : "",
+      "systems" : ["http://loinc.org"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-lifestyle.html" : "Lifestyle Profile"
+    },
+    {
+      "url" : "http://loinc.org/vs/LL2938-0",
+      "version" : null,
+      "status" : "active",
+      "name" : "LOINCAnswersLL2938-0",
+      "title" : "LOINC Answer Codes for LL2938-0",
+      "description" : "",
+      "systems" : ["http://loinc.org"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-genomic-variant.html" : "Genomic Variant Profile"
+    },
+    {
+      "url" : "http://loinc.org/vs/LL378-1",
+      "version" : null,
+      "status" : "active",
+      "name" : "LOINCAnswersLL378-1",
+      "title" : "LOINC Answer Codes for LL378-1",
+      "description" : "",
+      "systems" : ["http://loinc.org"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-genomic-variant.html" : "Genomic Variant Profile"
+    },
+    {
+      "url" : "http://loinc.org/vs/LL380-7",
+      "version" : null,
+      "status" : "active",
+      "name" : "LOINCAnswersLL380-7",
+      "title" : "LOINC Answer Codes for LL380-7",
+      "description" : "",
+      "systems" : ["http://loinc.org"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-genomic-variant.html" : "Genomic Variant Profile"
+    },
+    {
+      "url" : "http://loinc.org/vs/LL381-5",
+      "version" : null,
+      "status" : "active",
+      "name" : "LOINCAnswersLL381-5",
+      "title" : "LOINC Answer Codes for LL381-5",
+      "description" : "",
+      "systems" : ["http://loinc.org"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-genomic-variant.html" : "Genomic Variant Profile"
+    },
+    {
+      "url" : "http://loinc.org/vs/LL3994-2",
+      "version" : null,
+      "status" : "active",
+      "name" : "LOINCAnswersLL3994-2",
+      "title" : "LOINC Answer Codes for LL3994-2",
+      "description" : "",
+      "systems" : ["http://loinc.org"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-microsatellite-instability.html" : "Microsatellite Instability Profile"
+    },
+    {
+      "url" : "http://loinc.org/vs/LL4048-6",
+      "version" : null,
+      "status" : "active",
+      "name" : "LOINCAnswersLL4048-6",
+      "title" : "LOINC Answer Codes for LL4048-6",
+      "description" : "",
+      "systems" : ["http://loinc.org"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-genomic-variant.html" : "Genomic Variant Profile"
+    },
+    {
+      "url" : "http://loinc.org/vs/LL4986-7",
+      "version" : null,
+      "status" : "active",
+      "name" : "LOINCAnswersLL4986-7",
+      "title" : "LOINC Answer Codes for LL4986-7",
+      "description" : "",
+      "systems" : ["http://loinc.org"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-Karnofsky-performance-status.html" : "Karnofsky Performance Status Profile"
+    },
+    {
+      "url" : "http://loinc.org/vs/LL529-9",
+      "version" : null,
+      "status" : "active",
+      "name" : "LOINCAnswersLL529-9",
+      "title" : "LOINC Answer Codes for LL529-9",
+      "description" : "",
+      "systems" : ["http://loinc.org"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-ecog-performance-status.html" : "ECOG Performance Status Profile"
+    },
+    {
+      "url" : "http://loinc.org/vs/LL5323-2",
+      "version" : null,
+      "status" : "active",
+      "name" : "LOINCAnswersLL5323-2",
+      "title" : "LOINC Answer Codes for LL5323-2",
+      "description" : "",
+      "systems" : ["http://loinc.org"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-genomic-variant.html" : "Genomic Variant Profile"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-tnm-lymphatic-invasion-categories",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "TNMLymphaticInvasionCategories",
+      "title" : "TNM Lymphatic Invasion Categories Value Set",
+      "description" : "TNM Lymphatic Invasion Categories Value Set",
+      "systems" : ["http://snomed.info/sct"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-tnm-lymphatic-invasion-category.html" : "TNM Lymphatic Invasion Category"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-tnm-perineural-invasion-categories",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "TNMPerineuralInvasionCategories",
+      "title" : "TNM Perineural Invasion Categories Value Set",
+      "description" : "TNM Perineural Invasion Categories Value Set",
+      "systems" : ["http://snomed.info/sct"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-tnm-perineural-invasion-category.html" : "TNM Perineural Invasion Category"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-tnm-residual-tumor-categories",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "TNMResidualTumorCategories",
+      "title" : "TNM Residual Tumor Categories Value Set",
+      "description" : "TNM Residual Tumor Categories Value Set",
+      "systems" : ["http://snomed.info/sct"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-tnm-residual-tumor-category.html" : "TNM Residual Tumor Category"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-adjunctive-therapy-roles",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "AdjunctiveTherapyRoles",
+      "title" : "Adjunctive Therapy Roles",
+      "description" : "Codes representing roles for adjunctive therapy in oncology.",
+      "systems" : ["http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-ext-adjunctive-role.html" : "Adjunctive Role"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-adverse-event-mitigation-categories",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "AdverseEventMitigationCategories",
+      "title" : "Adverse Event Mitigation Categories",
+      "description" : "Categories of actions taken to mitigate or manage adverse events in oncology.",
+      "systems" : ["http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-ext-adverse-event-mitigation.html" : "Adverse Event Mitigation"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-adverse-event-mitigation-drugs",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "AdverseEventMitigationDrugs",
+      "title" : "Adverse Event Mitigation - Drugs",
+      "description" : "Drugs or medication categories used in the mitigation process of an adverse event.",
+      "systems" : [
+        "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+        "http://snomed.info/sct"
+      ],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-ext-adverse-event-mitigation.html" : "Adverse Event Mitigation"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-adverse-event-mitigation-managements",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "AdverseEventMitigationManagements",
+      "title" : "Adverse Event Mitigation - Management",
+      "description" : "Classification of actions to mitigate adverse events affecting a patient's health.",
+      "systems" : ["http://snomed.info/sct"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-ext-adverse-event-mitigation.html" : "Adverse Event Mitigation"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-adverse-event-mitigation-procedures",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "AdverseEventMitigationProcedures",
+      "title" : "Adverse Event Mitigation - Procedures",
+      "description" : "Procedures undertaken to mitigate the impact of an adverse event on a patient's health.",
+      "systems" : [
+        "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+        "http://snomed.info/sct"
+      ],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-ext-adverse-event-mitigation.html" : "Adverse Event Mitigation"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-adverse-event-mitigation-treatment-adjustments",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "AdverseEventMitigationTreatmentAdjustments",
+      "title" : "Adverse Event Mitigation - Treatment Adjustment",
+      "description" : "Adjustments made to a patient's treatment plan in response to an adverse event.",
+      "systems" : ["http://snomed.info/sct"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-ext-adverse-event-mitigation.html" : "Adverse Event Mitigation"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-antineoplastic-agents",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "AntineoplasticAgents",
+      "title" : "Antineoplastic Agents",
+      "description" : "A value set of antineoplastic agents.",
+      "systems" : ["http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-medication-administration.html" : "Medication Administration Profile",
+      "StructureDefinition-onconova-ext-molecular-tumor-board-therapeutic-recommendation.html" : "Molecular Tumor Board Therapeutic Recommendation"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-cancer-imaging-methods",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "CancerImagingMethods",
+      "title" : "Cancer Imaging Methods",
+      "description" : "Codes representing various imaging methods used in cancer diagnosis and monitoring.",
+      "systems" : ["http://snomed.info/sct"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-imaging-disease-status.html" : "Imaging Disease Status Profile"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-cancer-risk-assessment-methods",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "CancerRiskAssessmentMethods",
+      "title" : "Cancer Risk Assessment Methods",
+      "description" : "A value set containing codes for various cancer risk assessment methods.",
+      "systems" : ["http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-cancer-risk-assessment.html" : "Cancer Risk Assessment Profile"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-causes-of-death",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "CausesOfDeath",
+      "title" : "Cause of Death Value Set",
+      "description" : "The causes of death that are relevant for a cancer patient.",
+      "systems" : [
+        "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+        "http://snomed.info/sct"
+      ],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-ext-cause-of-death.html" : "Cause of Death"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-comorbidity-panels",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "ComorbidityPanels",
+      "title" : "Comorbidity Panels",
+      "description" : "A collection of comorbidity panels relevant to cancer patients.",
+      "systems" : [
+        "http://luisfabib.github.io/onconova/CodeSystem/onconova-cs-comorbidity-panels"
+      ],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-comorbidities.html" : "Comorbidities Profile"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-ctc-adverse-events",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "CTCAdverseEvents",
+      "title" : "CTC Adverse Events",
+      "description" : "Common Terminology Criteria for Adverse Events (CTCAE) is a standard classification and severity grading scale for adverse events in clinical trials and oncology practice.",
+      "systems" : ["http://terminology.hl7.org/CodeSystem/MDRAE"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-adverse-event.html" : "Adverse Event Profile"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-expected-drug-effects",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "ExpectedDrugEffects",
+      "title" : "Expected Drug Effects",
+      "description" : "A value set of expected drug effects.",
+      "systems" : ["http://snomed.info/sct"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-ext-molecular-tumor-board-therapeutic-recommendation.html" : "Molecular Tumor Board Therapeutic Recommendation"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-exposure-agents",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "ExposureAgents",
+      "title" : "Exposure Agents",
+      "description" : "Agents to which a patient may have been exposed.",
+      "systems" : ["http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-lifestyle.html" : "Lifestyle Profile"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-icd-10-conditions",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "ICD10Conditions",
+      "title" : "ICD-10 Codes",
+      "description" : "This value set includes sample ICD-10 codes.",
+      "systems" : ["http://hl7.org/fhir/sid/icd-10"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-comorbidities.html" : "Comorbidities Profile"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-icdo3-morphology-behavior",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "ICDO3MorphologyBehavior",
+      "title" : "ICD-O-3 Morphology Behavior",
+      "description" : "A value set of ICD-O-3 morphology behavior codes.",
+      "systems" : ["http://terminology.hl7.org/CodeSystem/icd-o-3"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-secondary-cancer-condition.html" : "Secondary Cancer Condition Profile",
+      "StructureDefinition-onconova-ext-cancer-morphology.html" : "Cancer Morphology",
+      "StructureDefinition-onconova-primary-cancer-condition.html" : "Primary Cancer Condition Profile"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-icdo3-topography",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "ICDO3Topography",
+      "title" : "ICD-O-3 Topography",
+      "description" : "A value set of ICD-O-3 topography codes.",
+      "systems" : ["http://terminology.hl7.org/CodeSystem/icd-o-3"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-secondary-cancer-condition.html" : "Secondary Cancer Condition Profile",
+      "StructureDefinition-onconova-primary-cancer-condition.html" : "Primary Cancer Condition Profile",
+      "StructureDefinition-onconova-ext-cancer-topography.html" : "Cancer Topography"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-observation-bodysites",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "ObservationBodySites",
+      "title" : "Observation Body Sites Value Set",
+      "description" : "Bodysites related to an observation",
+      "systems" : ["http://snomed.info/sct"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-imaging-disease-status.html" : "Imaging Disease Status Profile"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-recreational-drugs",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "RecreationalDrugs",
+      "title" : "Recreational Drugs",
+      "description" : "Substances that people use to alter their mental state, often for pleasure or leisure, with effects ranging from relaxation and euphoria to hallucinations and altered perceptions.",
+      "systems" : ["http://snomed.info/sct"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-lifestyle.html" : "Lifestyle Profile"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-smoking-status",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "SmokingStatus",
+      "title" : "Smoking status",
+      "description" : "Smoking status of a patient",
+      "systems" : ["http://snomed.info/sct"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-lifestyle.html" : "Lifestyle Profile"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-tnm-distant-metastasis-categories",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "TNMDistantMetastasisCategories",
+      "title" : "TNM Distant Metastasis Categories Value Set",
+      "description" : "TNM Distant Metastasis Categories Value Set",
+      "systems" : ["http://snomed.info/sct"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-tnm-distant-metastases-category.html" : "TNM Distant Metastases Category"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-tnm-grade-categories",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "TNMGradeCategories",
+      "title" : "TNM Grade Categories Value Set",
+      "description" : "TNM Grade Categories Value Set",
+      "systems" : ["http://snomed.info/sct"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-tnm-grade-category.html" : "TNM Grade Category"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-tnm-grade-category-methods",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "TNMGradeCategoryMethods",
+      "title" : "TNM Grade Category Methods Value Set",
+      "description" : "TNM Grade Category Methods Value Set",
+      "systems" : ["http://snomed.info/sct"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-tnm-grade-category.html" : "TNM Grade Category"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-tnm-primary-tumor-categories",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "TNMPrimaryTumorCategories",
+      "title" : "TNM Primary Tumor Categories",
+      "description" : "TNM Primary Tumor Categories Value Set",
+      "systems" : ["http://snomed.info/sct"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-tnm-primary-tumor-category.html" : "TNM Primary Tumor Category"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-tnm-regional-nodes-categories",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "TNMRegionalNodesCategories",
+      "title" : "TNM Regional Nodes Categories Value Set",
+      "description" : "TNM Regional Nodes Categories Value Set",
+      "systems" : ["http://snomed.info/sct"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-tnm-regional-nodes-category.html" : "TNM Regional Nodes Category"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-tnm-serum-tumor-marker-level-categories",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "TNMSerumTumorMarkerLevelCategories",
+      "title" : "TNM Serum Tumor Marker Level Categories Value Set",
+      "description" : "TNM Serum Tumor Marker Level Categories Value Set",
+      "systems" : ["http://snomed.info/sct"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-serous-tumor-marker-level-category.html" : "Serum Tumor Marker Level Category"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-tnm-venous-invasion-categories",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "TNMVenousInvasionCategories",
+      "title" : "TNM Venous Invasion Categories Value Set",
+      "description" : "TNM Venous Invasion Categories Value Set",
+      "systems" : ["http://snomed.info/sct"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-venous-invasion-category.html" : "Venous Invasion Category"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-treatment-termination-reasons",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "TreatmentTerminationReasons",
+      "title" : "Treatment Termination Reasons",
+      "description" : "Codes representing reasons for terminating a treatment in oncology.",
+      "systems" : ["http://snomed.info/sct"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-radiotherapy-summary.html" : "Radiotherapy Summary Profile",
+      "StructureDefinition-onconova-medication-administration.html" : "Medication Administration Profile"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-tumor-board-recommendations",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "OnconovaTumorBoardRecommendations",
+      "title" : "Tumor Board Recommendations",
+      "description" : "A value set of recommendations that may be made by a tumor board for a cancer patient.",
+      "systems" : ["http://loinc.org", "http://snomed.info/sct"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-molecular-tumor-board-review.html" : "Molecular Tumor Board Review",
+      "StructureDefinition-onconova-tumor-board-review.html" : "Tumor Board Review"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-tumor-marker-analytes",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "TumorMarkerAnalytes",
+      "title" : "Tumor Marker Analytes",
+      "description" : "Codes representing analytes for tumor markers.",
+      "systems" : [
+        "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+        "http://loinc.org"
+      ],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-ext-tumor-marker-analyte.html" : "Tumor Marker Analyte"
+    },
+    {
+      "url" : "http://terminology.hl7.org/ValueSet/v3-FamilyMember",
+      "version" : "3.0.0",
+      "status" : "active",
+      "name" : "FamilyMember",
+      "title" : "FamilyMember",
+      "description" : "A relationship between two people characterizing their \"familial\" relationship",
+      "systems" : ["http://terminology.hl7.org/CodeSystem/v3-RoleCode"],
+      "oids" : ["2.16.840.1.113883.1.11.19579"],
+      "sources" : ["2.16.840.1.113883.1.11.19579"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-cancer-family-member-history.html" : "Cancer Family Member History"
+    },
+    {
+      "url" : "https://simplifier.net/onconova/ValueSets/onconova-cancer-risk-assessment-values",
+      "version" : "0.1.0",
+      "status" : "draft",
+      "name" : "CancerRiskAssessmentValues",
+      "title" : "Risk Assessment Values",
+      "description" : "A non-exhaustive value set containing codes that result from risk assessments, i.e., the risk level of the cancer.",
+      "systems" : ["http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-cancer-risk-assessment.html" : "Cancer Risk Assessment Profile"
+    }
+  ]
+}

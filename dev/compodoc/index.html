@@ -89,14 +89,19 @@
 <li>Install compodoc</li>
 </ol>
 <b>Example :</b><div><pre class="line-numbers"><code class="language-shell">npm install -g &#64;compodoc/compodoc</code></pre></div><ol start="2">
+<li>Install FHIR SUSHI and IG Publisher</li>
+</ol>
+<b>Example :</b><div><pre class="line-numbers"><code class="language-shell">npm install -g fsh-sushi
+./fhir/ig/_updatePublisher.sh</code></pre></div><ol start="3">
 <li>Install Mkdocs and dependencies</li>
 </ol>
 <b>Example :</b><div><pre class="line-numbers"><code class="language-shell">pip install .</code></pre></div><ol start="3">
 <li>Install server package</li>
 </ol>
 <b>Example :</b><div><pre class="line-numbers"><code class="language-shell">pip install ../server</code></pre></div><h2>Build full docs</h2>
-<b>Example :</b><div><pre class="line-numbers"><code class="language-shell">rm -rf src/compodoc/ &amp;&amp; \
+<b>Example :</b><div><pre class="line-numbers"><code class="language-shell">rm -rf src/compodoc/ &amp;&amp; rm -rf src/fhir-ig &amp;&amp; \
 npx &#64;compodoc/compodoc -p ../client/tsconfig.doc.json -d ./src/compodoc/ -y src/assets/css/compodoc/ --hideGenerator --theme material &amp;&amp; \
+cd ../fhir/ig/ &amp;&amp; ./_genonce.sh &amp;&amp; mv ./output ../../docs/src/fhir-ig &amp;&amp; cd ../../docs &amp;&amp; \
 mkdocs serve</code></pre></div>
 
 

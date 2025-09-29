@@ -1,0 +1,28 @@
+{
+  "resourceType" : "ValueSet",
+  "id" : "onconova-vs-icd-10-conditions",
+  "text" : {
+    "status" : "generated",
+    "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: ValueSet onconova-vs-icd-10-conditions</b></p><a name=\"onconova-vs-icd-10-conditions\"> </a><a name=\"hconconova-vs-icd-10-conditions\"> </a><ul><li>Include all codes defined in <a href=\"http://terminology.hl7.org/6.5.0/CodeSystem-icd10.html\"><code>http://hl7.org/fhir/sid/icd-10</code></a></li></ul></div>"
+  },
+  "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-icd-10-conditions",
+  "version" : "0.1.0",
+  "name" : "ICD10Conditions",
+  "title" : "ICD-10 Codes",
+  "status" : "active",
+  "date" : "2025-09-29T08:09:08+00:00",
+  "publisher" : "Onconova",
+  "contact" : [{
+    "name" : "Onconova",
+    "telecom" : [{
+      "system" : "url",
+      "value" : "http://luisfabib.github.io/onconova"
+    }]
+  }],
+  "description" : "This value set includes sample ICD-10 codes.",
+  "compose" : {
+    "include" : [{
+      "system" : "http://hl7.org/fhir/sid/icd-10"
+    }]
+  }
+}

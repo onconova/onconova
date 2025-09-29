@@ -1,0 +1,33 @@
+{
+  "resourceType" : "ValueSet",
+  "id" : "onconova-tnm-residual-tumor-categories",
+  "text" : {
+    "status" : "generated",
+    "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: ValueSet onconova-tnm-residual-tumor-categories</b></p><a name=\"onconova-tnm-residual-tumor-categories\"> </a><a name=\"hconconova-tnm-residual-tumor-categories\"> </a><ul><li>Include codes from<a href=\"http://www.snomed.org/\"><code>http://snomed.info/sct</code></a> where concept  descends from 1222601005 (American Joint Committee on Cancer residual tumour allowable value)</li></ul></div>"
+  },
+  "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-tnm-residual-tumor-categories",
+  "version" : "0.1.0",
+  "name" : "TNMResidualTumorCategories",
+  "title" : "TNM Residual Tumor Categories Value Set",
+  "status" : "active",
+  "date" : "2025-09-29T08:09:08+00:00",
+  "publisher" : "Onconova",
+  "contact" : [{
+    "name" : "Onconova",
+    "telecom" : [{
+      "system" : "url",
+      "value" : "http://luisfabib.github.io/onconova"
+    }]
+  }],
+  "description" : "TNM Residual Tumor Categories Value Set",
+  "compose" : {
+    "include" : [{
+      "system" : "http://snomed.info/sct",
+      "filter" : [{
+        "property" : "concept",
+        "op" : "descendent-of",
+        "value" : "1222601005"
+      }]
+    }]
+  }
+}

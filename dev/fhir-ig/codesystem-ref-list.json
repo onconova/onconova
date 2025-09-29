@@ -1,0 +1,132 @@
+{
+  "codeSystems" : [
+    {
+      "url" : "http://hl7.org/fhir/sid/icd-10",
+      "version" : "2.1.1",
+      "status" : "retired",
+      "name" : "Icd10",
+      "title" : "ICD-10",
+      "description" : "International Classification of Diseases revision 10 (ICD 10)",
+      "oids" : ["2.16.840.1.113883.6.3"],
+      "uses" : {
+      },
+      "ValueSet-onconova-vs-icd-10-conditions.html" : "ICD-10 Codes"
+    },
+    {
+      "url" : "http://loinc.org",
+      "version" : "3.1.0",
+      "status" : "active",
+      "name" : "LOINC",
+      "title" : "Logical Observation Identifiers, Names and Codes (LOINC)",
+      "description" : "LOINC provides a set of universal names and ID codes for identifying laboratory and clinical test results.1,2 LOINC facilitates the exchange and pooling of results, such as blood hemoglobin, serum potassium, or vital signs, for clinical care, outcomes management, and research. LOINC's universal identifiers (names and codes) can be used in the context of order and observation exchanges between information systems that use syntax standards such as HL73, CEN TC251, ISO TC215, ASTM4, and DICOM. Specifically, the identifier can be used as the coded value for an observation in any other standard that uses the observation/observation value paradigm, whether messages, documents, application programming interface (API), etc. For example, LOINC codes are used widely in the OBX segment Observation Identifier field (OBX-3) of an ORU HL7 (HL7 version 2.x or ASTM 1238-9410) message that may be sent between a Clinical Laboratory Information Management Systems (LIMS) and Electronic Health Record Systems (EHR).5, 6 In this way, LOINC codes provide universal identifiers that allow the exchange of clinical data between heterogeneous computing environments.",
+      "oids" : ["2.16.840.1.113883.6.1"],
+      "uses" : {
+      },
+      "ValueSet-onconova-vs-tumor-marker-analytes.html" : "Tumor Marker Analytes",
+      "ValueSet-onconova-vs-tumor-board-recommendations.html" : "Tumor Board Recommendations"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/CodeSystem/onconova-cs-comorbidity-panels",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "ComorbidityPanelsSystem",
+      "title" : "Comorbidity Panels Code System",
+      "description" : "A code system for comorbidity panels relevant to cancer patients.",
+      "uses" : {
+      },
+      "ValueSet-onconova-vs-comorbidity-panels.html" : "Comorbidity Panels"
+    },
+    {
+      "url" : "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+      "version" : "3.0.0",
+      "status" : "active",
+      "name" : "NciThesaurus",
+      "title" : "NCI Thesaurus",
+      "description" : "NCI Thesaurus NCI Thesaurus is a biomedical thesaurus created specifically to meet the needs of the cancer research community, especially those engaged in translational research NCI Thesaurus is produced by the NCI Enterprise Vocabulary Services project. The NCI Thesaurus is provided under an open content license.",
+      "oids" : ["2.16.840.1.113883.3.26.1.1"],
+      "uses" : {
+      },
+      "ValueSet-onconova-vs-adjunctive-therapy-roles.html" : "Adjunctive Therapy Roles",
+      "ValueSet-onconova-vs-adverse-event-mitigation-categories.html" : "Adverse Event Mitigation Categories",
+      "ValueSet-onconova-vs-causes-of-death.html" : "Cause of Death Value Set",
+      "ValueSet-onconova-vs-cancer-risk-assessment-values.html" : "Risk Assessment Values",
+      "ValueSet-onconova-vs-tumor-marker-analytes.html" : "Tumor Marker Analytes",
+      "ValueSet-onconova-vs-adverse-event-mitigation-procedures.html" : "Adverse Event Mitigation - Procedures",
+      "ValueSet-onconova-vs-antineoplastic-agents.html" : "Antineoplastic Agents",
+      "ValueSet-onconova-vs-adverse-event-mitigation-drugs.html" : "Adverse Event Mitigation - Drugs",
+      "ValueSet-onconova-vs-cancer-risk-assessment-methods.html" : "Cancer Risk Assessment Methods",
+      "ValueSet-onconova-vs-exposure-agents.html" : "Exposure Agents"
+    },
+    {
+      "url" : "http://snomed.info/sct",
+      "version" : null,
+      "status" : "active",
+      "name" : "SNOMED_CT",
+      "title" : "SNOMED CT (all versions)",
+      "description" : "SNOMED CT is the most comprehensive and precise clinical health terminology product in the world, owned and distributed around the world by The International Health Terminology Standards Development Organisation (IHTSDO).",
+      "oids" : ["2.16.840.1.113883.6.96"],
+      "uses" : {
+      },
+      "ValueSet-onconova-vs-causes-of-death.html" : "Cause of Death Value Set",
+      "ValueSet-onconova-vs-tnm-distant-metastasis-categories.html" : "TNM Distant Metastasis Categories Value Set",
+      "ValueSet-onconova-vs-tnm-primary-tumor-categories.html" : "TNM Primary Tumor Categories",
+      "ValueSet-onconova-vs-expected-drug-effects.html" : "Expected Drug Effects",
+      "ValueSet-onconova-vs-tnm-grade-category-methods.html" : "TNM Grade Category Methods Value Set",
+      "ValueSet-onconova-vs-observation-bodysites.html" : "Observation Body Sites Value Set",
+      "ValueSet-onconova-vs-tnm-venous-invasion-categories.html" : "TNM Venous Invasion Categories Value Set",
+      "ValueSet-onconova-vs-cancer-imaging-methods.html" : "Cancer Imaging Methods",
+      "ValueSet-onconova-tnm-perineural-invasion-categories.html" : "TNM Perineural Invasion Categories Value Set",
+      "ValueSet-onconova-vs-tnm-regional-nodes-categories.html" : "TNM Regional Nodes Categories Value Set",
+      "ValueSet-onconova-vs-tumor-board-recommendations.html" : "Tumor Board Recommendations",
+      "ValueSet-onconova-vs-adverse-event-mitigation-managements.html" : "Adverse Event Mitigation - Management",
+      "ValueSet-onconova-vs-adverse-event-mitigation-treatment-adjustments.html" : "Adverse Event Mitigation - Treatment Adjustment",
+      "ValueSet-onconova-tnm-residual-tumor-categories.html" : "TNM Residual Tumor Categories Value Set",
+      "http://hl7.org/fhir/us/mcode/STU4/ValueSet-mcode-procedure-intent-vs.html" : "Procedure Intent Value Set",
+      "ValueSet-onconova-vs-adverse-event-mitigation-procedures.html" : "Adverse Event Mitigation - Procedures",
+      "ValueSet-onconova-vs-treatment-termination-reasons.html" : "Treatment Termination Reasons",
+      "ValueSet-onconova-vs-recreational-drugs.html" : "Recreational Drugs",
+      "ValueSet-onconova-vs-tnm-serum-tumor-marker-level-categories.html" : "TNM Serum Tumor Marker Level Categories Value Set",
+      "ValueSet-onconova-vs-smoking-status.html" : "Smoking status",
+      "ValueSet-onconova-vs-tnm-grade-categories.html" : "TNM Grade Categories Value Set",
+      "ValueSet-onconova-vs-adverse-event-mitigation-drugs.html" : "Adverse Event Mitigation - Drugs",
+      "ValueSet-onconova-tnm-lymphatic-invasion-categories.html" : "TNM Lymphatic Invasion Categories Value Set"
+    },
+    {
+      "url" : "http://terminology.hl7.org/CodeSystem/MDRAE",
+      "version" : "2.0.1",
+      "status" : "retired",
+      "name" : "MDRAE",
+      "title" : "MedDRA Am Engl",
+      "description" : "Medical Dictionary for Regulatory Activities Terminology (MedDRA), American English Equivalents, Version 7.0. Bethesda, MD: National Library of Medicine, March 1, 2004 This is the English language version as encapsulated in the UMLS..",
+      "oids" : ["2.16.840.1.113883.6.163.1"],
+      "uses" : {
+      },
+      "ValueSet-onconova-vs-ctc-adverse-events.html" : "CTC Adverse Events"
+    },
+    {
+      "url" : "http://terminology.hl7.org/CodeSystem/icd-o-3",
+      "version" : "2.0.1",
+      "status" : "active",
+      "name" : "IcdO3",
+      "title" : "International Classification of Diseases for Oncology, version 3.",
+      "description" : "International Classification of Diseases for Oncology, version 3. For more information see http://www.who.int/classifications/icd/adaptations/oncology/en/.",
+      "oids" : ["2.16.840.1.113883.6.43.1"],
+      "uses" : {
+      },
+      "ValueSet-onconova-vs-icdo3-topography.html" : "ICD-O-3 Topography",
+      "ValueSet-onconova-vs-icdo3-morphology-behavior.html" : "ICD-O-3 Morphology Behavior"
+    },
+    {
+      "url" : "http://unitsofmeasure.org",
+      "version" : "3.0.1",
+      "status" : "active",
+      "name" : "UCUM",
+      "title" : "Unified Code for Units of Measure (UCUM)",
+      "description" : "The Unified Code for Units of Measure (UCUM) is a code system intended to include all units of measures being contemporarily used in international science, engineering, and business. The purpose is to facilitate unambiguous electronic communication of quantities together with their units. The focus is on electronic communication, as opposed to communication between humans. A typical application of The Unified Code for Units of Measure are electronic data interchange (EDI) protocols, but there is nothing that prevents it from being used in other types of machine communication.",
+      "oids" : ["2.16.840.1.113883.6.8"],
+      "uses" : {
+      },
+      "http://hl7.org/fhir/R4/valueset-units-of-time.html" : "UnitsOfTime"
+    }
+  ]
+}

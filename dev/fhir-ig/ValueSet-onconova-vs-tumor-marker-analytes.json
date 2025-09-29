@@ -1,0 +1,203 @@
+{
+  "resourceType" : "ValueSet",
+  "id" : "onconova-vs-tumor-marker-analytes",
+  "text" : {
+    "status" : "generated",
+    "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: ValueSet onconova-vs-tumor-marker-analytes</b></p><a name=\"onconova-vs-tumor-marker-analytes\"> </a><a name=\"hconconova-vs-tumor-marker-analytes\"> </a><p>This value set includes codes based on the following rules:</p><ul><li>Include these codes as defined in <a href=\"http://terminology.hl7.org/6.5.0/CodeSystem-v3-nciThesaurus.html\"><code>http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl</code></a><table class=\"none\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td></tr><tr><td>C17922</td><td>Somatostatin Receptor Type 2</td></tr></table></li><li>Include these codes as defined in <a href=\"http://loinc.org\"><code>http://loinc.org</code></a><table class=\"none\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td></tr><tr><td><a href=\"https://loinc.org/LP28643-2/\">LP28643-2</a></td><td>Carcinoembryonic Ag</td></tr><tr><td><a href=\"https://loinc.org/LP14543-0/\">LP14543-0</a></td><td>Cancer Ag 125</td></tr><tr><td><a href=\"https://loinc.org/LP15461-4/\">LP15461-4</a></td><td>Cancer Ag 15-3</td></tr><tr><td><a href=\"https://loinc.org/LP14040-7/\">LP14040-7</a></td><td>Cancer Ag 19-9</td></tr><tr><td><a href=\"https://loinc.org/LP15463-0/\">LP15463-0</a></td><td>Cancer Ag 242</td></tr><tr><td><a href=\"https://loinc.org/LP15464-8/\">LP15464-8</a></td><td>Cancer Ag 27-29</td></tr><tr><td><a href=\"https://loinc.org/LP15465-5/\">LP15465-5</a></td><td>Cancer Ag 50</td></tr><tr><td><a href=\"https://loinc.org/LP15466-3/\">LP15466-3</a></td><td>Cancer Ag 549</td></tr><tr><td><a href=\"https://loinc.org/LP18274-8/\">LP18274-8</a></td><td>Cancer Ag DM/70K</td></tr><tr><td><a href=\"https://loinc.org/LP15467-1/\">LP15467-1</a></td><td>Cancer Ag 72-4</td></tr><tr><td><a href=\"https://loinc.org/LP28642-4/\">LP28642-4</a></td><td>Cancer associated serum Ag</td></tr><tr><td><a href=\"https://loinc.org/LP135291-5/\">LP135291-5</a></td><td>Circulating tumor cells</td></tr><tr><td><a href=\"https://loinc.org/LP63010-0/\">LP63010-0</a></td><td>Fibroblast growth factor</td></tr><tr><td><a href=\"https://loinc.org/LP420752-0/\">LP420752-0</a></td><td>Gastrin releasing polypeptide prohormone</td></tr><tr><td><a href=\"https://loinc.org/LP89249-4/\">LP89249-4</a></td><td>Tumor necrosis factor binding protein 1</td></tr><tr><td><a href=\"https://loinc.org/LP62856-7/\">LP62856-7</a></td><td>YKL-40</td></tr><tr><td><a href=\"https://loinc.org/LP38032-6/\">LP38032-6</a></td><td>Enolase.neuron specific Ag</td></tr><tr><td><a href=\"https://loinc.org/LP15033-1/\">LP15033-1</a></td><td>Lactate dehydrogenase</td></tr><tr><td><a href=\"https://loinc.org/LP14652-9/\">LP14652-9</a></td><td>Chromogranin A</td></tr><tr><td><a href=\"https://loinc.org/LP57672-5/\">LP57672-5</a></td><td>S100 calcium binding protein B</td></tr><tr><td><a href=\"https://loinc.org/LP18193-0/\">LP18193-0</a></td><td>Prostate specific Ag</td></tr><tr><td><a href=\"https://loinc.org/LP14331-0/\">LP14331-0</a></td><td>Alpha-1-Fetoprotein</td></tr><tr><td><a href=\"https://loinc.org/LP14329-4/\">LP14329-4</a></td><td>Choriogonadotropin.beta subunit</td></tr><tr><td><a href=\"https://loinc.org/LP19423-0/\">LP19423-0</a></td><td>Cytokeratin 19</td></tr><tr><td><a href=\"https://loinc.org/LP93517-8/\">LP93517-8</a></td><td>Human epididymis protein 4</td></tr><tr><td><a href=\"https://loinc.org/LP15724-5/\">LP15724-5</a></td><td>Melanin</td></tr><tr><td><a href=\"https://loinc.org/LP38066-4/\">LP38066-4</a></td><td>Epstein Barr virus Ab</td></tr><tr><td><a href=\"https://loinc.org/LP220351-3/\">LP220351-3</a></td><td>Programmed cell death ligand 1</td></tr><tr><td><a href=\"https://loinc.org/LP28442-9/\">LP28442-9</a></td><td>HER2</td></tr><tr><td><a href=\"https://loinc.org/LP18567-5/\">LP18567-5</a></td><td>Estrogen receptor</td></tr><tr><td><a href=\"https://loinc.org/LP14902-8/\">LP14902-8</a></td><td>Progesterone receptor</td></tr><tr><td><a href=\"https://loinc.org/LP68364-6/\">LP68364-6</a></td><td>Androgen receptor</td></tr><tr><td><a href=\"https://loinc.org/LP39016-8/\">LP39016-8</a></td><td>Ki-67 nuclear Ag</td></tr><tr><td><a href=\"https://loinc.org/LP420961-7/\">LP420961-7</a></td><td>DNA mismatch repair protein Mlh3</td></tr><tr><td><a href=\"https://loinc.org/LP212189-7/\">LP212189-7</a></td><td>DNA mismatch repair protein Mlh1</td></tr><tr><td><a href=\"https://loinc.org/LP212190-5/\">LP212190-5</a></td><td>DNA mismatch repair protein Msh2</td></tr><tr><td><a href=\"https://loinc.org/LP420964-1/\">LP420964-1</a></td><td>DNA mismatch repair protein Msh3</td></tr><tr><td><a href=\"https://loinc.org/LP212191-3/\">LP212191-3</a></td><td>DNA mismatch repair protein Msh6</td></tr><tr><td><a href=\"https://loinc.org/LP212192-1/\">LP212192-1</a></td><td>Mismatch repair endonuclease PMS2</td></tr><tr><td><a href=\"https://loinc.org/LP19646-6/\">LP19646-6</a></td><td>CDKN2A gene</td></tr><tr><td><a href=\"https://loinc.org/LP38570-5/\">LP38570-5</a></td><td>Human papilloma virus DNA</td></tr><tr><td><a href=\"https://loinc.org/LP38067-2/\">LP38067-2</a></td><td>Epstein Barr virus DNA</td></tr></table></li></ul></div>"
+  },
+  "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-tumor-marker-analytes",
+  "version" : "0.1.0",
+  "name" : "TumorMarkerAnalytes",
+  "title" : "Tumor Marker Analytes",
+  "status" : "active",
+  "date" : "2025-09-29T08:09:08+00:00",
+  "publisher" : "Onconova",
+  "contact" : [{
+    "name" : "Onconova",
+    "telecom" : [{
+      "system" : "url",
+      "value" : "http://luisfabib.github.io/onconova"
+    }]
+  }],
+  "description" : "Codes representing analytes for tumor markers.",
+  "compose" : {
+    "include" : [{
+      "system" : "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+      "concept" : [{
+        "code" : "C17922",
+        "display" : "Somatostatin Receptor Type 2"
+      }]
+    },
+    {
+      "system" : "http://loinc.org",
+      "concept" : [{
+        "code" : "LP28643-2",
+        "display" : "Carcinoembryonic Ag"
+      },
+      {
+        "code" : "LP14543-0",
+        "display" : "Cancer Ag 125"
+      },
+      {
+        "code" : "LP15461-4",
+        "display" : "Cancer Ag 15-3"
+      },
+      {
+        "code" : "LP14040-7",
+        "display" : "Cancer Ag 19-9"
+      },
+      {
+        "code" : "LP15463-0",
+        "display" : "Cancer Ag 242"
+      },
+      {
+        "code" : "LP15464-8",
+        "display" : "Cancer Ag 27-29"
+      },
+      {
+        "code" : "LP15465-5",
+        "display" : "Cancer Ag 50"
+      },
+      {
+        "code" : "LP15466-3",
+        "display" : "Cancer Ag 549"
+      },
+      {
+        "code" : "LP18274-8",
+        "display" : "Cancer Ag DM/70K"
+      },
+      {
+        "code" : "LP15467-1",
+        "display" : "Cancer Ag 72-4"
+      },
+      {
+        "code" : "LP28642-4",
+        "display" : "Cancer associated serum Ag"
+      },
+      {
+        "code" : "LP135291-5",
+        "display" : "Circulating tumor cells"
+      },
+      {
+        "code" : "LP63010-0",
+        "display" : "Fibroblast growth factor"
+      },
+      {
+        "code" : "LP420752-0",
+        "display" : "Gastrin releasing polypeptide prohormone"
+      },
+      {
+        "code" : "LP89249-4",
+        "display" : "Tumor necrosis factor binding protein 1"
+      },
+      {
+        "code" : "LP62856-7",
+        "display" : "YKL-40"
+      },
+      {
+        "code" : "LP38032-6",
+        "display" : "Enolase.neuron specific Ag"
+      },
+      {
+        "code" : "LP15033-1",
+        "display" : "Lactate dehydrogenase"
+      },
+      {
+        "code" : "LP14652-9",
+        "display" : "Chromogranin A"
+      },
+      {
+        "code" : "LP57672-5",
+        "display" : "S100 calcium binding protein B"
+      },
+      {
+        "code" : "LP18193-0",
+        "display" : "Prostate specific Ag"
+      },
+      {
+        "code" : "LP14331-0",
+        "display" : "Alpha-1-Fetoprotein"
+      },
+      {
+        "code" : "LP14329-4",
+        "display" : "Choriogonadotropin.beta subunit"
+      },
+      {
+        "code" : "LP19423-0",
+        "display" : "Cytokeratin 19"
+      },
+      {
+        "code" : "LP93517-8",
+        "display" : "Human epididymis protein 4"
+      },
+      {
+        "code" : "LP15724-5",
+        "display" : "Melanin"
+      },
+      {
+        "code" : "LP38066-4",
+        "display" : "Epstein Barr virus Ab"
+      },
+      {
+        "code" : "LP220351-3",
+        "display" : "Programmed cell death ligand 1"
+      },
+      {
+        "code" : "LP28442-9",
+        "display" : "HER2"
+      },
+      {
+        "code" : "LP18567-5",
+        "display" : "Estrogen receptor"
+      },
+      {
+        "code" : "LP14902-8",
+        "display" : "Progesterone receptor"
+      },
+      {
+        "code" : "LP68364-6",
+        "display" : "Androgen receptor"
+      },
+      {
+        "code" : "LP39016-8",
+        "display" : "Ki-67 nuclear Ag"
+      },
+      {
+        "code" : "LP420961-7",
+        "display" : "DNA mismatch repair protein Mlh3"
+      },
+      {
+        "code" : "LP212189-7",
+        "display" : "DNA mismatch repair protein Mlh1"
+      },
+      {
+        "code" : "LP212190-5",
+        "display" : "DNA mismatch repair protein Msh2"
+      },
+      {
+        "code" : "LP420964-1",
+        "display" : "DNA mismatch repair protein Msh3"
+      },
+      {
+        "code" : "LP212191-3",
+        "display" : "DNA mismatch repair protein Msh6"
+      },
+      {
+        "code" : "LP212192-1",
+        "display" : "Mismatch repair endonuclease PMS2"
+      },
+      {
+        "code" : "LP19646-6",
+        "display" : "CDKN2A gene"
+      },
+      {
+        "code" : "LP38570-5",
+        "display" : "Human papilloma virus DNA"
+      },
+      {
+        "code" : "LP38067-2",
+        "display" : "Epstein Barr virus DNA"
+      }]
+    }]
+  }
+}

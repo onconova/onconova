@@ -1,0 +1,737 @@
+[
+  {
+    "id" : "onconova-capability-statement",
+    "type" : "CapabilityStatement",
+    "url" : "http://luisfabib.github.io/onconova/CapabilityStatement/onconova-capability-statement",
+    "version" : "0.1.0",
+    "name" : "OnconovaCapabilityStatement"
+  },
+  {
+    "id" : "onconova-cs-comorbidity-panels",
+    "type" : "CodeSystem",
+    "url" : "http://luisfabib.github.io/onconova/CodeSystem/onconova-cs-comorbidity-panels",
+    "version" : "0.1.0",
+    "name" : "ComorbidityPanelsSystem"
+  },
+  {
+    "id" : "onconova-cs-tbd",
+    "type" : "CodeSystem",
+    "url" : "http://luisfabib.github.io/onconova/CodeSystem/onconova-cs-tbd",
+    "version" : "0.1.0",
+    "name" : "ToBeDeterminedCodes"
+  },
+  {
+    "id" : "onconova.fhir",
+    "type" : "ImplementationGuide",
+    "url" : "http://luisfabib.github.io/onconova/ImplementationGuide/onconova.fhir",
+    "version" : "0.1.0",
+    "name" : "Onconova"
+  },
+  {
+    "id" : "ext-therapy-line-reference",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/ext-therapy-line-reference",
+    "version" : "0.1.0",
+    "name" : "TherapyLineReference"
+  },
+  {
+    "id" : "onconova-Karnofsky-performance-status",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-Karnofsky-performance-status",
+    "version" : "0.1.0",
+    "name" : "OnconovaKarnofskyPerformanceStatus"
+  },
+  {
+    "id" : "onconova-adverse-event",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-adverse-event",
+    "version" : "0.1.0",
+    "name" : "OnconovaAdverseEvent"
+  },
+  {
+    "id" : "onconova-aneuploid-score",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-aneuploid-score",
+    "version" : "0.1.0",
+    "name" : "OnconovaAneuploidScore"
+  },
+  {
+    "id" : "onconova-cancer-family-member-history",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-cancer-family-member-history",
+    "version" : "0.1.0",
+    "name" : "OnconovaCancerFamilyMemberHistory"
+  },
+  {
+    "id" : "onconova-cancer-patient",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-cancer-patient",
+    "version" : "0.1.0",
+    "name" : "OnconovaCancerPatient"
+  },
+  {
+    "id" : "onconova-cancer-risk-assessment",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-cancer-risk-assessment",
+    "version" : "0.1.0",
+    "name" : "OnconovaCancerRiskAssessment"
+  },
+  {
+    "id" : "onconova-cancer-stage",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-cancer-stage",
+    "version" : "0.1.0",
+    "name" : "OnconovaCancerStage"
+  },
+  {
+    "id" : "onconova-comorbidities",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-comorbidities",
+    "version" : "0.1.0",
+    "name" : "OnconovaComorbidities"
+  },
+  {
+    "id" : "onconova-ecog-performance-status",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ecog-performance-status",
+    "version" : "0.1.0",
+    "name" : "OnconovaECOGPerformanceStatus"
+  },
+  {
+    "id" : "onconova-ext-adjunctive-role",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-adjunctive-role",
+    "version" : "0.1.0",
+    "name" : "AdjunctiveRole"
+  },
+  {
+    "id" : "onconova-ext-adverse-event-mitigation",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-adverse-event-mitigation",
+    "version" : "0.1.0",
+    "name" : "AdverseEventMitigation"
+  },
+  {
+    "id" : "onconova-ext-age",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-age",
+    "version" : "0.1.0",
+    "name" : "AgeExtension"
+  },
+  {
+    "id" : "onconova-ext-age-at-diagnosis",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-age-at-diagnosis",
+    "version" : "0.1.0",
+    "name" : "AgeAtDiagnosis"
+  },
+  {
+    "id" : "onconova-ext-anonymized-entry",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-anonymized-entry",
+    "version" : "0.1.0",
+    "name" : "AnonymizedEntry"
+  },
+  {
+    "id" : "onconova-ext-cancer-morphology",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-cancer-morphology",
+    "version" : "0.1.0",
+    "name" : "CancerMorphology"
+  },
+  {
+    "id" : "onconova-ext-cancer-topography",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-cancer-topography",
+    "version" : "0.1.0",
+    "name" : "CancerTopography"
+  },
+  {
+    "id" : "onconova-ext-cause-of-death",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-cause-of-death",
+    "version" : "0.1.0",
+    "name" : "CauseOfDeath"
+  },
+  {
+    "id" : "onconova-ext-combined-with",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-combined-with",
+    "version" : "0.1.0",
+    "name" : "CombinedWith"
+  },
+  {
+    "id" : "onconova-ext-contributors",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-contributors",
+    "version" : "0.1.0",
+    "name" : "Contributors"
+  },
+  {
+    "id" : "onconova-ext-ctc-grade",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-ctc-grade",
+    "version" : "0.1.0",
+    "name" : "CTCGrade"
+  },
+  {
+    "id" : "onconova-ext-cycles",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-cycles",
+    "version" : "0.1.0",
+    "name" : "Cycles"
+  },
+  {
+    "id" : "onconova-ext-data-completion-rate",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-data-completion-rate",
+    "version" : "0.1.0",
+    "name" : "DataCompletionRate"
+  },
+  {
+    "id" : "onconova-ext-end-of-records",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-end-of-records",
+    "version" : "0.1.0",
+    "name" : "EndOfRecords"
+  },
+  {
+    "id" : "onconova-ext-is-primary-therapy",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-is-primary-therapy",
+    "version" : "0.1.0",
+    "name" : "IsPrimaryTherapy"
+  },
+  {
+    "id" : "onconova-ext-molecular-tumor-board-cup-characterization",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-molecular-tumor-board-cup-characterization",
+    "version" : "0.1.0",
+    "name" : "MolecularTumorBoardCUPCharacterization"
+  },
+  {
+    "id" : "onconova-ext-molecular-tumor-board-molecular-comparison",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-molecular-tumor-board-molecular-comparison",
+    "version" : "0.1.0",
+    "name" : "MolecularTumorBoardMolecularComparison"
+  },
+  {
+    "id" : "onconova-ext-molecular-tumor-board-therapeutic-recommendation",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-molecular-tumor-board-therapeutic-recommendation",
+    "version" : "0.1.0",
+    "name" : "MolecularTumorBoardTherapeuticRecommendation"
+  },
+  {
+    "id" : "onconova-ext-overall-survival",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-overall-survival",
+    "version" : "0.1.0",
+    "name" : "OverallSurvival"
+  },
+  {
+    "id" : "onconova-ext-recist-is-interpreted",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-recist-is-interpreted",
+    "version" : "0.1.0",
+    "name" : "RecistIsInterpreted"
+  },
+  {
+    "id" : "onconova-ext-recurrence-of",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-recurrence-of",
+    "version" : "0.1.0",
+    "name" : "RecurrenceOf"
+  },
+  {
+    "id" : "onconova-ext-risk-assessment-score",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-risk-assessment-score",
+    "version" : "0.1.0",
+    "name" : "RiskAssessmentScore"
+  },
+  {
+    "id" : "onconova-ext-therapy-line-intent",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-therapy-line-intent",
+    "version" : "0.1.0",
+    "name" : "TherapyLineIntent"
+  },
+  {
+    "id" : "onconova-ext-therapy-line-number",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-therapy-line-number",
+    "version" : "0.1.0",
+    "name" : "TherapyLineNumber"
+  },
+  {
+    "id" : "onconova-ext-therapy-line-period",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-therapy-line-period",
+    "version" : "0.1.0",
+    "name" : "TherapyLinePeriod"
+  },
+  {
+    "id" : "onconova-ext-therapy-line-progression-date",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-therapy-line-progression-date",
+    "version" : "0.1.0",
+    "name" : "TherapyLineProgressionDate"
+  },
+  {
+    "id" : "onconova-ext-therapy-line-progression-free-survival",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-therapy-line-progression-free-survival",
+    "version" : "0.1.0",
+    "name" : "TherapyLineProgressionFreeSurvival"
+  },
+  {
+    "id" : "onconova-ext-tumor-board-specialization",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-tumor-board-specialization",
+    "version" : "0.1.0",
+    "name" : "TumorBoardSpecialization"
+  },
+  {
+    "id" : "onconova-ext-tumor-marker-analyte",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-tumor-marker-analyte",
+    "version" : "0.1.0",
+    "name" : "TumorMarkerAnalyte"
+  },
+  {
+    "id" : "onconova-ext-unknown-entry",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-unknown-entry",
+    "version" : "0.1.0",
+    "name" : "UnknownEntry"
+  },
+  {
+    "id" : "onconova-genomic-variant",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-genomic-variant",
+    "version" : "0.1.0",
+    "name" : "OnconovaGenomicVariant"
+  },
+  {
+    "id" : "onconova-homologous-recombination-deficiency",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-homologous-recombination-deficiency",
+    "version" : "0.1.0",
+    "name" : "OnconovaHomologousRecombinationDeficiency"
+  },
+  {
+    "id" : "onconova-imaging-disease-status",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-imaging-disease-status",
+    "version" : "0.1.0",
+    "name" : "OnconovaImagingDiseaseStatus"
+  },
+  {
+    "id" : "onconova-lifestyle",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-lifestyle",
+    "version" : "0.1.0",
+    "name" : "OnconovaLifestyle"
+  },
+  {
+    "id" : "onconova-loss-of-heterozygosity",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-loss-of-heterozygosity",
+    "version" : "0.1.0",
+    "name" : "OnconovaLossOfHeterozygosity"
+  },
+  {
+    "id" : "onconova-medication-administration",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-medication-administration",
+    "version" : "0.1.0",
+    "name" : "OnconovaMedicationAdministration"
+  },
+  {
+    "id" : "onconova-microsatellite-instability",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-microsatellite-instability",
+    "version" : "0.1.0",
+    "name" : "OnconovaMicrosatelliteInstability"
+  },
+  {
+    "id" : "onconova-molecular-tumor-board-review",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-molecular-tumor-board-review",
+    "version" : "0.1.0",
+    "name" : "OnconovaMolecularTumorBoardReview"
+  },
+  {
+    "id" : "onconova-primary-cancer-condition",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-primary-cancer-condition",
+    "version" : "0.1.0",
+    "name" : "OnconovaPrimaryCancerCondition"
+  },
+  {
+    "id" : "onconova-radiotherapy-summary",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-radiotherapy-summary",
+    "version" : "0.1.0",
+    "name" : "OnconovaRadiotherapySummary"
+  },
+  {
+    "id" : "onconova-secondary-cancer-condition",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-secondary-cancer-condition",
+    "version" : "0.1.0",
+    "name" : "OnconovaSecondaryCancerCondition"
+  },
+  {
+    "id" : "onconova-serous-tumor-marker-level-category",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-serous-tumor-marker-level-category",
+    "version" : "0.1.0",
+    "name" : "OnconovaTNMSerumTumorMarkerLevelCategory"
+  },
+  {
+    "id" : "onconova-surgical-procedure",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-surgical-procedure",
+    "version" : "0.1.0",
+    "name" : "OnconovaSurgicalProcedure"
+  },
+  {
+    "id" : "onconova-therapy-line",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-therapy-line",
+    "version" : "0.1.0",
+    "name" : "OnconovaTherapyLine"
+  },
+  {
+    "id" : "onconova-tnm-distant-metastases-category",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-tnm-distant-metastases-category",
+    "version" : "0.1.0",
+    "name" : "OnconovaTNMDistantMetastasesCategory"
+  },
+  {
+    "id" : "onconova-tnm-grade-category",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-tnm-grade-category",
+    "version" : "0.1.0",
+    "name" : "OnconovaTNMGradeCategory"
+  },
+  {
+    "id" : "onconova-tnm-lymphatic-invasion-category",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-tnm-lymphatic-invasion-category",
+    "version" : "0.1.0",
+    "name" : "OnconovaTNMLymphaticInvasionCategory"
+  },
+  {
+    "id" : "onconova-tnm-perineural-invasion-category",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-tnm-perineural-invasion-category",
+    "version" : "0.1.0",
+    "name" : "OnconovaTNMPerineuralInvasionCategory"
+  },
+  {
+    "id" : "onconova-tnm-primary-tumor-category",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-tnm-primary-tumor-category",
+    "version" : "0.1.0",
+    "name" : "OnconovaTNMPrimaryTumorCategory"
+  },
+  {
+    "id" : "onconova-tnm-regional-nodes-category",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-tnm-regional-nodes-category",
+    "version" : "0.1.0",
+    "name" : "OnconovaTNMRegionalNodesCategory"
+  },
+  {
+    "id" : "onconova-tnm-residual-tumor-category",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-tnm-residual-tumor-category",
+    "version" : "0.1.0",
+    "name" : "OnconovaTNMResidualTumorCategory"
+  },
+  {
+    "id" : "onconova-tnm-stage-group",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-tnm-stage-group",
+    "version" : "0.1.0",
+    "name" : "OnconovaTNMStageGroup"
+  },
+  {
+    "id" : "onconova-tumor-board-review",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-tumor-board-review",
+    "version" : "0.1.0",
+    "name" : "OnconovaTumorBoardReview"
+  },
+  {
+    "id" : "onconova-tumor-marker",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-tumor-marker",
+    "version" : "0.1.0",
+    "name" : "OnconovaTumorMarker"
+  },
+  {
+    "id" : "onconova-tumor-mutational-burden",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-tumor-mutational-burden",
+    "version" : "0.1.0",
+    "name" : "OnconovaTumorMutationalBurden"
+  },
+  {
+    "id" : "onconova-tumor-neoantigen-burden",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-tumor-neoantigen-burden",
+    "version" : "0.1.0",
+    "name" : "OnconovaTumorNeoantigenBurden"
+  },
+  {
+    "id" : "onconova-venous-invasion-category",
+    "type" : "StructureDefinition",
+    "url" : "http://luisfabib.github.io/onconova/StructureDefinition/onconova-venous-invasion-category",
+    "version" : "0.1.0",
+    "name" : "OnconovaTNMVenousInvasionCategory"
+  },
+  {
+    "id" : "onconova-tnm-lymphatic-invasion-categories",
+    "type" : "ValueSet",
+    "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-tnm-lymphatic-invasion-categories",
+    "version" : "0.1.0",
+    "name" : "TNMLymphaticInvasionCategories"
+  },
+  {
+    "id" : "onconova-tnm-perineural-invasion-categories",
+    "type" : "ValueSet",
+    "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-tnm-perineural-invasion-categories",
+    "version" : "0.1.0",
+    "name" : "TNMPerineuralInvasionCategories"
+  },
+  {
+    "id" : "onconova-tnm-residual-tumor-categories",
+    "type" : "ValueSet",
+    "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-tnm-residual-tumor-categories",
+    "version" : "0.1.0",
+    "name" : "TNMResidualTumorCategories"
+  },
+  {
+    "id" : "onconova-vs-adjunctive-therapy-roles",
+    "type" : "ValueSet",
+    "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-adjunctive-therapy-roles",
+    "version" : "0.1.0",
+    "name" : "AdjunctiveTherapyRoles"
+  },
+  {
+    "id" : "onconova-vs-adverse-event-mitigation-categories",
+    "type" : "ValueSet",
+    "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-adverse-event-mitigation-categories",
+    "version" : "0.1.0",
+    "name" : "AdverseEventMitigationCategories"
+  },
+  {
+    "id" : "onconova-vs-adverse-event-mitigation-drugs",
+    "type" : "ValueSet",
+    "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-adverse-event-mitigation-drugs",
+    "version" : "0.1.0",
+    "name" : "AdverseEventMitigationDrugs"
+  },
+  {
+    "id" : "onconova-vs-adverse-event-mitigation-managements",
+    "type" : "ValueSet",
+    "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-adverse-event-mitigation-managements",
+    "version" : "0.1.0",
+    "name" : "AdverseEventMitigationManagements"
+  },
+  {
+    "id" : "onconova-vs-adverse-event-mitigation-procedures",
+    "type" : "ValueSet",
+    "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-adverse-event-mitigation-procedures",
+    "version" : "0.1.0",
+    "name" : "AdverseEventMitigationProcedures"
+  },
+  {
+    "id" : "onconova-vs-adverse-event-mitigation-treatment-adjustments",
+    "type" : "ValueSet",
+    "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-adverse-event-mitigation-treatment-adjustments",
+    "version" : "0.1.0",
+    "name" : "AdverseEventMitigationTreatmentAdjustments"
+  },
+  {
+    "id" : "onconova-vs-antineoplastic-agents",
+    "type" : "ValueSet",
+    "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-antineoplastic-agents",
+    "version" : "0.1.0",
+    "name" : "AntineoplasticAgents"
+  },
+  {
+    "id" : "onconova-vs-cancer-imaging-methods",
+    "type" : "ValueSet",
+    "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-cancer-imaging-methods",
+    "version" : "0.1.0",
+    "name" : "CancerImagingMethods"
+  },
+  {
+    "id" : "onconova-vs-cancer-risk-assessment-methods",
+    "type" : "ValueSet",
+    "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-cancer-risk-assessment-methods",
+    "version" : "0.1.0",
+    "name" : "CancerRiskAssessmentMethods"
+  },
+  {
+    "id" : "onconova-vs-causes-of-death",
+    "type" : "ValueSet",
+    "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-causes-of-death",
+    "version" : "0.1.0",
+    "name" : "CausesOfDeath"
+  },
+  {
+    "id" : "onconova-vs-comorbidity-panels",
+    "type" : "ValueSet",
+    "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-comorbidity-panels",
+    "version" : "0.1.0",
+    "name" : "ComorbidityPanels"
+  },
+  {
+    "id" : "onconova-vs-ctc-adverse-events",
+    "type" : "ValueSet",
+    "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-ctc-adverse-events",
+    "version" : "0.1.0",
+    "name" : "CTCAdverseEvents"
+  },
+  {
+    "id" : "onconova-vs-expected-drug-effects",
+    "type" : "ValueSet",
+    "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-expected-drug-effects",
+    "version" : "0.1.0",
+    "name" : "ExpectedDrugEffects"
+  },
+  {
+    "id" : "onconova-vs-exposure-agents",
+    "type" : "ValueSet",
+    "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-exposure-agents",
+    "version" : "0.1.0",
+    "name" : "ExposureAgents"
+  },
+  {
+    "id" : "onconova-vs-icd-10-conditions",
+    "type" : "ValueSet",
+    "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-icd-10-conditions",
+    "version" : "0.1.0",
+    "name" : "ICD10Conditions"
+  },
+  {
+    "id" : "onconova-vs-icdo3-morphology-behavior",
+    "type" : "ValueSet",
+    "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-icdo3-morphology-behavior",
+    "version" : "0.1.0",
+    "name" : "ICDO3MorphologyBehavior"
+  },
+  {
+    "id" : "onconova-vs-icdo3-topography",
+    "type" : "ValueSet",
+    "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-icdo3-topography",
+    "version" : "0.1.0",
+    "name" : "ICDO3Topography"
+  },
+  {
+    "id" : "onconova-vs-observation-bodysites",
+    "type" : "ValueSet",
+    "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-observation-bodysites",
+    "version" : "0.1.0",
+    "name" : "ObservationBodySites"
+  },
+  {
+    "id" : "onconova-vs-recreational-drugs",
+    "type" : "ValueSet",
+    "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-recreational-drugs",
+    "version" : "0.1.0",
+    "name" : "RecreationalDrugs"
+  },
+  {
+    "id" : "onconova-vs-smoking-status",
+    "type" : "ValueSet",
+    "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-smoking-status",
+    "version" : "0.1.0",
+    "name" : "SmokingStatus"
+  },
+  {
+    "id" : "onconova-vs-tnm-distant-metastasis-categories",
+    "type" : "ValueSet",
+    "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-tnm-distant-metastasis-categories",
+    "version" : "0.1.0",
+    "name" : "TNMDistantMetastasisCategories"
+  },
+  {
+    "id" : "onconova-vs-tnm-grade-categories",
+    "type" : "ValueSet",
+    "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-tnm-grade-categories",
+    "version" : "0.1.0",
+    "name" : "TNMGradeCategories"
+  },
+  {
+    "id" : "onconova-vs-tnm-grade-category-methods",
+    "type" : "ValueSet",
+    "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-tnm-grade-category-methods",
+    "version" : "0.1.0",
+    "name" : "TNMGradeCategoryMethods"
+  },
+  {
+    "id" : "onconova-vs-tnm-primary-tumor-categories",
+    "type" : "ValueSet",
+    "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-tnm-primary-tumor-categories",
+    "version" : "0.1.0",
+    "name" : "TNMPrimaryTumorCategories"
+  },
+  {
+    "id" : "onconova-vs-tnm-regional-nodes-categories",
+    "type" : "ValueSet",
+    "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-tnm-regional-nodes-categories",
+    "version" : "0.1.0",
+    "name" : "TNMRegionalNodesCategories"
+  },
+  {
+    "id" : "onconova-vs-tnm-serum-tumor-marker-level-categories",
+    "type" : "ValueSet",
+    "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-tnm-serum-tumor-marker-level-categories",
+    "version" : "0.1.0",
+    "name" : "TNMSerumTumorMarkerLevelCategories"
+  },
+  {
+    "id" : "onconova-vs-tnm-venous-invasion-categories",
+    "type" : "ValueSet",
+    "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-tnm-venous-invasion-categories",
+    "version" : "0.1.0",
+    "name" : "TNMVenousInvasionCategories"
+  },
+  {
+    "id" : "onconova-vs-treatment-termination-reasons",
+    "type" : "ValueSet",
+    "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-treatment-termination-reasons",
+    "version" : "0.1.0",
+    "name" : "TreatmentTerminationReasons"
+  },
+  {
+    "id" : "onconova-vs-tumor-board-recommendations",
+    "type" : "ValueSet",
+    "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-tumor-board-recommendations",
+    "version" : "0.1.0",
+    "name" : "OnconovaTumorBoardRecommendations"
+  },
+  {
+    "id" : "onconova-vs-tumor-marker-analytes",
+    "type" : "ValueSet",
+    "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-tumor-marker-analytes",
+    "version" : "0.1.0",
+    "name" : "TumorMarkerAnalytes"
+  },
+  {
+    "id" : "onconova-vs-cancer-risk-assessment-values",
+    "type" : "ValueSet",
+    "url" : "https://simplifier.net/onconova/ValueSets/onconova-cancer-risk-assessment-values",
+    "version" : "0.1.0",
+    "name" : "CancerRiskAssessmentValues"
+  }
+]

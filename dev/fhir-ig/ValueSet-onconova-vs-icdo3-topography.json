@@ -1,0 +1,28 @@
+{
+  "resourceType" : "ValueSet",
+  "id" : "onconova-vs-icdo3-topography",
+  "text" : {
+    "status" : "generated",
+    "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: ValueSet onconova-vs-icdo3-topography</b></p><a name=\"onconova-vs-icdo3-topography\"> </a><a name=\"hconconova-vs-icdo3-topography\"> </a><ul><li>Include all codes defined in <a href=\"http://terminology.hl7.org/6.5.0/CodeSystem-icd-o-3.html\"><code>http://terminology.hl7.org/CodeSystem/icd-o-3</code></a></li></ul></div>"
+  },
+  "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-icdo3-topography",
+  "version" : "0.1.0",
+  "name" : "ICDO3Topography",
+  "title" : "ICD-O-3 Topography",
+  "status" : "active",
+  "date" : "2025-09-29T08:09:08+00:00",
+  "publisher" : "Onconova",
+  "contact" : [{
+    "name" : "Onconova",
+    "telecom" : [{
+      "system" : "url",
+      "value" : "http://luisfabib.github.io/onconova"
+    }]
+  }],
+  "description" : "A value set of ICD-O-3 topography codes.",
+  "compose" : {
+    "include" : [{
+      "system" : "http://terminology.hl7.org/CodeSystem/icd-o-3"
+    }]
+  }
+}

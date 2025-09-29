@@ -1,0 +1,44 @@
+{
+  "resourceType" : "ValueSet",
+  "id" : "onconova-vs-tnm-distant-metastasis-categories",
+  "text" : {
+    "status" : "generated",
+    "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: ValueSet onconova-vs-tnm-distant-metastasis-categories</b></p><a name=\"onconova-vs-tnm-distant-metastasis-categories\"> </a><a name=\"hconconova-vs-tnm-distant-metastasis-categories\"> </a><p>This value set includes codes based on the following rules:</p><ul><li>Import all the codes that are contained in <a href=\"http://hl7.org/fhir/us/mcode/STU4/ValueSet-mcode-tnm-distant-metastases-category-vs.html\">TNM Distant Metastases Category Value Set</a></li><li>Include codes from<a href=\"http://www.snomed.org/\"><code>http://snomed.info/sct</code></a> where concept  descends from 1281794006 (American Joint Committee on Cancer rcM category allowable value)</li><li>Include codes from<a href=\"http://www.snomed.org/\"><code>http://snomed.info/sct</code></a> where concept  descends from 1281795007 (American Joint Committee on Cancer rpM category allowable value (qualifier value))</li></ul></div>"
+  },
+  "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-tnm-distant-metastasis-categories",
+  "version" : "0.1.0",
+  "name" : "TNMDistantMetastasisCategories",
+  "title" : "TNM Distant Metastasis Categories Value Set",
+  "status" : "active",
+  "date" : "2025-09-29T08:09:08+00:00",
+  "publisher" : "Onconova",
+  "contact" : [{
+    "name" : "Onconova",
+    "telecom" : [{
+      "system" : "url",
+      "value" : "http://luisfabib.github.io/onconova"
+    }]
+  }],
+  "description" : "TNM Distant Metastasis Categories Value Set",
+  "compose" : {
+    "include" : [{
+      "valueSet" : ["http://hl7.org/fhir/us/mcode/ValueSet/mcode-tnm-distant-metastases-category-vs|4.0.0"]
+    },
+    {
+      "system" : "http://snomed.info/sct",
+      "filter" : [{
+        "property" : "concept",
+        "op" : "descendent-of",
+        "value" : "1281794006"
+      }]
+    },
+    {
+      "system" : "http://snomed.info/sct",
+      "filter" : [{
+        "property" : "concept",
+        "op" : "descendent-of",
+        "value" : "1281795007"
+      }]
+    }]
+  }
+}

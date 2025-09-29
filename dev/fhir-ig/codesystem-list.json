@@ -1,0 +1,20 @@
+{
+  "codeSystems" : [
+    {
+      "url" : "http://luisfabib.github.io/onconova/CodeSystem/onconova-cs-comorbidity-panels",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "ComorbidityPanelsSystem",
+      "title" : "Comorbidity Panels Code System",
+      "description" : "A code system for comorbidity panels relevant to cancer patients."
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/CodeSystem/onconova-cs-tbd",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "ToBeDeterminedCodes",
+      "title" : "To Be Determined Codes",
+      "description" : "A code system for codes that are yet to be determined."
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "resourceType" : "ValueSet",
+  "id" : "onconova-vs-tnm-grade-categories",
+  "text" : {
+    "status" : "generated",
+    "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: ValueSet onconova-vs-tnm-grade-categories</b></p><a name=\"onconova-vs-tnm-grade-categories\"> </a><a name=\"hconconova-vs-tnm-grade-categories\"> </a><ul><li>Include these codes as defined in <a href=\"http://www.snomed.org/\"><code>http://snomed.info/sct</code></a><table class=\"none\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td></tr><tr><td><a href=\"http://snomed.info/id/1228848004\">1228848004</a></td><td style=\"color: #cccccc\">American Joint Committee on Cancer grade G1</td></tr><tr><td><a href=\"http://snomed.info/id/1228850007\">1228850007</a></td><td style=\"color: #cccccc\">American Joint Committee on Cancer grade G2</td></tr><tr><td><a href=\"http://snomed.info/id/1228851006\">1228851006</a></td><td style=\"color: #cccccc\">American Joint Committee on Cancer grade G3 (qualifier value)</td></tr><tr><td><a href=\"http://snomed.info/id/1228852004\">1228852004</a></td><td style=\"color: #cccccc\">American Joint Committee on Cancer grade G4 (qualifier value)</td></tr><tr><td><a href=\"http://snomed.info/id/1259951003\">1259951003</a></td><td style=\"color: #cccccc\">AJCC (American Joint Committee on Cancer) G5</td></tr><tr><td><a href=\"http://snomed.info/id/1228847009\">1228847009</a></td><td style=\"color: #cccccc\">American Joint Committee on Cancer grade GB</td></tr><tr><td><a href=\"http://snomed.info/id/1228845001\">1228845001</a></td><td style=\"color: #cccccc\">American Joint Committee on Cancer grade GX</td></tr><tr><td><a href=\"http://snomed.info/id/1228854003\">1228854003</a></td><td style=\"color: #cccccc\">American Joint Committee on Cancer grade HG (qualifier value)</td></tr><tr><td><a href=\"http://snomed.info/id/1228853009\">1228853009</a></td><td style=\"color: #cccccc\">American Joint Committee on Cancer grade LG</td></tr></table></li></ul></div>"
+  },
+  "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-tnm-grade-categories",
+  "version" : "0.1.0",
+  "name" : "TNMGradeCategories",
+  "title" : "TNM Grade Categories Value Set",
+  "status" : "active",
+  "date" : "2025-09-29T08:09:08+00:00",
+  "publisher" : "Onconova",
+  "contact" : [{
+    "name" : "Onconova",
+    "telecom" : [{
+      "system" : "url",
+      "value" : "http://luisfabib.github.io/onconova"
+    }]
+  }],
+  "description" : "TNM Grade Categories Value Set",
+  "compose" : {
+    "include" : [{
+      "system" : "http://snomed.info/sct",
+      "concept" : [{
+        "code" : "1228848004"
+      },
+      {
+        "code" : "1228850007"
+      },
+      {
+        "code" : "1228851006"
+      },
+      {
+        "code" : "1228852004"
+      },
+      {
+        "code" : "1259951003"
+      },
+      {
+        "code" : "1228847009"
+      },
+      {
+        "code" : "1228845001"
+      },
+      {
+        "code" : "1228854003"
+      },
+      {
+        "code" : "1228853009"
+      }]
+    }]
+  }
+}

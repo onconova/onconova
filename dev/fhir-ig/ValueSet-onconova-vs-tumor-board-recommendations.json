@@ -1,0 +1,127 @@
+{
+  "resourceType" : "ValueSet",
+  "id" : "onconova-vs-tumor-board-recommendations",
+  "text" : {
+    "status" : "generated",
+    "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: ValueSet onconova-vs-tumor-board-recommendations</b></p><a name=\"onconova-vs-tumor-board-recommendations\"> </a><a name=\"hconconova-vs-tumor-board-recommendations\"> </a><p>This value set includes codes based on the following rules:</p><ul><li>Include these codes as defined in <a href=\"http://www.snomed.org/\"><code>http://snomed.info/sct</code></a><table class=\"none\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td></tr><tr><td><a href=\"https://browser.ihtsdotools.org/\">420227002:363702006=(386053000:363702006=387713003)</a></td><td>Recommendation to evaluate for surgery</td></tr><tr><td><a href=\"https://browser.ihtsdotools.org/\">420227002:363702006=(386053000:363702006=1287742003)</a></td><td>Recommendation to evaluate for radiotherapy</td></tr><tr><td><a href=\"https://browser.ihtsdotools.org/\">420227002:363702006=(386053000:363702006=61371000210101)</a></td><td>Recommendation to evaluate for systemic antineoplastic therapy</td></tr><tr><td><a href=\"https://browser.ihtsdotools.org/\">420227002:363702006=(386053000:363702006=(276239002:363704007=255470001))</a></td><td>Recommendation to evaluate for local therapy</td></tr><tr><td><a href=\"https://browser.ihtsdotools.org/\">420227002:363702006=(277132007:363702006=(64572001:278201002=74964007))</a></td><td>Recommendation for non-cancer treatment and watchful waiting</td></tr><tr><td><a href=\"https://browser.ihtsdotools.org/\">420227002:363702006=(254292007:(363702006=27582007,408731000=264499004))</a></td><td>Recommendation to repeat tumor staging early</td></tr><tr><td><a href=\"https://browser.ihtsdotools.org/\">306806004:246486007=372688009</a></td><td>Recommendation to continue with antineoplastic treatment</td></tr><tr><td><a href=\"https://browser.ihtsdotools.org/\">420227002:363702006=(390906007:363702006=255238004)</a></td><td>Recommendation to continue with follow-up</td></tr><tr><td><a href=\"https://browser.ihtsdotools.org/\">420227002:363702006=(386053000:363702006=709491003)</a></td><td>Recommendation to evaluate for clinical trial enrollment</td></tr><tr><td><a href=\"https://browser.ihtsdotools.org/\">420227002:363702006=(399414003:(278201002=74964007))</a></td><td>Recommendation to evaluate in other tumor board</td></tr><tr><td><a href=\"https://browser.ihtsdotools.org/\">420227002:363702006=396927009</a></td><td>Recommendation for molecular testing</td></tr><tr><td><a href=\"https://browser.ihtsdotools.org/\">420227002:363702006=117614009</a></td><td>Recommendation to obtain review by pathologist</td></tr><tr><td><a href=\"https://browser.ihtsdotools.org/\">306807008:363701004=372688009</a></td><td>Recommendation to start systemic antineoplastic therapy</td></tr><tr><td><a href=\"https://browser.ihtsdotools.org/\">306806004:363701004=372688009</a></td><td>Recommendation to continue systemic antineoplastic therapy</td></tr><tr><td><a href=\"https://browser.ihtsdotools.org/\">304540007:363701004=372688009</a></td><td>Recommendation to stop systemic antineoplastic therapy</td></tr><tr><td><a href=\"https://browser.ihtsdotools.org/\">420227002:363702006=1345242003</a></td><td>Recommendation for maintenance therapy</td></tr><tr><td><a href=\"https://browser.ihtsdotools.org/\">420227002:363702006=(386053000:363702006=77465005)</a></td><td>Recommendation to evaluate for transplant</td></tr><tr><td><a href=\"https://browser.ihtsdotools.org/\">420227002:363702006=306237005</a></td><td>Recommendation for referral to palliative care service</td></tr><tr><td><a href=\"https://browser.ihtsdotools.org/\">420227002:363702006=306109009</a></td><td>Recommendation for referral to pain management service</td></tr><tr><td><a href=\"https://browser.ihtsdotools.org/\">420227002:363702006=(306226009:363702006=363346000)</a></td><td>Recommendation for referral to psycho-oncological counseling</td></tr><tr><td><a href=\"https://browser.ihtsdotools.org/\">420227002:363702006=363702006</a></td><td>Recommendation for referral to rehabilitation service</td></tr></table></li><li>Include these codes as defined in <a href=\"http://loinc.org\"><code>http://loinc.org</code></a><table class=\"none\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td></tr><tr><td><a href=\"https://loinc.org/LA14020-4/\">LA14020-4</a></td><td>Genetic counseling recommended</td></tr><tr><td><a href=\"https://loinc.org/LA14021-2/\">LA14021-2</a></td><td>Confirmatory testing recommended</td></tr><tr><td><a href=\"https://loinc.org/LA14022-0/\">LA14022-0</a></td><td>Additional testing recommended</td></tr></table></li></ul></div>"
+  },
+  "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-tumor-board-recommendations",
+  "version" : "0.1.0",
+  "name" : "OnconovaTumorBoardRecommendations",
+  "title" : "Tumor Board Recommendations",
+  "status" : "active",
+  "date" : "2025-09-29T08:09:08+00:00",
+  "publisher" : "Onconova",
+  "contact" : [{
+    "name" : "Onconova",
+    "telecom" : [{
+      "system" : "url",
+      "value" : "http://luisfabib.github.io/onconova"
+    }]
+  }],
+  "description" : "A value set of recommendations that may be made by a tumor board for a cancer patient.",
+  "compose" : {
+    "include" : [{
+      "system" : "http://snomed.info/sct",
+      "concept" : [{
+        "code" : "420227002:363702006=(386053000:363702006=387713003)",
+        "display" : "Recommendation to evaluate for surgery"
+      },
+      {
+        "code" : "420227002:363702006=(386053000:363702006=1287742003)",
+        "display" : "Recommendation to evaluate for radiotherapy"
+      },
+      {
+        "code" : "420227002:363702006=(386053000:363702006=61371000210101)",
+        "display" : "Recommendation to evaluate for systemic antineoplastic therapy"
+      },
+      {
+        "code" : "420227002:363702006=(386053000:363702006=(276239002:363704007=255470001))",
+        "display" : "Recommendation to evaluate for local therapy"
+      },
+      {
+        "code" : "420227002:363702006=(277132007:363702006=(64572001:278201002=74964007))",
+        "display" : "Recommendation for non-cancer treatment and watchful waiting"
+      },
+      {
+        "code" : "420227002:363702006=(254292007:(363702006=27582007,408731000=264499004))",
+        "display" : "Recommendation to repeat tumor staging early"
+      },
+      {
+        "code" : "306806004:246486007=372688009",
+        "display" : "Recommendation to continue with antineoplastic treatment"
+      },
+      {
+        "code" : "420227002:363702006=(390906007:363702006=255238004)",
+        "display" : "Recommendation to continue with follow-up"
+      },
+      {
+        "code" : "420227002:363702006=(386053000:363702006=709491003)",
+        "display" : "Recommendation to evaluate for clinical trial enrollment"
+      },
+      {
+        "code" : "420227002:363702006=(399414003:(278201002=74964007))",
+        "display" : "Recommendation to evaluate in other tumor board"
+      },
+      {
+        "code" : "420227002:363702006=396927009",
+        "display" : "Recommendation for molecular testing"
+      },
+      {
+        "code" : "420227002:363702006=117614009",
+        "display" : "Recommendation to obtain review by pathologist"
+      },
+      {
+        "code" : "306807008:363701004=372688009",
+        "display" : "Recommendation to start systemic antineoplastic therapy"
+      },
+      {
+        "code" : "306806004:363701004=372688009",
+        "display" : "Recommendation to continue systemic antineoplastic therapy"
+      },
+      {
+        "code" : "304540007:363701004=372688009",
+        "display" : "Recommendation to stop systemic antineoplastic therapy"
+      },
+      {
+        "code" : "420227002:363702006=1345242003",
+        "display" : "Recommendation for maintenance therapy"
+      },
+      {
+        "code" : "420227002:363702006=(386053000:363702006=77465005)",
+        "display" : "Recommendation to evaluate for transplant"
+      },
+      {
+        "code" : "420227002:363702006=306237005",
+        "display" : "Recommendation for referral to palliative care service"
+      },
+      {
+        "code" : "420227002:363702006=306109009",
+        "display" : "Recommendation for referral to pain management service"
+      },
+      {
+        "code" : "420227002:363702006=(306226009:363702006=363346000)",
+        "display" : "Recommendation for referral to psycho-oncological counseling"
+      },
+      {
+        "code" : "420227002:363702006=363702006",
+        "display" : "Recommendation for referral to rehabilitation service"
+      }]
+    },
+    {
+      "system" : "http://loinc.org",
+      "concept" : [{
+        "code" : "LA14020-4",
+        "display" : "Genetic counseling recommended"
+      },
+      {
+        "code" : "LA14021-2",
+        "display" : "Confirmatory testing recommended"
+      },
+      {
+        "code" : "LA14022-0",
+        "display" : "Additional testing recommended"
+      }]
+    }]
+  }
+}

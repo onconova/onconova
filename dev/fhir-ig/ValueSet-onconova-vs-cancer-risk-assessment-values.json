@@ -1,0 +1,220 @@
+{
+  "resourceType" : "ValueSet",
+  "id" : "onconova-vs-cancer-risk-assessment-values",
+  "text" : {
+    "status" : "generated",
+    "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: ValueSet onconova-vs-cancer-risk-assessment-values</b></p><a name=\"onconova-vs-cancer-risk-assessment-values\"> </a><a name=\"hconconova-vs-cancer-risk-assessment-values\"> </a><ul><li>Include these codes as defined in <a href=\"http://terminology.hl7.org/6.5.0/CodeSystem-v3-nciThesaurus.html\"><code>http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl</code></a><table class=\"none\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td></tr><tr><td>C136965</td><td>FLIPI Score 0-1, Low Risk</td></tr><tr><td>C136967</td><td>FLIPI Score 2, Intermediate Risk</td></tr><tr><td>C136968</td><td>FLIPI Score Greater than or Equal to 3, High Risk</td></tr><tr><td>C102403</td><td>Low risk</td></tr><tr><td>C102402</td><td>Intermediate risk</td></tr><tr><td>C102401</td><td>High risk</td></tr><tr><td>C155844</td><td>IMDC Favorable risk</td></tr><tr><td>C155845</td><td>IMDC Intermediate Risk</td></tr><tr><td>C155846</td><td>IMDC Poor risk</td></tr><tr><td>C161809</td><td>International Prognostic Index High Risk Group</td></tr><tr><td>C161808</td><td>International Prognostic Index High-Intermediate Risk Group</td></tr><tr><td>C161806</td><td>International Prognostic Index Low Risk Group</td></tr><tr><td>C161807</td><td>International Prognostic Index Low-Intermediate Risk Group</td></tr><tr><td>C188368</td><td>ELN Adverse-Risk Category</td></tr><tr><td>C188369</td><td>ELN Favorable-Risk Category</td></tr><tr><td>C188370</td><td>ELN Intermediate-Risk Category</td></tr><tr><td>C113691</td><td>Child-Pugh Class A</td></tr><tr><td>C146790</td><td>Child-Pugh Class A5</td></tr><tr><td>C146791</td><td>Child-Pugh Class A6</td></tr><tr><td>C113692</td><td>Child-Pugh Class B</td></tr><tr><td>C146792</td><td>Child-Pugh Class B7</td></tr><tr><td>C146793</td><td>Child-Pugh Class B8</td></tr><tr><td>C146794</td><td>Child-Pugh Class B9</td></tr><tr><td>C113694</td><td>Child-Pugh Class C</td></tr><tr><td>C146795</td><td>Child-Pugh Class C10</td></tr><tr><td>C146796</td><td>Child-Pugh Class C11</td></tr><tr><td>C146797</td><td>Child-Pugh Class C12</td></tr><tr><td>C146798</td><td>Child-Pugh Class C13</td></tr><tr><td>C146799</td><td>Child-Pugh Class C14</td></tr><tr><td>C146801</td><td>Child-Pugh Class C15</td></tr><tr><td>C148151</td><td>Child-Pugh A-B7 Cirrhosis</td></tr><tr><td>C192873</td><td>NCCN Prostate Cancer Very Low Risk Group</td></tr><tr><td>C192874</td><td>NCCN Prostate Cancer Low Risk Group</td></tr><tr><td>C192877</td><td>NCCN Prostate Cancer Unfavorable-Intermediate Risk Group</td></tr><tr><td>C192876</td><td>NCCN Prostate Cancer Favorable-Intermediate Risk Group</td></tr><tr><td>C192875</td><td>NCCN Prostate Cancer Intermediate Risk Group</td></tr><tr><td>C192878</td><td>NCCN Prostate Cancer High Risk Group</td></tr><tr><td>C192879</td><td>NCCN Prostate Cancer Very High Risk Group</td></tr><tr><td>C177313</td><td>Seminoma IGCCC, Good</td></tr><tr><td>C177314</td><td>Seminoma IGCCC, Intermediate</td></tr><tr><td>C177310</td><td>Non-Seminomatous Germ Cell Tumor IGCC, Good</td></tr><tr><td>C177311</td><td>Non-Seminomatous Germ Cell Tumor IGCC, Intermediate</td></tr><tr><td>C177312</td><td>Non-Seminomatous Germ Cell Tumor IGCC, Poor</td></tr><tr><td>C162654</td><td>ISUP Grade Pattern 1</td></tr><tr><td>C162655</td><td>ISUP Grade Pattern 2</td></tr><tr><td>C162656</td><td>ISUP Grade Pattern 3</td></tr><tr><td>C162657</td><td>ISUP Grade Pattern 4</td></tr><tr><td>C162658</td><td>ISUP Grade Pattern 5</td></tr></table></li></ul></div>"
+  },
+  "url" : "https://simplifier.net/onconova/ValueSets/onconova-cancer-risk-assessment-values",
+  "version" : "0.1.0",
+  "name" : "CancerRiskAssessmentValues",
+  "title" : "Risk Assessment Values",
+  "status" : "draft",
+  "date" : "2025-09-29T08:09:08+00:00",
+  "publisher" : "Onconova",
+  "contact" : [{
+    "name" : "Onconova",
+    "telecom" : [{
+      "system" : "url",
+      "value" : "http://luisfabib.github.io/onconova"
+    }]
+  }],
+  "description" : "A non-exhaustive value set containing codes that result from risk assessments, i.e., the risk level of the cancer.",
+  "compose" : {
+    "include" : [{
+      "system" : "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+      "concept" : [{
+        "code" : "C136965",
+        "display" : "FLIPI Score 0-1, Low Risk"
+      },
+      {
+        "code" : "C136967",
+        "display" : "FLIPI Score 2, Intermediate Risk"
+      },
+      {
+        "code" : "C136968",
+        "display" : "FLIPI Score Greater than or Equal to 3, High Risk"
+      },
+      {
+        "code" : "C102403",
+        "display" : "Low risk"
+      },
+      {
+        "code" : "C102402",
+        "display" : "Intermediate risk"
+      },
+      {
+        "code" : "C102401",
+        "display" : "High risk"
+      },
+      {
+        "code" : "C155844",
+        "display" : "IMDC Favorable risk"
+      },
+      {
+        "code" : "C155845",
+        "display" : "IMDC Intermediate Risk"
+      },
+      {
+        "code" : "C155846",
+        "display" : "IMDC Poor risk"
+      },
+      {
+        "code" : "C161809",
+        "display" : "International Prognostic Index High Risk Group"
+      },
+      {
+        "code" : "C161808",
+        "display" : "International Prognostic Index High-Intermediate Risk Group"
+      },
+      {
+        "code" : "C161806",
+        "display" : "International Prognostic Index Low Risk Group"
+      },
+      {
+        "code" : "C161807",
+        "display" : "International Prognostic Index Low-Intermediate Risk Group"
+      },
+      {
+        "code" : "C188368",
+        "display" : "ELN Adverse-Risk Category"
+      },
+      {
+        "code" : "C188369",
+        "display" : "ELN Favorable-Risk Category"
+      },
+      {
+        "code" : "C188370",
+        "display" : "ELN Intermediate-Risk Category"
+      },
+      {
+        "code" : "C113691",
+        "display" : "Child-Pugh Class A"
+      },
+      {
+        "code" : "C146790",
+        "display" : "Child-Pugh Class A5"
+      },
+      {
+        "code" : "C146791",
+        "display" : "Child-Pugh Class A6"
+      },
+      {
+        "code" : "C113692",
+        "display" : "Child-Pugh Class B"
+      },
+      {
+        "code" : "C146792",
+        "display" : "Child-Pugh Class B7"
+      },
+      {
+        "code" : "C146793",
+        "display" : "Child-Pugh Class B8"
+      },
+      {
+        "code" : "C146794",
+        "display" : "Child-Pugh Class B9"
+      },
+      {
+        "code" : "C113694",
+        "display" : "Child-Pugh Class C"
+      },
+      {
+        "code" : "C146795",
+        "display" : "Child-Pugh Class C10"
+      },
+      {
+        "code" : "C146796",
+        "display" : "Child-Pugh Class C11"
+      },
+      {
+        "code" : "C146797",
+        "display" : "Child-Pugh Class C12"
+      },
+      {
+        "code" : "C146798",
+        "display" : "Child-Pugh Class C13"
+      },
+      {
+        "code" : "C146799",
+        "display" : "Child-Pugh Class C14"
+      },
+      {
+        "code" : "C146801",
+        "display" : "Child-Pugh Class C15"
+      },
+      {
+        "code" : "C148151",
+        "display" : "Child-Pugh A-B7 Cirrhosis"
+      },
+      {
+        "code" : "C192873",
+        "display" : "NCCN Prostate Cancer Very Low Risk Group"
+      },
+      {
+        "code" : "C192874",
+        "display" : "NCCN Prostate Cancer Low Risk Group"
+      },
+      {
+        "code" : "C192877",
+        "display" : "NCCN Prostate Cancer Unfavorable-Intermediate Risk Group"
+      },
+      {
+        "code" : "C192876",
+        "display" : "NCCN Prostate Cancer Favorable-Intermediate Risk Group"
+      },
+      {
+        "code" : "C192875",
+        "display" : "NCCN Prostate Cancer Intermediate Risk Group"
+      },
+      {
+        "code" : "C192878",
+        "display" : "NCCN Prostate Cancer High Risk Group"
+      },
+      {
+        "code" : "C192879",
+        "display" : "NCCN Prostate Cancer Very High Risk Group"
+      },
+      {
+        "code" : "C177313",
+        "display" : "Seminoma IGCCC, Good"
+      },
+      {
+        "code" : "C177314",
+        "display" : "Seminoma IGCCC, Intermediate"
+      },
+      {
+        "code" : "C177310",
+        "display" : "Non-Seminomatous Germ Cell Tumor IGCC, Good"
+      },
+      {
+        "code" : "C177311",
+        "display" : "Non-Seminomatous Germ Cell Tumor IGCC, Intermediate"
+      },
+      {
+        "code" : "C177312",
+        "display" : "Non-Seminomatous Germ Cell Tumor IGCC, Poor"
+      },
+      {
+        "code" : "C162654",
+        "display" : "ISUP Grade Pattern 1"
+      },
+      {
+        "code" : "C162655",
+        "display" : "ISUP Grade Pattern 2"
+      },
+      {
+        "code" : "C162656",
+        "display" : "ISUP Grade Pattern 3"
+      },
+      {
+        "code" : "C162657",
+        "display" : "ISUP Grade Pattern 4"
+      },
+      {
+        "code" : "C162658",
+        "display" : "ISUP Grade Pattern 5"
+      }]
+    }]
+  }
+}

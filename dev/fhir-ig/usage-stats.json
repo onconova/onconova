@@ -1,0 +1,710 @@
+{
+  "package": "onconova.fhir",
+  "version": "0.1.0",
+  "fhirVersion": "4.0.1",
+  "extensions": [
+    {
+      "url": "http://luisfabib.github.io/onconova/StructureDefinition/ext-therapy-line-reference",
+      "title": "Therapy Line Reference",
+      "types": [
+        "Reference"
+      ]
+    },
+    {
+      "url": "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-adjunctive-role",
+      "title": "Adjunctive Role",
+      "types": [
+        "CodeableConcept"
+      ]
+    },
+    {
+      "url": "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-adverse-event-mitigation",
+      "title": "Adverse Event Mitigation",
+      "types": [
+        "CodeableConcept",
+        "CodeableConcept",
+        "CodeableConcept",
+        "CodeableConcept",
+        "CodeableConcept",
+        "base64Binary",
+        "boolean",
+        "canonical",
+        "code",
+        "date",
+        "dateTime",
+        "decimal",
+        "id",
+        "instant",
+        "integer",
+        "markdown",
+        "oid",
+        "positiveInt",
+        "string",
+        "time",
+        "unsignedInt",
+        "uri",
+        "url",
+        "uuid",
+        "Address",
+        "Age",
+        "Annotation",
+        "Attachment",
+        "CodeableConcept",
+        "Coding",
+        "ContactPoint",
+        "Count",
+        "Distance",
+        "Duration",
+        "HumanName",
+        "Identifier",
+        "Money",
+        "Period",
+        "Quantity",
+        "Range",
+        "Ratio",
+        "Reference",
+        "SampledData",
+        "Signature",
+        "Timing",
+        "ContactDetail",
+        "Contributor",
+        "DataRequirement",
+        "Expression",
+        "ParameterDefinition",
+        "RelatedArtifact",
+        "TriggerDefinition",
+        "UsageContext",
+        "Dosage",
+        "Meta"
+      ]
+    },
+    {
+      "url": "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-age",
+      "title": "Age",
+      "types": [
+        "Range"
+      ]
+    },
+    {
+      "url": "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-age-at-diagnosis",
+      "title": "Age at Diagnosis",
+      "types": [
+        "Range"
+      ]
+    },
+    {
+      "url": "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-anonymized-entry",
+      "title": "Anonymized Entry",
+      "types": [
+        "code"
+      ]
+    },
+    {
+      "url": "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-cancer-morphology",
+      "title": "Cancer Morphology",
+      "types": [
+        "CodeableConcept"
+      ]
+    },
+    {
+      "url": "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-cancer-topography",
+      "title": "Cancer Topography",
+      "types": [
+        "CodeableConcept"
+      ]
+    },
+    {
+      "url": "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-cause-of-death",
+      "title": "Cause of Death",
+      "types": [
+        "CodeableConcept"
+      ]
+    },
+    {
+      "url": "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-combined-with",
+      "title": "Combined With",
+      "types": [
+        "Reference"
+      ]
+    },
+    {
+      "url": "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-contributors",
+      "title": "Contributors",
+      "types": [
+        "Reference"
+      ]
+    },
+    {
+      "url": "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-ctc-grade",
+      "title": "CTCAE Grade",
+      "types": [
+        "integer"
+      ]
+    },
+    {
+      "url": "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-cycles",
+      "title": "Cycles",
+      "types": [
+        "integer"
+      ]
+    },
+    {
+      "url": "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-data-completion-rate",
+      "title": "Data Completion Rate",
+      "types": [
+        "decimal"
+      ]
+    },
+    {
+      "url": "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-end-of-records",
+      "title": "End of Records",
+      "types": [
+        "date"
+      ]
+    },
+    {
+      "url": "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-is-primary-therapy",
+      "title": "Is Primary Therapy",
+      "types": [
+        "boolean"
+      ]
+    },
+    {
+      "url": "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-molecular-tumor-board-cup-characterization",
+      "title": "Molecular Tumor Board CUP Characterization",
+      "types": [
+        "boolean",
+        "boolean",
+        "base64Binary",
+        "boolean",
+        "canonical",
+        "code",
+        "date",
+        "dateTime",
+        "decimal",
+        "id",
+        "instant",
+        "integer",
+        "markdown",
+        "oid",
+        "positiveInt",
+        "string",
+        "time",
+        "unsignedInt",
+        "uri",
+        "url",
+        "uuid",
+        "Address",
+        "Age",
+        "Annotation",
+        "Attachment",
+        "CodeableConcept",
+        "Coding",
+        "ContactPoint",
+        "Count",
+        "Distance",
+        "Duration",
+        "HumanName",
+        "Identifier",
+        "Money",
+        "Period",
+        "Quantity",
+        "Range",
+        "Ratio",
+        "Reference",
+        "SampledData",
+        "Signature",
+        "Timing",
+        "ContactDetail",
+        "Contributor",
+        "DataRequirement",
+        "Expression",
+        "ParameterDefinition",
+        "RelatedArtifact",
+        "TriggerDefinition",
+        "UsageContext",
+        "Dosage",
+        "Meta"
+      ]
+    },
+    {
+      "url": "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-molecular-tumor-board-molecular-comparison",
+      "title": "Molecular Tumor Board Molecular Comparison",
+      "types": [
+        "boolean",
+        "Reference",
+        "base64Binary",
+        "boolean",
+        "canonical",
+        "code",
+        "date",
+        "dateTime",
+        "decimal",
+        "id",
+        "instant",
+        "integer",
+        "markdown",
+        "oid",
+        "positiveInt",
+        "string",
+        "time",
+        "unsignedInt",
+        "uri",
+        "url",
+        "uuid",
+        "Address",
+        "Age",
+        "Annotation",
+        "Attachment",
+        "CodeableConcept",
+        "Coding",
+        "ContactPoint",
+        "Count",
+        "Distance",
+        "Duration",
+        "HumanName",
+        "Identifier",
+        "Money",
+        "Period",
+        "Quantity",
+        "Range",
+        "Ratio",
+        "Reference",
+        "SampledData",
+        "Signature",
+        "Timing",
+        "ContactDetail",
+        "Contributor",
+        "DataRequirement",
+        "Expression",
+        "ParameterDefinition",
+        "RelatedArtifact",
+        "TriggerDefinition",
+        "UsageContext",
+        "Dosage",
+        "Meta"
+      ]
+    },
+    {
+      "url": "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-molecular-tumor-board-therapeutic-recommendation",
+      "title": "Molecular Tumor Board Therapeutic Recommendation",
+      "types": [
+        "string",
+        "CodeableConcept",
+        "Reference",
+        "CodeableConcept",
+        "boolean",
+        "boolean",
+        "base64Binary",
+        "boolean",
+        "canonical",
+        "code",
+        "date",
+        "dateTime",
+        "decimal",
+        "id",
+        "instant",
+        "integer",
+        "markdown",
+        "oid",
+        "positiveInt",
+        "string",
+        "time",
+        "unsignedInt",
+        "uri",
+        "url",
+        "uuid",
+        "Address",
+        "Age",
+        "Annotation",
+        "Attachment",
+        "CodeableConcept",
+        "Coding",
+        "ContactPoint",
+        "Count",
+        "Distance",
+        "Duration",
+        "HumanName",
+        "Identifier",
+        "Money",
+        "Period",
+        "Quantity",
+        "Range",
+        "Ratio",
+        "Reference",
+        "SampledData",
+        "Signature",
+        "Timing",
+        "ContactDetail",
+        "Contributor",
+        "DataRequirement",
+        "Expression",
+        "ParameterDefinition",
+        "RelatedArtifact",
+        "TriggerDefinition",
+        "UsageContext",
+        "Dosage",
+        "Meta"
+      ]
+    },
+    {
+      "url": "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-overall-survival",
+      "title": "Overall Survival",
+      "types": [
+        "decimal"
+      ]
+    },
+    {
+      "url": "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-recist-is-interpreted",
+      "title": "Recist Is Interpreted",
+      "types": [
+        "boolean"
+      ]
+    },
+    {
+      "url": "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-recurrence-of",
+      "title": "Recurrence Of",
+      "types": [
+        "Reference"
+      ]
+    },
+    {
+      "url": "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-risk-assessment-score",
+      "title": "Risk Assessment Score",
+      "types": [
+        "decimal",
+        "integer"
+      ]
+    },
+    {
+      "url": "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-therapy-line-intent",
+      "title": "Therapy Line Intent",
+      "types": [
+        "CodeableConcept"
+      ]
+    },
+    {
+      "url": "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-therapy-line-number",
+      "title": "Therapy Line Number",
+      "types": [
+        "positiveInt"
+      ]
+    },
+    {
+      "url": "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-therapy-line-period",
+      "title": "Therapy Line Period",
+      "types": [
+        "Period"
+      ]
+    },
+    {
+      "url": "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-therapy-line-progression-date",
+      "title": "Therapy Line Progression Date",
+      "types": [
+        "date"
+      ]
+    },
+    {
+      "url": "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-therapy-line-progression-free-survival",
+      "title": "Therapy Line Progression-Free Survival",
+      "types": [
+        "Duration"
+      ]
+    },
+    {
+      "url": "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-tumor-board-specialization",
+      "title": "Tumor Board Specialization",
+      "types": [
+        "CodeableConcept"
+      ]
+    },
+    {
+      "url": "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-tumor-marker-analyte",
+      "title": "Tumor Marker Analyte",
+      "types": [
+        "CodeableConcept"
+      ]
+    },
+    {
+      "url": "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-unknown-entry",
+      "title": "Unknown Entry",
+      "types": [
+        "code"
+      ]
+    }
+  ],
+  "profiles": {
+    "Observation": [
+      {
+        "url": "http://luisfabib.github.io/onconova/StructureDefinition/onconova-tumor-marker",
+        "title": "Tumor Marker Profile"
+      },
+      {
+        "url": "http://luisfabib.github.io/onconova/StructureDefinition/onconova-tumor-mutational-burden",
+        "title": "Tumor Mutational Burden Profile"
+      },
+      {
+        "url": "http://luisfabib.github.io/onconova/StructureDefinition/onconova-tumor-neoantigen-burden",
+        "title": "Tumor Neoantigen Burden Profile"
+      },
+      {
+        "url": "http://luisfabib.github.io/onconova/StructureDefinition/onconova-venous-invasion-category",
+        "title": "Venous Invasion Category"
+      }
+    ],
+    "AdverseEvent": [
+      {
+        "url": "http://luisfabib.github.io/onconova/StructureDefinition/onconova-adverse-event",
+        "title": "Adverse Event Profile"
+      }
+    ],
+    "FamilyMemberHistory": [
+      {
+        "url": "http://luisfabib.github.io/onconova/StructureDefinition/onconova-cancer-family-member-history",
+        "title": "Cancer Family Member History"
+      }
+    ],
+    "Patient": [
+      {
+        "url": "http://luisfabib.github.io/onconova/StructureDefinition/onconova-cancer-patient",
+        "title": "Cancer Patient Profile"
+      }
+    ],
+    "MedicationAdministration": [
+      {
+        "url": "http://luisfabib.github.io/onconova/StructureDefinition/onconova-medication-administration",
+        "title": "Medication Administration Profile"
+      }
+    ],
+    "Procedure": [
+      {
+        "url": "http://luisfabib.github.io/onconova/StructureDefinition/onconova-tumor-board-review",
+        "title": "Tumor Board Review"
+      }
+    ],
+    "Condition": [
+      {
+        "url": "http://luisfabib.github.io/onconova/StructureDefinition/onconova-secondary-cancer-condition",
+        "title": "Secondary Cancer Condition Profile"
+      }
+    ],
+    "List": [
+      {
+        "url": "http://luisfabib.github.io/onconova/StructureDefinition/onconova-therapy-line",
+        "title": "Therapy Line Profile"
+      }
+    ]
+  },
+  "usage": {
+    "http://hl7.org/fhir/StructureDefinition/bodySite|5.2.0": [
+      "Observation"
+    ],
+    "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation": [
+      "CapabilityStatement.rest.operation"
+    ],
+    "http://hl7.org/fhir/StructureDefinition/condition-assertedDate|5.2.0": [
+      "Condition"
+    ],
+    "http://hl7.org/fhir/StructureDefinition/condition-related|5.2.0": [
+      "Condition"
+    ],
+    "http://hl7.org/fhir/StructureDefinition/elementdefinition-bestpractice": [
+      "StructureDefinition.snapshot.element.constraint"
+    ],
+    "http://hl7.org/fhir/StructureDefinition/elementdefinition-bestpractice-explanation": [
+      "StructureDefinition.snapshot.element.constraint"
+    ],
+    "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName": [
+      "StructureDefinition.snapshot.element.binding"
+    ],
+    "http://hl7.org/fhir/StructureDefinition/elementdefinition-maxValueSet": [
+      "StructureDefinition.snapshot.element.binding"
+    ],
+    "http://hl7.org/fhir/StructureDefinition/elementdefinition-translatable": [
+      "StructureDefinition.snapshot.element"
+    ],
+    "http://hl7.org/fhir/StructureDefinition/elementdefinition-type-must-support": [
+      "StructureDefinition.snapshot.element.type",
+      "StructureDefinition.snapshot.element.type.targetProfile"
+    ],
+    "http://hl7.org/fhir/StructureDefinition/observation-secondaryFinding|5.2.0": [
+      "Observation"
+    ],
+    "http://hl7.org/fhir/StructureDefinition/structuredefinition-display-hint": [
+      "StructureDefinition.snapshot.element"
+    ],
+    "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type": [
+      "StructureDefinition.snapshot.element.type"
+    ],
+    "http://hl7.org/fhir/StructureDefinition/structuredefinition-hierarchy": [
+      "StructureDefinition.snapshot.element.type"
+    ],
+    "http://hl7.org/fhir/tools/StructureDefinition/ig-internal-dependency": [
+      "ImplementationGuide.definition"
+    ],
+    "http://hl7.org/fhir/tools/StructureDefinition/ig-page-name": [
+      "ImplementationGuide.definition.page",
+      "ImplementationGuide.definition.page.page"
+    ],
+    "http://hl7.org/fhir/tools/StructureDefinition/ig-parameter": [
+      "ImplementationGuide.definition"
+    ],
+    "http://hl7.org/fhir/tools/StructureDefinition/implementationguide-dependency-comment": [
+      "ImplementationGuide.dependsOn"
+    ],
+    "http://hl7.org/fhir/tools/StructureDefinition/resource-information": [
+      "ImplementationGuide.definition.resource"
+    ],
+    "http://hl7.org/fhir/tools/StructureDefinition/snapshot-base-version": [
+      "StructureDefinition.snapshot"
+    ],
+    "http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex|6.1.0": [
+      "Patient"
+    ],
+    "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity|6.1.0": [
+      "Patient"
+    ],
+    "http://hl7.org/fhir/us/core/StructureDefinition/us-core-genderIdentity|6.1.0": [
+      "Patient"
+    ],
+    "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race|6.1.0": [
+      "Patient"
+    ],
+    "http://hl7.org/fhir/us/core/StructureDefinition/us-core-sex|6.1.0": [
+      "Patient"
+    ],
+    "http://hl7.org/fhir/us/core/StructureDefinition/us-core-tribal-affiliation|6.1.0": [
+      "Patient"
+    ],
+    "http://hl7.org/fhir/us/core/StructureDefinition/uscdi-requirement": [
+      "StructureDefinition.snapshot.element"
+    ],
+    "http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-body-location-qualifier|4.0.0": [
+      "Condition.bodySite",
+      "Procedure.bodySite"
+    ],
+    "http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-cancer-disease-status-evidence-type|4.0.0": [
+      "Observation"
+    ],
+    "http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-histology-morphology-behavior|4.0.0": [
+      "Condition"
+    ],
+    "http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-laterality-qualifier|4.0.0": [
+      "Condition.bodySite",
+      "Procedure.bodySite"
+    ],
+    "http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-normalization-basis|4.0.0": [
+      "MedicationAdministration"
+    ],
+    "http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-procedure-intent|4.0.0": [
+      "MedicationAdministration",
+      "Procedure"
+    ],
+    "http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-dose-delivered-to-volume|4.0.0": [
+      "Procedure"
+    ],
+    "http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-modality-and-technique|4.0.0": [
+      "Procedure"
+    ],
+    "http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-sessions|4.0.0": [
+      "Procedure"
+    ],
+    "http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-related-condition-absent|4.0.0": [
+      "Observation"
+    ],
+    "http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-related-condition|4.0.0": [
+      "Observation"
+    ],
+    "http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-treatment-termination-reason|4.0.0": [
+      "Procedure"
+    ],
+    "http://luisfabib.github.io/onconova/StructureDefinition/ext-therapy-line-reference|0.1.0": [
+      "MedicationAdministration",
+      "Procedure"
+    ],
+    "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-adjunctive-role|0.1.0": [
+      "MedicationAdministration"
+    ],
+    "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-adverse-event-mitigation|0.1.0": [
+      "AdverseEvent"
+    ],
+    "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-age-at-diagnosis|0.1.0": [
+      "Patient"
+    ],
+    "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-age|0.1.0": [
+      "Patient"
+    ],
+    "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-anonymized-entry|0.1.0": [
+      "Patient.name"
+    ],
+    "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-cancer-morphology|0.1.0": [
+      "FamilyMemberHistory.condition"
+    ],
+    "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-cancer-topography|0.1.0": [
+      "FamilyMemberHistory.condition"
+    ],
+    "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-cause-of-death|0.1.0": [
+      "Patient"
+    ],
+    "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-combined-with|0.1.0": [
+      "MedicationAdministration"
+    ],
+    "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-contributors|0.1.0": [
+      "Patient"
+    ],
+    "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-ctc-grade|0.1.0": [
+      "AdverseEvent"
+    ],
+    "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-cycles|0.1.0": [
+      "MedicationAdministration"
+    ],
+    "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-data-completion-rate|0.1.0": [
+      "Patient"
+    ],
+    "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-end-of-records|0.1.0": [
+      "Patient"
+    ],
+    "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-is-primary-therapy|0.1.0": [
+      "MedicationAdministration"
+    ],
+    "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-molecular-tumor-board-cup-characterization|0.1.0": [
+      "Procedure"
+    ],
+    "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-molecular-tumor-board-molecular-comparison|0.1.0": [
+      "Procedure"
+    ],
+    "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-molecular-tumor-board-therapeutic-recommendation|0.1.0": [
+      "Procedure"
+    ],
+    "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-overall-survival|0.1.0": [
+      "Patient"
+    ],
+    "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-recurrence-of|0.1.0": [
+      "Condition"
+    ],
+    "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-risk-assessment-score|0.1.0": [
+      "Observation"
+    ],
+    "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-therapy-line-intent|0.1.0": [
+      "List"
+    ],
+    "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-therapy-line-number|0.1.0": [
+      "List"
+    ],
+    "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-therapy-line-period|0.1.0": [
+      "List"
+    ],
+    "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-therapy-line-progression-date|0.1.0": [
+      "List"
+    ],
+    "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-therapy-line-progression-free-survival|0.1.0": [
+      "List"
+    ],
+    "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-tumor-board-specialization|0.1.0": [
+      "Procedure.code"
+    ],
+    "http://luisfabib.github.io/onconova/StructureDefinition/onconova-ext-tumor-marker-analyte|0.1.0": [
+      "Observation"
+    ]
+  }
+}

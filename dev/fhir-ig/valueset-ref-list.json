@@ -1,0 +1,514 @@
+{
+  "codeSystems" : [
+    {
+      "url" : "http://hl7.org/fhir/ValueSet/units-of-time",
+      "version" : "4.0.1",
+      "status" : "active",
+      "name" : "UnitsOfTime",
+      "title" : "UnitsOfTime",
+      "description" : "A unit of time (units from UCUM).",
+      "systems" : ["http://unitsofmeasure.org"],
+      "oids" : ["2.16.840.1.113883.4.642.3.77"],
+      "sources" : ["2.16.840.1.113883.4.642.3.77"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-lifestyle.html" : "Lifestyle Profile"
+    },
+    {
+      "url" : "http://hl7.org/fhir/us/mcode/ValueSet/mcode-procedure-intent-vs",
+      "version" : "4.0.0",
+      "status" : "active",
+      "name" : "ProcedureIntentVS",
+      "title" : "Procedure Intent Value Set",
+      "description" : "The purpose of a procedure.",
+      "systems" : ["http://snomed.info/sct"],
+      "oids" : ["2.16.840.1.113883.4.642.40.15.48.54"],
+      "sources" : ["2.16.840.1.113883.4.642.40.15.48.54"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-ext-therapy-line-intent.html" : "Therapy Line Intent"
+    },
+    {
+      "url" : "http://hl7.org/fhir/us/mcode/ValueSet/mcode-tnm-distant-metastases-category-vs",
+      "version" : "4.0.0",
+      "status" : "active",
+      "name" : "TNMDistantMetastasesCategoryVS",
+      "title" : "TNM Distant Metastases Category Value Set",
+      "description" : "Result values for AJCC M category. This value set contains SNOMED-CT equivalents of AJCC codes for the M category, according to TNM staging rules.",
+      "systems" : ["http://snomed.info/sct"],
+      "oids" : ["2.16.840.1.113883.4.642.40.15.48.75"],
+      "sources" : ["2.16.840.1.113883.4.642.40.15.48.75"],
+      "uses" : {
+      },
+      "ValueSet-onconova-vs-tnm-distant-metastasis-categories.html" : "TNM Distant Metastasis Categories Value Set"
+    },
+    {
+      "url" : "http://hl7.org/fhir/us/mcode/ValueSet/mcode-tnm-primary-tumor-category-vs",
+      "version" : "4.0.0",
+      "status" : "active",
+      "name" : "TNMPrimaryTumorCategoryVS",
+      "title" : "TNM Primary Tumor Category Value Set",
+      "description" : "Result values for T category, following AJCC staging guidelines. This value set contains SNOMED-CT equivalents of AJCC codes for the T category, according to AJCC TNM staging rules.",
+      "systems" : ["http://snomed.info/sct"],
+      "oids" : ["2.16.840.1.113883.4.642.40.15.48.79"],
+      "sources" : ["2.16.840.1.113883.4.642.40.15.48.79"],
+      "uses" : {
+      },
+      "ValueSet-onconova-vs-tnm-primary-tumor-categories.html" : "TNM Primary Tumor Categories"
+    },
+    {
+      "url" : "http://hl7.org/fhir/us/mcode/ValueSet/mcode-tnm-regional-nodes-category-vs",
+      "version" : "4.0.0",
+      "status" : "active",
+      "name" : "TNMRegionalNodesCategoryVS",
+      "title" : "TNM Regional Nodes Category Value Set",
+      "description" : "Result values for AJCC N category. This value set contains SNOMED-CT equivalents of AJCC codes for the N category, according to AJCC TNM staging rules.",
+      "systems" : ["http://snomed.info/sct"],
+      "oids" : ["2.16.840.1.113883.4.642.40.15.48.83"],
+      "sources" : ["2.16.840.1.113883.4.642.40.15.48.83"],
+      "uses" : {
+      },
+      "ValueSet-onconova-vs-tnm-regional-nodes-categories.html" : "TNM Regional Nodes Categories Value Set"
+    },
+    {
+      "url" : "http://loinc.org/vs/LL2179-1",
+      "version" : null,
+      "status" : "active",
+      "name" : "LOINCAnswersLL2179-1",
+      "title" : "LOINC Answer Codes for LL2179-1",
+      "description" : "",
+      "systems" : ["http://loinc.org"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-lifestyle.html" : "Lifestyle Profile"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-tnm-lymphatic-invasion-categories",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "TNMLymphaticInvasionCategories",
+      "title" : "TNM Lymphatic Invasion Categories Value Set",
+      "description" : "TNM Lymphatic Invasion Categories Value Set",
+      "systems" : ["http://snomed.info/sct"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-tnm-lymphatic-invasion-category.html" : "TNM Lymphatic Invasion Category"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-tnm-perineural-invasion-categories",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "TNMPerineuralInvasionCategories",
+      "title" : "TNM Perineural Invasion Categories Value Set",
+      "description" : "TNM Perineural Invasion Categories Value Set",
+      "systems" : ["http://snomed.info/sct"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-tnm-perineural-invasion-category.html" : "TNM Perineural Invasion Category"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-tnm-residual-tumor-categories",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "TNMResidualTumorCategories",
+      "title" : "TNM Residual Tumor Categories Value Set",
+      "description" : "TNM Residual Tumor Categories Value Set",
+      "systems" : ["http://snomed.info/sct"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-tnm-residual-tumor-category.html" : "TNM Residual Tumor Category"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-adjunctive-therapy-roles",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "AdjunctiveTherapyRoles",
+      "title" : "Adjunctive Therapy Roles",
+      "description" : "Codes representing roles for adjunctive therapy in oncology.",
+      "systems" : ["http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-ext-adjunctive-role.html" : "Adjunctive Role"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-adverse-event-mitigation-categories",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "AdverseEventMitigationCategories",
+      "title" : "Adverse Event Mitigation Categories",
+      "description" : "Categories of actions taken to mitigate or manage adverse events in oncology.",
+      "systems" : ["http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-ext-adverse-event-mitigation.html" : "Adverse Event Mitigation"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-adverse-event-mitigation-drugs",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "AdverseEventMitigationDrugs",
+      "title" : "Adverse Event Mitigation - Drugs",
+      "description" : "Drugs or medication categories used in the mitigation process of an adverse event.",
+      "systems" : [
+        "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+        "http://snomed.info/sct"
+      ],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-ext-adverse-event-mitigation.html" : "Adverse Event Mitigation"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-adverse-event-mitigation-managements",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "AdverseEventMitigationManagements",
+      "title" : "Adverse Event Mitigation - Management",
+      "description" : "Classification of actions to mitigate adverse events affecting a patient's health.",
+      "systems" : ["http://snomed.info/sct"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-ext-adverse-event-mitigation.html" : "Adverse Event Mitigation"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-adverse-event-mitigation-procedures",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "AdverseEventMitigationProcedures",
+      "title" : "Adverse Event Mitigation - Procedures",
+      "description" : "Procedures undertaken to mitigate the impact of an adverse event on a patient's health.",
+      "systems" : [
+        "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+        "http://snomed.info/sct"
+      ],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-ext-adverse-event-mitigation.html" : "Adverse Event Mitigation"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-adverse-event-mitigation-treatment-adjustments",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "AdverseEventMitigationTreatmentAdjustments",
+      "title" : "Adverse Event Mitigation - Treatment Adjustment",
+      "description" : "Adjustments made to a patient's treatment plan in response to an adverse event.",
+      "systems" : ["http://snomed.info/sct"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-ext-adverse-event-mitigation.html" : "Adverse Event Mitigation"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-antineoplastic-agents",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "AntineoplasticAgents",
+      "title" : "Antineoplastic Agents",
+      "description" : "A value set of antineoplastic agents.",
+      "systems" : ["http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-medication-administration.html" : "Medication Administration Profile",
+      "StructureDefinition-onconova-ext-molecular-tumor-board-therapeutic-recommendation.html" : "Molecular Tumor Board Therapeutic Recommendation"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-cancer-imaging-methods",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "CancerImagingMethods",
+      "title" : "Cancer Imaging Methods",
+      "description" : "Codes representing various imaging methods used in cancer diagnosis and monitoring.",
+      "systems" : ["http://snomed.info/sct"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-imaging-disease-status.html" : "Imaging Disease Status Profile"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-cancer-risk-assessment-methods",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "CancerRiskAssessmentMethods",
+      "title" : "Cancer Risk Assessment Methods",
+      "description" : "A value set containing codes for various cancer risk assessment methods.",
+      "systems" : ["http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-cancer-risk-assessment.html" : "Cancer Risk Assessment Profile"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-causes-of-death",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "CausesOfDeath",
+      "title" : "Cause of Death Value Set",
+      "description" : "The causes of death that are relevant for a cancer patient.",
+      "systems" : [
+        "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+        "http://snomed.info/sct"
+      ],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-ext-cause-of-death.html" : "Cause of Death"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-comorbidity-panels",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "ComorbidityPanels",
+      "title" : "Comorbidity Panels",
+      "description" : "A collection of comorbidity panels relevant to cancer patients.",
+      "systems" : [
+        "http://luisfabib.github.io/onconova/CodeSystem/onconova-cs-comorbidity-panels"
+      ],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-comorbidities.html" : "Comorbidities Profile"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-ctc-adverse-events",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "CTCAdverseEvents",
+      "title" : "CTC Adverse Events",
+      "description" : "Common Terminology Criteria for Adverse Events (CTCAE) is a standard classification and severity grading scale for adverse events in clinical trials and oncology practice.",
+      "systems" : ["http://terminology.hl7.org/CodeSystem/MDRAE"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-adverse-event.html" : "Adverse Event Profile"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-expected-drug-effects",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "ExpectedDrugEffects",
+      "title" : "Expected Drug Effects",
+      "description" : "A value set of expected drug effects.",
+      "systems" : ["http://snomed.info/sct"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-ext-molecular-tumor-board-therapeutic-recommendation.html" : "Molecular Tumor Board Therapeutic Recommendation"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-exposure-agents",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "ExposureAgents",
+      "title" : "Exposure Agents",
+      "description" : "Agents to which a patient may have been exposed.",
+      "systems" : ["http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-lifestyle.html" : "Lifestyle Profile"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-icd-10-conditions",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "ICD10Conditions",
+      "title" : "ICD-10 Codes",
+      "description" : "This value set includes sample ICD-10 codes.",
+      "systems" : ["http://hl7.org/fhir/sid/icd-10"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-comorbidities.html" : "Comorbidities Profile"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-icdo3-morphology-behavior",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "ICDO3MorphologyBehavior",
+      "title" : "ICD-O-3 Morphology Behavior",
+      "description" : "A value set of ICD-O-3 morphology behavior codes.",
+      "systems" : ["http://terminology.hl7.org/CodeSystem/icd-o-3"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-secondary-cancer-condition.html" : "Secondary Cancer Condition Profile",
+      "StructureDefinition-onconova-ext-cancer-morphology.html" : "Cancer Morphology",
+      "StructureDefinition-onconova-primary-cancer-condition.html" : "Primary Cancer Condition Profile"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-icdo3-topography",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "ICDO3Topography",
+      "title" : "ICD-O-3 Topography",
+      "description" : "A value set of ICD-O-3 topography codes.",
+      "systems" : ["http://terminology.hl7.org/CodeSystem/icd-o-3"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-secondary-cancer-condition.html" : "Secondary Cancer Condition Profile",
+      "StructureDefinition-onconova-primary-cancer-condition.html" : "Primary Cancer Condition Profile",
+      "StructureDefinition-onconova-ext-cancer-topography.html" : "Cancer Topography"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-observation-bodysites",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "ObservationBodySites",
+      "title" : "Observation Body Sites Value Set",
+      "description" : "Bodysites related to an observation",
+      "systems" : ["http://snomed.info/sct"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-imaging-disease-status.html" : "Imaging Disease Status Profile"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-recreational-drugs",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "RecreationalDrugs",
+      "title" : "Recreational Drugs",
+      "description" : "Substances that people use to alter their mental state, often for pleasure or leisure, with effects ranging from relaxation and euphoria to hallucinations and altered perceptions.",
+      "systems" : ["http://snomed.info/sct"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-lifestyle.html" : "Lifestyle Profile"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-smoking-status",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "SmokingStatus",
+      "title" : "Smoking status",
+      "description" : "Smoking status of a patient",
+      "systems" : ["http://snomed.info/sct"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-lifestyle.html" : "Lifestyle Profile"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-tnm-distant-metastasis-categories",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "TNMDistantMetastasisCategories",
+      "title" : "TNM Distant Metastasis Categories Value Set",
+      "description" : "TNM Distant Metastasis Categories Value Set",
+      "systems" : ["http://snomed.info/sct"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-tnm-distant-metastases-category.html" : "TNM Distant Metastases Category"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-tnm-grade-categories",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "TNMGradeCategories",
+      "title" : "TNM Grade Categories Value Set",
+      "description" : "TNM Grade Categories Value Set",
+      "systems" : ["http://snomed.info/sct"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-tnm-grade-category.html" : "TNM Grade Category"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-tnm-grade-category-methods",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "TNMGradeCategoryMethods",
+      "title" : "TNM Grade Category Methods Value Set",
+      "description" : "TNM Grade Category Methods Value Set",
+      "systems" : ["http://snomed.info/sct"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-tnm-grade-category.html" : "TNM Grade Category"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-tnm-primary-tumor-categories",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "TNMPrimaryTumorCategories",
+      "title" : "TNM Primary Tumor Categories",
+      "description" : "TNM Primary Tumor Categories Value Set",
+      "systems" : ["http://snomed.info/sct"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-tnm-primary-tumor-category.html" : "TNM Primary Tumor Category"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-tnm-regional-nodes-categories",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "TNMRegionalNodesCategories",
+      "title" : "TNM Regional Nodes Categories Value Set",
+      "description" : "TNM Regional Nodes Categories Value Set",
+      "systems" : ["http://snomed.info/sct"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-tnm-regional-nodes-category.html" : "TNM Regional Nodes Category"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-tnm-serum-tumor-marker-level-categories",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "TNMSerumTumorMarkerLevelCategories",
+      "title" : "TNM Serum Tumor Marker Level Categories Value Set",
+      "description" : "TNM Serum Tumor Marker Level Categories Value Set",
+      "systems" : ["http://snomed.info/sct"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-serous-tumor-marker-level-category.html" : "Serum Tumor Marker Level Category"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-tnm-venous-invasion-categories",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "TNMVenousInvasionCategories",
+      "title" : "TNM Venous Invasion Categories Value Set",
+      "description" : "TNM Venous Invasion Categories Value Set",
+      "systems" : ["http://snomed.info/sct"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-venous-invasion-category.html" : "Venous Invasion Category"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-treatment-termination-reasons",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "TreatmentTerminationReasons",
+      "title" : "Treatment Termination Reasons",
+      "description" : "Codes representing reasons for terminating a treatment in oncology.",
+      "systems" : ["http://snomed.info/sct"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-radiotherapy-summary.html" : "Radiotherapy Summary Profile",
+      "StructureDefinition-onconova-medication-administration.html" : "Medication Administration Profile"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-tumor-board-recommendations",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "OnconovaTumorBoardRecommendations",
+      "title" : "Tumor Board Recommendations",
+      "description" : "A value set of recommendations that may be made by a tumor board for a cancer patient.",
+      "systems" : ["http://loinc.org", "http://snomed.info/sct"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-tumor-board-review.html" : "Tumor Board Review"
+    },
+    {
+      "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-tumor-marker-analytes",
+      "version" : "0.1.0",
+      "status" : "active",
+      "name" : "TumorMarkerAnalytes",
+      "title" : "Tumor Marker Analytes",
+      "description" : "Codes representing analytes for tumor markers.",
+      "systems" : [
+        "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+        "http://loinc.org"
+      ],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-ext-tumor-marker-analyte.html" : "Tumor Marker Analyte"
+    },
+    {
+      "url" : "https://simplifier.net/onconova/ValueSets/onconova-cancer-risk-assessment-values",
+      "version" : "0.1.0",
+      "status" : "draft",
+      "name" : "CancerRiskAssessmentValues",
+      "title" : "Risk Assessment Values",
+      "description" : "A non-exhaustive value set containing codes that result from risk assessments, i.e., the risk level of the cancer.",
+      "systems" : ["http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl"],
+      "uses" : {
+      },
+      "StructureDefinition-onconova-cancer-risk-assessment.html" : "Cancer Risk Assessment Profile"
+    }
+  ]
+}

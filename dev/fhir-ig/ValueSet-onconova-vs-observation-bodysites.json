@@ -1,0 +1,1232 @@
+{
+  "resourceType" : "ValueSet",
+  "id" : "onconova-vs-observation-bodysites",
+  "text" : {
+    "status" : "generated",
+    "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: ValueSet onconova-vs-observation-bodysites</b></p><a name=\"onconova-vs-observation-bodysites\"> </a><a name=\"hconconova-vs-observation-bodysites\"> </a><ul><li>Include these codes as defined in <a href=\"http://www.snomed.org/\"><code>http://snomed.info/sct</code></a><table class=\"none\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td></tr><tr><td><a href=\"http://snomed.info/id/13881006\">13881006</a></td><td>Zygoma</td></tr><tr><td><a href=\"http://snomed.info/id/74670003\">74670003</a></td><td>Wrist joint</td></tr><tr><td><a href=\"http://snomed.info/id/38266002\">38266002</a></td><td>Entire body</td></tr><tr><td><a href=\"http://snomed.info/id/45292006\">45292006</a></td><td>Vulva</td></tr><tr><td><a href=\"http://snomed.info/id/85234005\">85234005</a></td><td>Vertebral artery</td></tr><tr><td><a href=\"http://snomed.info/id/76784001\">76784001</a></td><td>Vagina</td></tr><tr><td><a href=\"http://snomed.info/id/35039007\">35039007</a></td><td>Uterus</td></tr><tr><td><a href=\"http://snomed.info/id/13648007\">13648007</a></td><td>Urethra</td></tr><tr><td><a href=\"http://snomed.info/id/87953007\">87953007</a></td><td>Ureter</td></tr><tr><td><a href=\"http://snomed.info/id/431491007\">431491007</a></td><td>Upper urinary tract</td></tr><tr><td><a href=\"http://snomed.info/id/53120007\">53120007</a></td><td>Upper limb</td></tr><tr><td><a href=\"http://snomed.info/id/40983000\">40983000</a></td><td>Upper arm</td></tr><tr><td><a href=\"http://snomed.info/id/284639000\">284639000</a></td><td>Umbilical vein</td></tr><tr><td><a href=\"http://snomed.info/id/50536004\">50536004</a></td><td>Umbilical artery</td></tr><tr><td><a href=\"http://snomed.info/id/90290004\">90290004</a></td><td>Umbilical region</td></tr><tr><td><a href=\"http://snomed.info/id/44984001\">44984001</a></td><td>Ulnar artery</td></tr><tr><td><a href=\"http://snomed.info/id/23416004\">23416004</a></td><td>Ulna</td></tr><tr><td><a href=\"http://snomed.info/id/122495006\">122495006</a></td><td>Thoracic spine</td></tr><tr><td><a href=\"http://snomed.info/id/485005\">485005</a></td><td>Transverse colon</td></tr><tr><td><a href=\"http://snomed.info/id/110726009\">110726009</a></td><td>Trachea and bronchus</td></tr><tr><td><a href=\"http://snomed.info/id/44567001\">44567001</a></td><td>Trachea</td></tr><tr><td><a href=\"http://snomed.info/id/21974007\">21974007</a></td><td>Tongue</td></tr><tr><td><a href=\"http://snomed.info/id/29707007\">29707007</a></td><td>Toe</td></tr><tr><td><a href=\"http://snomed.info/id/53620006\">53620006</a></td><td>Temporomandibular joint</td></tr><tr><td><a href=\"http://snomed.info/id/1217256009\">1217256009</a></td><td>Thoraco-lumbar spine</td></tr><tr><td><a href=\"http://snomed.info/id/110536004\">110536004</a></td><td>Tibia and fibula</td></tr><tr><td><a href=\"http://snomed.info/id/12611008\">12611008</a></td><td>Tibia</td></tr><tr><td><a href=\"http://snomed.info/id/69748006\">69748006</a></td><td>Thyroid</td></tr><tr><td><a href=\"http://snomed.info/id/9875009\">9875009</a></td><td>Thymus</td></tr><tr><td><a href=\"http://snomed.info/id/76505004\">76505004</a></td><td>Thumb</td></tr><tr><td><a href=\"http://snomed.info/id/43799004\">43799004</a></td><td>Thorax</td></tr><tr><td><a href=\"http://snomed.info/id/113262008\">113262008</a></td><td>Thoracic aorta</td></tr><tr><td><a href=\"http://snomed.info/id/68367000\">68367000</a></td><td>Thigh</td></tr><tr><td><a href=\"http://snomed.info/id/42695009\">42695009</a></td><td>Thalamus</td></tr><tr><td><a href=\"http://snomed.info/id/40689003\">40689003</a></td><td>Testis</td></tr><tr><td><a href=\"http://snomed.info/id/48345005\">48345005</a></td><td>Superior vena cava</td></tr><tr><td><a href=\"http://snomed.info/id/72021004\">72021004</a></td><td>Superior thyroid artery</td></tr><tr><td><a href=\"http://snomed.info/id/11708003\">11708003</a></td><td>Pubic region</td></tr><tr><td><a href=\"http://snomed.info/id/77621008\">77621008</a></td><td>Supraclavicular region of neck</td></tr><tr><td><a href=\"http://snomed.info/id/54019009\">54019009</a></td><td>Submandibular gland</td></tr><tr><td><a href=\"http://snomed.info/id/19695001\">19695001</a></td><td>Subcostal</td></tr><tr><td><a href=\"http://snomed.info/id/9454009\">9454009</a></td><td>Subclavian vein</td></tr><tr><td><a href=\"http://snomed.info/id/36765005\">36765005</a></td><td>Subclavian artery</td></tr><tr><td><a href=\"http://snomed.info/id/69695003\">69695003</a></td><td>Stomach</td></tr><tr><td><a href=\"http://snomed.info/id/56873002\">56873002</a></td><td>Sternum</td></tr><tr><td><a href=\"http://snomed.info/id/54735007\">54735007</a></td><td>Sacrum</td></tr><tr><td><a href=\"http://snomed.info/id/35819009\">35819009</a></td><td>Splenic vein</td></tr><tr><td><a href=\"http://snomed.info/id/22083002\">22083002</a></td><td>Splenic artery</td></tr><tr><td><a href=\"http://snomed.info/id/78961009\">78961009</a></td><td>Spleen</td></tr><tr><td><a href=\"http://snomed.info/id/421060004\">421060004</a></td><td>Spine</td></tr><tr><td><a href=\"http://snomed.info/id/2748008\">2748008</a></td><td>Spinal cord</td></tr><tr><td><a href=\"http://snomed.info/id/30315005\">30315005</a></td><td>Small intestine</td></tr><tr><td><a href=\"http://snomed.info/id/42258001\">42258001</a></td><td>Superior mesenteric artery</td></tr><tr><td><a href=\"http://snomed.info/id/89546000\">89546000</a></td><td>Skull</td></tr><tr><td><a href=\"http://snomed.info/id/39723000\">39723000</a></td><td>Sacroiliac joint</td></tr><tr><td><a href=\"http://snomed.info/id/60184004\">60184004</a></td><td>Sigmoid colon</td></tr><tr><td><a href=\"http://snomed.info/id/16982005\">16982005</a></td><td>Shoulder</td></tr><tr><td><a href=\"http://snomed.info/id/397364003\">397364003</a></td><td>Superficial femoral vein</td></tr><tr><td><a href=\"http://snomed.info/id/128587003\">128587003</a></td><td>Saphenofemoral junction</td></tr><tr><td><a href=\"http://snomed.info/id/181349008\">181349008</a></td><td>Superficial femoral artery</td></tr><tr><td><a href=\"http://snomed.info/id/58742003\">58742003</a></td><td>Sesamoid bones of foot</td></tr><tr><td><a href=\"http://snomed.info/id/64739004\">64739004</a></td><td>Seminal vesicle</td></tr><tr><td><a href=\"http://snomed.info/id/42575006\">42575006</a></td><td>Sella turcica</td></tr><tr><td><a href=\"http://snomed.info/id/20233005\">20233005</a></td><td>Scrotum</td></tr><tr><td><a href=\"http://snomed.info/id/18619003\">18619003</a></td><td>Sclera</td></tr><tr><td><a href=\"http://snomed.info/id/7844006\">7844006</a></td><td>Sternoclavicular joint</td></tr><tr><td><a href=\"http://snomed.info/id/79601000\">79601000</a></td><td>Scapula</td></tr><tr><td><a href=\"http://snomed.info/id/41695006\">41695006</a></td><td>Scalp</td></tr><tr><td><a href=\"http://snomed.info/id/362072009\">362072009</a></td><td>Saphenous vein</td></tr><tr><td><a href=\"http://snomed.info/id/53085002\">53085002</a></td><td>Right ventricle</td></tr><tr><td><a href=\"http://snomed.info/id/50519007\">50519007</a></td><td>Right upper quadrant of abdomen</td></tr><tr><td><a href=\"http://snomed.info/id/8629005\">8629005</a></td><td>Superior right pulmonary vein</td></tr><tr><td><a href=\"http://snomed.info/id/78480002\">78480002</a></td><td>Right pulmonary artery</td></tr><tr><td><a href=\"http://snomed.info/id/73931004\">73931004</a></td><td>Right portal vein</td></tr><tr><td><a href=\"http://snomed.info/id/1017211000\">1017211000</a></td><td>Right lumbar region</td></tr><tr><td><a href=\"http://snomed.info/id/48544008\">48544008</a></td><td>Right lower quadrant of abdomen</td></tr><tr><td><a href=\"http://snomed.info/id/37117007\">37117007</a></td><td>Right inguinal region</td></tr><tr><td><a href=\"http://snomed.info/id/113197003\">113197003</a></td><td>Rib</td></tr><tr><td><a href=\"http://snomed.info/id/133946002\">133946002</a></td><td>Right hypochondriac region</td></tr><tr><td><a href=\"http://snomed.info/id/272998002\">272998002</a></td><td>Right hepatic vein</td></tr><tr><td><a href=\"http://snomed.info/id/69833005\">69833005</a></td><td>Right femoral artery</td></tr><tr><td><a href=\"http://snomed.info/id/82849001\">82849001</a></td><td>Retroperitoneum</td></tr><tr><td><a href=\"http://snomed.info/id/56400007\">56400007</a></td><td>Renal vein</td></tr><tr><td><a href=\"http://snomed.info/id/2841007\">2841007</a></td><td>Renal artery</td></tr><tr><td><a href=\"http://snomed.info/id/34402009\">34402009</a></td><td>Rectum</td></tr><tr><td><a href=\"http://snomed.info/id/73829009\">73829009</a></td><td>Right atrium</td></tr><tr><td><a href=\"http://snomed.info/id/110535000\">110535000</a></td><td>Radius and ulna</td></tr><tr><td><a href=\"http://snomed.info/id/62413002\">62413002</a></td><td>Radius</td></tr><tr><td><a href=\"http://snomed.info/id/45631007\">45631007</a></td><td>Radial artery</td></tr><tr><td><a href=\"http://snomed.info/id/122972007\">122972007</a></td><td>Pulmonary vein</td></tr><tr><td><a href=\"http://snomed.info/id/81040000\">81040000</a></td><td>Pulmonary artery</td></tr><tr><td><a href=\"http://snomed.info/id/41216001\">41216001</a></td><td>Prostate</td></tr><tr><td><a href=\"http://snomed.info/id/23438002\">23438002</a></td><td>Profunda femoris vein</td></tr><tr><td><a href=\"http://snomed.info/id/31677005\">31677005</a></td><td>Profunda femoris artery</td></tr><tr><td><a href=\"http://snomed.info/id/13363002\">13363002</a></td><td>Posterior tibial artery</td></tr><tr><td><a href=\"http://snomed.info/id/43119007\">43119007</a></td><td>Posterior communicating artery</td></tr><tr><td><a href=\"http://snomed.info/id/32764006\">32764006</a></td><td>Portal vein</td></tr><tr><td><a href=\"http://snomed.info/id/56849005\">56849005</a></td><td>Popliteal vein</td></tr><tr><td><a href=\"http://snomed.info/id/32361000\">32361000</a></td><td>Popliteal fossa</td></tr><tr><td><a href=\"http://snomed.info/id/43899006\">43899006</a></td><td>Popliteal artery</td></tr><tr><td><a href=\"http://snomed.info/id/78067005\">78067005</a></td><td>Placenta</td></tr><tr><td><a href=\"http://snomed.info/id/312535008\">312535008</a></td><td>Pharynx and larynx</td></tr><tr><td><a href=\"http://snomed.info/id/54066008\">54066008</a></td><td>Pharynx</td></tr><tr><td><a href=\"http://snomed.info/id/706342009\">706342009</a></td><td>Phantom</td></tr><tr><td><a href=\"http://snomed.info/id/8821006\">8821006</a></td><td>Peroneal artery</td></tr><tr><td><a href=\"http://snomed.info/id/38864007\">38864007</a></td><td>Perineum</td></tr><tr><td><a href=\"http://snomed.info/id/18911002\">18911002</a></td><td>Penis</td></tr><tr><td><a href=\"http://snomed.info/id/282044005\">282044005</a></td><td>Penile artery</td></tr><tr><td><a href=\"http://snomed.info/id/1231522001\">1231522001</a></td><td>Pelvis and lower extremities</td></tr><tr><td><a href=\"http://snomed.info/id/816092008\">816092008</a></td><td>Pelvis</td></tr><tr><td><a href=\"http://snomed.info/id/70382005\">70382005</a></td><td>Posterior cerebral artery</td></tr><tr><td><a href=\"http://snomed.info/id/64234005\">64234005</a></td><td>Patella</td></tr><tr><td><a href=\"http://snomed.info/id/45289007\">45289007</a></td><td>Parotid gland</td></tr><tr><td><a href=\"http://snomed.info/id/111002\">111002</a></td><td>Parathyroid</td></tr><tr><td><a href=\"http://snomed.info/id/91691001\">91691001</a></td><td>Parasternal</td></tr><tr><td><a href=\"http://snomed.info/id/69930009\">69930009</a></td><td>Pancreatic duct</td></tr><tr><td><a href=\"http://snomed.info/id/15776009\">15776009</a></td><td>Pancreas</td></tr><tr><td><a href=\"http://snomed.info/id/110621006\">110621006</a></td><td>Pancreatic duct and bile duct systems</td></tr><tr><td><a href=\"http://snomed.info/id/15497006\">15497006</a></td><td>Ovary</td></tr><tr><td><a href=\"http://snomed.info/id/363654007\">363654007</a></td><td>Orbital structure</td></tr><tr><td><a href=\"http://snomed.info/id/55024004\">55024004</a></td><td>Optic canal</td></tr><tr><td><a href=\"http://snomed.info/id/53549008\">53549008</a></td><td>Ophthalmic artery</td></tr><tr><td><a href=\"http://snomed.info/id/31145008\">31145008</a></td><td>Occipital artery</td></tr><tr><td><a href=\"http://snomed.info/id/32114007\">32114007</a></td><td>Occipital vein</td></tr><tr><td><a href=\"http://snomed.info/id/45206002\">45206002</a></td><td>Nose</td></tr><tr><td><a href=\"http://snomed.info/id/416319003\">416319003</a></td><td>Neck, Chest, Abdomen and Pelvis</td></tr><tr><td><a href=\"http://snomed.info/id/416152001\">416152001</a></td><td>Neck, Chest and Abdomen</td></tr><tr><td><a href=\"http://snomed.info/id/417437006\">417437006</a></td><td>Neck and Chest</td></tr><tr><td><a href=\"http://snomed.info/id/45048000\">45048000</a></td><td>Neck</td></tr><tr><td><a href=\"http://snomed.info/id/360955006\">360955006</a></td><td>Nasopharynx</td></tr><tr><td><a href=\"http://snomed.info/id/123851003\">123851003</a></td><td>Mouth</td></tr><tr><td><a href=\"http://snomed.info/id/243977002\">243977002</a></td><td>Morisons pouch</td></tr><tr><td><a href=\"http://snomed.info/id/273099000\">273099000</a></td><td>Middle hepatic vein</td></tr><tr><td><a href=\"http://snomed.info/id/128583004\">128583004</a></td><td>Mesenteric vein</td></tr><tr><td><a href=\"http://snomed.info/id/86570000\">86570000</a></td><td>Mesenteric artery</td></tr><tr><td><a href=\"http://snomed.info/id/72410000\">72410000</a></td><td>Mediastinum</td></tr><tr><td><a href=\"http://snomed.info/id/17232002\">17232002</a></td><td>Middle cerebral artery</td></tr><tr><td><a href=\"http://snomed.info/id/70925003\">70925003</a></td><td>Maxilla</td></tr><tr><td><a href=\"http://snomed.info/id/59066005\">59066005</a></td><td>Mastoid bone</td></tr><tr><td><a href=\"http://snomed.info/id/91609006\">91609006</a></td><td>Mandible</td></tr><tr><td><a href=\"http://snomed.info/id/87878005\">87878005</a></td><td>Left ventricle</td></tr><tr><td><a href=\"http://snomed.info/id/86367003\">86367003</a></td><td>Left upper quadrant of abdomen</td></tr><tr><td><a href=\"http://snomed.info/id/39607008\">39607008</a></td><td>Lung</td></tr><tr><td><a href=\"http://snomed.info/id/91747007\">91747007</a></td><td>Lumen of blood vessel</td></tr><tr><td><a href=\"http://snomed.info/id/34635009\">34635009</a></td><td>Lumbar artery</td></tr><tr><td><a href=\"http://snomed.info/id/52612000\">52612000</a></td><td>Lumbar region</td></tr><tr><td><a href=\"http://snomed.info/id/43863001\">43863001</a></td><td>Superior left pulmonary vein</td></tr><tr><td><a href=\"http://snomed.info/id/1217253001\">1217253001</a></td><td>Lumbo-sacral spine</td></tr><tr><td><a href=\"http://snomed.info/id/122496007\">122496007</a></td><td>Lumbar spine</td></tr><tr><td><a href=\"http://snomed.info/id/50408007\">50408007</a></td><td>Left pulmonary artery</td></tr><tr><td><a href=\"http://snomed.info/id/70253006\">70253006</a></td><td>Left portal vein</td></tr><tr><td><a href=\"http://snomed.info/id/61685007\">61685007</a></td><td>Lower limb</td></tr><tr><td><a href=\"http://snomed.info/id/30021000\">30021000</a></td><td>Lower leg</td></tr><tr><td><a href=\"http://snomed.info/id/1017210004\">1017210004</a></td><td>Left lumbar region</td></tr><tr><td><a href=\"http://snomed.info/id/68505006\">68505006</a></td><td>Left lower quadrant of abdomen</td></tr><tr><td><a href=\"http://snomed.info/id/10200004\">10200004</a></td><td>Liver</td></tr><tr><td><a href=\"http://snomed.info/id/85119005\">85119005</a></td><td>Left inguinal region</td></tr><tr><td><a href=\"http://snomed.info/id/113264009\">113264009</a></td><td>Lingual artery</td></tr><tr><td><a href=\"http://snomed.info/id/133945003\">133945003</a></td><td>Left hypochondriac region</td></tr><tr><td><a href=\"http://snomed.info/id/273202007\">273202007</a></td><td>Left hepatic vein</td></tr><tr><td><a href=\"http://snomed.info/id/113270003\">113270003</a></td><td>Left femoral artery</td></tr><tr><td><a href=\"http://snomed.info/id/66720007\">66720007</a></td><td>Lateral Ventricle</td></tr><tr><td><a href=\"http://snomed.info/id/82471001\">82471001</a></td><td>Left atrium</td></tr><tr><td><a href=\"http://snomed.info/id/4596009\">4596009</a></td><td>Larynx</td></tr><tr><td><a href=\"http://snomed.info/id/14742008\">14742008</a></td><td>Large intestine</td></tr><tr><td><a href=\"http://snomed.info/id/59749000\">59749000</a></td><td>Lacrimal artery</td></tr><tr><td><a href=\"http://snomed.info/id/72696002\">72696002</a></td><td>Knee</td></tr><tr><td><a href=\"http://snomed.info/id/64033007\">64033007</a></td><td>Kidney</td></tr><tr><td><a href=\"http://snomed.info/id/39352004\">39352004</a></td><td>Joint</td></tr><tr><td><a href=\"http://snomed.info/id/21306003\">21306003</a></td><td>Jejunum</td></tr><tr><td><a href=\"http://snomed.info/id/661005\">661005</a></td><td>Jaw region</td></tr><tr><td><a href=\"http://snomed.info/id/1101003\">1101003</a></td><td>Intracranial</td></tr><tr><td><a href=\"http://snomed.info/id/69327007\">69327007</a></td><td>Internal mammary artery</td></tr><tr><td><a href=\"http://snomed.info/id/12123001\">12123001</a></td><td>Internal jugular vein</td></tr><tr><td><a href=\"http://snomed.info/id/90024005\">90024005</a></td><td>Internal iliac artery</td></tr><tr><td><a href=\"http://snomed.info/id/8887007\">8887007</a></td><td>Innominate vein</td></tr><tr><td><a href=\"http://snomed.info/id/12691009\">12691009</a></td><td>Innominate artery</td></tr><tr><td><a href=\"http://snomed.info/id/26893007\">26893007</a></td><td>Inguinal region</td></tr><tr><td><a href=\"http://snomed.info/id/64131007\">64131007</a></td><td>Inferior vena cava</td></tr><tr><td><a href=\"http://snomed.info/id/33795007\">33795007</a></td><td>Inferior mesenteric artery</td></tr><tr><td><a href=\"http://snomed.info/id/22356005\">22356005</a></td><td>Ilium</td></tr><tr><td><a href=\"http://snomed.info/id/244411005\">244411005</a></td><td>Iliac vein</td></tr><tr><td><a href=\"http://snomed.info/id/10293006\">10293006</a></td><td>Iliac artery</td></tr><tr><td><a href=\"http://snomed.info/id/34516001\">34516001</a></td><td>Ileum</td></tr><tr><td><a href=\"http://snomed.info/id/86117002\">86117002</a></td><td>Internal carotid artery</td></tr><tr><td><a href=\"http://snomed.info/id/361078006\">361078006</a></td><td>Internal Auditory Canal</td></tr><tr><td><a href=\"http://snomed.info/id/81502006\">81502006</a></td><td>Hypopharynx</td></tr><tr><td><a href=\"http://snomed.info/id/85050009\">85050009</a></td><td>Humerus</td></tr><tr><td><a href=\"http://snomed.info/id/24136001\">24136001</a></td><td>Hip joint</td></tr><tr><td><a href=\"http://snomed.info/id/8993003\">8993003</a></td><td>Hepatic vein</td></tr><tr><td><a href=\"http://snomed.info/id/76015000\">76015000</a></td><td>Hepatic artery</td></tr><tr><td><a href=\"http://snomed.info/id/80891009\">80891009</a></td><td>Heart</td></tr><tr><td><a href=\"http://snomed.info/id/774007\">774007</a></td><td>Head and Neck</td></tr><tr><td><a href=\"http://snomed.info/id/69536005\">69536005</a></td><td>Head</td></tr><tr><td><a href=\"http://snomed.info/id/85562004\">85562004</a></td><td>Hand</td></tr><tr><td><a href=\"http://snomed.info/id/60734001\">60734001</a></td><td>Great saphenous vein</td></tr><tr><td><a href=\"http://snomed.info/id/46862004\">46862004</a></td><td>Gluteal region</td></tr><tr><td><a href=\"http://snomed.info/id/300571009\">300571009</a></td><td>Gestational sac</td></tr><tr><td><a href=\"http://snomed.info/id/128559007\">128559007</a></td><td>Genicular artery</td></tr><tr><td><a href=\"http://snomed.info/id/110568007\">110568007</a></td><td>Gastric vein</td></tr><tr><td><a href=\"http://snomed.info/id/28231008\">28231008</a></td><td>Gallbladder</td></tr><tr><td><a href=\"http://snomed.info/id/14975008\">14975008</a></td><td>Forearm</td></tr><tr><td><a href=\"http://snomed.info/id/56459004\">56459004</a></td><td>Foot</td></tr><tr><td><a href=\"http://snomed.info/id/79361005\">79361005</a></td><td>Fontanel of skull</td></tr><tr><td><a href=\"http://snomed.info/id/58602004\">58602004</a></td><td>Flank</td></tr><tr><td><a href=\"http://snomed.info/id/7569003\">7569003</a></td><td>Finger</td></tr><tr><td><a href=\"http://snomed.info/id/87342007\">87342007</a></td><td>Fibula</td></tr><tr><td><a href=\"http://snomed.info/id/71341001\">71341001</a></td><td>Femur</td></tr><tr><td><a href=\"http://snomed.info/id/83419000\">83419000</a></td><td>Femoral vein</td></tr><tr><td><a href=\"http://snomed.info/id/7657000\">7657000</a></td><td>Femoral artery</td></tr><tr><td><a href=\"http://snomed.info/id/23074001\">23074001</a></td><td>Facial artery</td></tr><tr><td><a href=\"http://snomed.info/id/89545001\">89545001</a></td><td>Face</td></tr><tr><td><a href=\"http://snomed.info/id/80243003\">80243003</a></td><td>Eyelid</td></tr><tr><td><a href=\"http://snomed.info/id/81745001\">81745001</a></td><td>Eye</td></tr><tr><td><a href=\"http://snomed.info/id/66019005\">66019005</a></td><td>Extremity</td></tr><tr><td><a href=\"http://snomed.info/id/71585003\">71585003</a></td><td>External jugular vein</td></tr><tr><td><a href=\"http://snomed.info/id/63507001\">63507001</a></td><td>External iliac vein</td></tr><tr><td><a href=\"http://snomed.info/id/113269004\">113269004</a></td><td>External iliac artery</td></tr><tr><td><a href=\"http://snomed.info/id/32849002\">32849002</a></td><td>Esophagus</td></tr><tr><td><a href=\"http://snomed.info/id/27947004\">27947004</a></td><td>Epigastric region</td></tr><tr><td><a href=\"http://snomed.info/id/87644002\">87644002</a></td><td>Epididymis</td></tr><tr><td><a href=\"http://snomed.info/id/48367006\">48367006</a></td><td>Endo-vesical</td></tr><tr><td><a href=\"http://snomed.info/id/29092000\">29092000</a></td><td>Vein</td></tr><tr><td><a href=\"http://snomed.info/id/59820001\">59820001</a></td><td>Endo-vascular</td></tr><tr><td><a href=\"http://snomed.info/id/18962004\">18962004</a></td><td>Endo-nasopharyngeal</td></tr><tr><td><a href=\"http://snomed.info/id/53342003\">53342003</a></td><td>Endo-nasal</td></tr><tr><td><a href=\"http://snomed.info/id/2739003\">2739003</a></td><td>Endometrium</td></tr><tr><td><a href=\"http://snomed.info/id/16953009\">16953009</a></td><td>Elbow joint</td></tr><tr><td><a href=\"http://snomed.info/id/22286001\">22286001</a></td><td>External carotid artery</td></tr><tr><td><a href=\"http://snomed.info/id/117590005\">117590005</a></td><td>Ear</td></tr><tr><td><a href=\"http://snomed.info/id/84301002\">84301002</a></td><td>External auditory canal</td></tr><tr><td><a href=\"http://snomed.info/id/38848004\">38848004</a></td><td>Duodenum</td></tr><tr><td><a href=\"http://snomed.info/id/32622004\">32622004</a></td><td>Descending colon</td></tr><tr><td><a href=\"http://snomed.info/id/32672002\">32672002</a></td><td>Descending aorta</td></tr><tr><td><a href=\"http://snomed.info/id/53843000\">53843000</a></td><td>Rectouterine pouch</td></tr><tr><td><a href=\"http://snomed.info/id/1217257000\">1217257000</a></td><td>Cervico-thoracic spine</td></tr><tr><td><a href=\"http://snomed.info/id/122494005\">122494005</a></td><td>Cervical spine</td></tr><tr><td><a href=\"http://snomed.info/id/90219004\">90219004</a></td><td>Coronary sinus</td></tr><tr><td><a href=\"http://snomed.info/id/41801008\">41801008</a></td><td>Coronary artery</td></tr><tr><td><a href=\"http://snomed.info/id/28726007\">28726007</a></td><td>Cornea</td></tr><tr><td><a href=\"http://snomed.info/id/79741001\">79741001</a></td><td>Common bile duct</td></tr><tr><td><a href=\"http://snomed.info/id/46027005\">46027005</a></td><td>Common iliac vein</td></tr><tr><td><a href=\"http://snomed.info/id/73634005\">73634005</a></td><td>Common iliac artery</td></tr><tr><td><a href=\"http://snomed.info/id/71854001\">71854001</a></td><td>Colon</td></tr><tr><td><a href=\"http://snomed.info/id/64688005\">64688005</a></td><td>Coccyx</td></tr><tr><td><a href=\"http://snomed.info/id/51299004\">51299004</a></td><td>Clavicle</td></tr><tr><td><a href=\"http://snomed.info/id/11279006\">11279006</a></td><td>Circle of Willis</td></tr><tr><td><a href=\"http://snomed.info/id/80621003\">80621003</a></td><td>Choroid plexus</td></tr><tr><td><a href=\"http://snomed.info/id/416775004\">416775004</a></td><td>Chest, Abdomen and Pelvis</td></tr><tr><td><a href=\"http://snomed.info/id/416550000\">416550000</a></td><td>Chest and Abdomen</td></tr><tr><td><a href=\"http://snomed.info/id/60819002\">60819002</a></td><td>Cheek</td></tr><tr><td><a href=\"http://snomed.info/id/397363009\">397363009</a></td><td>Common femoral vein</td></tr><tr><td><a href=\"http://snomed.info/id/181347005\">181347005</a></td><td>Common femoral artery</td></tr><tr><td><a href=\"http://snomed.info/id/71252005\">71252005</a></td><td>Cervix</td></tr><tr><td><a href=\"http://snomed.info/id/88556005\">88556005</a></td><td>Cerebral artery</td></tr><tr><td><a href=\"http://snomed.info/id/372073000\">372073000</a></td><td>Cerebral hemisphere</td></tr><tr><td><a href=\"http://snomed.info/id/113305005\">113305005</a></td><td>Cerebellum</td></tr><tr><td><a href=\"http://snomed.info/id/20699002\">20699002</a></td><td>Cephalic vein</td></tr><tr><td><a href=\"http://snomed.info/id/57850000\">57850000</a></td><td>Celiac artery</td></tr><tr><td><a href=\"http://snomed.info/id/32062004\">32062004</a></td><td>Common carotid artery</td></tr><tr><td><a href=\"http://snomed.info/id/69105007\">69105007</a></td><td>Carotid Artery</td></tr><tr><td><a href=\"http://snomed.info/id/53840002\">53840002</a></td><td>Calf of leg</td></tr><tr><td><a href=\"http://snomed.info/id/80144004\">80144004</a></td><td>Calcaneus</td></tr><tr><td><a href=\"http://snomed.info/id/21479005\">21479005</a></td><td>Carotid bulb</td></tr><tr><td><a href=\"http://snomed.info/id/955009\">955009</a></td><td>Bronchus</td></tr><tr><td><a href=\"http://snomed.info/id/76752008\">76752008</a></td><td>Breast</td></tr><tr><td><a href=\"http://snomed.info/id/12738006\">12738006</a></td><td>Brain</td></tr><tr><td><a href=\"http://snomed.info/id/20115005\">20115005</a></td><td>Brachial vein</td></tr><tr><td><a href=\"http://snomed.info/id/17137000\">17137000</a></td><td>Brachial artery</td></tr><tr><td><a href=\"http://snomed.info/id/110837003\">110837003</a></td><td>Bladder and urethra</td></tr><tr><td><a href=\"http://snomed.info/id/89837001\">89837001</a></td><td>Bladder</td></tr><tr><td><a href=\"http://snomed.info/id/34707002\">34707002</a></td><td>Biliary tract</td></tr><tr><td><a href=\"http://snomed.info/id/28273000\">28273000</a></td><td>Bile duct</td></tr><tr><td><a href=\"http://snomed.info/id/59011009\">59011009</a></td><td>Basilar artery</td></tr><tr><td><a href=\"http://snomed.info/id/77568009\">77568009</a></td><td>Back</td></tr><tr><td><a href=\"http://snomed.info/id/72107004\">72107004</a></td><td>Azygos vein</td></tr><tr><td><a href=\"http://snomed.info/id/68705008\">68705008</a></td><td>Axillary vein</td></tr><tr><td><a href=\"http://snomed.info/id/67937003\">67937003</a></td><td>Axillary Artery</td></tr><tr><td><a href=\"http://snomed.info/id/91470000\">91470000</a></td><td>Axilla</td></tr><tr><td><a href=\"http://snomed.info/id/9040008\">9040008</a></td><td>Ascending colon</td></tr><tr><td><a href=\"http://snomed.info/id/54247002\">54247002</a></td><td>Ascending aorta</td></tr><tr><td><a href=\"http://snomed.info/id/51114001\">51114001</a></td><td>Artery</td></tr><tr><td><a href=\"http://snomed.info/id/66754008\">66754008</a></td><td>Appendix</td></tr><tr><td><a href=\"http://snomed.info/id/57034009\">57034009</a></td><td>Aortic arch</td></tr><tr><td><a href=\"http://snomed.info/id/15825003\">15825003</a></td><td>Aorta</td></tr><tr><td><a href=\"http://snomed.info/id/110612005\">110612005</a></td><td>Anus, rectum and sigmoid colon</td></tr><tr><td><a href=\"http://snomed.info/id/68053000\">68053000</a></td><td>Anterior tibial artery</td></tr><tr><td><a href=\"http://snomed.info/id/17388009\">17388009</a></td><td>Anterior spinal artery</td></tr><tr><td><a href=\"http://snomed.info/id/128553008\">128553008</a></td><td>Antecubital vein</td></tr><tr><td><a href=\"http://snomed.info/id/8012006\">8012006</a></td><td>Anterior communicating artery</td></tr><tr><td><a href=\"http://snomed.info/id/194996006\">194996006</a></td><td>Anterior cardiac vein</td></tr><tr><td><a href=\"http://snomed.info/id/70258002\">70258002</a></td><td>Ankle joint</td></tr><tr><td><a href=\"http://snomed.info/id/77012006\">77012006</a></td><td>Amniotic fluid</td></tr><tr><td><a href=\"http://snomed.info/id/23451007\">23451007</a></td><td>Adrenal gland</td></tr><tr><td><a href=\"http://snomed.info/id/85856004\">85856004</a></td><td>Acromioclavicular joint</td></tr><tr><td><a href=\"http://snomed.info/id/60176003\">60176003</a></td><td>Anterior cerebral artery</td></tr><tr><td><a href=\"http://snomed.info/id/7832008\">7832008</a></td><td>Abdominal aorta</td></tr><tr><td><a href=\"http://snomed.info/id/818982008\">818982008</a></td><td>Abdomen and Pelvis</td></tr><tr><td><a href=\"http://snomed.info/id/818981001\">818981001</a></td><td>Abdomen</td></tr><tr><td><a href=\"http://snomed.info/id/35918002\">35918002</a></td><td>Fourth ventricle</td></tr><tr><td><a href=\"http://snomed.info/id/49841001\">49841001</a></td><td>Third ventricle</td></tr></table></li></ul></div>"
+  },
+  "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-observation-bodysites",
+  "version" : "0.1.0",
+  "name" : "ObservationBodySites",
+  "title" : "Observation Body Sites Value Set",
+  "status" : "active",
+  "date" : "2025-09-29T08:09:08+00:00",
+  "publisher" : "Onconova",
+  "contact" : [{
+    "name" : "Onconova",
+    "telecom" : [{
+      "system" : "url",
+      "value" : "http://luisfabib.github.io/onconova"
+    }]
+  }],
+  "description" : "Bodysites related to an observation",
+  "compose" : {
+    "include" : [{
+      "system" : "http://snomed.info/sct",
+      "concept" : [{
+        "code" : "13881006",
+        "display" : "Zygoma"
+      },
+      {
+        "code" : "74670003",
+        "display" : "Wrist joint"
+      },
+      {
+        "code" : "38266002",
+        "display" : "Entire body"
+      },
+      {
+        "code" : "45292006",
+        "display" : "Vulva"
+      },
+      {
+        "code" : "85234005",
+        "display" : "Vertebral artery"
+      },
+      {
+        "code" : "76784001",
+        "display" : "Vagina"
+      },
+      {
+        "code" : "35039007",
+        "display" : "Uterus"
+      },
+      {
+        "code" : "13648007",
+        "display" : "Urethra"
+      },
+      {
+        "code" : "87953007",
+        "display" : "Ureter"
+      },
+      {
+        "code" : "431491007",
+        "display" : "Upper urinary tract"
+      },
+      {
+        "code" : "53120007",
+        "display" : "Upper limb"
+      },
+      {
+        "code" : "40983000",
+        "display" : "Upper arm"
+      },
+      {
+        "code" : "284639000",
+        "display" : "Umbilical vein"
+      },
+      {
+        "code" : "50536004",
+        "display" : "Umbilical artery"
+      },
+      {
+        "code" : "90290004",
+        "display" : "Umbilical region"
+      },
+      {
+        "code" : "44984001",
+        "display" : "Ulnar artery"
+      },
+      {
+        "code" : "23416004",
+        "display" : "Ulna"
+      },
+      {
+        "code" : "122495006",
+        "display" : "Thoracic spine"
+      },
+      {
+        "code" : "485005",
+        "display" : "Transverse colon"
+      },
+      {
+        "code" : "110726009",
+        "display" : "Trachea and bronchus"
+      },
+      {
+        "code" : "44567001",
+        "display" : "Trachea"
+      },
+      {
+        "code" : "21974007",
+        "display" : "Tongue"
+      },
+      {
+        "code" : "29707007",
+        "display" : "Toe"
+      },
+      {
+        "code" : "53620006",
+        "display" : "Temporomandibular joint"
+      },
+      {
+        "code" : "1217256009",
+        "display" : "Thoraco-lumbar spine"
+      },
+      {
+        "code" : "110536004",
+        "display" : "Tibia and fibula"
+      },
+      {
+        "code" : "12611008",
+        "display" : "Tibia"
+      },
+      {
+        "code" : "69748006",
+        "display" : "Thyroid"
+      },
+      {
+        "code" : "9875009",
+        "display" : "Thymus"
+      },
+      {
+        "code" : "76505004",
+        "display" : "Thumb"
+      },
+      {
+        "code" : "43799004",
+        "display" : "Thorax"
+      },
+      {
+        "code" : "113262008",
+        "display" : "Thoracic aorta"
+      },
+      {
+        "code" : "68367000",
+        "display" : "Thigh"
+      },
+      {
+        "code" : "42695009",
+        "display" : "Thalamus"
+      },
+      {
+        "code" : "40689003",
+        "display" : "Testis"
+      },
+      {
+        "code" : "48345005",
+        "display" : "Superior vena cava"
+      },
+      {
+        "code" : "72021004",
+        "display" : "Superior thyroid artery"
+      },
+      {
+        "code" : "11708003",
+        "display" : "Pubic region"
+      },
+      {
+        "code" : "77621008",
+        "display" : "Supraclavicular region of neck"
+      },
+      {
+        "code" : "54019009",
+        "display" : "Submandibular gland"
+      },
+      {
+        "code" : "19695001",
+        "display" : "Subcostal"
+      },
+      {
+        "code" : "9454009",
+        "display" : "Subclavian vein"
+      },
+      {
+        "code" : "36765005",
+        "display" : "Subclavian artery"
+      },
+      {
+        "code" : "69695003",
+        "display" : "Stomach"
+      },
+      {
+        "code" : "56873002",
+        "display" : "Sternum"
+      },
+      {
+        "code" : "54735007",
+        "display" : "Sacrum"
+      },
+      {
+        "code" : "35819009",
+        "display" : "Splenic vein"
+      },
+      {
+        "code" : "22083002",
+        "display" : "Splenic artery"
+      },
+      {
+        "code" : "78961009",
+        "display" : "Spleen"
+      },
+      {
+        "code" : "421060004",
+        "display" : "Spine"
+      },
+      {
+        "code" : "2748008",
+        "display" : "Spinal cord"
+      },
+      {
+        "code" : "30315005",
+        "display" : "Small intestine"
+      },
+      {
+        "code" : "42258001",
+        "display" : "Superior mesenteric artery"
+      },
+      {
+        "code" : "89546000",
+        "display" : "Skull"
+      },
+      {
+        "code" : "39723000",
+        "display" : "Sacroiliac joint"
+      },
+      {
+        "code" : "60184004",
+        "display" : "Sigmoid colon"
+      },
+      {
+        "code" : "16982005",
+        "display" : "Shoulder"
+      },
+      {
+        "code" : "397364003",
+        "display" : "Superficial femoral vein"
+      },
+      {
+        "code" : "128587003",
+        "display" : "Saphenofemoral junction"
+      },
+      {
+        "code" : "181349008",
+        "display" : "Superficial femoral artery"
+      },
+      {
+        "code" : "58742003",
+        "display" : "Sesamoid bones of foot"
+      },
+      {
+        "code" : "64739004",
+        "display" : "Seminal vesicle"
+      },
+      {
+        "code" : "42575006",
+        "display" : "Sella turcica"
+      },
+      {
+        "code" : "20233005",
+        "display" : "Scrotum"
+      },
+      {
+        "code" : "18619003",
+        "display" : "Sclera"
+      },
+      {
+        "code" : "7844006",
+        "display" : "Sternoclavicular joint"
+      },
+      {
+        "code" : "79601000",
+        "display" : "Scapula"
+      },
+      {
+        "code" : "41695006",
+        "display" : "Scalp"
+      },
+      {
+        "code" : "362072009",
+        "display" : "Saphenous vein"
+      },
+      {
+        "code" : "53085002",
+        "display" : "Right ventricle"
+      },
+      {
+        "code" : "50519007",
+        "display" : "Right upper quadrant of abdomen"
+      },
+      {
+        "code" : "8629005",
+        "display" : "Superior right pulmonary vein"
+      },
+      {
+        "code" : "78480002",
+        "display" : "Right pulmonary artery"
+      },
+      {
+        "code" : "73931004",
+        "display" : "Right portal vein"
+      },
+      {
+        "code" : "1017211000",
+        "display" : "Right lumbar region"
+      },
+      {
+        "code" : "48544008",
+        "display" : "Right lower quadrant of abdomen"
+      },
+      {
+        "code" : "37117007",
+        "display" : "Right inguinal region"
+      },
+      {
+        "code" : "113197003",
+        "display" : "Rib"
+      },
+      {
+        "code" : "133946002",
+        "display" : "Right hypochondriac region"
+      },
+      {
+        "code" : "272998002",
+        "display" : "Right hepatic vein"
+      },
+      {
+        "code" : "69833005",
+        "display" : "Right femoral artery"
+      },
+      {
+        "code" : "82849001",
+        "display" : "Retroperitoneum"
+      },
+      {
+        "code" : "56400007",
+        "display" : "Renal vein"
+      },
+      {
+        "code" : "2841007",
+        "display" : "Renal artery"
+      },
+      {
+        "code" : "34402009",
+        "display" : "Rectum"
+      },
+      {
+        "code" : "73829009",
+        "display" : "Right atrium"
+      },
+      {
+        "code" : "110535000",
+        "display" : "Radius and ulna"
+      },
+      {
+        "code" : "62413002",
+        "display" : "Radius"
+      },
+      {
+        "code" : "45631007",
+        "display" : "Radial artery"
+      },
+      {
+        "code" : "122972007",
+        "display" : "Pulmonary vein"
+      },
+      {
+        "code" : "81040000",
+        "display" : "Pulmonary artery"
+      },
+      {
+        "code" : "41216001",
+        "display" : "Prostate"
+      },
+      {
+        "code" : "23438002",
+        "display" : "Profunda femoris vein"
+      },
+      {
+        "code" : "31677005",
+        "display" : "Profunda femoris artery"
+      },
+      {
+        "code" : "13363002",
+        "display" : "Posterior tibial artery"
+      },
+      {
+        "code" : "43119007",
+        "display" : "Posterior communicating artery"
+      },
+      {
+        "code" : "32764006",
+        "display" : "Portal vein"
+      },
+      {
+        "code" : "56849005",
+        "display" : "Popliteal vein"
+      },
+      {
+        "code" : "32361000",
+        "display" : "Popliteal fossa"
+      },
+      {
+        "code" : "43899006",
+        "display" : "Popliteal artery"
+      },
+      {
+        "code" : "78067005",
+        "display" : "Placenta"
+      },
+      {
+        "code" : "312535008",
+        "display" : "Pharynx and larynx"
+      },
+      {
+        "code" : "54066008",
+        "display" : "Pharynx"
+      },
+      {
+        "code" : "706342009",
+        "display" : "Phantom"
+      },
+      {
+        "code" : "8821006",
+        "display" : "Peroneal artery"
+      },
+      {
+        "code" : "38864007",
+        "display" : "Perineum"
+      },
+      {
+        "code" : "18911002",
+        "display" : "Penis"
+      },
+      {
+        "code" : "282044005",
+        "display" : "Penile artery"
+      },
+      {
+        "code" : "1231522001",
+        "display" : "Pelvis and lower extremities"
+      },
+      {
+        "code" : "816092008",
+        "display" : "Pelvis"
+      },
+      {
+        "code" : "70382005",
+        "display" : "Posterior cerebral artery"
+      },
+      {
+        "code" : "64234005",
+        "display" : "Patella"
+      },
+      {
+        "code" : "45289007",
+        "display" : "Parotid gland"
+      },
+      {
+        "code" : "111002",
+        "display" : "Parathyroid"
+      },
+      {
+        "code" : "91691001",
+        "display" : "Parasternal"
+      },
+      {
+        "code" : "69930009",
+        "display" : "Pancreatic duct"
+      },
+      {
+        "code" : "15776009",
+        "display" : "Pancreas"
+      },
+      {
+        "code" : "110621006",
+        "display" : "Pancreatic duct and bile duct systems"
+      },
+      {
+        "code" : "15497006",
+        "display" : "Ovary"
+      },
+      {
+        "code" : "363654007",
+        "display" : "Orbital structure"
+      },
+      {
+        "code" : "55024004",
+        "display" : "Optic canal"
+      },
+      {
+        "code" : "53549008",
+        "display" : "Ophthalmic artery"
+      },
+      {
+        "code" : "31145008",
+        "display" : "Occipital artery"
+      },
+      {
+        "code" : "32114007",
+        "display" : "Occipital vein"
+      },
+      {
+        "code" : "45206002",
+        "display" : "Nose"
+      },
+      {
+        "code" : "416319003",
+        "display" : "Neck, Chest, Abdomen and Pelvis"
+      },
+      {
+        "code" : "416152001",
+        "display" : "Neck, Chest and Abdomen"
+      },
+      {
+        "code" : "417437006",
+        "display" : "Neck and Chest"
+      },
+      {
+        "code" : "45048000",
+        "display" : "Neck"
+      },
+      {
+        "code" : "360955006",
+        "display" : "Nasopharynx"
+      },
+      {
+        "code" : "123851003",
+        "display" : "Mouth"
+      },
+      {
+        "code" : "243977002",
+        "display" : "Morisons pouch"
+      },
+      {
+        "code" : "273099000",
+        "display" : "Middle hepatic vein"
+      },
+      {
+        "code" : "128583004",
+        "display" : "Mesenteric vein"
+      },
+      {
+        "code" : "86570000",
+        "display" : "Mesenteric artery"
+      },
+      {
+        "code" : "72410000",
+        "display" : "Mediastinum"
+      },
+      {
+        "code" : "17232002",
+        "display" : "Middle cerebral artery"
+      },
+      {
+        "code" : "70925003",
+        "display" : "Maxilla"
+      },
+      {
+        "code" : "59066005",
+        "display" : "Mastoid bone"
+      },
+      {
+        "code" : "91609006",
+        "display" : "Mandible"
+      },
+      {
+        "code" : "87878005",
+        "display" : "Left ventricle"
+      },
+      {
+        "code" : "86367003",
+        "display" : "Left upper quadrant of abdomen"
+      },
+      {
+        "code" : "39607008",
+        "display" : "Lung"
+      },
+      {
+        "code" : "91747007",
+        "display" : "Lumen of blood vessel"
+      },
+      {
+        "code" : "34635009",
+        "display" : "Lumbar artery"
+      },
+      {
+        "code" : "52612000",
+        "display" : "Lumbar region"
+      },
+      {
+        "code" : "43863001",
+        "display" : "Superior left pulmonary vein"
+      },
+      {
+        "code" : "1217253001",
+        "display" : "Lumbo-sacral spine"
+      },
+      {
+        "code" : "122496007",
+        "display" : "Lumbar spine"
+      },
+      {
+        "code" : "50408007",
+        "display" : "Left pulmonary artery"
+      },
+      {
+        "code" : "70253006",
+        "display" : "Left portal vein"
+      },
+      {
+        "code" : "61685007",
+        "display" : "Lower limb"
+      },
+      {
+        "code" : "30021000",
+        "display" : "Lower leg"
+      },
+      {
+        "code" : "1017210004",
+        "display" : "Left lumbar region"
+      },
+      {
+        "code" : "68505006",
+        "display" : "Left lower quadrant of abdomen"
+      },
+      {
+        "code" : "10200004",
+        "display" : "Liver"
+      },
+      {
+        "code" : "85119005",
+        "display" : "Left inguinal region"
+      },
+      {
+        "code" : "113264009",
+        "display" : "Lingual artery"
+      },
+      {
+        "code" : "133945003",
+        "display" : "Left hypochondriac region"
+      },
+      {
+        "code" : "273202007",
+        "display" : "Left hepatic vein"
+      },
+      {
+        "code" : "113270003",
+        "display" : "Left femoral artery"
+      },
+      {
+        "code" : "66720007",
+        "display" : "Lateral Ventricle"
+      },
+      {
+        "code" : "82471001",
+        "display" : "Left atrium"
+      },
+      {
+        "code" : "4596009",
+        "display" : "Larynx"
+      },
+      {
+        "code" : "14742008",
+        "display" : "Large intestine"
+      },
+      {
+        "code" : "59749000",
+        "display" : "Lacrimal artery"
+      },
+      {
+        "code" : "72696002",
+        "display" : "Knee"
+      },
+      {
+        "code" : "64033007",
+        "display" : "Kidney"
+      },
+      {
+        "code" : "39352004",
+        "display" : "Joint"
+      },
+      {
+        "code" : "21306003",
+        "display" : "Jejunum"
+      },
+      {
+        "code" : "661005",
+        "display" : "Jaw region"
+      },
+      {
+        "code" : "1101003",
+        "display" : "Intracranial"
+      },
+      {
+        "code" : "69327007",
+        "display" : "Internal mammary artery"
+      },
+      {
+        "code" : "12123001",
+        "display" : "Internal jugular vein"
+      },
+      {
+        "code" : "90024005",
+        "display" : "Internal iliac artery"
+      },
+      {
+        "code" : "8887007",
+        "display" : "Innominate vein"
+      },
+      {
+        "code" : "12691009",
+        "display" : "Innominate artery"
+      },
+      {
+        "code" : "26893007",
+        "display" : "Inguinal region"
+      },
+      {
+        "code" : "64131007",
+        "display" : "Inferior vena cava"
+      },
+      {
+        "code" : "33795007",
+        "display" : "Inferior mesenteric artery"
+      },
+      {
+        "code" : "22356005",
+        "display" : "Ilium"
+      },
+      {
+        "code" : "244411005",
+        "display" : "Iliac vein"
+      },
+      {
+        "code" : "10293006",
+        "display" : "Iliac artery"
+      },
+      {
+        "code" : "34516001",
+        "display" : "Ileum"
+      },
+      {
+        "code" : "86117002",
+        "display" : "Internal carotid artery"
+      },
+      {
+        "code" : "361078006",
+        "display" : "Internal Auditory Canal"
+      },
+      {
+        "code" : "81502006",
+        "display" : "Hypopharynx"
+      },
+      {
+        "code" : "85050009",
+        "display" : "Humerus"
+      },
+      {
+        "code" : "24136001",
+        "display" : "Hip joint"
+      },
+      {
+        "code" : "8993003",
+        "display" : "Hepatic vein"
+      },
+      {
+        "code" : "76015000",
+        "display" : "Hepatic artery"
+      },
+      {
+        "code" : "80891009",
+        "display" : "Heart"
+      },
+      {
+        "code" : "774007",
+        "display" : "Head and Neck"
+      },
+      {
+        "code" : "69536005",
+        "display" : "Head"
+      },
+      {
+        "code" : "85562004",
+        "display" : "Hand"
+      },
+      {
+        "code" : "60734001",
+        "display" : "Great saphenous vein"
+      },
+      {
+        "code" : "46862004",
+        "display" : "Gluteal region"
+      },
+      {
+        "code" : "300571009",
+        "display" : "Gestational sac"
+      },
+      {
+        "code" : "128559007",
+        "display" : "Genicular artery"
+      },
+      {
+        "code" : "110568007",
+        "display" : "Gastric vein"
+      },
+      {
+        "code" : "28231008",
+        "display" : "Gallbladder"
+      },
+      {
+        "code" : "14975008",
+        "display" : "Forearm"
+      },
+      {
+        "code" : "56459004",
+        "display" : "Foot"
+      },
+      {
+        "code" : "79361005",
+        "display" : "Fontanel of skull"
+      },
+      {
+        "code" : "58602004",
+        "display" : "Flank"
+      },
+      {
+        "code" : "7569003",
+        "display" : "Finger"
+      },
+      {
+        "code" : "87342007",
+        "display" : "Fibula"
+      },
+      {
+        "code" : "71341001",
+        "display" : "Femur"
+      },
+      {
+        "code" : "83419000",
+        "display" : "Femoral vein"
+      },
+      {
+        "code" : "7657000",
+        "display" : "Femoral artery"
+      },
+      {
+        "code" : "23074001",
+        "display" : "Facial artery"
+      },
+      {
+        "code" : "89545001",
+        "display" : "Face"
+      },
+      {
+        "code" : "80243003",
+        "display" : "Eyelid"
+      },
+      {
+        "code" : "81745001",
+        "display" : "Eye"
+      },
+      {
+        "code" : "66019005",
+        "display" : "Extremity"
+      },
+      {
+        "code" : "71585003",
+        "display" : "External jugular vein"
+      },
+      {
+        "code" : "63507001",
+        "display" : "External iliac vein"
+      },
+      {
+        "code" : "113269004",
+        "display" : "External iliac artery"
+      },
+      {
+        "code" : "32849002",
+        "display" : "Esophagus"
+      },
+      {
+        "code" : "27947004",
+        "display" : "Epigastric region"
+      },
+      {
+        "code" : "87644002",
+        "display" : "Epididymis"
+      },
+      {
+        "code" : "48367006",
+        "display" : "Endo-vesical"
+      },
+      {
+        "code" : "29092000",
+        "display" : "Vein"
+      },
+      {
+        "code" : "59820001",
+        "display" : "Endo-vascular"
+      },
+      {
+        "code" : "18962004",
+        "display" : "Endo-nasopharyngeal"
+      },
+      {
+        "code" : "53342003",
+        "display" : "Endo-nasal"
+      },
+      {
+        "code" : "2739003",
+        "display" : "Endometrium"
+      },
+      {
+        "code" : "16953009",
+        "display" : "Elbow joint"
+      },
+      {
+        "code" : "22286001",
+        "display" : "External carotid artery"
+      },
+      {
+        "code" : "117590005",
+        "display" : "Ear"
+      },
+      {
+        "code" : "84301002",
+        "display" : "External auditory canal"
+      },
+      {
+        "code" : "38848004",
+        "display" : "Duodenum"
+      },
+      {
+        "code" : "32622004",
+        "display" : "Descending colon"
+      },
+      {
+        "code" : "32672002",
+        "display" : "Descending aorta"
+      },
+      {
+        "code" : "53843000",
+        "display" : "Rectouterine pouch"
+      },
+      {
+        "code" : "1217257000",
+        "display" : "Cervico-thoracic spine"
+      },
+      {
+        "code" : "122494005",
+        "display" : "Cervical spine"
+      },
+      {
+        "code" : "90219004",
+        "display" : "Coronary sinus"
+      },
+      {
+        "code" : "41801008",
+        "display" : "Coronary artery"
+      },
+      {
+        "code" : "28726007",
+        "display" : "Cornea"
+      },
+      {
+        "code" : "79741001",
+        "display" : "Common bile duct"
+      },
+      {
+        "code" : "46027005",
+        "display" : "Common iliac vein"
+      },
+      {
+        "code" : "73634005",
+        "display" : "Common iliac artery"
+      },
+      {
+        "code" : "71854001",
+        "display" : "Colon"
+      },
+      {
+        "code" : "64688005",
+        "display" : "Coccyx"
+      },
+      {
+        "code" : "51299004",
+        "display" : "Clavicle"
+      },
+      {
+        "code" : "11279006",
+        "display" : "Circle of Willis"
+      },
+      {
+        "code" : "80621003",
+        "display" : "Choroid plexus"
+      },
+      {
+        "code" : "416775004",
+        "display" : "Chest, Abdomen and Pelvis"
+      },
+      {
+        "code" : "416550000",
+        "display" : "Chest and Abdomen"
+      },
+      {
+        "code" : "60819002",
+        "display" : "Cheek"
+      },
+      {
+        "code" : "397363009",
+        "display" : "Common femoral vein"
+      },
+      {
+        "code" : "181347005",
+        "display" : "Common femoral artery"
+      },
+      {
+        "code" : "71252005",
+        "display" : "Cervix"
+      },
+      {
+        "code" : "88556005",
+        "display" : "Cerebral artery"
+      },
+      {
+        "code" : "372073000",
+        "display" : "Cerebral hemisphere"
+      },
+      {
+        "code" : "113305005",
+        "display" : "Cerebellum"
+      },
+      {
+        "code" : "20699002",
+        "display" : "Cephalic vein"
+      },
+      {
+        "code" : "57850000",
+        "display" : "Celiac artery"
+      },
+      {
+        "code" : "32062004",
+        "display" : "Common carotid artery"
+      },
+      {
+        "code" : "69105007",
+        "display" : "Carotid Artery"
+      },
+      {
+        "code" : "53840002",
+        "display" : "Calf of leg"
+      },
+      {
+        "code" : "80144004",
+        "display" : "Calcaneus"
+      },
+      {
+        "code" : "21479005",
+        "display" : "Carotid bulb"
+      },
+      {
+        "code" : "955009",
+        "display" : "Bronchus"
+      },
+      {
+        "code" : "76752008",
+        "display" : "Breast"
+      },
+      {
+        "code" : "12738006",
+        "display" : "Brain"
+      },
+      {
+        "code" : "20115005",
+        "display" : "Brachial vein"
+      },
+      {
+        "code" : "17137000",
+        "display" : "Brachial artery"
+      },
+      {
+        "code" : "110837003",
+        "display" : "Bladder and urethra"
+      },
+      {
+        "code" : "89837001",
+        "display" : "Bladder"
+      },
+      {
+        "code" : "34707002",
+        "display" : "Biliary tract"
+      },
+      {
+        "code" : "28273000",
+        "display" : "Bile duct"
+      },
+      {
+        "code" : "59011009",
+        "display" : "Basilar artery"
+      },
+      {
+        "code" : "77568009",
+        "display" : "Back"
+      },
+      {
+        "code" : "72107004",
+        "display" : "Azygos vein"
+      },
+      {
+        "code" : "68705008",
+        "display" : "Axillary vein"
+      },
+      {
+        "code" : "67937003",
+        "display" : "Axillary Artery"
+      },
+      {
+        "code" : "91470000",
+        "display" : "Axilla"
+      },
+      {
+        "code" : "9040008",
+        "display" : "Ascending colon"
+      },
+      {
+        "code" : "54247002",
+        "display" : "Ascending aorta"
+      },
+      {
+        "code" : "51114001",
+        "display" : "Artery"
+      },
+      {
+        "code" : "66754008",
+        "display" : "Appendix"
+      },
+      {
+        "code" : "57034009",
+        "display" : "Aortic arch"
+      },
+      {
+        "code" : "15825003",
+        "display" : "Aorta"
+      },
+      {
+        "code" : "110612005",
+        "display" : "Anus, rectum and sigmoid colon"
+      },
+      {
+        "code" : "68053000",
+        "display" : "Anterior tibial artery"
+      },
+      {
+        "code" : "17388009",
+        "display" : "Anterior spinal artery"
+      },
+      {
+        "code" : "128553008",
+        "display" : "Antecubital vein"
+      },
+      {
+        "code" : "8012006",
+        "display" : "Anterior communicating artery"
+      },
+      {
+        "code" : "194996006",
+        "display" : "Anterior cardiac vein"
+      },
+      {
+        "code" : "70258002",
+        "display" : "Ankle joint"
+      },
+      {
+        "code" : "77012006",
+        "display" : "Amniotic fluid"
+      },
+      {
+        "code" : "23451007",
+        "display" : "Adrenal gland"
+      },
+      {
+        "code" : "85856004",
+        "display" : "Acromioclavicular joint"
+      },
+      {
+        "code" : "60176003",
+        "display" : "Anterior cerebral artery"
+      },
+      {
+        "code" : "7832008",
+        "display" : "Abdominal aorta"
+      },
+      {
+        "code" : "818982008",
+        "display" : "Abdomen and Pelvis"
+      },
+      {
+        "code" : "818981001",
+        "display" : "Abdomen"
+      },
+      {
+        "code" : "35918002",
+        "display" : "Fourth ventricle"
+      },
+      {
+        "code" : "49841001",
+        "display" : "Third ventricle"
+      }]
+    }]
+  }
+}

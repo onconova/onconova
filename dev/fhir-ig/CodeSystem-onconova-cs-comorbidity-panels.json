@@ -1,0 +1,37 @@
+{
+  "resourceType" : "CodeSystem",
+  "id" : "onconova-cs-comorbidity-panels",
+  "text" : {
+    "status" : "generated",
+    "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: CodeSystem onconova-cs-comorbidity-panels</b></p><a name=\"onconova-cs-comorbidity-panels\"> </a><a name=\"hconconova-cs-comorbidity-panels\"> </a><p>This  code system <code>http://luisfabib.github.io/onconova/CodeSystem/onconova-cs-comorbidity-panels</code> defines the following codes:</p><table class=\"codes\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td></tr><tr><td style=\"white-space:nowrap\">charlson<a name=\"onconova-cs-comorbidity-panels-charlson\"> </a></td><td>Charlson Comorbidity Panel</td></tr><tr><td style=\"white-space:nowrap\">elixhauser<a name=\"onconova-cs-comorbidity-panels-elixhauser\"> </a></td><td>Elixhauser Comorbidity Panel</td></tr><tr><td style=\"white-space:nowrap\">nci<a name=\"onconova-cs-comorbidity-panels-nci\"> </a></td><td>NCI Comorbidity Panel</td></tr></table></div>"
+  },
+  "url" : "http://luisfabib.github.io/onconova/CodeSystem/onconova-cs-comorbidity-panels",
+  "version" : "0.1.0",
+  "name" : "ComorbidityPanelsSystem",
+  "title" : "Comorbidity Panels Code System",
+  "status" : "active",
+  "date" : "2025-09-29T08:09:08+00:00",
+  "publisher" : "Onconova",
+  "contact" : [{
+    "name" : "Onconova",
+    "telecom" : [{
+      "system" : "url",
+      "value" : "http://luisfabib.github.io/onconova"
+    }]
+  }],
+  "description" : "A code system for comorbidity panels relevant to cancer patients.",
+  "content" : "complete",
+  "count" : 3,
+  "concept" : [{
+    "code" : "charlson",
+    "display" : "Charlson Comorbidity Panel"
+  },
+  {
+    "code" : "elixhauser",
+    "display" : "Elixhauser Comorbidity Panel"
+  },
+  {
+    "code" : "nci",
+    "display" : "NCI Comorbidity Panel"
+  }]
+}

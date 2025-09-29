@@ -1,0 +1,5376 @@
+{
+  "date" : "Mon, 29 Sep, 2025 08:10:25 +0000",
+  "doco" : "For each file: start is seconds after start activity occurred. Length = milliseconds activity took",
+  "files" : [
+    {
+      "name" : "/fsh-generated/resources/ImplementationGuide-onconova.fhir.json",
+      "size" : 45024,
+      "processes" : [
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 205
+        },
+        {
+          "activity" : "checkR4R4B",
+          "start" : 76,
+          "length" : 10
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 76,
+          "length" : 226
+        },
+        {
+          "activity" : "validate",
+          "start" : 173,
+          "length" : 5054
+        },
+        {
+          "activity" : "scanForUsageStats",
+          "start" : 178,
+          "length" : 1
+        },
+        {
+          "activity" : "generate1",
+          "start" : 178,
+          "length" : 112
+        },
+        {
+          "activity" : "generate2",
+          "start" : 188,
+          "length" : 254
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 9
+        },
+        {
+          "activity" : "scanExamplesForR5",
+          "start" : 336,
+          "length" : 1
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/CapabilityStatement-onconova-capability-statement.json",
+      "size" : 9528,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 6
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 24
+        },
+        {
+          "activity" : "checkR4R4B",
+          "start" : 76,
+          "length" : 1
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 76,
+          "length" : 42
+        },
+        {
+          "activity" : "validate",
+          "start" : 172,
+          "length" : 781
+        },
+        {
+          "activity" : "generate1",
+          "start" : 178,
+          "length" : 39
+        },
+        {
+          "activity" : "generate2",
+          "start" : 188,
+          "length" : 46
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 2
+        },
+        {
+          "activity" : "scanExamplesForR5",
+          "start" : 336,
+          "length" : 1
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/CodeSystem-onconova-cs-comorbidity-panels.json",
+      "size" : 664,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 72,
+          "length" : 8
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 76,
+          "length" : 13
+        },
+        {
+          "activity" : "validate",
+          "start" : 101,
+          "length" : 23
+        },
+        {
+          "activity" : "checkConformanceResources",
+          "start" : 178,
+          "length" : 1
+        },
+        {
+          "activity" : "generate1",
+          "start" : 178,
+          "length" : 6
+        },
+        {
+          "activity" : "generate2",
+          "start" : 188,
+          "length" : 654
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 1
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/CodeSystem-onconova-cs-tbd.json",
+      "size" : 540,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 8
+        },
+        {
+          "activity" : "load",
+          "start" : 72,
+          "length" : 5
+        },
+        {
+          "activity" : "load-configure",
+          "start" : 76,
+          "length" : 1
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 76,
+          "length" : 8
+        },
+        {
+          "activity" : "validate",
+          "start" : 101,
+          "length" : 7
+        },
+        {
+          "activity" : "generate1",
+          "start" : 178,
+          "length" : 6
+        },
+        {
+          "activity" : "generate2",
+          "start" : 189,
+          "length" : 57
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-ext-therapy-line-reference.json",
+      "size" : 1504,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 7
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 6
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 73,
+          "length" : 19
+        },
+        {
+          "activity" : "loadInfo",
+          "start" : 76,
+          "length" : 1
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 76,
+          "length" : 32
+        },
+        {
+          "activity" : "validate",
+          "start" : 132,
+          "length" : 1932
+        },
+        {
+          "activity" : "generate1",
+          "start" : 178,
+          "length" : 25
+        },
+        {
+          "activity" : "generate2",
+          "start" : 189,
+          "length" : 449
+        },
+        {
+          "activity" : "generate2",
+          "start" : 261,
+          "length" : 1755
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 2
+        },
+        {
+          "activity" : "scanProfilesForR5",
+          "start" : 336,
+          "length" : 1
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-Karnofsky-performance-status.json",
+      "size" : 3486,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 5
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 5
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 73,
+          "length" : 90
+        },
+        {
+          "activity" : "checkR4R4B",
+          "start" : 76,
+          "length" : 1
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 76,
+          "length" : 34
+        },
+        {
+          "activity" : "validate",
+          "start" : 134,
+          "length" : 1287
+        },
+        {
+          "activity" : "scanForUsageStats",
+          "start" : 178,
+          "length" : 1
+        },
+        {
+          "activity" : "generate1",
+          "start" : 178,
+          "length" : 133
+        },
+        {
+          "activity" : "generate2",
+          "start" : 189,
+          "length" : 3421
+        },
+        {
+          "activity" : "generate2",
+          "start" : 263,
+          "length" : 398
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 9
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-adverse-event.json",
+      "size" : 5804,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 6
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 9
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 73,
+          "length" : 116
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 76,
+          "length" : 35
+        },
+        {
+          "activity" : "validate",
+          "start" : 135,
+          "length" : 360
+        },
+        {
+          "activity" : "scanForUsageStats",
+          "start" : 178,
+          "length" : 1
+        },
+        {
+          "activity" : "generate1",
+          "start" : 179,
+          "length" : 113
+        },
+        {
+          "activity" : "generate2",
+          "start" : 193,
+          "length" : 353
+        },
+        {
+          "activity" : "generate2",
+          "start" : 264,
+          "length" : 175
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 7
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-aneuploid-score.json",
+      "size" : 2337,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 6
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 5
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 73,
+          "length" : 85
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 76,
+          "length" : 42
+        },
+        {
+          "activity" : "validate",
+          "start" : 135,
+          "length" : 652
+        },
+        {
+          "activity" : "scanForUsageStats",
+          "start" : 178,
+          "length" : 1
+        },
+        {
+          "activity" : "generate1",
+          "start" : 179,
+          "length" : 161
+        },
+        {
+          "activity" : "generate2",
+          "start" : 193,
+          "length" : 2014
+        },
+        {
+          "activity" : "generate2",
+          "start" : 264,
+          "length" : 292
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 14
+        },
+        {
+          "activity" : "scanExamplesForR5",
+          "start" : 336,
+          "length" : 1
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-cancer-family-member-history.json",
+      "size" : 5443,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 5
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 6
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 74,
+          "length" : 73
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 76,
+          "length" : 1052
+        },
+        {
+          "activity" : "validate",
+          "start" : 136,
+          "length" : 647
+        },
+        {
+          "activity" : "scanForUsageStats",
+          "start" : 178,
+          "length" : 1
+        },
+        {
+          "activity" : "generate1",
+          "start" : 179,
+          "length" : 126
+        },
+        {
+          "activity" : "generate2",
+          "start" : 195,
+          "length" : 248
+        },
+        {
+          "activity" : "generate2",
+          "start" : 264,
+          "length" : 179
+        },
+        {
+          "activity" : "makeDependencies",
+          "start" : 292,
+          "length" : 1
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 7
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-cancer-patient.json",
+      "size" : 7175,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 6
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 74,
+          "length" : 184
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 77,
+          "length" : 35
+        },
+        {
+          "activity" : "validate",
+          "start" : 137,
+          "length" : 579
+        },
+        {
+          "activity" : "checkConformanceResources",
+          "start" : 178,
+          "length" : 1
+        },
+        {
+          "activity" : "scanForUsageStats",
+          "start" : 178,
+          "length" : 2
+        },
+        {
+          "activity" : "generate1",
+          "start" : 179,
+          "length" : 239
+        },
+        {
+          "activity" : "generate2",
+          "start" : 195,
+          "length" : 1034
+        },
+        {
+          "activity" : "generate2",
+          "start" : 264,
+          "length" : 324
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 15
+        },
+        {
+          "activity" : "scanExamplesForR5",
+          "start" : 336,
+          "length" : 1
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-cancer-risk-assessment.json",
+      "size" : 2669,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 5
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 74,
+          "length" : 40
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 77,
+          "length" : 19
+        },
+        {
+          "activity" : "validate",
+          "start" : 137,
+          "length" : 288
+        },
+        {
+          "activity" : "scanForUsageStats",
+          "start" : 178,
+          "length" : 1
+        },
+        {
+          "activity" : "generate1",
+          "start" : 179,
+          "length" : 120
+        },
+        {
+          "activity" : "generate2",
+          "start" : 196,
+          "length" : 2229
+        },
+        {
+          "activity" : "generate2",
+          "start" : 265,
+          "length" : 156
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 9
+        },
+        {
+          "activity" : "scanExamplesForR5",
+          "start" : 336,
+          "length" : 1
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-cancer-stage.json",
+      "size" : 1222,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 4
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 74,
+          "length" : 39
+        },
+        {
+          "activity" : "load-configure",
+          "start" : 76,
+          "length" : 1
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 77,
+          "length" : 17
+        },
+        {
+          "activity" : "validate",
+          "start" : 137,
+          "length" : 270
+        },
+        {
+          "activity" : "scanForUsageStats",
+          "start" : 178,
+          "length" : 1
+        },
+        {
+          "activity" : "generate1",
+          "start" : 179,
+          "length" : 112
+        },
+        {
+          "activity" : "generate2",
+          "start" : 198,
+          "length" : 361
+        },
+        {
+          "activity" : "generate2",
+          "start" : 265,
+          "length" : 146
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 7
+        },
+        {
+          "activity" : "scanProfilesForR5",
+          "start" : 336,
+          "length" : 1
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-comorbidities.json",
+      "size" : 4992,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 5
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 5
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 74,
+          "length" : 36
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 77,
+          "length" : 38
+        },
+        {
+          "activity" : "validate",
+          "start" : 138,
+          "length" : 765
+        },
+        {
+          "activity" : "scanForUsageStats",
+          "start" : 178,
+          "length" : 1
+        },
+        {
+          "activity" : "generate1",
+          "start" : 179,
+          "length" : 155
+        },
+        {
+          "activity" : "generate2",
+          "start" : 199,
+          "length" : 416
+        },
+        {
+          "activity" : "generate2",
+          "start" : 265,
+          "length" : 160
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 10
+        },
+        {
+          "activity" : "scanExamplesForR5",
+          "start" : 336,
+          "length" : 1
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-ecog-performance-status.json",
+      "size" : 3444,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 7
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 74,
+          "length" : 37
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 77,
+          "length" : 30
+        },
+        {
+          "activity" : "validate",
+          "start" : 138,
+          "length" : 830
+        },
+        {
+          "activity" : "scanForUsageStats",
+          "start" : 178,
+          "length" : 1
+        },
+        {
+          "activity" : "generate1",
+          "start" : 180,
+          "length" : 128
+        },
+        {
+          "activity" : "generate2",
+          "start" : 199,
+          "length" : 390
+        },
+        {
+          "activity" : "generate2",
+          "start" : 265,
+          "length" : 141
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 9
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-ext-adjunctive-role.json",
+      "size" : 1598,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 5
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 74,
+          "length" : 6
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 77,
+          "length" : 13
+        },
+        {
+          "activity" : "validate",
+          "start" : 139,
+          "length" : 30
+        },
+        {
+          "activity" : "generate1",
+          "start" : 180,
+          "length" : 24
+        },
+        {
+          "activity" : "generate2",
+          "start" : 200,
+          "length" : 86
+        },
+        {
+          "activity" : "generate2",
+          "start" : 265,
+          "length" : 25
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 1
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-ext-adverse-event-mitigation.json",
+      "size" : 7907,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 7
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 74,
+          "length" : 10
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 77,
+          "length" : 21
+        },
+        {
+          "activity" : "validate",
+          "start" : 139,
+          "length" : 222
+        },
+        {
+          "activity" : "scanForUsageStats",
+          "start" : 178,
+          "length" : 1
+        },
+        {
+          "activity" : "generate1",
+          "start" : 180,
+          "length" : 102
+        },
+        {
+          "activity" : "generate2",
+          "start" : 200,
+          "length" : 165
+        },
+        {
+          "activity" : "generate2",
+          "start" : 265,
+          "length" : 71
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 6
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-ext-age-at-diagnosis.json",
+      "size" : 1375,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 5
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 74,
+          "length" : 4
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 77,
+          "length" : 7
+        },
+        {
+          "activity" : "validate",
+          "start" : 140,
+          "length" : 29
+        },
+        {
+          "activity" : "generate1",
+          "start" : 180,
+          "length" : 23
+        },
+        {
+          "activity" : "generate2",
+          "start" : 200,
+          "length" : 81
+        },
+        {
+          "activity" : "generate2",
+          "start" : 265,
+          "length" : 25
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 1
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-ext-age.json",
+      "size" : 1228,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 4
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 74,
+          "length" : 5
+        },
+        {
+          "activity" : "checkR4R4B",
+          "start" : 76,
+          "length" : 1
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 77,
+          "length" : 7
+        },
+        {
+          "activity" : "validate",
+          "start" : 140,
+          "length" : 29
+        },
+        {
+          "activity" : "generate1",
+          "start" : 180,
+          "length" : 22
+        },
+        {
+          "activity" : "generate2",
+          "start" : 200,
+          "length" : 80
+        },
+        {
+          "activity" : "generate2",
+          "start" : 265,
+          "length" : 23
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 1
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-ext-anonymized-entry.json",
+      "size" : 1522,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 5
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 74,
+          "length" : 4
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 77,
+          "length" : 6
+        },
+        {
+          "activity" : "validate",
+          "start" : 140,
+          "length" : 28
+        },
+        {
+          "activity" : "generate1",
+          "start" : 180,
+          "length" : 23
+        },
+        {
+          "activity" : "generate2",
+          "start" : 200,
+          "length" : 80
+        },
+        {
+          "activity" : "generate2",
+          "start" : 265,
+          "length" : 24
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 2
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-ext-cancer-morphology.json",
+      "size" : 1721,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 5
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 74,
+          "length" : 5
+        },
+        {
+          "activity" : "load-configure",
+          "start" : 76,
+          "length" : 1
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 77,
+          "length" : 7
+        },
+        {
+          "activity" : "validate",
+          "start" : 140,
+          "length" : 29
+        },
+        {
+          "activity" : "generate1",
+          "start" : 180,
+          "length" : 24
+        },
+        {
+          "activity" : "generate2",
+          "start" : 200,
+          "length" : 56
+        },
+        {
+          "activity" : "generate2",
+          "start" : 265,
+          "length" : 24
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 1
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-ext-cancer-topography.json",
+      "size" : 1712,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 6
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 74,
+          "length" : 5
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 77,
+          "length" : 7
+        },
+        {
+          "activity" : "validate",
+          "start" : 140,
+          "length" : 29
+        },
+        {
+          "activity" : "generate1",
+          "start" : 180,
+          "length" : 24
+        },
+        {
+          "activity" : "generate2",
+          "start" : 200,
+          "length" : 78
+        },
+        {
+          "activity" : "generate2",
+          "start" : 265,
+          "length" : 24
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 2
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-ext-cause-of-death.json",
+      "size" : 1456,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 4
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 74,
+          "length" : 4
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 77,
+          "length" : 6
+        },
+        {
+          "activity" : "validate",
+          "start" : 140,
+          "length" : 34
+        },
+        {
+          "activity" : "generate1",
+          "start" : 180,
+          "length" : 23
+        },
+        {
+          "activity" : "generate2",
+          "start" : 200,
+          "length" : 84
+        },
+        {
+          "activity" : "generate2",
+          "start" : 265,
+          "length" : 24
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 1
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-ext-combined-with.json",
+      "size" : 1585,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 5
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 7
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 74,
+          "length" : 7
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 77,
+          "length" : 11
+        },
+        {
+          "activity" : "validate",
+          "start" : 140,
+          "length" : 28
+        },
+        {
+          "activity" : "generate1",
+          "start" : 180,
+          "length" : 23
+        },
+        {
+          "activity" : "generate2",
+          "start" : 200,
+          "length" : 83
+        },
+        {
+          "activity" : "generate2",
+          "start" : 265,
+          "length" : 25
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 1
+        },
+        {
+          "activity" : "scanExamplesForR5",
+          "start" : 336,
+          "length" : 1
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-ext-contributors.json",
+      "size" : 1351,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 5
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 74,
+          "length" : 4
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 77,
+          "length" : 11
+        },
+        {
+          "activity" : "validate",
+          "start" : 140,
+          "length" : 28
+        },
+        {
+          "activity" : "generate1",
+          "start" : 180,
+          "length" : 23
+        },
+        {
+          "activity" : "generate2",
+          "start" : 200,
+          "length" : 80
+        },
+        {
+          "activity" : "generate2",
+          "start" : 265,
+          "length" : 22
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 1
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-ext-ctc-grade.json",
+      "size" : 1901,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 10
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 74,
+          "length" : 5
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 77,
+          "length" : 12
+        },
+        {
+          "activity" : "validate",
+          "start" : 140,
+          "length" : 33
+        },
+        {
+          "activity" : "scanForUsageStats",
+          "start" : 178,
+          "length" : 1
+        },
+        {
+          "activity" : "generate1",
+          "start" : 180,
+          "length" : 23
+        },
+        {
+          "activity" : "generate2",
+          "start" : 200,
+          "length" : 81
+        },
+        {
+          "activity" : "generate2",
+          "start" : 265,
+          "length" : 23
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 2
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-ext-cycles.json",
+      "size" : 1313,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 9
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 74,
+          "length" : 6
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 78,
+          "length" : 12
+        },
+        {
+          "activity" : "validate",
+          "start" : 140,
+          "length" : 29
+        },
+        {
+          "activity" : "generate1",
+          "start" : 180,
+          "length" : 22
+        },
+        {
+          "activity" : "generate2",
+          "start" : 201,
+          "length" : 80
+        },
+        {
+          "activity" : "generate2",
+          "start" : 265,
+          "length" : 25
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 1
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-ext-data-completion-rate.json",
+      "size" : 1415,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 10
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 74,
+          "length" : 4
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 78,
+          "length" : 12
+        },
+        {
+          "activity" : "validate",
+          "start" : 140,
+          "length" : 30
+        },
+        {
+          "activity" : "generate1",
+          "start" : 180,
+          "length" : 23
+        },
+        {
+          "activity" : "generate2",
+          "start" : 201,
+          "length" : 82
+        },
+        {
+          "activity" : "generate2",
+          "start" : 266,
+          "length" : 22
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 1
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-ext-end-of-records.json",
+      "size" : 1312,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 6
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 74,
+          "length" : 4
+        },
+        {
+          "activity" : "load-configure",
+          "start" : 76,
+          "length" : 1
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 78,
+          "length" : 11
+        },
+        {
+          "activity" : "validate",
+          "start" : 140,
+          "length" : 28
+        },
+        {
+          "activity" : "generate1",
+          "start" : 180,
+          "length" : 22
+        },
+        {
+          "activity" : "generate2",
+          "start" : 201,
+          "length" : 78
+        },
+        {
+          "activity" : "generate2",
+          "start" : 266,
+          "length" : 22
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 1
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-ext-is-primary-therapy.json",
+      "size" : 1427,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 4
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 74,
+          "length" : 7
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 78,
+          "length" : 11
+        },
+        {
+          "activity" : "validate",
+          "start" : 140,
+          "length" : 28
+        },
+        {
+          "activity" : "generate1",
+          "start" : 180,
+          "length" : 22
+        },
+        {
+          "activity" : "generate2",
+          "start" : 201,
+          "length" : 61
+        },
+        {
+          "activity" : "generate2",
+          "start" : 266,
+          "length" : 22
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 2
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-ext-molecular-tumor-board-cup-characterization.json",
+      "size" : 2979,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 6
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 74,
+          "length" : 15
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 78,
+          "length" : 16
+        },
+        {
+          "activity" : "validate",
+          "start" : 140,
+          "length" : 113
+        },
+        {
+          "activity" : "generate1",
+          "start" : 180,
+          "length" : 53
+        },
+        {
+          "activity" : "generate2",
+          "start" : 201,
+          "length" : 79
+        },
+        {
+          "activity" : "generate2",
+          "start" : 266,
+          "length" : 40
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 2
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-ext-molecular-tumor-board-molecular-comparison.json",
+      "size" : 3290,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 5
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 74,
+          "length" : 17
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 78,
+          "length" : 17
+        },
+        {
+          "activity" : "validate",
+          "start" : 140,
+          "length" : 124
+        },
+        {
+          "activity" : "generate1",
+          "start" : 180,
+          "length" : 54
+        },
+        {
+          "activity" : "generate2",
+          "start" : 201,
+          "length" : 78
+        },
+        {
+          "activity" : "generate2",
+          "start" : 266,
+          "length" : 40
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 3
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-ext-molecular-tumor-board-therapeutic-recommendation.json",
+      "size" : 7414,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 5
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 7
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 74,
+          "length" : 26
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 78,
+          "length" : 57
+        },
+        {
+          "activity" : "validate",
+          "start" : 140,
+          "length" : 241
+        },
+        {
+          "activity" : "scanForUsageStats",
+          "start" : 178,
+          "length" : 1
+        },
+        {
+          "activity" : "generate1",
+          "start" : 180,
+          "length" : 113
+        },
+        {
+          "activity" : "generate2",
+          "start" : 201,
+          "length" : 125
+        },
+        {
+          "activity" : "generate2",
+          "start" : 266,
+          "length" : 71
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 6
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-ext-overall-survival.json",
+      "size" : 1770,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 5
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 74,
+          "length" : 9
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 78,
+          "length" : 12
+        },
+        {
+          "activity" : "validate",
+          "start" : 140,
+          "length" : 29
+        },
+        {
+          "activity" : "generate1",
+          "start" : 180,
+          "length" : 23
+        },
+        {
+          "activity" : "generate2",
+          "start" : 201,
+          "length" : 60
+        },
+        {
+          "activity" : "generate2",
+          "start" : 266,
+          "length" : 22
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 1
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-ext-recist-is-interpreted.json",
+      "size" : 1449,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 6
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 74,
+          "length" : 10
+        },
+        {
+          "activity" : "checkR4R4B",
+          "start" : 76,
+          "length" : 1
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 78,
+          "length" : 12
+        },
+        {
+          "activity" : "validate",
+          "start" : 140,
+          "length" : 28
+        },
+        {
+          "activity" : "generate1",
+          "start" : 180,
+          "length" : 23
+        },
+        {
+          "activity" : "generate2",
+          "start" : 201,
+          "length" : 56
+        },
+        {
+          "activity" : "generate2",
+          "start" : 266,
+          "length" : 21
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 1
+        },
+        {
+          "activity" : "scanProfilesForR5",
+          "start" : 336,
+          "length" : 1
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-ext-recurrence-of.json",
+      "size" : 2115,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 9
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 74,
+          "length" : 11
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 78,
+          "length" : 13
+        },
+        {
+          "activity" : "validate",
+          "start" : 140,
+          "length" : 32
+        },
+        {
+          "activity" : "generate1",
+          "start" : 180,
+          "length" : 24
+        },
+        {
+          "activity" : "generate2",
+          "start" : 201,
+          "length" : 56
+        },
+        {
+          "activity" : "generate2",
+          "start" : 266,
+          "length" : 23
+        },
+        {
+          "activity" : "makeDependencies",
+          "start" : 292,
+          "length" : 1
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 2
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-ext-risk-assessment-score.json",
+      "size" : 1398,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 7
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 74,
+          "length" : 7
+        },
+        {
+          "activity" : "load-configure",
+          "start" : 76,
+          "length" : 1
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 78,
+          "length" : 14
+        },
+        {
+          "activity" : "validate",
+          "start" : 140,
+          "length" : 30
+        },
+        {
+          "activity" : "generate1",
+          "start" : 180,
+          "length" : 26
+        },
+        {
+          "activity" : "generate2",
+          "start" : 201,
+          "length" : 60
+        },
+        {
+          "activity" : "generate2",
+          "start" : 266,
+          "length" : 23
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 1
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-ext-therapy-line-intent.json",
+      "size" : 1533,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 37
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 74,
+          "length" : 7
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 78,
+          "length" : 11
+        },
+        {
+          "activity" : "validate",
+          "start" : 140,
+          "length" : 50
+        },
+        {
+          "activity" : "scanForUsageStats",
+          "start" : 178,
+          "length" : 1
+        },
+        {
+          "activity" : "generate1",
+          "start" : 180,
+          "length" : 23
+        },
+        {
+          "activity" : "generate2",
+          "start" : 201,
+          "length" : 65
+        },
+        {
+          "activity" : "generate2",
+          "start" : 266,
+          "length" : 22
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 1
+        },
+        {
+          "activity" : "scanExamplesForR5",
+          "start" : 336,
+          "length" : 1
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-ext-therapy-line-number.json",
+      "size" : 1429,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 6
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 74,
+          "length" : 6
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 78,
+          "length" : 12
+        },
+        {
+          "activity" : "validate",
+          "start" : 141,
+          "length" : 48
+        },
+        {
+          "activity" : "generate1",
+          "start" : 180,
+          "length" : 22
+        },
+        {
+          "activity" : "generate2",
+          "start" : 201,
+          "length" : 62
+        },
+        {
+          "activity" : "generate2",
+          "start" : 266,
+          "length" : 21
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 2
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-ext-therapy-line-period.json",
+      "size" : 1354,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 4
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 74,
+          "length" : 5
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 78,
+          "length" : 11
+        },
+        {
+          "activity" : "validate",
+          "start" : 141,
+          "length" : 41
+        },
+        {
+          "activity" : "generate1",
+          "start" : 180,
+          "length" : 22
+        },
+        {
+          "activity" : "generate2",
+          "start" : 201,
+          "length" : 57
+        },
+        {
+          "activity" : "generate2",
+          "start" : 266,
+          "length" : 20
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 1
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-ext-therapy-line-progression-date.json",
+      "size" : 1461,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 5
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 74,
+          "length" : 5
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 78,
+          "length" : 12
+        },
+        {
+          "activity" : "validate",
+          "start" : 141,
+          "length" : 28
+        },
+        {
+          "activity" : "generate1",
+          "start" : 180,
+          "length" : 23
+        },
+        {
+          "activity" : "generate2",
+          "start" : 202,
+          "length" : 56
+        },
+        {
+          "activity" : "generate2",
+          "start" : 266,
+          "length" : 21
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 3
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-ext-therapy-line-progression-free-survival.json",
+      "size" : 1478,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 4
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 74,
+          "length" : 6
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 78,
+          "length" : 11
+        },
+        {
+          "activity" : "validate",
+          "start" : 141,
+          "length" : 27
+        },
+        {
+          "activity" : "generate1",
+          "start" : 181,
+          "length" : 22
+        },
+        {
+          "activity" : "generate2",
+          "start" : 202,
+          "length" : 56
+        },
+        {
+          "activity" : "generate2",
+          "start" : 266,
+          "length" : 22
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 1
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-ext-tumor-board-specialization.json",
+      "size" : 1543,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 5
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 74,
+          "length" : 5
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 78,
+          "length" : 11
+        },
+        {
+          "activity" : "validate",
+          "start" : 141,
+          "length" : 28
+        },
+        {
+          "activity" : "generate1",
+          "start" : 181,
+          "length" : 23
+        },
+        {
+          "activity" : "generate2",
+          "start" : 202,
+          "length" : 61
+        },
+        {
+          "activity" : "generate2",
+          "start" : 266,
+          "length" : 21
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 2
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-ext-tumor-marker-analyte.json",
+      "size" : 1620,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 5
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 7
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 74,
+          "length" : 5
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 78,
+          "length" : 11
+        },
+        {
+          "activity" : "validate",
+          "start" : 141,
+          "length" : 28
+        },
+        {
+          "activity" : "generate1",
+          "start" : 181,
+          "length" : 23
+        },
+        {
+          "activity" : "generate2",
+          "start" : 202,
+          "length" : 57
+        },
+        {
+          "activity" : "generate2",
+          "start" : 266,
+          "length" : 21
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 1
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-ext-unknown-entry.json",
+      "size" : 1357,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 5
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 74,
+          "length" : 6
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 78,
+          "length" : 12
+        },
+        {
+          "activity" : "validate",
+          "start" : 141,
+          "length" : 29
+        },
+        {
+          "activity" : "generate1",
+          "start" : 181,
+          "length" : 23
+        },
+        {
+          "activity" : "generate2",
+          "start" : 202,
+          "length" : 55
+        },
+        {
+          "activity" : "generate2",
+          "start" : 266,
+          "length" : 20
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 1
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-genomic-variant.json",
+      "size" : 3252,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 5
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 5
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 74,
+          "length" : 151
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 78,
+          "length" : 91
+        },
+        {
+          "activity" : "validate",
+          "start" : 141,
+          "length" : 12575
+        },
+        {
+          "activity" : "checkConformanceResources",
+          "start" : 178,
+          "length" : 1
+        },
+        {
+          "activity" : "scanForUsageStats",
+          "start" : 178,
+          "length" : 4
+        },
+        {
+          "activity" : "generate1",
+          "start" : 181,
+          "length" : 652
+        },
+        {
+          "activity" : "generate2",
+          "start" : 202,
+          "length" : 1297
+        },
+        {
+          "activity" : "generate2",
+          "start" : 266,
+          "length" : 487
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 36
+        },
+        {
+          "activity" : "scanProfilesForR5",
+          "start" : 336,
+          "length" : 1
+        },
+        {
+          "activity" : "scanExamplesForR5",
+          "start" : 336,
+          "length" : 2
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-homologous-recombination-deficiency.json",
+      "size" : 2497,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 5
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 74,
+          "length" : 37
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 78,
+          "length" : 703
+        },
+        {
+          "activity" : "validate",
+          "start" : 153,
+          "length" : 754
+        },
+        {
+          "activity" : "validate",
+          "start" : 178,
+          "length" : 1
+        },
+        {
+          "activity" : "scanForUsageStats",
+          "start" : 178,
+          "length" : 1
+        },
+        {
+          "activity" : "generate1",
+          "start" : 181,
+          "length" : 160
+        },
+        {
+          "activity" : "generate2",
+          "start" : 203,
+          "length" : 249
+        },
+        {
+          "activity" : "generate2",
+          "start" : 266,
+          "length" : 99
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 10
+        },
+        {
+          "activity" : "scanExamplesForR5",
+          "start" : 336,
+          "length" : 1
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-imaging-disease-status.json",
+      "size" : 4096,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 6
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 74,
+          "length" : 31
+        },
+        {
+          "activity" : "load-configure",
+          "start" : 76,
+          "length" : 1
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 79,
+          "length" : 31
+        },
+        {
+          "activity" : "validate",
+          "start" : 154,
+          "length" : 1113
+        },
+        {
+          "activity" : "generate1",
+          "start" : 181,
+          "length" : 154
+        },
+        {
+          "activity" : "generate2",
+          "start" : 203,
+          "length" : 1497
+        },
+        {
+          "activity" : "generate2",
+          "start" : 267,
+          "length" : 71
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 10
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-lifestyle.json",
+      "size" : 11195,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 5
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 7
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 74,
+          "length" : 72
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 79,
+          "length" : 60
+        },
+        {
+          "activity" : "validate",
+          "start" : 155,
+          "length" : 3864
+        },
+        {
+          "activity" : "scanForUsageStats",
+          "start" : 178,
+          "length" : 2
+        },
+        {
+          "activity" : "generate1",
+          "start" : 182,
+          "length" : 391
+        },
+        {
+          "activity" : "generate2",
+          "start" : 205,
+          "length" : 4455
+        },
+        {
+          "activity" : "generate2",
+          "start" : 267,
+          "length" : 158
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 21
+        },
+        {
+          "activity" : "scanExamplesForR5",
+          "start" : 336,
+          "length" : 1
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-loss-of-heterozygosity.json",
+      "size" : 2357,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 5
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 5
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 74,
+          "length" : 32
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 79,
+          "length" : 38
+        },
+        {
+          "activity" : "validate",
+          "start" : 159,
+          "length" : 719
+        },
+        {
+          "activity" : "generate1",
+          "start" : 182,
+          "length" : 159
+        },
+        {
+          "activity" : "generate2",
+          "start" : 209,
+          "length" : 319
+        },
+        {
+          "activity" : "generate2",
+          "start" : 267,
+          "length" : 92
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 10
+        },
+        {
+          "activity" : "scanExamplesForR5",
+          "start" : 336,
+          "length" : 1
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-medication-administration.json",
+      "size" : 7280,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 6
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 75,
+          "length" : 45
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 79,
+          "length" : 30
+        },
+        {
+          "activity" : "validate",
+          "start" : 160,
+          "length" : 223
+        },
+        {
+          "activity" : "scanForUsageStats",
+          "start" : 178,
+          "length" : 1
+        },
+        {
+          "activity" : "generate1",
+          "start" : 182,
+          "length" : 133
+        },
+        {
+          "activity" : "generate2",
+          "start" : 210,
+          "length" : 181
+        },
+        {
+          "activity" : "generate2",
+          "start" : 267,
+          "length" : 62
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 9
+        },
+        {
+          "activity" : "scanProfilesForR5",
+          "start" : 336,
+          "length" : 1
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-microsatellite-instability.json",
+      "size" : 1328,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 9
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 75,
+          "length" : 58
+        },
+        {
+          "activity" : "checkR4R4B",
+          "start" : 76,
+          "length" : 1
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 79,
+          "length" : 26
+        },
+        {
+          "activity" : "validate",
+          "start" : 160,
+          "length" : 705
+        },
+        {
+          "activity" : "checkConformanceResources",
+          "start" : 178,
+          "length" : 1
+        },
+        {
+          "activity" : "scanForUsageStats",
+          "start" : 178,
+          "length" : 1
+        },
+        {
+          "activity" : "generate1",
+          "start" : 182,
+          "length" : 135
+        },
+        {
+          "activity" : "generate2",
+          "start" : 210,
+          "length" : 238
+        },
+        {
+          "activity" : "generate2",
+          "start" : 267,
+          "length" : 82
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 9
+        },
+        {
+          "activity" : "scanExamplesForR5",
+          "start" : 336,
+          "length" : 1
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-molecular-tumor-board-review.json",
+      "size" : 3193,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 5
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 10
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 75,
+          "length" : 59
+        },
+        {
+          "activity" : "load-configure",
+          "start" : 76,
+          "length" : 1
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 79,
+          "length" : 31
+        },
+        {
+          "activity" : "validate",
+          "start" : 161,
+          "length" : 1517
+        },
+        {
+          "activity" : "generate1",
+          "start" : 182,
+          "length" : 124
+        },
+        {
+          "activity" : "generate2",
+          "start" : 210,
+          "length" : 186
+        },
+        {
+          "activity" : "generate2",
+          "start" : 267,
+          "length" : 72
+        },
+        {
+          "activity" : "makeDependencies",
+          "start" : 292,
+          "length" : 1
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 8
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-primary-cancer-condition.json",
+      "size" : 4634,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 10
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 75,
+          "length" : 26
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 79,
+          "length" : 60
+        },
+        {
+          "activity" : "validate",
+          "start" : 162,
+          "length" : 650
+        },
+        {
+          "activity" : "scanForUsageStats",
+          "start" : 178,
+          "length" : 1
+        },
+        {
+          "activity" : "generate1",
+          "start" : 183,
+          "length" : 137
+        },
+        {
+          "activity" : "generate2",
+          "start" : 210,
+          "length" : 13439
+        },
+        {
+          "activity" : "generate2",
+          "start" : 267,
+          "length" : 67
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 8
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-radiotherapy-summary.json",
+      "size" : 2201,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 10
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 75,
+          "length" : 51
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 79,
+          "length" : 23
+        },
+        {
+          "activity" : "validate",
+          "start" : 163,
+          "length" : 686
+        },
+        {
+          "activity" : "generate1",
+          "start" : 183,
+          "length" : 124
+        },
+        {
+          "activity" : "generate2",
+          "start" : 224,
+          "length" : 183
+        },
+        {
+          "activity" : "generate2",
+          "start" : 267,
+          "length" : 72
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 8
+        },
+        {
+          "activity" : "scanExamplesForR5",
+          "start" : 336,
+          "length" : 1
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-secondary-cancer-condition.json",
+      "size" : 4533,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 8
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 75,
+          "length" : 44
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 79,
+          "length" : 27
+        },
+        {
+          "activity" : "validate",
+          "start" : 164,
+          "length" : 669
+        },
+        {
+          "activity" : "scanForUsageStats",
+          "start" : 178,
+          "length" : 1
+        },
+        {
+          "activity" : "generate1",
+          "start" : 183,
+          "length" : 141
+        },
+        {
+          "activity" : "generate2",
+          "start" : 224,
+          "length" : 652
+        },
+        {
+          "activity" : "generate2",
+          "start" : 267,
+          "length" : 67
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 9
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-serous-tumor-marker-level-category.json",
+      "size" : 1939,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 9
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 75,
+          "length" : 37
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 79,
+          "length" : 25
+        },
+        {
+          "activity" : "validate",
+          "start" : 164,
+          "length" : 674
+        },
+        {
+          "activity" : "scanForUsageStats",
+          "start" : 178,
+          "length" : 1
+        },
+        {
+          "activity" : "generate1",
+          "start" : 183,
+          "length" : 121
+        },
+        {
+          "activity" : "generate2",
+          "start" : 225,
+          "length" : 613
+        },
+        {
+          "activity" : "generate2",
+          "start" : 267,
+          "length" : 67
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 8
+        },
+        {
+          "activity" : "scanExamplesForR5",
+          "start" : 336,
+          "length" : 1
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-surgical-procedure.json",
+      "size" : 5332,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 5
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 5
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 75,
+          "length" : 36
+        },
+        {
+          "activity" : "load-configure",
+          "start" : 76,
+          "length" : 1
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 79,
+          "length" : 28
+        },
+        {
+          "activity" : "validate",
+          "start" : 165,
+          "length" : 241
+        },
+        {
+          "activity" : "generate1",
+          "start" : 183,
+          "length" : 137
+        },
+        {
+          "activity" : "generate2",
+          "start" : 225,
+          "length" : 201
+        },
+        {
+          "activity" : "generate2",
+          "start" : 267,
+          "length" : 65
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 9
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-therapy-line.json",
+      "size" : 5972,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 6
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 75,
+          "length" : 18
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 79,
+          "length" : 23
+        },
+        {
+          "activity" : "validate",
+          "start" : 165,
+          "length" : 568
+        },
+        {
+          "activity" : "generate1",
+          "start" : 183,
+          "length" : 106
+        },
+        {
+          "activity" : "generate2",
+          "start" : 225,
+          "length" : 140
+        },
+        {
+          "activity" : "generate2",
+          "start" : 267,
+          "length" : 41
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 6
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-tnm-distant-metastases-category.json",
+      "size" : 1657,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 5
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 75,
+          "length" : 27
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 79,
+          "length" : 22
+        },
+        {
+          "activity" : "validate",
+          "start" : 166,
+          "length" : 257
+        },
+        {
+          "activity" : "checkConformanceResources",
+          "start" : 178,
+          "length" : 1
+        },
+        {
+          "activity" : "scanForUsageStats",
+          "start" : 178,
+          "length" : 1
+        },
+        {
+          "activity" : "generate1",
+          "start" : 183,
+          "length" : 113
+        },
+        {
+          "activity" : "generate2",
+          "start" : 225,
+          "length" : 1914
+        },
+        {
+          "activity" : "generate2",
+          "start" : 268,
+          "length" : 101
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 8
+        },
+        {
+          "activity" : "scanExamplesForR5",
+          "start" : 336,
+          "length" : 1
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-tnm-grade-category.json",
+      "size" : 1749,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 5
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 5
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 75,
+          "length" : 25
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 79,
+          "length" : 22
+        },
+        {
+          "activity" : "validate",
+          "start" : 166,
+          "length" : 233
+        },
+        {
+          "activity" : "scanForUsageStats",
+          "start" : 178,
+          "length" : 1
+        },
+        {
+          "activity" : "generate1",
+          "start" : 183,
+          "length" : 114
+        },
+        {
+          "activity" : "generate2",
+          "start" : 227,
+          "length" : 1048
+        },
+        {
+          "activity" : "generate2",
+          "start" : 268,
+          "length" : 67
+        },
+        {
+          "activity" : "makeDependencies",
+          "start" : 292,
+          "length" : 1
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 8
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-tnm-lymphatic-invasion-category.json",
+      "size" : 1928,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 5
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 75,
+          "length" : 56
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 79,
+          "length" : 23
+        },
+        {
+          "activity" : "validate",
+          "start" : 166,
+          "length" : 674
+        },
+        {
+          "activity" : "validate",
+          "start" : 173,
+          "length" : 1
+        },
+        {
+          "activity" : "generate1",
+          "start" : 184,
+          "length" : 120
+        },
+        {
+          "activity" : "generate2",
+          "start" : 228,
+          "length" : 621
+        },
+        {
+          "activity" : "generate2",
+          "start" : 268,
+          "length" : 72
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 8
+        },
+        {
+          "activity" : "scanExamplesForR5",
+          "start" : 336,
+          "length" : 1
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-tnm-perineural-invasion-category.json",
+      "size" : 1914,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 6
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 75,
+          "length" : 29
+        },
+        {
+          "activity" : "load-configure",
+          "start" : 76,
+          "length" : 1
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 79,
+          "length" : 16
+        },
+        {
+          "activity" : "validate",
+          "start" : 167,
+          "length" : 656
+        },
+        {
+          "activity" : "scanForUsageStats",
+          "start" : 178,
+          "length" : 1
+        },
+        {
+          "activity" : "generate1",
+          "start" : 184,
+          "length" : 121
+        },
+        {
+          "activity" : "generate2",
+          "start" : 229,
+          "length" : 637
+        },
+        {
+          "activity" : "generate2",
+          "start" : 268,
+          "length" : 69
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 9
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-tnm-primary-tumor-category.json",
+      "size" : 1612,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 5
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 75,
+          "length" : 33
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 79,
+          "length" : 22
+        },
+        {
+          "activity" : "validate",
+          "start" : 168,
+          "length" : 235
+        },
+        {
+          "activity" : "generate1",
+          "start" : 184,
+          "length" : 113
+        },
+        {
+          "activity" : "generate2",
+          "start" : 230,
+          "length" : 2703
+        },
+        {
+          "activity" : "generate2",
+          "start" : 268,
+          "length" : 101
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 7
+        },
+        {
+          "activity" : "scanExamplesForR5",
+          "start" : 336,
+          "length" : 1
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-tnm-regional-nodes-category.json",
+      "size" : 1621,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 4
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 75,
+          "length" : 38
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 79,
+          "length" : 17
+        },
+        {
+          "activity" : "validate",
+          "start" : 168,
+          "length" : 255
+        },
+        {
+          "activity" : "scanForUsageStats",
+          "start" : 178,
+          "length" : 1
+        },
+        {
+          "activity" : "generate1",
+          "start" : 184,
+          "length" : 110
+        },
+        {
+          "activity" : "generate2",
+          "start" : 232,
+          "length" : 2352
+        },
+        {
+          "activity" : "generate2",
+          "start" : 268,
+          "length" : 95
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 8
+        },
+        {
+          "activity" : "scanProfilesForR5",
+          "start" : 336,
+          "length" : 1
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-tnm-residual-tumor-category.json",
+      "size" : 1880,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 6
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 75,
+          "length" : 49
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 79,
+          "length" : 15
+        },
+        {
+          "activity" : "validate",
+          "start" : 168,
+          "length" : 657
+        },
+        {
+          "activity" : "generate1",
+          "start" : 184,
+          "length" : 121
+        },
+        {
+          "activity" : "generate2",
+          "start" : 235,
+          "length" : 611
+        },
+        {
+          "activity" : "generate2",
+          "start" : 268,
+          "length" : 65
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 10
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-tnm-stage-group.json",
+      "size" : 4873,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 7
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 75,
+          "length" : 53
+        },
+        {
+          "activity" : "checkR4R4B",
+          "start" : 76,
+          "length" : 1
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 79,
+          "length" : 28
+        },
+        {
+          "activity" : "validate",
+          "start" : 169,
+          "length" : 276
+        },
+        {
+          "activity" : "scanForUsageStats",
+          "start" : 178,
+          "length" : 1
+        },
+        {
+          "activity" : "generate1",
+          "start" : 184,
+          "length" : 144
+        },
+        {
+          "activity" : "generate2",
+          "start" : 235,
+          "length" : 223
+        },
+        {
+          "activity" : "generate2",
+          "start" : 268,
+          "length" : 71
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 11
+        },
+        {
+          "activity" : "scanExamplesForR5",
+          "start" : 336,
+          "length" : 1
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-tumor-board-review.json",
+      "size" : 5316,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 6
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 75,
+          "length" : 1
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 79,
+          "length" : 27
+        },
+        {
+          "activity" : "validate",
+          "start" : 169,
+          "length" : 220
+        },
+        {
+          "activity" : "generate1",
+          "start" : 184,
+          "length" : 147
+        },
+        {
+          "activity" : "generate2",
+          "start" : 236,
+          "length" : 166
+        },
+        {
+          "activity" : "generate2",
+          "start" : 268,
+          "length" : 68
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 9
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-tumor-marker.json",
+      "size" : 2018,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 5
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 75,
+          "length" : 62
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 79,
+          "length" : 22
+        },
+        {
+          "activity" : "validate",
+          "start" : 101,
+          "length" : 1
+        },
+        {
+          "activity" : "validate",
+          "start" : 169,
+          "length" : 265
+        },
+        {
+          "activity" : "scanForUsageStats",
+          "start" : 178,
+          "length" : 1
+        },
+        {
+          "activity" : "generate1",
+          "start" : 184,
+          "length" : 117
+        },
+        {
+          "activity" : "generate2",
+          "start" : 236,
+          "length" : 198
+        },
+        {
+          "activity" : "generate2",
+          "start" : 268,
+          "length" : 71
+        },
+        {
+          "activity" : "makeDependencies",
+          "start" : 292,
+          "length" : 1
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 8
+        },
+        {
+          "activity" : "scanExamplesForR5",
+          "start" : 336,
+          "length" : 1
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-tumor-mutational-burden.json",
+      "size" : 1308,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 7
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 7
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 75,
+          "length" : 54
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 79,
+          "length" : 26
+        },
+        {
+          "activity" : "validate",
+          "start" : 169,
+          "length" : 1237
+        },
+        {
+          "activity" : "scanForUsageStats",
+          "start" : 178,
+          "length" : 1
+        },
+        {
+          "activity" : "generate1",
+          "start" : 185,
+          "length" : 142
+        },
+        {
+          "activity" : "generate2",
+          "start" : 236,
+          "length" : 244
+        },
+        {
+          "activity" : "generate2",
+          "start" : 268,
+          "length" : 90
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 10
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-tumor-neoantigen-burden.json",
+      "size" : 2412,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 6
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 5
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 75,
+          "length" : 73
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 79,
+          "length" : 29
+        },
+        {
+          "activity" : "validate",
+          "start" : 171,
+          "length" : 358
+        },
+        {
+          "activity" : "scanForUsageStats",
+          "start" : 178,
+          "length" : 1
+        },
+        {
+          "activity" : "generate1",
+          "start" : 185,
+          "length" : 159
+        },
+        {
+          "activity" : "generate2",
+          "start" : 236,
+          "length" : 226
+        },
+        {
+          "activity" : "generate2",
+          "start" : 268,
+          "length" : 87
+        },
+        {
+          "activity" : "generateExampleZip",
+          "start" : 305,
+          "length" : 1
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 15
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/StructureDefinition-onconova-venous-invasion-category.json",
+      "size" : 1894,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 5
+        },
+        {
+          "activity" : "generateSnapshots",
+          "start" : 75,
+          "length" : 46
+        },
+        {
+          "activity" : "load-configure",
+          "start" : 76,
+          "length" : 1
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 79,
+          "length" : 46
+        },
+        {
+          "activity" : "validate",
+          "start" : 171,
+          "length" : 667
+        },
+        {
+          "activity" : "generate1",
+          "start" : 185,
+          "length" : 120
+        },
+        {
+          "activity" : "generate2",
+          "start" : 236,
+          "length" : 617
+        },
+        {
+          "activity" : "generate2",
+          "start" : 268,
+          "length" : 63
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 8
+        },
+        {
+          "activity" : "scanExamplesForR5",
+          "start" : 336,
+          "length" : 1
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/ValueSet-onconova-tnm-lymphatic-invasion-categories.json",
+      "size" : 872,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 3
+        },
+        {
+          "activity" : "load",
+          "start" : 72,
+          "length" : 10
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 79,
+          "length" : 489
+        },
+        {
+          "activity" : "validate",
+          "start" : 101,
+          "length" : 1613
+        },
+        {
+          "activity" : "generate1",
+          "start" : 185,
+          "length" : 5
+        },
+        {
+          "activity" : "generate2",
+          "start" : 237,
+          "length" : 606
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 1
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/ValueSet-onconova-tnm-perineural-invasion-categories.json",
+      "size" : 699,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 72,
+          "length" : 10
+        },
+        {
+          "activity" : "checkR4R4B",
+          "start" : 76,
+          "length" : 1
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 80,
+          "length" : 414
+        },
+        {
+          "activity" : "validate",
+          "start" : 103,
+          "length" : 803
+        },
+        {
+          "activity" : "generate1",
+          "start" : 185,
+          "length" : 6
+        },
+        {
+          "activity" : "generate2",
+          "start" : 238,
+          "length" : 463
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/ValueSet-onconova-tnm-residual-tumor-categories.json",
+      "size" : 616,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 72,
+          "length" : 5
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 80,
+          "length" : 413
+        },
+        {
+          "activity" : "validate",
+          "start" : 104,
+          "length" : 408
+        },
+        {
+          "activity" : "generate1",
+          "start" : 185,
+          "length" : 5
+        },
+        {
+          "activity" : "generate2",
+          "start" : 238,
+          "length" : 452
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/ValueSet-onconova-vs-adjunctive-therapy-roles.json",
+      "size" : 1063,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 72,
+          "length" : 5
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 81,
+          "length" : 1007
+        },
+        {
+          "activity" : "validate",
+          "start" : 104,
+          "length" : 890
+        },
+        {
+          "activity" : "generate1",
+          "start" : 185,
+          "length" : 5
+        },
+        {
+          "activity" : "generate2",
+          "start" : 239,
+          "length" : 924
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/ValueSet-onconova-vs-adverse-event-mitigation-categories.json",
+      "size" : 840,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 3
+        },
+        {
+          "activity" : "load",
+          "start" : 72,
+          "length" : 5
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 82,
+          "length" : 1003
+        },
+        {
+          "activity" : "validate",
+          "start" : 105,
+          "length" : 829
+        },
+        {
+          "activity" : "generate1",
+          "start" : 185,
+          "length" : 5
+        },
+        {
+          "activity" : "generate2",
+          "start" : 239,
+          "length" : 937
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 1
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/ValueSet-onconova-vs-adverse-event-mitigation-drugs.json",
+      "size" : 2987,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 72,
+          "length" : 6
+        },
+        {
+          "activity" : "checkR4R4B",
+          "start" : 76,
+          "length" : 1
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 83,
+          "length" : 1356
+        },
+        {
+          "activity" : "validate",
+          "start" : 106,
+          "length" : 1814
+        },
+        {
+          "activity" : "generate1",
+          "start" : 185,
+          "length" : 9
+        },
+        {
+          "activity" : "generate2",
+          "start" : 240,
+          "length" : 1491
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/ValueSet-onconova-vs-adverse-event-mitigation-managements.json",
+      "size" : 775,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "loadDepInfo",
+          "start" : 76,
+          "length" : 1
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 84,
+          "length" : 404
+        },
+        {
+          "activity" : "validate",
+          "start" : 108,
+          "length" : 835
+        },
+        {
+          "activity" : "generate1",
+          "start" : 185,
+          "length" : 5
+        },
+        {
+          "activity" : "generate2",
+          "start" : 242,
+          "length" : 470
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/ValueSet-onconova-vs-adverse-event-mitigation-procedures.json",
+      "size" : 1376,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 72,
+          "length" : 7
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 84,
+          "length" : 1831
+        },
+        {
+          "activity" : "validate",
+          "start" : 108,
+          "length" : 1222
+        },
+        {
+          "activity" : "generate1",
+          "start" : 185,
+          "length" : 7
+        },
+        {
+          "activity" : "generate2",
+          "start" : 242,
+          "length" : 1419
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/ValueSet-onconova-vs-adverse-event-mitigation-treatment-adjustments.json",
+      "size" : 885,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 72,
+          "length" : 6
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 86,
+          "length" : 413
+        },
+        {
+          "activity" : "validate",
+          "start" : 110,
+          "length" : 846
+        },
+        {
+          "activity" : "generate1",
+          "start" : 185,
+          "length" : 5
+        },
+        {
+          "activity" : "generate2",
+          "start" : 244,
+          "length" : 453
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 1
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/ValueSet-onconova-vs-antineoplastic-agents.json",
+      "size" : 603,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 3
+        },
+        {
+          "activity" : "load",
+          "start" : 72,
+          "length" : 5
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 87,
+          "length" : 426
+        },
+        {
+          "activity" : "validate",
+          "start" : 111,
+          "length" : 6
+        },
+        {
+          "activity" : "generate1",
+          "start" : 185,
+          "length" : 5
+        },
+        {
+          "activity" : "generate2",
+          "start" : 244,
+          "length" : 1003
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/ValueSet-onconova-vs-cancer-imaging-methods.json",
+      "size" : 1470,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 72,
+          "length" : 5
+        },
+        {
+          "activity" : "checkR4R4B",
+          "start" : 76,
+          "length" : 1
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 87,
+          "length" : 395
+        },
+        {
+          "activity" : "validate",
+          "start" : 111,
+          "length" : 805
+        },
+        {
+          "activity" : "generate1",
+          "start" : 185,
+          "length" : 6
+        },
+        {
+          "activity" : "generate2",
+          "start" : 245,
+          "length" : 434
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/ValueSet-onconova-vs-cancer-risk-assessment-methods.json",
+      "size" : 2489,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 87,
+          "length" : 938
+        },
+        {
+          "activity" : "validate",
+          "start" : 111,
+          "length" : 959
+        },
+        {
+          "activity" : "generate1",
+          "start" : 185,
+          "length" : 8
+        },
+        {
+          "activity" : "generate2",
+          "start" : 246,
+          "length" : 946
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 1
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/ValueSet-onconova-vs-cancer-risk-assessment-values.json",
+      "size" : 5901,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 72,
+          "length" : 9
+        },
+        {
+          "activity" : "load-configure",
+          "start" : 76,
+          "length" : 1
+        },
+        {
+          "activity" : "checkR4R4B",
+          "start" : 76,
+          "length" : 1
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 88,
+          "length" : 952
+        },
+        {
+          "activity" : "validate",
+          "start" : 112,
+          "length" : 1223
+        },
+        {
+          "activity" : "generate1",
+          "start" : 185,
+          "length" : 11
+        },
+        {
+          "activity" : "generate2",
+          "start" : 247,
+          "length" : 1145
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/ValueSet-onconova-vs-causes-of-death.json",
+      "size" : 1209,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 72,
+          "length" : 5
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 89,
+          "length" : 1430
+        },
+        {
+          "activity" : "validate",
+          "start" : 114,
+          "length" : 1228
+        },
+        {
+          "activity" : "generate1",
+          "start" : 185,
+          "length" : 6
+        },
+        {
+          "activity" : "generate2",
+          "start" : 248,
+          "length" : 1006
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 1
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/ValueSet-onconova-vs-comorbidity-panels.json",
+      "size" : 686,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 3
+        },
+        {
+          "activity" : "load",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 91,
+          "length" : 7
+        },
+        {
+          "activity" : "validate",
+          "start" : 115,
+          "length" : 4
+        },
+        {
+          "activity" : "generate1",
+          "start" : 185,
+          "length" : 6
+        },
+        {
+          "activity" : "generate2",
+          "start" : 249,
+          "length" : 20
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/ValueSet-onconova-vs-ctc-adverse-events.json",
+      "size" : 563,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "checkR4R4B",
+          "start" : 76,
+          "length" : 1
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 91,
+          "length" : 5
+        },
+        {
+          "activity" : "validate",
+          "start" : 115,
+          "length" : 82
+        },
+        {
+          "activity" : "generate1",
+          "start" : 185,
+          "length" : 5
+        },
+        {
+          "activity" : "generate2",
+          "start" : 249,
+          "length" : 976
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/ValueSet-onconova-vs-expected-drug-effects.json",
+      "size" : 660,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 72,
+          "length" : 5
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 91,
+          "length" : 419
+        },
+        {
+          "activity" : "validate",
+          "start" : 115,
+          "length" : 802
+        },
+        {
+          "activity" : "generate1",
+          "start" : 185,
+          "length" : 5
+        },
+        {
+          "activity" : "generate2",
+          "start" : 250,
+          "length" : 453
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/ValueSet-onconova-vs-exposure-agents.json",
+      "size" : 582,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 91,
+          "length" : 441
+        },
+        {
+          "activity" : "validate",
+          "start" : 116,
+          "length" : 406
+        },
+        {
+          "activity" : "generate1",
+          "start" : 185,
+          "length" : 5
+        },
+        {
+          "activity" : "generate2",
+          "start" : 250,
+          "length" : 1032
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/ValueSet-onconova-vs-icd-10-conditions.json",
+      "size" : 414,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 92,
+          "length" : 4
+        },
+        {
+          "activity" : "validate",
+          "start" : 116,
+          "length" : 88
+        },
+        {
+          "activity" : "generate1",
+          "start" : 185,
+          "length" : 4
+        },
+        {
+          "activity" : "generate2",
+          "start" : 251,
+          "length" : 1915
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 1
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/ValueSet-onconova-vs-icdo3-morphology-behavior.json",
+      "size" : 473,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 3
+        },
+        {
+          "activity" : "load",
+          "start" : 72,
+          "length" : 5
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 92,
+          "length" : 4
+        },
+        {
+          "activity" : "validate",
+          "start" : 116,
+          "length" : 89
+        },
+        {
+          "activity" : "generate1",
+          "start" : 185,
+          "length" : 5
+        },
+        {
+          "activity" : "generate2",
+          "start" : 253,
+          "length" : 894
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/ValueSet-onconova-vs-icdo3-topography.json",
+      "size" : 429,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 92,
+          "length" : 4
+        },
+        {
+          "activity" : "validate",
+          "start" : 116,
+          "length" : 4
+        },
+        {
+          "activity" : "generate1",
+          "start" : 185,
+          "length" : 4
+        },
+        {
+          "activity" : "generate2",
+          "start" : 254,
+          "length" : 389
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/ValueSet-onconova-vs-observation-bodysites.json",
+      "size" : 29571,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 6
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 15
+        },
+        {
+          "activity" : "checkR4R4B",
+          "start" : 76,
+          "length" : 5
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 92,
+          "length" : 655
+        },
+        {
+          "activity" : "validate",
+          "start" : 116,
+          "length" : 2646
+        },
+        {
+          "activity" : "scanForUsageStats",
+          "start" : 178,
+          "length" : 1
+        },
+        {
+          "activity" : "generate1",
+          "start" : 185,
+          "length" : 54
+        },
+        {
+          "activity" : "generate2",
+          "start" : 254,
+          "length" : 619
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 4
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/ValueSet-onconova-vs-recreational-drugs.json",
+      "size" : 2585,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 5
+        },
+        {
+          "activity" : "load-configure",
+          "start" : 76,
+          "length" : 1
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 92,
+          "length" : 385
+        },
+        {
+          "activity" : "validate",
+          "start" : 119,
+          "length" : 988
+        },
+        {
+          "activity" : "generate1",
+          "start" : 185,
+          "length" : 9
+        },
+        {
+          "activity" : "generate2",
+          "start" : 255,
+          "length" : 422
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 1
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/ValueSet-onconova-vs-smoking-status.json",
+      "size" : 1256,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 3
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 4
+        },
+        {
+          "activity" : "checkR4R4B",
+          "start" : 76,
+          "length" : 1
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 93,
+          "length" : 848
+        },
+        {
+          "activity" : "validate",
+          "start" : 120,
+          "length" : 824
+        },
+        {
+          "activity" : "generate1",
+          "start" : 185,
+          "length" : 6
+        },
+        {
+          "activity" : "generate2",
+          "start" : 256,
+          "length" : 446
+        },
+        {
+          "activity" : "makeDependencies",
+          "start" : 292,
+          "length" : 1
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/ValueSet-onconova-vs-tnm-distant-metastasis-categories.json",
+      "size" : 1001,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 6
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 94,
+          "length" : 926
+        },
+        {
+          "activity" : "validate",
+          "start" : 121,
+          "length" : 839
+        },
+        {
+          "activity" : "generate1",
+          "start" : 185,
+          "length" : 6
+        },
+        {
+          "activity" : "generate2",
+          "start" : 256,
+          "length" : 444
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/ValueSet-onconova-vs-tnm-grade-categories.json",
+      "size" : 972,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 6
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 94,
+          "length" : 418
+        },
+        {
+          "activity" : "validate",
+          "start" : 122,
+          "length" : 833
+        },
+        {
+          "activity" : "generate1",
+          "start" : 185,
+          "length" : 7
+        },
+        {
+          "activity" : "generate2",
+          "start" : 256,
+          "length" : 479
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 1
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/ValueSet-onconova-vs-tnm-grade-category-methods.json",
+      "size" : 653,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 5
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 95,
+          "length" : 422
+        },
+        {
+          "activity" : "validate",
+          "start" : 122,
+          "length" : 839
+        },
+        {
+          "activity" : "generate1",
+          "start" : 185,
+          "length" : 5
+        },
+        {
+          "activity" : "generate2",
+          "start" : 257,
+          "length" : 441
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/ValueSet-onconova-vs-tnm-primary-tumor-categories.json",
+      "size" : 961,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 7
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 95,
+          "length" : 840
+        },
+        {
+          "activity" : "validate",
+          "start" : 123,
+          "length" : 2228
+        },
+        {
+          "activity" : "generate1",
+          "start" : 185,
+          "length" : 6
+        },
+        {
+          "activity" : "generate2",
+          "start" : 257,
+          "length" : 525
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/ValueSet-onconova-vs-tnm-regional-nodes-categories.json",
+      "size" : 977,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 6
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 96,
+          "length" : 824
+        },
+        {
+          "activity" : "validate",
+          "start" : 125,
+          "length" : 808
+        },
+        {
+          "activity" : "generate1",
+          "start" : 185,
+          "length" : 5
+        },
+        {
+          "activity" : "generate2",
+          "start" : 258,
+          "length" : 443
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/ValueSet-onconova-vs-tnm-serum-tumor-marker-level-categories.json",
+      "size" : 1002,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 5
+        },
+        {
+          "activity" : "scan",
+          "start" : 76,
+          "length" : 1
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 97,
+          "length" : 421
+        },
+        {
+          "activity" : "validate",
+          "start" : 126,
+          "length" : 804
+        },
+        {
+          "activity" : "generate1",
+          "start" : 185,
+          "length" : 6
+        },
+        {
+          "activity" : "generate2",
+          "start" : 258,
+          "length" : 448
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 1
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/ValueSet-onconova-vs-tnm-venous-invasion-categories.json",
+      "size" : 862,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 3
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 4
+        },
+        {
+          "activity" : "checkR4R4B",
+          "start" : 76,
+          "length" : 1
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 97,
+          "length" : 426
+        },
+        {
+          "activity" : "validate",
+          "start" : 127,
+          "length" : 794
+        },
+        {
+          "activity" : "generate1",
+          "start" : 185,
+          "length" : 5
+        },
+        {
+          "activity" : "generate2",
+          "start" : 259,
+          "length" : 441
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/ValueSet-onconova-vs-treatment-termination-reasons.json",
+      "size" : 750,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 10
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 98,
+          "length" : 859
+        },
+        {
+          "activity" : "validate",
+          "start" : 128,
+          "length" : 541
+        },
+        {
+          "activity" : "generate1",
+          "start" : 185,
+          "length" : 6
+        },
+        {
+          "activity" : "generate2",
+          "start" : 259,
+          "length" : 447
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/ValueSet-onconova-vs-tumor-board-recommendations.json",
+      "size" : 4497,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 5
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 99,
+          "length" : 1190
+        },
+        {
+          "activity" : "validate",
+          "start" : 128,
+          "length" : 1944
+        },
+        {
+          "activity" : "generate1",
+          "start" : 185,
+          "length" : 12
+        },
+        {
+          "activity" : "generate2",
+          "start" : 260,
+          "length" : 857
+        },
+        {
+          "activity" : "generateValidationPack",
+          "start" : 305,
+          "length" : 1
+        }
+      ]
+    },
+    {
+      "name" : "fsh-generated/resources/ValueSet-onconova-vs-tumor-marker-analytes.json",
+      "size" : 5105,
+      "processes" : [
+        {
+          "activity" : "loadResources",
+          "start" : 72,
+          "length" : 4
+        },
+        {
+          "activity" : "load",
+          "start" : 73,
+          "length" : 7
+        },
+        {
+          "activity" : "checkR4R4B",
+          "start" : 76,
+          "length" : 1
+        },
+        {
+          "activity" : "generateNarratives",
+          "start" : 100,
+          "length" : 1372
+        },
+        {
+          "activity" : "validate",
+          "start" : 130,
+          "length" : 1342
+        },
+        {
+          "activity" : "generate1",
+          "start" : 185,
+          "length" : 13
+        },
+        {
+          "activity" : "generate2",
+          "start" : 260,
+          "length" : 988
+        }
+      ]
+    }
+  ]
+}
