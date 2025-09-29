@@ -26,7 +26,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '16.x'
-
+  
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.1 # Specify the Ruby version you want
+          
       - name: Install dependencies
         run: |
           cd docs
@@ -35,7 +40,6 @@ jobs:
           pip install ../server
           # Install FHIR IG Publisher dependencies
           npm install -g fsh-sushi
-          sudo apt-get install ruby-full build-essential zlib1g-dev
           gem install jekyll bundler
       - name: Setup Docs Deploy
         run: |
