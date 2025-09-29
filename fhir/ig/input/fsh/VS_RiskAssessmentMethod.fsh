@@ -1,0 +1,20 @@
+ValueSet: CancerRiskAssessmentMethods
+Id: onconova-vs-cancer-risk-assessment-methods
+Title: "Cancer Risk Assessment Methods"
+Description: "A value set containing codes for various cancer risk assessment methods."
+
+* $NCIT#C136962 "Follicular Lymphoma International Prognostic Index (FLIPI)"
+* $NCIT#C181086 "D'Amico Prostate Cancer Risk Classification"
+* $NCIT#C127872 "European Treatment Outcome Study (EUTOS) Score"
+* $NCIT#C127873 "Hasford Score"
+* $NCIT#C127875 "Sokal Score"
+* $NCIT#C155843 "International Metastatic Renal Cell Carcinoma Database Consortium (IMDC) Criteria"
+* $NCIT#C161805 "International Prognostic Index (IPI) Risk Group"
+* $NCIT#C177562 "European LeukemiaNet Risk Classification"
+* $NCIT#C121007 "Child-Pugh Clinical Classification"
+* $NCIT#C181085 "USCF Cancer of the Prostate Risk Assessment Score"
+* $NCIT#C162781 "Mantle Cell Lymphoma International Prognostic Index (MIPI)"
+* $NCIT#C181084 "NCCN Prostate Cancer Risk Stratification for Clinically Localized Disease"
+* $NCIT#C177309 "Seminoma IGCCC Risk Classification"
+* $NCIT#C177308 "Non-Seminomatous Germ Cell Tumor IGCCC Risk Classification"
+* $NCIT#C142346 "International Society of Urological Pathology Gleason Grade Group"

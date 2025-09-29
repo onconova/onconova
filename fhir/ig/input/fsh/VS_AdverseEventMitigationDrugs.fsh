@@ -1,0 +1,28 @@
+ValueSet: AdverseEventMitigationDrugs
+Id: onconova-vs-adverse-event-mitigation-drugs
+Title: "Adverse Event Mitigation - Drugs"
+Description: "Drugs or medication categories used in the mitigation process of an adverse event."
+
+* $SNOMED#49616005 "Monoclonal antibody"
+* $SNOMED#420693002 "Tumor necrosis factor alpha inhibitor"
+* $SNOMED#409207001 "NK-1 Receptor Antagonist"
+* $SNOMED#1156730006 "Erythropoietin receptor agonist"
+
+* $NCIT#C2356 "Analgesic and Antipyretic"
+* $NCIT#C257 "Nonsteroidal Antiinflammatory Drug"
+* $NCIT#C198 "Acetaminophen"
+* $NCIT#C170166 "Metamizole Sodium"
+* $NCIT#C29578 "Histamine-1 Receptor Antagonist"
+* $NCIT#C126567 "Vasopressor"
+* $NCIT#C163951 "Anti-IL-6 Monoclonal Antibody"
+* $NCIT#C128036 "Anti-CTLA-4 Monoclonal Antibody"
+* $NCIT#C29505 "Topical Corticosteroids"
+* $NCIT#C122080 "Systemic Corticosteroids"
+* $NCIT#C278 "Anti-Thymocyte Globulin"
+* $NCIT#C121331 "Intravenous Immunoglobulin"
+* $NCIT#C267 "Antiemetics"
+* $NCIT#C740 "Phenothiazine"
+* $NCIT#C94726 "5-HT3 Receptor Antagonist"
+* $NCIT#C20424 "Growth Factors"
+* $NCIT#C26078 "Granulocyte Colony-Stimulating Factor"
+* $NCIT#C20545 "Granulocyte-Macrophage Colony-Stimulating Factor"

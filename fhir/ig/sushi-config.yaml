@@ -1,0 +1,42 @@
+id: onconova.fhir
+canonical: http://luisfabib.github.io/onconova
+fhirVersion: 4.0.1
+name: Onconova
+title: "Onconova Implementation Guide"
+status: active
+publisher:
+  name: Onconova
+  url: http://luisfabib.github.io/onconova
+description: "Onconova is an open-source data platform aiming to enable reliable, structured data collection and analysis in precision oncology. Our goal is to support clinical research and development through interoperable, accessible software."
+license: MIT
+version: 0.1.0
+copyrightYear: 2025+
+releaseLabel: ci-build
+dependencies:
+  hl7.fhir.uv.genomics-reporting: 2.0.0
+  hl7.fhir.us.core: 
+    version: 6.1.0
+    id: hl7fhiruscore
+  hl7.fhir.us.mcode:
+    id: mcode
+    uri: http://hl7.org/fhir/us/mcode/ImplementationGuide/hl7.fhir.us.mcode
+    version: 4.0.0
+menu:
+  Home: index.html
+  Artifacts:
+    Profiles: artifacts.html#2
+    Extensions: artifacts.html#3
+    Value Sets: artifacts.html#4
+  Conformance: CapabilityStatement-onconova-capability-statement.html
+  History: http://hl7.org/fhir/us/example/history.html
+instanceOptions:
+  manualSliceOrdering: true
+parameters:
+    no-ig-database: 'true'
+    pin-canonicals: pin-all
+    excludexml: 'true'
+    excludettl: 'true'
+    wantGen-ttl: 'false'
+    wantGen-ttl-html: 'false'
+    wantGen-xml: 'false'
+    wantGen-xml-html: 'false'
