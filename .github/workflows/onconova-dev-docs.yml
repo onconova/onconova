@@ -33,8 +33,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install .
           pip install ../server
+          # Install FHIR IG Publisher dependencies
           npm install -g fsh-sushi
-
+          sudo apt-get install ruby-full build-essential zlib1g-dev
+          gem install jekyll bundler
       - name: Setup Docs Deploy
         run: |
           git config --global user.name github-actions[bot]
