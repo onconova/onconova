@@ -43,7 +43,7 @@ jobs:
       - name: Build and deploy documentation
         run: |
           cd docs
-          npx @compodoc/compodoc -p ../client/tsconfig.doc.json -d ./src/compodoc/ -y src/assets/css/compodoc/ --hideGenerator --theme material
+          npx @compodoc/compodoc@1.1.26 -p ../client/tsconfig.doc.json -d ./src/compodoc/ -y src/assets/css/compodoc/ --hideGenerator --theme material
           cd ../fhir/ig/ 
           ./_updatePublisher.sh -y
           ./_genonce.sh 
