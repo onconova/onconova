@@ -26,15 +26,21 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '16.x'
-
+  
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.1 # Specify the Ruby version you want
+          
       - name: Install dependencies
         run: |
           cd docs
           python -m pip install --upgrade pip
           pip install .
           pip install ../server
+          # Install FHIR IG Publisher dependencies
           npm install -g fsh-sushi
-
+          gem install jekyll bundler
       - name: Setup Docs Deploy
         run: |
           git config --global user.name github-actions[bot]
@@ -43,7 +49,7 @@ jobs:
       - name: Build and deploy documentation
         run: |
           cd docs
-          npx @compodoc/compodoc -p ../client/tsconfig.doc.json -d ./src/compodoc/ -y src/assets/css/compodoc/ --hideGenerator --theme material
+          npx @compodoc/compodoc@1.1.26 -p ../client/tsconfig.doc.json -d ./src/compodoc/ -y src/assets/css/compodoc/ --hideGenerator --theme material
           cd ../fhir/ig/ 
           ./_updatePublisher.sh -y
           ./_genonce.sh 
