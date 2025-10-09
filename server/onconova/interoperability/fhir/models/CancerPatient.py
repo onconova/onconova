@@ -2,7 +2,6 @@
 
 # Fhircraft modules
 import fhircraft
-from fhircraft.utils import model_rebuild_all
 from fhircraft.fhir.resources.datatypes.primitives import *
 from fhircraft.fhir.resources.base import FHIRBaseModel
 import fhircraft.fhir.resources.validators as fhir_validators
@@ -2430,7 +2429,7 @@ class EndOfRecordsName(HumanName):
     """
     A name associated with the individual.
     """
-    extension: Optional[List[Annotated[Union[AnonymizedEntry, Extension], Field(union_mode='left_to_right')]]] = Field(
+    extension: Optional[List[Annotated[Union["CancerPatient", Extension], Field(union_mode='left_to_right')]]] = Field(
         description=None,
         default=None,
     )
@@ -2445,21 +2444,21 @@ class EndOfRecordsName(HumanName):
 
 
  
-class AnonymizedEntryTelecom(ContactPoint):
+class CancerPatientTelecom(ContactPoint):
     """
     Not used in this profile
     """
     pass
 
  
-class AnonymizedEntryAddress(Address):
+class CancerPatientAddress(Address):
     """
     Not used in this profile
     """
     pass
 
  
-class AnonymizedEntryContact(BackboneElement):
+class CancerPatientContact(BackboneElement):
     """
     Not used in this profile
     """
@@ -2510,7 +2509,7 @@ class AnonymizedEntryContact(BackboneElement):
 
 
  
-class AnonymizedEntryCommunication(BackboneElement):
+class CancerPatientCommunication(BackboneElement):
     """
     Not used in this profile
     """
@@ -2541,7 +2540,7 @@ class AnonymizedEntryCommunication(BackboneElement):
 
 
  
-class AnonymizedEntryLink(BackboneElement):
+class CancerPatientLink(BackboneElement):
     """
     Link to another patient resource that concerns the same actual patient.
     """
@@ -2572,7 +2571,7 @@ class AnonymizedEntryLink(BackboneElement):
 
 
  
-class AnonymizedEntry(FHIRBaseModel):
+class CancerPatient(FHIRBaseModel):
     """
     A profile representing a cancer patient with specific extensions and constraints for the Onconova use case. Due to the research-scope of Onconova, the patient information is anonymized and identifying data elements are not provided. 
 
@@ -2643,7 +2642,7 @@ It constrains the mCODE [CancerPatient profile](http://hl7.org/fhir/us/mcode/Str
         description="(USCDI) A name associated with the patient",
         default=None,
     )
-    telecom: Optional[List[AnonymizedEntryTelecom]] = Field(
+    telecom: Optional[List[CancerPatientTelecom]] = Field(
         description="Not used in this profile",
         default=None,
     )
@@ -2669,7 +2668,7 @@ It constrains the mCODE [CancerPatient profile](http://hl7.org/fhir/us/mcode/Str
         description="(USCDI) Indicates if the individual is deceased or not",
         default=None,
     )
-    address: Optional[List[AnonymizedEntryAddress]] = Field(
+    address: Optional[List[CancerPatientAddress]] = Field(
         description="Not used in this profile",
         default=None,
     )
@@ -2689,11 +2688,11 @@ It constrains the mCODE [CancerPatient profile](http://hl7.org/fhir/us/mcode/Str
         description="Not used in this profile",
         default=None,
     )
-    contact: Optional[List[AnonymizedEntryContact]] = Field(
+    contact: Optional[List[CancerPatientContact]] = Field(
         description="Not used in this profile",
         default=None,
     )
-    communication: Optional[List[AnonymizedEntryCommunication]] = Field(
+    communication: Optional[List[CancerPatientCommunication]] = Field(
         description="Not used in this profile",
         default=None,
     )
@@ -2705,7 +2704,7 @@ It constrains the mCODE [CancerPatient profile](http://hl7.org/fhir/us/mcode/Str
         description="Organization that is the custodian of the patient record",
         default=None,
     )
-    link: Optional[List[AnonymizedEntryLink]] = Field(
+    link: Optional[List[CancerPatientLink]] = Field(
         description="Link to another patient resource that concerns the same actual person",
         default=None,
     )

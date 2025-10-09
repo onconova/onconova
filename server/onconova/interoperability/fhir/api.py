@@ -4,7 +4,12 @@ standards-based interface for cancer genomics and clinical research data managem
 oncology, research, and interoperability controllers, and sets up OpenAPI documentation with custom settings and license information.
 """
 
+from ninja import Redoc
 from ninja_extra import NinjaExtraAPI
+
+from onconova.interoperability.fhir.controllers import (
+    PatientController
+)
 
 api:NinjaExtraAPI 
 """An Onconova FHIR API, This API serves as the entry point for all FHIR RESTful endpoints"""
@@ -14,7 +19,7 @@ api = NinjaExtraAPI(
     urls_namespace="onconova.fhir",
     servers=[
         dict(
-            url="https://{domain}:{port}/fhir",
+            url="https://{domain}:{port}/api/fhir",
             description="FHIR API server",
             variables={"port": {"default": "4443"}, "domain": {"default": "localhost"}},
         ),
@@ -27,6 +32,7 @@ api = NinjaExtraAPI(
             )
         )
     ),
+    docs_url=None,
 )
 api.description = """
 Welcome to the Onconova FHIR API — a secure, FHIR-based interface designed to facilitate the exchange, management, and 
@@ -59,4 +65,5 @@ The Onconova FHIR API specification is made available under the MIT License, a p
 modify, merge, publish, distribute, sublicense, and/or sell copies of the software, subject to the inclusion of the original copyright and license.
     """
 api.register_controllers(
+    PatientController,
 )

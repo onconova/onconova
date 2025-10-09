@@ -94,7 +94,7 @@ class PatientCaseController(ControllerBase):
     def get_all_patient_cases_matching_the_query(
         self,
         query: Query[PatientCaseFilters],
-        idSearch: str | None = None,
+        idSearch: Nullable[str] = None,
     ):  # type: ignore
         queryset = PatientCase.objects.all()
         if idSearch:
