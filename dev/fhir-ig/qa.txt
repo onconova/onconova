@@ -3,7 +3,7 @@ Onconova : Validation Results
 
 err = 33, warn = 184, info = 5108
 IG Publisher Version: 2.0.20
-Generated Thu Oct 09 11:32:40 UTC 2025. FHIR version 4.0.1 for onconova.fhir#0.1.0 (canonical = http://luisfabib.github.io/onconova)
+Generated Thu Oct 09 11:38:46 UTC 2025. FHIR version 4.0.1 for onconova.fhir#0.1.0 (canonical = http://luisfabib.github.io/onconova)
  Build Errors : 51 / 593 / 0
  /home/runner/work/onconova/onconova/fhir/ig/fsh-generated/resources/CapabilityStatement-onconova-capability-statement : 4 / 0 / 43
  /home/runner/work/onconova/onconova/fhir/ig/fsh-generated/resources/CodeSystem-onconova-cs-comorbidity-panels : 0 / 2 / 2
