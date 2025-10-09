@@ -2,32 +2,25 @@
 
 All notable changes to this project will be documented here.
 
-<!-- Example for future releases
+-----------------
 
-## [1.1.0] - 20XX-01-05
+## 1.1.0 - 2025-10-09
 
-### Added
+### Added 
 
-- French translation (#444).
+- Add a FHIR Implementation Guide for Onconova's FHIR Interface (provisional) by @luisfabib in https://github.com/luisfabib/onconova/pull/142
 
 ### Fixed
 
-- Improve French translation (#377).
+- Freeze the `compodoc` version to avoid error during build in workflow
+- Freeze `pydantic` and `django-ninja` dependencies of the server to avoid bugs caused by newer release combinations
+- Refactor annotation check to use inspect.isclass in dataset.py to avoid error in server. 
 
-### Changed
+**Full Changelog**: https://github.com/luisfabib/onconova/compare/1.0.0...1.0.1
 
-- Upgrade dependencies: Ruby 3.2.1, Middleman, etc.
+-----------------
 
-### Removed
-
-- Unused normalize.css file.
-
-[View differences between versions 1.0.0 and 1.1.0](https://github.com/luisfabib/onconova/compare/v1.0.0...v1.1.0) 
-
--->
-
-
-## 1.0.0 - 2025-03-09
+## 1.0.0 - 2025-09-03
 
 🎉 First release!
 
