@@ -3,14 +3,14 @@
   "id" : "onconova-vs-adjunctive-therapy-roles",
   "text" : {
     "status" : "generated",
-    "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: ValueSet onconova-vs-adjunctive-therapy-roles</b></p><a name=\"onconova-vs-adjunctive-therapy-roles\"> </a><a name=\"hconconova-vs-adjunctive-therapy-roles\"> </a><ul><li>Include these codes as defined in <a href=\"http://terminology.hl7.org/6.5.0/CodeSystem-v3-nciThesaurus.html\"><code>http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl</code></a><table class=\"none\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td></tr><tr><td>C15688</td><td>Maintenance</td></tr><tr><td>C2140</td><td>Adjuvant</td></tr><tr><td>C15665</td><td>Neoadjuvant</td></tr><tr><td>C28374</td><td>Perioperative</td></tr><tr><td>C63495</td><td>Additive</td></tr><tr><td>C15679</td><td>Consolidation</td></tr></table></li></ul></div>"
+    "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: ValueSet onconova-vs-adjunctive-therapy-roles</b></p><a name=\"onconova-vs-adjunctive-therapy-roles\"> </a><a name=\"hconconova-vs-adjunctive-therapy-roles\"> </a><ul><li>Include these codes as defined in <a href=\"http://terminology.hl7.org/6.5.0/CodeSystem-v3-nciThesaurus.html\"><code>http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl</code></a> version <span title=\"Version is not explicity stated. No matching Code System found\">Not Stated (use latest from terminology server)</span><table class=\"none\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td></tr><tr><td>C15688</td><td>Maintenance</td></tr><tr><td>C2140</td><td>Adjuvant</td></tr><tr><td>C15665</td><td>Neoadjuvant</td></tr><tr><td>C28374</td><td>Perioperative</td></tr><tr><td>C63495</td><td>Additive</td></tr><tr><td>C15679</td><td>Consolidation</td></tr></table></li></ul></div>"
   },
   "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-adjunctive-therapy-roles",
   "version" : "0.1.0",
   "name" : "AdjunctiveTherapyRoles",
   "title" : "Adjunctive Therapy Roles",
   "status" : "active",
-  "date" : "2025-09-29T08:09:08+00:00",
+  "date" : "2025-10-09T11:26:42+00:00",
   "publisher" : "Onconova",
   "contact" : [{
     "name" : "Onconova",
