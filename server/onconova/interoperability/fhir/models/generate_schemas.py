@@ -1,8 +1,8 @@
 import os
 import json
 from fhircraft.fhir.resources.generator import generate_resource_model_code
-from fhircraft.fhir.resources.factory import factory, construct_resource_model
-
+from fhircraft.fhir.resources.factory import factory
+import traceback
 base_dir = os.path.dirname(os.path.abspath(__file__))
 input_dir = os.path.abspath(os.path.join(base_dir, "../../../../../fhir/ig/output"))
 output_dir = base_dir
@@ -23,11 +23,7 @@ files = [os.path.join(input_dir, filename) for filename in os.listdir(input_dir)
 # Load necessary FHIR packages
 print(f"Importing FHIR packages ...")
 factory.load_package("hl7.fhir.us.mcode", "4.0.0")
-factory.load_package("hl7.fhir.r4.core", "4.0.1")
-factory.load_package("hl7.fhir.uv.extensions.r4", "5.2.0")
 factory.load_package("hl7.fhir.uv.genomics-reporting", "2.0.0")
-factory.load_package("hl7.fhir.us.core", "6.1.0")
-factory.load_package("hl7.fhir.uv.sdc", "3.0.0")
 
 print(f"Found {len(files)} files in {input_dir}")
 processed = 0
@@ -39,10 +35,11 @@ for input_path in files:
 
     # Create model and generate source code using Fhircraft
     try:
-        model = factory.construct_resource_model(structure_definition=structure_definition)
+        model = factory.construct_resource_model(canonical_url=structure_definition['url'])
         source_code = generate_resource_model_code(model)
     except Exception as e:
         print(f"Error processing {filename}: {e}")
+        traceback.print_exc()
         continue
 
     # Write to output file (e.g., same name but .py extension)
