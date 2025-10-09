@@ -1,6 +1,7 @@
 from datetime import datetime
 from enum import Enum
 from typing import Any, List, Tuple, Type, Union, get_args
+import inspect 
 
 from django.db.models import Q
 from ninja import Field, Schema
@@ -169,7 +170,7 @@ def _create_partial_schema(schema: Type[Schema]) -> Type[Schema]:
                 related_schema_partial = _create_partial_schema(list_annotation)
                 annotation = List[related_schema_partial]
 
-        if issubclass(annotation, PydanticBaseModel) and not issubclass(
+        if inspect.isclass(annotation) and issubclass(annotation, PydanticBaseModel) and not issubclass(
             annotation, CodedConceptSchema
         ):
             annotation = _create_partial_schema(annotation)
