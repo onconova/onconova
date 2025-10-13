@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, datetime
 from typing import Any, Dict, Generic, List, TypeVar, Union
 from uuid import UUID
 
@@ -6,10 +6,40 @@ from ninja import Schema
 from psycopg.types.range import Range as PostgresRange
 from pydantic import Field, field_validator, model_validator
 
+from onconova.core.anonymization import AnonymizationMixin
+from onconova.core.serialization.base import BaseSchema
 from onconova.core.types import Nullable
 
 T = TypeVar("T")
 
+
+class MetadataSchemaMixin(AnonymizationMixin):
+    
+    id: UUID = Field(
+        ..., description='Unique identifier of the resource (UUID v4).', title='Id'
+    )
+    description: str = Field(
+        ..., description='Human-readable description', title='Description'
+    )
+    createdAt: Nullable[datetime] = Field(
+        None, description='Date-time when the resource was created', title='Created at'
+    )
+    updatedAt: Nullable[datetime] = Field(
+        None,
+        description='Date-time when the resource was last updated',
+        title='Updated at',
+    )
+    createdBy: Nullable[str] = Field(
+        None,
+        description='Username of the user who created the resource',
+        title='Created by',
+    )
+    updatedBy: Nullable[List[str]] = Field(
+        None,
+        description='Usernames of the users who have updated the resource',
+        title='Updated by',
+    )
+    
 
 class Paginated(Schema, Generic[T]):
     """
