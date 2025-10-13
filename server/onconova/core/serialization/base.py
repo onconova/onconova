@@ -45,7 +45,6 @@ class BaseSchema(Schema):
 
     Attributes:
         __orm_model__ (ClassVar[Type[UntrackedBaseModel]]): The associated Django model class
-        __orm_meta__ (ClassVar[Mapping[str, DjangoField]]): Mapping of field names to Django field instances
 
     Example:
         ```python
@@ -59,10 +58,6 @@ class BaseSchema(Schema):
 
             def __init_subclass__(cls):
                 cls.set_orm_model(User)
-                cls.set_orm_metadata(
-                    id=User._meta.get_field('id'),
-                    username=User._meta.get_field('username'),
-                    email=User._meta.get_field('email')
         ```
     """
 
@@ -74,38 +69,6 @@ class BaseSchema(Schema):
     )
 
     __orm_model__: ClassVar[Type[UntrackedBaseModel]]
-    __orm_meta__: ClassVar[Mapping[str, DjangoField]]
-
-    @classmethod
-    def set_orm_metadata(cls, **metadata: DjangoField) -> None:
-        """
-        Sets ORM metadata for the class using Django model field instances.
-
-        This class method allows setting metadata for ORM operations by associating Django model fields
-        with the class. The metadata is stored in the `__orm_meta__` class attribute.
-
-        Args:
-            **metadata (DjangoField): Keyword arguments where each value must be a Django model field instance.
-
-        Raises:
-            TypeError: If any of the provided metadata values is not a Django model field instance.
-        """
-        for field in metadata.values():
-            if not isinstance(field, DjangoField):
-                raise TypeError(
-                    "The set_orm_metadata only accepts keyword-argument pairs containing Django model field instances."
-                )
-        cls.__orm_meta__ = metadata
-
-    @classmethod
-    def get_orm_metadata(cls):
-        """
-        Retrieves the ORM metadata associated with the class.
-
-        Returns:
-            (dict): A dictionary containing the ORM metadata information stored in the __orm_meta__ attribute. This metadata typically includes configuration for database mapping and relationships.
-        """
-        return cls.__orm_meta__
 
     @classmethod
     def set_orm_model(cls, model: Type[UntrackedBaseModel] | Type[BaseModel]) -> None:
@@ -365,7 +328,6 @@ class BaseSchema(Schema):
         m2m_relations: dict[str, list[DjangoModel]] = {}
         o2m_relations: dict[DjangoField, dict] = {}
         get_orm_model: Callable = getattr(self, "get_orm_model", lambda: None)
-        get_orm_metadata: Callable = getattr(self, "get_orm_metadata", lambda: {})
         model = model or get_orm_model()
         if model is None:
             raise ValueError("No model provided or found in schema.")
@@ -388,7 +350,10 @@ class BaseSchema(Schema):
             # Get field data
             data = serialized_data[field_name]
             # Get field metadata
-            orm_field: DjangoField = get_orm_metadata().get(field_name)
+            try:
+                orm_field: DjangoField = model._meta.get_field(field.alias if field.alias else field_name) 
+            except:
+                continue
             if orm_field is None:
                 continue
             # Handle relational fields
