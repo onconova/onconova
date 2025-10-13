@@ -291,8 +291,8 @@ class TestPerformanceStatusController(CrudApiControllerTestCase):
     controller_path = "/api/v1/performance-status"
     FACTORY = factories.PerformanceStatusFactory
     MODEL = models.PerformanceStatus
-    SCHEMA = schemas.PerformanceStatusSchema
-    CREATE_SCHEMA = schemas.PerformanceStatusCreateSchema
+    SCHEMA = schemas.PerformanceStatus
+    CREATE_SCHEMA = schemas.PerformanceStatusCreate
 
 
 class TestLifestyleController(CrudApiControllerTestCase):

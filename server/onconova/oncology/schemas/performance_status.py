@@ -1,7 +1,9 @@
+from datetime import date as date_aliased
+from uuid import UUID
 from pydantic import AliasChoices, Field
 
 from onconova.core.anonymization import AnonymizationConfig
-from onconova.core.schemas import CodedConcept as CodedConceptSchema
+from onconova.core.schemas import BaseSchema, MetadataSchemaMixin, CodedConcept
 from onconova.core.serialization.metaclasses import (
     ModelCreateSchema,
     ModelGetSchema,
@@ -11,31 +13,56 @@ from onconova.core.types import Nullable
 from onconova.oncology import models as orm
 
 
-class PerformanceStatusSchema(ModelGetSchema):
-    ecogInterpretation: Nullable[CodedConceptSchema] = Field(
+class PerformanceStatusCreate(BaseSchema):
+    
+    __orm_model__ = orm.PerformanceStatus 
+    
+    externalSource: Nullable[str] = Field(
+        None,
+        description='The digital source of the data, relevant for automated data',
+        title='External data source',
+    )
+    externalSourceId: Nullable[str] = Field(
+        None,
+        description='The data identifier at the digital source of the data, relevant for automated data',
+        title='External data source Id',
+    )
+    caseId: UUID = Field(
+        ...,
+        description="Indicates the case of the patient who's performance status is assesed",
+        title='Patient case',
+    )
+    date: date_aliased = Field(
+        ...,
+        description='Clinically-relevant date at which the performance score was performed and recorded.',
+        title='Assessment date',
+    )
+    ecogScore: Nullable[int] = Field(
+        None,
+        description='ECOG Performance Status Score',
+        title='ECOG Score',
+    )
+    karnofskyScore: Nullable[int] = Field(
+        None,
+        description='Karnofsky Performance Status Score',
+        title='Karnofsky Score',
+    )
+
+class PerformanceStatus(PerformanceStatusCreate, MetadataSchemaMixin):
+    
+    ecogInterpretation: Nullable[CodedConcept] = Field(
         default=None,
         title="ECOG Interpreation",
         description="Official interpretation of the ECOG score",
-        alias="ecog_interpretation",
-        validation_alias=AliasChoices("ecogInterpretation", "ecog_interpretation"),
         json_schema_extra={"x-terminology": "ECOGPerformanceStatusInterpretation"},
     )
-    karnofskyInterpretation: Nullable[CodedConceptSchema] = Field(
+    karnofskyInterpretation: Nullable[CodedConcept] = Field(
         default=None,
         title="Karnofsky Interpreation",
         description="Official interpretation of the Karnofsky score",
-        alias="karnofsky_interpretation",
-        validation_alias=AliasChoices(
-            "karnofskyInterpretation", "karnofsky_interpretation"
-        ),
         json_schema_extra={"x-terminology": "KarnofskyPerformanceStatusInterpretation"},
     )
-    config = SchemaConfig(
-        model=orm.PerformanceStatus,
-        anonymization=AnonymizationConfig(fields=["date"], key="caseId"),
-    )
+    
+    __anonymization_fields__ = ("date",)
+    __anonymization_key__ = "caseId"
 
-
-class PerformanceStatusCreateSchema(ModelCreateSchema):
-    config = SchemaConfig(model=orm.PerformanceStatus)
-    config = SchemaConfig(model=orm.PerformanceStatus)

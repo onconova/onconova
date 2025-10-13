@@ -144,7 +144,7 @@ class PatientCaseBundle(sc.PatientCase):
         alias="treatment_responses",
         validation_alias=AliasChoices("treatmentResponses", "treatment_responses"),
     )
-    performanceStatus: List[sc.PerformanceStatusSchema] = Field(
+    performanceStatus: List[sc.PerformanceStatus] = Field(
         default=[],
         alias="performance_status",
         validation_alias=AliasChoices("performanceStatus", "performance_status"),

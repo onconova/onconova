@@ -38,7 +38,7 @@ from .patient_case import (
     PatientCaseDataCompletionStatus,
     PatientCase,
 )
-from .performance_status import PerformanceStatusCreateSchema, PerformanceStatusSchema
+from .performance_status import PerformanceStatusCreate, PerformanceStatus
 from .radiotherapy import (
     RadiotherapyCreateSchema,
     RadiotherapyDosageCreateSchema,
@@ -129,7 +129,7 @@ TreatmentResponseFilters = create_filters_schema(
     schema=TreatmentResponseSchema, name="TreatmentResponseFilters"
 )
 PerformanceStatusFilters = create_filters_schema(
-    schema=PerformanceStatusSchema, name="PerformanceStatusFilters"
+    schema=PerformanceStatus, name="PerformanceStatusFilters"
 )
 LifestyleFilters = create_filters_schema(
     schema=Lifestyle, name="LifestyleFilters"
@@ -233,8 +233,8 @@ ONCOLOGY_SCHEMAS = (
     MolecularTherapeuticRecommendationSchema,
     MolecularTherapeuticRecommendationCreateSchema,
     # Performance status schemas
-    PerformanceStatusSchema,
-    PerformanceStatusCreateSchema,
+    PerformanceStatus,
+    PerformanceStatusCreate,
     # Lifestyle schemas
     Lifestyle,
     LifestyleCreate,
