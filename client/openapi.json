@@ -3,10 +3,10 @@
   "info": {
     "title": "Onconova API",
     "version": "1.0.0",
-    "description": "\nWelcome to the Onconova API — a secure, standards-based interface designed to facilitate the exchange, management, and \nanalysis of research data related to cancer genomics, clinical records, and associated metadata. This API provides an extensive set of RESTful endpoints enabling authorized users to perform full CRUD (Create, Read, Update, Delete) operations on various resources within the platform’s data ecosystem.\n\nThe primary objective of this API is to support precision oncology research by enabling interoperability between data systems, promoting data sharing among research institutions, and streamlining workflows for clinical and genomic data management in a secure, authenticated environment.\n\n### Authentication\nTo ensure the security and integrity of cancer research data, **all API requests require proper authentication**.\n\nA valid session token must be obtained prior to accessing any protected endpoint. This token must be included in the request header `X-Session-Token`.\n\nThe authentication and authorization flows for obtaining and managing session tokens are provided through the AllAuth authentication service. \nThis includes endpoints for user login, logout, password management, and token renewal. For complete details on implementing authentication and \nmanaging session tokens, please refer to the [AllAuth API documentation](/api/allauth/openapi.html).\n\n**Important:** Unauthorized requests or those missing valid authentication tokens will receive an `HTTP 401 Unauthorized` response.\n\n### Terminologies \nMany resources take objects of the type `CodedConcept` to represent concepts from coded terminologies. Each property of the type `CodedConcept` in a schema will have an associated `x-terminology` attribute. The full list of `CodedConcept` objects allowed for specific resource properties can be retrieved through the [terminology endpoint](#tag/Terminology/operation/getTerminologyConcepts) by passing the `x-terminology` value as the `terminologyName` parameter. \n\n### Terms and Conditions\nBy accessing and using this website, you agree to comply with and be bound by the following terms and conditions. The content provided on this API is \nintended solely for general informational and research purposes. While we strive to ensure the information is accurate and reliable, we do not make \nany express or implied warranties about the accuracy, adequacy, validity, reliability, availability, or completeness of the content.\n\nThe information presented on this platform is provided in good faith. However, we do not accept any liability for any loss or damage incurred as a \nresult of using the site or relying on the information provided. Your use of this site and any reliance on the content is solely at your own risk.\n\nThese terms and conditions may be updated from time to time, and it is your responsibility to review them regularly to ensure compliance.\n\n### License \nThe Onconova API specification is made available under the MIT License, a permissive open-source license that allows users to freely use, copy,\nmodify, merge, publish, distribute, sublicense, and/or sell copies of the software, subject to the inclusion of the original copyright and license.\n    ",
+    "description": "\nWelcome to the Onconova API — a secure, standards-based interface designed to facilitate the exchange, management, and \nanalysis of research data related to cancer genomics, clinical records, and associated metadata. This API provides an extensive set of RESTful endpoints enabling authorized users to perform full CRUD (Create, Read, Update, Delete) operations on various resources within the platform’s data ecosystem.\n\nThe primary objective of this API is to support precision oncology research by enabling interoperability between data systems, promoting data sharing among research institutions, and streamlining workflows for clinical and genomic data management in a secure, authenticated environment.\n\n### Authentication\nTo ensure the security and integrity of cancer research data, **all API requests require proper authentication**.\n\nA valid session token must be obtained prior to accessing any protected endpoint. This token must be included in the request header `X-Session-Token`.\n\nThe authentication and authorization flows for obtaining and managing session tokens are provided through the AllAuth authentication service. \nThis includes endpoints for user login, logout, password management, and token renewal. For complete details on implementing authentication and \nmanaging session tokens, please refer to the [AllAuth API documentation](https://docs.allauth.org/en/latest/headless/openapi-specification/).\n\n**Important:** Unauthorized requests or those missing valid authentication tokens will receive an `HTTP 401 Unauthorized` response.\n\n### Terminologies \nMany resources take objects of the type `CodedConcept` to represent concepts from coded terminologies. Each property of the type `CodedConcept` in a schema will have an associated `x-terminology` attribute. The full list of `CodedConcept` objects allowed for specific resource properties can be retrieved through the [terminology endpoint](#tag/Terminology/operation/getTerminologyConcepts) by passing the `x-terminology` value as the `terminologyName` parameter. \n\n### Terms and Conditions\nBy accessing and using this website, you agree to comply with and be bound by the following terms and conditions. The content provided on this API is \nintended solely for general informational and research purposes. While we strive to ensure the information is accurate and reliable, we do not make \nany express or implied warranties about the accuracy, adequacy, validity, reliability, availability, or completeness of the content.\n\nThe information presented on this platform is provided in good faith. However, we do not accept any liability for any loss or damage incurred as a \nresult of using the site or relying on the information provided. Your use of this site and any reliance on the content is solely at your own risk.\n\nThese terms and conditions may be updated from time to time, and it is your responsibility to review them regularly to ensure compliance.\n\n### License \nThe Onconova API specification is made available under the MIT License, a permissive open-source license that allows users to freely use, copy,\nmodify, merge, publish, distribute, sublicense, and/or sell copies of the software, subject to the inclusion of the original copyright and license.\n    ",
     "license": {
       "name": "MIT",
-      "url": "https://github.com/precisionmedicineinitiative/ONCONOVA/blob/main/LICENSE"
+      "url": "https://github.com/luisfabib/onconova/blob/main/LICENSE"
     }
   },
   "paths": {
@@ -39,6 +39,7 @@
             "description": "Internal Server Error"
           }
         },
+        "description": "Performs a health check of the server, database connection, and database migrations.",
         "tags": [
           "API Health"
         ],
@@ -74,7 +75,7 @@
             "description": "Internal Server Error"
           }
         },
-        "description": "Login a user using basic authorization via username/password to obtain session token and/or access token.",
+        "description": "Authenticates a user using the provided credentials.",
         "tags": [
           "Authentication"
         ],
@@ -117,6 +118,7 @@
             "description": "Internal Server Error"
           }
         },
+        "description": "Authenticates a user using a provider token. ",
         "tags": [
           "Authentication"
         ],
@@ -260,6 +262,7 @@
             "schema": {
               "allOf": [
                 {
+                  "description": "Enumeration of access roles within the system.\n\nAttributes:\n    EXTERNAL: Represents an external user with limited access.\n    MEMBER: Represents a standard member with regular access.\n    PROJECT_MANAGER: Represents a user with project management privileges.\n    PLATFORM_MANAGER: Represents a user with platform management privileges.\n    SYSTEM_ADMIN: Represents a system administrator with full access.",
                   "enum": [
                     "External",
                     "Member",
@@ -283,6 +286,7 @@
             "schema": {
               "allOf": [
                 {
+                  "description": "Enumeration of access roles within the system.\n\nAttributes:\n    EXTERNAL: Represents an external user with limited access.\n    MEMBER: Represents a standard member with regular access.\n    PROJECT_MANAGER: Represents a user with project management privileges.\n    PLATFORM_MANAGER: Represents a user with platform management privileges.\n    SYSTEM_ADMIN: Represents a system administrator with full access.",
                   "enum": [
                     "External",
                     "Member",
@@ -306,6 +310,7 @@
             "schema": {
               "description": "Role - ('Filter for excluding a subset of value choices',)",
               "items": {
+                "description": "Enumeration of access roles within the system.\n\nAttributes:\n    EXTERNAL: Represents an external user with limited access.\n    MEMBER: Represents a standard member with regular access.\n    PROJECT_MANAGER: Represents a user with project management privileges.\n    PLATFORM_MANAGER: Represents a user with platform management privileges.\n    SYSTEM_ADMIN: Represents a system administrator with full access.",
                 "enum": [
                   "External",
                   "Member",
@@ -1380,6 +1385,144 @@
           },
           {
             "in": "query",
+            "name": "externalSource.not.exists",
+            "schema": {
+              "description": "External source - Filter for entries without a value",
+              "title": "not.exists",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "External source - Filter for entries without a value"
+          },
+          {
+            "in": "query",
+            "name": "externalSource.exists",
+            "schema": {
+              "description": "External source - Filter for entries with a value",
+              "title": "exists",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "External source - Filter for entries with a value"
+          },
+          {
+            "in": "query",
+            "name": "externalSource",
+            "schema": {
+              "description": "External source - Filter for full text matches",
+              "title": "ExactStringFilter",
+              "type": "string"
+            },
+            "required": false,
+            "description": "External source - Filter for full text matches"
+          },
+          {
+            "in": "query",
+            "name": "externalSource.not",
+            "schema": {
+              "description": "External source - Filter for full text mismatches",
+              "title": "not",
+              "type": "string"
+            },
+            "required": false,
+            "description": "External source - Filter for full text mismatches"
+          },
+          {
+            "in": "query",
+            "name": "externalSource.contains",
+            "schema": {
+              "description": "External source - Filter for partial text matches",
+              "title": "contains",
+              "type": "string"
+            },
+            "required": false,
+            "description": "External source - Filter for partial text matches"
+          },
+          {
+            "in": "query",
+            "name": "externalSource.not.contains",
+            "schema": {
+              "description": "External source - Filter for partial text mismatches",
+              "title": "not.contains",
+              "type": "string"
+            },
+            "required": false,
+            "description": "External source - Filter for partial text mismatches"
+          },
+          {
+            "in": "query",
+            "name": "externalSource.beginsWith",
+            "schema": {
+              "description": "External source - Filter for entries starting with the text",
+              "title": "beginsWith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "External source - Filter for entries starting with the text"
+          },
+          {
+            "in": "query",
+            "name": "externalSource.not.beginsWith",
+            "schema": {
+              "description": "External source - Filter for entries not starting with the text",
+              "title": "not.beginsWith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "External source - Filter for entries not starting with the text"
+          },
+          {
+            "in": "query",
+            "name": "externalSource.endsWith",
+            "schema": {
+              "description": "External source - Filter for entries ending with the text",
+              "title": "endsWith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "External source - Filter for entries ending with the text"
+          },
+          {
+            "in": "query",
+            "name": "externalSource.not.endsWith",
+            "schema": {
+              "description": "External source - Filter for entries not ending with the text",
+              "title": "not.endsWith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "External source - Filter for entries not ending with the text"
+          },
+          {
+            "in": "query",
+            "name": "externalSource.anyOf",
+            "schema": {
+              "description": "External source - Filter for entries where at least one reference matches the query",
+              "items": {
+                "type": "string"
+              },
+              "title": "anyOf",
+              "type": "array"
+            },
+            "required": false,
+            "description": "External source - Filter for entries where at least one reference matches the query"
+          },
+          {
+            "in": "query",
+            "name": "externalSource.not.anyOf",
+            "schema": {
+              "description": "External source - Filter for entries where at least one reference mismatches the query",
+              "items": {
+                "type": "string"
+              },
+              "title": "not.anyOf",
+              "type": "array"
+            },
+            "required": false,
+            "description": "External source - Filter for entries where at least one reference mismatches the query"
+          },
+          {
+            "in": "query",
             "name": "isServiceAccount",
             "schema": {
               "description": "Is service account? - Filter for yes/no statement",
@@ -1990,7 +2133,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Paginated_User_"
+                  "$ref": "#/components/schemas/Paginated_User2_"
                 }
               }
             }
@@ -2005,6 +2148,7 @@
             "description": "Internal Server Error"
           }
         },
+        "description": "Retrieves all user objects that match the specified query filters.",
         "tags": [
           "Users"
         ],
@@ -2039,6 +2183,7 @@
             "description": "Internal Server Error"
           }
         },
+        "description": "Creates a new user with the provided payload.",
         "tags": [
           "Users"
         ],
@@ -2080,7 +2225,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/User"
+                  "$ref": "#/components/schemas/User2"
                 }
               }
             }
@@ -2098,6 +2243,7 @@
             "description": "Internal Server Error"
           }
         },
+        "description": "Retrieve a user instance by its unique ID.",
         "tags": [
           "Users"
         ],
@@ -2127,7 +2273,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/User"
+                  "$ref": "#/components/schemas/User2"
                 }
               }
             }
@@ -2145,6 +2291,7 @@
             "description": "Internal Server Error"
           }
         },
+        "description": "Updates the specified user's information using the provided payload.",
         "tags": [
           "Users"
         ],
@@ -2186,7 +2333,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/User"
+                  "$ref": "#/components/schemas/User2"
                 }
               }
             }
@@ -2204,6 +2351,7 @@
             "description": "Internal Server Error"
           }
         },
+        "description": "Updates the profile information of a user with the given user ID.",
         "tags": [
           "Users"
         ],
@@ -2263,6 +2411,7 @@
             "description": "Internal Server Error"
           }
         },
+        "description": "Updates the password for a specified user.",
         "tags": [
           "Users"
         ],
@@ -2328,6 +2477,7 @@
             "description": "Internal Server Error"
           }
         },
+        "description": "Resets the password for the specified user.",
         "tags": [
           "Users"
         ],
@@ -2400,6 +2550,7 @@
             "description": "Internal Server Error"
           }
         },
+        "description": "Retrieves the event history for the specified user.",
         "tags": [
           "Users"
         ],
@@ -4623,6 +4774,7 @@
             "description": "Internal Server Error"
           }
         },
+        "description": "Exports a resource identified by its UUID, serializing its data and associated metadata.\n\nNotes:\n\n    - Creates an export event for the resource using `pghistory.create_event`.\n    - Computes a checksum of the exported data for integrity verification.",
         "tags": [
           "Interoperability"
         ],
@@ -4673,6 +4825,7 @@
             "description": "Internal Server Error"
           }
         },
+        "description": "Resolves a resource ID by searching across models for a matching UUID.",
         "tags": [
           "Interoperability"
         ],
@@ -4719,6 +4872,7 @@
             "description": "Internal Server Error"
           }
         },
+        "description": "Exports a patient case bundle by retrieving the PatientCase object with the given case ID,\ncreates an export event for the case, and returns the exported case object.",
         "tags": [
           "Interoperability"
         ],
@@ -4740,6 +4894,7 @@
             "schema": {
               "allOf": [
                 {
+                  "description": "Enum representing strategies for resolving conflicts during interoperability operations.\n\nAttributes:\n    OVERWRITE: Overwrite existing data with new data.\n    REASSIGN: Reassign ownership or association to resolve the conflict.",
                   "enum": [
                     "overwrite",
                     "reassign"
@@ -4776,6 +4931,7 @@
             "description": "Internal Server Error"
           }
         },
+        "description": "Imports a patient case bundle into the database, handling conflicts based on the specified resolution strategy.",
         "tags": [
           "Interoperability"
         ],
@@ -6722,15 +6878,8 @@
             "in": "query",
             "name": "idSearch",
             "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Idsearch"
+              "title": "Idsearch",
+              "type": "string"
             },
             "required": false
           },
@@ -7276,6 +7425,7 @@
             "in": "path",
             "name": "category",
             "schema": {
+              "description": "Enumeration of data categories associated with a patient case in oncology.\n\nAttributes:\n    COMORBIDITIES_ASSESSMENTS: Category for comorbidities assessments.\n    FAMILY_HISTORIES: Category for family medical histories.\n    GENOMIC_SIGNATURES: Category for genomic signatures.\n    GENOMIC_VARIANTS: Category for genomic variants.\n    LIFESTYLES: Category for patient lifestyles.\n    COMORBIDITIES: Category for comorbidities.\n    NEOPLASTIC_ENTITIES: Category for neoplastic entities.\n    PERFORMANCE_STATUS: Category for performance status.\n    RADIOTHERAPIES: Category for radiotherapy treatments.\n    RISK_ASSESSMENTS: Category for risk assessments.\n    STAGINS: Category for cancer stagings.\n    SURGERIES: Category for surgical procedures.\n    SYSTEMIC_THERAPIES: Category for systemic therapies.\n    TUMOR_MARKERS: Category for tumor marker data.\n    VITALS: Category for vital signs.\n    TUMOR_BOARD_REVIEWS: Category for tumor board reviews.\n    ADVERSE_EVENTS: Category for adverse events.\n    THERAPY_RESPONSES: Category for therapy responses.",
               "enum": [
                 "comorbidities-assessments",
                 "family-histories",
@@ -7299,7 +7449,8 @@
               "title": "PatientCaseDataCategories",
               "type": "string"
             },
-            "required": true
+            "required": true,
+            "description": "Enumeration of data categories associated with a patient case in oncology.\n\nAttributes:\n    COMORBIDITIES_ASSESSMENTS: Category for comorbidities assessments.\n    FAMILY_HISTORIES: Category for family medical histories.\n    GENOMIC_SIGNATURES: Category for genomic signatures.\n    GENOMIC_VARIANTS: Category for genomic variants.\n    LIFESTYLES: Category for patient lifestyles.\n    COMORBIDITIES: Category for comorbidities.\n    NEOPLASTIC_ENTITIES: Category for neoplastic entities.\n    PERFORMANCE_STATUS: Category for performance status.\n    RADIOTHERAPIES: Category for radiotherapy treatments.\n    RISK_ASSESSMENTS: Category for risk assessments.\n    STAGINS: Category for cancer stagings.\n    SURGERIES: Category for surgical procedures.\n    SYSTEMIC_THERAPIES: Category for systemic therapies.\n    TUMOR_MARKERS: Category for tumor marker data.\n    VITALS: Category for vital signs.\n    TUMOR_BOARD_REVIEWS: Category for tumor board reviews.\n    ADVERSE_EVENTS: Category for adverse events.\n    THERAPY_RESPONSES: Category for therapy responses."
           }
         ],
         "responses": {
@@ -7352,6 +7503,7 @@
             "in": "path",
             "name": "category",
             "schema": {
+              "description": "Enumeration of data categories associated with a patient case in oncology.\n\nAttributes:\n    COMORBIDITIES_ASSESSMENTS: Category for comorbidities assessments.\n    FAMILY_HISTORIES: Category for family medical histories.\n    GENOMIC_SIGNATURES: Category for genomic signatures.\n    GENOMIC_VARIANTS: Category for genomic variants.\n    LIFESTYLES: Category for patient lifestyles.\n    COMORBIDITIES: Category for comorbidities.\n    NEOPLASTIC_ENTITIES: Category for neoplastic entities.\n    PERFORMANCE_STATUS: Category for performance status.\n    RADIOTHERAPIES: Category for radiotherapy treatments.\n    RISK_ASSESSMENTS: Category for risk assessments.\n    STAGINS: Category for cancer stagings.\n    SURGERIES: Category for surgical procedures.\n    SYSTEMIC_THERAPIES: Category for systemic therapies.\n    TUMOR_MARKERS: Category for tumor marker data.\n    VITALS: Category for vital signs.\n    TUMOR_BOARD_REVIEWS: Category for tumor board reviews.\n    ADVERSE_EVENTS: Category for adverse events.\n    THERAPY_RESPONSES: Category for therapy responses.",
               "enum": [
                 "comorbidities-assessments",
                 "family-histories",
@@ -7375,7 +7527,8 @@
               "title": "PatientCaseDataCategories",
               "type": "string"
             },
-            "required": true
+            "required": true,
+            "description": "Enumeration of data categories associated with a patient case in oncology.\n\nAttributes:\n    COMORBIDITIES_ASSESSMENTS: Category for comorbidities assessments.\n    FAMILY_HISTORIES: Category for family medical histories.\n    GENOMIC_SIGNATURES: Category for genomic signatures.\n    GENOMIC_VARIANTS: Category for genomic variants.\n    LIFESTYLES: Category for patient lifestyles.\n    COMORBIDITIES: Category for comorbidities.\n    NEOPLASTIC_ENTITIES: Category for neoplastic entities.\n    PERFORMANCE_STATUS: Category for performance status.\n    RADIOTHERAPIES: Category for radiotherapy treatments.\n    RISK_ASSESSMENTS: Category for risk assessments.\n    STAGINS: Category for cancer stagings.\n    SURGERIES: Category for surgical procedures.\n    SYSTEMIC_THERAPIES: Category for systemic therapies.\n    TUMOR_MARKERS: Category for tumor marker data.\n    VITALS: Category for vital signs.\n    TUMOR_BOARD_REVIEWS: Category for tumor board reviews.\n    ADVERSE_EVENTS: Category for adverse events.\n    THERAPY_RESPONSES: Category for therapy responses."
           }
         ],
         "responses": {
@@ -7428,6 +7581,7 @@
             "in": "path",
             "name": "category",
             "schema": {
+              "description": "Enumeration of data categories associated with a patient case in oncology.\n\nAttributes:\n    COMORBIDITIES_ASSESSMENTS: Category for comorbidities assessments.\n    FAMILY_HISTORIES: Category for family medical histories.\n    GENOMIC_SIGNATURES: Category for genomic signatures.\n    GENOMIC_VARIANTS: Category for genomic variants.\n    LIFESTYLES: Category for patient lifestyles.\n    COMORBIDITIES: Category for comorbidities.\n    NEOPLASTIC_ENTITIES: Category for neoplastic entities.\n    PERFORMANCE_STATUS: Category for performance status.\n    RADIOTHERAPIES: Category for radiotherapy treatments.\n    RISK_ASSESSMENTS: Category for risk assessments.\n    STAGINS: Category for cancer stagings.\n    SURGERIES: Category for surgical procedures.\n    SYSTEMIC_THERAPIES: Category for systemic therapies.\n    TUMOR_MARKERS: Category for tumor marker data.\n    VITALS: Category for vital signs.\n    TUMOR_BOARD_REVIEWS: Category for tumor board reviews.\n    ADVERSE_EVENTS: Category for adverse events.\n    THERAPY_RESPONSES: Category for therapy responses.",
               "enum": [
                 "comorbidities-assessments",
                 "family-histories",
@@ -7451,7 +7605,8 @@
               "title": "PatientCaseDataCategories",
               "type": "string"
             },
-            "required": true
+            "required": true,
+            "description": "Enumeration of data categories associated with a patient case in oncology.\n\nAttributes:\n    COMORBIDITIES_ASSESSMENTS: Category for comorbidities assessments.\n    FAMILY_HISTORIES: Category for family medical histories.\n    GENOMIC_SIGNATURES: Category for genomic signatures.\n    GENOMIC_VARIANTS: Category for genomic variants.\n    LIFESTYLES: Category for patient lifestyles.\n    COMORBIDITIES: Category for comorbidities.\n    NEOPLASTIC_ENTITIES: Category for neoplastic entities.\n    PERFORMANCE_STATUS: Category for performance status.\n    RADIOTHERAPIES: Category for radiotherapy treatments.\n    RISK_ASSESSMENTS: Category for risk assessments.\n    STAGINS: Category for cancer stagings.\n    SURGERIES: Category for surgical procedures.\n    SYSTEMIC_THERAPIES: Category for systemic therapies.\n    TUMOR_MARKERS: Category for tumor marker data.\n    VITALS: Category for vital signs.\n    TUMOR_BOARD_REVIEWS: Category for tumor board reviews.\n    ADVERSE_EVENTS: Category for adverse events.\n    THERAPY_RESPONSES: Category for therapy responses."
           }
         ],
         "responses": {
@@ -9328,6 +9483,7 @@
             "schema": {
               "allOf": [
                 {
+                  "description": "Enumeration of cancer staging domains used in oncology.\n\nEach member represents a specific staging system or classification used to describe the extent or severity of cancer.\nThe available staging domains include:\n\n- TNM: Tumor, Node, Metastasis staging system.\n- FIGO: International Federation of Gynecology and Obstetrics staging.\n- BINET: Binet staging for chronic lymphocytic leukemia.\n- RAI: Rai staging for chronic lymphocytic leukemia.\n- BRESLOW: Breslow thickness for melanoma.\n- CLARK: Clark level for melanoma.\n- ISS: International Staging System for multiple myeloma.\n- RISS: Revised International Staging System for multiple myeloma.\n- INSS: International Neuroblastoma Staging System.\n- INRGSS: International Neuroblastoma Risk Group Staging System.\n- GLEASON: Gleason grading for prostate cancer.\n- RHABDO: Staging for rhabdomyosarcoma.\n- WILMS: Staging for Wilms tumor.\n- LYMPHOMA: Staging for lymphoma.\n\nThis enumeration is used to standardize staging domain references throughout the application.",
                   "enum": [
                     "tnm",
                     "figo",
@@ -9360,6 +9516,7 @@
             "schema": {
               "allOf": [
                 {
+                  "description": "Enumeration of cancer staging domains used in oncology.\n\nEach member represents a specific staging system or classification used to describe the extent or severity of cancer.\nThe available staging domains include:\n\n- TNM: Tumor, Node, Metastasis staging system.\n- FIGO: International Federation of Gynecology and Obstetrics staging.\n- BINET: Binet staging for chronic lymphocytic leukemia.\n- RAI: Rai staging for chronic lymphocytic leukemia.\n- BRESLOW: Breslow thickness for melanoma.\n- CLARK: Clark level for melanoma.\n- ISS: International Staging System for multiple myeloma.\n- RISS: Revised International Staging System for multiple myeloma.\n- INSS: International Neuroblastoma Staging System.\n- INRGSS: International Neuroblastoma Risk Group Staging System.\n- GLEASON: Gleason grading for prostate cancer.\n- RHABDO: Staging for rhabdomyosarcoma.\n- WILMS: Staging for Wilms tumor.\n- LYMPHOMA: Staging for lymphoma.\n\nThis enumeration is used to standardize staging domain references throughout the application.",
                   "enum": [
                     "tnm",
                     "figo",
@@ -9392,6 +9549,7 @@
             "schema": {
               "description": "Staging domain - ('Filter for excluding a subset of value choices',)",
               "items": {
+                "description": "Enumeration of cancer staging domains used in oncology.\n\nEach member represents a specific staging system or classification used to describe the extent or severity of cancer.\nThe available staging domains include:\n\n- TNM: Tumor, Node, Metastasis staging system.\n- FIGO: International Federation of Gynecology and Obstetrics staging.\n- BINET: Binet staging for chronic lymphocytic leukemia.\n- RAI: Rai staging for chronic lymphocytic leukemia.\n- BRESLOW: Breslow thickness for melanoma.\n- CLARK: Clark level for melanoma.\n- ISS: International Staging System for multiple myeloma.\n- RISS: Revised International Staging System for multiple myeloma.\n- INSS: International Neuroblastoma Staging System.\n- INRGSS: International Neuroblastoma Risk Group Staging System.\n- GLEASON: Gleason grading for prostate cancer.\n- RHABDO: Staging for rhabdomyosarcoma.\n- WILMS: Staging for Wilms tumor.\n- LYMPHOMA: Staging for lymphoma.\n\nThis enumeration is used to standardize staging domain references throughout the application.",
                 "enum": [
                   "tnm",
                   "figo",
@@ -38896,6 +39054,7 @@
             "schema": {
               "allOf": [
                 {
+                  "description": "An enumeration of possible DNA change types for genomic variants.\n\nAttributes:\n    SUBSTITUTION: A single nucleotide is replaced by another.\n    DELETION_INSERTION: A combination of deletion and insertion at the same location.\n    INSERTION: Addition of one or more nucleotides into the DNA sequence.\n    DELETION: Removal of one or more nucleotides from the DNA sequence.\n    DUPLICATION: A segment of DNA is duplicated.\n    INVERSION: A segment of DNA is reversed end to end.\n    UNCHANGED: No change detected in the DNA sequence.\n    REPETITION: A sequence motif is repeated multiple times.\n    TRANSLOCATION: A segment of DNA is moved to a different location.\n    TRANSPOSITION: Movement of a DNA segment to a new position within the genome.\n    METHYLATION_GAIN: Gain of methylation at a specific DNA region.\n    METHYLATION_LOSS: Loss of methylation at a specific DNA region.\n    METHYLATION_UNCHANGED: No change in methylation status.",
                   "enum": [
                     "substitution",
                     "deletion-insertion",
@@ -38927,6 +39086,7 @@
             "schema": {
               "allOf": [
                 {
+                  "description": "An enumeration of possible DNA change types for genomic variants.\n\nAttributes:\n    SUBSTITUTION: A single nucleotide is replaced by another.\n    DELETION_INSERTION: A combination of deletion and insertion at the same location.\n    INSERTION: Addition of one or more nucleotides into the DNA sequence.\n    DELETION: Removal of one or more nucleotides from the DNA sequence.\n    DUPLICATION: A segment of DNA is duplicated.\n    INVERSION: A segment of DNA is reversed end to end.\n    UNCHANGED: No change detected in the DNA sequence.\n    REPETITION: A sequence motif is repeated multiple times.\n    TRANSLOCATION: A segment of DNA is moved to a different location.\n    TRANSPOSITION: Movement of a DNA segment to a new position within the genome.\n    METHYLATION_GAIN: Gain of methylation at a specific DNA region.\n    METHYLATION_LOSS: Loss of methylation at a specific DNA region.\n    METHYLATION_UNCHANGED: No change in methylation status.",
                   "enum": [
                     "substitution",
                     "deletion-insertion",
@@ -38958,6 +39118,7 @@
             "schema": {
               "description": "DNA change type - ('Filter for excluding a subset of value choices',)",
               "items": {
+                "description": "An enumeration of possible DNA change types for genomic variants.\n\nAttributes:\n    SUBSTITUTION: A single nucleotide is replaced by another.\n    DELETION_INSERTION: A combination of deletion and insertion at the same location.\n    INSERTION: Addition of one or more nucleotides into the DNA sequence.\n    DELETION: Removal of one or more nucleotides from the DNA sequence.\n    DUPLICATION: A segment of DNA is duplicated.\n    INVERSION: A segment of DNA is reversed end to end.\n    UNCHANGED: No change detected in the DNA sequence.\n    REPETITION: A sequence motif is repeated multiple times.\n    TRANSLOCATION: A segment of DNA is moved to a different location.\n    TRANSPOSITION: Movement of a DNA segment to a new position within the genome.\n    METHYLATION_GAIN: Gain of methylation at a specific DNA region.\n    METHYLATION_LOSS: Loss of methylation at a specific DNA region.\n    METHYLATION_UNCHANGED: No change in methylation status.",
                 "enum": [
                   "substitution",
                   "deletion-insertion",
@@ -39424,6 +39585,7 @@
             "schema": {
               "allOf": [
                 {
+                  "description": "An enumeration of possible RNA change types for genomic variants.\n\nAttributes:\n    SUBSTITUTION: Represents a substitution mutation in RNA.\n    DELETION_INSERTION: Represents a combined deletion and insertion mutation.\n    INSERTION: Represents an insertion mutation in RNA.\n    DELETION: Represents a deletion mutation in RNA.\n    DUPLICATION: Represents a duplication mutation in RNA.\n    INVERSION: Represents an inversion mutation in RNA.\n    UNCHANGED: Indicates no change in the RNA sequence.\n    REPETITION: Represents a repetition mutation in RNA.",
                   "enum": [
                     "substitution",
                     "deletion-insertion",
@@ -39450,6 +39612,7 @@
             "schema": {
               "allOf": [
                 {
+                  "description": "An enumeration of possible RNA change types for genomic variants.\n\nAttributes:\n    SUBSTITUTION: Represents a substitution mutation in RNA.\n    DELETION_INSERTION: Represents a combined deletion and insertion mutation.\n    INSERTION: Represents an insertion mutation in RNA.\n    DELETION: Represents a deletion mutation in RNA.\n    DUPLICATION: Represents a duplication mutation in RNA.\n    INVERSION: Represents an inversion mutation in RNA.\n    UNCHANGED: Indicates no change in the RNA sequence.\n    REPETITION: Represents a repetition mutation in RNA.",
                   "enum": [
                     "substitution",
                     "deletion-insertion",
@@ -39476,6 +39639,7 @@
             "schema": {
               "description": "RNA change type - ('Filter for excluding a subset of value choices',)",
               "items": {
+                "description": "An enumeration of possible RNA change types for genomic variants.\n\nAttributes:\n    SUBSTITUTION: Represents a substitution mutation in RNA.\n    DELETION_INSERTION: Represents a combined deletion and insertion mutation.\n    INSERTION: Represents an insertion mutation in RNA.\n    DELETION: Represents a deletion mutation in RNA.\n    DUPLICATION: Represents a duplication mutation in RNA.\n    INVERSION: Represents an inversion mutation in RNA.\n    UNCHANGED: Indicates no change in the RNA sequence.\n    REPETITION: Represents a repetition mutation in RNA.",
                 "enum": [
                   "substitution",
                   "deletion-insertion",
@@ -39799,6 +39963,7 @@
             "schema": {
               "allOf": [
                 {
+                  "description": "An enumeration of protein change types observed in genomic variants.\n\nAttributes:\n    MISSENSE: A single nucleotide change resulting in a different amino acid.\n    NONSENSE: A mutation introducing a premature stop codon.\n    DELETION_INSERTION: A complex event involving both deletion and insertion of nucleotides.\n    INSERTION: Addition of one or more nucleotides into the DNA sequence.\n    DELETION: Removal of one or more nucleotides from the DNA sequence.\n    DUPLICATION: Duplication of a segment of DNA.\n    FRAMESHIFT: A mutation that shifts the reading frame of the genetic code.\n    EXTENSION: Extension of the protein sequence beyond its normal length.\n    SILENT: A mutation that does not alter the amino acid sequence.\n    NO_PROTEIN: No protein product is produced due to the mutation.\n    UNKNOWN: The effect of the mutation on the protein is unknown.\n    REPETITION: Repetition of a segment within the protein sequence.",
                   "enum": [
                     "missense",
                     "nonsense",
@@ -39829,6 +39994,7 @@
             "schema": {
               "allOf": [
                 {
+                  "description": "An enumeration of protein change types observed in genomic variants.\n\nAttributes:\n    MISSENSE: A single nucleotide change resulting in a different amino acid.\n    NONSENSE: A mutation introducing a premature stop codon.\n    DELETION_INSERTION: A complex event involving both deletion and insertion of nucleotides.\n    INSERTION: Addition of one or more nucleotides into the DNA sequence.\n    DELETION: Removal of one or more nucleotides from the DNA sequence.\n    DUPLICATION: Duplication of a segment of DNA.\n    FRAMESHIFT: A mutation that shifts the reading frame of the genetic code.\n    EXTENSION: Extension of the protein sequence beyond its normal length.\n    SILENT: A mutation that does not alter the amino acid sequence.\n    NO_PROTEIN: No protein product is produced due to the mutation.\n    UNKNOWN: The effect of the mutation on the protein is unknown.\n    REPETITION: Repetition of a segment within the protein sequence.",
                   "enum": [
                     "missense",
                     "nonsense",
@@ -39859,6 +40025,7 @@
             "schema": {
               "description": "Protein change type - ('Filter for excluding a subset of value choices',)",
               "items": {
+                "description": "An enumeration of protein change types observed in genomic variants.\n\nAttributes:\n    MISSENSE: A single nucleotide change resulting in a different amino acid.\n    NONSENSE: A mutation introducing a premature stop codon.\n    DELETION_INSERTION: A complex event involving both deletion and insertion of nucleotides.\n    INSERTION: Addition of one or more nucleotides into the DNA sequence.\n    DELETION: Removal of one or more nucleotides from the DNA sequence.\n    DUPLICATION: Duplication of a segment of DNA.\n    FRAMESHIFT: A mutation that shifts the reading frame of the genetic code.\n    EXTENSION: Extension of the protein sequence beyond its normal length.\n    SILENT: A mutation that does not alter the amino acid sequence.\n    NO_PROTEIN: No protein product is produced due to the mutation.\n    UNKNOWN: The effect of the mutation on the protein is unknown.\n    REPETITION: Repetition of a segment within the protein sequence.",
                 "enum": [
                   "missense",
                   "nonsense",
@@ -43126,6 +43293,7 @@
             "schema": {
               "allOf": [
                 {
+                  "description": "Enumeration of genomic signature types used in oncology models.\n\nAttributes:\n    TUMOR_MUTATIONAL_BURDEN: Represents the tumor mutational burden signature.\n    LOSS_OF_HETEROZYGOSITY: Represents the loss of heterozygosity signature.\n    MICROSATELLITE_INSTABILITY: Represents the microsatellite instability signature.\n    HOMOLOGOUS_RECOMBINATION_DEFICIENCY: Represents the homologous recombination deficiency signature.\n    TUMOR_NEOANTIGEN_BURDEN: Represents the tumor neoantigen burden signature.\n    ANEUPLOID_SCORE: Represents the aneuploid score signature.",
                   "enum": [
                     "tumor_mutational_burden",
                     "loss_of_heterozygosity",
@@ -43150,6 +43318,7 @@
             "schema": {
               "allOf": [
                 {
+                  "description": "Enumeration of genomic signature types used in oncology models.\n\nAttributes:\n    TUMOR_MUTATIONAL_BURDEN: Represents the tumor mutational burden signature.\n    LOSS_OF_HETEROZYGOSITY: Represents the loss of heterozygosity signature.\n    MICROSATELLITE_INSTABILITY: Represents the microsatellite instability signature.\n    HOMOLOGOUS_RECOMBINATION_DEFICIENCY: Represents the homologous recombination deficiency signature.\n    TUMOR_NEOANTIGEN_BURDEN: Represents the tumor neoantigen burden signature.\n    ANEUPLOID_SCORE: Represents the aneuploid score signature.",
                   "enum": [
                     "tumor_mutational_burden",
                     "loss_of_heterozygosity",
@@ -43174,6 +43343,7 @@
             "schema": {
               "description": "Category - ('Filter for excluding a subset of value choices',)",
               "items": {
+                "description": "Enumeration of genomic signature types used in oncology models.\n\nAttributes:\n    TUMOR_MUTATIONAL_BURDEN: Represents the tumor mutational burden signature.\n    LOSS_OF_HETEROZYGOSITY: Represents the loss of heterozygosity signature.\n    MICROSATELLITE_INSTABILITY: Represents the microsatellite instability signature.\n    HOMOLOGOUS_RECOMBINATION_DEFICIENCY: Represents the homologous recombination deficiency signature.\n    TUMOR_NEOANTIGEN_BURDEN: Represents the tumor neoantigen burden signature.\n    ANEUPLOID_SCORE: Represents the aneuploid score signature.",
                 "enum": [
                   "tumor_mutational_burden",
                   "loss_of_heterozygosity",
@@ -50045,6 +50215,7 @@
             "in": "path",
             "name": "panel",
             "schema": {
+              "description": "An enumeration of comorbidity panel types used in oncology models.\n\nAttributes:\n    CHARLSON: Represents the Charlson comorbidity index panel.\n    ELIXHAUSER: Represents the Elixhauser comorbidity index panel.\n    NCI: Represents the National Cancer Institute (NCI) comorbidity index panel.",
               "enum": [
                 "Charlson",
                 "Elixhauser",
@@ -50053,7 +50224,8 @@
               "title": "ComorbiditiesPanel",
               "type": "string"
             },
-            "required": true
+            "required": true,
+            "description": "An enumeration of comorbidity panel types used in oncology models.\n\nAttributes:\n    CHARLSON: Represents the Charlson comorbidity index panel.\n    ELIXHAUSER: Represents the Elixhauser comorbidity index panel.\n    NCI: Represents the National Cancer Institute (NCI) comorbidity index panel."
           }
         ],
         "responses": {
@@ -52166,6 +52338,7 @@
             "description": "Not Found"
           }
         },
+        "description": "Retrieves the available units for a specified measure.",
         "tags": [
           "Measures"
         ],
@@ -52207,6 +52380,7 @@
             "description": "Not Found"
           }
         },
+        "description": "Retrieves the default unit for a specified measure.",
         "tags": [
           "Measures"
         ],
@@ -52247,6 +52421,7 @@
             "description": "Not Found"
           }
         },
+        "description": "Converts a measurement from one unit to another using the specified measure class.",
         "tags": [
           "Measures"
         ],
@@ -52361,6 +52536,7 @@
             "description": "Internal Server Error"
           }
         },
+        "description": "Retrieves terminology concepts from the specified terminology, applying optional filters and search criteria.",
         "tags": [
           "Terminology"
         ],
@@ -54977,6 +55153,7 @@
             "description": "Internal Server Error"
           }
         },
+        "description": "Retrieves comprehensive statistics for the full cohort, including counts of cases, primary sites,\nentries, mutations, clinical centers, contributors, cohorts, and projects.",
         "tags": [
           "Dashboard"
         ],
@@ -55017,6 +55194,7 @@
             "description": "Internal Server Error"
           }
         },
+        "description": "Retrieves statistical data for primary neoplastic entities grouped by topography.\n\nThis method performs the following steps:\n\n1. Selects distinct topography groups from primary neoplastic entities.\n2. For each topography group, identifies the cohort of patient cases associated with primary neoplastic entities matching the group's code.\n3. Calculates the population size and the median data completion rate for each cohort.\n4. Constructs a list of EntityStatistics objects containing the computed statistics and topography information.\n5. Sorts the statistics by population size in descending order.",
         "tags": [
           "Dashboard"
         ],
@@ -55057,6 +55235,7 @@
             "description": "Internal Server Error"
           }
         },
+        "description": "Retrieves the cumulative count of patient cases over time, grouped by month.",
         "tags": [
           "Dashboard"
         ],
@@ -55093,6 +55272,7 @@
             "description": "Internal Server Error"
           }
         },
+        "description": "Computes and returns statistics on data completion for patient cases.\n\n- If there are no patient cases, returns zeroed statistics.\n- Uses Django ORM aggregation and annotation for efficient computation.\n- Identifies most incomplete categories and the most affected sites for each.\n- Tracks completion progress over time using monthly aggregation.",
         "tags": [
           "Dashboard"
         ],
@@ -57349,6 +57529,7 @@
   "components": {
     "schemas": {
       "HealthCheck": {
+        "description": "Schema representing the health status of the server and its components.\n\nAttributes:\n    server (Literal[\"ok\"]): Indicates whether the server is online.\n    database (Union[Literal[\"ok\"], Literal[\"error\"]]): Indicates the status of the database connection.\n    database_connection_time_ms (Optional[float]): Time taken to connect to the database in milliseconds.\n    migrations (Union[Literal[\"ok\"], Literal[\"pending\"], Literal[\"error\"]]): Status of database migrations.",
         "properties": {
           "server": {
             "const": "ok",
@@ -57410,17 +57591,21 @@
         "type": "object"
       },
       "AuthenticationMeta": {
+        "description": "Schema representing authentication metadata.\n\nAttributes:\n    sessionToken (Optional[str]): The session token associated with the authentication, if available.\n    accessToken (Optional[str]): The access token for the authenticated session, if available.\n    isAuthenticated (bool): Indicates whether the user is authenticated.",
         "properties": {
           "sessionToken": {
-            "title": "Sessiontoken",
+            "description": "The session token associated with the authentication, if available.",
+            "title": "Session Token",
             "type": "string"
           },
           "accessToken": {
-            "title": "Accesstoken",
+            "description": "The access token for the authenticated session, if available.",
+            "title": "Access Token",
             "type": "string"
           },
           "isAuthenticated": {
-            "title": "Isauthenticated",
+            "description": "Indicates whether the user is authenticated.",
+            "title": "Is Authenticated",
             "type": "boolean"
           }
         },
@@ -57431,12 +57616,15 @@
         "type": "object"
       },
       "UserCredentials": {
+        "description": "Schema representing user credentials required for authentication.\n\nAttributes:\n    username (str): The username of the user.\n    password (str): The password associated with the username.",
         "properties": {
           "username": {
+            "description": "The username of the user.",
             "title": "Username",
             "type": "string"
           },
           "password": {
+            "description": "The password associated with the username.",
             "title": "Password",
             "type": "string"
           }
@@ -57449,16 +57637,20 @@
         "type": "object"
       },
       "UserProviderClientToken": {
+        "description": "Schema representing a user's authentication tokens provided by a client.\n\nAttributes:\n    client_id (str): The unique identifier for the client application.\n    id_token (Optional[str]): The ID token issued by the authentication provider, if available.\n    access_token (Optional[str]): The access token issued by the authentication provider, if available.",
         "properties": {
           "client_id": {
-            "title": "Client Id",
+            "description": "The unique identifier for the client application.",
+            "title": "Client ID",
             "type": "string"
           },
           "id_token": {
-            "title": "Id Token",
+            "description": "The ID token issued by the authentication provider, if available.",
+            "title": "ID Token",
             "type": "string"
           },
           "access_token": {
+            "description": "The access token issued by the authentication provider, if available.",
             "title": "Access Token",
             "type": "string"
           }
@@ -57470,8 +57662,10 @@
         "type": "object"
       },
       "UserProviderToken": {
+        "description": "Schema representing a user's provider token information.\n\nAttributes:\n    provider (str): The name of the authentication provider (e.g., 'google', 'facebook').\n    process (Literal[\"login\"] | Literal[\"connect\"]): The process type, either 'login' or 'connect'.\n    token (UserProviderClientToken): The token object containing provider-specific authentication details.",
         "properties": {
           "provider": {
+            "description": "The name of the authentication provider (e.g., 'google', 'facebook').",
             "title": "Provider",
             "type": "string"
           },
@@ -57486,10 +57680,13 @@
                 "type": "string"
               }
             ],
-            "title": "Process"
+            "description": "The process type, either 'login' or 'connect'.",
+            "title": "Process Type"
           },
           "token": {
-            "$ref": "#/components/schemas/UserProviderClientToken"
+            "$ref": "#/components/schemas/UserProviderClientToken",
+            "description": "The token object containing provider-specific authentication details.",
+            "title": "Provider Token"
           }
         },
         "required": [
@@ -57501,6 +57698,7 @@
         "type": "object"
       },
       "AccessRoles": {
+        "description": "Enumeration of access roles within the system.\n\nAttributes:\n    EXTERNAL: Represents an external user with limited access.\n    MEMBER: Represents a standard member with regular access.\n    PROJECT_MANAGER: Represents a user with project management privileges.\n    PLATFORM_MANAGER: Represents a user with platform management privileges.\n    SYSTEM_ADMIN: Represents a system administrator with full access.",
         "enum": [
           "External",
           "Member",
@@ -57572,6 +57770,7 @@
           "role": {
             "allOf": [
               {
+                "description": "Enumeration of access roles within the system.\n\nAttributes:\n    EXTERNAL: Represents an external user with limited access.\n    MEMBER: Represents a standard member with regular access.\n    PROJECT_MANAGER: Represents a user with project management privileges.\n    PLATFORM_MANAGER: Represents a user with platform management privileges.\n    SYSTEM_ADMIN: Represents a system administrator with full access.",
                 "enum": [
                   "External",
                   "Member",
@@ -57589,6 +57788,7 @@
           "role.not": {
             "allOf": [
               {
+                "description": "Enumeration of access roles within the system.\n\nAttributes:\n    EXTERNAL: Represents an external user with limited access.\n    MEMBER: Represents a standard member with regular access.\n    PROJECT_MANAGER: Represents a user with project management privileges.\n    PLATFORM_MANAGER: Represents a user with platform management privileges.\n    SYSTEM_ADMIN: Represents a system administrator with full access.",
                 "enum": [
                   "External",
                   "Member",
@@ -57606,6 +57806,7 @@
           "role.anyOf": {
             "description": "Role - ('Filter for excluding a subset of value choices',)",
             "items": {
+              "description": "Enumeration of access roles within the system.\n\nAttributes:\n    EXTERNAL: Represents an external user with limited access.\n    MEMBER: Represents a standard member with regular access.\n    PROJECT_MANAGER: Represents a user with project management privileges.\n    PLATFORM_MANAGER: Represents a user with platform management privileges.\n    SYSTEM_ADMIN: Represents a system administrator with full access.",
               "enum": [
                 "External",
                 "Member",
@@ -58135,6 +58336,72 @@
             "title": "not.anyOf",
             "type": "array"
           },
+          "externalSource.not.exists": {
+            "description": "External source - Filter for entries without a value",
+            "title": "not.exists",
+            "type": "boolean"
+          },
+          "externalSource.exists": {
+            "description": "External source - Filter for entries with a value",
+            "title": "exists",
+            "type": "boolean"
+          },
+          "externalSource": {
+            "description": "External source - Filter for full text matches",
+            "title": "ExactStringFilter",
+            "type": "string"
+          },
+          "externalSource.not": {
+            "description": "External source - Filter for full text mismatches",
+            "title": "not",
+            "type": "string"
+          },
+          "externalSource.contains": {
+            "description": "External source - Filter for partial text matches",
+            "title": "contains",
+            "type": "string"
+          },
+          "externalSource.not.contains": {
+            "description": "External source - Filter for partial text mismatches",
+            "title": "not.contains",
+            "type": "string"
+          },
+          "externalSource.beginsWith": {
+            "description": "External source - Filter for entries starting with the text",
+            "title": "beginsWith",
+            "type": "string"
+          },
+          "externalSource.not.beginsWith": {
+            "description": "External source - Filter for entries not starting with the text",
+            "title": "not.beginsWith",
+            "type": "string"
+          },
+          "externalSource.endsWith": {
+            "description": "External source - Filter for entries ending with the text",
+            "title": "endsWith",
+            "type": "string"
+          },
+          "externalSource.not.endsWith": {
+            "description": "External source - Filter for entries not ending with the text",
+            "title": "not.endsWith",
+            "type": "string"
+          },
+          "externalSource.anyOf": {
+            "description": "External source - Filter for entries where at least one reference matches the query",
+            "items": {
+              "type": "string"
+            },
+            "title": "anyOf",
+            "type": "array"
+          },
+          "externalSource.not.anyOf": {
+            "description": "External source - Filter for entries where at least one reference mismatches the query",
+            "items": {
+              "type": "string"
+            },
+            "title": "not.anyOf",
+            "type": "array"
+          },
           "isServiceAccount": {
             "description": "Is service account? - Filter for yes/no statement",
             "title": "EqualsBooleanFilter",
@@ -58453,7 +58720,7 @@
         "title": "Input",
         "type": "object"
       },
-      "Paginated_User_": {
+      "Paginated_User2_": {
         "properties": {
           "count": {
             "title": "Count",
@@ -58461,7 +58728,7 @@
           },
           "items": {
             "items": {
-              "$ref": "#/components/schemas/User"
+              "$ref": "#/components/schemas/User2"
             },
             "title": "Items",
             "type": "array"
@@ -58471,11 +58738,11 @@
           "count",
           "items"
         ],
-        "title": "Paginated[User]",
+        "title": "Paginated[User2]",
         "type": "object"
       },
-      "User": {
-        "description": "Detailed schema for User data retrieval.",
+      "User2": {
+        "description": "Schema for representing a user and their permissions within the system.\n\nAttributes:\n    role (orm.User.AccessRoles): The user's assigned access role.\n    canViewCases (bool): Permission to view cases.\n    canViewProjects (bool): Permission to view projects.\n    canViewCohorts (bool): Permission to view cohorts.\n    canViewUsers (bool): Permission to view other user accounts.\n    canViewDatasets (bool): Permission to view available datasets.\n    canManageCases (bool): Permission to manage cases.\n    canExportData (bool): Permission to export data out of the system.\n    canManageProjects (bool): Permission to manage projects.\n    canManageUsers (bool): Permission to create and manage users.\n    isSystemAdmin (bool): Whether the user is a system administrator.\n    isProvided (bool): Indicates whether the user account is externally provided.\n    provider (Optional[str]): The external authentication provider, if applicable.\n\nConfig:\n    Associated to the `onconova.core.models.User` ORM model to autogenerate fields for this schema.",
         "properties": {
           "fullName": {
             "description": "The user's full name.",
@@ -58596,6 +58863,20 @@
             "type": "string",
             "x-expanded": false
           },
+          "externalSource": {
+            "description": "Name of the source from which the user originated, if imported",
+            "maxLength": 500,
+            "title": "External source",
+            "type": "string",
+            "x-expanded": false
+          },
+          "externalSourceId": {
+            "description": "Unique identifier within the source from which the user originated, if imported",
+            "maxLength": 500,
+            "title": "External source ID",
+            "type": "string",
+            "x-expanded": false
+          },
           "isServiceAccount": {
             "default": false,
             "description": "Whether the user is a technical service account",
@@ -58655,11 +58936,11 @@
           "username",
           "id"
         ],
-        "title": "User",
+        "title": "User2",
         "type": "object"
       },
       "ModifiedResource": {
-        "description": "Represents a resource that was modified in the system.",
+        "description": "Represents a resource that was modified in the system.\n\nAttributes:\n    id (UUID): Unique identifier (UUID4) of the modified resource.\n    description (Optional[str]): A human-readable description of the modified resource.",
         "properties": {
           "id": {
             "description": "Unique identifier (UUID4) of the modified resource.",
@@ -58680,7 +58961,7 @@
         "type": "object"
       },
       "UserCreate": {
-        "description": "Schema for creating a new user.",
+        "description": "Schema for creating a new User instance.\n\nConfig:\n    Associated to the `onconova.core.models.User` ORM model to autogenerate fields for this schema.",
         "properties": {
           "lastLogin": {
             "description": "",
@@ -58722,6 +59003,20 @@
             "description": "Designates whether this user should be treated as active. Unselect this instead of deleting accounts.",
             "title": "Active",
             "type": "boolean",
+            "x-expanded": false
+          },
+          "externalSource": {
+            "description": "Name of the source from which the user originated, if imported",
+            "maxLength": 500,
+            "title": "External source",
+            "type": "string",
+            "x-expanded": false
+          },
+          "externalSourceId": {
+            "description": "Unique identifier within the source from which the user originated, if imported",
+            "maxLength": 500,
+            "title": "External source ID",
+            "type": "string",
             "x-expanded": false
           },
           "isServiceAccount": {
@@ -58773,7 +59068,7 @@
         "type": "object"
       },
       "UserProfileSchema": {
-        "description": "Schema for user profile data.",
+        "description": "Schema representing a user's profile information.\n\nAttributes:\n    firstName (Optional[str]): The user's given name. Accepts either 'firstName' or 'first_name' as input.\n    lastName (Optional[str]): The user's surname. Accepts either 'lastName' or 'last_name' as input.\n    organization (Optional[str]): The user's affiliated organization.\n    department (Optional[str]): The user's department within the organization.\n    title (Optional[str]): The user's job title or position.\n    email (str): The user's primary email address.",
         "properties": {
           "firstName": {
             "description": "The user's given name.",
@@ -58815,7 +59110,7 @@
         "type": "object"
       },
       "UserPasswordReset": {
-        "description": "Schema for user password reset payload.",
+        "description": "Schema for user password reset operation.\n\nAttributes:\n    oldPassword (str): The user's current password.\n    newPassword (str): The user's new password to be set.",
         "properties": {
           "oldPassword": {
             "description": "The user's current password.",
@@ -58855,7 +59150,7 @@
         "type": "object"
       },
       "HistoryEvent": {
-        "description": "Represents an audit/history event capturing changes in the system.",
+        "description": "Schema representing a history event within the system.\n\nAttributes:\n    id (Any): The unique identifier of the history event.\n    resourceId (Any): The unique identifier of the tracked resource.\n    category (HistoryEventCategory): The type of history event.\n    timestamp (datetime): Timestamp of the history event.\n    user (Nullable[str]): Username of the user that triggered the event, if applicable.\n    url (Nullable[str]): Endpoint URL through which the event was triggered, if applicable.\n    resource (Nullable[str]): Resource involved in the event, if applicable.\n    snapshot (Dict): Data snapshot at the time of the event.\n    differential (Nullable[Dict]): Data changes introduced by the event, if applicable.\n    context (Nullable[Dict]): Context surrounding the event.",
         "properties": {
           "id": {
             "description": "The unique identifier of the history event",
@@ -58923,7 +59218,7 @@
         "type": "object"
       },
       "HistoryEventCategory": {
-        "description": "Enumeration of possible history event categories.",
+        "description": "Enumeration of possible categories for history events.\n\nAttributes:\n    CREATE: Represents the creation of an entity.\n    UPDATE: Represents the update of an entity.\n    DELETE: Represents the deletion of an entity.\n    EXPORT: Represents the export of data.\n    IMPORT: Represents the import of data.\n    DOWNLOAD: Represents the download of data.",
         "enum": [
           "create",
           "update",
@@ -59593,7 +59888,7 @@
         "type": "object"
       },
       "Project": {
-        "description": "Schema for retrieving a research project record.",
+        "description": "This schema is used to serialize and deserialize data related to research projects.\nIt binds the `onconova.research.models.Project` ORM model to automatically generate fields.",
         "properties": {
           "id": {
             "description": "Unique identifier of the resource (UUID v4).",
@@ -59721,7 +60016,7 @@
         "type": "object"
       },
       "ProjectCreate": {
-        "description": "Schema for creating a new research project record.",
+        "description": "Schema for creating a new Project instance.\nIt binds the `onconova.research.models.Project` ORM model to automatically generate fields.",
         "properties": {
           "externalSource": {
             "description": "The digital source of the data, relevant for automated data",
@@ -59810,6 +60105,7 @@
         "type": "object"
       },
       "HistoryEventWithSchema": {
+        "description": "HistoryEventWithSchema provides static methods to resolve snapshot and differential data from history event objects.",
         "properties": {
           "id": {
             "description": "The unique identifier of the history event",
@@ -59919,7 +60215,7 @@
         "type": "object"
       },
       "Period": {
-        "description": "Represents a time period between two dates.",
+        "description": "Schema representing a time period with optional start and end dates.\n\nAttributes:\n    start (Nullable[date]): The start date of the period. Can be None.\n    end (Nullable[date]): The end date of the period. Can be None.",
         "properties": {
           "start": {
             "description": "The start date of the period.",
@@ -59938,7 +60234,7 @@
         "type": "object"
       },
       "ProjectDataManagerGrant": {
-        "description": "Schema for retrieving a project data manager grant record.\nIncludes additional computed properties.",
+        "description": "Schema for retrieving a project data manager grant record.\nIt binds the `onconova.research.models.ProjectDataManagerGrant` ORM model to automatically generate fields.",
         "properties": {
           "isValid": {
             "description": "Whether the authorization grant is valid today",
@@ -60033,7 +60329,7 @@
         "type": "object"
       },
       "ProjectDataManagerGrantCreate": {
-        "description": "Schema for creating a new project data manager grant record.\nExcludes project and member fields, as those are usually set by the system.",
+        "description": "Schema for creating a new project data manager grant record.\nIt binds the `onconova.research.models.ProjectDataManagerGrant` ORM model to automatically generate fields.",
         "properties": {
           "externalSource": {
             "description": "The digital source of the data, relevant for automated data",
@@ -60439,7 +60735,7 @@
         "type": "string"
       },
       "AgeBin": {
-        "description": "Enumeration representing age bins as string values.\n\nEach member corresponds to a specific age range, with the following options:\n- SUB_20: \"<20\"         (under 20 years old)\n- AGE_20_24: \"20-24\"    (20 to 24 years old)\n- AGE_25_29: \"25-29\"    (25 to 29 years old)\n- AGE_30_34: \"30-34\"    (30 to 34 years old)\n- AGE_35_39: \"35-39\"    (35 to 39 years old)\n- AGE_40_44: \"40-44\"    (40 to 44 years old)\n- AGE_45_49: \"45-49\"    (45 to 49 years old)\n- AGE_50_54: \"50-56\"    (50 to 54 years old)\n- AGE_55_59: \"55-59\"    (55 to 59 years old)\n- AGE_60_64: \"60-64\"    (60 to 64 years old)\n- AGE_65_69: \"65-69\"    (65 to 69 years old)\n- AGE_70_74: \"70-74\"    (70 to 74 years old)\n- AGE_75_79: \"75-79\"    (75 to 79 years old)\n- AGE_80_84: \"80-84\"    (80 to 84 years old)\n- AGE_85_89: \"85-89\"    (85 to 89 years old)\n- OVER_90: \"90+\"        (90 years old and above)\n\nThe string value of each member is returned when the member is converted to a string.",
+        "description": "Enumeration representing age bins as string values.\n\nEach member corresponds to a specific age range, with the following options:\n\n- SUB_20: \"<20\"         (under 20 years old)\n- AGE_20_24: \"20-24\"    (20 to 24 years old)\n- AGE_25_29: \"25-29\"    (25 to 29 years old)\n- AGE_30_34: \"30-34\"    (30 to 34 years old)\n- AGE_35_39: \"35-39\"    (35 to 39 years old)\n- AGE_40_44: \"40-44\"    (40 to 44 years old)\n- AGE_45_49: \"45-49\"    (45 to 49 years old)\n- AGE_50_54: \"50-56\"    (50 to 54 years old)\n- AGE_55_59: \"55-59\"    (55 to 59 years old)\n- AGE_60_64: \"60-64\"    (60 to 64 years old)\n- AGE_65_69: \"65-69\"    (65 to 69 years old)\n- AGE_70_74: \"70-74\"    (70 to 74 years old)\n- AGE_75_79: \"75-79\"    (75 to 79 years old)\n- AGE_80_84: \"80-84\"    (80 to 84 years old)\n- AGE_85_89: \"85-89\"    (85 to 89 years old)\n- OVER_90: \"90+\"        (90 years old and above)\n\nThe string value of each member is returned when the member is converted to a string.",
         "enum": [
           "<20",
           "20-24",
@@ -60889,7 +61185,7 @@
         "type": "object"
       },
       "CodedConcept": {
-        "description": "Represents a concept coded in a controlled terminology system.",
+        "description": "Represents a concept coded in a controlled terminology system.\n\nAttributes:\n    code (str): Unique code within a coding system that identifies a concept.\n    system (str): Canonical URL of the code system defining the concept.\n    display (Optional[str]): Human-readable description of the concept.\n    version (Optional[str]): Release version of the code system, if applicable.\n    synonyms (Optional[List[str]]): List of synonyms or alternative representations of the concept.\n    properties (Optional[Dict[str, Any]]): Additional properties associated with the concept.",
         "properties": {
           "code": {
             "description": "Unique code within a coding system that identifies a concept.",
@@ -61075,6 +61371,7 @@
         "type": "string"
       },
       "DNAChangeType": {
+        "description": "An enumeration of possible DNA change types for genomic variants.\n\nAttributes:\n    SUBSTITUTION: A single nucleotide is replaced by another.\n    DELETION_INSERTION: A combination of deletion and insertion at the same location.\n    INSERTION: Addition of one or more nucleotides into the DNA sequence.\n    DELETION: Removal of one or more nucleotides from the DNA sequence.\n    DUPLICATION: A segment of DNA is duplicated.\n    INVERSION: A segment of DNA is reversed end to end.\n    UNCHANGED: No change detected in the DNA sequence.\n    REPETITION: A sequence motif is repeated multiple times.\n    TRANSLOCATION: A segment of DNA is moved to a different location.\n    TRANSPOSITION: Movement of a DNA segment to a new position within the genome.\n    METHYLATION_GAIN: Gain of methylation at a specific DNA region.\n    METHYLATION_LOSS: Loss of methylation at a specific DNA region.\n    METHYLATION_UNCHANGED: No change in methylation status.",
         "enum": [
           "substitution",
           "deletion-insertion",
@@ -63182,7 +63479,7 @@
         "type": "string"
       },
       "PatientCaseBundle": {
-        "description": "The order of the properties matters for the import tool (based on references tree)",
+        "description": "PatientCaseBundle aggregates all relevant patient case data for interoperability and import/export operations.\n\nThis schema extends PatientCaseSchema and organizes multiple related entities, such as neoplastic entities, stagings, tumor markers, risk assessments, therapies, surgeries, adverse events, treatment responses, performance status, comorbidities, genomic variants, genomic signatures, vitals, lifestyles, family history, tumor boards, completed data categories, and history events.\n\nThe order of properties is significant for import tools that rely on reference trees.\n\nAttributes:\n    neoplasticEntities (List[NeoplasticEntitySchema]): List of neoplastic entities associated with the patient case.\n    stagings (List[Union[...]]): List of staging schemas (e.g., TNM, FIGO, Binet, etc.).\n    tumorMarkers (List[TumorMarkerSchema]): List of tumor marker schemas.\n    riskAssessments (List[RiskAssessmentSchema]): List of risk assessment schemas.\n    therapyLines (List[TherapyLineSchema]): List of therapy line schemas.\n    systemicTherapies (List[SystemicTherapySchema]): List of systemic therapy schemas.\n    surgeries (List[SurgerySchema]): List of surgery schemas.\n    radiotherapies (List[RadiotherapySchema]): List of radiotherapy schemas.\n    adverseEvents (List[AdverseEventSchema]): List of adverse event schemas.\n    treatmentResponses (List[TreatmentResponseSchema]): List of treatment response schemas.\n    performanceStatus (List[PerformanceStatusSchema]): List of performance status schemas.\n    comorbidities (List[ComorbiditiesAssessmentSchema]): List of comorbidities assessment schemas.\n    genomicVariants (List[GenomicVariantSchema]): List of genomic variant schemas.\n    genomicSignatures (List[Union[...]]): List of genomic signature schemas (e.g., TMB, MSI, LOH, etc.).\n    vitals (List[VitalsSchema]): List of vitals schemas.\n    lifestyles (List[LifestyleSchema]): List of lifestyle schemas.\n    familyHistory (List[FamilyHistorySchema]): List of family history schemas.\n    tumorBoards (List[Union[UnspecifiedTumorBoardSchema, MolecularTumorBoardSchema]]): List of tumor board schemas.\n    completedDataCategories (Dict[PatientCaseDataCategories, PatientCaseDataCompletionStatusSchema]): Mapping of data categories to their completion status.\n    history (List[HistoryEvent]): List of history events related to the patient case.\n\nMethods:\n    resolve_stagings(obj): Resolves and serializes staging data for the patient case.\n    resolve_genomicSignatures(obj): Resolves and serializes genomic signature data.\n    resolve_tumorBoards(obj): Resolves and serializes tumor board data.\n    resolve_completedDataCategories(obj): Resolves completion status for each data category.\n    resolve_history(obj): Resolves and retrieves history events for the patient case.\n\nConfig:\n    model_config: Serialization configuration (serialize_by_alias=False).",
         "properties": {
           "anonymized": {
             "default": false,
@@ -63635,6 +63932,14 @@
             },
             "title": "History",
             "type": "array"
+          },
+          "contributorsDetails": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/User"
+            },
+            "title": "Contributorsdetails",
+            "type": "array"
           }
         },
         "required": [
@@ -63663,6 +63968,7 @@
         "type": "string"
       },
       "PatientCaseDataCategories": {
+        "description": "Enumeration of data categories associated with a patient case in oncology.\n\nAttributes:\n    COMORBIDITIES_ASSESSMENTS: Category for comorbidities assessments.\n    FAMILY_HISTORIES: Category for family medical histories.\n    GENOMIC_SIGNATURES: Category for genomic signatures.\n    GENOMIC_VARIANTS: Category for genomic variants.\n    LIFESTYLES: Category for patient lifestyles.\n    COMORBIDITIES: Category for comorbidities.\n    NEOPLASTIC_ENTITIES: Category for neoplastic entities.\n    PERFORMANCE_STATUS: Category for performance status.\n    RADIOTHERAPIES: Category for radiotherapy treatments.\n    RISK_ASSESSMENTS: Category for risk assessments.\n    STAGINS: Category for cancer stagings.\n    SURGERIES: Category for surgical procedures.\n    SYSTEMIC_THERAPIES: Category for systemic therapies.\n    TUMOR_MARKERS: Category for tumor marker data.\n    VITALS: Category for vital signs.\n    TUMOR_BOARD_REVIEWS: Category for tumor board reviews.\n    ADVERSE_EVENTS: Category for adverse events.\n    THERAPY_RESPONSES: Category for therapy responses.",
         "enum": [
           "comorbidities-assessments",
           "family-histories",
@@ -63834,6 +64140,7 @@
         "type": "object"
       },
       "ProteinChangeType": {
+        "description": "An enumeration of protein change types observed in genomic variants.\n\nAttributes:\n    MISSENSE: A single nucleotide change resulting in a different amino acid.\n    NONSENSE: A mutation introducing a premature stop codon.\n    DELETION_INSERTION: A complex event involving both deletion and insertion of nucleotides.\n    INSERTION: Addition of one or more nucleotides into the DNA sequence.\n    DELETION: Removal of one or more nucleotides from the DNA sequence.\n    DUPLICATION: Duplication of a segment of DNA.\n    FRAMESHIFT: A mutation that shifts the reading frame of the genetic code.\n    EXTENSION: Extension of the protein sequence beyond its normal length.\n    SILENT: A mutation that does not alter the amino acid sequence.\n    NO_PROTEIN: No protein product is produced due to the mutation.\n    UNKNOWN: The effect of the mutation on the protein is unknown.\n    REPETITION: Repetition of a segment within the protein sequence.",
         "enum": [
           "missense",
           "nonsense",
@@ -63958,6 +64265,7 @@
         "type": "object"
       },
       "RNAChangeType": {
+        "description": "An enumeration of possible RNA change types for genomic variants.\n\nAttributes:\n    SUBSTITUTION: Represents a substitution mutation in RNA.\n    DELETION_INSERTION: Represents a combined deletion and insertion mutation.\n    INSERTION: Represents an insertion mutation in RNA.\n    DELETION: Represents a deletion mutation in RNA.\n    DUPLICATION: Represents a duplication mutation in RNA.\n    INVERSION: Represents an inversion mutation in RNA.\n    UNCHANGED: Indicates no change in the RNA sequence.\n    REPETITION: Represents a repetition mutation in RNA.",
         "enum": [
           "substitution",
           "deletion-insertion",
@@ -64427,7 +64735,7 @@
         "type": "object"
       },
       "Range": {
-        "description": "Represents a numeric or comparable range between two values.",
+        "description": "Range schema for representing a numeric interval with optional bounds.\n\nAttributes:\n    start (Nullable[int | float]): The lower bound of the range.\n    end (Nullable[int | float]): The upper bound of the range. If not provided, the range is considered unbounded.",
         "properties": {
           "start": {
             "anyOf": [
@@ -66256,6 +66564,78 @@
         "title": "UnspecifiedTumorBoard",
         "type": "object"
       },
+      "User": {
+        "description": "User information to be exported for acreditation purposes",
+        "properties": {
+          "anonymized": {
+            "default": true,
+            "title": "Anonymzied",
+            "type": "boolean"
+          },
+          "id": {
+            "description": "",
+            "format": "uuid",
+            "title": "Id",
+            "type": "string",
+            "x-expanded": false
+          },
+          "externalSource": {
+            "description": "Name of the source from which the user originated, if imported",
+            "maxLength": 500,
+            "title": "External source",
+            "type": "string",
+            "x-expanded": false
+          },
+          "externalSourceId": {
+            "description": "Unique identifier within the source from which the user originated, if imported",
+            "maxLength": 500,
+            "title": "External source ID",
+            "type": "string",
+            "x-expanded": false
+          },
+          "username": {
+            "description": "Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.",
+            "maxLength": 150,
+            "title": "Username",
+            "type": "string",
+            "x-expanded": false
+          },
+          "firstName": {
+            "description": "",
+            "maxLength": 150,
+            "title": "First Name",
+            "type": "string",
+            "x-expanded": false
+          },
+          "lastName": {
+            "description": "",
+            "maxLength": 150,
+            "title": "Last Name",
+            "type": "string",
+            "x-expanded": false
+          },
+          "email": {
+            "description": "",
+            "maxLength": 254,
+            "title": "Email Address",
+            "type": "string",
+            "x-expanded": false
+          },
+          "organization": {
+            "description": "Organization to which the user belongs to",
+            "maxLength": 100,
+            "title": "Organization",
+            "type": "string",
+            "x-expanded": false
+          }
+        },
+        "required": [
+          "id",
+          "username"
+        ],
+        "title": "User",
+        "type": "object"
+      },
       "Vitals": {
         "properties": {
           "anonymized": {
@@ -66514,6 +66894,7 @@
         "type": "object"
       },
       "ConflictResolution": {
+        "description": "Enum representing strategies for resolving conflicts during interoperability operations.\n\nAttributes:\n    OVERWRITE: Overwrite existing data with new data.\n    REASSIGN: Reassign ownership or association to resolve the conflict.",
         "enum": [
           "overwrite",
           "reassign"
@@ -68800,6 +69181,7 @@
         "type": "object"
       },
       "StagingDomain": {
+        "description": "Enumeration of cancer staging domains used in oncology.\n\nEach member represents a specific staging system or classification used to describe the extent or severity of cancer.\nThe available staging domains include:\n\n- TNM: Tumor, Node, Metastasis staging system.\n- FIGO: International Federation of Gynecology and Obstetrics staging.\n- BINET: Binet staging for chronic lymphocytic leukemia.\n- RAI: Rai staging for chronic lymphocytic leukemia.\n- BRESLOW: Breslow thickness for melanoma.\n- CLARK: Clark level for melanoma.\n- ISS: International Staging System for multiple myeloma.\n- RISS: Revised International Staging System for multiple myeloma.\n- INSS: International Neuroblastoma Staging System.\n- INRGSS: International Neuroblastoma Risk Group Staging System.\n- GLEASON: Gleason grading for prostate cancer.\n- RHABDO: Staging for rhabdomyosarcoma.\n- WILMS: Staging for Wilms tumor.\n- LYMPHOMA: Staging for lymphoma.\n\nThis enumeration is used to standardize staging domain references throughout the application.",
         "enum": [
           "tnm",
           "figo",
@@ -68824,6 +69206,7 @@
           "stagingDomain": {
             "allOf": [
               {
+                "description": "Enumeration of cancer staging domains used in oncology.\n\nEach member represents a specific staging system or classification used to describe the extent or severity of cancer.\nThe available staging domains include:\n\n- TNM: Tumor, Node, Metastasis staging system.\n- FIGO: International Federation of Gynecology and Obstetrics staging.\n- BINET: Binet staging for chronic lymphocytic leukemia.\n- RAI: Rai staging for chronic lymphocytic leukemia.\n- BRESLOW: Breslow thickness for melanoma.\n- CLARK: Clark level for melanoma.\n- ISS: International Staging System for multiple myeloma.\n- RISS: Revised International Staging System for multiple myeloma.\n- INSS: International Neuroblastoma Staging System.\n- INRGSS: International Neuroblastoma Risk Group Staging System.\n- GLEASON: Gleason grading for prostate cancer.\n- RHABDO: Staging for rhabdomyosarcoma.\n- WILMS: Staging for Wilms tumor.\n- LYMPHOMA: Staging for lymphoma.\n\nThis enumeration is used to standardize staging domain references throughout the application.",
                 "enum": [
                   "tnm",
                   "figo",
@@ -68850,6 +69233,7 @@
           "stagingDomain.not": {
             "allOf": [
               {
+                "description": "Enumeration of cancer staging domains used in oncology.\n\nEach member represents a specific staging system or classification used to describe the extent or severity of cancer.\nThe available staging domains include:\n\n- TNM: Tumor, Node, Metastasis staging system.\n- FIGO: International Federation of Gynecology and Obstetrics staging.\n- BINET: Binet staging for chronic lymphocytic leukemia.\n- RAI: Rai staging for chronic lymphocytic leukemia.\n- BRESLOW: Breslow thickness for melanoma.\n- CLARK: Clark level for melanoma.\n- ISS: International Staging System for multiple myeloma.\n- RISS: Revised International Staging System for multiple myeloma.\n- INSS: International Neuroblastoma Staging System.\n- INRGSS: International Neuroblastoma Risk Group Staging System.\n- GLEASON: Gleason grading for prostate cancer.\n- RHABDO: Staging for rhabdomyosarcoma.\n- WILMS: Staging for Wilms tumor.\n- LYMPHOMA: Staging for lymphoma.\n\nThis enumeration is used to standardize staging domain references throughout the application.",
                 "enum": [
                   "tnm",
                   "figo",
@@ -68876,6 +69260,7 @@
           "stagingDomain.anyOf": {
             "description": "Staging domain - ('Filter for excluding a subset of value choices',)",
             "items": {
+              "description": "Enumeration of cancer staging domains used in oncology.\n\nEach member represents a specific staging system or classification used to describe the extent or severity of cancer.\nThe available staging domains include:\n\n- TNM: Tumor, Node, Metastasis staging system.\n- FIGO: International Federation of Gynecology and Obstetrics staging.\n- BINET: Binet staging for chronic lymphocytic leukemia.\n- RAI: Rai staging for chronic lymphocytic leukemia.\n- BRESLOW: Breslow thickness for melanoma.\n- CLARK: Clark level for melanoma.\n- ISS: International Staging System for multiple myeloma.\n- RISS: Revised International Staging System for multiple myeloma.\n- INSS: International Neuroblastoma Staging System.\n- INRGSS: International Neuroblastoma Risk Group Staging System.\n- GLEASON: Gleason grading for prostate cancer.\n- RHABDO: Staging for rhabdomyosarcoma.\n- WILMS: Staging for Wilms tumor.\n- LYMPHOMA: Staging for lymphoma.\n\nThis enumeration is used to standardize staging domain references throughout the application.",
               "enum": [
                 "tnm",
                 "figo",
@@ -72593,6 +72978,7 @@
         "type": "object"
       },
       "AnalyteDetails": {
+        "description": "Represents details about a tumor marker analyte.\n\nAttributes:\n    acronym (str): The acronym or short name for the analyte.\n    display (str): The display name or description of the analyte.\n    valueTypes (List[AnalyteResultType]): List of possible result types for the analyte.",
         "properties": {
           "acronym": {
             "title": "Acronym",
@@ -72619,6 +73005,7 @@
         "type": "object"
       },
       "AnalyteResultType": {
+        "description": "Enum representing the various types of analyte results that can be reported for tumor markers.\n\nMembers:\n    mass_concentration: Quantitative measurement of mass per unit volume (e.g., ng/mL).\n    arbitary_concentration: Measurement based on arbitrary units, often used when no standard exists.\n    substance_concentration: Quantitative measurement of substance amount per unit volume (e.g., mol/L).\n    multiple_of_median: Value expressed as a multiple of the median value in a reference population.\n    fraction: Proportion or percentage of a particular analyte present.\n    presence: Indicates the presence or absence of the analyte.\n    combined_positive_score: Composite score reflecting combined positivity of multiple markers.\n    immmune_cells_score: Score representing the presence or activity of immune cells.\n    tumor_proportion_score: Score indicating the proportion of tumor cells expressing a marker.\n    immunohistochemical_score: Score derived from immunohistochemical staining results.\n    nuclear_expression_status: Status indicating expression of a marker in the cell nucleus.",
         "enum": [
           "MassConcentration",
           "ArbitraryConcentration",
@@ -82863,6 +83250,7 @@
           "dnaChangeType": {
             "allOf": [
               {
+                "description": "An enumeration of possible DNA change types for genomic variants.\n\nAttributes:\n    SUBSTITUTION: A single nucleotide is replaced by another.\n    DELETION_INSERTION: A combination of deletion and insertion at the same location.\n    INSERTION: Addition of one or more nucleotides into the DNA sequence.\n    DELETION: Removal of one or more nucleotides from the DNA sequence.\n    DUPLICATION: A segment of DNA is duplicated.\n    INVERSION: A segment of DNA is reversed end to end.\n    UNCHANGED: No change detected in the DNA sequence.\n    REPETITION: A sequence motif is repeated multiple times.\n    TRANSLOCATION: A segment of DNA is moved to a different location.\n    TRANSPOSITION: Movement of a DNA segment to a new position within the genome.\n    METHYLATION_GAIN: Gain of methylation at a specific DNA region.\n    METHYLATION_LOSS: Loss of methylation at a specific DNA region.\n    METHYLATION_UNCHANGED: No change in methylation status.",
                 "enum": [
                   "substitution",
                   "deletion-insertion",
@@ -82888,6 +83276,7 @@
           "dnaChangeType.not": {
             "allOf": [
               {
+                "description": "An enumeration of possible DNA change types for genomic variants.\n\nAttributes:\n    SUBSTITUTION: A single nucleotide is replaced by another.\n    DELETION_INSERTION: A combination of deletion and insertion at the same location.\n    INSERTION: Addition of one or more nucleotides into the DNA sequence.\n    DELETION: Removal of one or more nucleotides from the DNA sequence.\n    DUPLICATION: A segment of DNA is duplicated.\n    INVERSION: A segment of DNA is reversed end to end.\n    UNCHANGED: No change detected in the DNA sequence.\n    REPETITION: A sequence motif is repeated multiple times.\n    TRANSLOCATION: A segment of DNA is moved to a different location.\n    TRANSPOSITION: Movement of a DNA segment to a new position within the genome.\n    METHYLATION_GAIN: Gain of methylation at a specific DNA region.\n    METHYLATION_LOSS: Loss of methylation at a specific DNA region.\n    METHYLATION_UNCHANGED: No change in methylation status.",
                 "enum": [
                   "substitution",
                   "deletion-insertion",
@@ -82913,6 +83302,7 @@
           "dnaChangeType.anyOf": {
             "description": "DNA change type - ('Filter for excluding a subset of value choices',)",
             "items": {
+              "description": "An enumeration of possible DNA change types for genomic variants.\n\nAttributes:\n    SUBSTITUTION: A single nucleotide is replaced by another.\n    DELETION_INSERTION: A combination of deletion and insertion at the same location.\n    INSERTION: Addition of one or more nucleotides into the DNA sequence.\n    DELETION: Removal of one or more nucleotides from the DNA sequence.\n    DUPLICATION: A segment of DNA is duplicated.\n    INVERSION: A segment of DNA is reversed end to end.\n    UNCHANGED: No change detected in the DNA sequence.\n    REPETITION: A sequence motif is repeated multiple times.\n    TRANSLOCATION: A segment of DNA is moved to a different location.\n    TRANSPOSITION: Movement of a DNA segment to a new position within the genome.\n    METHYLATION_GAIN: Gain of methylation at a specific DNA region.\n    METHYLATION_LOSS: Loss of methylation at a specific DNA region.\n    METHYLATION_UNCHANGED: No change in methylation status.",
               "enum": [
                 "substitution",
                 "deletion-insertion",
@@ -83145,6 +83535,7 @@
           "rnaChangeType": {
             "allOf": [
               {
+                "description": "An enumeration of possible RNA change types for genomic variants.\n\nAttributes:\n    SUBSTITUTION: Represents a substitution mutation in RNA.\n    DELETION_INSERTION: Represents a combined deletion and insertion mutation.\n    INSERTION: Represents an insertion mutation in RNA.\n    DELETION: Represents a deletion mutation in RNA.\n    DUPLICATION: Represents a duplication mutation in RNA.\n    INVERSION: Represents an inversion mutation in RNA.\n    UNCHANGED: Indicates no change in the RNA sequence.\n    REPETITION: Represents a repetition mutation in RNA.",
                 "enum": [
                   "substitution",
                   "deletion-insertion",
@@ -83165,6 +83556,7 @@
           "rnaChangeType.not": {
             "allOf": [
               {
+                "description": "An enumeration of possible RNA change types for genomic variants.\n\nAttributes:\n    SUBSTITUTION: Represents a substitution mutation in RNA.\n    DELETION_INSERTION: Represents a combined deletion and insertion mutation.\n    INSERTION: Represents an insertion mutation in RNA.\n    DELETION: Represents a deletion mutation in RNA.\n    DUPLICATION: Represents a duplication mutation in RNA.\n    INVERSION: Represents an inversion mutation in RNA.\n    UNCHANGED: Indicates no change in the RNA sequence.\n    REPETITION: Represents a repetition mutation in RNA.",
                 "enum": [
                   "substitution",
                   "deletion-insertion",
@@ -83185,6 +83577,7 @@
           "rnaChangeType.anyOf": {
             "description": "RNA change type - ('Filter for excluding a subset of value choices',)",
             "items": {
+              "description": "An enumeration of possible RNA change types for genomic variants.\n\nAttributes:\n    SUBSTITUTION: Represents a substitution mutation in RNA.\n    DELETION_INSERTION: Represents a combined deletion and insertion mutation.\n    INSERTION: Represents an insertion mutation in RNA.\n    DELETION: Represents a deletion mutation in RNA.\n    DUPLICATION: Represents a duplication mutation in RNA.\n    INVERSION: Represents an inversion mutation in RNA.\n    UNCHANGED: Indicates no change in the RNA sequence.\n    REPETITION: Represents a repetition mutation in RNA.",
               "enum": [
                 "substitution",
                 "deletion-insertion",
@@ -83346,6 +83739,7 @@
           "proteinChangeType": {
             "allOf": [
               {
+                "description": "An enumeration of protein change types observed in genomic variants.\n\nAttributes:\n    MISSENSE: A single nucleotide change resulting in a different amino acid.\n    NONSENSE: A mutation introducing a premature stop codon.\n    DELETION_INSERTION: A complex event involving both deletion and insertion of nucleotides.\n    INSERTION: Addition of one or more nucleotides into the DNA sequence.\n    DELETION: Removal of one or more nucleotides from the DNA sequence.\n    DUPLICATION: Duplication of a segment of DNA.\n    FRAMESHIFT: A mutation that shifts the reading frame of the genetic code.\n    EXTENSION: Extension of the protein sequence beyond its normal length.\n    SILENT: A mutation that does not alter the amino acid sequence.\n    NO_PROTEIN: No protein product is produced due to the mutation.\n    UNKNOWN: The effect of the mutation on the protein is unknown.\n    REPETITION: Repetition of a segment within the protein sequence.",
                 "enum": [
                   "missense",
                   "nonsense",
@@ -83370,6 +83764,7 @@
           "proteinChangeType.not": {
             "allOf": [
               {
+                "description": "An enumeration of protein change types observed in genomic variants.\n\nAttributes:\n    MISSENSE: A single nucleotide change resulting in a different amino acid.\n    NONSENSE: A mutation introducing a premature stop codon.\n    DELETION_INSERTION: A complex event involving both deletion and insertion of nucleotides.\n    INSERTION: Addition of one or more nucleotides into the DNA sequence.\n    DELETION: Removal of one or more nucleotides from the DNA sequence.\n    DUPLICATION: Duplication of a segment of DNA.\n    FRAMESHIFT: A mutation that shifts the reading frame of the genetic code.\n    EXTENSION: Extension of the protein sequence beyond its normal length.\n    SILENT: A mutation that does not alter the amino acid sequence.\n    NO_PROTEIN: No protein product is produced due to the mutation.\n    UNKNOWN: The effect of the mutation on the protein is unknown.\n    REPETITION: Repetition of a segment within the protein sequence.",
                 "enum": [
                   "missense",
                   "nonsense",
@@ -83394,6 +83789,7 @@
           "proteinChangeType.anyOf": {
             "description": "Protein change type - ('Filter for excluding a subset of value choices',)",
             "items": {
+              "description": "An enumeration of protein change types observed in genomic variants.\n\nAttributes:\n    MISSENSE: A single nucleotide change resulting in a different amino acid.\n    NONSENSE: A mutation introducing a premature stop codon.\n    DELETION_INSERTION: A complex event involving both deletion and insertion of nucleotides.\n    INSERTION: Addition of one or more nucleotides into the DNA sequence.\n    DELETION: Removal of one or more nucleotides from the DNA sequence.\n    DUPLICATION: Duplication of a segment of DNA.\n    FRAMESHIFT: A mutation that shifts the reading frame of the genetic code.\n    EXTENSION: Extension of the protein sequence beyond its normal length.\n    SILENT: A mutation that does not alter the amino acid sequence.\n    NO_PROTEIN: No protein product is produced due to the mutation.\n    UNKNOWN: The effect of the mutation on the protein is unknown.\n    REPETITION: Repetition of a segment within the protein sequence.",
               "enum": [
                 "missense",
                 "nonsense",
@@ -85077,6 +85473,7 @@
           "category": {
             "allOf": [
               {
+                "description": "Enumeration of genomic signature types used in oncology models.\n\nAttributes:\n    TUMOR_MUTATIONAL_BURDEN: Represents the tumor mutational burden signature.\n    LOSS_OF_HETEROZYGOSITY: Represents the loss of heterozygosity signature.\n    MICROSATELLITE_INSTABILITY: Represents the microsatellite instability signature.\n    HOMOLOGOUS_RECOMBINATION_DEFICIENCY: Represents the homologous recombination deficiency signature.\n    TUMOR_NEOANTIGEN_BURDEN: Represents the tumor neoantigen burden signature.\n    ANEUPLOID_SCORE: Represents the aneuploid score signature.",
                 "enum": [
                   "tumor_mutational_burden",
                   "loss_of_heterozygosity",
@@ -85095,6 +85492,7 @@
           "category.not": {
             "allOf": [
               {
+                "description": "Enumeration of genomic signature types used in oncology models.\n\nAttributes:\n    TUMOR_MUTATIONAL_BURDEN: Represents the tumor mutational burden signature.\n    LOSS_OF_HETEROZYGOSITY: Represents the loss of heterozygosity signature.\n    MICROSATELLITE_INSTABILITY: Represents the microsatellite instability signature.\n    HOMOLOGOUS_RECOMBINATION_DEFICIENCY: Represents the homologous recombination deficiency signature.\n    TUMOR_NEOANTIGEN_BURDEN: Represents the tumor neoantigen burden signature.\n    ANEUPLOID_SCORE: Represents the aneuploid score signature.",
                 "enum": [
                   "tumor_mutational_burden",
                   "loss_of_heterozygosity",
@@ -85113,6 +85511,7 @@
           "category.anyOf": {
             "description": "Category - ('Filter for excluding a subset of value choices',)",
             "items": {
+              "description": "Enumeration of genomic signature types used in oncology models.\n\nAttributes:\n    TUMOR_MUTATIONAL_BURDEN: Represents the tumor mutational burden signature.\n    LOSS_OF_HETEROZYGOSITY: Represents the loss of heterozygosity signature.\n    MICROSATELLITE_INSTABILITY: Represents the microsatellite instability signature.\n    HOMOLOGOUS_RECOMBINATION_DEFICIENCY: Represents the homologous recombination deficiency signature.\n    TUMOR_NEOANTIGEN_BURDEN: Represents the tumor neoantigen burden signature.\n    ANEUPLOID_SCORE: Represents the aneuploid score signature.",
               "enum": [
                 "tumor_mutational_burden",
                 "loss_of_heterozygosity",
@@ -85540,6 +85939,7 @@
         "type": "object"
       },
       "GenomicSignatureTypes": {
+        "description": "Enumeration of genomic signature types used in oncology models.\n\nAttributes:\n    TUMOR_MUTATIONAL_BURDEN: Represents the tumor mutational burden signature.\n    LOSS_OF_HETEROZYGOSITY: Represents the loss of heterozygosity signature.\n    MICROSATELLITE_INSTABILITY: Represents the microsatellite instability signature.\n    HOMOLOGOUS_RECOMBINATION_DEFICIENCY: Represents the homologous recombination deficiency signature.\n    TUMOR_NEOANTIGEN_BURDEN: Represents the tumor neoantigen burden signature.\n    ANEUPLOID_SCORE: Represents the aneuploid score signature.",
         "enum": [
           "tumor_mutational_burden",
           "loss_of_heterozygosity",
@@ -89424,6 +89824,7 @@
         "type": "object"
       },
       "TerminologyFilters": {
+        "description": "Schema for filtering terminology queries.\n\nAttributes:\n    search_term (str | None): Optional search term to filter results. Mapped from the \"query\" field in input.\n    codes (List[str] | None): Optional list of codes to filter results. Mapped from the \"codes\" field in input.",
         "properties": {
           "query": {
             "anyOf": [
@@ -89476,7 +89877,6 @@
         "type": "object"
       },
       "CohortFilters": {
-        "description": "Additional filters for cohort listings.",
         "properties": {
           "population.lessThan": {
             "description": "Population - Filter for entries with values less than the specified value",
@@ -90140,7 +90540,7 @@
         "type": "object"
       },
       "Cohort": {
-        "description": "Schema for retrieving a cohort record.",
+        "description": "Schema for representing a Cohort entity.\n\nAttributes:\n    population (int): The size of the cohort population. This field uses the database alias 'db_population' and supports validation using either 'db_population' or 'population'.\n\nConfig:\n    model (orm.Cohort): Specifies the ORM model associated with this schema.",
         "properties": {
           "population": {
             "description": "Cohort population",
@@ -90284,7 +90684,7 @@
         "type": "object"
       },
       "CohortCreate": {
-        "description": "Schema for creating a new cohort, including cohort logic definitions.",
+        "description": "Schema for creating a Cohort instance.\n\nAttributes:\n    includeCriteria (Optional[CohortRuleset]): Logic rules to filter and constrain the cases to be included in the cohort.\n        - Title: Inclusion criteria\n        - Description: Logic rules to filter and constrain the cases to be included in the cohort\n        - Aliases: \"includeCriteria\", \"include_criteria\"\n\n    excludeCriteria (Optional[CohortRuleset]): Logic rules to filter and constrain the cases to be excluded from the cohort.\n        - Title: Exclusion criteria\n        - Description: Logic rules to filter and constrain the cases to be excluded from the cohort\n        - Aliases: \"excludeCriteria\", \"exclude_criteria\"\n\n    config (SchemaConfig): Configuration for the schema, specifying the ORM model to use.",
         "properties": {
           "includeCriteria": {
             "allOf": [
@@ -90506,7 +90906,7 @@
         "type": "string"
       },
       "CohortRule": {
-        "description": "Represents a set of filters applied to a specific entity (model/table).",
+        "description": "Represents a rule for cohort selection, specifying an entity and a set of filters.\n\nAttributes:\n    entity (CohortQueryEntity): The case-related resource to which the rule applies.\n    filters (List[CohortRuleFilter]): A list of filters to be applied to the resource.",
         "properties": {
           "entity": {
             "$ref": "#/components/schemas/CohortQueryEntity",
@@ -90530,7 +90930,7 @@
         "type": "object"
       },
       "CohortRuleFilter": {
-        "description": "Represents a single filter within a cohort rule, applied to a model field.",
+        "description": "Schema representing a filter rule for cohort queries.\n\nAttributes:\n    field (str): Dot-separated path of the resource field (e.g. 'medications.drug').\n    operator (CohortQueryFilter): Name of the filter operator to be applied to the field.\n    value (Any): Filter value to be applied to the field using the rule's operator.\n    db_value (Any): Returns the value formatted for database queries. If the value is a dictionary with 'unit' and 'value', it converts it using `get_measure_db_value`. If it contains 'start' and 'end', returns a tuple of (start, end). Otherwise, returns the value as-is.\n    db_field (Any): Converts the dot-separated field path into Django ORM double-underscore syntax (e.g. 'medications.drug' -> 'medications__drug').",
         "properties": {
           "field": {
             "description": "Dot-separated path of the resource field (e.g. 'medications.drug')",
@@ -90556,7 +90956,7 @@
         "type": "object"
       },
       "CohortRuleset": {
-        "description": "A ruleset combines multiple rules (or nested rulesets) using AND/OR logic.",
+        "description": "Represents a set of cohort rules combined by a logical condition (AND/OR).\n\nAttributes:\n    condition (RulesetCondition): Logical condition used to chain the rules within the ruleset.\n    rules (List[Union[CohortRule, CohortRuleset]]): List of rules or nested rulesets that define the fields and values to use for filtering.",
         "properties": {
           "condition": {
             "allOf": [
@@ -90591,7 +90991,7 @@
         "type": "object"
       },
       "RulesetCondition": {
-        "description": "Logical connector for combining multiple cohort rules.",
+        "description": "An enumeration representing logical conditions for rulesets.\n\nAttributes:\n    AND (str): Represents the logical 'and' condition.\n    OR (str): Represents the logical 'or' condition.",
         "enum": [
           "and",
           "or"
@@ -90600,7 +91000,7 @@
         "type": "string"
       },
       "CohortContribution": {
-        "description": "Cohort contribution summary per contributor.",
+        "description": "Schema representing a user's contribution to a cohort.\n\nAttributes:\n    contributor (str): Username or identifier of the contributing user.\n    contributions (int): The number of records or actions contributed by this user.",
         "properties": {
           "contributor": {
             "description": "Username or identifier of the contributing user.",
@@ -90621,6 +91021,7 @@
         "type": "object"
       },
       "ExportedCohortDefinition": {
+        "description": "Represents an exported cohort definition along with its export metadata.\n\nAttributes:\n    definition (CohortCreateSchema): The cohort definition, including its title and description.",
         "properties": {
           "exportedAt": {
             "description": "The datetime when the resource was exported.",
@@ -92804,6 +93205,7 @@
         "type": "object"
       },
       "PatientCaseDataset": {
+        "description": "PatientCaseDataset schema representing a comprehensive dataset for a patient case in oncological research.\n\nAttributes:\n    pseudoidentifier (str): Unique pseudoidentifier for the patient case.\n    neoplasticEntities (Optional[List[NeoplasticEntity]]): List of neoplastic entities associated with the case.\n    tnmStagings (Optional[List[TNMStaging]]): List of TNM staging resources.\n    figoStagings (Optional[List[TNMStaging]]): List of FIGO staging resources.\n    binetStagings (Optional[List[BinetStaging]]): List of Binet staging resources.\n    raiStagings (Optional[List[RaiStaging]]): List of Rai staging resources.\n    breslowStagings (Optional[List[BreslowDepth]]): List of Breslow depth resources.\n    clarkStagings (Optional[List[ClarkStaging]]): List of Clark staging resources.\n    issStagings (Optional[List[ISSStaging]]): List of ISS staging resources.\n    rissStagings (Optional[List[RISSStaging]]): List of RISS staging resources.\n    inssStagings (Optional[List[INSSStage]]): List of INSS staging resources.\n    inrgssStagings (Optional[List[INRGSSStage]]): List of INRGSS staging resources.\n    gleasonStagings (Optional[List[GleasonGrade]]): List of Gleason grade resources.\n    rhabdomyosarcomaGroups (Optional[List[RhabdomyosarcomaClinicalGroup]]): List of rhabdomyosarcoma clinical group resources.\n    wilmsStagings (Optional[List[WilmsStage]]): List of Wilms staging resources.\n    lymphomaStagings (Optional[List[LymphomaStaging]]): List of lymphoma staging resources.\n    tumorMarkers (Optional[List[TumorMarker]]): List of tumor marker resources.\n    riskAssessments (Optional[List[RiskAssessment]]): List of risk assessment resources.\n    therapyLines (Optional[List[TherapyLine]]): List of therapy line resources.\n    systemicTherapies (Optional[List[SystemicTherapy]]): List of systemic therapy resources.\n    surgeries (Optional[List[Surgery]]): List of surgery resources.\n    radiotherapies (Optional[List[Radiotherapy]]): List of radiotherapy resources.\n    adverseEvents (Optional[List[AdverseEvent]]): List of adverse event resources.\n    treatmentResponses (Optional[List[TreatmentResponse]]): List of treatment response resources.\n    performanceStatus (Optional[List[PerformanceStatus]]): List of performance status resources.\n    comorbidities (Optional[List[ComorbiditiesAssessment]]): List of comorbidities assessment resources.\n    genomicVariants (Optional[List[GenomicVariant]]): List of genomic variant resources.\n    tumorMutationalBurdens (Optional[List[TumorMutationalBurden]]): List of tumor mutational burden resources.\n    microsatelliteInstabilities (Optional[List[MicrosatelliteInstability]]): List of microsatellite instability resources.\n    lossesOfHeterozygosity (Optional[List[LossOfHeterozygosity]]): List of loss of heterozygosity resources.\n    homologousRecombinationDeficiencies (Optional[List[HomologousRecombinationDeficiency]]): List of homologous recombination deficiency resources.\n    tumorNeoantigenBurdens (Optional[List[TumorNeoantigenBurden]]): List of tumor neoantigen burden resources.\n    aneuploidScores (Optional[List[AneuploidScore]]): List of aneuploid score resources.\n    vitals (Optional[List[Vitals]]): List of vital sign resources.\n    lifestyles (Optional[List[Lifestyle]]): List of lifestyle resources.\n    familyHistory (Optional[List[FamilyHistory]]): List of family history resources.\n    unspecifiedTumorBoards (Optional[List[UnspecifiedTumorBoard]]): List of unspecified tumor board resources.\n    molecularTumorBoards (Optional[List[UnspecifiedTumorBoard]]): List of molecular tumor board resources.\n\nNote:\n    All attributes are nullable and may contain lists of corresponding schema resources.",
         "properties": {
           "anonymized": {
             "default": false,
@@ -95524,7 +95926,7 @@
         "type": "string"
       },
       "DatasetRule": {
-        "description": "A rule defining how a dataset is composed from a specific resource and field.\n\nAttributes:\n    resource (DataResource): The resource (model type) this rule applies to.\n    field (str): Dot-separated path to the target field within the resource.\n    transform (Nullable[Union[str, Tuple[str, Any]]]): Nullable transformation or expression to apply.",
+        "description": "Schema representing a rule applied to a dataset resource.\n\nAttributes:\n    resource (DataResource): The oncology resource this rule references.\n    field (str): Dot-separated path of the field within the resource (e.g. 'medications.drug').\n    transform (Nullable[str | Tuple[str, Any]]): Nullable transform expression or mapping applied to the field's value.",
         "properties": {
           "resource": {
             "$ref": "#/components/schemas/DataResource",
@@ -95565,7 +95967,7 @@
         "type": "object"
       },
       "CohortTraitCounts": {
-        "description": "Frequency distribution schema for categorical cohort traits.",
+        "description": "Schema representing the count and percentage of records for a specific cohort trait category.\n\nAttributes:\n    category (str): The category or group label for the cohort trait value.\n    counts (int): The number of records in this category.\n    percentage (float): The percentage of the total cohort population in this category.",
         "properties": {
           "category": {
             "description": "The category or group label for the cohort trait value.",
@@ -95592,7 +95994,7 @@
         "type": "object"
       },
       "CohortTraitMedian": {
-        "description": "Descriptive statistics schema representing the median and interquartile range\nfor a numeric cohort trait.",
+        "description": "Schema representing the median and interquartile range (IQR) for a cohort trait.\n\nAttributes:\n    median (float | None): The median value for the cohort trait.\n    interQuartalRange (Tuple[float, float] | None): The lower and upper bounds of the interquartile range (IQR).",
         "properties": {
           "median": {
             "anyOf": [
@@ -95633,6 +96035,7 @@
         "type": "object"
       },
       "CohortTraits": {
+        "description": "Schema representing key traits and distributions within a patient cohort.\n\nAttributes:\n    age (CohortTraitMedian): Median age of individuals in the cohort.\n    dataCompletion (CohortTraitMedian): Median percentage of completed data per patient.\n    overallSurvival (Nullable[CohortTraitMedian]): Median overall survival time in the cohort, if available.\n    genders (List[CohortTraitCounts]): Distribution of genders within the cohort.\n    neoplasticSites (List[CohortTraitCounts]): Distribution of neoplastic (tumor) sites in the cohort.\n    therapyLines (List[CohortTraitCounts]): Distribution of therapy lines received by patients in the cohort.\n    consentStatus (List[CohortTraitCounts]): Distribution of consent statuses for data use among cohort participants.",
         "properties": {
           "age": {
             "$ref": "#/components/schemas/CohortTraitMedian",
@@ -95695,6 +96098,7 @@
         "type": "object"
       },
       "AnalysisMetadata": {
+        "description": "Schema representing metadata for an analysis performed on a cohort.\n\nAttributes:\n    cohortId (str): The ID of the cohort for which the analysis was performed.\n    analyzedAt (datetime): The datetime at which the analysis was performed.\n    cohortPopulation (int): The effective number of valid patient cases in the cohort used for the analysis.",
         "properties": {
           "cohortId": {
             "description": "The ID of the cohort for which the analysis was performed.",
@@ -95722,6 +96126,7 @@
         "type": "object"
       },
       "Distribution": {
+        "description": "Represents a statistical distribution of trait counts within a cohort.\n\nAttributes:\n    items (List[CohortTraitCounts]): The entries in the distribution, each representing\n        a category and its associated counts and percentage.",
         "properties": {
           "metadata": {
             "anyOf": [
@@ -95751,7 +96156,7 @@
         "type": "object"
       },
       "KaplanMeierCurve": {
-        "description": "Kaplan-Meier survival curve",
+        "description": "Schema representing a Kaplan-Meier survival curve, including survival probabilities and confidence intervals.\n\nAttributes:\n    months (List[float]): List of time points (in months) for survival probability estimates.\n    probabilities (List[float]): Survival probabilities at each time point.\n    lowerConfidenceBand (List[float]): Lower bound of the survival probability confidence interval at each time point.\n    upperConfidenceBand (List[float]): Upper bound of the survival probability confidence interval at each time point.",
         "properties": {
           "metadata": {
             "anyOf": [
@@ -95808,6 +96213,7 @@
         "type": "object"
       },
       "OncoplotDataset": {
+        "description": "Schema representing the dataset required for generating an Oncoplot visualization.\n\nAttributes:\n    genes (List[str]): List of the most frequently encountered gene names.\n    cases (List[str]): List of patient case identifiers.\n    variants (List[OncoplotVariant]): List of variant records included in the Oncoplot.",
         "properties": {
           "metadata": {
             "anyOf": [
@@ -95855,6 +96261,7 @@
         "type": "object"
       },
       "OncoplotVariant": {
+        "description": "Schema representing a variant entry for an oncoplot analysis.\n\nAttributes:\n    gene (str): The gene symbol associated with the variant.\n    caseId (str): Unique identifier for the case, can be provided as 'caseId' or 'pseudoidentifier'.\n    hgvsExpression (str): HGVS expression describing the variant, can be provided as 'hgvsExpression' or 'hgvs_expression'.\n    isPathogenic (Optional[bool]): Indicates if the variant is pathogenic, can be provided as 'isPathogenic' or 'is_pathogenic'.",
         "properties": {
           "gene": {
             "title": "Gene",
@@ -95883,6 +96290,7 @@
         "type": "object"
       },
       "CategorizedSurvivals": {
+        "description": "Schema for categorizing progression free survival (PFS) data within a cohort based on therapy-related groupings.\n\nAttributes:\n    survivals (Dict[str, List[float]]): A dictionary mapping category names (e.g., drug combinations or therapy classifications) to lists of progression free survival values.",
         "properties": {
           "metadata": {
             "anyOf": [
@@ -95914,6 +96322,7 @@
         "type": "object"
       },
       "DataPlatformStatistics": {
+        "description": "Schema representing key statistics of the data platform.\n\nAttributes:\n    cases (int): Total number of unique patient cases in the data platform.\n    primarySites (int): Number of distinct primary anatomical sites represented.\n    projects (int): Total number of research projects.\n    cohorts (int): Number of defined cohorts in the platform.\n    entries (int): Total number of individual data entries recorded.\n    mutations (int): Total number of genetic mutations documented across all cases.\n    clinicalCenters (int): Number of clinical centers contributing data.\n    contributors (int): Total number of individual data contributors.",
         "properties": {
           "cases": {
             "description": "Total number of unique patient cases in the data platform.",
@@ -95970,6 +96379,7 @@
         "type": "object"
       },
       "EntityStatistics": {
+        "description": "Schema representing statistical data for a medical entity.\n\nAttributes:\n    population (Optional[int]): Number of cases in the population.\n    dataCompletionMedian (Optional[float]): Median percentage of case completion.\n    topographyCode (Optional[str]): ICD-O-3 topography code of the entity.\n    topographyGroup (Optional[str]): ICD-O-3 topography code of the entity group.",
         "properties": {
           "population": {
             "description": "Number of cases",
@@ -95996,6 +96406,7 @@
         "type": "object"
       },
       "CountsPerMonth": {
+        "description": "Schema representing the cumulative count of entries per month.\n\nAttributes:\n    month (date): The month (as a date object) representing the period of data aggregation.\n    cumulativeCount (int): Total number of entries accumulated up to and including the given month.",
         "properties": {
           "month": {
             "description": "The month (as date) representing the period of data aggregation.",
@@ -96017,6 +96428,7 @@
         "type": "object"
       },
       "DataCompletionStatistics": {
+        "description": "Schema representing statistics on data completion for patient cases.\n\nAttributes:\n    totalCases (int): Total number of patient cases analyzed for data completeness.\n    overallCompletion (float): Overall percentage of data categories completed across all cases.\n    mostIncompleteCategories (List[IncompleteCategory]): List of the most common categories with missing data.\n    completionOverTime (List[CountsPerMonth]): Historical trend of cumulative data completeness by month.",
         "properties": {
           "totalCases": {
             "description": "Total number of patient cases analyzed for data completeness.",
@@ -96055,6 +96467,7 @@
         "type": "object"
       },
       "IncompleteCategory": {
+        "description": "Schema representing a category of data incompleteness.\n\nAttributes:\n    category (str): The data category with cases where it is incomplete.\n    cases (int): Number of cases affected with the incomplete data category.\n    affectedSites (List[CodedConcept]): List of anatomical sites affected by this data incompleteness.",
         "properties": {
           "category": {
             "description": "The data category with cases where it is incomplete.",
@@ -96084,7 +96497,6 @@
         "type": "object"
       },
       "DatasetFilters": {
-        "description": "Additional query filters for datasets.",
         "properties": {
           "rules.resource": {
             "allOf": [
@@ -97041,7 +97453,7 @@
         "type": "object"
       },
       "Dataset": {
-        "description": "Schema for retrieving a dataset definition, including its composition rules.",
+        "description": "Represents a dataset schema with composition rules, export metadata, and associated cohorts.\n\nAttributes:\n    rules (List[DatasetRule]): List of composition rules that define the dataset's structure.\n    lastExport (Nullable[datetime]): The datetime of the last export of this dataset.\n    totalExports (int): The total number of times this dataset has been exported.\n    cohortsIds (List[str]): List of cohort IDs that have been exported with this dataset.\n    config (SchemaConfig): Configuration linking the schema to the ORM Dataset model.",
         "properties": {
           "rules": {
             "default": [],
@@ -97174,7 +97586,7 @@
         "type": "object"
       },
       "DatasetCreate": {
-        "description": "Schema for creating a new dataset, including its composition rules.",
+        "description": "Schema for creating a new Dataset instance.\n\nAttributes:\n    rules (List[DatasetRule]): List of composition rules that define the dataset's structure.\n    config (SchemaConfig): Configuration specifying the ORM model associated with this schema.",
         "properties": {
           "rules": {
             "default": [],
