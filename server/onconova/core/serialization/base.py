@@ -20,16 +20,26 @@ from ninja.schema import DjangoGetter as BaseDjangoGetter
 from pydantic import BaseModel as PydanticBaseModel
 from pydantic import ConfigDict, model_validator
 
+from pydantic import AliasChoices, ConfigDict, field_validator, model_validator, AliasGenerator, AliasChoices, WithJsonSchema
+
 from onconova.core.auth.models import User
 from onconova.core.measures.fields import MeasurementField
 from onconova.core.models import BaseModel, UntrackedBaseModel
 from onconova.core.utils import to_camel_case
 from onconova.terminology.models import CodedConcept
 
+from onconova.core.utils import camel_to_snake
+
 _DjangoModel = TypeVar("_DjangoModel", bound=DjangoModel)
 
 
-class BaseSchema(Schema):
+class BaseSchema(Schema, 
+        alias_generator=AliasGenerator(
+            alias=camel_to_snake,
+            validation_alias=lambda name: AliasChoices(name, camel_to_snake(name))
+        ),
+        from_attributes=True,
+        populate_by_name=True,):
     """
     
     A base schema class that extends Pydantic's Schema class to provide seamless integration between
@@ -60,16 +70,9 @@ class BaseSchema(Schema):
                 cls.set_orm_model(User)
         ```
     """
-
-    # Pydantic model configuration
-    model_config = ConfigDict(
-        from_attributes=True,
-        populate_by_name=True,
-        arbitrary_types_allowed=True,
-    )
-
+    
     __orm_model__: ClassVar[Type[UntrackedBaseModel]]
-
+    
     @classmethod
     def set_orm_model(cls, model: Type[UntrackedBaseModel] | Type[BaseModel]) -> None:
         """Sets the ORM model class for the serializer.
