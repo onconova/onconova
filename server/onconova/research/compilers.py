@@ -53,7 +53,7 @@ class DatasetRuleProcessor:
         """Retrieves the corresponding schema for the resource."""
         from onconova.oncology import schemas as oncology_schemas
 
-        schema = getattr(oncology_schemas, f"{resource_name}Schema", None)
+        schema = getattr(oncology_schemas, f"{resource_name}Schema", None) or getattr(oncology_schemas, resource_name, None)
         if not schema:
             raise DatasetRuleProcessingError(
                 f'Could not resolve schema "{resource_name}" into an existing class object.'

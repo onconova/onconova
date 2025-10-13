@@ -18,7 +18,7 @@ import onconova.research.models.project as projects_models
 import onconova.terminology.models as terminology
 from onconova.core.auth.models import User
 from onconova.oncology.models.comorbidities import ComorbiditiesPanel
-from onconova.oncology.models.patient_case import VitalStatus
+from onconova.oncology.models.patient_case import PatientCaseVitalStatusChoices, PatientCaseConsentStatusChoices
 
 
 def is_running_pytest():
@@ -134,23 +134,23 @@ class PatientCaseFactory(factory.django.DjangoModelFactory):
     )
     gender = make_terminology_factory(terminology.AdministrativeGender)
     sex_at_birth = make_terminology_factory(terminology.BirthSex)
-    vital_status = FuzzyChoice(VitalStatus)
+    vital_status = FuzzyChoice(PatientCaseVitalStatusChoices)
     date_of_death = factory.LazyAttribute(
         lambda o: (
-            faker.date_this_decade() if o.vital_status == VitalStatus.DECEASED else None
+            faker.date_this_decade() if o.vital_status == PatientCaseVitalStatusChoices.DECEASED else None
         )
     )
     cause_of_death = factory.Maybe(
-        factory.LazyAttribute(lambda o: o.vital_status == VitalStatus.DECEASED),
-        make_terminology_factory(terminology.CauseOfDeath),
+        factory.LazyAttribute(lambda o: o.vital_status == PatientCaseVitalStatusChoices.DECEASED),
+        make_terminology_factory(terminology.CauseOfDeath), # type: ignore
         None,  # type: ignore
     )
     end_of_records = factory.LazyAttribute(
         lambda o: (
-            faker.date_this_decade() if o.vital_status == VitalStatus.UNKNOWN else None
+            faker.date_this_decade() if o.vital_status == PatientCaseVitalStatusChoices.UNKNOWN else None
         )
     )
-    consent_status = FuzzyChoice(models.PatientCase.ConsentStatus)
+    consent_status = FuzzyChoice(PatientCaseConsentStatusChoices)
     clinical_center = factory.LazyFunction(lambda: faker.company() + " Hospital")
     clinical_identifier = FuzzyText(length=8, prefix="CLIN", chars=string.digits)
 

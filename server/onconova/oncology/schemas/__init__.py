@@ -34,9 +34,9 @@ from .genomic_variant import GenomicVariantCreateSchema, GenomicVariantSchema
 from .lifestyle import LifestyleCreateSchema, LifestyleSchema
 from .neoplastic_entity import NeoplasticEntityCreateSchema, NeoplasticEntitySchema
 from .patient_case import (
-    PatientCaseCreateSchema,
-    PatientCaseDataCompletionStatusSchema,
-    PatientCaseSchema,
+    PatientCaseCreate,
+    PatientCaseDataCompletionStatus,
+    PatientCase,
 )
 from .performance_status import PerformanceStatusCreateSchema, PerformanceStatusSchema
 from .radiotherapy import (
@@ -101,7 +101,7 @@ from .vitals import VitalsCreateSchema, VitalsSchema
 
 # Filter schemas
 PatientCaseFilters = create_filters_schema(
-    schema=PatientCaseSchema,
+    schema=PatientCase,
     name="PatientCaseFilters",
     exclude=["clinicalIdentifier", "dateOfBirth", "dateOfDeath", "clinicalCenter"],
 )
@@ -156,9 +156,9 @@ TherapyLineFilters = create_filters_schema(
 
 ONCOLOGY_SCHEMAS = (
     # PatientCase schemas
-    PatientCaseSchema,
-    PatientCaseCreateSchema,
-    PatientCaseDataCompletionStatusSchema,
+    PatientCase,
+    PatientCaseCreate,
+    PatientCaseDataCompletionStatus,
     # Neoplastic entity schemas
     NeoplasticEntitySchema,
     NeoplasticEntityCreateSchema,

@@ -217,7 +217,6 @@ class BundleParser:
             if event.user:
                 user = self.users_map.get(event.user)
                 if not user: 
-                    print('Searching: ',event.user, 'In:', self.bundle.contributors, self.bundle.contributorsDetails)
                     raise ValueError(f'Unknown user in bundle definition: {event.user}')
                 # Import the actor of the event
                 user = self.get_or_create_user(user)
@@ -261,13 +260,7 @@ class BundleParser:
         if not getattr(resource, "id", None):
             raise ValueError("Resource must have an ID to be imported.")
         # Get the model-create schema for the resource
-        CreateSchema = getattr(schemas, f"{resource.__class__.__name__}CreateSchema")
-        # Filter out related events from the bundle's history
-        events = [
-            event
-            for event in self.bundle.history
-            if str(event.resourceId) == str(resource.id)  # type: ignore
-        ]
+        CreateSchema = getattr(schemas, f"{resource.__class__.__name__}CreateSchema", None) or getattr(schemas, f"{resource.__class__.__name__}Create")
         # Resolve any foreign keys in the resource
         resource = self.resolve_foreign_keys(resource)
         resourceId = resource.id  # type: ignore
@@ -302,7 +295,7 @@ class BundleParser:
         # Conduct the import within a transaction to avoid partial imports in case of an error
         with transaction.atomic():
             # Import the patient case
-            case_schema = schemas.PatientCaseSchema.model_validate(self.bundle)
+            case_schema = schemas.PatientCase.model_validate(self.bundle)
             imported_case = self.import_resource(
                 case_schema,
                 instance=case,

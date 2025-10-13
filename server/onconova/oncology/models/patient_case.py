@@ -36,7 +36,21 @@ import onconova.terminology.models as terminologies
 from onconova.core.models import BaseModel
 
 
-class PatientCaseDataCategories(models.TextChoices):
+class PatientCaseConsentStatusChoices(models.TextChoices):
+    """
+    An enumeration representing the consent status of a patient case.
+
+    Attributes:
+        VALID: Indicates that consent is valid.
+        REVOKED: Indicates that consent has been revoked.
+        UNKNOWN: Indicates that the consent status is unknown.
+    """
+    VALID = "valid"
+    REVOKED = "revoked"
+    UNKNOWN = "unknown"
+        
+        
+class PatientCaseDataCategoryChoices(models.TextChoices):
     """
     Enumeration of data categories associated with a patient case in oncology.
 
@@ -78,9 +92,9 @@ class PatientCaseDataCategories(models.TextChoices):
     TUMOR_BOARD_REVIEWS = "tumor-board-reviews"
     ADVERSE_EVENTS = "adverse-events"
     THERAPY_RESPONSES = "therapy-responses"
+    
 
-
-class VitalStatus(models.TextChoices):
+class PatientCaseVitalStatusChoices(models.TextChoices):
     """
     An enumeration representing the vital status of a patient.
 
@@ -94,7 +108,7 @@ class VitalStatus(models.TextChoices):
     UNKNOWN = "unknown"
 
 
-DATA_CATEGORIES_COUNT = len(list(PatientCaseDataCategories))
+DATA_CATEGORIES_COUNT = len(list(PatientCaseDataCategoryChoices))
 
 
 def events_common_table_expression():
@@ -209,19 +223,6 @@ class PatientCase(BaseModel):
     """
     objects = QueryablePropertiesManager()
 
-    class ConsentStatus(models.TextChoices):
-        """
-        An enumeration representing the consent status of a patient case.
-
-        Attributes:
-            VALID: Indicates that consent is valid.
-            REVOKED: Indicates that consent has been revoked.
-            UNKNOWN: Indicates that the consent status is unknown.
-        """
-        VALID = "valid"
-        REVOKED = "revoked"
-        UNKNOWN = "unknown"
-
     pseudoidentifier = models.CharField(
         verbose_name=_("Pseudoidentifier"),
         help_text=_("Pseudoidentifier of the patient"),
@@ -247,8 +248,8 @@ class PatientCase(BaseModel):
             "Status of the general consent by the patient for the use of their data for research purposes"
         ),
         max_length=20,
-        choices=ConsentStatus,
-        default=ConsentStatus.UNKNOWN,
+        choices=PatientCaseConsentStatusChoices,
+        default=PatientCaseConsentStatusChoices.UNKNOWN,
     )
     gender = termfields.CodedConceptField(
         verbose_name=_("Gender"),
@@ -320,8 +321,8 @@ class PatientCase(BaseModel):
             "Whether the patient is known to be alive or decaeased or is unknkown."
         ),
         max_length=20,
-        choices=VitalStatus,
-        default=VitalStatus.UNKNOWN,
+        choices=PatientCaseVitalStatusChoices,
+        default=PatientCaseVitalStatusChoices.UNKNOWN,
     )
     date_of_death = models.DateField(
         verbose_name=_("Date of death"),
@@ -458,21 +459,21 @@ class PatientCase(BaseModel):
                 check=Case(
                     When(
                         Q(
-                            Q(vital_status=VitalStatus.ALIVE)
+                            Q(vital_status=PatientCaseVitalStatusChoices.ALIVE)
                             & Q(date_of_death__isnull=False)
                         ),
                         then=Value(False),
                     ),
                     When(
                         Q(
-                            Q(vital_status=VitalStatus.UNKNOWN)
+                            Q(vital_status=PatientCaseVitalStatusChoices.UNKNOWN)
                             & Q(date_of_death__isnull=False)
                         ),
                         then=Value(False),
                     ),
                     When(
                         Q(
-                            Q(vital_status=VitalStatus.DECEASED)
+                            Q(vital_status=PatientCaseVitalStatusChoices.DECEASED)
                             & Q(date_of_death__isnull=True)
                         ),
                         then=Value(False),
@@ -486,7 +487,7 @@ class PatientCase(BaseModel):
                 check=Case(
                     When(
                         Q(
-                            Q(vital_status=VitalStatus.UNKNOWN)
+                            Q(vital_status=PatientCaseVitalStatusChoices.UNKNOWN)
                             & Q(end_of_records__isnull=True)
                         ),
                         then=Value(False),
@@ -500,14 +501,14 @@ class PatientCase(BaseModel):
                 check=Case(
                     When(
                         Q(
-                            Q(vital_status=VitalStatus.ALIVE)
+                            Q(vital_status=PatientCaseVitalStatusChoices.ALIVE)
                             & Q(cause_of_death__isnull=False)
                         ),
                         then=Value(False),
                     ),
                     When(
                         Q(
-                            Q(vital_status=VitalStatus.UNKNOWN)
+                            Q(vital_status=PatientCaseVitalStatusChoices.UNKNOWN)
                             & Q(cause_of_death__isnull=False)
                         ),
                         then=Value(False),
@@ -534,7 +535,7 @@ class PatientCaseDataCompletion(BaseModel):
         Ensures that each data category can only be marked as completed once per patient case.
     """
 
-    PatientCaseDataCategories = PatientCaseDataCategories
+    PatientCaseDataCategories = PatientCaseDataCategoryChoices
     DATA_CATEGORIES_COUNT = DATA_CATEGORIES_COUNT
 
     case = models.ForeignKey(

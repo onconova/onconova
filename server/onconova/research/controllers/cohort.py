@@ -125,7 +125,7 @@ class CohortsController(ControllerBase):
     @route.get(
         path="/{cohortId}/cases",
         response={
-            200: Paginated[oncological_schemas.PatientCaseSchema],
+            200: Paginated[oncological_schemas.PatientCase],
             404: None,
             **COMMON_HTTP_ERRORS,
         },

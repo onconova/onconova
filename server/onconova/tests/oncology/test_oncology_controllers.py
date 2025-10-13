@@ -10,8 +10,8 @@ class TestPatientCaseController(CrudApiControllerTestCase):
     controller_path = "/api/v1/patient-cases"
     FACTORY = factories.PatientCaseFactory
     MODEL = models.PatientCase
-    SCHEMA = schemas.PatientCaseSchema
-    CREATE_SCHEMA = schemas.PatientCaseCreateSchema
+    SCHEMA = schemas.PatientCase
+    CREATE_SCHEMA = schemas.PatientCaseCreate
 
 
 class TestNeoplasticEntityController(CrudApiControllerTestCase):

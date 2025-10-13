@@ -9,7 +9,8 @@ import onconova.oncology.schemas as sc
 from onconova.core.auth.models import User
 from onconova.core.auth.schemas import UserExportSchema
 from onconova.core.history.schemas import HistoryEvent
-from onconova.oncology.models.patient_case import PatientCaseDataCategories
+from onconova.oncology.models.patient_case import PatientCaseDataCategoryChoices
+
 
 class ExportMetadata(BaseModel):
     """
@@ -41,11 +42,11 @@ class ExportMetadata(BaseModel):
     )
 
 
-class PatientCaseBundle(sc.PatientCaseSchema):
+class PatientCaseBundle(sc.PatientCase):
     """
     PatientCaseBundle aggregates all relevant patient case data for interoperability and import/export operations.
 
-    This schema extends PatientCaseSchema and organizes multiple related entities, such as neoplastic entities, stagings, tumor markers, risk assessments, therapies, surgeries, adverse events, treatment responses, performance status, comorbidities, genomic variants, genomic signatures, vitals, lifestyles, family history, tumor boards, completed data categories, and history events.
+    This schema extends PatientCase and organizes multiple related entities, such as neoplastic entities, stagings, tumor markers, risk assessments, therapies, surgeries, adverse events, treatment responses, performance status, comorbidities, genomic variants, genomic signatures, vitals, lifestyles, family history, tumor boards, completed data categories, and history events.
 
     The order of properties is significant for import tools that rely on reference trees.
 
@@ -68,7 +69,7 @@ class PatientCaseBundle(sc.PatientCaseSchema):
         lifestyles (List[LifestyleSchema]): List of lifestyle schemas.
         familyHistory (List[FamilyHistorySchema]): List of family history schemas.
         tumorBoards (List[Union[UnspecifiedTumorBoardSchema, MolecularTumorBoardSchema]]): List of tumor board schemas.
-        completedDataCategories (Dict[PatientCaseDataCategories, PatientCaseDataCompletionStatusSchema]): Mapping of data categories to their completion status.
+        completedDataCategories (Dict[PatientCaseDataCategories, PatientCaseDataCompletionStatus]): Mapping of data categories to their completion status.
         history (List[HistoryEvent]): List of history events related to the patient case.
 
     Methods:
@@ -188,7 +189,7 @@ class PatientCaseBundle(sc.PatientCaseSchema):
         default=[],
     )
     completedDataCategories: Dict[
-        PatientCaseDataCategories, sc.PatientCaseDataCompletionStatusSchema
+        PatientCaseDataCategoryChoices, sc.PatientCaseDataCompletionStatus
     ]
     history: List[HistoryEvent] = Field(
         default=[],
@@ -242,12 +243,12 @@ class PatientCaseBundle(sc.PatientCaseSchema):
         from onconova.oncology.models.patient_case import PatientCase
 
         return {
-            category: sc.PatientCaseDataCompletionStatusSchema(
+            category: sc.PatientCaseDataCompletionStatus(
                 status=completion is not None,
                 username=completion.created_by if completion else None,
                 timestamp=completion.created_at if completion else None,
             )
-            for category in PatientCaseDataCategories.values
+            for category in PatientCaseDataCategoryChoices.values
             for completion in (
                 (
                     list(obj.completed_data_categories.filter(category=category))

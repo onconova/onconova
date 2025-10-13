@@ -174,7 +174,7 @@ class BundleParserTest(TestCase):
     def test_completed_data_categories_import(self):
         """Test that data completion statuses are correctly imported."""
         self.bundle.completedDataCategories = {
-            "Diagnosis": schemas.PatientCaseDataCompletionStatusSchema(
+            "Diagnosis": schemas.PatientCaseDataCompletionStatus(
                 status=True, timestamp="2024-01-01T12:00:00Z", username="doctor1"
             )
         }

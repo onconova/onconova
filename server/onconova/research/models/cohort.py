@@ -10,7 +10,7 @@ from queryable_properties.properties import AnnotationProperty
 
 from onconova.core.aggregates import Median, Percentile25, Percentile75
 from onconova.core.models import BaseModel
-from onconova.oncology.models import PatientCase
+from onconova.oncology.models.patient_case import PatientCase, PatientCaseConsentStatusChoices
 from onconova.research.models.dataset import *
 from onconova.research.models.project import Project
 
@@ -104,7 +104,7 @@ class Cohort(BaseModel):
         Returns:
             (QuerySet[PatientCase]): A queryset of valid PatientCase instances.
         """
-        return self.cases.filter(consent_status=PatientCase.ConsentStatus.VALID)
+        return self.cases.filter(consent_status=PatientCaseConsentStatusChoices.VALID)
 
     @staticmethod
     def get_cohort_trait_average(

@@ -1,6 +1,7 @@
 from datetime import datetime
 from enum import Enum
 from typing import Any, List, Tuple, Type, Union, get_args
+from uuid import UUID
 import inspect 
 
 from django.db.models import Q
@@ -10,7 +11,7 @@ from pydantic import BaseModel as PydanticBaseModel
 from pydantic import ConfigDict, Field, create_model, field_validator
 
 from onconova.core.measures import Measure
-from onconova.core.schemas import CodedConcept as CodedConceptSchema
+from onconova.core.schemas import CodedConcept as CodedConceptSchema, MetadataSchemaMixin
 from onconova.core.serialization import transforms as tfs
 from onconova.core.serialization.factory import create_filters_schema
 from onconova.core.serialization.metaclasses import (
@@ -30,7 +31,7 @@ DataResource = Enum(
     {
         model.__name__.upper(): model.__name__
         for model in oncology_schemas.ONCOLOGY_SCHEMAS
-        if issubclass(model, ModelGetSchema) and model.__name__ != "GenomicSignature"
+        if (issubclass(model, MetadataSchemaMixin) or issubclass(model, ModelGetSchema)) and model.__name__ != "GenomicSignature"
     },
     type=str,
 )
@@ -234,11 +235,10 @@ def _create_partial_schema(schema: Type[Schema]) -> Type[Schema]:
 
 
 partial_schemas = {
-    schema.__name__: _create_partial_schema(schema)
+    schema.__name__.replace('Schema',''): _create_partial_schema(schema)
     for schema in oncology_schemas.ONCOLOGY_SCHEMAS
-    if issubclass(schema, ModelGetSchema)
+    if issubclass(schema, MetadataSchemaMixin) or issubclass(schema, ModelGetSchema)
 }
-
 
 class PatientCaseDataset(partial_schemas["PatientCase"]):
     """
@@ -288,6 +288,8 @@ class PatientCaseDataset(partial_schemas["PatientCase"]):
         All attributes are nullable and may contain lists of corresponding schema resources.
     """
 
+    id: Nullable[UUID] = Field(default=None, title="Unique identifier of the patient case")
+    description: Nullable[str] = Field(default=None, title="Human-readable summary")
     pseudoidentifier: str = Field(title="Pseudoidentifier")
     neoplasticEntities: Nullable[List[partial_schemas["NeoplasticEntity"]]] = Field(  # type: ignore
         default=None,
