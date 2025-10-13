@@ -73,7 +73,7 @@ class GenomicVariantSchema(ModelGetSchema):
         title="RNA HGVS",
         description="RNA HGVS expression (g-coordinate expression, HGVS version >=21.1)",
         pattern=HGVSRegex.RNA_HGVS,
-        alias="dna_hgvs",
+        alias="rna_hgvs",
         validation_alias=AliasChoices("rnaHgvs", "rna_hgvs"),
     )
     rnaReferenceSequence: Nullable[str] = Field(
@@ -104,7 +104,7 @@ class GenomicVariantSchema(ModelGetSchema):
         title="Protein HGVS",
         description="Protein HGVS expression (g-coordinate expression, HGVS version >=21.1)",
         pattern=HGVSRegex.PROTEIN_HGVS,
-        alias="dna_hgvs",
+        alias="protein_hgvs",
         validation_alias=AliasChoices("proteinHgvs", "protein_hgvs"),
     )
     proteinReferenceSequence: Nullable[str] = Field(
@@ -158,7 +158,7 @@ class GenomicVariantCreateSchema(ModelCreateSchema):
         title="RNA HGVS",
         description="RNA HGVS expression (g-coordinate expression, HGVS version >=21.1)",
         pattern=HGVSRegex.RNA_HGVS,
-        alias="dna_hgvs",
+        alias="rna_hgvs",
         validation_alias=AliasChoices("rnaHgvs", "rna_hgvs"),
     )
     proteinHgvs: Nullable[str] = Field(
@@ -166,8 +166,7 @@ class GenomicVariantCreateSchema(ModelCreateSchema):
         title="Protein HGVS",
         description="Protein HGVS expression (g-coordinate expression, HGVS version >=21.1)",
         pattern=HGVSRegex.PROTEIN_HGVS,
-        alias="dna_hgvs",
+        alias="protein_hgvs",
         validation_alias=AliasChoices("proteinHgvs", "protein_hgvs"),
     )
-    config = SchemaConfig(model=orm.GenomicVariant, exclude=["is_vus", "is_pathogenic"])
     config = SchemaConfig(model=orm.GenomicVariant, exclude=["is_vus", "is_pathogenic"])
