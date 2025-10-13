@@ -20,7 +20,7 @@ from ninja.schema import DjangoGetter as BaseDjangoGetter
 from pydantic import BaseModel as PydanticBaseModel
 from pydantic import ConfigDict, model_validator
 
-from pydantic import AliasChoices, ConfigDict, field_validator, model_validator, AliasGenerator, AliasChoices, WithJsonSchema
+from pydantic import AliasChoices, ConfigDict, ValidationInfo, model_validator, AliasGenerator, AliasChoices, WithJsonSchema
 
 from onconova.core.auth.models import User
 from onconova.core.measures.fields import MeasurementField
@@ -157,8 +157,9 @@ class BaseSchema(Schema,
         kwargs.setdefault("exclude_none", True)
         return super().model_dump_json(*args, **kwargs)
 
+    @model_validator(mode='before')
     @classmethod
-    def model_validate(cls, obj=None, *args, **kwargs):
+    def validator(cls, obj, info: ValidationInfo):
         """
         Validates and converts a Django model instance into a schema-compliant dictionary.
 
@@ -199,7 +200,7 @@ class BaseSchema(Schema,
                     # Check if a custom resolver has been defined for the field
                     params = inspect.signature(method).parameters
                     if "context" in params:
-                        data[key] = method(obj, context=kwargs.get("context"))
+                        data[key] = method(obj, context=info.data.get("context"))
                     else:
                         data[key] = method(obj)
 
@@ -287,18 +288,7 @@ class BaseSchema(Schema,
             # Replace obj with the constructed data dictionary
             obj = data
 
-        # Call the superclass model_validate method with the constructed data
-        # NOTE: The superclass must implement a custom `model_validate` method (e.g., Pydantic's BaseModel).
-        # Otherwise, this may result in recursion.
-        base_model_validate = getattr(super(), "model_validate", None)
-        if (
-            base_model_validate is None
-            or base_model_validate is BaseSchema.model_validate
-        ):
-            raise NotImplementedError(
-                "The superclass must implement a custom `model_validate` method (e.g., inherit from Pydantic's BaseModel)."
-            )
-        return base_model_validate(obj=obj, *args, **kwargs)
+        return obj
 
     def model_dump_django(
         self,
@@ -469,19 +459,19 @@ class BaseSchema(Schema,
         return instance
 
     @staticmethod
-    def _resolve_foreign_key(obj, orm_field_name):
+    def _resolve_foreign_key(obj: DjangoModel, orm_field_name: str):
         if not getattr(obj, orm_field_name, None):
             return None
         return getattr(obj, orm_field_name).id
 
     @staticmethod
-    def _resolve_expanded_foreign_key(obj, orm_field_name, related_schema):
+    def _resolve_expanded_foreign_key(obj: DjangoModel, orm_field_name, related_schema):
         if not getattr(obj, orm_field_name, None):
             return None
         return related_schema.model_validate(getattr(obj, orm_field_name))
 
     @staticmethod
-    def _resolve_expanded_many_to_many(obj, orm_field_name, related_schema):
+    def _resolve_expanded_many_to_many(obj: DjangoModel, orm_field_name, related_schema):
         if not getattr(obj, orm_field_name, None):
             return []
         # Collect related objects and apply validation or get their IDs
@@ -491,7 +481,7 @@ class BaseSchema(Schema,
         ]
 
     @staticmethod
-    def _resolve_many_to_many(obj, orm_field_name):
+    def _resolve_many_to_many(obj: DjangoModel, orm_field_name):
         if not getattr(obj, orm_field_name, None):
             return []
         # Collect related objects and apply validation or get their IDs
@@ -500,14 +490,14 @@ class BaseSchema(Schema,
         ]
 
     @staticmethod
-    def _resolve_measure(obj, orm_field_name):
+    def _resolve_measure(obj: DjangoModel, orm_field_name):
         from onconova.core.measures.schemas import Measure
 
         if not getattr(obj, orm_field_name, None):
             return None
 
         measure = getattr(obj, orm_field_name)
-        default_unit = obj._meta.get_field(orm_field_name).get_default_unit()
+        default_unit = obj._meta.get_field(orm_field_name).get_default_unit() # type: ignore
         return Measure(
             value=(
                 measure
@@ -518,7 +508,7 @@ class BaseSchema(Schema,
         )
 
     @staticmethod
-    def _resolve_user(obj, orm_field_name, many=False):
+    def _resolve_user(obj: DjangoModel, orm_field_name, many=False):
         if not getattr(obj, orm_field_name, None):
             return []
         # Collect related objects and apply validation or get their IDs
@@ -571,7 +561,7 @@ class BaseSchema(Schema,
 class DjangoGetter(BaseDjangoGetter):
     def __getattr__(self, key: str) -> Any:
         resolver = getattr(self._schema_cls, f"resolve_{key}", None)
-        if resolver and isinstance(self._obj, (DjangoModel)):
+        if resolver and isinstance(self._obj, DjangoModel):
             params = inspect.signature(resolver).parameters
             if "context" in params:
                 value = resolver(self._obj, context=self._context)
