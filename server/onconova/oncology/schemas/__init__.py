@@ -31,7 +31,7 @@ from .genomic_signature import (
     TumorNeoantigenBurdenSchema,
 )
 from .genomic_variant import GenomicVariantCreateSchema, GenomicVariantSchema
-from .lifestyle import LifestyleCreateSchema, LifestyleSchema
+from .lifestyle import LifestyleCreate, Lifestyle
 from .neoplastic_entity import NeoplasticEntityCreate, NeoplasticEntity
 from .patient_case import (
     PatientCaseCreate,
@@ -132,7 +132,7 @@ PerformanceStatusFilters = create_filters_schema(
     schema=PerformanceStatusSchema, name="PerformanceStatusFilters"
 )
 LifestyleFilters = create_filters_schema(
-    schema=LifestyleSchema, name="LifestyleFilters"
+    schema=Lifestyle, name="LifestyleFilters"
 )
 FamilyHistoryFilters = create_filters_schema(
     schema=FamilyHistorySchema, name="FamilyHistoryFilters"
@@ -236,8 +236,8 @@ ONCOLOGY_SCHEMAS = (
     PerformanceStatusSchema,
     PerformanceStatusCreateSchema,
     # Lifestyle schemas
-    LifestyleSchema,
-    LifestyleCreateSchema,
+    Lifestyle,
+    LifestyleCreate,
     # Family member history schemas
     FamilyHistorySchema,
     FamilyHistoryCreateSchema,

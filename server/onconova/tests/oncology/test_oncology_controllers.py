@@ -299,8 +299,8 @@ class TestLifestyleController(CrudApiControllerTestCase):
     controller_path = "/api/v1/lifestyles"
     FACTORY = factories.LifestyleFactory
     MODEL = models.Lifestyle
-    SCHEMA = schemas.LifestyleSchema
-    CREATE_SCHEMA = schemas.LifestyleCreateSchema
+    SCHEMA = schemas.Lifestyle
+    CREATE_SCHEMA = schemas.LifestyleCreate
 
 
 class TestFamilyHistoryController(CrudApiControllerTestCase):

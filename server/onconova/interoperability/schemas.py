@@ -172,7 +172,7 @@ class PatientCaseBundle(sc.PatientCase):
     vitals: List[sc.VitalsSchema] = Field(
         default=[],
     )
-    lifestyles: List[sc.LifestyleSchema] = Field(
+    lifestyles: List[sc.Lifestyle] = Field(
         default=[],
     )
     familyHistory: List[sc.FamilyHistorySchema] = Field(
