@@ -31,7 +31,7 @@ from onconova.core.schemas import CodedConcept as CodedConceptSchema
 from onconova.core.schemas import Period as PeriodSchema
 from onconova.core.schemas import Range as RangeSchema
 from onconova.core.serialization import filters as schema_filters
-from onconova.core.types import Array, Nullable, Username
+from onconova.core.types import Contributors, Nullable, Username, Age
 from onconova.core.utils import (
     camel_to_snake,
     is_enum,
@@ -451,13 +451,14 @@ FILTERS_MAP = {
     datetime: schema_filters.DATE_FILTERS,
     PeriodSchema: schema_filters.PERIOD_FILTERS,
     RangeSchema: schema_filters.RANGE_FILTERS,
+    Age: schema_filters.INTEGER_FILTERS,
     int: schema_filters.INTEGER_FILTERS,
     float: schema_filters.FLOAT_FILTERS,
     Measure: schema_filters.FLOAT_FILTERS,
     bool: schema_filters.BOOLEAN_FILTERS,
     CodedConceptSchema: schema_filters.CODED_CONCEPT_FILTERS,
     Username: schema_filters.USER_REFERENCE_FILTERS,
-    Array[str]: schema_filters.ARRAY_FILTERS,  # type: ignore
+    Contributors: schema_filters.ARRAY_FILTERS,  # type: ignore
     List[CodedConceptSchema]: schema_filters.MULTI_CODED_CONCEPT_FILTERS,
 }
 
@@ -499,7 +500,7 @@ def get_schema_field_filters(
     if is_union(annotation):
         if (
             len(get_args(annotation)) == 2
-            and getattr(get_args(annotation)[1], "__origin__", None) == Array
+            and getattr(get_args(annotation)[1], "__origin__", None) == Contributors
             and get_args(get_args(annotation)[1]) == (str,)
         ):
             annotation = get_args(annotation)[1]
