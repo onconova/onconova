@@ -83,7 +83,7 @@ class PatientCaseBundle(sc.PatientCase):
         model_config: Serialization configuration (serialize_by_alias=False).
     """
 
-    neoplasticEntities: List[sc.NeoplasticEntitySchema] = Field(
+    neoplasticEntities: List[sc.NeoplasticEntity] = Field(
         default=[],
         alias="neoplastic_entities",
         validation_alias=AliasChoices("neoplasticEntities", "neoplastic_entities"),

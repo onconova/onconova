@@ -18,8 +18,8 @@ class TestNeoplasticEntityController(CrudApiControllerTestCase):
     controller_path = "/api/v1/neoplastic-entities"
     FACTORY = factories.PrimaryNeoplasticEntityFactory
     MODEL = models.NeoplasticEntity
-    SCHEMA = schemas.NeoplasticEntitySchema
-    CREATE_SCHEMA = schemas.NeoplasticEntityCreateSchema
+    SCHEMA = schemas.NeoplasticEntity
+    CREATE_SCHEMA = schemas.NeoplasticEntityCreate
 
 
 class TestStagingController(CrudApiControllerTestCase):

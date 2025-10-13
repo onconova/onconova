@@ -7,7 +7,6 @@ import factory
 import faker as fakerModule
 import pghistory
 from django.contrib.auth.hashers import make_password
-from django.contrib.auth.models import Group
 from factory.fuzzy import FuzzyChoice, FuzzyText
 from psycopg.types.range import Range as PostgresRange
 

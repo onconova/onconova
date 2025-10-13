@@ -31,7 +31,7 @@ from onconova.core.aggregates import Median
 from onconova.core.auth.token import XSessionTokenAuth
 from onconova.core.utils import COMMON_HTTP_ERRORS
 from onconova.oncology import models as oncological_models
-from onconova.oncology.models.neoplastic_entity import NeoplasticEntityRelationship
+from onconova.oncology.models.neoplastic_entity import NeoplasticEntityRelationshipChoices
 from onconova.research.models.cohort import Cohort
 from onconova.research.models.project import Project
 from onconova.terminology.models import CancerTopographyGroup
@@ -60,7 +60,7 @@ class DashboardController(ControllerBase):
             primarySites=oncological_models.NeoplasticEntity.objects.select_properties(
                 "topography_group"
             )
-            .filter(relationship=NeoplasticEntityRelationship.PRIMARY)
+            .filter(relationship=NeoplasticEntityRelationshipChoices.PRIMARY)
             .distinct("topography_group")
             .count(),
             entries=sum([model.objects.count() for model in oncological_models.MODELS]),
@@ -98,7 +98,7 @@ class DashboardController(ControllerBase):
             oncological_models.NeoplasticEntity.objects.select_properties(
                 "topography_group"
             )
-            .filter(relationship=NeoplasticEntityRelationship.PRIMARY)
+            .filter(relationship=NeoplasticEntityRelationshipChoices.PRIMARY)
             .values("topography_group__code", "topography_group__display")
             .distinct()
         )
@@ -108,7 +108,7 @@ class DashboardController(ControllerBase):
             entity_cohort = oncological_models.PatientCase.objects.filter(
                 Exists(
                     oncological_models.NeoplasticEntity.objects.filter(
-                        relationship=NeoplasticEntityRelationship.PRIMARY,
+                        relationship=NeoplasticEntityRelationshipChoices.PRIMARY,
                         topography__code__contains=entity_code,
                         case_id=OuterRef("pk"),
                     )

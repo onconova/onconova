@@ -32,7 +32,7 @@ from .genomic_signature import (
 )
 from .genomic_variant import GenomicVariantCreateSchema, GenomicVariantSchema
 from .lifestyle import LifestyleCreateSchema, LifestyleSchema
-from .neoplastic_entity import NeoplasticEntityCreateSchema, NeoplasticEntitySchema
+from .neoplastic_entity import NeoplasticEntityCreate, NeoplasticEntity
 from .patient_case import (
     PatientCaseCreate,
     PatientCaseDataCompletionStatus,
@@ -106,7 +106,7 @@ PatientCaseFilters = create_filters_schema(
     exclude=["clinicalIdentifier", "dateOfBirth", "dateOfDeath", "clinicalCenter"],
 )
 NeoplasticEntityFilters = create_filters_schema(
-    schema=NeoplasticEntitySchema, name="NeoplasticEntityFilters"
+    schema=NeoplasticEntity, name="NeoplasticEntityFilters"
 )
 TumorMarkerFilters = create_filters_schema(
     schema=TumorMarkerSchema, name="TumorMarkerFilters"
@@ -160,8 +160,8 @@ ONCOLOGY_SCHEMAS = (
     PatientCaseCreate,
     PatientCaseDataCompletionStatus,
     # Neoplastic entity schemas
-    NeoplasticEntitySchema,
-    NeoplasticEntityCreateSchema,
+    NeoplasticEntity,
+    NeoplasticEntityCreate,
     # Staging schemas
     TNMStagingSchema,
     TNMStagingCreateSchema,
