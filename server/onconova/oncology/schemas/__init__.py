@@ -79,7 +79,7 @@ from .staging import (
     WilmsStageCreate,
     WilmsStage,
 )
-from .surgery import SurgeryCreateSchema, SurgerySchema
+from .surgery import SurgeryCreate, Surgery
 from .systemic_therapy import (
     SystemicTherapyCreateSchema,
     SystemicTherapyMedicationCreateSchema,
@@ -118,7 +118,7 @@ RiskAssessmentFilters = create_filters_schema(
 SystemicTherapyFilters = create_filters_schema(
     schema=SystemicTherapySchema, name="SystemicTherapyFilters"
 )
-SurgeryFilters = create_filters_schema(schema=SurgerySchema, name="SurgeryFilters")
+SurgeryFilters = create_filters_schema(schema=Surgery, name="SurgeryFilters")
 RadiotherapyFilters = create_filters_schema(
     schema=Radiotherapy, name="RadiotherapyFilters"
 )
@@ -206,8 +206,8 @@ ONCOLOGY_SCHEMAS = (
     SystemicTherapyMedicationSchema,
     SystemicTherapyMedicationCreateSchema,
     # Surgery schemas
-    SurgerySchema,
-    SurgeryCreateSchema,
+    Surgery,
+    SurgeryCreate,
     # Radiotherapy schemas
     Radiotherapy,
     RadiotherapyCreate,

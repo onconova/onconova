@@ -128,7 +128,7 @@ class PatientCaseBundle(sc.PatientCase):
         alias="systemic_therapies",
         validation_alias=AliasChoices("systemicTherapies", "systemic_therapies"),
     )
-    surgeries: List[sc.SurgerySchema] = Field(
+    surgeries: List[sc.Surgery] = Field(
         default=[],
     )
     radiotherapies: List[sc.Radiotherapy] = Field(

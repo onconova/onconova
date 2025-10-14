@@ -92,8 +92,8 @@ class TestSurgeryController(CrudApiControllerTestCase):
     controller_path = "/api/v1/surgeries"
     FACTORY = factories.SurgeryFactory
     MODEL = models.Surgery
-    SCHEMA = schemas.SurgerySchema
-    CREATE_SCHEMA = schemas.SurgeryCreateSchema
+    SCHEMA = schemas.Surgery
+    CREATE_SCHEMA = schemas.SurgeryCreate
 
 
 class TestRadiotherapyController(CrudApiControllerTestCase):

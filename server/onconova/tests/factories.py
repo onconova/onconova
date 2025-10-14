@@ -22,6 +22,7 @@ from onconova.oncology.models.adverse_event import AdverseEventMitigationCategor
 from onconova.oncology.models.genomic_signature import TumorMutationalBurdenStatusChoices, HomologousRecombinationDeficiencyInterpretationChoices
 from onconova.oncology.models.genomic_variant import GenomicVariantAssessmentChoices, GenomicVariantConfidenceChoices, GenomicVariantClinicalRelevanceChoices
 from onconova.oncology.models.radiotherapy import RadiotherapyIntentChoices
+from onconova.oncology.models.surgery import SurgeryIntentChoices
 
 def is_running_pytest():
     return "pytest" in sys.modules
@@ -314,7 +315,7 @@ class SurgeryFactory(factory.django.DjangoModelFactory):
     case = factory.SubFactory(PatientCaseFactory)
     date = factory.LazyFunction(faker.date)
     procedure = make_terminology_factory(terminology.SurgicalProcedure)
-    intent = FuzzyChoice(models.Surgery.TreatmentIntent)
+    intent = FuzzyChoice(SurgeryIntentChoices)
     bodysite = make_terminology_factory(terminology.CancerTopography)
     bodysite_qualifier = make_terminology_factory(terminology.BodyLocationQualifier)
     bodysite_laterality = make_terminology_factory(terminology.LateralityQualifier)
