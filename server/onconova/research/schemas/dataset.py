@@ -288,8 +288,8 @@ class PatientCaseDataset(partial_schemas["PatientCase"]):
         All attributes are nullable and may contain lists of corresponding schema resources.
     """
 
-    id: Nullable[UUID] = Field(default=None, title="Unique identifier of the patient case")
-    description: Nullable[str] = Field(default=None, title="Human-readable summary")
+    id: Nullable[UUID] = Field(default=None, title="Id", description="Unique identifier of the patient case")
+    description: Nullable[str] = Field(default=None, title="description", description="Human-readable summary")
     pseudoidentifier: str = Field(title="Pseudoidentifier")
     neoplasticEntities: Nullable[List[partial_schemas["NeoplasticEntity"]]] = Field(  # type: ignore
         default=None,

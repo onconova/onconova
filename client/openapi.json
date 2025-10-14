@@ -52750,114 +52750,6 @@
         "parameters": [
           {
             "in": "query",
-            "name": "population.lessThan",
-            "schema": {
-              "description": "Population - Filter for entries with values less than the specified value",
-              "title": "lessThan",
-              "type": "integer"
-            },
-            "required": false,
-            "description": "Population - Filter for entries with values less than the specified value"
-          },
-          {
-            "in": "query",
-            "name": "population.lessThanOrEqual",
-            "schema": {
-              "description": "Population - Filter for entries with values less than or equal to the specified value",
-              "title": "lessThanOrEqual",
-              "type": "integer"
-            },
-            "required": false,
-            "description": "Population - Filter for entries with values less than or equal to the specified value"
-          },
-          {
-            "in": "query",
-            "name": "population.greaterThan",
-            "schema": {
-              "description": "Population - Filter for entries with values greater than the specified value",
-              "title": "greaterThan",
-              "type": "integer"
-            },
-            "required": false,
-            "description": "Population - Filter for entries with values greater than the specified value"
-          },
-          {
-            "in": "query",
-            "name": "population.greaterThanOrEqual",
-            "schema": {
-              "description": "Population - Filter for entries with values greater than or equal to the specified value",
-              "title": "greaterThanOrEqual",
-              "type": "integer"
-            },
-            "required": false,
-            "description": "Population - Filter for entries with values greater than or equal to the specified value"
-          },
-          {
-            "in": "query",
-            "name": "population.equal",
-            "schema": {
-              "description": "Population - Filter for entries with values exactly equal to the specified value",
-              "title": "equal",
-              "type": "integer"
-            },
-            "required": false,
-            "description": "Population - Filter for entries with values exactly equal to the specified value"
-          },
-          {
-            "in": "query",
-            "name": "population.not.equal",
-            "schema": {
-              "description": "Population - Filter for entries with values not equal to the specified value",
-              "title": "not.equal",
-              "type": "integer"
-            },
-            "required": false,
-            "description": "Population - Filter for entries with values not equal to the specified value"
-          },
-          {
-            "in": "query",
-            "name": "population.between",
-            "schema": {
-              "description": "Population - Filter for entries with values between two specified values (inclusive)",
-              "maxItems": 2,
-              "minItems": 2,
-              "prefixItems": [
-                {
-                  "type": "integer"
-                },
-                {
-                  "type": "integer"
-                }
-              ],
-              "title": "between",
-              "type": "array"
-            },
-            "required": false,
-            "description": "Population - Filter for entries with values between two specified values (inclusive)"
-          },
-          {
-            "in": "query",
-            "name": "population.not.between",
-            "schema": {
-              "description": "Population - Filter for entries with values between two specified values (inclusive)",
-              "maxItems": 2,
-              "minItems": 2,
-              "prefixItems": [
-                {
-                  "type": "integer"
-                },
-                {
-                  "type": "integer"
-                }
-              ],
-              "title": "not.between",
-              "type": "array"
-            },
-            "required": false,
-            "description": "Population - Filter for entries with values between two specified values (inclusive)"
-          },
-          {
-            "in": "query",
             "name": "id",
             "schema": {
               "description": "Id - Filter for full text matches",
@@ -52971,790 +52863,6 @@
             },
             "required": false,
             "description": "Id - Filter for entries where at least one reference mismatches the query"
-          },
-          {
-            "in": "query",
-            "name": "externalSource.not.exists",
-            "schema": {
-              "description": "External data source - Filter for entries without a value",
-              "title": "not.exists",
-              "type": "boolean"
-            },
-            "required": false,
-            "description": "External data source - Filter for entries without a value"
-          },
-          {
-            "in": "query",
-            "name": "externalSource.exists",
-            "schema": {
-              "description": "External data source - Filter for entries with a value",
-              "title": "exists",
-              "type": "boolean"
-            },
-            "required": false,
-            "description": "External data source - Filter for entries with a value"
-          },
-          {
-            "in": "query",
-            "name": "externalSource",
-            "schema": {
-              "description": "External data source - Filter for full text matches",
-              "title": "ExactStringFilter",
-              "type": "string"
-            },
-            "required": false,
-            "description": "External data source - Filter for full text matches"
-          },
-          {
-            "in": "query",
-            "name": "externalSource.not",
-            "schema": {
-              "description": "External data source - Filter for full text mismatches",
-              "title": "not",
-              "type": "string"
-            },
-            "required": false,
-            "description": "External data source - Filter for full text mismatches"
-          },
-          {
-            "in": "query",
-            "name": "externalSource.contains",
-            "schema": {
-              "description": "External data source - Filter for partial text matches",
-              "title": "contains",
-              "type": "string"
-            },
-            "required": false,
-            "description": "External data source - Filter for partial text matches"
-          },
-          {
-            "in": "query",
-            "name": "externalSource.not.contains",
-            "schema": {
-              "description": "External data source - Filter for partial text mismatches",
-              "title": "not.contains",
-              "type": "string"
-            },
-            "required": false,
-            "description": "External data source - Filter for partial text mismatches"
-          },
-          {
-            "in": "query",
-            "name": "externalSource.beginsWith",
-            "schema": {
-              "description": "External data source - Filter for entries starting with the text",
-              "title": "beginsWith",
-              "type": "string"
-            },
-            "required": false,
-            "description": "External data source - Filter for entries starting with the text"
-          },
-          {
-            "in": "query",
-            "name": "externalSource.not.beginsWith",
-            "schema": {
-              "description": "External data source - Filter for entries not starting with the text",
-              "title": "not.beginsWith",
-              "type": "string"
-            },
-            "required": false,
-            "description": "External data source - Filter for entries not starting with the text"
-          },
-          {
-            "in": "query",
-            "name": "externalSource.endsWith",
-            "schema": {
-              "description": "External data source - Filter for entries ending with the text",
-              "title": "endsWith",
-              "type": "string"
-            },
-            "required": false,
-            "description": "External data source - Filter for entries ending with the text"
-          },
-          {
-            "in": "query",
-            "name": "externalSource.not.endsWith",
-            "schema": {
-              "description": "External data source - Filter for entries not ending with the text",
-              "title": "not.endsWith",
-              "type": "string"
-            },
-            "required": false,
-            "description": "External data source - Filter for entries not ending with the text"
-          },
-          {
-            "in": "query",
-            "name": "externalSource.anyOf",
-            "schema": {
-              "description": "External data source - Filter for entries where at least one reference matches the query",
-              "items": {
-                "type": "string"
-              },
-              "title": "anyOf",
-              "type": "array"
-            },
-            "required": false,
-            "description": "External data source - Filter for entries where at least one reference matches the query"
-          },
-          {
-            "in": "query",
-            "name": "externalSource.not.anyOf",
-            "schema": {
-              "description": "External data source - Filter for entries where at least one reference mismatches the query",
-              "items": {
-                "type": "string"
-              },
-              "title": "not.anyOf",
-              "type": "array"
-            },
-            "required": false,
-            "description": "External data source - Filter for entries where at least one reference mismatches the query"
-          },
-          {
-            "in": "query",
-            "name": "name",
-            "schema": {
-              "description": "Cohort name - Filter for full text matches",
-              "title": "ExactStringFilter",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Cohort name - Filter for full text matches"
-          },
-          {
-            "in": "query",
-            "name": "name.not",
-            "schema": {
-              "description": "Cohort name - Filter for full text mismatches",
-              "title": "not",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Cohort name - Filter for full text mismatches"
-          },
-          {
-            "in": "query",
-            "name": "name.contains",
-            "schema": {
-              "description": "Cohort name - Filter for partial text matches",
-              "title": "contains",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Cohort name - Filter for partial text matches"
-          },
-          {
-            "in": "query",
-            "name": "name.not.contains",
-            "schema": {
-              "description": "Cohort name - Filter for partial text mismatches",
-              "title": "not.contains",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Cohort name - Filter for partial text mismatches"
-          },
-          {
-            "in": "query",
-            "name": "name.beginsWith",
-            "schema": {
-              "description": "Cohort name - Filter for entries starting with the text",
-              "title": "beginsWith",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Cohort name - Filter for entries starting with the text"
-          },
-          {
-            "in": "query",
-            "name": "name.not.beginsWith",
-            "schema": {
-              "description": "Cohort name - Filter for entries not starting with the text",
-              "title": "not.beginsWith",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Cohort name - Filter for entries not starting with the text"
-          },
-          {
-            "in": "query",
-            "name": "name.endsWith",
-            "schema": {
-              "description": "Cohort name - Filter for entries ending with the text",
-              "title": "endsWith",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Cohort name - Filter for entries ending with the text"
-          },
-          {
-            "in": "query",
-            "name": "name.not.endsWith",
-            "schema": {
-              "description": "Cohort name - Filter for entries not ending with the text",
-              "title": "not.endsWith",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Cohort name - Filter for entries not ending with the text"
-          },
-          {
-            "in": "query",
-            "name": "name.anyOf",
-            "schema": {
-              "description": "Cohort name - Filter for entries where at least one reference matches the query",
-              "items": {
-                "type": "string"
-              },
-              "title": "anyOf",
-              "type": "array"
-            },
-            "required": false,
-            "description": "Cohort name - Filter for entries where at least one reference matches the query"
-          },
-          {
-            "in": "query",
-            "name": "name.not.anyOf",
-            "schema": {
-              "description": "Cohort name - Filter for entries where at least one reference mismatches the query",
-              "items": {
-                "type": "string"
-              },
-              "title": "not.anyOf",
-              "type": "array"
-            },
-            "required": false,
-            "description": "Cohort name - Filter for entries where at least one reference mismatches the query"
-          },
-          {
-            "in": "query",
-            "name": "includeCriteria.not.exists",
-            "schema": {
-              "description": "Inclusion criteria - Filter for entries without a value",
-              "title": "not.exists",
-              "type": "boolean"
-            },
-            "required": false,
-            "description": "Inclusion criteria - Filter for entries without a value"
-          },
-          {
-            "in": "query",
-            "name": "includeCriteria.exists",
-            "schema": {
-              "description": "Inclusion criteria - Filter for entries with a value",
-              "title": "exists",
-              "type": "boolean"
-            },
-            "required": false,
-            "description": "Inclusion criteria - Filter for entries with a value"
-          },
-          {
-            "in": "query",
-            "name": "excludeCriteria.not.exists",
-            "schema": {
-              "description": "Exclusion criteria - Filter for entries without a value",
-              "title": "not.exists",
-              "type": "boolean"
-            },
-            "required": false,
-            "description": "Exclusion criteria - Filter for entries without a value"
-          },
-          {
-            "in": "query",
-            "name": "excludeCriteria.exists",
-            "schema": {
-              "description": "Exclusion criteria - Filter for entries with a value",
-              "title": "exists",
-              "type": "boolean"
-            },
-            "required": false,
-            "description": "Exclusion criteria - Filter for entries with a value"
-          },
-          {
-            "in": "query",
-            "name": "projectId.not.exists",
-            "schema": {
-              "description": "Project - Filter for entries without a value",
-              "title": "not.exists",
-              "type": "boolean"
-            },
-            "required": false,
-            "description": "Project - Filter for entries without a value"
-          },
-          {
-            "in": "query",
-            "name": "projectId.exists",
-            "schema": {
-              "description": "Project - Filter for entries with a value",
-              "title": "exists",
-              "type": "boolean"
-            },
-            "required": false,
-            "description": "Project - Filter for entries with a value"
-          },
-          {
-            "in": "query",
-            "name": "projectId",
-            "schema": {
-              "description": "Project - Filter for reference matches",
-              "title": "ExactRefereceFilter",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Project - Filter for reference matches"
-          },
-          {
-            "in": "query",
-            "name": "projectId.not",
-            "schema": {
-              "description": "Project - Filter for reference mismatches",
-              "title": "not",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Project - Filter for reference mismatches"
-          },
-          {
-            "in": "query",
-            "name": "projectId.contains",
-            "schema": {
-              "description": "Project - Filter for partial text matches",
-              "title": "contains",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Project - Filter for partial text matches"
-          },
-          {
-            "in": "query",
-            "name": "projectId.not.contains",
-            "schema": {
-              "description": "Project - Filter for partial text mismatches",
-              "title": "not.contains",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Project - Filter for partial text mismatches"
-          },
-          {
-            "in": "query",
-            "name": "projectId.beginsWith",
-            "schema": {
-              "description": "Project - Filter for entries starting with the text",
-              "title": "beginsWith",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Project - Filter for entries starting with the text"
-          },
-          {
-            "in": "query",
-            "name": "projectId.not.beginsWith",
-            "schema": {
-              "description": "Project - Filter for entries not starting with the text",
-              "title": "not.beginsWith",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Project - Filter for entries not starting with the text"
-          },
-          {
-            "in": "query",
-            "name": "projectId.endsWith",
-            "schema": {
-              "description": "Project - Filter for entries ending with the text",
-              "title": "endsWith",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Project - Filter for entries ending with the text"
-          },
-          {
-            "in": "query",
-            "name": "projectId.not.endsWith",
-            "schema": {
-              "description": "Project - Filter for entries not ending with the text",
-              "title": "not.endsWith",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Project - Filter for entries not ending with the text"
-          },
-          {
-            "in": "query",
-            "name": "projectId.anyOf",
-            "schema": {
-              "description": "Project - Filter for entries where at least one reference matches the query",
-              "items": {
-                "type": "string"
-              },
-              "title": "anyOf",
-              "type": "array"
-            },
-            "required": false,
-            "description": "Project - Filter for entries where at least one reference matches the query"
-          },
-          {
-            "in": "query",
-            "name": "projectId.not.anyOf",
-            "schema": {
-              "description": "Project - Filter for entries where at least one reference mismatches the query",
-              "items": {
-                "type": "string"
-              },
-              "title": "not.anyOf",
-              "type": "array"
-            },
-            "required": false,
-            "description": "Project - Filter for entries where at least one reference mismatches the query"
-          },
-          {
-            "in": "query",
-            "name": "casesIds",
-            "schema": {
-              "description": "Cases - Filter for full text matches",
-              "title": "ExactStringFilter",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Cases - Filter for full text matches"
-          },
-          {
-            "in": "query",
-            "name": "casesIds.not",
-            "schema": {
-              "description": "Cases - Filter for full text mismatches",
-              "title": "not",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Cases - Filter for full text mismatches"
-          },
-          {
-            "in": "query",
-            "name": "casesIds.contains",
-            "schema": {
-              "description": "Cases - Filter for partial text matches",
-              "title": "contains",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Cases - Filter for partial text matches"
-          },
-          {
-            "in": "query",
-            "name": "casesIds.not.contains",
-            "schema": {
-              "description": "Cases - Filter for partial text mismatches",
-              "title": "not.contains",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Cases - Filter for partial text mismatches"
-          },
-          {
-            "in": "query",
-            "name": "casesIds.beginsWith",
-            "schema": {
-              "description": "Cases - Filter for entries starting with the text",
-              "title": "beginsWith",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Cases - Filter for entries starting with the text"
-          },
-          {
-            "in": "query",
-            "name": "casesIds.not.beginsWith",
-            "schema": {
-              "description": "Cases - Filter for entries not starting with the text",
-              "title": "not.beginsWith",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Cases - Filter for entries not starting with the text"
-          },
-          {
-            "in": "query",
-            "name": "casesIds.endsWith",
-            "schema": {
-              "description": "Cases - Filter for entries ending with the text",
-              "title": "endsWith",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Cases - Filter for entries ending with the text"
-          },
-          {
-            "in": "query",
-            "name": "casesIds.not.endsWith",
-            "schema": {
-              "description": "Cases - Filter for entries not ending with the text",
-              "title": "not.endsWith",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Cases - Filter for entries not ending with the text"
-          },
-          {
-            "in": "query",
-            "name": "casesIds.anyOf",
-            "schema": {
-              "description": "Cases - Filter for entries where at least one reference matches the query",
-              "items": {
-                "type": "string"
-              },
-              "title": "anyOf",
-              "type": "array"
-            },
-            "required": false,
-            "description": "Cases - Filter for entries where at least one reference matches the query"
-          },
-          {
-            "in": "query",
-            "name": "casesIds.not.anyOf",
-            "schema": {
-              "description": "Cases - Filter for entries where at least one reference mismatches the query",
-              "items": {
-                "type": "string"
-              },
-              "title": "not.anyOf",
-              "type": "array"
-            },
-            "required": false,
-            "description": "Cases - Filter for entries where at least one reference mismatches the query"
-          },
-          {
-            "in": "query",
-            "name": "manualChoicesIds",
-            "schema": {
-              "description": "Manually added cases - Filter for full text matches",
-              "title": "ExactStringFilter",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Manually added cases - Filter for full text matches"
-          },
-          {
-            "in": "query",
-            "name": "manualChoicesIds.not",
-            "schema": {
-              "description": "Manually added cases - Filter for full text mismatches",
-              "title": "not",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Manually added cases - Filter for full text mismatches"
-          },
-          {
-            "in": "query",
-            "name": "manualChoicesIds.contains",
-            "schema": {
-              "description": "Manually added cases - Filter for partial text matches",
-              "title": "contains",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Manually added cases - Filter for partial text matches"
-          },
-          {
-            "in": "query",
-            "name": "manualChoicesIds.not.contains",
-            "schema": {
-              "description": "Manually added cases - Filter for partial text mismatches",
-              "title": "not.contains",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Manually added cases - Filter for partial text mismatches"
-          },
-          {
-            "in": "query",
-            "name": "manualChoicesIds.beginsWith",
-            "schema": {
-              "description": "Manually added cases - Filter for entries starting with the text",
-              "title": "beginsWith",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Manually added cases - Filter for entries starting with the text"
-          },
-          {
-            "in": "query",
-            "name": "manualChoicesIds.not.beginsWith",
-            "schema": {
-              "description": "Manually added cases - Filter for entries not starting with the text",
-              "title": "not.beginsWith",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Manually added cases - Filter for entries not starting with the text"
-          },
-          {
-            "in": "query",
-            "name": "manualChoicesIds.endsWith",
-            "schema": {
-              "description": "Manually added cases - Filter for entries ending with the text",
-              "title": "endsWith",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Manually added cases - Filter for entries ending with the text"
-          },
-          {
-            "in": "query",
-            "name": "manualChoicesIds.not.endsWith",
-            "schema": {
-              "description": "Manually added cases - Filter for entries not ending with the text",
-              "title": "not.endsWith",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Manually added cases - Filter for entries not ending with the text"
-          },
-          {
-            "in": "query",
-            "name": "manualChoicesIds.anyOf",
-            "schema": {
-              "description": "Manually added cases - Filter for entries where at least one reference matches the query",
-              "items": {
-                "type": "string"
-              },
-              "title": "anyOf",
-              "type": "array"
-            },
-            "required": false,
-            "description": "Manually added cases - Filter for entries where at least one reference matches the query"
-          },
-          {
-            "in": "query",
-            "name": "manualChoicesIds.not.anyOf",
-            "schema": {
-              "description": "Manually added cases - Filter for entries where at least one reference mismatches the query",
-              "items": {
-                "type": "string"
-              },
-              "title": "not.anyOf",
-              "type": "array"
-            },
-            "required": false,
-            "description": "Manually added cases - Filter for entries where at least one reference mismatches the query"
-          },
-          {
-            "in": "query",
-            "name": "frozenSetIds",
-            "schema": {
-              "description": "Frozen cases - Filter for full text matches",
-              "title": "ExactStringFilter",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Frozen cases - Filter for full text matches"
-          },
-          {
-            "in": "query",
-            "name": "frozenSetIds.not",
-            "schema": {
-              "description": "Frozen cases - Filter for full text mismatches",
-              "title": "not",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Frozen cases - Filter for full text mismatches"
-          },
-          {
-            "in": "query",
-            "name": "frozenSetIds.contains",
-            "schema": {
-              "description": "Frozen cases - Filter for partial text matches",
-              "title": "contains",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Frozen cases - Filter for partial text matches"
-          },
-          {
-            "in": "query",
-            "name": "frozenSetIds.not.contains",
-            "schema": {
-              "description": "Frozen cases - Filter for partial text mismatches",
-              "title": "not.contains",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Frozen cases - Filter for partial text mismatches"
-          },
-          {
-            "in": "query",
-            "name": "frozenSetIds.beginsWith",
-            "schema": {
-              "description": "Frozen cases - Filter for entries starting with the text",
-              "title": "beginsWith",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Frozen cases - Filter for entries starting with the text"
-          },
-          {
-            "in": "query",
-            "name": "frozenSetIds.not.beginsWith",
-            "schema": {
-              "description": "Frozen cases - Filter for entries not starting with the text",
-              "title": "not.beginsWith",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Frozen cases - Filter for entries not starting with the text"
-          },
-          {
-            "in": "query",
-            "name": "frozenSetIds.endsWith",
-            "schema": {
-              "description": "Frozen cases - Filter for entries ending with the text",
-              "title": "endsWith",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Frozen cases - Filter for entries ending with the text"
-          },
-          {
-            "in": "query",
-            "name": "frozenSetIds.not.endsWith",
-            "schema": {
-              "description": "Frozen cases - Filter for entries not ending with the text",
-              "title": "not.endsWith",
-              "type": "string"
-            },
-            "required": false,
-            "description": "Frozen cases - Filter for entries not ending with the text"
-          },
-          {
-            "in": "query",
-            "name": "frozenSetIds.anyOf",
-            "schema": {
-              "description": "Frozen cases - Filter for entries where at least one reference matches the query",
-              "items": {
-                "type": "string"
-              },
-              "title": "anyOf",
-              "type": "array"
-            },
-            "required": false,
-            "description": "Frozen cases - Filter for entries where at least one reference matches the query"
-          },
-          {
-            "in": "query",
-            "name": "frozenSetIds.not.anyOf",
-            "schema": {
-              "description": "Frozen cases - Filter for entries where at least one reference mismatches the query",
-              "items": {
-                "type": "string"
-              },
-              "title": "not.anyOf",
-              "type": "array"
-            },
-            "required": false,
-            "description": "Frozen cases - Filter for entries where at least one reference mismatches the query"
           },
           {
             "in": "query",
@@ -54035,6 +53143,964 @@
             },
             "required": false,
             "description": "Updated at - Filter for entries with dates not between two specified values (inclusive)"
+          },
+          {
+            "in": "query",
+            "name": "includeCriteria.not.exists",
+            "schema": {
+              "description": "Inclusion critera - Filter for entries without a value",
+              "title": "not.exists",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "Inclusion critera - Filter for entries without a value"
+          },
+          {
+            "in": "query",
+            "name": "includeCriteria.exists",
+            "schema": {
+              "description": "Inclusion critera - Filter for entries with a value",
+              "title": "exists",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "Inclusion critera - Filter for entries with a value"
+          },
+          {
+            "in": "query",
+            "name": "excludeCriteria.not.exists",
+            "schema": {
+              "description": "Exclusion critera - Filter for entries without a value",
+              "title": "not.exists",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "Exclusion critera - Filter for entries without a value"
+          },
+          {
+            "in": "query",
+            "name": "excludeCriteria.exists",
+            "schema": {
+              "description": "Exclusion critera - Filter for entries with a value",
+              "title": "exists",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "Exclusion critera - Filter for entries with a value"
+          },
+          {
+            "in": "query",
+            "name": "externalSource.not.exists",
+            "schema": {
+              "description": "External data source - Filter for entries without a value",
+              "title": "not.exists",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "External data source - Filter for entries without a value"
+          },
+          {
+            "in": "query",
+            "name": "externalSource.exists",
+            "schema": {
+              "description": "External data source - Filter for entries with a value",
+              "title": "exists",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "External data source - Filter for entries with a value"
+          },
+          {
+            "in": "query",
+            "name": "externalSource",
+            "schema": {
+              "description": "External data source - Filter for full text matches",
+              "title": "ExactStringFilter",
+              "type": "string"
+            },
+            "required": false,
+            "description": "External data source - Filter for full text matches"
+          },
+          {
+            "in": "query",
+            "name": "externalSource.not",
+            "schema": {
+              "description": "External data source - Filter for full text mismatches",
+              "title": "not",
+              "type": "string"
+            },
+            "required": false,
+            "description": "External data source - Filter for full text mismatches"
+          },
+          {
+            "in": "query",
+            "name": "externalSource.contains",
+            "schema": {
+              "description": "External data source - Filter for partial text matches",
+              "title": "contains",
+              "type": "string"
+            },
+            "required": false,
+            "description": "External data source - Filter for partial text matches"
+          },
+          {
+            "in": "query",
+            "name": "externalSource.not.contains",
+            "schema": {
+              "description": "External data source - Filter for partial text mismatches",
+              "title": "not.contains",
+              "type": "string"
+            },
+            "required": false,
+            "description": "External data source - Filter for partial text mismatches"
+          },
+          {
+            "in": "query",
+            "name": "externalSource.beginsWith",
+            "schema": {
+              "description": "External data source - Filter for entries starting with the text",
+              "title": "beginsWith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "External data source - Filter for entries starting with the text"
+          },
+          {
+            "in": "query",
+            "name": "externalSource.not.beginsWith",
+            "schema": {
+              "description": "External data source - Filter for entries not starting with the text",
+              "title": "not.beginsWith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "External data source - Filter for entries not starting with the text"
+          },
+          {
+            "in": "query",
+            "name": "externalSource.endsWith",
+            "schema": {
+              "description": "External data source - Filter for entries ending with the text",
+              "title": "endsWith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "External data source - Filter for entries ending with the text"
+          },
+          {
+            "in": "query",
+            "name": "externalSource.not.endsWith",
+            "schema": {
+              "description": "External data source - Filter for entries not ending with the text",
+              "title": "not.endsWith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "External data source - Filter for entries not ending with the text"
+          },
+          {
+            "in": "query",
+            "name": "externalSource.anyOf",
+            "schema": {
+              "description": "External data source - Filter for entries where at least one reference matches the query",
+              "items": {
+                "type": "string"
+              },
+              "title": "anyOf",
+              "type": "array"
+            },
+            "required": false,
+            "description": "External data source - Filter for entries where at least one reference matches the query"
+          },
+          {
+            "in": "query",
+            "name": "externalSource.not.anyOf",
+            "schema": {
+              "description": "External data source - Filter for entries where at least one reference mismatches the query",
+              "items": {
+                "type": "string"
+              },
+              "title": "not.anyOf",
+              "type": "array"
+            },
+            "required": false,
+            "description": "External data source - Filter for entries where at least one reference mismatches the query"
+          },
+          {
+            "in": "query",
+            "name": "name",
+            "schema": {
+              "description": "Cohort name - Filter for full text matches",
+              "title": "ExactStringFilter",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Cohort name - Filter for full text matches"
+          },
+          {
+            "in": "query",
+            "name": "name.not",
+            "schema": {
+              "description": "Cohort name - Filter for full text mismatches",
+              "title": "not",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Cohort name - Filter for full text mismatches"
+          },
+          {
+            "in": "query",
+            "name": "name.contains",
+            "schema": {
+              "description": "Cohort name - Filter for partial text matches",
+              "title": "contains",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Cohort name - Filter for partial text matches"
+          },
+          {
+            "in": "query",
+            "name": "name.not.contains",
+            "schema": {
+              "description": "Cohort name - Filter for partial text mismatches",
+              "title": "not.contains",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Cohort name - Filter for partial text mismatches"
+          },
+          {
+            "in": "query",
+            "name": "name.beginsWith",
+            "schema": {
+              "description": "Cohort name - Filter for entries starting with the text",
+              "title": "beginsWith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Cohort name - Filter for entries starting with the text"
+          },
+          {
+            "in": "query",
+            "name": "name.not.beginsWith",
+            "schema": {
+              "description": "Cohort name - Filter for entries not starting with the text",
+              "title": "not.beginsWith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Cohort name - Filter for entries not starting with the text"
+          },
+          {
+            "in": "query",
+            "name": "name.endsWith",
+            "schema": {
+              "description": "Cohort name - Filter for entries ending with the text",
+              "title": "endsWith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Cohort name - Filter for entries ending with the text"
+          },
+          {
+            "in": "query",
+            "name": "name.not.endsWith",
+            "schema": {
+              "description": "Cohort name - Filter for entries not ending with the text",
+              "title": "not.endsWith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Cohort name - Filter for entries not ending with the text"
+          },
+          {
+            "in": "query",
+            "name": "name.anyOf",
+            "schema": {
+              "description": "Cohort name - Filter for entries where at least one reference matches the query",
+              "items": {
+                "type": "string"
+              },
+              "title": "anyOf",
+              "type": "array"
+            },
+            "required": false,
+            "description": "Cohort name - Filter for entries where at least one reference matches the query"
+          },
+          {
+            "in": "query",
+            "name": "name.not.anyOf",
+            "schema": {
+              "description": "Cohort name - Filter for entries where at least one reference mismatches the query",
+              "items": {
+                "type": "string"
+              },
+              "title": "not.anyOf",
+              "type": "array"
+            },
+            "required": false,
+            "description": "Cohort name - Filter for entries where at least one reference mismatches the query"
+          },
+          {
+            "in": "query",
+            "name": "projectId.not.exists",
+            "schema": {
+              "description": "Project - Filter for entries without a value",
+              "title": "not.exists",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "Project - Filter for entries without a value"
+          },
+          {
+            "in": "query",
+            "name": "projectId.exists",
+            "schema": {
+              "description": "Project - Filter for entries with a value",
+              "title": "exists",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "Project - Filter for entries with a value"
+          },
+          {
+            "in": "query",
+            "name": "projectId",
+            "schema": {
+              "description": "Project - Filter for reference matches",
+              "title": "ExactRefereceFilter",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Project - Filter for reference matches"
+          },
+          {
+            "in": "query",
+            "name": "projectId.not",
+            "schema": {
+              "description": "Project - Filter for reference mismatches",
+              "title": "not",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Project - Filter for reference mismatches"
+          },
+          {
+            "in": "query",
+            "name": "projectId.contains",
+            "schema": {
+              "description": "Project - Filter for partial text matches",
+              "title": "contains",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Project - Filter for partial text matches"
+          },
+          {
+            "in": "query",
+            "name": "projectId.not.contains",
+            "schema": {
+              "description": "Project - Filter for partial text mismatches",
+              "title": "not.contains",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Project - Filter for partial text mismatches"
+          },
+          {
+            "in": "query",
+            "name": "projectId.beginsWith",
+            "schema": {
+              "description": "Project - Filter for entries starting with the text",
+              "title": "beginsWith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Project - Filter for entries starting with the text"
+          },
+          {
+            "in": "query",
+            "name": "projectId.not.beginsWith",
+            "schema": {
+              "description": "Project - Filter for entries not starting with the text",
+              "title": "not.beginsWith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Project - Filter for entries not starting with the text"
+          },
+          {
+            "in": "query",
+            "name": "projectId.endsWith",
+            "schema": {
+              "description": "Project - Filter for entries ending with the text",
+              "title": "endsWith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Project - Filter for entries ending with the text"
+          },
+          {
+            "in": "query",
+            "name": "projectId.not.endsWith",
+            "schema": {
+              "description": "Project - Filter for entries not ending with the text",
+              "title": "not.endsWith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Project - Filter for entries not ending with the text"
+          },
+          {
+            "in": "query",
+            "name": "projectId.anyOf",
+            "schema": {
+              "description": "Project - Filter for entries where at least one reference matches the query",
+              "items": {
+                "type": "string"
+              },
+              "title": "anyOf",
+              "type": "array"
+            },
+            "required": false,
+            "description": "Project - Filter for entries where at least one reference matches the query"
+          },
+          {
+            "in": "query",
+            "name": "projectId.not.anyOf",
+            "schema": {
+              "description": "Project - Filter for entries where at least one reference mismatches the query",
+              "items": {
+                "type": "string"
+              },
+              "title": "not.anyOf",
+              "type": "array"
+            },
+            "required": false,
+            "description": "Project - Filter for entries where at least one reference mismatches the query"
+          },
+          {
+            "in": "query",
+            "name": "casesIds.not.exists",
+            "schema": {
+              "description": "Cases - Filter for entries without a value",
+              "title": "not.exists",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "Cases - Filter for entries without a value"
+          },
+          {
+            "in": "query",
+            "name": "casesIds.exists",
+            "schema": {
+              "description": "Cases - Filter for entries with a value",
+              "title": "exists",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "Cases - Filter for entries with a value"
+          },
+          {
+            "in": "query",
+            "name": "casesIds",
+            "schema": {
+              "description": "Cases - Filter for full text matches",
+              "title": "ExactStringFilter",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Cases - Filter for full text matches"
+          },
+          {
+            "in": "query",
+            "name": "casesIds.not",
+            "schema": {
+              "description": "Cases - Filter for full text mismatches",
+              "title": "not",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Cases - Filter for full text mismatches"
+          },
+          {
+            "in": "query",
+            "name": "casesIds.contains",
+            "schema": {
+              "description": "Cases - Filter for partial text matches",
+              "title": "contains",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Cases - Filter for partial text matches"
+          },
+          {
+            "in": "query",
+            "name": "casesIds.not.contains",
+            "schema": {
+              "description": "Cases - Filter for partial text mismatches",
+              "title": "not.contains",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Cases - Filter for partial text mismatches"
+          },
+          {
+            "in": "query",
+            "name": "casesIds.beginsWith",
+            "schema": {
+              "description": "Cases - Filter for entries starting with the text",
+              "title": "beginsWith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Cases - Filter for entries starting with the text"
+          },
+          {
+            "in": "query",
+            "name": "casesIds.not.beginsWith",
+            "schema": {
+              "description": "Cases - Filter for entries not starting with the text",
+              "title": "not.beginsWith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Cases - Filter for entries not starting with the text"
+          },
+          {
+            "in": "query",
+            "name": "casesIds.endsWith",
+            "schema": {
+              "description": "Cases - Filter for entries ending with the text",
+              "title": "endsWith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Cases - Filter for entries ending with the text"
+          },
+          {
+            "in": "query",
+            "name": "casesIds.not.endsWith",
+            "schema": {
+              "description": "Cases - Filter for entries not ending with the text",
+              "title": "not.endsWith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Cases - Filter for entries not ending with the text"
+          },
+          {
+            "in": "query",
+            "name": "casesIds.anyOf",
+            "schema": {
+              "description": "Cases - Filter for entries where at least one reference matches the query",
+              "items": {
+                "type": "string"
+              },
+              "title": "anyOf",
+              "type": "array"
+            },
+            "required": false,
+            "description": "Cases - Filter for entries where at least one reference matches the query"
+          },
+          {
+            "in": "query",
+            "name": "casesIds.not.anyOf",
+            "schema": {
+              "description": "Cases - Filter for entries where at least one reference mismatches the query",
+              "items": {
+                "type": "string"
+              },
+              "title": "not.anyOf",
+              "type": "array"
+            },
+            "required": false,
+            "description": "Cases - Filter for entries where at least one reference mismatches the query"
+          },
+          {
+            "in": "query",
+            "name": "manualChoicesIds.not.exists",
+            "schema": {
+              "description": "Manually added cases - Filter for entries without a value",
+              "title": "not.exists",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "Manually added cases - Filter for entries without a value"
+          },
+          {
+            "in": "query",
+            "name": "manualChoicesIds.exists",
+            "schema": {
+              "description": "Manually added cases - Filter for entries with a value",
+              "title": "exists",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "Manually added cases - Filter for entries with a value"
+          },
+          {
+            "in": "query",
+            "name": "manualChoicesIds",
+            "schema": {
+              "description": "Manually added cases - Filter for full text matches",
+              "title": "ExactStringFilter",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Manually added cases - Filter for full text matches"
+          },
+          {
+            "in": "query",
+            "name": "manualChoicesIds.not",
+            "schema": {
+              "description": "Manually added cases - Filter for full text mismatches",
+              "title": "not",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Manually added cases - Filter for full text mismatches"
+          },
+          {
+            "in": "query",
+            "name": "manualChoicesIds.contains",
+            "schema": {
+              "description": "Manually added cases - Filter for partial text matches",
+              "title": "contains",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Manually added cases - Filter for partial text matches"
+          },
+          {
+            "in": "query",
+            "name": "manualChoicesIds.not.contains",
+            "schema": {
+              "description": "Manually added cases - Filter for partial text mismatches",
+              "title": "not.contains",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Manually added cases - Filter for partial text mismatches"
+          },
+          {
+            "in": "query",
+            "name": "manualChoicesIds.beginsWith",
+            "schema": {
+              "description": "Manually added cases - Filter for entries starting with the text",
+              "title": "beginsWith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Manually added cases - Filter for entries starting with the text"
+          },
+          {
+            "in": "query",
+            "name": "manualChoicesIds.not.beginsWith",
+            "schema": {
+              "description": "Manually added cases - Filter for entries not starting with the text",
+              "title": "not.beginsWith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Manually added cases - Filter for entries not starting with the text"
+          },
+          {
+            "in": "query",
+            "name": "manualChoicesIds.endsWith",
+            "schema": {
+              "description": "Manually added cases - Filter for entries ending with the text",
+              "title": "endsWith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Manually added cases - Filter for entries ending with the text"
+          },
+          {
+            "in": "query",
+            "name": "manualChoicesIds.not.endsWith",
+            "schema": {
+              "description": "Manually added cases - Filter for entries not ending with the text",
+              "title": "not.endsWith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Manually added cases - Filter for entries not ending with the text"
+          },
+          {
+            "in": "query",
+            "name": "manualChoicesIds.anyOf",
+            "schema": {
+              "description": "Manually added cases - Filter for entries where at least one reference matches the query",
+              "items": {
+                "type": "string"
+              },
+              "title": "anyOf",
+              "type": "array"
+            },
+            "required": false,
+            "description": "Manually added cases - Filter for entries where at least one reference matches the query"
+          },
+          {
+            "in": "query",
+            "name": "manualChoicesIds.not.anyOf",
+            "schema": {
+              "description": "Manually added cases - Filter for entries where at least one reference mismatches the query",
+              "items": {
+                "type": "string"
+              },
+              "title": "not.anyOf",
+              "type": "array"
+            },
+            "required": false,
+            "description": "Manually added cases - Filter for entries where at least one reference mismatches the query"
+          },
+          {
+            "in": "query",
+            "name": "frozenSetIds.not.exists",
+            "schema": {
+              "description": "Frozen cases - Filter for entries without a value",
+              "title": "not.exists",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "Frozen cases - Filter for entries without a value"
+          },
+          {
+            "in": "query",
+            "name": "frozenSetIds.exists",
+            "schema": {
+              "description": "Frozen cases - Filter for entries with a value",
+              "title": "exists",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "Frozen cases - Filter for entries with a value"
+          },
+          {
+            "in": "query",
+            "name": "frozenSetIds",
+            "schema": {
+              "description": "Frozen cases - Filter for full text matches",
+              "title": "ExactStringFilter",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Frozen cases - Filter for full text matches"
+          },
+          {
+            "in": "query",
+            "name": "frozenSetIds.not",
+            "schema": {
+              "description": "Frozen cases - Filter for full text mismatches",
+              "title": "not",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Frozen cases - Filter for full text mismatches"
+          },
+          {
+            "in": "query",
+            "name": "frozenSetIds.contains",
+            "schema": {
+              "description": "Frozen cases - Filter for partial text matches",
+              "title": "contains",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Frozen cases - Filter for partial text matches"
+          },
+          {
+            "in": "query",
+            "name": "frozenSetIds.not.contains",
+            "schema": {
+              "description": "Frozen cases - Filter for partial text mismatches",
+              "title": "not.contains",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Frozen cases - Filter for partial text mismatches"
+          },
+          {
+            "in": "query",
+            "name": "frozenSetIds.beginsWith",
+            "schema": {
+              "description": "Frozen cases - Filter for entries starting with the text",
+              "title": "beginsWith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Frozen cases - Filter for entries starting with the text"
+          },
+          {
+            "in": "query",
+            "name": "frozenSetIds.not.beginsWith",
+            "schema": {
+              "description": "Frozen cases - Filter for entries not starting with the text",
+              "title": "not.beginsWith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Frozen cases - Filter for entries not starting with the text"
+          },
+          {
+            "in": "query",
+            "name": "frozenSetIds.endsWith",
+            "schema": {
+              "description": "Frozen cases - Filter for entries ending with the text",
+              "title": "endsWith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Frozen cases - Filter for entries ending with the text"
+          },
+          {
+            "in": "query",
+            "name": "frozenSetIds.not.endsWith",
+            "schema": {
+              "description": "Frozen cases - Filter for entries not ending with the text",
+              "title": "not.endsWith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Frozen cases - Filter for entries not ending with the text"
+          },
+          {
+            "in": "query",
+            "name": "frozenSetIds.anyOf",
+            "schema": {
+              "description": "Frozen cases - Filter for entries where at least one reference matches the query",
+              "items": {
+                "type": "string"
+              },
+              "title": "anyOf",
+              "type": "array"
+            },
+            "required": false,
+            "description": "Frozen cases - Filter for entries where at least one reference matches the query"
+          },
+          {
+            "in": "query",
+            "name": "frozenSetIds.not.anyOf",
+            "schema": {
+              "description": "Frozen cases - Filter for entries where at least one reference mismatches the query",
+              "items": {
+                "type": "string"
+              },
+              "title": "not.anyOf",
+              "type": "array"
+            },
+            "required": false,
+            "description": "Frozen cases - Filter for entries where at least one reference mismatches the query"
+          },
+          {
+            "in": "query",
+            "name": "population.lessThan",
+            "schema": {
+              "description": "Population - Filter for entries with values less than the specified value",
+              "title": "lessThan",
+              "type": "integer"
+            },
+            "required": false,
+            "description": "Population - Filter for entries with values less than the specified value"
+          },
+          {
+            "in": "query",
+            "name": "population.lessThanOrEqual",
+            "schema": {
+              "description": "Population - Filter for entries with values less than or equal to the specified value",
+              "title": "lessThanOrEqual",
+              "type": "integer"
+            },
+            "required": false,
+            "description": "Population - Filter for entries with values less than or equal to the specified value"
+          },
+          {
+            "in": "query",
+            "name": "population.greaterThan",
+            "schema": {
+              "description": "Population - Filter for entries with values greater than the specified value",
+              "title": "greaterThan",
+              "type": "integer"
+            },
+            "required": false,
+            "description": "Population - Filter for entries with values greater than the specified value"
+          },
+          {
+            "in": "query",
+            "name": "population.greaterThanOrEqual",
+            "schema": {
+              "description": "Population - Filter for entries with values greater than or equal to the specified value",
+              "title": "greaterThanOrEqual",
+              "type": "integer"
+            },
+            "required": false,
+            "description": "Population - Filter for entries with values greater than or equal to the specified value"
+          },
+          {
+            "in": "query",
+            "name": "population.equal",
+            "schema": {
+              "description": "Population - Filter for entries with values exactly equal to the specified value",
+              "title": "equal",
+              "type": "integer"
+            },
+            "required": false,
+            "description": "Population - Filter for entries with values exactly equal to the specified value"
+          },
+          {
+            "in": "query",
+            "name": "population.not.equal",
+            "schema": {
+              "description": "Population - Filter for entries with values not equal to the specified value",
+              "title": "not.equal",
+              "type": "integer"
+            },
+            "required": false,
+            "description": "Population - Filter for entries with values not equal to the specified value"
+          },
+          {
+            "in": "query",
+            "name": "population.between",
+            "schema": {
+              "description": "Population - Filter for entries with values between two specified values (inclusive)",
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "integer"
+                }
+              ],
+              "title": "between",
+              "type": "array"
+            },
+            "required": false,
+            "description": "Population - Filter for entries with values between two specified values (inclusive)"
+          },
+          {
+            "in": "query",
+            "name": "population.not.between",
+            "schema": {
+              "description": "Population - Filter for entries with values between two specified values (inclusive)",
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "integer"
+                }
+              ],
+              "title": "not.between",
+              "type": "array"
+            },
+            "required": false,
+            "description": "Population - Filter for entries with values between two specified values (inclusive)"
           },
           {
             "in": "query",
@@ -89333,66 +89399,6 @@
       },
       "CohortFilters": {
         "properties": {
-          "population.lessThan": {
-            "description": "Population - Filter for entries with values less than the specified value",
-            "title": "lessThan",
-            "type": "integer"
-          },
-          "population.lessThanOrEqual": {
-            "description": "Population - Filter for entries with values less than or equal to the specified value",
-            "title": "lessThanOrEqual",
-            "type": "integer"
-          },
-          "population.greaterThan": {
-            "description": "Population - Filter for entries with values greater than the specified value",
-            "title": "greaterThan",
-            "type": "integer"
-          },
-          "population.greaterThanOrEqual": {
-            "description": "Population - Filter for entries with values greater than or equal to the specified value",
-            "title": "greaterThanOrEqual",
-            "type": "integer"
-          },
-          "population.equal": {
-            "description": "Population - Filter for entries with values exactly equal to the specified value",
-            "title": "equal",
-            "type": "integer"
-          },
-          "population.not.equal": {
-            "description": "Population - Filter for entries with values not equal to the specified value",
-            "title": "not.equal",
-            "type": "integer"
-          },
-          "population.between": {
-            "description": "Population - Filter for entries with values between two specified values (inclusive)",
-            "maxItems": 2,
-            "minItems": 2,
-            "prefixItems": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "integer"
-              }
-            ],
-            "title": "between",
-            "type": "array"
-          },
-          "population.not.between": {
-            "description": "Population - Filter for entries with values between two specified values (inclusive)",
-            "maxItems": 2,
-            "minItems": 2,
-            "prefixItems": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "integer"
-              }
-            ],
-            "title": "not.between",
-            "type": "array"
-          },
           "id": {
             "description": "Id - Filter for full text matches",
             "title": "ExactStringFilter",
@@ -89443,382 +89449,6 @@
           },
           "id.not.anyOf": {
             "description": "Id - Filter for entries where at least one reference mismatches the query",
-            "items": {
-              "type": "string"
-            },
-            "title": "not.anyOf",
-            "type": "array"
-          },
-          "externalSource.not.exists": {
-            "description": "External data source - Filter for entries without a value",
-            "title": "not.exists",
-            "type": "boolean"
-          },
-          "externalSource.exists": {
-            "description": "External data source - Filter for entries with a value",
-            "title": "exists",
-            "type": "boolean"
-          },
-          "externalSource": {
-            "description": "External data source - Filter for full text matches",
-            "title": "ExactStringFilter",
-            "type": "string"
-          },
-          "externalSource.not": {
-            "description": "External data source - Filter for full text mismatches",
-            "title": "not",
-            "type": "string"
-          },
-          "externalSource.contains": {
-            "description": "External data source - Filter for partial text matches",
-            "title": "contains",
-            "type": "string"
-          },
-          "externalSource.not.contains": {
-            "description": "External data source - Filter for partial text mismatches",
-            "title": "not.contains",
-            "type": "string"
-          },
-          "externalSource.beginsWith": {
-            "description": "External data source - Filter for entries starting with the text",
-            "title": "beginsWith",
-            "type": "string"
-          },
-          "externalSource.not.beginsWith": {
-            "description": "External data source - Filter for entries not starting with the text",
-            "title": "not.beginsWith",
-            "type": "string"
-          },
-          "externalSource.endsWith": {
-            "description": "External data source - Filter for entries ending with the text",
-            "title": "endsWith",
-            "type": "string"
-          },
-          "externalSource.not.endsWith": {
-            "description": "External data source - Filter for entries not ending with the text",
-            "title": "not.endsWith",
-            "type": "string"
-          },
-          "externalSource.anyOf": {
-            "description": "External data source - Filter for entries where at least one reference matches the query",
-            "items": {
-              "type": "string"
-            },
-            "title": "anyOf",
-            "type": "array"
-          },
-          "externalSource.not.anyOf": {
-            "description": "External data source - Filter for entries where at least one reference mismatches the query",
-            "items": {
-              "type": "string"
-            },
-            "title": "not.anyOf",
-            "type": "array"
-          },
-          "name": {
-            "description": "Cohort name - Filter for full text matches",
-            "title": "ExactStringFilter",
-            "type": "string"
-          },
-          "name.not": {
-            "description": "Cohort name - Filter for full text mismatches",
-            "title": "not",
-            "type": "string"
-          },
-          "name.contains": {
-            "description": "Cohort name - Filter for partial text matches",
-            "title": "contains",
-            "type": "string"
-          },
-          "name.not.contains": {
-            "description": "Cohort name - Filter for partial text mismatches",
-            "title": "not.contains",
-            "type": "string"
-          },
-          "name.beginsWith": {
-            "description": "Cohort name - Filter for entries starting with the text",
-            "title": "beginsWith",
-            "type": "string"
-          },
-          "name.not.beginsWith": {
-            "description": "Cohort name - Filter for entries not starting with the text",
-            "title": "not.beginsWith",
-            "type": "string"
-          },
-          "name.endsWith": {
-            "description": "Cohort name - Filter for entries ending with the text",
-            "title": "endsWith",
-            "type": "string"
-          },
-          "name.not.endsWith": {
-            "description": "Cohort name - Filter for entries not ending with the text",
-            "title": "not.endsWith",
-            "type": "string"
-          },
-          "name.anyOf": {
-            "description": "Cohort name - Filter for entries where at least one reference matches the query",
-            "items": {
-              "type": "string"
-            },
-            "title": "anyOf",
-            "type": "array"
-          },
-          "name.not.anyOf": {
-            "description": "Cohort name - Filter for entries where at least one reference mismatches the query",
-            "items": {
-              "type": "string"
-            },
-            "title": "not.anyOf",
-            "type": "array"
-          },
-          "includeCriteria.not.exists": {
-            "description": "Inclusion criteria - Filter for entries without a value",
-            "title": "not.exists",
-            "type": "boolean"
-          },
-          "includeCriteria.exists": {
-            "description": "Inclusion criteria - Filter for entries with a value",
-            "title": "exists",
-            "type": "boolean"
-          },
-          "excludeCriteria.not.exists": {
-            "description": "Exclusion criteria - Filter for entries without a value",
-            "title": "not.exists",
-            "type": "boolean"
-          },
-          "excludeCriteria.exists": {
-            "description": "Exclusion criteria - Filter for entries with a value",
-            "title": "exists",
-            "type": "boolean"
-          },
-          "projectId.not.exists": {
-            "description": "Project - Filter for entries without a value",
-            "title": "not.exists",
-            "type": "boolean"
-          },
-          "projectId.exists": {
-            "description": "Project - Filter for entries with a value",
-            "title": "exists",
-            "type": "boolean"
-          },
-          "projectId": {
-            "description": "Project - Filter for reference matches",
-            "title": "ExactRefereceFilter",
-            "type": "string"
-          },
-          "projectId.not": {
-            "description": "Project - Filter for reference mismatches",
-            "title": "not",
-            "type": "string"
-          },
-          "projectId.contains": {
-            "description": "Project - Filter for partial text matches",
-            "title": "contains",
-            "type": "string"
-          },
-          "projectId.not.contains": {
-            "description": "Project - Filter for partial text mismatches",
-            "title": "not.contains",
-            "type": "string"
-          },
-          "projectId.beginsWith": {
-            "description": "Project - Filter for entries starting with the text",
-            "title": "beginsWith",
-            "type": "string"
-          },
-          "projectId.not.beginsWith": {
-            "description": "Project - Filter for entries not starting with the text",
-            "title": "not.beginsWith",
-            "type": "string"
-          },
-          "projectId.endsWith": {
-            "description": "Project - Filter for entries ending with the text",
-            "title": "endsWith",
-            "type": "string"
-          },
-          "projectId.not.endsWith": {
-            "description": "Project - Filter for entries not ending with the text",
-            "title": "not.endsWith",
-            "type": "string"
-          },
-          "projectId.anyOf": {
-            "description": "Project - Filter for entries where at least one reference matches the query",
-            "items": {
-              "type": "string"
-            },
-            "title": "anyOf",
-            "type": "array"
-          },
-          "projectId.not.anyOf": {
-            "description": "Project - Filter for entries where at least one reference mismatches the query",
-            "items": {
-              "type": "string"
-            },
-            "title": "not.anyOf",
-            "type": "array"
-          },
-          "casesIds": {
-            "description": "Cases - Filter for full text matches",
-            "title": "ExactStringFilter",
-            "type": "string"
-          },
-          "casesIds.not": {
-            "description": "Cases - Filter for full text mismatches",
-            "title": "not",
-            "type": "string"
-          },
-          "casesIds.contains": {
-            "description": "Cases - Filter for partial text matches",
-            "title": "contains",
-            "type": "string"
-          },
-          "casesIds.not.contains": {
-            "description": "Cases - Filter for partial text mismatches",
-            "title": "not.contains",
-            "type": "string"
-          },
-          "casesIds.beginsWith": {
-            "description": "Cases - Filter for entries starting with the text",
-            "title": "beginsWith",
-            "type": "string"
-          },
-          "casesIds.not.beginsWith": {
-            "description": "Cases - Filter for entries not starting with the text",
-            "title": "not.beginsWith",
-            "type": "string"
-          },
-          "casesIds.endsWith": {
-            "description": "Cases - Filter for entries ending with the text",
-            "title": "endsWith",
-            "type": "string"
-          },
-          "casesIds.not.endsWith": {
-            "description": "Cases - Filter for entries not ending with the text",
-            "title": "not.endsWith",
-            "type": "string"
-          },
-          "casesIds.anyOf": {
-            "description": "Cases - Filter for entries where at least one reference matches the query",
-            "items": {
-              "type": "string"
-            },
-            "title": "anyOf",
-            "type": "array"
-          },
-          "casesIds.not.anyOf": {
-            "description": "Cases - Filter for entries where at least one reference mismatches the query",
-            "items": {
-              "type": "string"
-            },
-            "title": "not.anyOf",
-            "type": "array"
-          },
-          "manualChoicesIds": {
-            "description": "Manually added cases - Filter for full text matches",
-            "title": "ExactStringFilter",
-            "type": "string"
-          },
-          "manualChoicesIds.not": {
-            "description": "Manually added cases - Filter for full text mismatches",
-            "title": "not",
-            "type": "string"
-          },
-          "manualChoicesIds.contains": {
-            "description": "Manually added cases - Filter for partial text matches",
-            "title": "contains",
-            "type": "string"
-          },
-          "manualChoicesIds.not.contains": {
-            "description": "Manually added cases - Filter for partial text mismatches",
-            "title": "not.contains",
-            "type": "string"
-          },
-          "manualChoicesIds.beginsWith": {
-            "description": "Manually added cases - Filter for entries starting with the text",
-            "title": "beginsWith",
-            "type": "string"
-          },
-          "manualChoicesIds.not.beginsWith": {
-            "description": "Manually added cases - Filter for entries not starting with the text",
-            "title": "not.beginsWith",
-            "type": "string"
-          },
-          "manualChoicesIds.endsWith": {
-            "description": "Manually added cases - Filter for entries ending with the text",
-            "title": "endsWith",
-            "type": "string"
-          },
-          "manualChoicesIds.not.endsWith": {
-            "description": "Manually added cases - Filter for entries not ending with the text",
-            "title": "not.endsWith",
-            "type": "string"
-          },
-          "manualChoicesIds.anyOf": {
-            "description": "Manually added cases - Filter for entries where at least one reference matches the query",
-            "items": {
-              "type": "string"
-            },
-            "title": "anyOf",
-            "type": "array"
-          },
-          "manualChoicesIds.not.anyOf": {
-            "description": "Manually added cases - Filter for entries where at least one reference mismatches the query",
-            "items": {
-              "type": "string"
-            },
-            "title": "not.anyOf",
-            "type": "array"
-          },
-          "frozenSetIds": {
-            "description": "Frozen cases - Filter for full text matches",
-            "title": "ExactStringFilter",
-            "type": "string"
-          },
-          "frozenSetIds.not": {
-            "description": "Frozen cases - Filter for full text mismatches",
-            "title": "not",
-            "type": "string"
-          },
-          "frozenSetIds.contains": {
-            "description": "Frozen cases - Filter for partial text matches",
-            "title": "contains",
-            "type": "string"
-          },
-          "frozenSetIds.not.contains": {
-            "description": "Frozen cases - Filter for partial text mismatches",
-            "title": "not.contains",
-            "type": "string"
-          },
-          "frozenSetIds.beginsWith": {
-            "description": "Frozen cases - Filter for entries starting with the text",
-            "title": "beginsWith",
-            "type": "string"
-          },
-          "frozenSetIds.not.beginsWith": {
-            "description": "Frozen cases - Filter for entries not starting with the text",
-            "title": "not.beginsWith",
-            "type": "string"
-          },
-          "frozenSetIds.endsWith": {
-            "description": "Frozen cases - Filter for entries ending with the text",
-            "title": "endsWith",
-            "type": "string"
-          },
-          "frozenSetIds.not.endsWith": {
-            "description": "Frozen cases - Filter for entries not ending with the text",
-            "title": "not.endsWith",
-            "type": "string"
-          },
-          "frozenSetIds.anyOf": {
-            "description": "Frozen cases - Filter for entries where at least one reference matches the query",
-            "items": {
-              "type": "string"
-            },
-            "title": "anyOf",
-            "type": "array"
-          },
-          "frozenSetIds.not.anyOf": {
-            "description": "Frozen cases - Filter for entries where at least one reference mismatches the query",
             "items": {
               "type": "string"
             },
@@ -89985,6 +89615,472 @@
             "title": "not.between",
             "type": "array"
           },
+          "includeCriteria.not.exists": {
+            "description": "Inclusion critera - Filter for entries without a value",
+            "title": "not.exists",
+            "type": "boolean"
+          },
+          "includeCriteria.exists": {
+            "description": "Inclusion critera - Filter for entries with a value",
+            "title": "exists",
+            "type": "boolean"
+          },
+          "excludeCriteria.not.exists": {
+            "description": "Exclusion critera - Filter for entries without a value",
+            "title": "not.exists",
+            "type": "boolean"
+          },
+          "excludeCriteria.exists": {
+            "description": "Exclusion critera - Filter for entries with a value",
+            "title": "exists",
+            "type": "boolean"
+          },
+          "externalSource.not.exists": {
+            "description": "External data source - Filter for entries without a value",
+            "title": "not.exists",
+            "type": "boolean"
+          },
+          "externalSource.exists": {
+            "description": "External data source - Filter for entries with a value",
+            "title": "exists",
+            "type": "boolean"
+          },
+          "externalSource": {
+            "description": "External data source - Filter for full text matches",
+            "title": "ExactStringFilter",
+            "type": "string"
+          },
+          "externalSource.not": {
+            "description": "External data source - Filter for full text mismatches",
+            "title": "not",
+            "type": "string"
+          },
+          "externalSource.contains": {
+            "description": "External data source - Filter for partial text matches",
+            "title": "contains",
+            "type": "string"
+          },
+          "externalSource.not.contains": {
+            "description": "External data source - Filter for partial text mismatches",
+            "title": "not.contains",
+            "type": "string"
+          },
+          "externalSource.beginsWith": {
+            "description": "External data source - Filter for entries starting with the text",
+            "title": "beginsWith",
+            "type": "string"
+          },
+          "externalSource.not.beginsWith": {
+            "description": "External data source - Filter for entries not starting with the text",
+            "title": "not.beginsWith",
+            "type": "string"
+          },
+          "externalSource.endsWith": {
+            "description": "External data source - Filter for entries ending with the text",
+            "title": "endsWith",
+            "type": "string"
+          },
+          "externalSource.not.endsWith": {
+            "description": "External data source - Filter for entries not ending with the text",
+            "title": "not.endsWith",
+            "type": "string"
+          },
+          "externalSource.anyOf": {
+            "description": "External data source - Filter for entries where at least one reference matches the query",
+            "items": {
+              "type": "string"
+            },
+            "title": "anyOf",
+            "type": "array"
+          },
+          "externalSource.not.anyOf": {
+            "description": "External data source - Filter for entries where at least one reference mismatches the query",
+            "items": {
+              "type": "string"
+            },
+            "title": "not.anyOf",
+            "type": "array"
+          },
+          "name": {
+            "description": "Cohort name - Filter for full text matches",
+            "title": "ExactStringFilter",
+            "type": "string"
+          },
+          "name.not": {
+            "description": "Cohort name - Filter for full text mismatches",
+            "title": "not",
+            "type": "string"
+          },
+          "name.contains": {
+            "description": "Cohort name - Filter for partial text matches",
+            "title": "contains",
+            "type": "string"
+          },
+          "name.not.contains": {
+            "description": "Cohort name - Filter for partial text mismatches",
+            "title": "not.contains",
+            "type": "string"
+          },
+          "name.beginsWith": {
+            "description": "Cohort name - Filter for entries starting with the text",
+            "title": "beginsWith",
+            "type": "string"
+          },
+          "name.not.beginsWith": {
+            "description": "Cohort name - Filter for entries not starting with the text",
+            "title": "not.beginsWith",
+            "type": "string"
+          },
+          "name.endsWith": {
+            "description": "Cohort name - Filter for entries ending with the text",
+            "title": "endsWith",
+            "type": "string"
+          },
+          "name.not.endsWith": {
+            "description": "Cohort name - Filter for entries not ending with the text",
+            "title": "not.endsWith",
+            "type": "string"
+          },
+          "name.anyOf": {
+            "description": "Cohort name - Filter for entries where at least one reference matches the query",
+            "items": {
+              "type": "string"
+            },
+            "title": "anyOf",
+            "type": "array"
+          },
+          "name.not.anyOf": {
+            "description": "Cohort name - Filter for entries where at least one reference mismatches the query",
+            "items": {
+              "type": "string"
+            },
+            "title": "not.anyOf",
+            "type": "array"
+          },
+          "projectId.not.exists": {
+            "description": "Project - Filter for entries without a value",
+            "title": "not.exists",
+            "type": "boolean"
+          },
+          "projectId.exists": {
+            "description": "Project - Filter for entries with a value",
+            "title": "exists",
+            "type": "boolean"
+          },
+          "projectId": {
+            "description": "Project - Filter for reference matches",
+            "title": "ExactRefereceFilter",
+            "type": "string"
+          },
+          "projectId.not": {
+            "description": "Project - Filter for reference mismatches",
+            "title": "not",
+            "type": "string"
+          },
+          "projectId.contains": {
+            "description": "Project - Filter for partial text matches",
+            "title": "contains",
+            "type": "string"
+          },
+          "projectId.not.contains": {
+            "description": "Project - Filter for partial text mismatches",
+            "title": "not.contains",
+            "type": "string"
+          },
+          "projectId.beginsWith": {
+            "description": "Project - Filter for entries starting with the text",
+            "title": "beginsWith",
+            "type": "string"
+          },
+          "projectId.not.beginsWith": {
+            "description": "Project - Filter for entries not starting with the text",
+            "title": "not.beginsWith",
+            "type": "string"
+          },
+          "projectId.endsWith": {
+            "description": "Project - Filter for entries ending with the text",
+            "title": "endsWith",
+            "type": "string"
+          },
+          "projectId.not.endsWith": {
+            "description": "Project - Filter for entries not ending with the text",
+            "title": "not.endsWith",
+            "type": "string"
+          },
+          "projectId.anyOf": {
+            "description": "Project - Filter for entries where at least one reference matches the query",
+            "items": {
+              "type": "string"
+            },
+            "title": "anyOf",
+            "type": "array"
+          },
+          "projectId.not.anyOf": {
+            "description": "Project - Filter for entries where at least one reference mismatches the query",
+            "items": {
+              "type": "string"
+            },
+            "title": "not.anyOf",
+            "type": "array"
+          },
+          "casesIds.not.exists": {
+            "description": "Cases - Filter for entries without a value",
+            "title": "not.exists",
+            "type": "boolean"
+          },
+          "casesIds.exists": {
+            "description": "Cases - Filter for entries with a value",
+            "title": "exists",
+            "type": "boolean"
+          },
+          "casesIds": {
+            "description": "Cases - Filter for full text matches",
+            "title": "ExactStringFilter",
+            "type": "string"
+          },
+          "casesIds.not": {
+            "description": "Cases - Filter for full text mismatches",
+            "title": "not",
+            "type": "string"
+          },
+          "casesIds.contains": {
+            "description": "Cases - Filter for partial text matches",
+            "title": "contains",
+            "type": "string"
+          },
+          "casesIds.not.contains": {
+            "description": "Cases - Filter for partial text mismatches",
+            "title": "not.contains",
+            "type": "string"
+          },
+          "casesIds.beginsWith": {
+            "description": "Cases - Filter for entries starting with the text",
+            "title": "beginsWith",
+            "type": "string"
+          },
+          "casesIds.not.beginsWith": {
+            "description": "Cases - Filter for entries not starting with the text",
+            "title": "not.beginsWith",
+            "type": "string"
+          },
+          "casesIds.endsWith": {
+            "description": "Cases - Filter for entries ending with the text",
+            "title": "endsWith",
+            "type": "string"
+          },
+          "casesIds.not.endsWith": {
+            "description": "Cases - Filter for entries not ending with the text",
+            "title": "not.endsWith",
+            "type": "string"
+          },
+          "casesIds.anyOf": {
+            "description": "Cases - Filter for entries where at least one reference matches the query",
+            "items": {
+              "type": "string"
+            },
+            "title": "anyOf",
+            "type": "array"
+          },
+          "casesIds.not.anyOf": {
+            "description": "Cases - Filter for entries where at least one reference mismatches the query",
+            "items": {
+              "type": "string"
+            },
+            "title": "not.anyOf",
+            "type": "array"
+          },
+          "manualChoicesIds.not.exists": {
+            "description": "Manually added cases - Filter for entries without a value",
+            "title": "not.exists",
+            "type": "boolean"
+          },
+          "manualChoicesIds.exists": {
+            "description": "Manually added cases - Filter for entries with a value",
+            "title": "exists",
+            "type": "boolean"
+          },
+          "manualChoicesIds": {
+            "description": "Manually added cases - Filter for full text matches",
+            "title": "ExactStringFilter",
+            "type": "string"
+          },
+          "manualChoicesIds.not": {
+            "description": "Manually added cases - Filter for full text mismatches",
+            "title": "not",
+            "type": "string"
+          },
+          "manualChoicesIds.contains": {
+            "description": "Manually added cases - Filter for partial text matches",
+            "title": "contains",
+            "type": "string"
+          },
+          "manualChoicesIds.not.contains": {
+            "description": "Manually added cases - Filter for partial text mismatches",
+            "title": "not.contains",
+            "type": "string"
+          },
+          "manualChoicesIds.beginsWith": {
+            "description": "Manually added cases - Filter for entries starting with the text",
+            "title": "beginsWith",
+            "type": "string"
+          },
+          "manualChoicesIds.not.beginsWith": {
+            "description": "Manually added cases - Filter for entries not starting with the text",
+            "title": "not.beginsWith",
+            "type": "string"
+          },
+          "manualChoicesIds.endsWith": {
+            "description": "Manually added cases - Filter for entries ending with the text",
+            "title": "endsWith",
+            "type": "string"
+          },
+          "manualChoicesIds.not.endsWith": {
+            "description": "Manually added cases - Filter for entries not ending with the text",
+            "title": "not.endsWith",
+            "type": "string"
+          },
+          "manualChoicesIds.anyOf": {
+            "description": "Manually added cases - Filter for entries where at least one reference matches the query",
+            "items": {
+              "type": "string"
+            },
+            "title": "anyOf",
+            "type": "array"
+          },
+          "manualChoicesIds.not.anyOf": {
+            "description": "Manually added cases - Filter for entries where at least one reference mismatches the query",
+            "items": {
+              "type": "string"
+            },
+            "title": "not.anyOf",
+            "type": "array"
+          },
+          "frozenSetIds.not.exists": {
+            "description": "Frozen cases - Filter for entries without a value",
+            "title": "not.exists",
+            "type": "boolean"
+          },
+          "frozenSetIds.exists": {
+            "description": "Frozen cases - Filter for entries with a value",
+            "title": "exists",
+            "type": "boolean"
+          },
+          "frozenSetIds": {
+            "description": "Frozen cases - Filter for full text matches",
+            "title": "ExactStringFilter",
+            "type": "string"
+          },
+          "frozenSetIds.not": {
+            "description": "Frozen cases - Filter for full text mismatches",
+            "title": "not",
+            "type": "string"
+          },
+          "frozenSetIds.contains": {
+            "description": "Frozen cases - Filter for partial text matches",
+            "title": "contains",
+            "type": "string"
+          },
+          "frozenSetIds.not.contains": {
+            "description": "Frozen cases - Filter for partial text mismatches",
+            "title": "not.contains",
+            "type": "string"
+          },
+          "frozenSetIds.beginsWith": {
+            "description": "Frozen cases - Filter for entries starting with the text",
+            "title": "beginsWith",
+            "type": "string"
+          },
+          "frozenSetIds.not.beginsWith": {
+            "description": "Frozen cases - Filter for entries not starting with the text",
+            "title": "not.beginsWith",
+            "type": "string"
+          },
+          "frozenSetIds.endsWith": {
+            "description": "Frozen cases - Filter for entries ending with the text",
+            "title": "endsWith",
+            "type": "string"
+          },
+          "frozenSetIds.not.endsWith": {
+            "description": "Frozen cases - Filter for entries not ending with the text",
+            "title": "not.endsWith",
+            "type": "string"
+          },
+          "frozenSetIds.anyOf": {
+            "description": "Frozen cases - Filter for entries where at least one reference matches the query",
+            "items": {
+              "type": "string"
+            },
+            "title": "anyOf",
+            "type": "array"
+          },
+          "frozenSetIds.not.anyOf": {
+            "description": "Frozen cases - Filter for entries where at least one reference mismatches the query",
+            "items": {
+              "type": "string"
+            },
+            "title": "not.anyOf",
+            "type": "array"
+          },
+          "population.lessThan": {
+            "description": "Population - Filter for entries with values less than the specified value",
+            "title": "lessThan",
+            "type": "integer"
+          },
+          "population.lessThanOrEqual": {
+            "description": "Population - Filter for entries with values less than or equal to the specified value",
+            "title": "lessThanOrEqual",
+            "type": "integer"
+          },
+          "population.greaterThan": {
+            "description": "Population - Filter for entries with values greater than the specified value",
+            "title": "greaterThan",
+            "type": "integer"
+          },
+          "population.greaterThanOrEqual": {
+            "description": "Population - Filter for entries with values greater than or equal to the specified value",
+            "title": "greaterThanOrEqual",
+            "type": "integer"
+          },
+          "population.equal": {
+            "description": "Population - Filter for entries with values exactly equal to the specified value",
+            "title": "equal",
+            "type": "integer"
+          },
+          "population.not.equal": {
+            "description": "Population - Filter for entries with values not equal to the specified value",
+            "title": "not.equal",
+            "type": "integer"
+          },
+          "population.between": {
+            "description": "Population - Filter for entries with values between two specified values (inclusive)",
+            "maxItems": 2,
+            "minItems": 2,
+            "prefixItems": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "title": "between",
+            "type": "array"
+          },
+          "population.not.between": {
+            "description": "Population - Filter for entries with values between two specified values (inclusive)",
+            "maxItems": 2,
+            "minItems": 2,
+            "prefixItems": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "title": "not.between",
+            "type": "array"
+          },
           "createdBy": {
             "description": "Filter for a particular cohort creator by its username",
             "title": "Created by",
@@ -89995,87 +90091,12 @@
         "type": "object"
       },
       "Cohort": {
-        "description": "Schema for representing a Cohort entity.\n\nAttributes:\n    population (int): The size of the cohort population. This field uses the database alias 'db_population' and supports validation using either 'db_population' or 'population'.\n\nConfig:\n    model (orm.Cohort): Specifies the ORM model associated with this schema.",
         "properties": {
-          "population": {
-            "description": "Cohort population",
-            "title": "Population",
-            "type": "integer"
-          },
           "id": {
             "description": "Unique identifier of the resource (UUID v4).",
             "format": "uuid",
             "title": "Id",
-            "type": "string",
-            "x-expanded": false
-          },
-          "externalSource": {
-            "description": "The digital source of the data, relevant for automated data",
-            "title": "External data source",
-            "type": "string",
-            "x-expanded": false
-          },
-          "externalSourceId": {
-            "description": "The data identifier at the digital source of the data, relevant for automated data",
-            "title": "External data source Id",
-            "type": "string",
-            "x-expanded": false
-          },
-          "name": {
-            "description": "Name of the cohort",
-            "maxLength": 255,
-            "title": "Cohort name",
-            "type": "string",
-            "x-expanded": false
-          },
-          "includeCriteria": {
-            "description": "JSON object defining inclusion criteria",
-            "title": "Inclusion criteria",
-            "type": "object",
-            "x-expanded": false
-          },
-          "excludeCriteria": {
-            "description": "JSON object defining exclusion criteria",
-            "title": "Exclusion criteria",
-            "type": "object",
-            "x-expanded": false
-          },
-          "projectId": {
-            "description": "Project to which the cohort is associated",
-            "format": "uuid",
-            "title": "Project",
-            "type": "string",
-            "x-expanded": false
-          },
-          "casesIds": {
-            "description": "Cases composing the cohort",
-            "items": {
-              "format": "uuid",
-              "type": "string"
-            },
-            "title": "Cases",
-            "type": "array",
-            "x-expanded": false
-          },
-          "manualChoicesIds": {
-            "description": "Manually added cases",
-            "items": {
-              "format": "uuid",
-              "type": "string"
-            },
-            "title": "Manually added cases",
-            "type": "array",
-            "x-expanded": false
-          },
-          "frozenSetIds": {
-            "description": "Frozen cases",
-            "items": {
-              "format": "uuid",
-              "type": "string"
-            },
-            "title": "Frozen cases",
-            "type": "array",
-            "x-expanded": false
+            "type": "string"
           },
           "description": {
             "description": "Human-readable description",
@@ -90106,41 +90127,7 @@
             },
             "title": "Updated by",
             "type": "array"
-          }
-        },
-        "required": [
-          "population",
-          "id",
-          "name",
-          "description"
-        ],
-        "title": "Cohort",
-        "type": "object"
-      },
-      "Paginated_Cohort_": {
-        "properties": {
-          "count": {
-            "title": "Count",
-            "type": "integer"
           },
-          "items": {
-            "items": {
-              "$ref": "#/components/schemas/Cohort"
-            },
-            "title": "Items",
-            "type": "array"
-          }
-        },
-        "required": [
-          "count",
-          "items"
-        ],
-        "title": "Paginated[Cohort]",
-        "type": "object"
-      },
-      "CohortCreate": {
-        "description": "Schema for creating a Cohort instance.\n\nAttributes:\n    includeCriteria (Optional[CohortRuleset]): Logic rules to filter and constrain the cases to be included in the cohort.\n        - Title: Inclusion criteria\n        - Description: Logic rules to filter and constrain the cases to be included in the cohort\n        - Aliases: \"includeCriteria\", \"include_criteria\"\n\n    excludeCriteria (Optional[CohortRuleset]): Logic rules to filter and constrain the cases to be excluded from the cohort.\n        - Title: Exclusion criteria\n        - Description: Logic rules to filter and constrain the cases to be excluded from the cohort\n        - Aliases: \"excludeCriteria\", \"exclude_criteria\"\n\n    config (SchemaConfig): Configuration for the schema, specifying the ORM model to use.",
-        "properties": {
           "includeCriteria": {
             "allOf": [
               {
@@ -90162,28 +90149,24 @@
           "externalSource": {
             "description": "The digital source of the data, relevant for automated data",
             "title": "External data source",
-            "type": "string",
-            "x-expanded": false
+            "type": "string"
           },
           "externalSourceId": {
             "description": "The data identifier at the digital source of the data, relevant for automated data",
             "title": "External data source Id",
-            "type": "string",
-            "x-expanded": false
+            "type": "string"
           },
           "name": {
             "description": "Name of the cohort",
             "maxLength": 255,
             "title": "Cohort name",
-            "type": "string",
-            "x-expanded": false
+            "type": "string"
           },
           "projectId": {
             "description": "Project to which the cohort is associated",
             "format": "uuid",
             "title": "Project",
-            "type": "string",
-            "x-expanded": false
+            "type": "string"
           },
           "casesIds": {
             "description": "Cases composing the cohort",
@@ -90192,8 +90175,7 @@
               "type": "string"
             },
             "title": "Cases",
-            "type": "array",
-            "x-expanded": false
+            "type": "array"
           },
           "manualChoicesIds": {
             "description": "Manually added cases",
@@ -90202,8 +90184,7 @@
               "type": "string"
             },
             "title": "Manually added cases",
-            "type": "array",
-            "x-expanded": false
+            "type": "array"
           },
           "frozenSetIds": {
             "description": "Frozen cases",
@@ -90212,14 +90193,21 @@
               "type": "string"
             },
             "title": "Frozen cases",
-            "type": "array",
-            "x-expanded": false
+            "type": "array"
+          },
+          "population": {
+            "description": "Cohort population",
+            "title": "Population",
+            "type": "integer"
           }
         },
         "required": [
-          "name"
+          "id",
+          "description",
+          "name",
+          "population"
         ],
-        "title": "CohortCreate",
+        "title": "Cohort",
         "type": "object"
       },
       "CohortQueryEntity": {
@@ -90445,6 +90433,27 @@
         "title": "CohortRuleset",
         "type": "object"
       },
+      "Paginated_Cohort_": {
+        "properties": {
+          "count": {
+            "title": "Count",
+            "type": "integer"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/Cohort"
+            },
+            "title": "Items",
+            "type": "array"
+          }
+        },
+        "required": [
+          "count",
+          "items"
+        ],
+        "title": "Paginated[Cohort]",
+        "type": "object"
+      },
       "RulesetCondition": {
         "description": "An enumeration representing logical conditions for rulesets.\n\nAttributes:\n    AND (str): Represents the logical 'and' condition.\n    OR (str): Represents the logical 'or' condition.",
         "enum": [
@@ -90453,6 +90462,82 @@
         ],
         "title": "RulesetCondition",
         "type": "string"
+      },
+      "CohortCreate": {
+        "properties": {
+          "includeCriteria": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CohortRuleset"
+              }
+            ],
+            "description": "Logic rules to filter and constrain the cases to be included in the cohort",
+            "title": "Inclusion critera"
+          },
+          "excludeCriteria": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CohortRuleset"
+              }
+            ],
+            "description": "Logic rules to filter and constrain the cases to be excluded from the cohort",
+            "title": "Exclusion critera"
+          },
+          "externalSource": {
+            "description": "The digital source of the data, relevant for automated data",
+            "title": "External data source",
+            "type": "string"
+          },
+          "externalSourceId": {
+            "description": "The data identifier at the digital source of the data, relevant for automated data",
+            "title": "External data source Id",
+            "type": "string"
+          },
+          "name": {
+            "description": "Name of the cohort",
+            "maxLength": 255,
+            "title": "Cohort name",
+            "type": "string"
+          },
+          "projectId": {
+            "description": "Project to which the cohort is associated",
+            "format": "uuid",
+            "title": "Project",
+            "type": "string"
+          },
+          "casesIds": {
+            "description": "Cases composing the cohort",
+            "items": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "title": "Cases",
+            "type": "array"
+          },
+          "manualChoicesIds": {
+            "description": "Manually added cases",
+            "items": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "title": "Manually added cases",
+            "type": "array"
+          },
+          "frozenSetIds": {
+            "description": "Frozen cases",
+            "items": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "title": "Frozen cases",
+            "type": "array"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "title": "CohortCreate",
+        "type": "object"
       },
       "CohortContribution": {
         "description": "Schema representing a user's contribution to a cohort.\n\nAttributes:\n    contributor (str): Username or identifier of the contributing user.\n    contributions (int): The number of records or actions contributed by this user.",

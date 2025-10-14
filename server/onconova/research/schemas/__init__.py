@@ -1,11 +1,16 @@
 from .cohort import (
-    CohortCreateSchema,
-    CohortSchema,
+    CohortCreate,
+    Cohort,
     CohortFilters,
     CohortRule,
     CohortRuleset,
+    CohortContribution,
     RulesetCondition,
     CohortRuleFilter,
+    ExportedCohortDefinition,
+    CohortTraits,
+    CohortTraitMedian,
+    CohortTraitCounts,
     CohortQueryFilter,
     CohortQueryEntity,
 )
@@ -17,16 +22,21 @@ from .project import (
     ProjectDataManagerGrantCreateSchema,
     ProjectDataManagerGrantFilters,
 )
-from .dataset import DatasetFilters, DatasetRule, Dataset, DatasetCreate
+from .dataset import DatasetFilters, DatasetRule, Dataset, DatasetCreate, PatientCaseDataset, ExportedPatientCaseDataset
 
 __all__ = [
-    "CohortCreateSchema",
-    "CohortSchema",
+    "CohortCreate",
+    "Cohort",
     "CohortFilters",
     "CohortRule",
+    "CohortTraits",
+    "CohortTraitMedian",
+    "CohortTraitCounts",
     "CohortRuleset",
+    "CohortContribution",
     "CohortQueryFilter",
     "CohortQueryEntity",
+    "ExportedCohortDefinition",
     "ProjectCreateSchema",
     "ProjectSchema",
     "ProjectFilters",
@@ -37,6 +47,8 @@ __all__ = [
     "DatasetRule",
     "Dataset",
     "DatasetCreate",
+    "PatientCaseDataset",
+    "ExportedPatientCaseDataset",
     "RulesetCondition",
     "CohortRuleFilter",
 ]
