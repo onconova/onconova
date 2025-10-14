@@ -2,7 +2,7 @@ from pydantic import Field
 from uuid import UUID
 from datetime import date 
 
-from onconova.core.schemas import BaseSchema, MetadataSchemaMixin, CodedConcept
+from onconova.core.schemas import BaseSchema, MetadataAnonymizationMixin, CodedConcept
 from onconova.core.types import Nullable
 from onconova.oncology.models import neoplastic_entity as orm
 
@@ -65,7 +65,7 @@ class NeoplasticEntityCreate(BaseSchema):
         json_schema_extra={'x-terminology': 'LateralityQualifier'},
     )
 
-class NeoplasticEntity(NeoplasticEntityCreate, MetadataSchemaMixin):
+class NeoplasticEntity(NeoplasticEntityCreate, MetadataAnonymizationMixin):
 
     topographyGroup: Nullable[CodedConcept] = Field(
         None,

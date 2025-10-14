@@ -11,7 +11,7 @@ from pydantic import BaseModel as PydanticBaseModel
 from pydantic import ConfigDict, Field, create_model, field_validator
 
 from onconova.core.measures import Measure
-from onconova.core.schemas import CodedConcept as CodedConceptSchema, MetadataSchemaMixin
+from onconova.core.schemas import CodedConcept as CodedConceptSchema, MetadataAnonymizationMixin, MetadataMixin
 from onconova.core.serialization import transforms as tfs
 from onconova.core.serialization.factory import create_filters_schema
 from onconova.core.serialization.metaclasses import (
@@ -31,7 +31,7 @@ DataResource = Enum(
     {
         model.__name__.upper(): model.__name__
         for model in oncology_schemas.ONCOLOGY_SCHEMAS
-        if (issubclass(model, MetadataSchemaMixin) or issubclass(model, ModelGetSchema)) and model.__name__ != "GenomicSignature"
+        if (issubclass(model, (MetadataAnonymizationMixin, MetadataMixin)) or issubclass(model, ModelGetSchema)) and model.__name__ != "GenomicSignature"
     },
     type=str,
 )
@@ -237,7 +237,7 @@ def _create_partial_schema(schema: Type[Schema]) -> Type[Schema]:
 partial_schemas = {
     schema.__name__.replace('Schema',''): _create_partial_schema(schema)
     for schema in oncology_schemas.ONCOLOGY_SCHEMAS
-    if issubclass(schema, MetadataSchemaMixin) or issubclass(schema, ModelGetSchema)
+    if issubclass(schema, (MetadataAnonymizationMixin, MetadataMixin)) or issubclass(schema, ModelGetSchema)
 }
 
 class PatientCaseDataset(partial_schemas["PatientCase"]):

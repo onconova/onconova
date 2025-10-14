@@ -3,7 +3,7 @@ from pydantic import Field
 from uuid import UUID 
 from typing import List
 
-from onconova.core.schemas import BaseSchema, MetadataSchemaMixin, CodedConcept, Measure
+from onconova.core.schemas import BaseSchema, MetadataAnonymizationMixin, CodedConcept, Measure
 from onconova.core.types import Nullable
 from onconova.oncology import models as orm
 
@@ -81,7 +81,7 @@ class LifestyleCreate(BaseSchema):
     )
 
 
-class Lifestyle(LifestyleCreate, MetadataSchemaMixin):
+class Lifestyle(LifestyleCreate, MetadataAnonymizationMixin):
     
     __anonymization_fields__ = ("date",)
     __anonymization_key__ = "caseId"

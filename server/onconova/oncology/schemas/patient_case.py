@@ -10,7 +10,7 @@ from onconova.core.anonymization import (
     anonymize_personal_date,
 )
 from onconova.oncology import models as orm
-from onconova.core.schemas import BaseSchema, MetadataSchemaMixin, CodedConcept
+from onconova.core.schemas import BaseSchema, MetadataAnonymizationMixin, CodedConcept
 from onconova.core.types import Age, AgeBin, Contributors, Nullable
 from onconova.oncology.models.patient_case import PatientCaseConsentStatusChoices, PatientCaseVitalStatusChoices
 
@@ -99,7 +99,7 @@ class PatientCaseCreate(BaseSchema):
 
 
 
-class PatientCase(PatientCaseCreate, MetadataSchemaMixin):
+class PatientCase(PatientCaseCreate, MetadataAnonymizationMixin):
         
     pseudoidentifier: str = Field(
         ..., 

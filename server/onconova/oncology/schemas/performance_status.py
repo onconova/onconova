@@ -3,7 +3,7 @@ from uuid import UUID
 from pydantic import AliasChoices, Field
 
 from onconova.core.anonymization import AnonymizationConfig
-from onconova.core.schemas import BaseSchema, MetadataSchemaMixin, CodedConcept
+from onconova.core.schemas import BaseSchema, MetadataAnonymizationMixin, CodedConcept
 from onconova.core.serialization.metaclasses import (
     ModelCreateSchema,
     ModelGetSchema,
@@ -48,7 +48,7 @@ class PerformanceStatusCreate(BaseSchema):
         title='Karnofsky Score',
     )
 
-class PerformanceStatus(PerformanceStatusCreate, MetadataSchemaMixin):
+class PerformanceStatus(PerformanceStatusCreate, MetadataAnonymizationMixin):
     
     ecogInterpretation: Nullable[CodedConcept] = Field(
         default=None,

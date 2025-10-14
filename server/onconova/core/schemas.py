@@ -14,7 +14,7 @@ from onconova.core.types import Nullable
 T = TypeVar("T")
 
 
-class MetadataSchemaMixin(AnonymizationMixin):
+class MetadataMixin:
     
     id: UUID = Field(
         ..., description='Unique identifier of the resource (UUID v4).', title='Id'
@@ -40,6 +40,11 @@ class MetadataSchemaMixin(AnonymizationMixin):
         description='Usernames of the users who have updated the resource',
         title='Updated by',
     )
+
+class MetadataAnonymizationMixin(MetadataMixin, AnonymizationMixin):
+    pass
+    
+    
     
 
 class Paginated(Schema, Generic[T]):
