@@ -25,6 +25,7 @@ from onconova.oncology.models.radiotherapy import RadiotherapyIntentChoices
 from onconova.oncology.models.surgery import SurgeryIntentChoices
 from onconova.oncology.models.systemic_therapy import SystemicTherapyIntentChoices
 from onconova.oncology.models.therapy_line import TherapyLineIntentChoices
+from onconova.research.models.project import ProjectStatusChoices
 
 def is_running_pytest():
     return "pytest" in sys.modules
@@ -738,7 +739,7 @@ class ProjectFactory(factory.django.DjangoModelFactory):
     members = factory.post_generation(
         add_m2m_related("members", UserFactory, min=2, max=5, get_related_case=None)
     )
-    status = FuzzyChoice(projects_models.Project.ProjectStatus)
+    status = FuzzyChoice(ProjectStatusChoices)
     clinical_centers = factory.LazyFunction(
         lambda: [faker.company() + " Hospital" for _ in range(1, random.randint(1, 3))]
     )

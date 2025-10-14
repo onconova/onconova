@@ -223,8 +223,8 @@ class TestProjectController(CrudApiControllerTestCase):
     controller_path = "/api/v1/projects"
     FACTORY = factories.ProjectFactory
     MODEL = models.Project
-    SCHEMA = schemas.ProjectSchema
-    CREATE_SCHEMA = schemas.ProjectCreateSchema
+    SCHEMA = schemas.Project
+    CREATE_SCHEMA = schemas.ProjectCreate
 
     @parameterized.expand(
         [
@@ -249,7 +249,7 @@ class TestProjectController(CrudApiControllerTestCase):
         self.call_api_endpoint(
             "PUT",
             f"/{project.id}",
-            data=schemas.ProjectCreateSchema.model_validate(project).model_dump(),
+            data=schemas.ProjectCreate.model_validate(project).model_dump(),
             authenticated=True,
             expected_responses=(expected_response,),
             use_https=True,
@@ -261,8 +261,8 @@ class TestProjectDataManagerController(CrudApiControllerTestCase):
     controller_path = "/api/v1/projects"
     FACTORY = factories.ProjectDataManagerGrantFactory
     MODEL = models.ProjectDataManagerGrant
-    SCHEMA = schemas.ProjectDataManagerGrantSchema
-    CREATE_SCHEMA = schemas.ProjectDataManagerGrantCreateSchema
+    SCHEMA = schemas.ProjectDataManagerGrant
+    CREATE_SCHEMA = schemas.ProjectDataManagerGrantCreate
 
     HAS_UPDATE_ENDPOINT = False
 
@@ -324,7 +324,7 @@ class TestProjectDataManagerController(CrudApiControllerTestCase):
         self.call_api_endpoint(
             "POST",
             f"/{project.id}/members/{self.user.id}/data-management/grants",
-            data=schemas.ProjectDataManagerGrantCreateSchema.model_validate(
+            data=schemas.ProjectDataManagerGrantCreate.model_validate(
                 grant
             ).model_dump(),
             authenticated=True,
