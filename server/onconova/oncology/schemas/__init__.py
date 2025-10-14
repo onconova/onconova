@@ -87,7 +87,7 @@ from .systemic_therapy import (
     SystemicTherapy,
 )
 from .therapy_line import TherapyLineCreate, TherapyLine
-from .treatment_response import TreatmentResponseCreateSchema, TreatmentResponseSchema
+from .treatment_response import TreatmentResponseCreate, TreatmentResponse
 from .tumor_board import (
     MolecularTherapeuticRecommendationCreateSchema,
     MolecularTherapeuticRecommendationSchema,
@@ -126,7 +126,7 @@ AdverseEventFilters = create_filters_schema(
     schema=AdverseEvent, name="AdverseEventFilters"
 )
 TreatmentResponseFilters = create_filters_schema(
-    schema=TreatmentResponseSchema, name="TreatmentResponseFilters"
+    schema=TreatmentResponse, name="TreatmentResponseFilters"
 )
 PerformanceStatusFilters = create_filters_schema(
     schema=PerformanceStatus, name="PerformanceStatusFilters"
@@ -223,8 +223,8 @@ ONCOLOGY_SCHEMAS = (
     AdverseEventMitigation,
     AdverseEventMitigationCreate,
     # Treatment response schemas
-    TreatmentResponseSchema,
-    TreatmentResponseCreateSchema,
+    TreatmentResponse,
+    TreatmentResponseCreate,
     # Tumor board schemas
     UnspecifiedTumorBoardSchema,
     UnspecifiedTumorBoardCreateSchema,

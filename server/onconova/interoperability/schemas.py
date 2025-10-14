@@ -139,7 +139,7 @@ class PatientCaseBundle(sc.PatientCase):
         alias="adverse_events",
         validation_alias=AliasChoices("adverseEvents", "adverse_events"),
     )
-    treatmentResponses: List[sc.TreatmentResponseSchema] = Field(
+    treatmentResponses: List[sc.TreatmentResponse] = Field(
         default=[],
         alias="treatment_responses",
         validation_alias=AliasChoices("treatmentResponses", "treatment_responses"),
@@ -251,7 +251,7 @@ class PatientCaseBundle(sc.PatientCase):
             for category in PatientCaseDataCategoryChoices.values
             for completion in (
                 (
-                    list(obj.completed_data_categories.filter(category=category))
+                    list(obj.completed_data_categories.filter(category=category)) # type: ignore
                     if isinstance(obj, PatientCase)
                     else obj.get("completed_data_categories")
                 )
@@ -265,10 +265,10 @@ class PatientCaseBundle(sc.PatientCase):
             return obj.get("history")
         else:
             return (
-                pghistory.models.Events.objects.tracks(obj)
+                pghistory.models.Events.objects.tracks(obj) # type: ignore
                 .all()
                 .union(
-                    pghistory.models.Events.objects.references(obj).filter(
+                    pghistory.models.Events.objects.references(obj).filter( # type: ignore
                         pgh_model__icontains="oncology"
                     )
                 )

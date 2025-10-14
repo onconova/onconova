@@ -154,8 +154,8 @@ class TestTreatmentResponseController(CrudApiControllerTestCase):
     controller_path = "/api/v1/treatment-responses"
     FACTORY = factories.TreatmentResponseFactory
     MODEL = models.TreatmentResponse
-    SCHEMA = schemas.TreatmentResponseSchema
-    CREATE_SCHEMA = schemas.TreatmentResponseCreateSchema
+    SCHEMA = schemas.TreatmentResponse
+    CREATE_SCHEMA = schemas.TreatmentResponseCreate
 
 
 class TestAdverseEventController(CrudApiControllerTestCase):
