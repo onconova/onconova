@@ -23,6 +23,7 @@ from onconova.oncology.models.genomic_signature import TumorMutationalBurdenStat
 from onconova.oncology.models.genomic_variant import GenomicVariantAssessmentChoices, GenomicVariantConfidenceChoices, GenomicVariantClinicalRelevanceChoices
 from onconova.oncology.models.radiotherapy import RadiotherapyIntentChoices
 from onconova.oncology.models.surgery import SurgeryIntentChoices
+from onconova.oncology.models.systemic_therapy import SystemicTherapyIntentChoices
 
 def is_running_pytest():
     return "pytest" in sys.modules
@@ -284,7 +285,7 @@ class SystemicTherapyFactory(factory.django.DjangoModelFactory):
         )
     )
     cycles = factory.LazyFunction(lambda: random.randint(2, 25))
-    intent = FuzzyChoice(models.SystemicTherapy.TreatmentIntent)
+    intent = FuzzyChoice(SystemicTherapyIntentChoices)
     therapy_line = factory.SubFactory(TherapyLineFactory)
     targeted_entities = factory.post_generation(
         add_m2m_related(

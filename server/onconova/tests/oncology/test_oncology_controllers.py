@@ -59,16 +59,16 @@ class TestSystemicTherapyController(CrudApiControllerTestCase):
     controller_path = "/api/v1/systemic-therapies"
     FACTORY = factories.SystemicTherapyFactory
     MODEL = models.SystemicTherapy
-    SCHEMA = schemas.SystemicTherapySchema
-    CREATE_SCHEMA = schemas.SystemicTherapyCreateSchema
+    SCHEMA = schemas.SystemicTherapy
+    CREATE_SCHEMA = schemas.SystemicTherapyCreate
 
 
 class TestSystemicTherapyMedicationController(CrudApiControllerTestCase):
     controller_path = "/api/v1/systemic-therapies"
     FACTORY = factories.SystemicTherapyMedicationFactory
     MODEL = models.SystemicTherapyMedication
-    SCHEMA = schemas.SystemicTherapyMedicationSchema
-    CREATE_SCHEMA = schemas.SystemicTherapyMedicationCreateSchema
+    SCHEMA = schemas.SystemicTherapyMedication
+    CREATE_SCHEMA = schemas.SystemicTherapyMedicationCreate
 
     def get_route_url(self, instance):
         return f"/{instance.systemic_therapy.id}/medications"

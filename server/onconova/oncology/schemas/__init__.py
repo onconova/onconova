@@ -81,10 +81,10 @@ from .staging import (
 )
 from .surgery import SurgeryCreate, Surgery
 from .systemic_therapy import (
-    SystemicTherapyCreateSchema,
-    SystemicTherapyMedicationCreateSchema,
-    SystemicTherapyMedicationSchema,
-    SystemicTherapySchema,
+    SystemicTherapyCreate,
+    SystemicTherapyMedicationCreate,
+    SystemicTherapyMedication,
+    SystemicTherapy,
 )
 from .therapy_line import TherapyLineCreateSchema, TherapyLineSchema
 from .treatment_response import TreatmentResponseCreateSchema, TreatmentResponseSchema
@@ -116,7 +116,7 @@ RiskAssessmentFilters = create_filters_schema(
     schema=RiskAssessment, name="RiskAssessmentFilters"
 )
 SystemicTherapyFilters = create_filters_schema(
-    schema=SystemicTherapySchema, name="SystemicTherapyFilters"
+    schema=SystemicTherapy, name="SystemicTherapyFilters"
 )
 SurgeryFilters = create_filters_schema(schema=Surgery, name="SurgeryFilters")
 RadiotherapyFilters = create_filters_schema(
@@ -201,10 +201,10 @@ ONCOLOGY_SCHEMAS = (
     TherapyLineSchema,
     TherapyLineCreateSchema,
     # Systemic therapy schemas
-    SystemicTherapySchema,
-    SystemicTherapyCreateSchema,
-    SystemicTherapyMedicationSchema,
-    SystemicTherapyMedicationCreateSchema,
+    SystemicTherapy,
+    SystemicTherapyCreate,
+    SystemicTherapyMedication,
+    SystemicTherapyMedicationCreate,
     # Surgery schemas
     Surgery,
     SurgeryCreate,
