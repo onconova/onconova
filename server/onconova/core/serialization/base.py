@@ -32,11 +32,16 @@ from onconova.core.utils import camel_to_snake
 
 _DjangoModel = TypeVar("_DjangoModel", bound=DjangoModel)
 
+def get_orm_alias(name):
+    name = camel_to_snake(name)
+    if name.endswith("_id"): name=name.replace("_id", "")
+    elif name.endswith("_ids"): name=name.replace("_ids", "")
+    return name
 
 class BaseSchema(Schema, 
         alias_generator=AliasGenerator(
-            alias=camel_to_snake,
-            validation_alias=lambda name: AliasChoices(name, camel_to_snake(name))
+            alias=get_orm_alias,
+            validation_alias=lambda name: AliasChoices(name, get_orm_alias(name))
         ),
         from_attributes=True,
         populate_by_name=True,):
