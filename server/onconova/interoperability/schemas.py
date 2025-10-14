@@ -184,7 +184,7 @@ class PatientCaseBundle(sc.PatientCase):
         default=[],
     )
     tumorBoards: List[
-        Union[sc.UnspecifiedTumorBoardSchema, sc.MolecularTumorBoardSchema]
+        Union[sc.UnspecifiedTumorBoard, sc.MolecularTumorBoard]
     ] = Field(
         default=[],
     )

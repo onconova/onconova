@@ -89,12 +89,12 @@ from .systemic_therapy import (
 from .therapy_line import TherapyLineCreate, TherapyLine
 from .treatment_response import TreatmentResponseCreate, TreatmentResponse
 from .tumor_board import (
-    MolecularTherapeuticRecommendationCreateSchema,
-    MolecularTherapeuticRecommendationSchema,
-    MolecularTumorBoardCreateSchema,
-    MolecularTumorBoardSchema,
-    UnspecifiedTumorBoardCreateSchema,
-    UnspecifiedTumorBoardSchema,
+    MolecularTherapeuticRecommendationCreate,
+    MolecularTherapeuticRecommendation,
+    MolecularTumorBoardCreate,
+    MolecularTumorBoard,
+    UnspecifiedTumorBoardCreate,
+    UnspecifiedTumorBoard,
 )
 from .tumor_marker import TumorMarkerCreateSchema, TumorMarkerSchema
 from .vitals import VitalsCreateSchema, VitalsSchema
@@ -138,7 +138,7 @@ FamilyHistoryFilters = create_filters_schema(
     schema=FamilyHistory, name="FamilyHistoryFilters"
 )
 TumorBoardFilters = create_filters_schema(
-    schema=UnspecifiedTumorBoardSchema, name="TumorBoardFilters"
+    schema=UnspecifiedTumorBoard, name="TumorBoardFilters"
 )
 VitalsFilters = create_filters_schema(schema=VitalsSchema, name="VitalsFilters")
 ComorbiditiesAssessmentFilters = create_filters_schema(
@@ -226,12 +226,12 @@ ONCOLOGY_SCHEMAS = (
     TreatmentResponse,
     TreatmentResponseCreate,
     # Tumor board schemas
-    UnspecifiedTumorBoardSchema,
-    UnspecifiedTumorBoardCreateSchema,
-    MolecularTumorBoardSchema,
-    MolecularTumorBoardCreateSchema,
-    MolecularTherapeuticRecommendationSchema,
-    MolecularTherapeuticRecommendationCreateSchema,
+    UnspecifiedTumorBoard,
+    UnspecifiedTumorBoardCreate,
+    MolecularTumorBoard,
+    MolecularTumorBoardCreate,
+    MolecularTherapeuticRecommendation,
+    MolecularTherapeuticRecommendationCreate,
     # Performance status schemas
     PerformanceStatus,
     PerformanceStatusCreate,

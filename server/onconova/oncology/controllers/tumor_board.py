@@ -17,30 +17,19 @@ from onconova.core.history.schemas import HistoryEvent
 from onconova.core.schemas import ModifiedResource as ModifiedResourceSchema
 from onconova.core.schemas import Paginated
 from onconova.core.utils import COMMON_HTTP_ERRORS, revert_multitable_model
-from onconova.oncology.models.tumor_board import (
-    MolecularTherapeuticRecommendation,
-    MolecularTumorBoard,
-    TumorBoard,
-    TumorBoardSpecialties,
-)
-from onconova.oncology.schemas import (
-    MolecularTherapeuticRecommendationCreateSchema,
-    MolecularTherapeuticRecommendationSchema,
-    MolecularTumorBoardCreateSchema,
-    MolecularTumorBoardSchema,
-    TumorBoardFilters,
-    UnspecifiedTumorBoardCreateSchema,
-    UnspecifiedTumorBoardSchema,
+from onconova.oncology import (
+    models as orm,
+    schemas as scm,
 )
 
 RESPONSE_SCHEMAS = (
-    UnspecifiedTumorBoardSchema,
-    MolecularTumorBoardSchema,
+    scm.UnspecifiedTumorBoard,
+    scm.MolecularTumorBoard,
 )
 
 PAYLOAD_SCHEMAS = (
-    UnspecifiedTumorBoardCreateSchema,
-    MolecularTumorBoardCreateSchema,
+    scm.UnspecifiedTumorBoardCreate,
+    scm.MolecularTumorBoardCreate,
 )
 
 AnyResponseSchemas = TypeAliasType("AnyTumorBoard", Union[RESPONSE_SCHEMAS])  # type: ignore# type: ignore
@@ -78,8 +67,8 @@ class TumorBoardController(ControllerBase):
     @paginate()
     @ordering()
     @anonymize()
-    def get_all_tumor_boards_matching_the_query(self, query: Query[TumorBoardFilters]):  # type: ignore
-        queryset = TumorBoard.objects.all().order_by("-date")
+    def get_all_tumor_boards_matching_the_query(self, query: Query[scm.TumorBoardFilters]):  # type: ignore
+        queryset = orm.TumorBoard.objects.all().order_by("-date")
         return [
             cast_to_model_schema(tumorboard.specialized_tumor_board, RESPONSE_SCHEMAS)
             for tumorboard in query.filter(queryset)
@@ -103,7 +92,7 @@ class TumorBoardController(ControllerBase):
     )
     @anonymize()
     def get_tumor_board_by_id(self, tumorBoardId: str):
-        instance = get_object_or_404(TumorBoard, id=tumorBoardId)
+        instance = get_object_or_404(orm.TumorBoard, id=tumorBoardId)
         return cast_to_model_schema(instance.specialized_tumor_board, RESPONSE_SCHEMAS)
 
     @route.put(
@@ -114,7 +103,7 @@ class TumorBoardController(ControllerBase):
     )
     def update_tumor_board(self, tumorBoardId: str, payload: AnyPayloadSchemas):  # type: ignore
         instance = get_object_or_404(
-            TumorBoard, id=tumorBoardId
+            orm.TumorBoard, id=tumorBoardId
         ).specialized_tumor_board
         return payload.model_dump_django(instance=instance)
 
@@ -125,7 +114,7 @@ class TumorBoardController(ControllerBase):
         operation_id="deleteTumorBoardById",
     )
     def delete_tumor_board(self, tumorBoardId: str):
-        instance = get_object_or_404(TumorBoard, id=tumorBoardId)
+        instance = get_object_or_404(orm.TumorBoard, id=tumorBoardId)
         instance.delete()
         return 204, None
 
@@ -138,7 +127,7 @@ class TumorBoardController(ControllerBase):
     @paginate()
     @ordering()
     def get_all_tumor_board_history_events(self, tumorBoardId: str):
-        instance = get_object_or_404(TumorBoard, id=tumorBoardId)
+        instance = get_object_or_404(orm.TumorBoard, id=tumorBoardId)
         return pghistory.models.Events.objects.tracks(instance).all()  # type: ignore
 
     @route.get(
@@ -148,7 +137,7 @@ class TumorBoardController(ControllerBase):
         operation_id="getTumorBoardHistoryEventById",
     )
     def get_tumor_board_history_event_by_id(self, tumorBoardId: str, eventId: str):
-        instance = get_object_or_404(TumorBoard, id=tumorBoardId)
+        instance = get_object_or_404(orm.TumorBoard, id=tumorBoardId)
         event = instance.parent_events.filter(pgh_id=eventId).first()  # type: ignore
         if not event and hasattr(instance, "events"):
             event = instance.events.filter(pgh_id=eventId).first()
@@ -165,7 +154,7 @@ class TumorBoardController(ControllerBase):
         operation_id="revertTumorBoardToHistoryEvent",
     )
     def revert_tumor_board_to_history_event(self, tumorBoardId: str, eventId: str):
-        instance = get_object_or_404(TumorBoard, id=tumorBoardId)
+        instance = get_object_or_404(orm.TumorBoard, id=tumorBoardId)
         instance = instance.specialized_tumor_board
         try:
             return 201, revert_multitable_model(instance, eventId)
@@ -183,7 +172,7 @@ class MolecularTherapeuticRecommendationController(ControllerBase):
     @route.get(
         path="/{tumorBoardId}/therapeutic-recommendations",
         response={
-            200: List[MolecularTherapeuticRecommendationSchema],
+            200: List[scm.MolecularTherapeuticRecommendation],
             404: None,
             **COMMON_HTTP_ERRORS,
         },
@@ -192,12 +181,12 @@ class MolecularTherapeuticRecommendationController(ControllerBase):
     )
     def get_molecular_tumor_board_therapeutic_recommendations_matching_the_query(self, tumorBoardId: str):  # type: ignore
         return get_object_or_404(
-            MolecularTumorBoard, id=tumorBoardId
+            orm.MolecularTumorBoard, id=tumorBoardId
         ).therapeutic_recommendations.all()  # type: ignore
 
     @route.get(
         path="/{tumorBoardId}/therapeutic-recommendations/{recommendationId}",
-        response={200: MolecularTherapeuticRecommendationSchema, 404: None},
+        response={200: scm.MolecularTherapeuticRecommendation, 404: None},
         exclude_none=True,
         permissions=[perms.CanViewCases],
         operation_id="getMOlecularTherapeuticRecommendationById",
@@ -206,7 +195,7 @@ class MolecularTherapeuticRecommendationController(ControllerBase):
         self, tumorBoardId: str, recommendationId: str
     ):
         return get_object_or_404(
-            MolecularTherapeuticRecommendation,
+            orm.MolecularTherapeuticRecommendation,
             id=recommendationId,
             molecular_tumor_board__id=tumorBoardId,
         )
@@ -217,10 +206,10 @@ class MolecularTherapeuticRecommendationController(ControllerBase):
         permissions=[perms.CanManageCases],
         operation_id="createMolecularTherapeuticRecommendation",
     )
-    def create_molecular_tumor_board_therapeutic_recommendation(self, tumorBoardId: str, payload: MolecularTherapeuticRecommendationCreateSchema):  # type: ignore
-        instance = MolecularTherapeuticRecommendation(
+    def create_molecular_tumor_board_therapeutic_recommendation(self, tumorBoardId: str, payload: scm.MolecularTherapeuticRecommendationCreate):  # type: ignore
+        instance = orm.MolecularTherapeuticRecommendation(
             molecular_tumor_board=get_object_or_404(
-                MolecularTumorBoard, id=tumorBoardId
+                orm.MolecularTumorBoard, id=tumorBoardId
             )
         )
         return 201, payload.model_dump_django(instance=instance, create=True)
@@ -231,9 +220,9 @@ class MolecularTherapeuticRecommendationController(ControllerBase):
         permissions=[perms.CanManageCases],
         operation_id="updateMolecularTherapeuticRecommendation",
     )
-    def update_molecular_tumor_board_therapeutic_recommendation(self, tumorBoardId: str, recommendationId: str, payload: MolecularTherapeuticRecommendationCreateSchema):  # type: ignore
+    def update_molecular_tumor_board_therapeutic_recommendation(self, tumorBoardId: str, recommendationId: str, payload: scm.MolecularTherapeuticRecommendationCreate):  # type: ignore
         instance = get_object_or_404(
-            MolecularTherapeuticRecommendation,
+            orm.MolecularTherapeuticRecommendation,
             id=recommendationId,
             molecular_tumor_board__id=tumorBoardId,
         )
@@ -249,7 +238,7 @@ class MolecularTherapeuticRecommendationController(ControllerBase):
         self, tumorBoardId: str, recommendationId: str
     ):
         instance = get_object_or_404(
-            MolecularTherapeuticRecommendation,
+            orm.MolecularTherapeuticRecommendation,
             id=recommendationId,
             molecular_tumor_board__id=tumorBoardId,
         )
@@ -268,7 +257,7 @@ class MolecularTherapeuticRecommendationController(ControllerBase):
         self, tumorBoardId: str, recommendationId: str
     ):
         instance = get_object_or_404(
-            MolecularTherapeuticRecommendation,
+            orm.MolecularTherapeuticRecommendation,
             id=recommendationId,
             molecular_tumor_board__id=tumorBoardId,
         )
@@ -284,7 +273,7 @@ class MolecularTherapeuticRecommendationController(ControllerBase):
         self, tumorBoardId: str, recommendationId: str, eventId: str
     ):
         instance = get_object_or_404(
-            MolecularTherapeuticRecommendation,
+            orm.MolecularTherapeuticRecommendation,
             id=recommendationId,
             molecular_tumor_board__id=tumorBoardId,
         )
@@ -302,7 +291,7 @@ class MolecularTherapeuticRecommendationController(ControllerBase):
         self, tumorBoardId: str, recommendationId: str, eventId: str
     ):
         instance = get_object_or_404(
-            MolecularTherapeuticRecommendation,
+            orm.MolecularTherapeuticRecommendation,
             id=recommendationId,
             molecular_tumor_board__id=tumorBoardId,
         )

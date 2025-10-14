@@ -247,12 +247,12 @@ class TestTumorBoardController(CrudApiControllerTestCase):
         models.MolecularTumorBoard,
     ]
     SCHEMA = [
-        schemas.UnspecifiedTumorBoardSchema,
-        schemas.MolecularTumorBoardSchema,
+        schemas.UnspecifiedTumorBoard,
+        schemas.MolecularTumorBoard,
     ]
     CREATE_SCHEMA = [
-        schemas.UnspecifiedTumorBoardCreateSchema,
-        schemas.MolecularTumorBoardCreateSchema,
+        schemas.UnspecifiedTumorBoardCreate,
+        schemas.MolecularTumorBoardCreate,
     ]
 
 
@@ -260,8 +260,8 @@ class TestMolecularTherapeuticRecommendationController(CrudApiControllerTestCase
     controller_path = "/api/v1/molecular-tumor-boards"
     FACTORY = factories.MolecularTherapeuticRecommendationFactory
     MODEL = models.MolecularTherapeuticRecommendation
-    SCHEMA = schemas.MolecularTherapeuticRecommendationSchema
-    CREATE_SCHEMA = schemas.MolecularTherapeuticRecommendationCreateSchema
+    SCHEMA = schemas.MolecularTherapeuticRecommendation
+    CREATE_SCHEMA = schemas.MolecularTherapeuticRecommendationCreate
 
     def get_route_url(self, instance):
         return f"/{instance.molecular_tumor_board.id}/therapeutic-recommendations"
