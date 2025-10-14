@@ -40,12 +40,12 @@ from .patient_case import (
 )
 from .performance_status import PerformanceStatusCreate, PerformanceStatus
 from .radiotherapy import (
-    RadiotherapyCreateSchema,
-    RadiotherapyDosageCreateSchema,
-    RadiotherapyDosageSchema,
-    RadiotherapySchema,
-    RadiotherapySettingCreateSchema,
-    RadiotherapySettingSchema,
+    RadiotherapyCreate,
+    RadiotherapyDosageCreate,
+    RadiotherapyDosage,
+    Radiotherapy,
+    RadiotherapySettingCreate,
+    RadiotherapySetting,
 )
 from .risk_assessment import RiskAssessmentCreateSchema, RiskAssessmentSchema
 from .staging import (
@@ -120,7 +120,7 @@ SystemicTherapyFilters = create_filters_schema(
 )
 SurgeryFilters = create_filters_schema(schema=SurgerySchema, name="SurgeryFilters")
 RadiotherapyFilters = create_filters_schema(
-    schema=RadiotherapySchema, name="RadiotherapyFilters"
+    schema=Radiotherapy, name="RadiotherapyFilters"
 )
 AdverseEventFilters = create_filters_schema(
     schema=AdverseEvent, name="AdverseEventFilters"
@@ -209,12 +209,12 @@ ONCOLOGY_SCHEMAS = (
     SurgerySchema,
     SurgeryCreateSchema,
     # Radiotherapy schemas
-    RadiotherapySchema,
-    RadiotherapyCreateSchema,
-    RadiotherapyDosageSchema,
-    RadiotherapyDosageCreateSchema,
-    RadiotherapySettingSchema,
-    RadiotherapySettingCreateSchema,
+    Radiotherapy,
+    RadiotherapyCreate,
+    RadiotherapyDosage,
+    RadiotherapyDosageCreate,
+    RadiotherapySetting,
+    RadiotherapySettingCreate,
     # Adverse event schemas
     AdverseEvent,
     AdverseEventCreate,

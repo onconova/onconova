@@ -14,20 +14,9 @@ from onconova.core.history.schemas import HistoryEvent
 from onconova.core.schemas import ModifiedResource as ModifiedResourceSchema
 from onconova.core.schemas import Paginated
 from onconova.core.utils import COMMON_HTTP_ERRORS
-from onconova.oncology.models import (
-    Radiotherapy,
-    RadiotherapyDosage,
-    RadiotherapySetting,
-    TherapyLine,
-)
-from onconova.oncology.schemas import (
-    RadiotherapyCreateSchema,
-    RadiotherapyDosageCreateSchema,
-    RadiotherapyDosageSchema,
-    RadiotherapyFilters,
-    RadiotherapySchema,
-    RadiotherapySettingCreateSchema,
-    RadiotherapySettingSchema,
+from onconova.oncology import (
+    models as orm,
+    schemas as scm,
 )
 
 
@@ -41,7 +30,7 @@ class RadiotherapyController(ControllerBase):
     @route.get(
         path="",
         response={
-            200: Paginated[RadiotherapySchema],
+            200: Paginated[scm.Radiotherapy],
             **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
@@ -50,8 +39,8 @@ class RadiotherapyController(ControllerBase):
     @paginate()
     @ordering()
     @anonymize()
-    def get_all_radiotherapies_matching_the_query(self, query: Query[RadiotherapyFilters]):  # type: ignore
-        queryset = Radiotherapy.objects.all().order_by("-period")
+    def get_all_radiotherapies_matching_the_query(self, query: Query[scm.RadiotherapyFilters]):  # type: ignore
+        queryset = orm.Radiotherapy.objects.all().order_by("-period")
         return query.filter(queryset)
 
     @route.post(
@@ -60,18 +49,18 @@ class RadiotherapyController(ControllerBase):
         permissions=[perms.CanManageCases],
         operation_id="createRadiotherapy",
     )
-    def create_radiotherapy(self, payload: RadiotherapyCreateSchema):  # type: ignore
+    def create_radiotherapy(self, payload: scm.RadiotherapyCreate): 
         return 201, payload.model_dump_django().assign_therapy_line()
 
     @route.get(
         path="/{radiotherapyId}",
-        response={200: RadiotherapySchema, 404: None, **COMMON_HTTP_ERRORS},
+        response={200: scm.Radiotherapy, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCases],
         operation_id="getRadiotherapyById",
     )
     @anonymize()
     def get_radiotherapy_by_id(self, radiotherapyId: str):
-        return get_object_or_404(Radiotherapy, id=radiotherapyId)
+        return get_object_or_404(orm.Radiotherapy, id=radiotherapyId)
 
     @route.delete(
         path="/{radiotherapyId}",
@@ -80,10 +69,10 @@ class RadiotherapyController(ControllerBase):
         operation_id="deleteRadiotherapyById",
     )
     def delete_radiotherapy(self, radiotherapyId: str):
-        instance = get_object_or_404(Radiotherapy, id=radiotherapyId)
+        instance = get_object_or_404(orm.Radiotherapy, id=radiotherapyId)
         case = instance.case
         instance.delete()
-        TherapyLine.assign_therapy_lines(case)
+        orm.TherapyLine.assign_therapy_lines(case)
         return 204, None
 
     @route.put(
@@ -92,14 +81,14 @@ class RadiotherapyController(ControllerBase):
         permissions=[perms.CanManageCases],
         operation_id="updateRadiotherapy",
     )
-    def update_radiotherapy(self, radiotherapyId: str, payload: RadiotherapyCreateSchema):  # type: ignore
-        instance = get_object_or_404(Radiotherapy, id=radiotherapyId)
+    def update_radiotherapy(self, radiotherapyId: str, payload: scm.RadiotherapyCreate):
+        instance = get_object_or_404(orm.Radiotherapy, id=radiotherapyId)
         return payload.model_dump_django(instance=instance).assign_therapy_line()
 
     @route.get(
         path="/{radiotherapyId}/history/events",
         response={
-            200: Paginated[HistoryEvent.bind_schema(RadiotherapyCreateSchema)],
+            200: Paginated[HistoryEvent.bind_schema(scm.RadiotherapyCreate)],
             404: None,
             **COMMON_HTTP_ERRORS,
         },
@@ -109,13 +98,13 @@ class RadiotherapyController(ControllerBase):
     @paginate()
     @ordering()
     def get_all_radiotherapy_history_events(self, radiotherapyId: str):
-        instance = get_object_or_404(Radiotherapy, id=radiotherapyId)
+        instance = get_object_or_404(orm.Radiotherapy, id=radiotherapyId)
         return pghistory.models.Events.objects.tracks(instance).all()  # type: ignore
 
     @route.get(
         path="/{radiotherapyId}/history/events/{eventId}",
         response={
-            200: HistoryEvent.bind_schema(RadiotherapyCreateSchema),
+            200: HistoryEvent.bind_schema(scm.RadiotherapyCreate),
             404: None,
             **COMMON_HTTP_ERRORS,
         },
@@ -123,7 +112,7 @@ class RadiotherapyController(ControllerBase):
         operation_id="getRadiotherapyHistoryEventById",
     )
     def get_radiotherapy_history_event_by_id(self, radiotherapyId: str, eventId: str):
-        instance = get_object_or_404(Radiotherapy, id=radiotherapyId)
+        instance = get_object_or_404(orm.Radiotherapy, id=radiotherapyId)
         return get_object_or_404(
             pghistory.models.Events.objects.tracks(instance), pgh_id=eventId  # type: ignore
         )
@@ -135,27 +124,27 @@ class RadiotherapyController(ControllerBase):
         operation_id="revertRadiotherapyToHistoryEvent",
     )
     def revert_radiotherapy_to_history_event(self, radiotherapyId: str, eventId: str):
-        instance = get_object_or_404(Radiotherapy, id=radiotherapyId)
+        instance = get_object_or_404(orm.Radiotherapy, id=radiotherapyId)
         return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()
 
     @route.get(
         path="/{radiotherapyId}/dosages",
-        response={200: List[RadiotherapyDosageSchema], 404: None, **COMMON_HTTP_ERRORS},
+        response={200: List[scm.RadiotherapyDosage], 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCases],
         operation_id="getRadiotherapyDosages",
     )
-    def get_radiotherapy_dosages_matching_the_query(self, radiotherapyId: str):  # type: ignore
-        return get_object_or_404(Radiotherapy, id=radiotherapyId).dosages.all()  # type: ignore
+    def get_radiotherapy_dosages_matching_the_query(self, radiotherapyId: str): 
+        return get_object_or_404(orm.Radiotherapy, id=radiotherapyId).dosages.all()  # type: ignore
 
     @route.get(
         path="/{radiotherapyId}/dosages/{dosageId}",
-        response={200: RadiotherapyDosageSchema, 404: None, **COMMON_HTTP_ERRORS},
+        response={200: scm.RadiotherapyDosage, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCases],
         operation_id="getRadiotherapyDosageById",
     )
-    def get_radiotherapy_dosage_by_id(self, radiotherapyId: str, dosageId: str):  # type: ignore
+    def get_radiotherapy_dosage_by_id(self, radiotherapyId: str, dosageId: str):  
         return get_object_or_404(
-            RadiotherapyDosage, id=dosageId, radiotherapy__id=radiotherapyId
+            orm.RadiotherapyDosage, id=dosageId, radiotherapy__id=radiotherapyId
         )
 
     @route.post(
@@ -164,9 +153,9 @@ class RadiotherapyController(ControllerBase):
         permissions=[perms.CanManageCases],
         operation_id="createRadiotherapyDosage",
     )
-    def create_radiotherapy_dosage(self, radiotherapyId: str, payload: RadiotherapyDosageCreateSchema):  # type: ignore
-        instance = RadiotherapyDosage(
-            radiotherapy=get_object_or_404(Radiotherapy, id=radiotherapyId)
+    def create_radiotherapy_dosage(self, radiotherapyId: str, payload: scm.RadiotherapyDosageCreate):  
+        instance = orm.RadiotherapyDosage(
+            radiotherapy=get_object_or_404(orm.Radiotherapy, id=radiotherapyId)
         )
         return 201, payload.model_dump_django(instance=instance, create=True)
 
@@ -176,9 +165,9 @@ class RadiotherapyController(ControllerBase):
         permissions=[perms.CanManageCases],
         operation_id="updateRadiotherapyDosage",
     )
-    def update_radiotherapy_dosage(self, radiotherapyId: str, dosageId: str, payload: RadiotherapyDosageCreateSchema):  # type: ignore
+    def update_radiotherapy_dosage(self, radiotherapyId: str, dosageId: str, payload: scm.RadiotherapyDosageCreate): 
         instance = get_object_or_404(
-            RadiotherapyDosage, id=dosageId, radiotherapy__id=radiotherapyId
+            orm.RadiotherapyDosage, id=dosageId, radiotherapy__id=radiotherapyId
         )
         return payload.model_dump_django(instance=instance)
 
@@ -190,14 +179,14 @@ class RadiotherapyController(ControllerBase):
     )
     def delete_radiotherapy_dosage(self, radiotherapyId: str, dosageId: str):
         get_object_or_404(
-            RadiotherapyDosage, id=dosageId, radiotherapy__id=radiotherapyId
+            orm.RadiotherapyDosage, id=dosageId, radiotherapy__id=radiotherapyId
         ).delete()
         return 204, None
 
     @route.get(
         path="/{radiotherapyId}/dosages/{dosageId}/history/events",
         response={
-            200: Paginated[HistoryEvent.bind_schema(RadiotherapyDosageCreateSchema)],
+            200: Paginated[HistoryEvent.bind_schema(scm.RadiotherapyDosageCreate)],
             404: None,
             **COMMON_HTTP_ERRORS,
         },
@@ -210,14 +199,14 @@ class RadiotherapyController(ControllerBase):
         self, radiotherapyId: str, dosageId: str
     ):
         instance = get_object_or_404(
-            RadiotherapyDosage, id=dosageId, radiotherapy__id=radiotherapyId
+            orm.RadiotherapyDosage, id=dosageId, radiotherapy__id=radiotherapyId
         )
         return pghistory.models.Events.objects.tracks(instance).all()  # type: ignore
 
     @route.get(
         path="/{radiotherapyId}/dosages/{dosageId}/history/events/{eventId}",
         response={
-            200: HistoryEvent.bind_schema(RadiotherapyDosageCreateSchema),
+            200: HistoryEvent.bind_schema(scm.RadiotherapyDosageCreate),
             404: None,
             **COMMON_HTTP_ERRORS,
         },
@@ -228,7 +217,7 @@ class RadiotherapyController(ControllerBase):
         self, radiotherapyId: str, dosageId: str, eventId: str
     ):
         instance = get_object_or_404(
-            RadiotherapyDosage, id=dosageId, radiotherapy__id=radiotherapyId
+            orm.RadiotherapyDosage, id=dosageId, radiotherapy__id=radiotherapyId
         )
         return get_object_or_404(
             pghistory.models.Events.objects.tracks(instance), pgh_id=eventId  # type: ignore
@@ -244,32 +233,32 @@ class RadiotherapyController(ControllerBase):
         self, radiotherapyId: str, dosageId: str, eventId: str
     ):
         instance = get_object_or_404(
-            RadiotherapyDosage, id=dosageId, radiotherapy__id=radiotherapyId
+            orm.RadiotherapyDosage, id=dosageId, radiotherapy__id=radiotherapyId
         )
         return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()
 
     @route.get(
         path="/{radiotherapyId}/settings",
         response={
-            200: List[RadiotherapySettingSchema],
+            200: List[scm.RadiotherapySetting],
             404: None,
             **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
         operation_id="getRadiotherapySettings",
     )
-    def get_radiotherapy_settings_matching_the_query(self, radiotherapyId: str):  # type: ignore
-        return get_object_or_404(Radiotherapy, id=radiotherapyId).settings.all()  # type: ignore
+    def get_radiotherapy_settings_matching_the_query(self, radiotherapyId: str): 
+        return get_object_or_404(orm.Radiotherapy, id=radiotherapyId).settings.all()  # type: ignore
 
     @route.get(
         path="/{radiotherapyId}/settings/{settingId}",
-        response={200: RadiotherapySettingSchema, 404: None, **COMMON_HTTP_ERRORS},
+        response={200: scm.RadiotherapySetting, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCases],
         operation_id="getRadiotherapySettingById",
     )
-    def get_radiotherapy_setting_by_id(self, radiotherapyId: str, settingId: str):  # type: ignore
+    def get_radiotherapy_setting_by_id(self, radiotherapyId: str, settingId: str): 
         return get_object_or_404(
-            RadiotherapySetting, id=settingId, radiotherapy__id=radiotherapyId
+            orm.RadiotherapySetting, id=settingId, radiotherapy__id=radiotherapyId
         )
 
     @route.post(
@@ -278,9 +267,9 @@ class RadiotherapyController(ControllerBase):
         permissions=[perms.CanManageCases],
         operation_id="createRadiotherapySetting",
     )
-    def create_radiotherapy_setting(self, radiotherapyId: str, payload: RadiotherapySettingCreateSchema):  # type: ignore
-        instance = RadiotherapySetting(
-            radiotherapy=get_object_or_404(Radiotherapy, id=radiotherapyId)
+    def create_radiotherapy_setting(self, radiotherapyId: str, payload: scm.RadiotherapySettingCreate):
+        instance = orm.RadiotherapySetting(
+            radiotherapy=get_object_or_404(orm.Radiotherapy, id=radiotherapyId)
         )
         return 201, payload.model_dump_django(instance=instance, create=True)
 
@@ -290,9 +279,9 @@ class RadiotherapyController(ControllerBase):
         permissions=[perms.CanManageCases],
         operation_id="updateRadiotherapySetting",
     )
-    def update_radiotherapy_setting(self, radiotherapyId: str, settingId: str, payload: RadiotherapySettingCreateSchema):  # type: ignore
+    def update_radiotherapy_setting(self, radiotherapyId: str, settingId: str, payload: scm.RadiotherapySettingCreate): 
         instance = get_object_or_404(
-            RadiotherapySetting, id=settingId, radiotherapy__id=radiotherapyId
+            orm.RadiotherapySetting, id=settingId, radiotherapy__id=radiotherapyId
         )
         return payload.model_dump_django(instance=instance)
 
@@ -304,14 +293,14 @@ class RadiotherapyController(ControllerBase):
     )
     def delete_radiotherapy_setting(self, radiotherapyId: str, settingId: str):
         get_object_or_404(
-            RadiotherapySetting, id=settingId, radiotherapy__id=radiotherapyId
+            orm.RadiotherapySetting, id=settingId, radiotherapy__id=radiotherapyId
         ).delete()
         return 204, None
 
     @route.get(
         path="/{radiotherapyId}/settings/{settingId}/history/events",
         response={
-            200: Paginated[HistoryEvent.bind_schema(RadiotherapySettingCreateSchema)],
+            200: Paginated[HistoryEvent.bind_schema(scm.RadiotherapySettingCreate)],
             404: None,
             **COMMON_HTTP_ERRORS,
         },
@@ -324,14 +313,14 @@ class RadiotherapyController(ControllerBase):
         self, radiotherapyId: str, settingId: str
     ):
         instance = get_object_or_404(
-            RadiotherapySetting, id=settingId, radiotherapy__id=radiotherapyId
+            orm.RadiotherapySetting, id=settingId, radiotherapy__id=radiotherapyId
         )
         return pghistory.models.Events.objects.tracks(instance).all()  # type: ignore
 
     @route.get(
         path="/{radiotherapyId}/settings/{settingId}/history/events/{eventId}",
         response={
-            200: HistoryEvent.bind_schema(RadiotherapySettingCreateSchema),
+            200: HistoryEvent.bind_schema(scm.RadiotherapySettingCreate),
             404: None,
             **COMMON_HTTP_ERRORS,
         },
@@ -342,7 +331,7 @@ class RadiotherapyController(ControllerBase):
         self, radiotherapyId: str, settingId: str, eventId: str
     ):
         instance = get_object_or_404(
-            RadiotherapySetting, id=settingId, radiotherapy__id=radiotherapyId
+            orm.RadiotherapySetting, id=settingId, radiotherapy__id=radiotherapyId
         )
         return get_object_or_404(
             pghistory.models.Events.objects.tracks(instance), pgh_id=eventId  # type: ignore
@@ -358,6 +347,6 @@ class RadiotherapyController(ControllerBase):
         self, radiotherapyId: str, settingId: str, eventId: str
     ):
         instance = get_object_or_404(
-            RadiotherapySetting, id=settingId, radiotherapy__id=radiotherapyId
+            orm.RadiotherapySetting, id=settingId, radiotherapy__id=radiotherapyId
         )
         return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()

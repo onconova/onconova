@@ -51,24 +51,24 @@ class PatientCaseBundle(sc.PatientCase):
     The order of properties is significant for import tools that rely on reference trees.
 
     Attributes:
-        neoplasticEntities (List[NeoplasticEntitySchema]): List of neoplastic entities associated with the patient case.
+        neoplasticEntities (List[NeoplasticEntity]): List of neoplastic entities associated with the patient case.
         stagings (List[Union[...]]): List of staging schemas (e.g., TNM, FIGO, Binet, etc.).
         tumorMarkers (List[TumorMarkerSchema]): List of tumor marker schemas.
-        riskAssessments (List[RiskAssessmentSchema]): List of risk assessment schemas.
-        therapyLines (List[TherapyLineSchema]): List of therapy line schemas.
-        systemicTherapies (List[SystemicTherapySchema]): List of systemic therapy schemas.
-        surgeries (List[SurgerySchema]): List of surgery schemas.
-        radiotherapies (List[RadiotherapySchema]): List of radiotherapy schemas.
-        adverseEvents (List[AdverseEventSchema]): List of adverse event schemas.
-        treatmentResponses (List[TreatmentResponseSchema]): List of treatment response schemas.
-        performanceStatus (List[PerformanceStatusSchema]): List of performance status schemas.
-        comorbidities (List[ComorbiditiesAssessmentSchema]): List of comorbidities assessment schemas.
-        genomicVariants (List[GenomicVariantSchema]): List of genomic variant schemas.
+        riskAssessments (List[RiskAssessment]): List of risk assessment schemas.
+        therapyLines (List[TherapyLine]): List of therapy line schemas.
+        systemicTherapies (List[SystemicTherapy]): List of systemic therapy schemas.
+        surgeries (List[Surgery]): List of surgery schemas.
+        radiotherapies (List[Radiotherapy]): List of radiotherapy schemas.
+        adverseEvents (List[AdverseEvent]): List of adverse event schemas.
+        treatmentResponses (List[TreatmentResponse]): List of treatment response schemas.
+        performanceStatus (List[PerformanceStatus]): List of performance status schemas.
+        comorbidities (List[ComorbiditiesAssessment]): List of comorbidities assessment schemas.
+        genomicVariants (List[GenomicVariant]): List of genomic variant schemas.
         genomicSignatures (List[Union[...]]): List of genomic signature schemas (e.g., TMB, MSI, LOH, etc.).
-        vitals (List[VitalsSchema]): List of vitals schemas.
-        lifestyles (List[LifestyleSchema]): List of lifestyle schemas.
-        familyHistory (List[FamilyHistorySchema]): List of family history schemas.
-        tumorBoards (List[Union[UnspecifiedTumorBoardSchema, MolecularTumorBoardSchema]]): List of tumor board schemas.
+        vitals (List[Vitals]): List of vitals schemas.
+        lifestyles (List[Lifestyle]): List of lifestyle schemas.
+        familyHistory (List[FamilyHistory]): List of family history schemas.
+        tumorBoards (List[Union[UnspecifiedTumorBoard, MolecularTumorBoard]]): List of tumor board schemas.
         completedDataCategories (Dict[PatientCaseDataCategories, PatientCaseDataCompletionStatus]): Mapping of data categories to their completion status.
         history (List[HistoryEvent]): List of history events related to the patient case.
 
@@ -131,7 +131,7 @@ class PatientCaseBundle(sc.PatientCase):
     surgeries: List[sc.SurgerySchema] = Field(
         default=[],
     )
-    radiotherapies: List[sc.RadiotherapySchema] = Field(
+    radiotherapies: List[sc.Radiotherapy] = Field(
         default=[],
     )
     adverseEvents: List[sc.AdverseEvent] = Field(

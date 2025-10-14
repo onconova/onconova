@@ -100,16 +100,16 @@ class TestRadiotherapyController(CrudApiControllerTestCase):
     controller_path = "/api/v1/radiotherapies"
     FACTORY = factories.RadiotherapyFactory
     MODEL = models.Radiotherapy
-    SCHEMA = schemas.RadiotherapySchema
-    CREATE_SCHEMA = schemas.RadiotherapyCreateSchema
+    SCHEMA = schemas.Radiotherapy
+    CREATE_SCHEMA = schemas.RadiotherapyCreate
 
 
 class TestRadiotherapyDosageController(CrudApiControllerTestCase):
     controller_path = "/api/v1/radiotherapies"
     FACTORY = factories.RadiotherapyDosageFactory
     MODEL = models.RadiotherapyDosage
-    SCHEMA = schemas.RadiotherapyDosageSchema
-    CREATE_SCHEMA = schemas.RadiotherapyDosageCreateSchema
+    SCHEMA = schemas.RadiotherapyDosage
+    CREATE_SCHEMA = schemas.RadiotherapyDosageCreate
 
     def get_route_url(self, instance):
         return f"/{instance.radiotherapy.id}/dosages"
@@ -131,8 +131,8 @@ class TestRadiotherapySettingController(CrudApiControllerTestCase):
     controller_path = "/api/v1/radiotherapies"
     FACTORY = factories.RadiotherapySettingFactory
     MODEL = models.RadiotherapySetting
-    SCHEMA = schemas.RadiotherapySettingSchema
-    CREATE_SCHEMA = schemas.RadiotherapySettingCreateSchema
+    SCHEMA = schemas.RadiotherapySetting
+    CREATE_SCHEMA = schemas.RadiotherapySettingCreate
 
     def get_route_url(self, instance):
         return f"/{instance.radiotherapy.id}/settings"

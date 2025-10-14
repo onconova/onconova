@@ -21,7 +21,7 @@ from onconova.oncology.models.patient_case import PatientCaseVitalStatusChoices,
 from onconova.oncology.models.adverse_event import AdverseEventMitigationCategoryChoices, AdverseEventOutcomeChoices, AdverseEventSuspectedCauseCausalityChoices
 from onconova.oncology.models.genomic_signature import TumorMutationalBurdenStatusChoices, HomologousRecombinationDeficiencyInterpretationChoices
 from onconova.oncology.models.genomic_variant import GenomicVariantAssessmentChoices, GenomicVariantConfidenceChoices, GenomicVariantClinicalRelevanceChoices
-
+from onconova.oncology.models.radiotherapy import RadiotherapyIntentChoices
 
 def is_running_pytest():
     return "pytest" in sys.modules
@@ -339,7 +339,7 @@ class RadiotherapyFactory(factory.django.DjangoModelFactory):
         )
     )
     sessions = factory.LazyFunction(lambda: random.randint(2, 25))
-    intent = FuzzyChoice(models.Radiotherapy.TreatmentIntent)
+    intent = FuzzyChoice(RadiotherapyIntentChoices)
     therapy_line = factory.SubFactory(TherapyLineFactory)
     targeted_entities = factory.post_generation(
         add_m2m_related(
