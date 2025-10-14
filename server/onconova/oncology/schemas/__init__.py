@@ -16,19 +16,19 @@ from .comorbidities import (
 )
 from .family_history import FamilyHistoryCreate, FamilyHistory
 from .genomic_signature import (
-    AneuploidScoreCreateSchema,
-    AneuploidScoreSchema,
-    GenomicSignatureSchema,
-    HomologousRecombinationDeficiencyCreateSchema,
-    HomologousRecombinationDeficiencySchema,
-    LossOfHeterozygosityCreateSchema,
-    LossOfHeterozygositySchema,
-    MicrosatelliteInstabilityCreateSchema,
-    MicrosatelliteInstabilitySchema,
-    TumorMutationalBurdenCreateSchema,
-    TumorMutationalBurdenSchema,
-    TumorNeoantigenBurdenCreateSchema,
-    TumorNeoantigenBurdenSchema,
+    AneuploidScoreCreate,
+    AneuploidScore,
+    GenomicSignature,
+    HomologousRecombinationDeficiencyCreate,
+    HomologousRecombinationDeficiency,
+    LossOfHeterozygosityCreate,
+    LossOfHeterozygosity,
+    MicrosatelliteInstabilityCreate,
+    MicrosatelliteInstability,
+    TumorMutationalBurdenCreate,
+    TumorMutationalBurden,
+    TumorNeoantigenBurdenCreate,
+    TumorNeoantigenBurden,
 )
 from .genomic_variant import GenomicVariantCreateSchema, GenomicVariantSchema
 from .lifestyle import LifestyleCreate, Lifestyle
@@ -148,7 +148,7 @@ GenomicVariantFilters = create_filters_schema(
     schema=GenomicVariantSchema, name="GenomicVariantFilters"
 )
 GenomicSignatureFilters = create_filters_schema(
-    schema=GenomicSignatureSchema, name="GenomicSignatureFilters"
+    schema=GenomicSignature, name="GenomicSignatureFilters"
 )
 TherapyLineFilters = create_filters_schema(
     schema=TherapyLineSchema, name="TherapyLineFilters"
@@ -253,19 +253,19 @@ ONCOLOGY_SCHEMAS = (
     GenomicVariantSchema,
     GenomicVariantCreateSchema,
     # Genomic signature schemas
-    GenomicSignatureSchema,
-    TumorMutationalBurdenSchema,
-    TumorMutationalBurdenCreateSchema,
-    MicrosatelliteInstabilitySchema,
-    MicrosatelliteInstabilityCreateSchema,
-    LossOfHeterozygositySchema,
-    LossOfHeterozygosityCreateSchema,
-    HomologousRecombinationDeficiencySchema,
-    HomologousRecombinationDeficiencyCreateSchema,
-    TumorNeoantigenBurdenSchema,
-    TumorNeoantigenBurdenCreateSchema,
-    AneuploidScoreSchema,
-    AneuploidScoreCreateSchema,
+    GenomicSignature,
+    TumorMutationalBurden,
+    TumorMutationalBurdenCreate,
+    MicrosatelliteInstability,
+    MicrosatelliteInstabilityCreate,
+    LossOfHeterozygosity,
+    LossOfHeterozygosityCreate,
+    HomologousRecombinationDeficiency,
+    HomologousRecombinationDeficiencyCreate,
+    TumorNeoantigenBurden,
+    TumorNeoantigenBurdenCreate,
+    AneuploidScore,
+    AneuploidScoreCreate,
     # Filters
     PatientCaseFilters,
     NeoplasticEntityFilters,

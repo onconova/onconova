@@ -361,18 +361,18 @@ class TestGenomicSignatureController(CrudApiControllerTestCase):
         models.AneuploidScore,
     ]
     SCHEMA = [
-        schemas.TumorMutationalBurdenSchema,
-        schemas.LossOfHeterozygositySchema,
-        schemas.MicrosatelliteInstabilitySchema,
-        schemas.HomologousRecombinationDeficiencySchema,
-        schemas.TumorNeoantigenBurdenSchema,
-        schemas.AneuploidScoreSchema,
+        schemas.TumorMutationalBurden,
+        schemas.LossOfHeterozygosity,
+        schemas.MicrosatelliteInstability,
+        schemas.HomologousRecombinationDeficiency,
+        schemas.TumorNeoantigenBurden,
+        schemas.AneuploidScore,
     ]
     CREATE_SCHEMA = [
-        schemas.TumorMutationalBurdenCreateSchema,
-        schemas.LossOfHeterozygosityCreateSchema,
-        schemas.MicrosatelliteInstabilityCreateSchema,
-        schemas.HomologousRecombinationDeficiencyCreateSchema,
-        schemas.TumorNeoantigenBurdenCreateSchema,
-        schemas.AneuploidScoreCreateSchema,
+        schemas.TumorMutationalBurdenCreate,
+        schemas.LossOfHeterozygosityCreate,
+        schemas.MicrosatelliteInstabilityCreate,
+        schemas.HomologousRecombinationDeficiencyCreate,
+        schemas.TumorNeoantigenBurdenCreate,
+        schemas.AneuploidScoreCreate,
     ]

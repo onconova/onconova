@@ -1,167 +1,190 @@
-from typing import Literal
+from typing import List, Literal
+from pydantic import Field
+from uuid import UUID
+from datetime import date as date_aliased
 
-from ninja import Field
-
-from onconova.core.anonymization import AnonymizationConfig
-from onconova.core.serialization.metaclasses import (
-    ModelCreateSchema,
-    ModelGetSchema,
-    SchemaConfig,
-)
-from onconova.oncology import models as orm
-from onconova.oncology.models.genomic_signature import GenomicSignatureTypes
+from onconova.core.schemas import BaseSchema, MetadataAnonymizationMixin, CodedConcept
+from onconova.core.types import Nullable
+from onconova.oncology.models import genomic_signature as orm
 
 
-class GenomicSignatureSchema(ModelGetSchema):
-    category: GenomicSignatureTypes = Field(
-        title="Category", description="Genomic signature discriminator category"
+class GenomicSignatureCreate(BaseSchema):
+    
+    __orm_model__ = orm.GenomicSignature
+    
+    category: orm.GenomicSignatureTypes = Field(
+        title="Category", 
+        description="Genomic signature discriminator category"
     )
-    config = SchemaConfig(
-        model=orm.GenomicSignature,
-        anonymization=AnonymizationConfig(fields=["date"], key="caseId"),
+    externalSource: Nullable[str] = Field(
+        None,
+        description='The digital source of the data, relevant for automated data',
+        title='External data source',
     )
+    externalSourceId: Nullable[str] = Field(
+        None,
+        description='The data identifier at the digital source of the data, relevant for automated data',
+        title='External data source Id',
+    )
+    caseId: UUID = Field(
+        ...,
+        description="Indicates the case of the patient who's lifestyle is assesed",
+        title='Patient case',
+    )
+    date: date_aliased = Field(
+        ...,
+        description="Clinically-relevant date at which the patient's genomic signature was assessed.",
+        title='Assessment date',
+    )
+    
+class GenomicSignature(GenomicSignatureCreate, MetadataAnonymizationMixin):
+    
+    __anonymization_fields__ = ("date",)
+    __anonymization_key__ = "caseId"
+    
 
-
-class TumorMutationalBurdenSchema(ModelGetSchema):
-    category: Literal[GenomicSignatureTypes.TUMOR_MUTATIONAL_BURDEN] = Field(
-        default=GenomicSignatureTypes.TUMOR_MUTATIONAL_BURDEN,
+class TumorMutationalBurdenCreate(GenomicSignatureCreate):
+    
+    __orm_model__ = orm.TumorMutationalBurden 
+    
+    category: Literal[orm.GenomicSignatureTypes.TUMOR_MUTATIONAL_BURDEN] = Field(
+        default=orm.GenomicSignatureTypes.TUMOR_MUTATIONAL_BURDEN,
         title="Category",
         description="Genomic signature discriminator category",
     )
-    config = SchemaConfig(
-        model=orm.TumorMutationalBurden,
-        exclude=["genomic_signature"],
-        anonymization=AnonymizationConfig(fields=["date"], key="caseId"),
+    value: float = Field(
+        ...,
+        description='The actual tumor mutational burden (TMB) value in mutations/Mb',
+        title='Value',
+    )
+    status: Nullable[orm.TumorMutationalBurdenStatusChoices] = Field(
+        None,
+        description='Cclassification of the tumor mutational burden (TMB) status',
+        title='Status',
     )
 
+class TumorMutationalBurden(TumorMutationalBurdenCreate, MetadataAnonymizationMixin):
 
-class TumorMutationalBurdenCreateSchema(ModelCreateSchema):
-    category: Literal[GenomicSignatureTypes.TUMOR_MUTATIONAL_BURDEN] = Field(
-        GenomicSignatureTypes.TUMOR_MUTATIONAL_BURDEN,
+    __anonymization_fields__ = ("date",)
+    __anonymization_key__ = "caseId"
+
+
+
+class MicrosatelliteInstabilityCreate(GenomicSignatureCreate):
+    
+    __orm_model__ = orm.MicrosatelliteInstability 
+    
+    category: Literal[orm.GenomicSignatureTypes.MICROSATELLITE_INSTABILITY] = Field(
+        orm.GenomicSignatureTypes.MICROSATELLITE_INSTABILITY,
         title="Category",
         description="Genomic signature discriminator category",
     )
-    config = SchemaConfig(
-        model=orm.TumorMutationalBurden, exclude=["genomic_signature"]
+    value: CodedConcept = Field(
+        ...,
+        description='Microsatellite instability (MSI) classification',
+        title='Value',
+        json_schema_extra={'x-terminology': 'MicrosatelliteInstabilityState'},
     )
 
+class MicrosatelliteInstability(MicrosatelliteInstabilityCreate, MetadataAnonymizationMixin):
 
-class MicrosatelliteInstabilitySchema(ModelGetSchema):
-    category: Literal[GenomicSignatureTypes.MICROSATELLITE_INSTABILITY] = Field(
-        GenomicSignatureTypes.MICROSATELLITE_INSTABILITY,
+    __anonymization_fields__ = ("date",)
+    __anonymization_key__ = "caseId"
+
+
+
+class LossOfHeterozygosityCreate(GenomicSignatureCreate):
+    
+    __orm_model__ = orm.LossOfHeterozygosity
+    
+    category: Literal[orm.GenomicSignatureTypes.LOSS_OF_HETEROZYGOSITY] = Field(
+        orm.GenomicSignatureTypes.LOSS_OF_HETEROZYGOSITY,
         title="Category",
         description="Genomic signature discriminator category",
     )
-    config = SchemaConfig(
-        model=orm.MicrosatelliteInstability,
-        exclude=["genomic_signature"],
-        anonymization=AnonymizationConfig(fields=["date"], key="caseId"),
+    value: float = Field(
+        ...,
+        description='Loss of heterozygosity (LOH) as a percentage',
+        title='Value',
     )
 
-
-class MicrosatelliteInstabilityCreateSchema(ModelCreateSchema):
-    category: Literal[GenomicSignatureTypes.MICROSATELLITE_INSTABILITY] = Field(
-        GenomicSignatureTypes.MICROSATELLITE_INSTABILITY,
-        title="Category",
-        description="Genomic signature discriminator category",
-    )
-    config = SchemaConfig(
-        model=orm.MicrosatelliteInstability, exclude=["genomic_signature"]
-    )
+class LossOfHeterozygosity(LossOfHeterozygosityCreate, MetadataAnonymizationMixin):
+    __anonymization_fields__ = ("date",)
+    __anonymization_key__ = "caseId"
 
 
-class LossOfHeterozygositySchema(ModelGetSchema):
-    category: Literal[GenomicSignatureTypes.LOSS_OF_HETEROZYGOSITY] = Field(
-        GenomicSignatureTypes.LOSS_OF_HETEROZYGOSITY,
-        title="Category",
-        description="Genomic signature discriminator category",
-    )
-    config = SchemaConfig(
-        model=orm.LossOfHeterozygosity,
-        exclude=["genomic_signature"],
-        anonymization=AnonymizationConfig(fields=["date"], key="caseId"),
-    )
 
-
-class LossOfHeterozygosityCreateSchema(ModelCreateSchema):
-    category: Literal[GenomicSignatureTypes.LOSS_OF_HETEROZYGOSITY] = Field(
-        GenomicSignatureTypes.LOSS_OF_HETEROZYGOSITY,
-        title="Category",
-        description="Genomic signature discriminator category",
-    )
-    config = SchemaConfig(model=orm.LossOfHeterozygosity, exclude=["genomic_signature"])
-
-
-class HomologousRecombinationDeficiencySchema(ModelGetSchema):
-    category: Literal[GenomicSignatureTypes.HOMOLOGOUS_RECOMBINATION_DEFICIENCY] = (
+class HomologousRecombinationDeficiencyCreate(GenomicSignatureCreate):
+    
+    __orm_model__ = orm.HomologousRecombinationDeficiency 
+    
+    category: Literal[orm.GenomicSignatureTypes.HOMOLOGOUS_RECOMBINATION_DEFICIENCY] = (
         Field(
-            GenomicSignatureTypes.HOMOLOGOUS_RECOMBINATION_DEFICIENCY,
+            orm.GenomicSignatureTypes.HOMOLOGOUS_RECOMBINATION_DEFICIENCY,
             title="Category",
             description="Genomic signature discriminator category",
         )
     )
-    config = SchemaConfig(
-        model=orm.HomologousRecombinationDeficiency,
-        exclude=["genomic_signature"],
-        anonymization=AnonymizationConfig(fields=["date"], key="caseId"),
+    value: Nullable[float] = Field(
+        None,
+        description='Homologous recombination deficiency (HRD) score value',
+        title='Value',
     )
-
-
-class HomologousRecombinationDeficiencyCreateSchema(ModelCreateSchema):
-    category: Literal[GenomicSignatureTypes.HOMOLOGOUS_RECOMBINATION_DEFICIENCY] = (
+    interpretation: Nullable[orm.HomologousRecombinationDeficiencyInterpretationChoices] = (
         Field(
-            GenomicSignatureTypes.HOMOLOGOUS_RECOMBINATION_DEFICIENCY,
-            title="Category",
-            description="Genomic signature discriminator category",
+            None,
+            description='Homologous recombination deficiency (HRD) interpretation',
+            title='Interpretation',
         )
     )
-    config = SchemaConfig(
-        model=orm.HomologousRecombinationDeficiency, exclude=["genomic_signature"]
-    )
+
+class HomologousRecombinationDeficiency(HomologousRecombinationDeficiencyCreate, MetadataAnonymizationMixin):
+    
+    __anonymization_fields__ = ("date",)
+    __anonymization_key__ = "caseId"
 
 
-class TumorNeoantigenBurdenSchema(ModelGetSchema):
-    category: Literal[GenomicSignatureTypes.TUMOR_NEOANTIGEN_BURDEN] = Field(
-        GenomicSignatureTypes.TUMOR_NEOANTIGEN_BURDEN,
+
+class TumorNeoantigenBurdenCreate(GenomicSignatureCreate):
+    
+    __orm_model__ = orm.TumorNeoantigenBurden 
+    
+    category: Literal[orm.GenomicSignatureTypes.TUMOR_NEOANTIGEN_BURDEN] = Field(
+        orm.GenomicSignatureTypes.TUMOR_NEOANTIGEN_BURDEN,
         title="Category",
         description="Genomic signature discriminator category",
     )
-    config = SchemaConfig(
-        model=orm.TumorNeoantigenBurden,
-        exclude=["genomic_signature"],
-        anonymization=AnonymizationConfig(fields=["date"], key="caseId"),
+    value: float = Field(
+        ...,
+        description='The actual tumor neoantigen burden (TNB) value in neoantigens/Mb',
+        title='Value',
     )
+    
+class TumorNeoantigenBurden(TumorNeoantigenBurdenCreate, MetadataAnonymizationMixin):
+
+    __anonymization_fields__ = ("date",)
+    __anonymization_key__ = "caseId"
 
 
-class TumorNeoantigenBurdenCreateSchema(ModelCreateSchema):
-    category: Literal[GenomicSignatureTypes.TUMOR_NEOANTIGEN_BURDEN] = Field(
-        GenomicSignatureTypes.TUMOR_NEOANTIGEN_BURDEN,
+
+class AneuploidScoreCreate(GenomicSignatureCreate):
+    
+    __orm_model__ = orm.AneuploidScore
+    
+    category: Literal[orm.GenomicSignatureTypes.ANEUPLOID_SCORE] = Field(
+        orm.GenomicSignatureTypes.ANEUPLOID_SCORE,
         title="Category",
         description="Genomic signature discriminator category",
     )
-    config = SchemaConfig(
-        model=orm.TumorNeoantigenBurden, exclude=["genomic_signature"]
+    value: int = Field(
+        ...,
+        description='The actual aneuploid score (AS) value in total altered arms',
+        title='Value',
     )
 
 
-class AneuploidScoreSchema(ModelGetSchema):
-    category: Literal[GenomicSignatureTypes.ANEUPLOID_SCORE] = Field(
-        GenomicSignatureTypes.ANEUPLOID_SCORE,
-        title="Category",
-        description="Genomic signature discriminator category",
-    )
-    config = SchemaConfig(
-        model=orm.AneuploidScore,
-        exclude=["genomic_signature"],
-        anonymization=AnonymizationConfig(fields=["date"], key="caseId"),
-    )
+class AneuploidScore(AneuploidScoreCreate, MetadataAnonymizationMixin):
+    
+    __anonymization_fields__ = ("date",)
+    __anonymization_key__ = "caseId"
 
-
-class AneuploidScoreCreateSchema(ModelCreateSchema):
-    category: Literal[GenomicSignatureTypes.ANEUPLOID_SCORE] = Field(
-        GenomicSignatureTypes.ANEUPLOID_SCORE,
-        title="Category",
-        description="Genomic signature discriminator category",
-    )
-    config = SchemaConfig(model=orm.AneuploidScore, exclude=["genomic_signature"])
-    config = SchemaConfig(model=orm.AneuploidScore, exclude=["genomic_signature"])

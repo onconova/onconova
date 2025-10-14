@@ -159,12 +159,12 @@ class PatientCaseBundle(sc.PatientCase):
     )
     genomicSignatures: List[
         Union[
-            sc.TumorMutationalBurdenSchema,
-            sc.MicrosatelliteInstabilitySchema,
-            sc.LossOfHeterozygositySchema,
-            sc.HomologousRecombinationDeficiencySchema,
-            sc.TumorNeoantigenBurdenSchema,
-            sc.AneuploidScoreSchema,
+            sc.TumorMutationalBurden,
+            sc.MicrosatelliteInstability,
+            sc.LossOfHeterozygosity,
+            sc.HomologousRecombinationDeficiency,
+            sc.TumorNeoantigenBurden,
+            sc.AneuploidScore
         ]
     ] = Field(
         default=[],

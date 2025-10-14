@@ -104,7 +104,7 @@ class BundleParserTest(TestCase):
                 schemas.TNMStagingSchema.model_validate(cls.original_staging)
             ]
             cls.bundle.genomicSignatures = [
-                schemas.TumorMutationalBurdenSchema.model_validate(
+                schemas.TumorMutationalBurden.model_validate(
                     cls.original_genomic_signature
                 )
             ]

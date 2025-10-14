@@ -19,7 +19,7 @@ from onconova.core.auth.models import User
 from onconova.oncology.models.comorbidities import ComorbiditiesAssessmentPanelChoices
 from onconova.oncology.models.patient_case import PatientCaseVitalStatusChoices, PatientCaseConsentStatusChoices
 from onconova.oncology.models.adverse_event import AdverseEventMitigationCategoryChoices, AdverseEventOutcomeChoices, AdverseEventSuspectedCauseCausalityChoices
-
+from onconova.oncology.models.genomic_signature import TumorMutationalBurdenStatusChoices, HomologousRecombinationDeficiencyInterpretationChoices
 
 def is_running_pytest():
     return "pytest" in sys.modules
@@ -546,7 +546,7 @@ class TumorMutationalBurdenFactory(factory.django.DjangoModelFactory):
     case = factory.SubFactory(PatientCaseFactory)
     date = factory.LazyFunction(faker.date)
     value = factory.LazyFunction(lambda: random.randint(25, 95) / 5)
-    status = FuzzyChoice(models.TumorMutationalBurden.TumorMutationalBurdenStatus)
+    status = FuzzyChoice(TumorMutationalBurdenStatusChoices)
 
 
 class LossOfHeterozygosityFactory(factory.django.DjangoModelFactory):
@@ -575,7 +575,7 @@ class HomologousRecombinationDeficiencyFactory(factory.django.DjangoModelFactory
     date = factory.LazyFunction(faker.date)
     value = factory.LazyFunction(lambda: random.randint(0, 100) * 1.0)
     interpretation = FuzzyChoice(
-        models.HomologousRecombinationDeficiency.HomologousRecombinationDeficiencyPresence
+        HomologousRecombinationDeficiencyInterpretationChoices
     )
 
 
