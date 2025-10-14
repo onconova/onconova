@@ -14,7 +14,7 @@ from .comorbidities import (
     ComorbiditiesPanel,
     ComorbidityPanelCategory,
 )
-from .family_history import FamilyHistoryCreateSchema, FamilyHistorySchema
+from .family_history import FamilyHistoryCreate, FamilyHistory
 from .genomic_signature import (
     AneuploidScoreCreateSchema,
     AneuploidScoreSchema,
@@ -135,7 +135,7 @@ LifestyleFilters = create_filters_schema(
     schema=Lifestyle, name="LifestyleFilters"
 )
 FamilyHistoryFilters = create_filters_schema(
-    schema=FamilyHistorySchema, name="FamilyHistoryFilters"
+    schema=FamilyHistory, name="FamilyHistoryFilters"
 )
 TumorBoardFilters = create_filters_schema(
     schema=UnspecifiedTumorBoardSchema, name="TumorBoardFilters"
@@ -239,8 +239,8 @@ ONCOLOGY_SCHEMAS = (
     Lifestyle,
     LifestyleCreate,
     # Family member history schemas
-    FamilyHistorySchema,
-    FamilyHistoryCreateSchema,
+    FamilyHistory,
+    FamilyHistoryCreate,
     # Vitals
     VitalsSchema,
     VitalsCreateSchema,
@@ -287,4 +287,4 @@ ONCOLOGY_SCHEMAS = (
     TumorBoardFilters,
 )
 
-__all__ = [schema.__name__ for schema in ONCOLOGY_SCHEMAS]
+__all__ = [schema.__name__ for schema in ONCOLOGY_SCHEMAS] # type: ignore

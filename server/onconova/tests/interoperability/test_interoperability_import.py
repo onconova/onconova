@@ -109,7 +109,7 @@ class BundleParserTest(TestCase):
                 )
             ]
             cls.bundle.familyHistory = [
-                schemas.FamilyHistorySchema.model_validate(cls.original_family_history)
+                schemas.FamilyHistory.model_validate(cls.original_family_history)
             ]
             cls.bundle.tumorBoards = [
                 schemas.MolecularTumorBoardSchema.model_validate(

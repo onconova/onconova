@@ -175,7 +175,7 @@ class PatientCaseBundle(sc.PatientCase):
     lifestyles: List[sc.Lifestyle] = Field(
         default=[],
     )
-    familyHistory: List[sc.FamilyHistorySchema] = Field(
+    familyHistory: List[sc.FamilyHistory] = Field(
         default=[],
         alias="family_histories",
         validation_alias=AliasChoices("familyHistory", "family_histories"),

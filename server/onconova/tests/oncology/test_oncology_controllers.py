@@ -307,8 +307,8 @@ class TestFamilyHistoryController(CrudApiControllerTestCase):
     controller_path = "/api/v1/family-histories"
     FACTORY = factories.FamilyHistoryFactory
     MODEL = models.FamilyHistory
-    SCHEMA = schemas.FamilyHistorySchema
-    CREATE_SCHEMA = schemas.FamilyHistoryCreateSchema
+    SCHEMA = schemas.FamilyHistory
+    CREATE_SCHEMA = schemas.FamilyHistoryCreate
 
 
 class TestVitalsController(CrudApiControllerTestCase):
