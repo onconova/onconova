@@ -33,10 +33,10 @@ class TestStagingController(CrudApiControllerTestCase):
         models.FIGOStaging,
     ]
     SCHEMA = [
-        schemas.TNMStagingSchema,
-        schemas.FIGOStagingSchema,
+        schemas.TNMStaging,
+        schemas.FIGOStaging,
     ]
-    CREATE_SCHEMA = [schemas.TNMStagingCreateSchema, schemas.FIGOStagingCreateSchema]
+    CREATE_SCHEMA = [schemas.TNMStagingCreate, schemas.FIGOStagingCreate]
 
 
 class TestTumorMarkerController(CrudApiControllerTestCase):
@@ -51,8 +51,8 @@ class TestRiskAssessmentController(CrudApiControllerTestCase):
     controller_path = "/api/v1/risk-assessments"
     FACTORY = factories.RiskAssessmentFactory
     MODEL = models.RiskAssessment
-    SCHEMA = schemas.RiskAssessmentSchema
-    CREATE_SCHEMA = schemas.RiskAssessmentCreateSchema
+    SCHEMA = schemas.RiskAssessment
+    CREATE_SCHEMA = schemas.RiskAssessmentCreate
 
 
 class TestSystemicTherapyController(CrudApiControllerTestCase):

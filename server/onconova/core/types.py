@@ -36,12 +36,10 @@ class UUID(UuidType):
     
     @classmethod
     def _validate(cls, v: UuidType | DjangoModel) -> UuidType:
-        print('VALIDATING UUID')
         return getattr(v, 'id', None) if isinstance(v, DjangoModel) else v
 
     @classmethod
     def _serialize(cls, v: 'UUID') -> UuidType:
-        print('SERIALIZING UUID')
         return v
 
     @classmethod

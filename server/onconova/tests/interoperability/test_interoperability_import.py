@@ -101,7 +101,7 @@ class BundleParserTest(TestCase):
             )
             # TODO: currently bugged in model_validate, can be removed once fixed
             cls.bundle.stagings = [
-                schemas.TNMStagingSchema.model_validate(cls.original_staging)
+                schemas.TNMStaging.model_validate(cls.original_staging)
             ]
             cls.bundle.genomicSignatures = [
                 schemas.TumorMutationalBurden.model_validate(

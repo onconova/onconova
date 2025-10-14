@@ -90,20 +90,20 @@ class PatientCaseBundle(sc.PatientCase):
     )
     stagings: List[
         Union[
-            sc.TNMStagingSchema,
-            sc.FIGOStagingSchema,
-            sc.BinetStagingSchema,
-            sc.RaiStagingSchema,
-            sc.BreslowDepthSchema,
-            sc.ClarkStagingSchema,
-            sc.ISSStagingSchema,
-            sc.RISSStagingSchema,
-            sc.GleasonGradeSchema,
-            sc.INSSStageSchema,
-            sc.INRGSSStageSchema,
-            sc.WilmsStageSchema,
-            sc.RhabdomyosarcomaClinicalGroupSchema,
-            sc.LymphomaStagingSchema,
+            sc.TNMStaging,
+            sc.FIGOStaging,
+            sc.BinetStaging,
+            sc.RaiStaging,
+            sc.BreslowDepth,
+            sc.ClarkStaging,
+            sc.ISSStaging,
+            sc.RISSStaging,
+            sc.GleasonGrade,
+            sc.INSSStage,
+            sc.INRGSSStage,
+            sc.WilmsStage,
+            sc.RhabdomyosarcomaClinicalGroup,
+            sc.LymphomaStaging,
         ]
     ] = Field(
         default=[],
@@ -113,7 +113,7 @@ class PatientCaseBundle(sc.PatientCase):
         alias="tumor_markers",
         validation_alias=AliasChoices("tumorMarkers", "tumor_markers"),
     )
-    riskAssessments: List[sc.RiskAssessmentSchema] = Field(
+    riskAssessments: List[sc.RiskAssessment] = Field(
         default=[],
         alias="risk_assessments",
         validation_alias=AliasChoices("riskAssessments", "risk_assessments"),
