@@ -1,15 +1,8 @@
 from datetime import date as date_aliased
-from uuid import UUID
-from pydantic import AliasChoices, Field
+from pydantic import Field
 
-from onconova.core.anonymization import AnonymizationConfig
 from onconova.core.schemas import BaseSchema, MetadataAnonymizationMixin, CodedConcept
-from onconova.core.serialization.metaclasses import (
-    ModelCreateSchema,
-    ModelGetSchema,
-    SchemaConfig,
-)
-from onconova.core.types import Nullable
+from onconova.core.types import Nullable, UUID
 from onconova.oncology import models as orm
 
 

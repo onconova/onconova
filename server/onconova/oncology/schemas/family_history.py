@@ -1,9 +1,8 @@
 from pydantic import Field
-from uuid import UUID
 from datetime import date as date_aliased
 
 from onconova.core.schemas import BaseSchema, MetadataAnonymizationMixin, CodedConcept
-from onconova.core.types import Nullable
+from onconova.core.types import Nullable, UUID
 from onconova.oncology.models import family_history as orm
 
 class FamilyHistoryCreate(BaseSchema):

@@ -1,10 +1,9 @@
 import enum
 import warnings
 from datetime import date, datetime
+from uuid import UUID as UuidType
 from functools import partial
 from typing import Any, Callable, Dict, List, Optional, Type, Union, get_args
-from uuid import UUID
-
 from django.contrib.auth import get_user_model
 from django.contrib.postgres.fields import (
     ArrayField,
@@ -31,7 +30,7 @@ from onconova.core.schemas import CodedConcept as CodedConceptSchema
 from onconova.core.schemas import Period as PeriodSchema
 from onconova.core.schemas import Range as RangeSchema
 from onconova.core.serialization import filters as schema_filters
-from onconova.core.types import Contributors, Nullable, Username, Age
+from onconova.core.types import Contributors, Nullable, Username, Age, UUID
 from onconova.core.utils import (
     camel_to_snake,
     is_enum,
@@ -447,6 +446,7 @@ def create_field_info(
 FILTERS_MAP = {
     str: schema_filters.STRING_FILTERS,
     UUID: schema_filters.STRING_FILTERS,
+    UuidType: schema_filters.STRING_FILTERS,
     date: schema_filters.DATE_FILTERS,
     datetime: schema_filters.DATE_FILTERS,
     PeriodSchema: schema_filters.PERIOD_FILTERS,

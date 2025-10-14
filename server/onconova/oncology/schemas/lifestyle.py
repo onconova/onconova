@@ -1,10 +1,9 @@
 from datetime import date as date_aliased
 from pydantic import Field
-from uuid import UUID 
 from typing import List
 
 from onconova.core.schemas import BaseSchema, MetadataAnonymizationMixin, CodedConcept, Measure
-from onconova.core.types import Nullable
+from onconova.core.types import Nullable, UUID
 from onconova.oncology import models as orm
 
 

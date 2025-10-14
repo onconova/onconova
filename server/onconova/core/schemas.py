@@ -1,6 +1,5 @@
 from datetime import date, datetime
 from typing import Any, Dict, Generic, List, TypeVar, Union
-from uuid import UUID
 
 from ninja import Schema
 from psycopg.types.range import Range as PostgresRange
@@ -9,7 +8,7 @@ from pydantic import Field, field_validator, model_validator
 from onconova.core.anonymization import AnonymizationMixin
 from onconova.core.serialization.base import BaseSchema
 from onconova.core.measures.schemas import Measure
-from onconova.core.types import Nullable
+from onconova.core.types import Nullable, UUID
 
 T = TypeVar("T")
 

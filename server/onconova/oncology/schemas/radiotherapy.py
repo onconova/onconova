@@ -1,9 +1,8 @@
 from typing import List
 from pydantic import Field
-from uuid import UUID
 
 from onconova.core.schemas import BaseSchema, MetadataAnonymizationMixin, MetadataMixin, CodedConcept, Measure, Period
-from onconova.core.types import Nullable
+from onconova.core.types import Nullable, UUID
 from onconova.oncology.models import radiotherapy as orm
 
 

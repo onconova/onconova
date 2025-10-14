@@ -1,9 +1,8 @@
 from pydantic import Field
-from uuid import UUID
 from datetime import date 
 
 from onconova.core.schemas import BaseSchema, MetadataAnonymizationMixin, CodedConcept
-from onconova.core.types import Nullable
+from onconova.core.types import Nullable, UUID
 from onconova.oncology.models import neoplastic_entity as orm
 
 class NeoplasticEntityCreate(BaseSchema):

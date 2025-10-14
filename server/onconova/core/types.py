@@ -1,7 +1,9 @@
 from enum import Enum
+from uuid import UUID as UuidType
 from typing import Annotated, Generic, Optional, TypeVar, Any
-
-from pydantic import GetJsonSchemaHandler, GetCoreSchemaHandler
+from typing_extensions import TypeAliasType
+from django.db.models import Model as DjangoModel
+from pydantic import GetJsonSchemaHandler, GetCoreSchemaHandler, AfterValidator, WithJsonSchema
 from pydantic_core import core_schema
 
 
@@ -28,6 +30,34 @@ T = TypeVar("T")
 #: A generic type alias for an optional value that removes 'null' from 'anyOf' in Pydantic JSON schema.
 #: Use this to indicate a value may be None, but have cleaner generated schemas.
 Nullable = Annotated[Optional[T], RemoveAnyOfNull()]
+
+
+class UUID(UuidType):
+    
+    @classmethod
+    def _validate(cls, v: UuidType | DjangoModel) -> UuidType:
+        print('VALIDATING UUID')
+        return getattr(v, 'id', None) if isinstance(v, DjangoModel) else v
+
+    @classmethod
+    def _serialize(cls, v: 'UUID') -> UuidType:
+        print('SERIALIZING UUID')
+        return v
+
+    @classmethod
+    def __get_pydantic_core_schema__(
+        cls, source: type[Any], handler: GetCoreSchemaHandler
+    ) -> core_schema.CoreSchema:
+        return core_schema.no_info_before_validator_function(
+            cls._validate,
+            core_schema.uuid_schema(),
+            serialization=core_schema.plain_serializer_function_ser_schema(
+                cls._serialize,
+                info_arg=False,
+                return_schema=core_schema.uuid_schema(),
+            ),
+        )
+
 
 
 class Age(int):
