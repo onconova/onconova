@@ -6,6 +6,7 @@ from pydantic import Field, field_validator, model_validator
 
 from onconova.core.anonymization import (
     REDACTED_STRING,
+    anonymize_age,
     anonymize_by_redacting_string,
     anonymize_personal_date,
 )
@@ -137,6 +138,8 @@ class PatientCase(PatientCaseCreate, MetadataAnonymizationMixin):
     __anonymization_fields__ = ("dateOfBirth", "dateOfDeath", "clinicalIdentifier", "clinicalCenter", "age", "ageAtDiagnosis")
     __anonymization_key__ = "id"
     __anonymization_functions__ = {
+        "age": anonymize_age,
+        "ageAtDiagnosis": anonymize_age,
         "dateOfBirth": anonymize_by_redacting_string,
         "dateOfDeath": anonymize_personal_date,
     }
