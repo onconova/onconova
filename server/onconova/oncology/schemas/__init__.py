@@ -1,12 +1,12 @@
 from onconova.core.serialization.factory import create_filters_schema
 
 from .adverse_event import (
-    AdverseEventCreateSchema,
-    AdverseEventMitigationCreateSchema,
-    AdverseEventMitigationSchema,
-    AdverseEventSchema,
-    AdverseEventSuspectedCauseCreateSchema,
-    AdverseEventSuspectedCauseSchema,
+    AdverseEventCreate,
+    AdverseEventMitigationCreate,
+    AdverseEventMitigation,
+    AdverseEvent,
+    AdverseEventSuspectedCauseCreate,
+    AdverseEventSuspectedCause,
 )
 from .comorbidities import (
     ComorbiditiesAssessmentCreateSchema,
@@ -123,7 +123,7 @@ RadiotherapyFilters = create_filters_schema(
     schema=RadiotherapySchema, name="RadiotherapyFilters"
 )
 AdverseEventFilters = create_filters_schema(
-    schema=AdverseEventSchema, name="AdverseEventFilters"
+    schema=AdverseEvent, name="AdverseEventFilters"
 )
 TreatmentResponseFilters = create_filters_schema(
     schema=TreatmentResponseSchema, name="TreatmentResponseFilters"
@@ -216,12 +216,12 @@ ONCOLOGY_SCHEMAS = (
     RadiotherapySettingSchema,
     RadiotherapySettingCreateSchema,
     # Adverse event schemas
-    AdverseEventSchema,
-    AdverseEventCreateSchema,
-    AdverseEventSuspectedCauseSchema,
-    AdverseEventSuspectedCauseCreateSchema,
-    AdverseEventMitigationSchema,
-    AdverseEventMitigationCreateSchema,
+    AdverseEvent,
+    AdverseEventCreate,
+    AdverseEventSuspectedCause,
+    AdverseEventSuspectedCauseCreate,
+    AdverseEventMitigation,
+    AdverseEventMitigationCreate,
     # Treatment response schemas
     TreatmentResponseSchema,
     TreatmentResponseCreateSchema,

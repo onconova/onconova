@@ -134,7 +134,7 @@ class PatientCaseBundle(sc.PatientCase):
     radiotherapies: List[sc.RadiotherapySchema] = Field(
         default=[],
     )
-    adverseEvents: List[sc.AdverseEventSchema] = Field(
+    adverseEvents: List[sc.AdverseEvent] = Field(
         default=[],
         alias="adverse_events",
         validation_alias=AliasChoices("adverseEvents", "adverse_events"),

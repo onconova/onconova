@@ -18,6 +18,7 @@ import onconova.terminology.models as terminology
 from onconova.core.auth.models import User
 from onconova.oncology.models.comorbidities import ComorbiditiesPanel
 from onconova.oncology.models.patient_case import PatientCaseVitalStatusChoices, PatientCaseConsentStatusChoices
+from onconova.oncology.models.adverse_event import AdverseEventMitigationCategoryChoices, AdverseEventOutcomeChoices, AdverseEventSuspectedCauseCausalityChoices
 
 
 def is_running_pytest():
@@ -377,7 +378,7 @@ class AdverseEventFactory(factory.django.DjangoModelFactory):
     date = factory.LazyFunction(faker.date)
     grade = factory.LazyFunction(lambda: random.randint(0, 5))
     event = make_terminology_factory(terminology.AdverseEventTerm)
-    outcome = FuzzyChoice(models.AdverseEvent.AdverseEventOutcome)
+    outcome = FuzzyChoice(AdverseEventOutcomeChoices)
 
 
 class AdverseEventSuspectedCauseFactory(factory.django.DjangoModelFactory):
@@ -386,7 +387,7 @@ class AdverseEventSuspectedCauseFactory(factory.django.DjangoModelFactory):
 
     adverse_event = factory.SubFactory(AdverseEventFactory)
     systemic_therapy = factory.SubFactory(SystemicTherapyFactory)
-    causality = FuzzyChoice(models.AdverseEventSuspectedCause.AdverseEventCausality)
+    causality = FuzzyChoice(AdverseEventSuspectedCauseCausalityChoices)
 
 
 class AdverseEventMitigationFactory(factory.django.DjangoModelFactory):
@@ -394,7 +395,7 @@ class AdverseEventMitigationFactory(factory.django.DjangoModelFactory):
         model = models.AdverseEventMitigation
 
     adverse_event = factory.SubFactory(AdverseEventFactory)
-    category = FuzzyChoice(models.AdverseEventMitigation.AdverseEventMitigationCategory)
+    category = FuzzyChoice(AdverseEventMitigationCategoryChoices)
     adjustment = make_terminology_factory(
         terminology.AdverseEventMitigationTreatmentAdjustment
     )

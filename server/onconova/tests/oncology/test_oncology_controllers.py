@@ -162,16 +162,16 @@ class TestAdverseEventController(CrudApiControllerTestCase):
     controller_path = "/api/v1/adverse-events"
     FACTORY = factories.AdverseEventFactory
     MODEL = models.AdverseEvent
-    SCHEMA = schemas.AdverseEventSchema
-    CREATE_SCHEMA = schemas.AdverseEventCreateSchema
+    SCHEMA = schemas.AdverseEvent
+    CREATE_SCHEMA = schemas.AdverseEventCreate
 
 
 class TestAdverseEventSuspectedCauseController(CrudApiControllerTestCase):
     controller_path = "/api/v1/adverse-events"
     FACTORY = factories.AdverseEventSuspectedCauseFactory
     MODEL = models.AdverseEventSuspectedCause
-    SCHEMA = schemas.AdverseEventSuspectedCauseSchema
-    CREATE_SCHEMA = schemas.AdverseEventSuspectedCauseCreateSchema
+    SCHEMA = schemas.AdverseEventSuspectedCause
+    CREATE_SCHEMA = schemas.AdverseEventSuspectedCauseCreate
 
     def get_route_url(self, instance):
         return f"/{instance.adverse_event.id}/suspected-causes"
@@ -193,8 +193,8 @@ class TestAdverseEventMitigationController(CrudApiControllerTestCase):
     controller_path = "/api/v1/adverse-events"
     FACTORY = factories.AdverseEventMitigationFactory
     MODEL = models.AdverseEventMitigation
-    SCHEMA = schemas.AdverseEventMitigationSchema
-    CREATE_SCHEMA = schemas.AdverseEventMitigationCreateSchema
+    SCHEMA = schemas.AdverseEventMitigation
+    CREATE_SCHEMA = schemas.AdverseEventMitigationCreate
 
     def get_route_url(self, instance):
         return f"/{instance.adverse_event.id}/mitigations"
