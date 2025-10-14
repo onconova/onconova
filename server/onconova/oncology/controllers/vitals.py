@@ -12,9 +12,10 @@ from onconova.core.history.schemas import HistoryEvent
 from onconova.core.schemas import ModifiedResource as ModifiedResourceSchema
 from onconova.core.schemas import Paginated
 from onconova.core.utils import COMMON_HTTP_ERRORS
-from onconova.oncology.models import Vitals
-from onconova.oncology.schemas import VitalsCreateSchema, VitalsFilters, VitalsSchema
-
+from onconova.oncology import (
+    models as orm,
+    schemas as scm, 
+)
 
 @api_controller(
     "vitals",
@@ -26,7 +27,7 @@ class VitalsController(ControllerBase):
     @route.get(
         path="",
         response={
-            200: Paginated[VitalsSchema],
+            200: Paginated[scm.Vitals],
             **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
@@ -35,8 +36,8 @@ class VitalsController(ControllerBase):
     @paginate()
     @ordering()
     @anonymize()
-    def get_all_vitals_matching_the_query(self, query: Query[VitalsFilters]):  # type: ignore
-        queryset = Vitals.objects.all().order_by("-date")
+    def get_all_vitals_matching_the_query(self, query: Query[scm.VitalsFilters]):  # type: ignore
+        queryset = orm.Vitals.objects.all().order_by("-date")
         return query.filter(queryset)
 
     @route.post(
@@ -45,18 +46,18 @@ class VitalsController(ControllerBase):
         permissions=[perms.CanManageCases],
         operation_id="createVitals",
     )
-    def create_vitals(self, payload: VitalsCreateSchema):  # type: ignore
+    def create_vitals(self, payload: scm.VitalsCreate):  # type: ignore
         return 201, payload.model_dump_django()
 
     @route.get(
         path="/{vitalsId}",
-        response={200: VitalsSchema, 404: None, **COMMON_HTTP_ERRORS},
+        response={200: scm.Vitals, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCases],
         operation_id="getVitalsById",
     )
     @anonymize()
     def get_vitals_by_id(self, vitalsId: str):
-        return get_object_or_404(Vitals, id=vitalsId)
+        return get_object_or_404(orm.Vitals, id=vitalsId)
 
     @route.put(
         path="/{vitalsId}",
@@ -64,8 +65,8 @@ class VitalsController(ControllerBase):
         permissions=[perms.CanManageCases],
         operation_id="updateVitalsById",
     )
-    def update_vitals(self, vitalsId: str, payload: VitalsCreateSchema):  # type: ignore
-        instance = get_object_or_404(Vitals, id=vitalsId)
+    def update_vitals(self, vitalsId: str, payload: scm.VitalsCreate):  # type: ignore
+        instance = get_object_or_404(orm.Vitals, id=vitalsId)
         return payload.model_dump_django(instance=instance)
 
     @route.delete(
@@ -75,13 +76,13 @@ class VitalsController(ControllerBase):
         operation_id="deleteVitalsById",
     )
     def delete_vitals(self, vitalsId: str):
-        get_object_or_404(Vitals, id=vitalsId).delete()
+        get_object_or_404(orm.Vitals, id=vitalsId).delete()
         return 204, None
 
     @route.get(
         path="/{vitalsId}/history/events",
         response={
-            200: Paginated[HistoryEvent.bind_schema(VitalsCreateSchema)],
+            200: Paginated[HistoryEvent.bind_schema(scm.VitalsCreate)],
             404: None,
             **COMMON_HTTP_ERRORS,
         },
@@ -91,13 +92,13 @@ class VitalsController(ControllerBase):
     @paginate()
     @ordering()
     def get_all_vitals_history_events(self, vitalsId: str):
-        instance = get_object_or_404(Vitals, id=vitalsId)
+        instance = get_object_or_404(orm.Vitals, id=vitalsId)
         return pghistory.models.Events.objects.tracks(instance).all()  # type: ignore
 
     @route.get(
         path="/{vitalsId}/history/events/{eventId}",
         response={
-            200: HistoryEvent.bind_schema(VitalsCreateSchema),
+            200: HistoryEvent.bind_schema(scm.VitalsCreate),
             404: None,
             **COMMON_HTTP_ERRORS,
         },
@@ -105,7 +106,7 @@ class VitalsController(ControllerBase):
         operation_id="getVitalsHistoryEventById",
     )
     def get_vitals_history_event_by_id(self, vitalsId: str, eventId: str):
-        instance = get_object_or_404(Vitals, id=vitalsId)
+        instance = get_object_or_404(orm.Vitals, id=vitalsId)
         return get_object_or_404(
             pghistory.models.Events.objects.tracks(instance), pgh_id=eventId  # type: ignore
         )
@@ -117,5 +118,5 @@ class VitalsController(ControllerBase):
         operation_id="revertVitalsToHistoryEvent",
     )
     def revert_vitals_to_history_event(self, vitalsId: str, eventId: str):
-        instance = get_object_or_404(Vitals, id=vitalsId)
+        instance = get_object_or_404(orm.Vitals, id=vitalsId)
         return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()

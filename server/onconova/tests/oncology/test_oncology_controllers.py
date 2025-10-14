@@ -315,8 +315,8 @@ class TestVitalsController(CrudApiControllerTestCase):
     controller_path = "/api/v1/vitals"
     FACTORY = factories.VitalsFactory
     MODEL = models.Vitals
-    SCHEMA = schemas.VitalsSchema
-    CREATE_SCHEMA = schemas.VitalsCreateSchema
+    SCHEMA = schemas.Vitals
+    CREATE_SCHEMA = schemas.VitalsCreate
 
 
 class TestComorbiditiesAssessmentController(CrudApiControllerTestCase):

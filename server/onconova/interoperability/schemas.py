@@ -169,7 +169,7 @@ class PatientCaseBundle(sc.PatientCase):
     ] = Field(
         default=[],
     )
-    vitals: List[sc.VitalsSchema] = Field(
+    vitals: List[sc.Vitals] = Field(
         default=[],
     )
     lifestyles: List[sc.Lifestyle] = Field(
@@ -179,9 +179,6 @@ class PatientCaseBundle(sc.PatientCase):
         default=[],
         alias="family_histories",
         validation_alias=AliasChoices("familyHistory", "family_histories"),
-    )
-    vitals: List[sc.VitalsSchema] = Field(
-        default=[],
     )
     tumorBoards: List[
         Union[sc.UnspecifiedTumorBoard, sc.MolecularTumorBoard]

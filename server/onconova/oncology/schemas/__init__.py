@@ -97,7 +97,7 @@ from .tumor_board import (
     UnspecifiedTumorBoard,
 )
 from .tumor_marker import TumorMarkerCreate, TumorMarker
-from .vitals import VitalsCreateSchema, VitalsSchema
+from .vitals import VitalsCreate, Vitals
 
 # Filter schemas
 PatientCaseFilters = create_filters_schema(
@@ -140,7 +140,7 @@ FamilyHistoryFilters = create_filters_schema(
 TumorBoardFilters = create_filters_schema(
     schema=UnspecifiedTumorBoard, name="TumorBoardFilters"
 )
-VitalsFilters = create_filters_schema(schema=VitalsSchema, name="VitalsFilters")
+VitalsFilters = create_filters_schema(schema=Vitals, name="VitalsFilters")
 ComorbiditiesAssessmentFilters = create_filters_schema(
     schema=ComorbiditiesAssessment, name="ComorbiditiesAssessmentFilters"
 )
@@ -242,8 +242,8 @@ ONCOLOGY_SCHEMAS = (
     FamilyHistory,
     FamilyHistoryCreate,
     # Vitals
-    VitalsSchema,
-    VitalsCreateSchema,
+    Vitals,
+    VitalsCreate,
     # Comorbidities
     ComorbiditiesAssessment,
     ComorbiditiesAssessmentCreate,
