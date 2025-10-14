@@ -4,11 +4,11 @@ import pghistory
 from django.test import TestCase
 
 from onconova.core.auth.models import User
-from onconova.core.auth.schemas import UserSchema
+from onconova.core.auth.schemas import User as UserSchema
 from onconova.core.history.schemas import HistoryEvent
 from onconova.core.models import BaseModel
 from onconova.interoperability.parsers import BundleParser
-from onconova.interoperability.schemas import PatientCaseBundle, UserExportSchema
+from onconova.interoperability.schemas import PatientCaseBundle, UserExport
 from onconova.oncology import models, schemas
 from onconova.tests import factories
 
@@ -116,7 +116,7 @@ class BundleParserTest(TestCase):
                     cls.original_tumor_board
                 )
             ]
-            cls.bundle.contributorsDetails = [UserExportSchema.model_validate(cls.original_user)]
+            cls.bundle.contributorsDetails = [UserExport.model_validate(cls.original_user)]
             # Add a custom event to the case
             pghistory.create_event(cls.original_case, label="update")
             pghistory.create_event(cls.original_case, label="export")

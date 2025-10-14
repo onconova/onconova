@@ -60,20 +60,6 @@ class BaseSchema(Schema,
 
     Attributes:
         __orm_model__ (ClassVar[Type[UntrackedBaseModel]]): The associated Django model class
-
-    Example:
-        ```python
-        class UserSchema(BaseSchema):
-            id: int
-            username: str
-            email: str
-
-            class Config:
-                from_attributes = True
-
-            def __init_subclass__(cls):
-                cls.set_orm_model(User)
-        ```
     """
     
     __orm_model__: ClassVar[Type[UntrackedBaseModel]]

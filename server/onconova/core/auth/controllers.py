@@ -12,15 +12,9 @@ from pghistory.models import Events
 from pydantic import AliasChoices, Field
 
 from onconova.core.auth import permissions as perms
-from onconova.core.auth.models import User
-from onconova.core.auth.schemas import UserCreateSchema, UserFilters
-from onconova.core.auth.schemas import (
-    UserPasswordReset as UserPasswordResetSchema, 
-    AuthenticationMeta, 
-    UserProviderToken, 
-    UserProfileSchema, 
-    UserSchema, 
-    UserCredentials,
+from onconova.core.auth import (
+    models as orm,
+    schemas as scm,
 )
 from onconova.core.auth.token import XSessionTokenAuth
 from onconova.core.history.schemas import HistoryEvent
@@ -41,7 +35,7 @@ class AuthController(ControllerBase):
     @route.post(
         path="/session",
         response={
-            200: AuthenticationMeta,
+            200: scm.AuthenticationMeta,
             401: None,
             400: None,
             403: None,
@@ -50,7 +44,7 @@ class AuthController(ControllerBase):
         operation_id="login",
         openapi_extra=dict(security=[]),
     )
-    def login(self, credentials: UserCredentials):
+    def login(self, credentials: scm.UserCredentials):
         """
         Authenticates a user using the provided credentials.
         """
@@ -64,11 +58,11 @@ class AuthController(ControllerBase):
 
     @route.post(
         path="/provider/session",
-        response={200: AuthenticationMeta, 400: None, 401: None, 500: None},
+        response={200: scm.AuthenticationMeta, 400: None, 401: None, 500: None},
         operation_id="loginWithProviderToken",
         openapi_extra=dict(security=[]),
     )
-    def login_with_provider_token(self, credentials: UserProviderToken):
+    def login_with_provider_token(self, credentials: scm.UserProviderToken):
         """
         Authenticates a user using a provider token. 
         """
@@ -93,12 +87,12 @@ class UsersController(ControllerBase):
 
     @route.get(
         path="",
-        response={200: Paginated[UserSchema], **COMMON_HTTP_ERRORS},
+        response={200: Paginated[scm.User], **COMMON_HTTP_ERRORS},
         operation_id="getUsers",
     )
     @paginate()
     @ordering()
-    def get_all_users_matching_the_query(self, query: Query[UserFilters]):  # type: ignore
+    def get_all_users_matching_the_query(self, query: Query[scm.UserFilters]):  # type: ignore
         """
         Retrieves all user objects that match the specified query filters.
         """
@@ -107,7 +101,7 @@ class UsersController(ControllerBase):
 
     @route.get(
         path="/{userId}",
-        response={200: UserSchema, 404: None, **COMMON_HTTP_ERRORS},
+        response={200: scm.User, 404: None, **COMMON_HTTP_ERRORS},
         operation_id="getUserById",
     )
     def get_user_by_id(self, userId: str):
@@ -122,7 +116,7 @@ class UsersController(ControllerBase):
         permissions=[perms.CanManageUsers],
         operation_id="createUser",
     )
-    def create_user(self, payload: UserCreateSchema):
+    def create_user(self, payload: scm.UserCreate):
         """
         Creates a new user with the provided payload.
         """
@@ -130,43 +124,43 @@ class UsersController(ControllerBase):
 
     @route.put(
         path="/{userId}",
-        response={200: UserSchema, 404: None, **COMMON_HTTP_ERRORS},
+        response={200: scm.User, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageUsers],
         operation_id="updateUser",
     )
-    def update_user(self, userId: str, payload: UserCreateSchema):
+    def update_user(self, userId: str, payload: scm.UserCreate):
         """
         Updates the specified user's information using the provided payload.
         """
-        user = get_object_or_404(User, id=userId)
+        user = get_object_or_404(orm.User, id=userId)
         return payload.model_dump_django(instance=user)
 
     @route.put(
         path="/{userId}/profile",
-        response={201: UserSchema, 404: None, **COMMON_HTTP_ERRORS},
+        response={201: scm.User, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanManageUsers | perms.IsRequestingUser],
         operation_id="updateUserProfile",
     )
-    def update_user_profile(self, userId: str, payload: UserProfileSchema):
+    def update_user_profile(self, userId: str, payload: scm.UserProfile):
         """
         Updates the profile information of a user with the given user ID.
         """
-        user = get_object_or_404(User, id=userId)
-        User.objects.filter(pk=user.id).update(**payload.model_dump(by_alias=True))
-        return 201, get_object_or_404(User, id=user.id)
+        user = get_object_or_404(orm.User, id=userId)
+        orm.User.objects.filter(pk=user.id).update(**payload.model_dump(by_alias=True))
+        return 201, get_object_or_404(orm.User, id=user.id)
 
     @route.put(
         path="/{userId}/password",
         response={201: ModifiedResourceSchema, 404: None, **COMMON_HTTP_ERRORS},
         operation_id="updateUserPassword",
     )
-    def update_user_password(self, userId: str, payload: UserPasswordResetSchema):
+    def update_user_password(self, userId: str, payload: scm.UserPasswordReset):
         """
         Updates the password for a specified user.
         """
-        user = get_object_or_404(User, id=userId)
+        user = get_object_or_404(orm.User, id=userId)
         assert self.context and self.context.request
-        requesting_user: User = self.context.request.user  # type: ignore
+        requesting_user: orm.User = self.context.request.user  # type: ignore
         authorized = user.id == requesting_user.id or requesting_user.can_manage_users
         if not authorized or not user.check_password(payload.oldPassword):
             return 403, None
@@ -184,7 +178,7 @@ class UsersController(ControllerBase):
         """
         Resets the password for the specified user.
         """
-        user = get_object_or_404(User, id=userId)
+        user = get_object_or_404(orm.User, id=userId)
         user.set_password(password)
         user.save()
         return 201, user
@@ -200,7 +194,7 @@ class UsersController(ControllerBase):
         """
         Retrieves the event history for the specified user.
         """
-        user = get_object_or_404(User, id=userId)
+        user = get_object_or_404(orm.User, id=userId)
         return Events.objects.filter(pgh_context__username=user.username).order_by(
             "-pgh_created_at"
         )

@@ -7,7 +7,7 @@ from pydantic import AliasChoices, BaseModel, ConfigDict, Field, model_validator
 
 import onconova.oncology.schemas as sc
 from onconova.core.auth.models import User
-from onconova.core.auth.schemas import UserExportSchema
+from onconova.core.auth.schemas import UserExport
 from onconova.core.history.schemas import HistoryEvent
 from onconova.oncology.models.patient_case import PatientCaseDataCategoryChoices
 
@@ -191,7 +191,7 @@ class PatientCaseBundle(sc.PatientCase):
     history: List[HistoryEvent] = Field(
         default=[],
     )
-    contributorsDetails: List[UserExportSchema] = Field(
+    contributorsDetails: List[UserExport] = Field(
         default=[]
     )
 
@@ -277,17 +277,7 @@ class PatientCaseBundle(sc.PatientCase):
             return obj.get("contributorsDetails")
         else:
             return [
-                UserExportSchema(
-                    username=user.username, 
-                    firstName=user.first_name, 
-                    lastName=user.last_name, 
-                    anonymized=not user.shareable, 
-                    organization=user.organization, 
-                    email=user.email, 
-                    id=user.id, 
-                    externalSource=user.external_source, 
-                    externalSourceId=user.external_source_id
-                )
+                UserExport.model_validate(user)
                 for contributor_username in obj.contributors 
                 for user in User.objects.filter(username=contributor_username)
             ]   

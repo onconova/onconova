@@ -8,7 +8,7 @@ from django.db.models import Model as DjangoModel
 from ninja import Schema
 
 from onconova.core.auth.models import User
-from onconova.core.auth.schemas import UserExportSchema
+from onconova.core.auth.schemas import UserExport
 from onconova.interoperability.schemas import PatientCaseBundle
 from onconova.oncology import models, schemas
 
@@ -88,19 +88,19 @@ class BundleParser:
         }
 
     @staticmethod
-    def get_or_create_user(user: UserExportSchema) -> User:
+    def get_or_create_user(user: UserExport) -> User:
         """
         Retrieves an existing User object by username or creates a new one if it does not exist.
 
         Args:
-            user (UserSchema | str): A UserSchema instance containing user details, or a string representing the username.
+            user (User | str): A User instance containing user details, or a string representing the username.
 
         Returns:
             User: The retrieved or newly created User object, or None if the input is invalid.
 
         Notes:
             - If a string is provided, a new user is created with default inactive and external access level.
-            - If a UserSchema is provided, user details are imported and the user is created as inactive and external.
+            - If a User is provided, user details are imported and the user is created as inactive and external.
         """
         # CHeck if internal user exist
         if (internal_user := User.objects.filter(username=user.username, email=user.email).first()):

@@ -5,12 +5,12 @@ from django.test import Client, TestCase
 from faker import Faker
 from parameterized import parameterized
 
-from onconova.core.auth.models import User
+from onconova.core.auth.models import User as UserORM
 from onconova.core.auth.schemas import (
-    UserCreateSchema,
+    UserCreate,
     UserPasswordReset,
-    UserProfileSchema,
-    UserSchema,
+    UserProfile,
+    User,
 )
 from onconova.core.history.schemas import HistoryEvent
 from onconova.core.measures import measures
@@ -110,8 +110,8 @@ class TestUserController(ApiControllerTestMixin, TestCase):
             self.assertEqual(response.status_code, 200)
             entry = response.json()["items"][0]
             # Assert response content
-            expected = UserSchema.model_validate(self.instance).model_dump()
-            result = UserSchema.model_validate(entry).model_dump()
+            expected = User.model_validate(self.instance).model_dump()
+            result = User.model_validate(entry).model_dump()
             self.assertEqual(expected, result)
 
     @parameterized.expand(GET_HTTP_SCENARIOS)
@@ -126,13 +126,13 @@ class TestUserController(ApiControllerTestMixin, TestCase):
             self.assertEqual(response.status_code, 200)
             entry = response.json()
             # Assert response content
-            expected = UserSchema.model_validate(self.instance).model_dump()
-            result = UserSchema.model_validate(entry).model_dump()
+            expected = User.model_validate(self.instance).model_dump()
+            result = User.model_validate(entry).model_dump()
             self.assertEqual(expected, result)
 
     @parameterized.expand(HTTP_SCENARIOS)
     def test_create_user_by_id(self, scenario, config):
-        json_data = UserCreateSchema.model_validate(self.instance).model_dump(
+        json_data = UserCreate.model_validate(self.instance).model_dump(
             mode="json"
         )
         json_data["username"] = "new_username"
@@ -142,7 +142,7 @@ class TestUserController(ApiControllerTestMixin, TestCase):
         )
         # Assert response content
         if scenario == "HTTPS Authenticated":
-            new_user = User.objects.get(id=response.json()["id"])
+            new_user = UserORM.objects.get(id=response.json()["id"])
             self.assertEqual("new_username", new_user.username)
 
     @parameterized.expand(GET_HTTP_SCENARIOS)
@@ -162,7 +162,7 @@ class TestUserController(ApiControllerTestMixin, TestCase):
 
     @parameterized.expand(HTTP_SCENARIOS)
     def test_update_user_and_access_level(self, scenario, config):
-        update_schema = UserCreateSchema.model_validate(self.instance)
+        update_schema = UserCreate.model_validate(self.instance)
         update_schema.accessLevel = 4
         json_data = update_schema.model_dump(mode="json")
         # Call the API endpoint.
@@ -171,16 +171,16 @@ class TestUserController(ApiControllerTestMixin, TestCase):
         )
         # Assert response content
         if scenario == "HTTPS Authenticated":
-            updated_instance = User.objects.get(id=response.json()["id"])
+            updated_instance = UserORM.objects.get(id=response.json()["id"])
             self.assertEqual(updated_instance.access_level, 4)
 
     @parameterized.expand(HTTP_SCENARIOS)
     def test_update_user_profile(self, scenario, config):
         new_first_name = "John"
         new_last_name = "Doe"
-        json_data = UserProfileSchema(
-            first_name=new_first_name,
-            last_name=new_last_name,
+        json_data = UserProfile(
+            firstName=new_first_name,
+            lastName=new_last_name,
             email=self.instance.email,
         ).model_dump(mode="json")
         # Call the API endpoint.
@@ -189,7 +189,7 @@ class TestUserController(ApiControllerTestMixin, TestCase):
         )
         # Assert response content
         if scenario == "HTTPS Authenticated":
-            updated_instance = User.objects.get(id=response.json()["id"])
+            updated_instance = UserORM.objects.get(id=response.json()["id"])
             self.assertEqual(updated_instance.first_name, new_first_name)
             self.assertEqual(updated_instance.last_name, new_last_name)
 
@@ -198,8 +198,8 @@ class TestUserController(ApiControllerTestMixin, TestCase):
         new_config = {**config, "access_level": 1}
         new_first_name = "John"
         new_last_name = "Doe"
-        json_data = UserProfileSchema(
-            first_name=new_first_name, last_name=new_last_name, email=self.user.email
+        json_data = UserProfile(
+            firstName=new_first_name, lastName=new_last_name, email=self.user.email
         ).model_dump(mode="json")
         # Call the API endpoint.
         self.call_api_endpoint(
