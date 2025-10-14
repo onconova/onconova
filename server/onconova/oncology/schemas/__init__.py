@@ -86,7 +86,7 @@ from .systemic_therapy import (
     SystemicTherapyMedication,
     SystemicTherapy,
 )
-from .therapy_line import TherapyLineCreateSchema, TherapyLineSchema
+from .therapy_line import TherapyLineCreate, TherapyLine
 from .treatment_response import TreatmentResponseCreateSchema, TreatmentResponseSchema
 from .tumor_board import (
     MolecularTherapeuticRecommendationCreateSchema,
@@ -151,7 +151,7 @@ GenomicSignatureFilters = create_filters_schema(
     schema=GenomicSignature, name="GenomicSignatureFilters"
 )
 TherapyLineFilters = create_filters_schema(
-    schema=TherapyLineSchema, name="TherapyLineFilters"
+    schema=TherapyLine, name="TherapyLineFilters"
 )
 
 ONCOLOGY_SCHEMAS = (
@@ -198,8 +198,8 @@ ONCOLOGY_SCHEMAS = (
     RiskAssessment,
     RiskAssessmentCreate,
     # Therapy line schemas
-    TherapyLineSchema,
-    TherapyLineCreateSchema,
+    TherapyLine,
+    TherapyLineCreate,
     # Systemic therapy schemas
     SystemicTherapy,
     SystemicTherapyCreate,

@@ -118,7 +118,7 @@ class PatientCaseBundle(sc.PatientCase):
         alias="risk_assessments",
         validation_alias=AliasChoices("riskAssessments", "risk_assessments"),
     )
-    therapyLines: List[sc.TherapyLineSchema] = Field(
+    therapyLines: List[sc.TherapyLine] = Field(
         default=[],
         alias="therapy_lines",
         validation_alias=AliasChoices("therapyLines", "therapy_lines"),

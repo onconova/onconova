@@ -283,8 +283,8 @@ class TestTherapyLineController(CrudApiControllerTestCase):
     controller_path = "/api/v1/therapy-lines"
     FACTORY = factories.TherapyLineFactory
     MODEL = models.TherapyLine
-    SCHEMA = schemas.TherapyLineSchema
-    CREATE_SCHEMA = schemas.TherapyLineCreateSchema
+    SCHEMA = schemas.TherapyLine
+    CREATE_SCHEMA = schemas.TherapyLineCreate
 
 
 class TestPerformanceStatusController(CrudApiControllerTestCase):

@@ -24,6 +24,7 @@ from onconova.oncology.models.genomic_variant import GenomicVariantAssessmentCho
 from onconova.oncology.models.radiotherapy import RadiotherapyIntentChoices
 from onconova.oncology.models.surgery import SurgeryIntentChoices
 from onconova.oncology.models.systemic_therapy import SystemicTherapyIntentChoices
+from onconova.oncology.models.therapy_line import TherapyLineIntentChoices
 
 def is_running_pytest():
     return "pytest" in sys.modules
@@ -269,7 +270,7 @@ class TherapyLineFactory(factory.django.DjangoModelFactory):
         model = models.TherapyLine
 
     case = factory.SubFactory(PatientCaseFactory)
-    intent = FuzzyChoice(models.TherapyLine.TreatmentIntent)
+    intent = FuzzyChoice(TherapyLineIntentChoices)
     ordinal = factory.LazyFunction(lambda: random.randint(1, 5))
 
 

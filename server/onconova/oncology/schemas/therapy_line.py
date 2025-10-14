@@ -1,18 +1,50 @@
-from pydantic import AliasChoices, Field
+from pydantic import Field
+from datetime import date as date_aliased
 
-from onconova.core.anonymization import AnonymizationConfig
-from onconova.core.schemas import Period as PeriodSchema
-from onconova.core.serialization.metaclasses import (
-    ModelCreateSchema,
-    ModelGetSchema,
-    SchemaConfig,
-)
-from onconova.core.types import Nullable
-from onconova.oncology import models as orm
+from onconova.core.schemas import BaseSchema, MetadataAnonymizationMixin, Period
+from onconova.core.types import Nullable, UUID
+from onconova.oncology.models import therapy_line as orm
 
 
-class TherapyLineSchema(ModelGetSchema):
-    period: Nullable[PeriodSchema] = Field(
+class TherapyLineCreate(BaseSchema):
+    
+    __orm_model__ = orm.TherapyLine 
+    
+    externalSource: Nullable[str] = Field(
+        None,
+        description='The digital source of the data, relevant for automated data',
+        title='External data source',
+    )
+    externalSourceId: Nullable[str] = Field(
+        None,
+        description='The data identifier at the digital source of the data, relevant for automated data',
+        title='External data source Id',
+    )
+    caseId: UUID = Field(
+        ...,
+        description='Indicates the case of the patient to whom this therapy line is associated',
+        title='Patient case',
+    )
+    ordinal: int = Field(
+        ...,
+        description='Number indicating the sequence in which this block of treatments were administered to the patient',
+        title='Line ordinal number',
+    )
+    intent: orm.TherapyLineIntentChoices = Field(
+        ...,
+        description='Treatment intent of the system therapy',
+        title='Intent',
+    )
+    progressionDate: Nullable[date_aliased] = Field(
+        None,
+        description='Date at which progression was first detected, if applicable',
+        title='Begin of progression',
+    )
+
+
+class TherapyLine(TherapyLineCreate, MetadataAnonymizationMixin):
+    
+    period: Nullable[Period] = Field(
         default=None,
         title="Period",
         description="Time period of the therapy line",
@@ -27,18 +59,7 @@ class TherapyLineSchema(ModelGetSchema):
         default=None,
         title="Progression-free survival in months",
         description="Progression-free survival (PFS) of the patient for the therapy line",
-        alias="progression_free_survival",
-        validation_alias=AliasChoices(
-            "progressionFreeSurvival", "progression_free_survival"
-        ),
     )
-    config = SchemaConfig(
-        model=orm.TherapyLine,
-        exclude=["label"],
-        anonymization=AnonymizationConfig(fields=["period"], key="caseId"),
-    )
-
-
-class TherapyLineCreateSchema(ModelCreateSchema):
-    config = SchemaConfig(model=orm.TherapyLine, exclude=["label"])
-    config = SchemaConfig(model=orm.TherapyLine, exclude=["label"])
+    
+    __anonymization_fields__ = ("period",)
+    __anonymization_key__ = "caseId"

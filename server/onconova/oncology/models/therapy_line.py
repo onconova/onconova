@@ -23,6 +23,10 @@ from onconova.core.models import BaseModel
 from onconova.oncology.models import PatientCase, TreatmentResponse
 
 
+class TherapyLineIntentChoices(models.TextChoices):
+    CURATIVE = "curative"
+    PALLIATIVE = "palliative"
+    
 @pghistory.track()
 class TherapyLine(BaseModel):
     """
@@ -34,7 +38,7 @@ class TherapyLine(BaseModel):
         objects (QueryablePropertiesManager): Custom manager for querying annotated properties.
         case (models.ForeignKey[PatientCase]): Reference to the associated PatientCase.
         ordinal (models.PositiveIntegerField): Sequence number of the therapy line for the patient.
-        intent (models.CharField[TreatmentIntent]): Treatment intent ("curative" or "palliative").
+        intent (models.CharField[TherapyLineIntentChoices]): Treatment intent ("curative" or "palliative").
         progression_date (models.DateField): Date when disease progression was first detected.
         label (models.GeneratedField): Auto-generated label for the therapy line (e.g., "PLoT1").
         period (AnnotationProperty): Date range covering all treatments in the therapy line.
@@ -47,10 +51,6 @@ class TherapyLine(BaseModel):
     """
 
     objects = QueryablePropertiesManager()
-
-    class TreatmentIntent(models.TextChoices):
-        CURATIVE = "curative"
-        PALLIATIVE = "palliative"
 
     case = models.ForeignKey(
         verbose_name=_("Patient case"),
@@ -70,7 +70,7 @@ class TherapyLine(BaseModel):
     intent = models.CharField(
         verbose_name=_("Intent"),
         help_text=_("Treatment intent of the system therapy"),
-        choices=TreatmentIntent,
+        choices=TherapyLineIntentChoices,
         max_length=30,
     )
     progression_date = models.DateField(
