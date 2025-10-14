@@ -184,6 +184,140 @@ class RegexpMatchSubstring(Func):
         super().__init__(expression, regex=regex, template=template, **extra)
 
 
+class GenomicVariantAssessmentChoices(models.TextChoices):
+    """
+    An enumeration representing possible assessments for a genomic variant.
+
+    Attributes:
+        PRESENT: Indicates the variant is present.
+        ABSENT: Indicates the variant is absent.
+        NOCALL: Indicates the variant call could not be made.
+        INDETERMINATE: Indicates the assessment is inconclusive.
+    """
+    PRESENT = "present"
+    ABSENT = "absent"
+    NOCALL = "no-call"
+    INDETERMINATE = "indeterminate"
+
+class GenomicVariantConfidenceChoices(models.TextChoices):
+    """
+    An enumeration representing the confidence level assigned to a genomic variant.
+
+    Attributes:
+        LOW: Indicates low confidence in the variant call.
+        HIGH: Indicates high confidence in the variant call.
+        INDETERMINATE: Indicates that the confidence level could not be determined.
+    """
+    LOW = "low"
+    HIGH = "high"
+    INDETERMINATE = "indeterminate"
+
+class GenomicVariantClinicalRelevanceChoices(models.TextChoices):
+    """
+    An enumeration of clinical relevance categories for genomic variants.
+
+    Attributes:
+        PATHOGENIC: Indicates the variant is pathogenic.
+        LIKELY_PATHOGENIC: Indicates the variant is likely pathogenic.
+        UNCERTAIN_SIGNIFICANCE: Indicates the variant has uncertain clinical significance.
+        AMBIGUOUS: Indicates the variant's relevance is ambiguous.
+        LIKELY_BENIGN: Indicates the variant is likely benign.
+        BENIGN: Indicates the variant is benign.
+    """
+    PATHOGENIC = "pathogenic"
+    LIKELY_PATHOGENIC = "likely_pathogenic"
+    UNCERTAIN_SIGNIFICANCE = "uncertain_significance"
+    AMBIGUOUS = "ambiguous"
+    LIKELY_BENIGN = "likely_benign"
+    BENIGN = "benign"
+
+class DNAChangeType(models.TextChoices):
+    """
+    An enumeration of possible DNA change types for genomic variants.
+
+    Attributes:
+        SUBSTITUTION: A single nucleotide is replaced by another.
+        DELETION_INSERTION: A combination of deletion and insertion at the same location.
+        INSERTION: Addition of one or more nucleotides into the DNA sequence.
+        DELETION: Removal of one or more nucleotides from the DNA sequence.
+        DUPLICATION: A segment of DNA is duplicated.
+        INVERSION: A segment of DNA is reversed end to end.
+        UNCHANGED: No change detected in the DNA sequence.
+        REPETITION: A sequence motif is repeated multiple times.
+        TRANSLOCATION: A segment of DNA is moved to a different location.
+        TRANSPOSITION: Movement of a DNA segment to a new position within the genome.
+        METHYLATION_GAIN: Gain of methylation at a specific DNA region.
+        METHYLATION_LOSS: Loss of methylation at a specific DNA region.
+        METHYLATION_UNCHANGED: No change in methylation status.
+    """
+    SUBSTITUTION = "substitution"
+    DELETION_INSERTION = "deletion-insertion"
+    INSERTION = "insertion"
+    DELETION = "deletion"
+    DUPLICATION = "duplication"
+    INVERSION = "inversion"
+    UNCHANGED = "unchanged"
+    REPETITION = "repetition"
+    TRANSLOCATION = "translocation"
+    TRANSPOSITION = "transposition"
+    METHYLATION_GAIN = "methylation-gain"
+    METHYLATION_LOSS = "methylation-loss"
+    METHYLATION_UNCHANGED = "methylation-unchanged"
+
+class RNAChangeType(models.TextChoices):
+    """
+    An enumeration of possible RNA change types for genomic variants.
+
+    Attributes:
+        SUBSTITUTION: Represents a substitution mutation in RNA.
+        DELETION_INSERTION: Represents a combined deletion and insertion mutation.
+        INSERTION: Represents an insertion mutation in RNA.
+        DELETION: Represents a deletion mutation in RNA.
+        DUPLICATION: Represents a duplication mutation in RNA.
+        INVERSION: Represents an inversion mutation in RNA.
+        UNCHANGED: Indicates no change in the RNA sequence.
+        REPETITION: Represents a repetition mutation in RNA.
+    """
+    SUBSTITUTION = "substitution"
+    DELETION_INSERTION = "deletion-insertion"
+    INSERTION = "insertion"
+    DELETION = "deletion"
+    DUPLICATION = "duplication"
+    INVERSION = "inversion"
+    UNCHANGED = "unchanged"
+    REPETITION = "repetition"
+
+class ProteinChangeType(models.TextChoices):
+    """
+    An enumeration of protein change types observed in genomic variants.
+
+    Attributes:
+        MISSENSE: A single nucleotide change resulting in a different amino acid.
+        NONSENSE: A mutation introducing a premature stop codon.
+        DELETION_INSERTION: A complex event involving both deletion and insertion of nucleotides.
+        INSERTION: Addition of one or more nucleotides into the DNA sequence.
+        DELETION: Removal of one or more nucleotides from the DNA sequence.
+        DUPLICATION: Duplication of a segment of DNA.
+        FRAMESHIFT: A mutation that shifts the reading frame of the genetic code.
+        EXTENSION: Extension of the protein sequence beyond its normal length.
+        SILENT: A mutation that does not alter the amino acid sequence.
+        NO_PROTEIN: No protein product is produced due to the mutation.
+        UNKNOWN: The effect of the mutation on the protein is unknown.
+        REPETITION: Repetition of a segment within the protein sequence.
+    """
+    MISSENSE = "missense"
+    NONSENSE = "nonsense"
+    DELETION_INSERTION = "deletion-insertion"
+    INSERTION = "insertion"
+    DELETION = "deletion"
+    DUPLICATION = "duplication"
+    FRAMESHIFT = "frameshift"
+    EXTENSION = "extension"
+    SILENT = "silent"
+    NO_PROTEIN = "no-protein"
+    UNKNOWN = "unknown"
+    REPETITION = "repetition"
+
 @pghistory.track()
 class GenomicVariant(BaseModel):
     """
@@ -239,140 +373,6 @@ class GenomicVariant(BaseModel):
 
     objects = QueryablePropertiesManager()
 
-    class GenomicVariantAssessment(models.TextChoices):
-        """
-        An enumeration representing possible assessments for a genomic variant.
-
-        Attributes:
-            PRESENT: Indicates the variant is present.
-            ABSENT: Indicates the variant is absent.
-            NOCALL: Indicates the variant call could not be made.
-            INDETERMINATE: Indicates the assessment is inconclusive.
-        """
-        PRESENT = "present"
-        ABSENT = "absent"
-        NOCALL = "no-call"
-        INDETERMINATE = "indeterminate"
-
-    class GenomicVariantConfidence(models.TextChoices):
-        """
-        An enumeration representing the confidence level assigned to a genomic variant.
-
-        Attributes:
-            LOW: Indicates low confidence in the variant call.
-            HIGH: Indicates high confidence in the variant call.
-            INDETERMINATE: Indicates that the confidence level could not be determined.
-        """
-        LOW = "low"
-        HIGH = "high"
-        INDETERMINATE = "indeterminate"
-
-    class GenomicVariantClinicalRelevance(models.TextChoices):
-        """
-        An enumeration of clinical relevance categories for genomic variants.
-
-        Attributes:
-            PATHOGENIC: Indicates the variant is pathogenic.
-            LIKELY_PATHOGENIC: Indicates the variant is likely pathogenic.
-            UNCERTAIN_SIGNIFICANCE: Indicates the variant has uncertain clinical significance.
-            AMBIGUOUS: Indicates the variant's relevance is ambiguous.
-            LIKELY_BENIGN: Indicates the variant is likely benign.
-            BENIGN: Indicates the variant is benign.
-        """
-        PATHOGENIC = "pathogenic"
-        LIKELY_PATHOGENIC = "likely_pathogenic"
-        UNCERTAIN_SIGNIFICANCE = "uncertain_significance"
-        AMBIGUOUS = "ambiguous"
-        LIKELY_BENIGN = "likely_benign"
-        BENIGN = "benign"
-
-    class DNAChangeType(models.TextChoices):
-        """
-        An enumeration of possible DNA change types for genomic variants.
-
-        Attributes:
-            SUBSTITUTION: A single nucleotide is replaced by another.
-            DELETION_INSERTION: A combination of deletion and insertion at the same location.
-            INSERTION: Addition of one or more nucleotides into the DNA sequence.
-            DELETION: Removal of one or more nucleotides from the DNA sequence.
-            DUPLICATION: A segment of DNA is duplicated.
-            INVERSION: A segment of DNA is reversed end to end.
-            UNCHANGED: No change detected in the DNA sequence.
-            REPETITION: A sequence motif is repeated multiple times.
-            TRANSLOCATION: A segment of DNA is moved to a different location.
-            TRANSPOSITION: Movement of a DNA segment to a new position within the genome.
-            METHYLATION_GAIN: Gain of methylation at a specific DNA region.
-            METHYLATION_LOSS: Loss of methylation at a specific DNA region.
-            METHYLATION_UNCHANGED: No change in methylation status.
-        """
-        SUBSTITUTION = "substitution"
-        DELETION_INSERTION = "deletion-insertion"
-        INSERTION = "insertion"
-        DELETION = "deletion"
-        DUPLICATION = "duplication"
-        INVERSION = "inversion"
-        UNCHANGED = "unchanged"
-        REPETITION = "repetition"
-        TRANSLOCATION = "translocation"
-        TRANSPOSITION = "transposition"
-        METHYLATION_GAIN = "methylation-gain"
-        METHYLATION_LOSS = "methylation-loss"
-        METHYLATION_UNCHANGED = "methylation-unchanged"
-
-    class RNAChangeType(models.TextChoices):
-        """
-        An enumeration of possible RNA change types for genomic variants.
-
-        Attributes:
-            SUBSTITUTION: Represents a substitution mutation in RNA.
-            DELETION_INSERTION: Represents a combined deletion and insertion mutation.
-            INSERTION: Represents an insertion mutation in RNA.
-            DELETION: Represents a deletion mutation in RNA.
-            DUPLICATION: Represents a duplication mutation in RNA.
-            INVERSION: Represents an inversion mutation in RNA.
-            UNCHANGED: Indicates no change in the RNA sequence.
-            REPETITION: Represents a repetition mutation in RNA.
-        """
-        SUBSTITUTION = "substitution"
-        DELETION_INSERTION = "deletion-insertion"
-        INSERTION = "insertion"
-        DELETION = "deletion"
-        DUPLICATION = "duplication"
-        INVERSION = "inversion"
-        UNCHANGED = "unchanged"
-        REPETITION = "repetition"
-
-    class ProteinChangeType(models.TextChoices):
-        """
-        An enumeration of protein change types observed in genomic variants.
-
-        Attributes:
-            MISSENSE: A single nucleotide change resulting in a different amino acid.
-            NONSENSE: A mutation introducing a premature stop codon.
-            DELETION_INSERTION: A complex event involving both deletion and insertion of nucleotides.
-            INSERTION: Addition of one or more nucleotides into the DNA sequence.
-            DELETION: Removal of one or more nucleotides from the DNA sequence.
-            DUPLICATION: Duplication of a segment of DNA.
-            FRAMESHIFT: A mutation that shifts the reading frame of the genetic code.
-            EXTENSION: Extension of the protein sequence beyond its normal length.
-            SILENT: A mutation that does not alter the amino acid sequence.
-            NO_PROTEIN: No protein product is produced due to the mutation.
-            UNKNOWN: The effect of the mutation on the protein is unknown.
-            REPETITION: Repetition of a segment within the protein sequence.
-        """
-        MISSENSE = "missense"
-        NONSENSE = "nonsense"
-        DELETION_INSERTION = "deletion-insertion"
-        INSERTION = "insertion"
-        DELETION = "deletion"
-        DUPLICATION = "duplication"
-        FRAMESHIFT = "frameshift"
-        EXTENSION = "extension"
-        SILENT = "silent"
-        NO_PROTEIN = "no-protein"
-        UNKNOWN = "unknown"
-        REPETITION = "repetition"
-
     case = models.ForeignKey(
         verbose_name=_("Patient case"),
         help_text=_(
@@ -409,7 +409,7 @@ class GenomicVariant(BaseModel):
             "Classification of whether the variant is present or absent in the analysis results. Relevant for genomic studies that report presence and absence of variants."
         ),
         max_length=15,
-        choices=GenomicVariantAssessment,
+        choices=GenomicVariantAssessmentChoices,
         null=True,
         blank=True,
     )
@@ -419,7 +419,7 @@ class GenomicVariant(BaseModel):
             "Classification of the confidence for a true positive variant call based e.g. calling thresholds or phred-scaled confidence scores."
         ),
         max_length=15,
-        choices=GenomicVariantConfidence,
+        choices=GenomicVariantConfidenceChoices,
         null=True,
         blank=True,
     )
@@ -435,7 +435,7 @@ class GenomicVariant(BaseModel):
         help_text=_(
             "Classification of the clinical relevance or pathogenicity of the variant."
         ),
-        choices=GenomicVariantClinicalRelevance,
+        choices=GenomicVariantClinicalRelevanceChoices,
         null=True,
         blank=True,
     )
@@ -450,7 +450,7 @@ class GenomicVariant(BaseModel):
             ),
             models.When(
                 models.Q(
-                    clinical_relevance=GenomicVariantClinicalRelevance.UNCERTAIN_SIGNIFICANCE
+                    clinical_relevance=GenomicVariantClinicalRelevanceChoices.UNCERTAIN_SIGNIFICANCE
                 ),
                 then=models.Value(True),
             ),
@@ -472,10 +472,10 @@ class GenomicVariant(BaseModel):
             ),
             models.When(
                 models.Q(
-                    clinical_relevance=GenomicVariantClinicalRelevance.LIKELY_PATHOGENIC
+                    clinical_relevance=GenomicVariantClinicalRelevanceChoices.LIKELY_PATHOGENIC
                 )
                 | models.Q(
-                    clinical_relevance=GenomicVariantClinicalRelevance.PATHOGENIC
+                    clinical_relevance=GenomicVariantClinicalRelevanceChoices.PATHOGENIC
                 ),
                 then=models.Value(True),
             ),

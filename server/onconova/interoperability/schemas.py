@@ -152,7 +152,7 @@ class PatientCaseBundle(sc.PatientCase):
     comorbidities: List[sc.ComorbiditiesAssessment] = Field(
         default=[],
     )
-    genomicVariants: List[sc.GenomicVariantSchema] = Field(
+    genomicVariants: List[sc.GenomicVariant] = Field(
         default=[],
         alias="genomic_variants",
         validation_alias=AliasChoices("genomicVariants", "genomic_variants"),

@@ -20,6 +20,8 @@ from onconova.oncology.models.comorbidities import ComorbiditiesAssessmentPanelC
 from onconova.oncology.models.patient_case import PatientCaseVitalStatusChoices, PatientCaseConsentStatusChoices
 from onconova.oncology.models.adverse_event import AdverseEventMitigationCategoryChoices, AdverseEventOutcomeChoices, AdverseEventSuspectedCauseCausalityChoices
 from onconova.oncology.models.genomic_signature import TumorMutationalBurdenStatusChoices, HomologousRecombinationDeficiencyInterpretationChoices
+from onconova.oncology.models.genomic_variant import GenomicVariantAssessmentChoices, GenomicVariantConfidenceChoices, GenomicVariantClinicalRelevanceChoices
+
 
 def is_running_pytest():
     return "pytest" in sys.modules
@@ -466,10 +468,10 @@ class GenomicVariantFactory(factory.django.DjangoModelFactory):
     case = factory.SubFactory(PatientCaseFactory)
     date = factory.LazyFunction(faker.date)
     gene_panel = factory.LazyFunction(faker.company)
-    assessment = FuzzyChoice(models.GenomicVariant.GenomicVariantAssessment)
-    confidence = FuzzyChoice(models.GenomicVariant.GenomicVariantConfidence)
+    assessment = FuzzyChoice(GenomicVariantAssessmentChoices)
+    confidence = FuzzyChoice(GenomicVariantConfidenceChoices)
     clinical_relevance = FuzzyChoice(
-        models.GenomicVariant.GenomicVariantClinicalRelevance
+        GenomicVariantClinicalRelevanceChoices
     )
     analysis_method = make_terminology_factory(
         terminology.StructuralVariantAnalysisMethod

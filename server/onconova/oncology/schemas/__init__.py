@@ -30,7 +30,7 @@ from .genomic_signature import (
     TumorNeoantigenBurdenCreate,
     TumorNeoantigenBurden,
 )
-from .genomic_variant import GenomicVariantCreateSchema, GenomicVariantSchema
+from .genomic_variant import GenomicVariantCreate, GenomicVariant
 from .lifestyle import LifestyleCreate, Lifestyle
 from .neoplastic_entity import NeoplasticEntityCreate, NeoplasticEntity
 from .patient_case import (
@@ -145,7 +145,7 @@ ComorbiditiesAssessmentFilters = create_filters_schema(
     schema=ComorbiditiesAssessment, name="ComorbiditiesAssessmentFilters"
 )
 GenomicVariantFilters = create_filters_schema(
-    schema=GenomicVariantSchema, name="GenomicVariantFilters"
+    schema=GenomicVariant, name="GenomicVariantFilters"
 )
 GenomicSignatureFilters = create_filters_schema(
     schema=GenomicSignature, name="GenomicSignatureFilters"
@@ -250,8 +250,8 @@ ONCOLOGY_SCHEMAS = (
     ComorbiditiesPanel,
     ComorbidityPanelCategory,
     # Genomic variant schemas
-    GenomicVariantSchema,
-    GenomicVariantCreateSchema,
+    GenomicVariant,
+    GenomicVariantCreate,
     # Genomic signature schemas
     GenomicSignature,
     TumorMutationalBurden,

@@ -216,8 +216,8 @@ class TestGenomicVariantController(CrudApiControllerTestCase):
     controller_path = "/api/v1/genomic-variants"
     FACTORY = factories.GenomicVariantFactory
     MODEL = models.GenomicVariant
-    SCHEMA = schemas.GenomicVariantSchema
-    CREATE_SCHEMA = schemas.GenomicVariantCreateSchema
+    SCHEMA = schemas.GenomicVariant
+    CREATE_SCHEMA = schemas.GenomicVariantCreate
 
     @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
     def test_get_gene_panels(self, scenario, config):
