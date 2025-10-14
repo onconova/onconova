@@ -96,7 +96,7 @@ from .tumor_board import (
     UnspecifiedTumorBoardCreate,
     UnspecifiedTumorBoard,
 )
-from .tumor_marker import TumorMarkerCreateSchema, TumorMarkerSchema
+from .tumor_marker import TumorMarkerCreate, TumorMarker
 from .vitals import VitalsCreateSchema, VitalsSchema
 
 # Filter schemas
@@ -109,7 +109,7 @@ NeoplasticEntityFilters = create_filters_schema(
     schema=NeoplasticEntity, name="NeoplasticEntityFilters"
 )
 TumorMarkerFilters = create_filters_schema(
-    schema=TumorMarkerSchema, name="TumorMarkerFilters"
+    schema=TumorMarker, name="TumorMarkerFilters"
 )
 StagingFilters = create_filters_schema(schema=Staging, name="StagingFilters")
 RiskAssessmentFilters = create_filters_schema(
@@ -192,8 +192,8 @@ ONCOLOGY_SCHEMAS = (
     LymphomaStaging,
     LymphomaStagingCreate,
     # Tumor marker schemas
-    TumorMarkerSchema,
-    TumorMarkerCreateSchema,
+    TumorMarker,
+    TumorMarkerCreate,
     # Risk assessment schemas
     RiskAssessment,
     RiskAssessmentCreate,

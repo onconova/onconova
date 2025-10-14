@@ -43,8 +43,8 @@ class TestTumorMarkerController(CrudApiControllerTestCase):
     controller_path = "/api/v1/tumor-markers"
     FACTORY = factories.TumorMarkerTestFactory
     MODEL = models.TumorMarker
-    SCHEMA = schemas.TumorMarkerSchema
-    CREATE_SCHEMA = schemas.TumorMarkerCreateSchema
+    SCHEMA = schemas.TumorMarker
+    CREATE_SCHEMA = schemas.TumorMarkerCreate
 
 
 class TestRiskAssessmentController(CrudApiControllerTestCase):

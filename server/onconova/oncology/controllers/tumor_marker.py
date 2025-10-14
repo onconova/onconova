@@ -14,12 +14,9 @@ from onconova.core.history.schemas import HistoryEvent
 from onconova.core.schemas import ModifiedResource as ModifiedResourceSchema
 from onconova.core.schemas import Paginated
 from onconova.core.utils import COMMON_HTTP_ERRORS
-from onconova.oncology.models import TumorMarker
-from onconova.oncology.models.tumor_marker import ANALYTES_DATA, AnalyteDetails
-from onconova.oncology.schemas import (
-    TumorMarkerCreateSchema,
-    TumorMarkerFilters,
-    TumorMarkerSchema,
+from onconova.oncology import (
+    models as orm, 
+    schemas as scm,
 )
 
 
@@ -33,7 +30,7 @@ class TumorMarkerController(ControllerBase):
     @route.get(
         path="",
         response={
-            200: Paginated[TumorMarkerSchema],
+            200: Paginated[scm.TumorMarker],
             **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
@@ -42,8 +39,8 @@ class TumorMarkerController(ControllerBase):
     @paginate()
     @ordering()
     @anonymize()
-    def get_all_tumor_markers_matching_the_query(self, query: Query[TumorMarkerFilters]):  # type: ignore
-        queryset = TumorMarker.objects.all().order_by("-date")
+    def get_all_tumor_markers_matching_the_query(self, query: Query[scm.TumorMarkerFilters]):  # type: ignore
+        queryset = orm.TumorMarker.objects.all().order_by("-date")
         return query.filter(queryset)
 
     @route.post(
@@ -52,18 +49,18 @@ class TumorMarkerController(ControllerBase):
         permissions=[perms.CanManageCases],
         operation_id="createTumorMarker",
     )
-    def create_tumor_marker(self, payload: TumorMarkerCreateSchema):  # type: ignore
+    def create_tumor_marker(self, payload: scm.TumorMarkerCreate):  # type: ignore
         return 201, payload.model_dump_django()
 
     @route.get(
         path="/{tumorMarkerId}",
-        response={200: TumorMarkerSchema, 404: None, **COMMON_HTTP_ERRORS},
+        response={200: scm.TumorMarker, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCases],
         operation_id="getTumorMarkerById",
     )
     @anonymize()
     def get_tumor_marker_by_id(self, tumorMarkerId: str):
-        return get_object_or_404(TumorMarker, id=tumorMarkerId)
+        return get_object_or_404(orm.TumorMarker, id=tumorMarkerId)
 
     @route.put(
         path="/{tumorMarkerId}",
@@ -71,8 +68,8 @@ class TumorMarkerController(ControllerBase):
         permissions=[perms.CanManageCases],
         operation_id="updateTumorMarkerById",
     )
-    def update_neoplastic_entity(self, tumorMarkerId: str, payload: TumorMarkerCreateSchema):  # type: ignore
-        instance = get_object_or_404(TumorMarker, id=tumorMarkerId)
+    def update_neoplastic_entity(self, tumorMarkerId: str, payload: scm.TumorMarkerCreate):  
+        instance = get_object_or_404(orm.TumorMarker, id=tumorMarkerId)
         return payload.model_dump_django(instance=instance)
 
     @route.delete(
@@ -82,13 +79,13 @@ class TumorMarkerController(ControllerBase):
         operation_id="deleteTumorMarkerById",
     )
     def delete_tumor_marker(self, tumorMarkerId: str):
-        get_object_or_404(TumorMarker, id=tumorMarkerId).delete()
+        get_object_or_404(orm.TumorMarker, id=tumorMarkerId).delete()
         return 204, None
 
     @route.get(
         path="/{tumorMarkerId}/history/events",
         response={
-            200: Paginated[HistoryEvent.bind_schema(TumorMarkerCreateSchema)],
+            200: Paginated[HistoryEvent.bind_schema(scm.TumorMarkerCreate)],
             404: None,
             **COMMON_HTTP_ERRORS,
         },
@@ -98,13 +95,13 @@ class TumorMarkerController(ControllerBase):
     @paginate()
     @ordering()
     def get_all_tumor_marker_history_events(self, tumorMarkerId: str):
-        instance = get_object_or_404(TumorMarker, id=tumorMarkerId)
+        instance = get_object_or_404(orm.TumorMarker, id=tumorMarkerId)
         return pghistory.models.Events.objects.tracks(instance).all()  # type: ignore
 
     @route.get(
         path="/{tumorMarkerId}/history/events/{eventId}",
         response={
-            200: HistoryEvent.bind_schema(TumorMarkerCreateSchema),
+            200: HistoryEvent.bind_schema(scm.TumorMarkerCreate),
             404: None,
             **COMMON_HTTP_ERRORS,
         },
@@ -112,7 +109,7 @@ class TumorMarkerController(ControllerBase):
         operation_id="getTumorMarkerHistoryEventById",
     )
     def get_tumor_marker_history_event_by_id(self, tumorMarkerId: str, eventId: str):
-        instance = get_object_or_404(TumorMarker, id=tumorMarkerId)
+        instance = get_object_or_404(orm.TumorMarker, id=tumorMarkerId)
         return get_object_or_404(
             pghistory.models.Events.objects.tracks(instance), pgh_id=eventId  # type: ignore
         )
@@ -124,17 +121,17 @@ class TumorMarkerController(ControllerBase):
         operation_id="revertTumorMarkerToHistoryEvent",
     )
     def revert_tumor_marker_to_history_event(self, tumorMarkerId: str, eventId: str):
-        instance = get_object_or_404(TumorMarker, id=tumorMarkerId)
+        instance = get_object_or_404(orm.TumorMarker, id=tumorMarkerId)
         return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()
 
     @route.get(
         path="analytes/{analyteCode}/details",
-        response={200: AnalyteDetails, 404: None, **COMMON_HTTP_ERRORS},
+        response={200: orm.tumor_marker.AnalyteDetails, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCases],
         operation_id="getTumorMarkerAnalyteDetailsByCode",
     )
     def get_tumor_marker_analyte_details_by_code(self, analyteCode: str):
-        instance = ANALYTES_DATA.get(analyteCode)
+        instance = orm.tumor_marker.ANALYTES_DATA.get(analyteCode)
         if instance is None:
             return 404, None
         return 200, instance

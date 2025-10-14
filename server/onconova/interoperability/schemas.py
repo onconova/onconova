@@ -108,7 +108,7 @@ class PatientCaseBundle(sc.PatientCase):
     ] = Field(
         default=[],
     )
-    tumorMarkers: List[sc.TumorMarkerSchema] = Field(
+    tumorMarkers: List[sc.TumorMarker] = Field(
         default=[],
         alias="tumor_markers",
         validation_alias=AliasChoices("tumorMarkers", "tumor_markers"),
