@@ -9,8 +9,8 @@ from .adverse_event import (
     AdverseEventSuspectedCause,
 )
 from .comorbidities import (
-    ComorbiditiesAssessmentCreateSchema,
-    ComorbiditiesAssessmentSchema,
+    ComorbiditiesAssessmentCreate,
+    ComorbiditiesAssessment,
     ComorbiditiesPanel,
     ComorbidityPanelCategory,
 )
@@ -142,7 +142,7 @@ TumorBoardFilters = create_filters_schema(
 )
 VitalsFilters = create_filters_schema(schema=VitalsSchema, name="VitalsFilters")
 ComorbiditiesAssessmentFilters = create_filters_schema(
-    schema=ComorbiditiesAssessmentSchema, name="ComorbiditiesAssessmentFilters"
+    schema=ComorbiditiesAssessment, name="ComorbiditiesAssessmentFilters"
 )
 GenomicVariantFilters = create_filters_schema(
     schema=GenomicVariantSchema, name="GenomicVariantFilters"
@@ -245,8 +245,8 @@ ONCOLOGY_SCHEMAS = (
     VitalsSchema,
     VitalsCreateSchema,
     # Comorbidities
-    ComorbiditiesAssessmentSchema,
-    ComorbiditiesAssessmentCreateSchema,
+    ComorbiditiesAssessment,
+    ComorbiditiesAssessmentCreate,
     ComorbiditiesPanel,
     ComorbidityPanelCategory,
     # Genomic variant schemas

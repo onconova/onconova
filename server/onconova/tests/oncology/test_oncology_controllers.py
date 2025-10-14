@@ -323,8 +323,8 @@ class TestComorbiditiesAssessmentController(CrudApiControllerTestCase):
     controller_path = "/api/v1/comorbidities-assessments"
     FACTORY = factories.ComorbiditiesAssessmentFactory
     MODEL = models.ComorbiditiesAssessment
-    SCHEMA = schemas.ComorbiditiesAssessmentSchema
-    CREATE_SCHEMA = schemas.ComorbiditiesAssessmentCreateSchema
+    SCHEMA = schemas.ComorbiditiesAssessment
+    CREATE_SCHEMA = schemas.ComorbiditiesAssessmentCreate
 
     @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
     def test_get_all_comorbidities_panels(self, scenario, config):

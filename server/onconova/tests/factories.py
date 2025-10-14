@@ -16,7 +16,7 @@ import onconova.research.models.cohort as cohorts_models
 import onconova.research.models.project as projects_models
 import onconova.terminology.models as terminology
 from onconova.core.auth.models import User
-from onconova.oncology.models.comorbidities import ComorbiditiesPanel
+from onconova.oncology.models.comorbidities import ComorbiditiesAssessmentPanelChoices
 from onconova.oncology.models.patient_case import PatientCaseVitalStatusChoices, PatientCaseConsentStatusChoices
 from onconova.oncology.models.adverse_event import AdverseEventMitigationCategoryChoices, AdverseEventOutcomeChoices, AdverseEventSuspectedCauseCausalityChoices
 
@@ -687,7 +687,7 @@ class ComorbiditiesAssessmentFactory(factory.django.DjangoModelFactory):
     case = factory.SubFactory(PatientCaseFactory)
     date = factory.LazyFunction(faker.date)
     index_condition = factory.SubFactory(PrimaryNeoplasticEntityFactory)
-    panel = FuzzyChoice(ComorbiditiesPanel)
+    panel = FuzzyChoice(ComorbiditiesAssessmentPanelChoices)
     absent_conditions = factory.post_generation(
         make_m2m_terminology_factory(
             "absent_conditions", terminology.ICD10Condition, min=0, max=4
