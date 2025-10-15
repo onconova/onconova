@@ -60,44 +60,25 @@ jobs:
     needs: build-oas-artefacts
     runs-on: ubuntu-latest
     env:
-      ORIGIN_SPEC: "original-spec/openapi.json"
-      MODIFIED_SPEC: "modified-spec/openapi.json"
-      SPECS_LOG: "breaking-changes.log"
-      JSON_DIFF_FILE: "breaking-changes.json"
       GH_COMMENT_FILE: "Github-comment.md"
     steps:
-      - uses: actions/setup-node@v1
-        with:
-          node-version: '13.x'
-
-      - name: Install required tools
-        run: |
-          npm install openapi-diff -g
 
       - name: Download OAS files from artifacts
         uses: actions/download-artifact@v4
 
-      - name: Restore permissions
-        run: |
-          chmod -R 777 ${{ env.ORIGIN_SPEC }}
-          chmod -R 777 ${{ env.MODIFIED_SPEC }}
-
-      - name: Generate report
-        run: |
-          openapi-diff ${{ env.ORIGIN_SPEC }} ${{ env.MODIFIED_SPEC }} | tee ${{ env.SPECS_LOG }}
-          sed -n '1!p' ${{ env.SPECS_LOG }} > ${{ env.JSON_DIFF_FILE }}
-
-      - uses: actions/upload-artifact@v4
+      - name: Detect breaking changes
+        uses: oasdiff/oasdiff-action/breaking@main
         with:
-          name: openapi-diff
-          path: breaking-changes.json
+          base: original-spec/openapi.json
+          revision: modified-spec/openapi.json
 
-      - name: Prepare comment on Github PR
-        run: |
-          sed -n '1p' ${{ env.SPECS_LOG }} >> ${{ env.GH_COMMENT_FILE }}
-          printf "\n\n\`\`\`json\n" >> ${{ env.GH_COMMENT_FILE }}
-          sed -n '1!p' ${{ env.SPECS_LOG }} >> ${{ env.GH_COMMENT_FILE }}
-          printf "\n\`\`\`\n" >> ${{ env.GH_COMMENT_FILE }}
+      - name: Generate changelog 
+        uses: oasdiff/oasdiff-action/changelog@main
+        with:
+          base: original-spec/openapi.json
+          revision: modified-spec/openapi.json
+          format: markdown
+          output-to-file: ${{ env.GH_COMMENT_FILE }}
 
       - name: PR Comment
         run:
