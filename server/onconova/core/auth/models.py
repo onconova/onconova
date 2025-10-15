@@ -297,7 +297,7 @@ class User(AbstractUser):
     class Meta:
         constraints = [
             models.CheckConstraint(
-                check=Q(access_level__gte=0) & Q(access_level__lte=4),
+                condition=Q(access_level__gte=0) & Q(access_level__lte=4),
                 name="access_level_must_be_between_0_and_4",
             )
         ]

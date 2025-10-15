@@ -8,7 +8,7 @@ from django.db.models import Model as DjangoModel
 from ninja import Schema
 
 from onconova.core.auth.models import User
-from onconova.core.auth.schemas import UserExportSchema
+from onconova.core.auth.schemas import UserExport
 from onconova.interoperability.schemas import PatientCaseBundle
 from onconova.oncology import models, schemas
 
@@ -31,7 +31,7 @@ class BundleParser:
         # Import all other resources
         self.list_fields = [
             field_name
-            for field_name, field_info in self.bundle.model_fields.items()
+            for field_name, field_info in self.bundle.__class__.model_fields.items()
             if get_origin(field_info.annotation) is list
             and field_name not in ["history", "contributorsDetails"]
         ]
@@ -88,19 +88,19 @@ class BundleParser:
         }
 
     @staticmethod
-    def get_or_create_user(user: UserExportSchema) -> User:
+    def get_or_create_user(user: UserExport) -> User:
         """
         Retrieves an existing User object by username or creates a new one if it does not exist.
 
         Args:
-            user (UserSchema | str): A UserSchema instance containing user details, or a string representing the username.
+            user (User | str): A User instance containing user details, or a string representing the username.
 
         Returns:
             User: The retrieved or newly created User object, or None if the input is invalid.
 
         Notes:
             - If a string is provided, a new user is created with default inactive and external access level.
-            - If a UserSchema is provided, user details are imported and the user is created as inactive and external.
+            - If a User is provided, user details are imported and the user is created as inactive and external.
         """
         # CHeck if internal user exist
         if (internal_user := User.objects.filter(username=user.username, email=user.email).first()):
@@ -172,7 +172,7 @@ class BundleParser:
         """
         for field_name in [
             field
-            for field in schema_instance.model_fields
+            for field in schema_instance.__class__.model_fields
             if field not in ["externalSourceId"]
         ]:
             if field_name.endswith("Id"):
@@ -217,18 +217,17 @@ class BundleParser:
             if event.user:
                 user = self.users_map.get(event.user)
                 if not user: 
-                    print('Searching: ',event.user, 'In:', self.bundle.contributors, self.bundle.contributorsDetails)
                     raise ValueError(f'Unknown user in bundle definition: {event.user}')
                 # Import the actor of the event
                 user = self.get_or_create_user(user)
             # Manually import the event metadata
-            event_instance = orm_instance.events.create(
+            event_instance = orm_instance.events.create( # type: ignore
                 pgh_obj=orm_instance,
                 pgh_label=event.category,
                 pgh_context=dict(username=user.username if event.user else None),
             )
             # Override the automated timestamp on the event
-            orm_instance.events.filter(pk=event_instance.pk).update(
+            orm_instance.events.filter(pk=event_instance.pk).update( # type: ignore
                 pgh_created_at=event.timestamp
             )
         # Add a manual event for the importing of the data
@@ -261,13 +260,7 @@ class BundleParser:
         if not getattr(resource, "id", None):
             raise ValueError("Resource must have an ID to be imported.")
         # Get the model-create schema for the resource
-        CreateSchema = getattr(schemas, f"{resource.__class__.__name__}CreateSchema")
-        # Filter out related events from the bundle's history
-        events = [
-            event
-            for event in self.bundle.history
-            if str(event.resourceId) == str(resource.id)  # type: ignore
-        ]
+        CreateSchema = getattr(schemas, f"{resource.__class__.__name__}CreateSchema", None) or getattr(schemas, f"{resource.__class__.__name__}Create")
         # Resolve any foreign keys in the resource
         resource = self.resolve_foreign_keys(resource)
         resourceId = resource.id  # type: ignore
@@ -302,7 +295,7 @@ class BundleParser:
         # Conduct the import within a transaction to avoid partial imports in case of an error
         with transaction.atomic():
             # Import the patient case
-            case_schema = schemas.PatientCaseSchema.model_validate(self.bundle)
+            case_schema = schemas.PatientCase.model_validate(self.bundle)
             imported_case = self.import_resource(
                 case_schema,
                 instance=case,

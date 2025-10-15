@@ -8,7 +8,17 @@ from onconova.core.models import BaseModel
 from onconova.oncology.models import NeoplasticEntity, PatientCase
 from onconova.oncology.models.therapy_line import TherapyLine
 
+class SurgeryIntentChoices(models.TextChoices):
+    """
+    An enumeration of possible treatment intents for a surgical procedure.
 
+    Attributes:
+        CURATIVE: Indicates that the surgery is performed with the intention to cure the patient.
+        PALLIATIVE: Indicates that the surgery is performed to relieve symptoms or improve quality of life, without aiming for a cure.
+    """
+    CURATIVE = "curative"
+    PALLIATIVE = "palliative"
+    
 @pghistory.track()
 class Surgery(BaseModel):
     """
@@ -27,17 +37,6 @@ class Surgery(BaseModel):
         therapy_line (models.ForeignKey[TherapyLine]): Therapy line to which the surgery is assigned.
         description (str): Returns a human-readable description of the surgery, including therapy line or intent and procedure.
     """
-
-    class TreatmentIntent(models.TextChoices):
-        """
-        An enumeration of possible treatment intents for a surgical procedure.
-
-        Attributes:
-            CURATIVE: Indicates that the surgery is performed with the intention to cure the patient.
-            PALLIATIVE: Indicates that the surgery is performed to relieve symptoms or improve quality of life, without aiming for a cure.
-        """
-        CURATIVE = "curative"
-        PALLIATIVE = "palliative"
 
     case = models.ForeignKey(
         verbose_name=_("Patient case"),
@@ -68,7 +67,7 @@ class Surgery(BaseModel):
     intent = models.CharField(
         verbose_name=_("Intent"),
         help_text=_("Therapeutic intent of the surgery"),
-        choices=TreatmentIntent,
+        choices=SurgeryIntentChoices,
         max_length=30,
     )
     bodysite = termfields.CodedConceptField(

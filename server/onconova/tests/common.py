@@ -12,6 +12,7 @@ from django.test import Client, TestCase
 from factory.django import DjangoModelFactory
 from faker import Faker
 from parameterized import parameterized
+from ninja import Schema
 
 from onconova.core.auth.models import User
 from onconova.core.models import BaseModel
@@ -270,8 +271,8 @@ class CrudApiControllerTestCase(ApiControllerTestMixin, TestCase):
     FACTORY: type[DjangoModelFactory] | List[type[DjangoModelFactory]]
     factories: List[type[DjangoModelFactory]]
     MODEL: Type[BaseModel] | List[Type[BaseModel]]
-    SCHEMA: Type[ModelGetSchema] | List[Type[ModelGetSchema]]
-    CREATE_SCHEMA: Type[ModelCreateSchema] | List[Type[ModelCreateSchema]]
+    SCHEMA: Type[ModelGetSchema] | List[Type[ModelGetSchema]] | Type[Schema] | List[Type[Schema]]
+    CREATE_SCHEMA: Type[ModelCreateSchema] | List[Type[ModelCreateSchema]]  | Type[Schema] | List[Type[Schema]]
     history_tracked: bool = True
 
     # Internal state

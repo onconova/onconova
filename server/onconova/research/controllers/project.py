@@ -1,7 +1,6 @@
 import pghistory
 from django.shortcuts import get_object_or_404
 from ninja import Query
-from ninja.schema import Field, Schema
 from ninja_extra import ControllerBase, api_controller, route
 from ninja_extra.ordering import ordering
 from ninja_extra.pagination import paginate
@@ -13,15 +12,10 @@ from onconova.core.history.schemas import HistoryEvent
 from onconova.core.schemas import ModifiedResource as ModifiedResourceSchema
 from onconova.core.schemas import Paginated
 from onconova.core.utils import COMMON_HTTP_ERRORS
-from onconova.research.models.project import Project, ProjectDataManagerGrant
-from onconova.research.schemas.project import (
-    ProjectCreateSchema,
-    ProjectDataManagerGrantCreateSchema,
-    ProjectDataManagerGrantSchema,
-    ProjectFilters,
-    ProjectSchema,
+from onconova.research import (
+    models as orm,
+    schemas as scm,
 )
-
 
 @api_controller(
     "projects",
@@ -33,7 +27,7 @@ class ProjectController(ControllerBase):
     @route.get(
         path="",
         response={
-            200: Paginated[ProjectSchema],
+            200: Paginated[scm.Project],
             **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewProjects],
@@ -41,8 +35,8 @@ class ProjectController(ControllerBase):
     )
     @paginate()
     @ordering()
-    def get_all_projects_matching_the_query(self, query: Query[ProjectFilters]):  # type: ignore
-        queryset = Project.objects.all().order_by("-created_at")
+    def get_all_projects_matching_the_query(self, query: Query[scm.ProjectFilters]):  # type: ignore
+        queryset = orm.Project.objects.all().order_by("-created_at")
         return query.filter(queryset)
 
     @route.post(
@@ -51,17 +45,17 @@ class ProjectController(ControllerBase):
         permissions=[perms.CanManageProjects],
         operation_id="createProject",
     )
-    def create_project(self, payload: ProjectCreateSchema):  # type: ignore
+    def create_project(self, payload: scm.ProjectCreate):  # type: ignore
         return 201, payload.model_dump_django()
 
     @route.get(
         path="/{projectId}",
-        response={200: ProjectSchema, 404: None, **COMMON_HTTP_ERRORS},
+        response={200: scm.Project, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewProjects],
         operation_id="getProjectById",
     )
     def get_project_by_id(self, projectId: str):
-        return get_object_or_404(Project, id=projectId)
+        return get_object_or_404(orm.Project, id=projectId)
 
     @route.put(
         path="/{projectId}",
@@ -69,8 +63,8 @@ class ProjectController(ControllerBase):
         permissions=[perms.CanManageProjects],
         operation_id="updateProjectById",
     )
-    def update_project(self, projectId: str, payload: ProjectCreateSchema):  # type: ignore
-        instance = self.get_object_or_exception(Project, id=projectId)
+    def update_project(self, projectId: str, payload: scm.ProjectCreate):  # type: ignore
+        instance = self.get_object_or_exception(orm.Project, id=projectId)
         return payload.model_dump_django(instance=instance)
 
     @route.delete(
@@ -80,13 +74,13 @@ class ProjectController(ControllerBase):
         operation_id="deleteProjectById",
     )
     def delete_project(self, projectId: str):
-        get_object_or_404(Project, id=projectId).delete()
+        get_object_or_404(orm.Project, id=projectId).delete()
         return 204, None
 
     @route.get(
         path="/{projectId}/history/events",
         response={
-            200: Paginated[HistoryEvent.bind_schema(ProjectCreateSchema)],
+            200: Paginated[HistoryEvent.bind_schema(scm.ProjectCreate)],
             404: None,
             **COMMON_HTTP_ERRORS,
         },
@@ -96,13 +90,13 @@ class ProjectController(ControllerBase):
     @paginate()
     @ordering()
     def get_all_project_history_events(self, projectId: str):
-        instance = get_object_or_404(Project, id=projectId)
+        instance = get_object_or_404(orm.Project, id=projectId)
         return pghistory.models.Events.objects.tracks(instance).all()  # type: ignore
 
     @route.get(
         path="/{projectId}/history/events/{eventId}",
         response={
-            200: HistoryEvent.bind_schema(ProjectCreateSchema),
+            200: HistoryEvent.bind_schema(scm.ProjectCreate),
             404: None,
             **COMMON_HTTP_ERRORS,
         },
@@ -110,7 +104,7 @@ class ProjectController(ControllerBase):
         operation_id="getProjectHistoryEventById",
     )
     def get_project_history_event_by_id(self, projectId: str, eventId: str):
-        instance = get_object_or_404(Project, id=projectId)
+        instance = get_object_or_404(orm.Project, id=projectId)
         return get_object_or_404(
             pghistory.models.Events.objects.tracks(instance), pgh_id=eventId  # type: ignore
         )
@@ -122,13 +116,13 @@ class ProjectController(ControllerBase):
         operation_id="revertProjectToHistoryEvent",
     )
     def revert_project_to_history_event(self, projectId: str, eventId: str):
-        instance = self.get_object_or_exception(Project, id=projectId)
+        instance = self.get_object_or_exception(orm.Project, id=projectId)
         return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()
 
     @route.get(
         path="/{projectId}/members/{memberId}/data-management/grants",
         response={
-            200: Paginated[ProjectDataManagerGrantSchema],
+            200: Paginated[scm.ProjectDataManagerGrant],
             **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewProjects],
@@ -137,8 +131,8 @@ class ProjectController(ControllerBase):
     @paginate()
     @ordering()
     def get_all_project_data_manager_grant(self, projectId: str, memberId: str):  # type: ignore
-        return ProjectDataManagerGrant.objects.filter(
-            project=get_object_or_404(Project, id=projectId),
+        return orm.ProjectDataManagerGrant.objects.filter(
+            project=get_object_or_404(orm.Project, id=projectId),
             member=get_object_or_404(User, id=memberId),
         ).order_by("-created_at")
 
@@ -148,15 +142,15 @@ class ProjectController(ControllerBase):
         permissions=[perms.CanManageProjects],
         operation_id="createProjectDataManagerGrant",
     )
-    def create_project_data_manager_grant(self, projectId: str, memberId: str, payload: ProjectDataManagerGrantCreateSchema):  # type: ignore
-        project = self.get_object_or_exception(Project, id=projectId)
+    def create_project_data_manager_grant(self, projectId: str, memberId: str, payload: scm.ProjectDataManagerGrantCreate):  # type: ignore
+        project = self.get_object_or_exception(orm.Project, id=projectId)
         member = get_object_or_404(User, id=memberId)
-        instance = ProjectDataManagerGrant(project=project, member=member)
+        instance = orm.ProjectDataManagerGrant(project=project, member=member)
         return 201, payload.model_dump_django(instance=instance)
 
     @route.get(
         path="/{projectId}/members/{memberId}/data-management/grants/{grantId}",
-        response={200: ProjectDataManagerGrantSchema, 404: None, **COMMON_HTTP_ERRORS},
+        response={200: scm.ProjectDataManagerGrant, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewProjects],
         operation_id="getProjectDataManagerGrantById",
     )
@@ -164,7 +158,7 @@ class ProjectController(ControllerBase):
         self, projectId: str, memberId: str, grantId: str
     ):
         return 200, get_object_or_404(
-            ProjectDataManagerGrant,
+            orm.ProjectDataManagerGrant,
             id=grantId,
             project_id=projectId,
             member_id=memberId,
@@ -180,10 +174,10 @@ class ProjectController(ControllerBase):
         self, projectId: str, memberId: str, grantId: str
     ):
         # Get project and check whether user can manage it
-        project = self.get_object_or_exception(Project, id=projectId)
+        project = self.get_object_or_exception(orm.Project, id=projectId)
         # Get management grant instance
         instance = get_object_or_404(
-            ProjectDataManagerGrant,
+            orm.ProjectDataManagerGrant,
             id=grantId,
             project_id=project.id,
             member_id=memberId,
@@ -195,7 +189,7 @@ class ProjectController(ControllerBase):
     @route.get(
         path="/{projectId}/members/{memberId}/data-management/grants/{grantId}/history/events",
         response={
-            200: Paginated[HistoryEvent.bind_schema(ProjectCreateSchema)],
+            200: Paginated[HistoryEvent.bind_schema(scm.ProjectCreate)],
             404: None,
             **COMMON_HTTP_ERRORS,
         },
@@ -208,7 +202,7 @@ class ProjectController(ControllerBase):
         self, projectId: str, memberId: str, grantId: str
     ):
         instance = get_object_or_404(
-            ProjectDataManagerGrant,
+            orm.ProjectDataManagerGrant,
             id=grantId,
             project_id=projectId,
             member_id=memberId,
@@ -218,7 +212,7 @@ class ProjectController(ControllerBase):
     @route.get(
         path="/{projectId}/members/{memberId}/data-management/grants/{grantId}/history/events/{eventId}",
         response={
-            200: HistoryEvent.bind_schema(ProjectCreateSchema),
+            200: HistoryEvent.bind_schema(scm.ProjectCreate),
             404: None,
             **COMMON_HTTP_ERRORS,
         },
@@ -229,7 +223,7 @@ class ProjectController(ControllerBase):
         self, projectId: str, memberId: str, grantId: str, eventId: str
     ):
         instance = get_object_or_404(
-            ProjectDataManagerGrant,
+            orm.ProjectDataManagerGrant,
             id=grantId,
             project_id=projectId,
             member_id=memberId,
@@ -248,9 +242,9 @@ class ProjectController(ControllerBase):
         self, projectId: str, memberId: str, grantId: str, eventId: str
     ):
         # Get project and check whether user can manage it
-        project = self.get_object_or_exception(Project, id=projectId)
+        project = self.get_object_or_exception(orm.Project, id=projectId)
         instance = get_object_or_404(
-            ProjectDataManagerGrant,
+            orm.ProjectDataManagerGrant,
             id=grantId,
             project_id=project.id,
             member_id=memberId,

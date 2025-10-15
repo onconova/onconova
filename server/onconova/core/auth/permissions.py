@@ -165,7 +165,6 @@ class CanManageProjects(BasePermission):
         return user.can_manage_projects
 
     def check_user_object_permission(self, user, _, project: Project):
-        print("CHECKING PROJECT ROLE: ", user.role)
         # Elevated roles can manage any project
         if user.role in (
             User.AccessRoles.PLATFORM_MANAGER,

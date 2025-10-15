@@ -15,6 +15,42 @@ from onconova.oncology.models.systemic_therapy import (
 )
 
 
+
+class AdverseEventOutcomeChoices(models.TextChoices):
+    """
+    Enumeration of possible outcomes for an adverse event.
+
+    Attributes:
+        RESOLVED: The adverse event has been resolved.
+        RESOLVED_WITH_SEQUELAE: The adverse event has resolved but with lasting effects (sequelae).
+        RECOVERING: The subject is currently recovering from the adverse event.
+        ONGOING: The adverse event is ongoing.
+        FATAL: The adverse event resulted in death.
+        UNKNOWN: The outcome of the adverse event is unknown.
+    """
+    RESOLVED = "resolved"
+    RESOLVED_WITH_SEQUELAE = "resolved-with-sequelae"
+    RECOVERING = "recovering"
+    ONGOING = "ongoing"
+    FATAL = "fatal"
+    UNKNOWN = "unknown"
+
+
+class AdverseEventSuspectedCauseCausalityChoices(models.TextChoices):
+    UNRELATED = "unrelated"
+    UNLEKELY_RELATED = "unlikely-related"
+    POSSIBLY_RELATED = "possibly-related"
+    PROBABLY_RELATED = "probably-related"
+    DEFINITELY_RELATED = "definitely-related"
+    CONDITIONALLY_RELATED = "conditionally-related"
+
+
+class AdverseEventMitigationCategoryChoices(models.TextChoices):
+    ADJUSTMENT = "adjustment"
+    PHARMACOLOGICAL = "pharmacological"
+    PROCEDIRE = "procedure"
+
+
 @pghistory.track()
 class AdverseEvent(BaseModel):
     """
@@ -29,26 +65,7 @@ class AdverseEvent(BaseModel):
         date_resolved (models.DateField): Date when the adverse event ended or returned to baseline.
         is_resolved (models.BooleanField): Indicates whether the adverse event has been resolved.
     """
-
-    class AdverseEventOutcome(models.TextChoices):
-        """
-        Enumeration of possible outcomes for an adverse event.
-
-        Attributes:
-            RESOLVED: The adverse event has been resolved.
-            RESOLVED_WITH_SEQUELAE: The adverse event has resolved but with lasting effects (sequelae).
-            RECOVERING: The subject is currently recovering from the adverse event.
-            ONGOING: The adverse event is ongoing.
-            FATAL: The adverse event resulted in death.
-            UNKNOWN: The outcome of the adverse event is unknown.
-        """
-        RESOLVED = "resolved"
-        RESOLVED_WITH_SEQUELAE = "resolved-with-sequelae"
-        RECOVERING = "recovering"
-        ONGOING = "ongoing"
-        FATAL = "fatal"
-        UNKNOWN = "unknown"
-
+    
     case = models.ForeignKey(
         verbose_name=_("Patient case"),
         help_text=_(
@@ -77,7 +94,7 @@ class AdverseEvent(BaseModel):
     outcome = models.CharField(
         verbose_name=_("Date resolved"),
         help_text=_("The date when the adverse event ended or returned to baseline."),
-        choices=AdverseEventOutcome,
+        choices=AdverseEventOutcomeChoices,
         max_length=50,
     )
     date_resolved = models.DateField(
@@ -91,8 +108,8 @@ class AdverseEvent(BaseModel):
         help_text=_("Indicates whether the adverse event has been resolved"),
         expression=models.Case(
             models.When(
-                models.Q(outcome=AdverseEventOutcome.RESOLVED)
-                | models.Q(outcome=AdverseEventOutcome.RESOLVED_WITH_SEQUELAE),
+                models.Q(outcome=AdverseEventOutcomeChoices.RESOLVED)
+                | models.Q(outcome=AdverseEventOutcomeChoices.RESOLVED_WITH_SEQUELAE),
                 then=models.Value(True),
             ),
             default=models.Value(False),
@@ -123,14 +140,6 @@ class AdverseEventSuspectedCause(BaseModel):
         surgery (models.ForeignKey[Surgery]): Suspected surgery causing the adverse event.
         causality (models.CharField[AdverseEventCausality]): Assessment of the potential causality, chosen from predefined options.
     """
-
-    class AdverseEventCausality(models.TextChoices):
-        UNRELATED = "unrelated"
-        UNLEKELY_RELATED = "unlikely-related"
-        POSSIBLY_RELATED = "possibly-related"
-        PROBABLY_RELATED = "probably-related"
-        DEFINITELY_RELATED = "definitely-related"
-        CONDITIONALLY_RELATED = "conditionally-related"
 
     adverse_event = models.ForeignKey(
         verbose_name=_("Adverse event"),
@@ -180,7 +189,7 @@ class AdverseEventSuspectedCause(BaseModel):
     causality = models.CharField(
         verbose_name=_("Causality"),
         help_text=_("Assessment of the potential causality"),
-        choices=AdverseEventCausality,
+        choices=AdverseEventSuspectedCauseCausalityChoices,
         max_length=50,
         blank=True,
         null=True,
@@ -223,11 +232,6 @@ class AdverseEventMitigation(BaseModel):
         management (termfields.CodedConceptField[terminologies.AdverseEventMitigationManagement]): Management type of the adverse event mitigation (optional).
     """
 
-    class AdverseEventMitigationCategory(models.TextChoices):
-        ADJUSTMENT = "adjustment"
-        PHARMACOLOGICAL = "pharmacological"
-        PROCEDIRE = "procedure"
-
     adverse_event = models.ForeignKey(
         verbose_name=_("Adverse event"),
         help_text=_("Adverse event to which this mitigation belongs to"),
@@ -238,7 +242,7 @@ class AdverseEventMitigation(BaseModel):
     category = models.CharField(
         verbose_name=_("Mitigation category"),
         help_text=_("Type of mitigation employed"),
-        choices=AdverseEventMitigationCategory,
+        choices=AdverseEventMitigationCategoryChoices,
         max_length=50,
     )
     adjustment = termfields.CodedConceptField(

@@ -134,7 +134,7 @@ class PerformanceStatus(BaseModel):
     class Meta:
         constraints = [
             models.CheckConstraint(
-                check=models.Q(ecog_score__isnull=False)
+                condition=models.Q(ecog_score__isnull=False)
                 | models.Q(karnofsky_score__isnull=False),
                 name="at_least_one_score_must_be_set",
             )

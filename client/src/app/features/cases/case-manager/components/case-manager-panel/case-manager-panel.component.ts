@@ -15,7 +15,7 @@ import { Skeleton } from 'primeng/skeleton';
 
 import { AuthService } from 'src/app/core/auth/services/auth.service';
 import { CaseManagerDrawerComponent } from '../case-manager-drawer/case-manager-drawer.component';
-import { PatientCasesService, PatientCaseDataCategories } from 'onconova-api-client';
+import { PatientCasesService, PatientCaseDataCategoryChoices } from 'onconova-api-client';
 
 import { LucideAngularModule } from 'lucide-angular';
 import { LucideIconData } from 'lucide-angular/icons/types';
@@ -66,7 +66,7 @@ export class CaseManagerPanelComponent {
 
 
     public caseId = input.required<string>();
-    public category = input.required<PatientCaseDataCategories>();
+    public category = input.required<PatientCaseDataCategoryChoices>();
     public service = input.required<DataService>();
     public title = input<string>();
     public icon = input.required<LucideIconData>();

@@ -15,6 +15,10 @@ from onconova.core.models import BaseModel
 from onconova.oncology.models import NeoplasticEntity, PatientCase
 from onconova.oncology.models.therapy_line import TherapyLine
 
+class RadiotherapyIntentChoices(models.TextChoices):
+    CURATIVE = "curative"
+    PALLIATIVE = "palliative"
+
 
 @pghistory.track()
 class Radiotherapy(BaseModel):
@@ -35,10 +39,6 @@ class Radiotherapy(BaseModel):
     """
 
     objects = QueryablePropertiesManager()
-
-    class TreatmentIntent(models.TextChoices):
-        CURATIVE = "curative"
-        PALLIATIVE = "palliative"
 
     case = models.ForeignKey(
         verbose_name=_("Patient case"),
@@ -92,7 +92,7 @@ class Radiotherapy(BaseModel):
     intent = models.CharField(
         verbose_name=_("Intent"),
         help_text=_("Treatment intent of the system therapy"),
-        choices=TreatmentIntent,
+        choices=RadiotherapyIntentChoices,
         max_length=30,
     )
     termination_reason = termfields.CodedConceptField(

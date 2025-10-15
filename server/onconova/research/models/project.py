@@ -10,6 +10,20 @@ from queryable_properties.properties import AnnotationProperty
 from onconova.core.auth.models import User
 from onconova.core.models import BaseModel
 
+class ProjectStatusChoices(models.TextChoices):
+    """
+    An enumeration representing the possible statuses of a project.
+
+    Attributes:
+        PLANNED: Indicates the project is planned but not yet started.
+        ONGOING: Indicates the project is currently in progress.
+        COMPLETED: Indicates the project has been finished.
+        ABORTED: Indicates the project was stopped before completion.
+    """
+    PLANNED = "planned"
+    ONGOING = "ongoing"
+    COMPLETED = "completed"
+    ABORTED = "aborted"
 
 @pghistory.track()
 class Project(BaseModel):
@@ -24,26 +38,11 @@ class Project(BaseModel):
         title (models.CharField): Unique title of the project.
         summary (models.CharField): Description of the project.
         ethics_approval_number (models.CharField): Ethics approval number for the project.
-        status (models.CharField): Current status of the project, chosen from ProjectStatus.
+        status (models.CharField): Current status of the project, chosen from ProjectStatusChoices.
         data_constraints (models.JSONField): Data constraints associated with the project.
     """ 
     
     objects = QueryablePropertiesManager()
-
-    class ProjectStatus(models.TextChoices):
-        """
-        An enumeration representing the possible statuses of a project.
-
-        Attributes:
-            PLANNED: Indicates the project is planned but not yet started.
-            ONGOING: Indicates the project is currently in progress.
-            COMPLETED: Indicates the project has been finished.
-            ABORTED: Indicates the project was stopped before completion.
-        """
-        PLANNED = "planned"
-        ONGOING = "ongoing"
-        COMPLETED = "completed"
-        ABORTED = "aborted"
 
     leader = models.ForeignKey(
         verbose_name=_("Project leader"),
@@ -84,8 +83,8 @@ class Project(BaseModel):
         verbose_name=_("Project status"),
         help_text=_("Status of the project"),
         max_length=20,
-        choices=ProjectStatus.choices,
-        default=ProjectStatus.PLANNED,
+        choices=ProjectStatusChoices.choices,
+        default=ProjectStatusChoices.PLANNED,
     )
     data_constraints = models.JSONField(
         verbose_name=_("Data constraints"),

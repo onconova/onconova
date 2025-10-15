@@ -14,21 +14,10 @@ from onconova.core.history.schemas import HistoryEvent
 from onconova.core.schemas import ModifiedResource as ModifiedResourceSchema
 from onconova.core.schemas import Paginated
 from onconova.core.utils import COMMON_HTTP_ERRORS
-from onconova.oncology.models import (
-    AdverseEvent,
-    AdverseEventMitigation,
-    AdverseEventSuspectedCause,
+from onconova.oncology import (
+    schemas as scm,
+    models as orm,
 )
-from onconova.oncology.schemas import (
-    AdverseEventCreateSchema,
-    AdverseEventFilters,
-    AdverseEventMitigationCreateSchema,
-    AdverseEventMitigationSchema,
-    AdverseEventSchema,
-    AdverseEventSuspectedCauseCreateSchema,
-    AdverseEventSuspectedCauseSchema,
-)
-
 
 @api_controller(
     "adverse-events",
@@ -39,15 +28,15 @@ class AdverseEventController(ControllerBase):
 
     @route.get(
         path="",
-        response={200: Paginated[AdverseEventSchema], **COMMON_HTTP_ERRORS},
+        response={200: Paginated[scm.AdverseEvent], **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCases],
         operation_id="getAdverseEvents",
     )
     @paginate()
     @ordering()
     @anonymize()
-    def get_all_adverse_events_matching_the_query(self, query: Query[AdverseEventFilters]):  # type: ignore
-        queryset = AdverseEvent.objects.all()
+    def get_all_adverse_events_matching_the_query(self, query: Query[scm.AdverseEventFilters]): # type: ignore 
+        queryset = orm.AdverseEvent.objects.all()
         return query.filter(queryset)
 
     @route.post(
@@ -56,18 +45,18 @@ class AdverseEventController(ControllerBase):
         permissions=[perms.CanManageCases],
         operation_id="createAdverseEvent",
     )
-    def create_adverse_event(self, payload: AdverseEventCreateSchema):  # type: ignore
-        return 201, AdverseEventCreateSchema.model_validate(payload).model_dump_django()
+    def create_adverse_event(self, payload: scm.AdverseEventCreate):  
+        return 201, scm.AdverseEventCreate.model_validate(payload).model_dump_django()
 
     @route.get(
         path="/{adverseEventId}",
-        response={200: AdverseEventSchema, 404: None, **COMMON_HTTP_ERRORS},
+        response={200: scm.AdverseEvent, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCases],
         operation_id="getAdverseEventById",
     )
     @anonymize()
     def get_adverse_event_by_id(self, adverseEventId: str):
-        return get_object_or_404(AdverseEvent, id=adverseEventId)
+        return get_object_or_404(orm.AdverseEvent, id=adverseEventId)
 
     @route.delete(
         path="/{adverseEventId}",
@@ -76,7 +65,7 @@ class AdverseEventController(ControllerBase):
         operation_id="deleteAdverseEventById",
     )
     def delete_adverse_event(self, adverseEventId: str):
-        get_object_or_404(AdverseEvent, id=adverseEventId).delete()
+        get_object_or_404(orm.AdverseEvent, id=adverseEventId).delete()
         return 204, None
 
     @route.put(
@@ -85,14 +74,14 @@ class AdverseEventController(ControllerBase):
         permissions=[perms.CanManageCases],
         operation_id="updateAdverseEvent",
     )
-    def update_adverse_event(self, adverseEventId: str, payload: AdverseEventCreateSchema):  # type: ignore
-        instance = get_object_or_404(AdverseEvent, id=adverseEventId)
+    def update_adverse_event(self, adverseEventId: str, payload: scm.AdverseEventCreate):  
+        instance = get_object_or_404(orm.AdverseEvent, id=adverseEventId)
         return payload.model_dump_django(instance=instance)
 
     @route.get(
         path="/{adverseEventId}/history/events",
         response={
-            200: Paginated[HistoryEvent.bind_schema(AdverseEventCreateSchema)],
+            200: Paginated[HistoryEvent.bind_schema(scm.AdverseEventCreate)],
             404: None,
             **COMMON_HTTP_ERRORS,
         },
@@ -102,13 +91,13 @@ class AdverseEventController(ControllerBase):
     @paginate()
     @ordering()
     def get_all_adverse_event_history_events(self, adverseEventId: str):
-        instance = get_object_or_404(AdverseEvent, id=adverseEventId)
-        return pghistory.models.Events.objects.tracks(instance).all()  # type: ignore # type: ignore
+        instance = get_object_or_404(orm.AdverseEvent, id=adverseEventId)
+        return pghistory.models.Events.objects.tracks(instance).all()   
 
     @route.get(
         path="/{adverseEventId}/history/events/{eventId}",
         response={
-            200: HistoryEvent.bind_schema(AdverseEventCreateSchema),
+            200: HistoryEvent.bind_schema(scm.AdverseEventCreate),
             404: None,
             **COMMON_HTTP_ERRORS,
         },
@@ -116,9 +105,9 @@ class AdverseEventController(ControllerBase):
         operation_id="getAdverseEventHistoryEventById",
     )
     def get_adverse_event_history_event_by_id(self, adverseEventId: str, eventId: str):
-        instance = get_object_or_404(AdverseEvent, id=adverseEventId)
+        instance = get_object_or_404(orm.AdverseEvent, id=adverseEventId)
         return get_object_or_404(
-            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId  # type: ignore
+            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId  
         )
 
     @route.put(
@@ -128,13 +117,13 @@ class AdverseEventController(ControllerBase):
         operation_id="revertAdverseEventToHistoryEvent",
     )
     def revert_adverse_event_to_history_event(self, adverseEventId: str, eventId: str):
-        instance = get_object_or_404(AdverseEvent, id=adverseEventId)
+        instance = get_object_or_404(orm.AdverseEvent, id=adverseEventId)
         return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()
 
     @route.get(
         path="/{adverseEventId}/suspected-causes",
         response={
-            200: List[AdverseEventSuspectedCauseSchema],
+            200: List[scm.AdverseEventSuspectedCause],
             404: None,
             **COMMON_HTTP_ERRORS,
         },
@@ -144,12 +133,12 @@ class AdverseEventController(ControllerBase):
     def get_adverse_event_suspected_causes_matching_the_query(
         self, adverseEventId: str
     ):
-        return get_object_or_404(AdverseEvent, id=adverseEventId).suspected_causes.all()  # type: ignore
+        return get_object_or_404(orm.AdverseEvent, id=adverseEventId).suspected_causes.all()  
 
     @route.get(
         path="/{adverseEventId}/suspected-causes/{causeId}",
         response={
-            200: AdverseEventSuspectedCauseSchema,
+            200: scm.AdverseEventSuspectedCause,
             404: None,
             **COMMON_HTTP_ERRORS,
         },
@@ -160,7 +149,7 @@ class AdverseEventController(ControllerBase):
         self, adverseEventId: str, causeId: str
     ):
         return get_object_or_404(
-            AdverseEventSuspectedCause, id=causeId, adverse_event__id=adverseEventId
+            orm.AdverseEventSuspectedCause, id=causeId, adverse_event__id=adverseEventId
         )
 
     @route.post(
@@ -169,9 +158,9 @@ class AdverseEventController(ControllerBase):
         permissions=[perms.CanManageCases],
         operation_id="createAdverseEventSuspectedCause",
     )
-    def create_adverse_event_suspected_cause(self, adverseEventId: str, payload: AdverseEventSuspectedCauseCreateSchema):  # type: ignore
-        instance = AdverseEventSuspectedCause(
-            adverse_event=get_object_or_404(AdverseEvent, id=adverseEventId)
+    def create_adverse_event_suspected_cause(self, adverseEventId: str, payload: scm.AdverseEventSuspectedCauseCreate):  
+        instance = orm.AdverseEventSuspectedCause(
+            adverse_event=get_object_or_404(orm.AdverseEvent, id=adverseEventId)
         )
         return 201, payload.model_dump_django(instance=instance, create=True)
 
@@ -181,9 +170,9 @@ class AdverseEventController(ControllerBase):
         permissions=[perms.CanManageCases],
         operation_id="updateAdverseEventSuspectedCause",
     )
-    def update_adverse_event_suspected_cause(self, adverseEventId: str, causeId: str, payload: AdverseEventSuspectedCauseCreateSchema):  # type: ignore
+    def update_adverse_event_suspected_cause(self, adverseEventId: str, causeId: str, payload: scm.AdverseEventSuspectedCauseCreate):  
         instance = get_object_or_404(
-            AdverseEventSuspectedCause, id=causeId, adverse_event__id=adverseEventId
+            orm.AdverseEventSuspectedCause, id=causeId, adverse_event__id=adverseEventId
         )
         return payload.model_dump_django(instance=instance)
 
@@ -195,7 +184,7 @@ class AdverseEventController(ControllerBase):
     )
     def delete_adverse_event_suspected_cause(self, adverseEventId: str, causeId: str):
         get_object_or_404(
-            AdverseEventSuspectedCause, id=causeId, adverse_event__id=adverseEventId
+            orm.AdverseEventSuspectedCause, id=causeId, adverse_event__id=adverseEventId
         ).delete()
         return 204, None
 
@@ -203,7 +192,7 @@ class AdverseEventController(ControllerBase):
         path="/{adverseEventId}/suspected-causes/{causeId}/history/events",
         response={
             200: Paginated[
-                HistoryEvent.bind_schema(AdverseEventSuspectedCauseCreateSchema)
+                HistoryEvent.bind_schema(scm.AdverseEventSuspectedCauseCreate)
             ],
             404: None,
             **COMMON_HTTP_ERRORS,
@@ -217,14 +206,14 @@ class AdverseEventController(ControllerBase):
         self, adverseEventId: str, causeId: str
     ):
         instance = get_object_or_404(
-            AdverseEventSuspectedCause, id=causeId, adverse_event__id=adverseEventId
+            orm.AdverseEventSuspectedCause, id=causeId, adverse_event__id=adverseEventId
         )
-        return pghistory.models.Events.objects.tracks(instance).all()  # type: ignore
+        return pghistory.models.Events.objects.tracks(instance).all()  
 
     @route.get(
         path="/{adverseEventId}/suspected-causes/{causeId}/history/events/{eventId}",
         response={
-            200: HistoryEvent.bind_schema(AdverseEventSuspectedCauseCreateSchema),
+            200: HistoryEvent.bind_schema(scm.AdverseEventSuspectedCauseCreate),
             404: None,
             **COMMON_HTTP_ERRORS,
         },
@@ -235,10 +224,10 @@ class AdverseEventController(ControllerBase):
         self, adverseEventId: str, causeId: str, eventId: str
     ):
         instance = get_object_or_404(
-            AdverseEventSuspectedCause, id=causeId, adverse_event__id=adverseEventId
+            orm.AdverseEventSuspectedCause, id=causeId, adverse_event__id=adverseEventId
         )
         return get_object_or_404(
-            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId  # type: ignore # type: ignore
+            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId   
         )
 
     @route.put(
@@ -251,14 +240,14 @@ class AdverseEventController(ControllerBase):
         self, adverseEventId: str, causeId: str, eventId: str
     ):
         instance = get_object_or_404(
-            AdverseEventSuspectedCause, id=causeId, adverse_event__id=adverseEventId
+            orm.AdverseEventSuspectedCause, id=causeId, adverse_event__id=adverseEventId
         )
         return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()
 
     @route.get(
         path="/{adverseEventId}/mitigations",
         response={
-            200: List[AdverseEventMitigationSchema],
+            200: List[scm.AdverseEventMitigation],
             404: None,
             **COMMON_HTTP_ERRORS,
         },
@@ -266,11 +255,11 @@ class AdverseEventController(ControllerBase):
         operation_id="getAdverseEventMitigations",
     )
     def get_adverse_event_mitigations_matching_the_query(self, adverseEventId: str):
-        return get_object_or_404(AdverseEvent, id=adverseEventId).mitigations.all()  # type: ignore
+        return get_object_or_404(orm.AdverseEvent, id=adverseEventId).mitigations.all() 
 
     @route.get(
         path="/{adverseEventId}/mitigations/{mitigationId}",
-        response={200: AdverseEventMitigationSchema, 404: None, **COMMON_HTTP_ERRORS},
+        response={200: scm.AdverseEventMitigation, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCases],
         operation_id="getAdverseEventMitigationById",
     )
@@ -278,7 +267,7 @@ class AdverseEventController(ControllerBase):
         self, adverseEventId: str, mitigationId: str
     ):
         return get_object_or_404(
-            AdverseEventMitigation, id=mitigationId, adverse_event__id=adverseEventId
+            orm.AdverseEventMitigation, id=mitigationId, adverse_event__id=adverseEventId
         )
 
     @route.post(
@@ -287,9 +276,9 @@ class AdverseEventController(ControllerBase):
         permissions=[perms.CanManageCases],
         operation_id="createAdverseEventMitigation",
     )
-    def create_adverse_event_mitigation(self, adverseEventId: str, payload: AdverseEventMitigationCreateSchema):  # type: ignore
-        instance = AdverseEventMitigation(
-            adverse_event=get_object_or_404(AdverseEvent, id=adverseEventId)
+    def create_adverse_event_mitigation(self, adverseEventId: str, payload: scm.AdverseEventMitigationCreate):  
+        instance = orm.AdverseEventMitigation(
+            adverse_event=get_object_or_404(orm.AdverseEvent, id=adverseEventId)
         )
         return 201, payload.model_dump_django(instance=instance, create=True)
 
@@ -299,9 +288,9 @@ class AdverseEventController(ControllerBase):
         permissions=[perms.CanManageCases],
         operation_id="updateAdverseEventMitigation",
     )
-    def update_adverse_event_mitigation(self, adverseEventId: str, mitigationId: str, payload: AdverseEventMitigationCreateSchema):  # type: ignore
+    def update_adverse_event_mitigation(self, adverseEventId: str, mitigationId: str, payload: scm.AdverseEventMitigationCreate):  
         instance = get_object_or_404(
-            AdverseEventMitigation, id=mitigationId, adverse_event__id=adverseEventId
+            orm.AdverseEventMitigation, id=mitigationId, adverse_event__id=adverseEventId
         )
         return payload.model_dump_django(instance=instance)
 
@@ -313,7 +302,7 @@ class AdverseEventController(ControllerBase):
     )
     def delete_adverse_event_mitigation(self, adverseEventId: str, mitigationId: str):
         get_object_or_404(
-            AdverseEventMitigation, id=mitigationId, adverse_event__id=adverseEventId
+            orm.AdverseEventMitigation, id=mitigationId, adverse_event__id=adverseEventId
         ).delete()
         return 204, None
 
@@ -321,7 +310,7 @@ class AdverseEventController(ControllerBase):
         path="/{adverseEventId}/mitigations/{mitigationId}/history/events",
         response={
             200: Paginated[
-                HistoryEvent.bind_schema(AdverseEventMitigationCreateSchema)
+                HistoryEvent.bind_schema(scm.AdverseEventMitigationCreate)
             ],
             404: None,
             **COMMON_HTTP_ERRORS,
@@ -335,14 +324,14 @@ class AdverseEventController(ControllerBase):
         self, adverseEventId: str, mitigationId: str
     ):
         instance = get_object_or_404(
-            AdverseEventMitigation, id=mitigationId, adverse_event__id=adverseEventId
+            orm.AdverseEventMitigation, id=mitigationId, adverse_event__id=adverseEventId
         )
-        return pghistory.models.Events.objects.tracks(instance).all()  # type: ignore
+        return pghistory.models.Events.objects.tracks(instance).all()  
 
     @route.get(
         path="/{adverseEventId}/mitigations/{mitigationId}/history/events/{eventId}",
         response={
-            200: HistoryEvent.bind_schema(AdverseEventMitigationCreateSchema),
+            200: HistoryEvent.bind_schema(scm.AdverseEventMitigationCreate),
             404: None,
             **COMMON_HTTP_ERRORS,
         },
@@ -353,10 +342,10 @@ class AdverseEventController(ControllerBase):
         self, adverseEventId: str, mitigationId: str, eventId: str
     ):
         instance = get_object_or_404(
-            AdverseEventMitigation, id=mitigationId, adverse_event__id=adverseEventId
+            orm.AdverseEventMitigation, id=mitigationId, adverse_event__id=adverseEventId
         )
         return get_object_or_404(
-            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId  # type: ignore
+            pghistory.models.Events.objects.tracks(instance), pgh_id=eventId  
         )
 
     @route.put(
@@ -369,6 +358,6 @@ class AdverseEventController(ControllerBase):
         self, adverseEventId: str, mitigationId: str, eventId: str
     ):
         instance = get_object_or_404(
-            AdverseEventMitigation, id=mitigationId, adverse_event__id=adverseEventId
+            orm.AdverseEventMitigation, id=mitigationId, adverse_event__id=adverseEventId
         )
         return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()

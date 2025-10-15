@@ -201,7 +201,7 @@ class TestEnsureWithinStringLimits(unittest.TestCase):
     def test_none_input(self):
         input_string = None
         with self.assertRaises(TypeError):
-            ensure_within_string_limits(input_string)
+            ensure_within_string_limits(input_string) # type: ignore
 
 
 class TestEnsureListFunction(unittest.TestCase):

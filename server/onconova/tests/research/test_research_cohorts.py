@@ -40,11 +40,11 @@ class TestCohortRules(TestCase):
         value = self.case1.pseudoidentifier
         # case = PatientCaseFactory(pseudoidentifier=value)
         rule = CohortRule(
-            entity=CohortQueryEntity.PatientCase,
+            entity=CohortQueryEntity.PatientCase, # type: ignore
             filters=[
                 CohortRuleFilter(
                     field="pseudoidentifier",
-                    operator=CohortQueryFilter.ExactStringFilter,
+                    operator=CohortQueryFilter.ExactStringFilter, # type: ignore
                     value=value,
                 )
             ],
@@ -61,11 +61,11 @@ class TestCohortRules(TestCase):
         value = "primary"
         # entity = PrimaryNeoplasticEntityFactory(relationship='primary')
         rule = CohortRule(
-            entity=CohortQueryEntity.NeoplasticEntity,
+            entity=CohortQueryEntity.NeoplasticEntity, # type: ignore
             filters=[
                 CohortRuleFilter(
                     field="relationship",
-                    operator=CohortQueryFilter.ExactStringFilter,
+                    operator=CohortQueryFilter.ExactStringFilter, # type: ignore
                     value=value,
                 )
             ],
@@ -80,11 +80,11 @@ class TestCohortRules(TestCase):
     def test_related_nested_model_rule_returns_subquery(self):
         # entity = PrimaryNeoplasticEntityFactory(relationship='primary')
         rule = CohortRule(
-            entity=CohortQueryEntity.SystemicTherapy,
+            entity=CohortQueryEntity.SystemicTherapy, # type: ignore
             filters=[
                 CohortRuleFilter(
                     field="medications.drug",
-                    operator=CohortQueryFilter.NotIsNullFilter,
+                    operator=CohortQueryFilter.NotIsNullFilter, # type: ignore
                     value=True,
                 )
             ],
@@ -101,21 +101,21 @@ class TestCohortRules(TestCase):
             condition=RulesetCondition.AND,
             rules=[
                 CohortRule(
-                    entity=CohortQueryEntity.PatientCase,
+                    entity=CohortQueryEntity.PatientCase, # type: ignore
                     filters=[
                         CohortRuleFilter(
                             field="pseudoidentifier",
-                            operator=CohortQueryFilter.ExactStringFilter,
+                            operator=CohortQueryFilter.ExactStringFilter, # type: ignore
                             value=self.case1.pseudoidentifier,
                         )
                     ],
                 ),
                 CohortRule(
-                    entity=CohortQueryEntity.PatientCase,
+                    entity=CohortQueryEntity.PatientCase, # type: ignore
                     filters=[
                         CohortRuleFilter(
                             field="clinical_center",
-                            operator=CohortQueryFilter.ExactStringFilter,
+                            operator=CohortQueryFilter.ExactStringFilter, # type: ignore
                             value=self.case1.clinical_center,
                         )
                     ],
@@ -142,21 +142,21 @@ class TestCohortRules(TestCase):
             condition=RulesetCondition.OR,
             rules=[
                 CohortRule(
-                    entity=CohortQueryEntity.PatientCase,
+                    entity=CohortQueryEntity.PatientCase, # type: ignore
                     filters=[
                         CohortRuleFilter(
                             field="pseudoidentifier",
-                            operator=CohortQueryFilter.ExactStringFilter,
+                            operator=CohortQueryFilter.ExactStringFilter, # type: ignore
                             value=self.case1.pseudoidentifier,
                         )
                     ],
                 ),
                 CohortRule(
-                    entity=CohortQueryEntity.PatientCase,
+                    entity=CohortQueryEntity.PatientCase, # type: ignore
                     filters=[
                         CohortRuleFilter(
                             field="pseudoidentifier",
-                            operator=CohortQueryFilter.ExactStringFilter,
+                            operator=CohortQueryFilter.ExactStringFilter, # type: ignore
                             value=self.case2.pseudoidentifier,
                         )
                     ],
@@ -183,21 +183,21 @@ class TestCohortRules(TestCase):
             condition=RulesetCondition.OR,
             rules=[
                 CohortRule(
-                    entity=CohortQueryEntity.PatientCase,
+                    entity=CohortQueryEntity.PatientCase, # type: ignore
                     filters=[
                         CohortRuleFilter(
                             field="pseudoidentifier",
-                            operator=CohortQueryFilter.ExactStringFilter,
+                            operator=CohortQueryFilter.ExactStringFilter, # type: ignore
                             value=self.case1.pseudoidentifier,
                         )
                     ],
                 ),
                 CohortRule(
-                    entity=CohortQueryEntity.PatientCase,
+                    entity=CohortQueryEntity.PatientCase, # type: ignore
                     filters=[
                         CohortRuleFilter(
                             field="pseudoidentifier",
-                            operator=CohortQueryFilter.ExactStringFilter,
+                            operator=CohortQueryFilter.ExactStringFilter, # type: ignore
                             value=self.case2.pseudoidentifier,
                         )
                     ],
@@ -209,11 +209,11 @@ class TestCohortRules(TestCase):
             rules=[
                 nested,
                 CohortRule(
-                    entity=CohortQueryEntity.PatientCase,
+                    entity=CohortQueryEntity.PatientCase, # type: ignore
                     filters=[
                         CohortRuleFilter(
-                            field="clinical_center",
-                            operator=CohortQueryFilter.ExactStringFilter,
+                            field="clinical_center", 
+                            operator=CohortQueryFilter.ExactStringFilter, # type: ignore
                             value=self.case1.clinical_center,
                         )
                     ],

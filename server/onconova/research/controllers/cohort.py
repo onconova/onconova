@@ -25,23 +25,9 @@ from onconova.core.utils import COMMON_HTTP_ERRORS, camel_to_snake
 from onconova.interoperability.schemas import ExportMetadata
 from onconova.oncology import schemas as oncological_schemas
 from onconova.research.compilers import construct_dataset
-from onconova.research.models.cohort import Cohort
-from onconova.research.models.dataset import Dataset
-from onconova.research.models.project import Project
-from onconova.research.schemas.cohort import (
-    CohortContribution,
-    CohortCreateSchema,
-    CohortFilters,
-    CohortSchema,
-    CohortTraitCounts,
-    CohortTraitMedian,
-    CohortTraits,
-    ExportedCohortDefinition,
-)
-from onconova.research.schemas.dataset import (
-    DatasetRule,
-    ExportedPatientCaseDataset,
-    PatientCaseDataset,
+from onconova.research import (
+    models as orm,
+    schemas as scm,
 )
 
 
@@ -61,14 +47,14 @@ class CohortsController(ControllerBase):
 
     @route.get(
         path="",
-        response={200: Paginated[CohortSchema], **COMMON_HTTP_ERRORS},
+        response={200: Paginated[scm.Cohort], **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCohorts],
         operation_id="getCohorts",
     )
     @paginate()
     @ordering()
-    def get_all_cohorts_matching_the_query(self, query: Query[CohortFilters]):
-        queryset = Cohort.objects.all().order_by("-created_at")
+    def get_all_cohorts_matching_the_query(self, query: Query[scm.CohortFilters]):
+        queryset = orm.Cohort.objects.all().order_by("-created_at")
         return query.filter(queryset)  # type: ignore
 
     @route.post(
@@ -77,9 +63,9 @@ class CohortsController(ControllerBase):
         permissions=[perms.CanManageCohorts],
         operation_id="createCohort",
     )
-    def create_cohort(self, payload: CohortCreateSchema):
+    def create_cohort(self, payload: scm.CohortCreate):
         # Check that requesting user is a member of the project
-        project = get_object_or_404(Project, id=payload.projectId)  # type: ignore
+        project = get_object_or_404(orm.Project, id=payload.projectId)  # type: ignore
         if (
             not project.is_member(self.context.request.user)  # type: ignore
             and self.context.request.user.access_level < 3  # type: ignore
@@ -93,12 +79,12 @@ class CohortsController(ControllerBase):
 
     @route.get(
         path="/{cohortId}",
-        response={200: CohortSchema, 404: None, **COMMON_HTTP_ERRORS},
+        response={200: scm.Cohort, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCohorts],
         operation_id="getCohortById",
     )
     def get_cohort_by_id(self, cohortId: str):
-        return get_object_or_404(Cohort, id=cohortId)
+        return get_object_or_404(orm.Cohort, id=cohortId)
 
     @route.delete(
         path="/{cohortId}",
@@ -107,7 +93,7 @@ class CohortsController(ControllerBase):
         operation_id="deleteCohortById",
     )
     def delete_cohort(self, cohortId: str):
-        get_object_or_404(Cohort, id=cohortId).delete()
+        get_object_or_404(orm.Cohort, id=cohortId).delete()
         return 204, None
 
     @route.put(
@@ -116,8 +102,8 @@ class CohortsController(ControllerBase):
         permissions=[perms.CanManageCohorts],
         operation_id="updateCohort",
     )
-    def update_cohort(self, cohortId: str, payload: CohortCreateSchema):
-        cohort = self.get_object_or_exception(Cohort, id=cohortId)
+    def update_cohort(self, cohortId: str, payload: scm.CohortCreate):
+        cohort = self.get_object_or_exception(orm.Cohort, id=cohortId)
         cohort = payload.model_dump_django(instance=cohort)
         cohort.update_cohort_cases()
         return cohort
@@ -125,7 +111,7 @@ class CohortsController(ControllerBase):
     @route.get(
         path="/{cohortId}/cases",
         response={
-            200: Paginated[oncological_schemas.PatientCaseSchema],
+            200: Paginated[oncological_schemas.PatientCase],
             404: None,
             **COMMON_HTTP_ERRORS,
         },
@@ -135,17 +121,17 @@ class CohortsController(ControllerBase):
     @paginate()
     @anonymize()
     def get_cohort_cases(self, cohortId: str):
-        return get_object_or_404(Cohort, id=cohortId).cases.all()
+        return get_object_or_404(orm.Cohort, id=cohortId).cases.all()
 
     @route.get(
         path="/{cohortId}/contributors",
-        response={200: List[CohortContribution], 404: None, **COMMON_HTTP_ERRORS},
+        response={200: List[scm.CohortContribution], 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCohorts],
         operation_id="getCohortContributors",
     )
     @paginate()
     def get_cohort_contributions(self, cohortId: str):
-        cohort = get_object_or_404(Cohort, id=cohortId)
+        cohort = get_object_or_404(orm.Cohort, id=cohortId)
         contributions = Counter(
             [
                 contributor
@@ -154,26 +140,26 @@ class CohortsController(ControllerBase):
             ]
         )
         return 200, [
-            CohortContribution(contributor=contributor, contributions=contributions)
+            scm.CohortContribution(contributor=contributor, contributions=contributions)
             for contributor, contributions in contributions.items()
             if contributor
         ]
 
     @route.post(
         path="/{cohortId}/export",
-        response={200: ExportedCohortDefinition, 404: None, **COMMON_HTTP_ERRORS},
+        response={200: scm.ExportedCohortDefinition, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanExportData],
         operation_id="exportCohortDefinition",
     )
     def export_cohort_definition(self, cohortId: str):
-        cohort = get_object_or_404(Cohort, id=cohortId)
+        cohort = get_object_or_404(orm.Cohort, id=cohortId)
 
         if not perms.CanManageCohorts().check_user_object_permission(
             self.context.request.user, None, cohort  # type: ignore
         ):
             raise HttpError(403, "User is not a member of the project")
 
-        data = CohortCreateSchema.model_validate(cohort).model_dump(mode="json")
+        data = scm.CohortCreate.model_validate(cohort).model_dump(mode="json")
 
         checksum = hashlib.md5(
             json.dumps(
@@ -196,7 +182,7 @@ class CohortsController(ControllerBase):
     @route.get(
         path="/{cohortId}/history/events",
         response={
-            200: Paginated[HistoryEvent.bind_schema(CohortCreateSchema)],
+            200: Paginated[HistoryEvent.bind_schema(scm.CohortCreate)],
             404: None,
             **COMMON_HTTP_ERRORS,
         },
@@ -206,13 +192,13 @@ class CohortsController(ControllerBase):
     @paginate()
     @ordering()
     def get_all_cohort_history_events(self, cohortId: str):
-        instance = get_object_or_404(Cohort, id=cohortId)
+        instance = get_object_or_404(orm.Cohort, id=cohortId)
         return pghistory.models.Events.objects.tracks(instance).all()  # type: ignore
 
     @route.get(
         path="/{cohortId}/history/events/{eventId}",
         response={
-            200: HistoryEvent.bind_schema(CohortCreateSchema),
+            200: HistoryEvent.bind_schema(scm.CohortCreate),
             404: None,
             **COMMON_HTTP_ERRORS,
         },
@@ -220,7 +206,7 @@ class CohortsController(ControllerBase):
         operation_id="getCohortHistoryEventById",
     )
     def get_cohort_history_event_by_id(self, cohortId: str, eventId: str):
-        instance = get_object_or_404(Cohort, id=cohortId)
+        instance = get_object_or_404(orm.Cohort, id=cohortId)
         return get_object_or_404(
             pghistory.models.Events.objects.tracks(instance), pgh_id=eventId  # type: ignore
         )
@@ -232,18 +218,18 @@ class CohortsController(ControllerBase):
         operation_id="revertCohortToHistoryEvent",
     )
     def revert_cohort_to_history_event(self, cohortId: str, eventId: str):
-        instance = self.get_object_or_exception(Cohort, id=cohortId)
+        instance = self.get_object_or_exception(orm.Cohort, id=cohortId)
         return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()
 
     @route.post(
         path="/{cohortId}/dataset/{datasetId}/export",
-        response={200: ExportedPatientCaseDataset, 404: None, **COMMON_HTTP_ERRORS},
+        response={200: scm.ExportedPatientCaseDataset, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanExportData],
         operation_id="exportCohortDataset",
     )
     def export_cohort_dataset(self, cohortId: str, datasetId: str):
-        cohort = get_object_or_404(Cohort, id=cohortId)
-        dataset = get_object_or_404(Dataset, id=datasetId)
+        cohort = get_object_or_404(orm.Cohort, id=cohortId)
+        dataset = get_object_or_404(orm.Dataset, id=datasetId)
 
         if (
             self.context
@@ -260,12 +246,12 @@ class CohortsController(ControllerBase):
             raise HttpError(403, "User is not a member of the project")
 
         try:
-            rules = [DatasetRule.model_validate(rule) for rule in dataset.rules]
+            rules = [scm.DatasetRule.model_validate(rule) for rule in dataset.rules]
         except ValidationError:
             raise HttpError(422, "Invalid or outdated dataset rules")
 
         data = [
-            PatientCaseDataset.model_validate(subset)
+            scm.PatientCaseDataset.model_validate(subset)
             for subset in construct_dataset(cohort=cohort, rules=rules)
         ]
 
@@ -300,43 +286,43 @@ class CohortsController(ControllerBase):
 
     @route.post(
         path="/{cohortId}/dataset",
-        response={200: Paginated[PatientCaseDataset], 404: None, **COMMON_HTTP_ERRORS},
+        response={200: Paginated[scm.PatientCaseDataset], 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCohorts],
         exclude_unset=True,
         operation_id="getCohortDatasetDynamically",
     )
     @paginate()
-    def construct_cohort_dataset(self, cohortId: str, rules: List[DatasetRule]):
+    def construct_cohort_dataset(self, cohortId: str, rules: List[scm.DatasetRule]):
         return construct_dataset(
-            cohort=get_object_or_404(Cohort, id=cohortId), rules=rules
+            cohort=get_object_or_404(orm.Cohort, id=cohortId), rules=rules
         )
 
     @route.get(
         path="/{cohortId}/traits",
-        response={200: CohortTraits, 404: None, 422: None, **COMMON_HTTP_ERRORS},
+        response={200: scm.CohortTraits, 404: None, 422: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCohorts],
         operation_id="getCohortTraitsStatistics",
     )
     def get_cohort_traits_statistics(self, cohortId: str):
-        cohort = get_object_or_404(Cohort, id=cohortId)
+        cohort = get_object_or_404(orm.Cohort, id=cohortId)
         if not cohort.cases.exists():
             raise EmptyCohortException
 
-        age_median, age_iqr = cohort.get_cohort_trait_median(cohort.cases.all(), "age")
+        age_median, age_iqr = cohort.get_cohort_trait_median(cohort.cases.all(), "age") or (None,None)
         data_completion_median, data_completion_iqr = cohort.get_cohort_trait_median(
             cohort.cases.all(), "data_completion_rate"
-        )
+        ) or (None,None)
         overall_survival_median, overall_survival_iqr = cohort.get_cohort_trait_median(
             cohort.cases.all(), "overall_survival"
-        )
+        ) or (None,None)
 
-        return 200, CohortTraits(
-            age=CohortTraitMedian(median=age_median, interQuartalRange=age_iqr),
-            dataCompletion=CohortTraitMedian(
+        return 200, scm.CohortTraits(
+            age=scm.CohortTraitMedian(median=age_median, interQuartalRange=age_iqr),
+            dataCompletion=scm.CohortTraitMedian(
                 median=data_completion_median, interQuartalRange=data_completion_iqr
             ),
             overallSurvival=(
-                CohortTraitMedian(
+                scm.CohortTraitMedian(
                     median=overall_survival_median,
                     interQuartalRange=overall_survival_iqr,
                 )
@@ -344,7 +330,7 @@ class CohortsController(ControllerBase):
                 else None
             ),
             genders=[
-                CohortTraitCounts(
+                scm.CohortTraitCounts(
                     category=category, counts=count, percentage=percentage
                 )
                 for category, (count, percentage) in cohort.get_cohort_trait_counts(
@@ -352,7 +338,7 @@ class CohortsController(ControllerBase):
                 ).items()
             ],
             neoplasticSites=[
-                CohortTraitCounts(
+                scm.CohortTraitCounts(
                     category=category, counts=count, percentage=percentage
                 )
                 for category, (count, percentage) in cohort.get_cohort_trait_counts(
@@ -361,7 +347,7 @@ class CohortsController(ControllerBase):
                 ).items()
             ],
             therapyLines=[
-                CohortTraitCounts(
+                scm.CohortTraitCounts(
                     category=category, counts=count, percentage=percentage
                 )
                 for category, (count, percentage) in cohort.get_cohort_trait_counts(
@@ -369,7 +355,7 @@ class CohortsController(ControllerBase):
                 ).items()
             ],
             consentStatus=[
-                CohortTraitCounts(
+                scm.CohortTraitCounts(
                     category=category, counts=count, percentage=percentage
                 )
                 for category, (count, percentage) in cohort.get_cohort_trait_counts(

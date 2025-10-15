@@ -7,7 +7,6 @@ import factory
 import faker as fakerModule
 import pghistory
 from django.contrib.auth.hashers import make_password
-from django.contrib.auth.models import Group
 from factory.fuzzy import FuzzyChoice, FuzzyText
 from psycopg.types.range import Range as PostgresRange
 
@@ -17,9 +16,16 @@ import onconova.research.models.cohort as cohorts_models
 import onconova.research.models.project as projects_models
 import onconova.terminology.models as terminology
 from onconova.core.auth.models import User
-from onconova.oncology.models.comorbidities import ComorbiditiesPanel
-from onconova.oncology.models.patient_case import VitalStatus
-
+from onconova.oncology.models.comorbidities import ComorbiditiesAssessmentPanelChoices
+from onconova.oncology.models.patient_case import PatientCaseVitalStatusChoices, PatientCaseConsentStatusChoices
+from onconova.oncology.models.adverse_event import AdverseEventMitigationCategoryChoices, AdverseEventOutcomeChoices, AdverseEventSuspectedCauseCausalityChoices
+from onconova.oncology.models.genomic_signature import TumorMutationalBurdenStatusChoices, HomologousRecombinationDeficiencyInterpretationChoices
+from onconova.oncology.models.genomic_variant import GenomicVariantAssessmentChoices, GenomicVariantConfidenceChoices, GenomicVariantClinicalRelevanceChoices
+from onconova.oncology.models.radiotherapy import RadiotherapyIntentChoices
+from onconova.oncology.models.surgery import SurgeryIntentChoices
+from onconova.oncology.models.systemic_therapy import SystemicTherapyIntentChoices
+from onconova.oncology.models.therapy_line import TherapyLineIntentChoices
+from onconova.research.models.project import ProjectStatusChoices
 
 def is_running_pytest():
     return "pytest" in sys.modules
@@ -134,23 +140,23 @@ class PatientCaseFactory(factory.django.DjangoModelFactory):
     )
     gender = make_terminology_factory(terminology.AdministrativeGender)
     sex_at_birth = make_terminology_factory(terminology.BirthSex)
-    vital_status = FuzzyChoice(VitalStatus)
+    vital_status = FuzzyChoice(PatientCaseVitalStatusChoices)
     date_of_death = factory.LazyAttribute(
         lambda o: (
-            faker.date_this_decade() if o.vital_status == VitalStatus.DECEASED else None
+            faker.date_this_decade() if o.vital_status == PatientCaseVitalStatusChoices.DECEASED else None
         )
     )
     cause_of_death = factory.Maybe(
-        factory.LazyAttribute(lambda o: o.vital_status == VitalStatus.DECEASED),
-        make_terminology_factory(terminology.CauseOfDeath),
+        factory.LazyAttribute(lambda o: o.vital_status == PatientCaseVitalStatusChoices.DECEASED),
+        make_terminology_factory(terminology.CauseOfDeath), # type: ignore
         None,  # type: ignore
     )
     end_of_records = factory.LazyAttribute(
         lambda o: (
-            faker.date_this_decade() if o.vital_status == VitalStatus.UNKNOWN else None
+            faker.date_this_decade() if o.vital_status == PatientCaseVitalStatusChoices.UNKNOWN else None
         )
     )
-    consent_status = FuzzyChoice(models.PatientCase.ConsentStatus)
+    consent_status = FuzzyChoice(PatientCaseConsentStatusChoices)
     clinical_center = factory.LazyFunction(lambda: faker.company() + " Hospital")
     clinical_identifier = FuzzyText(length=8, prefix="CLIN", chars=string.digits)
 
@@ -200,6 +206,7 @@ class MetastaticNeoplasticEntityFactory(factory.django.DjangoModelFactory):
 class TNMStagingFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.TNMStaging
+        skip_postgeneration_save = True
 
     case = factory.SubFactory(PatientCaseFactory)
     date = factory.LazyFunction(faker.date)
@@ -215,6 +222,7 @@ class TNMStagingFactory(factory.django.DjangoModelFactory):
 class FIGOStagingFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.FIGOStaging
+        skip_postgeneration_save = True
 
     case = factory.SubFactory(PatientCaseFactory)
     date = factory.LazyFunction(faker.date)
@@ -231,6 +239,7 @@ class FIGOStagingFactory(factory.django.DjangoModelFactory):
 class TumorMarkerTestFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.TumorMarker
+        skip_postgeneration_save = True
 
     analyte = make_terminology_factory(terminology.TumorMarkerAnalyte)
     case = factory.SubFactory(PatientCaseFactory)
@@ -248,6 +257,7 @@ class TumorMarkerTestFactory(factory.django.DjangoModelFactory):
 class RiskAssessmentFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.RiskAssessment
+        skip_postgeneration_save = True
 
     case = factory.SubFactory(PatientCaseFactory)
     date = factory.LazyFunction(faker.date)
@@ -265,13 +275,14 @@ class TherapyLineFactory(factory.django.DjangoModelFactory):
         model = models.TherapyLine
 
     case = factory.SubFactory(PatientCaseFactory)
-    intent = FuzzyChoice(models.TherapyLine.TreatmentIntent)
+    intent = FuzzyChoice(TherapyLineIntentChoices)
     ordinal = factory.LazyFunction(lambda: random.randint(1, 5))
 
 
 class SystemicTherapyFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.SystemicTherapy
+        skip_postgeneration_save = True
 
     case = factory.SubFactory(PatientCaseFactory)
     period = factory.LazyFunction(
@@ -281,7 +292,7 @@ class SystemicTherapyFactory(factory.django.DjangoModelFactory):
         )
     )
     cycles = factory.LazyFunction(lambda: random.randint(2, 25))
-    intent = FuzzyChoice(models.SystemicTherapy.TreatmentIntent)
+    intent = FuzzyChoice(SystemicTherapyIntentChoices)
     therapy_line = factory.SubFactory(TherapyLineFactory)
     targeted_entities = factory.post_generation(
         add_m2m_related(
@@ -308,11 +319,12 @@ class SystemicTherapyMedicationFactory(factory.django.DjangoModelFactory):
 class SurgeryFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Surgery
+        skip_postgeneration_save = True
 
     case = factory.SubFactory(PatientCaseFactory)
     date = factory.LazyFunction(faker.date)
     procedure = make_terminology_factory(terminology.SurgicalProcedure)
-    intent = FuzzyChoice(models.Surgery.TreatmentIntent)
+    intent = FuzzyChoice(SurgeryIntentChoices)
     bodysite = make_terminology_factory(terminology.CancerTopography)
     bodysite_qualifier = make_terminology_factory(terminology.BodyLocationQualifier)
     bodysite_laterality = make_terminology_factory(terminology.LateralityQualifier)
@@ -328,6 +340,7 @@ class SurgeryFactory(factory.django.DjangoModelFactory):
 class RadiotherapyFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Radiotherapy
+        skip_postgeneration_save = True
 
     case = factory.SubFactory(PatientCaseFactory)
     period = factory.LazyFunction(
@@ -337,7 +350,7 @@ class RadiotherapyFactory(factory.django.DjangoModelFactory):
         )
     )
     sessions = factory.LazyFunction(lambda: random.randint(2, 25))
-    intent = FuzzyChoice(models.Radiotherapy.TreatmentIntent)
+    intent = FuzzyChoice(RadiotherapyIntentChoices)
     therapy_line = factory.SubFactory(TherapyLineFactory)
     targeted_entities = factory.post_generation(
         add_m2m_related(
@@ -378,7 +391,7 @@ class AdverseEventFactory(factory.django.DjangoModelFactory):
     date = factory.LazyFunction(faker.date)
     grade = factory.LazyFunction(lambda: random.randint(0, 5))
     event = make_terminology_factory(terminology.AdverseEventTerm)
-    outcome = FuzzyChoice(models.AdverseEvent.AdverseEventOutcome)
+    outcome = FuzzyChoice(AdverseEventOutcomeChoices)
 
 
 class AdverseEventSuspectedCauseFactory(factory.django.DjangoModelFactory):
@@ -387,7 +400,7 @@ class AdverseEventSuspectedCauseFactory(factory.django.DjangoModelFactory):
 
     adverse_event = factory.SubFactory(AdverseEventFactory)
     systemic_therapy = factory.SubFactory(SystemicTherapyFactory)
-    causality = FuzzyChoice(models.AdverseEventSuspectedCause.AdverseEventCausality)
+    causality = FuzzyChoice(AdverseEventSuspectedCauseCausalityChoices)
 
 
 class AdverseEventMitigationFactory(factory.django.DjangoModelFactory):
@@ -395,7 +408,7 @@ class AdverseEventMitigationFactory(factory.django.DjangoModelFactory):
         model = models.AdverseEventMitigation
 
     adverse_event = factory.SubFactory(AdverseEventFactory)
-    category = FuzzyChoice(models.AdverseEventMitigation.AdverseEventMitigationCategory)
+    category = FuzzyChoice(AdverseEventMitigationCategoryChoices)
     adjustment = make_terminology_factory(
         terminology.AdverseEventMitigationTreatmentAdjustment
     )
@@ -407,6 +420,7 @@ class AdverseEventMitigationFactory(factory.django.DjangoModelFactory):
 class TreatmentResponseFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.TreatmentResponse
+        skip_postgeneration_save = True
 
     case = factory.SubFactory(PatientCaseFactory)
     date = factory.LazyFunction(faker.date)
@@ -462,14 +476,15 @@ def _random_aminoacid_mutation():
 class GenomicVariantFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.GenomicVariant
+        skip_postgeneration_save = True
 
     case = factory.SubFactory(PatientCaseFactory)
     date = factory.LazyFunction(faker.date)
     gene_panel = factory.LazyFunction(faker.company)
-    assessment = FuzzyChoice(models.GenomicVariant.GenomicVariantAssessment)
-    confidence = FuzzyChoice(models.GenomicVariant.GenomicVariantConfidence)
+    assessment = FuzzyChoice(GenomicVariantAssessmentChoices)
+    confidence = FuzzyChoice(GenomicVariantConfidenceChoices)
     clinical_relevance = FuzzyChoice(
-        models.GenomicVariant.GenomicVariantClinicalRelevance
+        GenomicVariantClinicalRelevanceChoices
     )
     analysis_method = make_terminology_factory(
         terminology.StructuralVariantAnalysisMethod
@@ -503,6 +518,7 @@ class PerformanceStatusFactory(factory.django.DjangoModelFactory):
 class LifestyleFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Lifestyle
+        skip_postgeneration_save = True
 
     case = factory.SubFactory(PatientCaseFactory)
     date = factory.LazyFunction(faker.date)
@@ -546,7 +562,7 @@ class TumorMutationalBurdenFactory(factory.django.DjangoModelFactory):
     case = factory.SubFactory(PatientCaseFactory)
     date = factory.LazyFunction(faker.date)
     value = factory.LazyFunction(lambda: random.randint(25, 95) / 5)
-    status = FuzzyChoice(models.TumorMutationalBurden.TumorMutationalBurdenStatus)
+    status = FuzzyChoice(TumorMutationalBurdenStatusChoices)
 
 
 class LossOfHeterozygosityFactory(factory.django.DjangoModelFactory):
@@ -575,7 +591,7 @@ class HomologousRecombinationDeficiencyFactory(factory.django.DjangoModelFactory
     date = factory.LazyFunction(faker.date)
     value = factory.LazyFunction(lambda: random.randint(0, 100) * 1.0)
     interpretation = FuzzyChoice(
-        models.HomologousRecombinationDeficiency.HomologousRecombinationDeficiencyPresence
+        HomologousRecombinationDeficiencyInterpretationChoices
     )
 
 
@@ -600,6 +616,7 @@ class AneuploidScoreFactory(factory.django.DjangoModelFactory):
 class TumorBoardFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.UnspecifiedTumorBoard
+        skip_postgeneration_save = True
 
     case = factory.SubFactory(PatientCaseFactory)
     date = factory.LazyFunction(faker.date)
@@ -618,6 +635,7 @@ class TumorBoardFactory(factory.django.DjangoModelFactory):
 class MolecularTumorBoardFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.MolecularTumorBoard
+        skip_postgeneration_save = True
 
     case = factory.SubFactory(PatientCaseFactory)
     date = factory.LazyFunction(faker.date)
@@ -638,6 +656,7 @@ class MolecularTumorBoardFactory(factory.django.DjangoModelFactory):
 class MolecularTherapeuticRecommendationFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.MolecularTherapeuticRecommendation
+        skip_postgeneration_save = True
 
     molecular_tumor_board = factory.SubFactory(MolecularTumorBoardFactory)
     expected_effect = make_terminology_factory(terminology.ExpectedDrugAction)
@@ -683,11 +702,12 @@ class MolecularTherapeuticRecommendationFactory(factory.django.DjangoModelFactor
 class ComorbiditiesAssessmentFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.ComorbiditiesAssessment
+        skip_postgeneration_save = True
 
     case = factory.SubFactory(PatientCaseFactory)
     date = factory.LazyFunction(faker.date)
     index_condition = factory.SubFactory(PrimaryNeoplasticEntityFactory)
-    panel = FuzzyChoice(ComorbiditiesPanel)
+    panel = FuzzyChoice(ComorbiditiesAssessmentPanelChoices)
     absent_conditions = factory.post_generation(
         make_m2m_terminology_factory(
             "absent_conditions", terminology.ICD10Condition, min=0, max=4
@@ -724,6 +744,7 @@ class VitalsFactory(factory.django.DjangoModelFactory):
 class ProjectFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = projects_models.Project
+        skip_postgeneration_save = True
 
     title = factory.LazyFunction(
         lambda: f"Project #{random.randint(1111,9999)} - {faker.company()}"
@@ -733,7 +754,7 @@ class ProjectFactory(factory.django.DjangoModelFactory):
     members = factory.post_generation(
         add_m2m_related("members", UserFactory, min=2, max=5, get_related_case=None)
     )
-    status = FuzzyChoice(projects_models.Project.ProjectStatus)
+    status = FuzzyChoice(ProjectStatusChoices)
     clinical_centers = factory.LazyFunction(
         lambda: [faker.company() + " Hospital" for _ in range(1, random.randint(1, 3))]
     )

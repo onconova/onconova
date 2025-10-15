@@ -14,7 +14,7 @@ from onconova.core.models import BaseModel
 from onconova.oncology.models import NeoplasticEntity, PatientCase
 
 
-class ComorbiditiesPanel(models.TextChoices):
+class ComorbiditiesAssessmentPanelChoices(models.TextChoices):
     """
     An enumeration of comorbidity panel types used in oncology models.
 
@@ -1248,9 +1248,9 @@ class ComorbiditiesAssessment(BaseModel):
     """
 
     COMORBIDITY_PANELS_DETAILS = {
-        ComorbiditiesPanel.CHARLSON: CharlsonPanelDetails,
-        ComorbiditiesPanel.NCI: NciPanelDetails,
-        ComorbiditiesPanel.ELIXHAUSER: ElixhauserPanelDetails,
+        ComorbiditiesAssessmentPanelChoices.CHARLSON: CharlsonPanelDetails,
+        ComorbiditiesAssessmentPanelChoices.NCI: NciPanelDetails,
+        ComorbiditiesAssessmentPanelChoices.ELIXHAUSER: ElixhauserPanelDetails,
     }
 
     objects = QueryablePropertiesManager()
@@ -1282,7 +1282,7 @@ class ComorbiditiesAssessment(BaseModel):
     panel = models.CharField(
         verbose_name=_("Panel"),
         help_text=_("Comorbidities panel"),
-        choices=ComorbiditiesPanel,
+        choices=ComorbiditiesAssessmentPanelChoices,
         max_length=30,
         null=True,
         blank=True,
@@ -1305,15 +1305,15 @@ class ComorbiditiesAssessment(BaseModel):
         verbose_name=_("Comorbidity score"),
         annotation=Case(
             When(
-                panel=ComorbiditiesPanel.CHARLSON,
+                panel=ComorbiditiesAssessmentPanelChoices.CHARLSON,
                 then=CharlsonPanelDetails.get_score_annotation(),
             ),
             When(
-                panel=ComorbiditiesPanel.NCI,
+                panel=ComorbiditiesAssessmentPanelChoices.NCI,
                 then=NciPanelDetails.get_score_annotation(),
             ),
             When(
-                panel=ComorbiditiesPanel.ELIXHAUSER,
+                panel=ComorbiditiesAssessmentPanelChoices.ELIXHAUSER,
                 then=ElixhauserPanelDetails.get_score_annotation(),
             ),
             default=None,

@@ -1,7 +1,9 @@
 from enum import Enum
-from typing import Annotated, Generic, Optional, TypeVar
-
-from pydantic import GetJsonSchemaHandler
+from uuid import UUID as UuidType
+from typing import Annotated, Generic, Optional, TypeVar, Any
+from typing_extensions import TypeAliasType
+from django.db.models import Model as DjangoModel
+from pydantic import GetJsonSchemaHandler, GetCoreSchemaHandler, AfterValidator, WithJsonSchema
 from pydantic_core import core_schema
 
 
@@ -24,9 +26,36 @@ class RemoveAnyOfNull:
 
 
 T = TypeVar("T")
+
 #: A generic type alias for an optional value that removes 'null' from 'anyOf' in Pydantic JSON schema.
 #: Use this to indicate a value may be None, but have cleaner generated schemas.
 Nullable = Annotated[Optional[T], RemoveAnyOfNull()]
+
+
+class UUID(UuidType):
+    
+    @classmethod
+    def _validate(cls, v: UuidType | DjangoModel) -> UuidType:
+        return getattr(v, 'id', None) if isinstance(v, DjangoModel) else v
+
+    @classmethod
+    def _serialize(cls, v: 'UUID') -> UuidType:
+        return v
+
+    @classmethod
+    def __get_pydantic_core_schema__(
+        cls, source: type[Any], handler: GetCoreSchemaHandler
+    ) -> core_schema.CoreSchema:
+        return core_schema.no_info_before_validator_function(
+            cls._validate,
+            core_schema.uuid_schema(),
+            serialization=core_schema.plain_serializer_function_ser_schema(
+                cls._serialize,
+                info_arg=False,
+                return_schema=core_schema.uuid_schema(),
+            ),
+        )
+
 
 
 class Age(int):
@@ -37,7 +66,28 @@ class Age(int):
     that specifically represent age, while retaining all behaviors of the built-in int type.
     """
 
-    pass
+    @classmethod
+    def _validate(cls, v: int) -> 'Age':
+        return cls(int(v))
+
+    @classmethod
+    def _serialize(cls, v: 'Age') -> int:
+        return int(v)
+
+    @classmethod
+    def __get_pydantic_core_schema__(
+        cls, source: type[Any], handler: GetCoreSchemaHandler
+    ) -> core_schema.CoreSchema:
+        return core_schema.no_info_after_validator_function(
+            cls._validate,
+            core_schema.int_schema(),
+            serialization=core_schema.plain_serializer_function_ser_schema(
+                cls._serialize,
+                info_arg=False,
+                return_schema=core_schema.int_schema(),
+            ),
+        )
+
 
 
 class Username(str):
@@ -48,19 +98,55 @@ class Username(str):
     while retaining all behaviors of the built-in `str` type.
     """
 
-    pass
+    @classmethod
+    def _validate(cls, v: str | DjangoModel) -> 'Username':
+        if isinstance(v, DjangoModel) and hasattr(v, 'username'):
+            return cls(v.username)
+        return cls(str(v))
+
+    @classmethod
+    def _serialize(cls, v: 'Username') -> str:
+        return str(v)
+
+    @classmethod
+    def __get_pydantic_core_schema__(
+        cls, source: type[Any], handler: GetCoreSchemaHandler
+    ) -> core_schema.CoreSchema:
+        return core_schema.no_info_before_validator_function(
+            cls._validate,
+            core_schema.str_schema(),
+            serialization=core_schema.plain_serializer_function_ser_schema(
+                cls._serialize,
+                info_arg=False,
+                return_schema=core_schema.str_schema(),
+            ),
+        )
 
 
-class Array(list, Generic[T]):
+
+class Contributors(list, Generic[T]):
     """
-    A subclass of the built-in list type, representing an array structure.
-
-    This class does not add any new functionality to the standard list,
-    but can be used to provide semantic meaning or for type checking
-    where an explicit 'Array' type is desired.
+    A list of usernames
     """
 
-    pass
+    @classmethod
+    def _serialize(cls, v: T) -> T:
+        return v
+
+    @classmethod
+    def __get_pydantic_core_schema__(
+        cls, source: type[Any], handler: GetCoreSchemaHandler
+    ) -> core_schema.CoreSchema:
+        return core_schema.no_info_after_validator_function(
+            cls._serialize,
+            core_schema.list_schema(core_schema.str_schema()),
+            serialization=core_schema.plain_serializer_function_ser_schema(
+                cls._serialize,
+                info_arg=False,
+                return_schema=core_schema.list_schema(core_schema.str_schema()),
+            ),
+        )
+
 
 
 class AgeBin(str, Enum):

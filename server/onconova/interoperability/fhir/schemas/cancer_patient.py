@@ -12,7 +12,7 @@ class CancerPatient(fhir_models.CancerPatient):
     model_config = ConfigDict(from_attributes=False)
 
     @classmethod
-    def convert_from_onconova(cls, obj: schemas.PatientCaseSchema):
+    def convert_from_onconova(cls, obj: schemas.PatientCase):
         return cls(
             id=str(obj.id),
             text=Narrative(div=f"<div xmlns=\"http://www.w3.org/1999/xhtml\">{obj.description}</div>"),
@@ -30,11 +30,11 @@ class CancerPatient(fhir_models.CancerPatient):
 
     @classmethod
     def model_validate(cls, obj: Any):
-        if isinstance(obj, schemas.PatientCaseSchema):
+        if isinstance(obj, schemas.PatientCase):
             return cls.convert_from_onconova(obj)
         
         elif isinstance(obj, models.PatientCase):
-            return cls.convert_from_onconova(schemas.PatientCaseSchema.model_validate(obj))
+            return cls.convert_from_onconova(schemas.PatientCase.model_validate(obj))
         
         return super().model_validate(obj)
     

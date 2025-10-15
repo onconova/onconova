@@ -86,6 +86,8 @@ def anonymize_age(age: Age) -> AgeBin:
         (AgeBin.AGE_85_89, (85, 89)),
         (AgeBin.OVER_90, (90, 150)),
     ]
+    if isinstance(age, AgeBin):
+        return age
     for age_bin, (low, high) in bins:
         if (low is None or age >= low) and (high is None or age <= high):
             return age_bin

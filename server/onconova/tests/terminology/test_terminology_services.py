@@ -104,17 +104,17 @@ class TestExpandValueSet(unittest.TestCase):
 
     def test_error_handling_when_neither_expansion_nor_composition_is_present(self):
         # Mock valuesetdef with neither expansion nor composition
-        valuesetdef = ValueSet.construct()
+        valuesetdef = ValueSet.model_construct()
         with self.assertRaises(ValueError):
             expand_valueset(valuesetdef)
 
     def test_error_handling_when_valuesetdef_is_none(self):
         with self.assertRaises(AttributeError):
-            expand_valueset(None)
+            expand_valueset(None) # type: ignore
 
     def test_error_handling_when_valuesetdef_is_not_a_value_set_schema_object(self):
         with self.assertRaises(AttributeError):
-            expand_valueset("not a ValueSet object")
+            expand_valueset("not a ValueSet object") # type: ignore
 
 
 class TestFollowValueSetCompositionRule(unittest.TestCase):
@@ -153,7 +153,7 @@ class TestFollowValueSetCompositionRule(unittest.TestCase):
         rule = ValueSetComposeInclude(
             system="http://example.com/codesystem",
             filter=[
-                ValueSetComposeIncludeFilter.construct(
+                ValueSetComposeIncludeFilter.model_construct(
                     op=FilterOperator.IS_A, value="code1"
                 )
             ],
@@ -240,8 +240,8 @@ class TestCollectCodedConceptTerminology(unittest.TestCase):
 
     def setUp(self):
         CodedConceptTestModel.__name__ = "CodedConceptTestModel"
-        CodedConceptTestModel.valueset = None
-        CodedConceptTestModel.codesystem = None
+        CodedConceptTestModel.valueset = None # type: ignore
+        CodedConceptTestModel.codesystem = None # type: ignore
         CodedConceptTestModel.objects.all().delete()
 
     def test_force_reset(self):

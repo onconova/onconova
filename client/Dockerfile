@@ -19,7 +19,7 @@ RUN npm install -g @angular/cli
 
 # Install project dependencies
 COPY package*.json ./
-RUN npm install --force
+RUN npm install
 
 # Install Debian packages
 RUN apt-get update && apt-get install -y \

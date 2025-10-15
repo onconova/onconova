@@ -1,10 +1,6 @@
-from enum import Enum
-from typing import List
-
 import pghistory
 from django.shortcuts import get_object_or_404
 from ninja import Query
-from ninja.schema import Field, Schema
 from ninja_extra import ControllerBase, api_controller, route
 from ninja_extra.ordering import ordering
 from ninja_extra.pagination import paginate
@@ -16,13 +12,8 @@ from onconova.core.history.schemas import HistoryEvent
 from onconova.core.schemas import ModifiedResource as ModifiedResourceSchema
 from onconova.core.schemas import Paginated
 from onconova.core.utils import COMMON_HTTP_ERRORS
-from onconova.oncology.models import NeoplasticEntity
-from onconova.oncology.schemas import (
-    NeoplasticEntityCreateSchema,
-    NeoplasticEntityFilters,
-    NeoplasticEntitySchema,
-)
-
+import onconova.oncology.models as orm
+import onconova.oncology.schemas as scm
 
 @api_controller(
     "neoplastic-entities",
@@ -34,7 +25,7 @@ class NeoplasticEntityController(ControllerBase):
     @route.get(
         path="",
         response={
-            200: Paginated[NeoplasticEntitySchema],
+            200: Paginated[scm.NeoplasticEntity],
             **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
@@ -43,8 +34,8 @@ class NeoplasticEntityController(ControllerBase):
     @paginate()
     @ordering()
     @anonymize()
-    def get_all_neoplastic_entities_matching_the_query(self, query: Query[NeoplasticEntityFilters]):  # type: ignore
-        queryset = NeoplasticEntity.objects.all().order_by("-assertion_date")
+    def get_all_neoplastic_entities_matching_the_query(self, query: Query[scm.NeoplasticEntityFilters]):  # type: ignore
+        queryset = orm.NeoplasticEntity.objects.all().order_by("-assertion_date")
         return query.filter(queryset)
 
     @route.post(
@@ -53,18 +44,18 @@ class NeoplasticEntityController(ControllerBase):
         permissions=[perms.CanManageCases],
         operation_id="createNeoplasticEntity",
     )
-    def create_neoplastic_entity(self, payload: NeoplasticEntityCreateSchema):  # type: ignore
+    def create_neoplastic_entity(self, payload: scm.NeoplasticEntityCreate):  # type: ignore
         return 201, payload.model_dump_django()
 
     @route.get(
         path="/{entityId}",
-        response={200: NeoplasticEntitySchema, 404: None, **COMMON_HTTP_ERRORS},
+        response={200: scm.NeoplasticEntity, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCases],
         operation_id="getNeoplasticEntityById",
     )
     @anonymize()
     def get_neoplastic_entity_by_id(self, entityId: str):
-        return get_object_or_404(NeoplasticEntity, id=entityId)
+        return get_object_or_404(orm.NeoplasticEntity, id=entityId)
 
     @route.put(
         path="/{entityId}",
@@ -72,8 +63,8 @@ class NeoplasticEntityController(ControllerBase):
         permissions=[perms.CanManageCases],
         operation_id="updateNeoplasticEntityById",
     )
-    def update_neoplastic_entity(self, entityId: str, payload: NeoplasticEntityCreateSchema):  # type: ignore
-        instance = get_object_or_404(NeoplasticEntity, id=entityId)
+    def update_neoplastic_entity(self, entityId: str, payload: scm.NeoplasticEntityCreate):  # type: ignore
+        instance = get_object_or_404(orm.NeoplasticEntity, id=entityId)
         return payload.model_dump_django(instance=instance)
 
     @route.delete(
@@ -83,13 +74,13 @@ class NeoplasticEntityController(ControllerBase):
         operation_id="deleteNeoplasticEntityById",
     )
     def delete_neoplastic_entity(self, entityId: str):
-        get_object_or_404(NeoplasticEntity, id=entityId).delete()
+        get_object_or_404(orm.NeoplasticEntity, id=entityId).delete()
         return 204, None
 
     @route.get(
         path="/{entityId}/history/events",
         response={
-            200: Paginated[HistoryEvent.bind_schema(NeoplasticEntityCreateSchema)],
+            200: Paginated[HistoryEvent.bind_schema(scm.NeoplasticEntityCreate)],
             404: None,
             **COMMON_HTTP_ERRORS,
         },
@@ -99,13 +90,13 @@ class NeoplasticEntityController(ControllerBase):
     @paginate()
     @ordering()
     def get_all_neoplastic_entity_history_events(self, entityId: str):
-        instance = get_object_or_404(NeoplasticEntity, id=entityId)
+        instance = get_object_or_404(orm.NeoplasticEntity, id=entityId)
         return pghistory.models.Events.objects.tracks(instance).all()  # type: ignore
 
     @route.get(
         path="/{entityId}/history/events/{eventId}",
         response={
-            200: HistoryEvent.bind_schema(NeoplasticEntityCreateSchema),
+            200: HistoryEvent.bind_schema(scm.NeoplasticEntityCreate),
             404: None,
             **COMMON_HTTP_ERRORS,
         },
@@ -113,7 +104,7 @@ class NeoplasticEntityController(ControllerBase):
         operation_id="getNeoplasticEntityHistoryEventById",
     )
     def get_neoplastic_entity_history_event_by_id(self, entityId: str, eventId: str):
-        instance = get_object_or_404(NeoplasticEntity, id=entityId)
+        instance = get_object_or_404(orm.NeoplasticEntity, id=entityId)
         return get_object_or_404(
             pghistory.models.Events.objects.tracks(instance), pgh_id=eventId  # type: ignore
         )
@@ -125,5 +116,5 @@ class NeoplasticEntityController(ControllerBase):
         operation_id="revertNeoplasticEntityToHistoryEvent",
     )
     def revert_neoplastic_entity_to_history_event(self, entityId: str, eventId: str):
-        instance = get_object_or_404(NeoplasticEntity, id=entityId)
+        instance = get_object_or_404(orm.NeoplasticEntity, id=entityId)
         return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()

@@ -16,42 +16,27 @@ from onconova.core.history.schemas import HistoryEvent
 from onconova.core.schemas import ModifiedResource as ModifiedResourceSchema
 from onconova.core.schemas import Paginated
 from onconova.core.utils import COMMON_HTTP_ERRORS, revert_multitable_model
-from onconova.oncology.models.genomic_signature import (
-    GenomicSignature,
-    GenomicSignatureTypes,
-)
-from onconova.oncology.schemas import (
-    AneuploidScoreCreateSchema,
-    AneuploidScoreSchema,
-    GenomicSignatureFilters,
-    HomologousRecombinationDeficiencyCreateSchema,
-    HomologousRecombinationDeficiencySchema,
-    LossOfHeterozygosityCreateSchema,
-    LossOfHeterozygositySchema,
-    MicrosatelliteInstabilityCreateSchema,
-    MicrosatelliteInstabilitySchema,
-    TumorMutationalBurdenCreateSchema,
-    TumorMutationalBurdenSchema,
-    TumorNeoantigenBurdenCreateSchema,
-    TumorNeoantigenBurdenSchema,
+from onconova.oncology import (
+    models as orm,
+    schemas as scm,
 )
 
 RESPONSE_SCHEMAS = (
-    MicrosatelliteInstabilitySchema,
-    TumorMutationalBurdenSchema,
-    LossOfHeterozygositySchema,
-    HomologousRecombinationDeficiencySchema,
-    TumorNeoantigenBurdenSchema,
-    AneuploidScoreSchema,
+    scm.MicrosatelliteInstability,
+    scm.TumorMutationalBurden,
+    scm.LossOfHeterozygosity,
+    scm.HomologousRecombinationDeficiency,
+    scm.TumorNeoantigenBurden,
+    scm.AneuploidScore,
 )
 
 PAYLOAD_SCHEMAS = (
-    TumorMutationalBurdenCreateSchema,
-    MicrosatelliteInstabilityCreateSchema,
-    LossOfHeterozygosityCreateSchema,
-    HomologousRecombinationDeficiencyCreateSchema,
-    TumorNeoantigenBurdenCreateSchema,
-    AneuploidScoreCreateSchema,
+    scm.TumorMutationalBurdenCreate,
+    scm.MicrosatelliteInstabilityCreate,
+    scm.LossOfHeterozygosityCreate,
+    scm.HomologousRecombinationDeficiencyCreate,
+    scm.TumorNeoantigenBurdenCreate,
+    scm.AneuploidScoreCreate,
 )
 
 AnyResponseSchemas = TypeAliasType("AnyGenomicSignature", Union[RESPONSE_SCHEMAS])  # type: ignore# type: ignore
@@ -89,8 +74,8 @@ class GenomicSignatureController(ControllerBase):
     @paginate()
     @ordering()
     @anonymize()
-    def get_all_genomic_signatures_matching_the_query(self, query: Query[GenomicSignatureFilters]):  # type: ignore
-        queryset = GenomicSignature.objects.all().order_by("-date")
+    def get_all_genomic_signatures_matching_the_query(self, query: Query[scm.GenomicSignatureFilters]):  # type: ignore
+        queryset = orm.GenomicSignature.objects.all().order_by("-date")
         return [
             cast_to_model_schema(
                 genomic_signature.get_discriminated_genomic_signature(),
@@ -117,7 +102,7 @@ class GenomicSignatureController(ControllerBase):
     )
     @anonymize()
     def get_genomic_signature_by_id(self, genomicSignatureId: str):
-        instance = get_object_or_404(GenomicSignature, id=genomicSignatureId)
+        instance = get_object_or_404(orm.GenomicSignature, id=genomicSignatureId)
         return cast_to_model_schema(
             instance.get_discriminated_genomic_signature(), RESPONSE_SCHEMAS
         )
@@ -130,7 +115,7 @@ class GenomicSignatureController(ControllerBase):
     )
     def update_genomic_signature(self, genomicSignatureId: str, payload: AnyPayloadSchemas):  # type: ignore
         instance = get_object_or_404(
-            GenomicSignature, id=genomicSignatureId
+            orm.GenomicSignature, id=genomicSignatureId
         ).get_discriminated_genomic_signature()
         return payload.model_dump_django(instance=instance)
 
@@ -141,7 +126,7 @@ class GenomicSignatureController(ControllerBase):
         operation_id="deleteGenomicSignatureById",
     )
     def delete_genomic_signature(self, genomicSignatureId: str):
-        instance = get_object_or_404(GenomicSignature, id=genomicSignatureId)
+        instance = get_object_or_404(orm.GenomicSignature, id=genomicSignatureId)
         instance.delete()
         return 204, None
 
@@ -154,7 +139,7 @@ class GenomicSignatureController(ControllerBase):
     @paginate()
     @ordering()
     def get_all_genomic_signature_history_events(self, genomicSignatureId: str):
-        instance = get_object_or_404(GenomicSignature, id=genomicSignatureId)
+        instance = get_object_or_404(orm.GenomicSignature, id=genomicSignatureId)
         return pghistory.models.Events.objects.tracks(instance).all()  # type: ignore
 
     @route.get(
@@ -166,7 +151,7 @@ class GenomicSignatureController(ControllerBase):
     def get_genomic_signature_history_event_by_id(
         self, genomicSignatureId: str, eventId: str
     ):
-        instance = get_object_or_404(GenomicSignature, id=genomicSignatureId)
+        instance = get_object_or_404(orm.GenomicSignature, id=genomicSignatureId)
         event = instance.parent_events.filter(pgh_id=eventId).first()  # type: ignore
         if not event and hasattr(instance, "events"):
             event = instance.events.filter(pgh_id=eventId).first()
@@ -185,7 +170,7 @@ class GenomicSignatureController(ControllerBase):
     def revert_genomic_signature_to_history_event(
         self, genomicSignatureId: str, eventId: str
     ):
-        instance = get_object_or_404(GenomicSignature, id=genomicSignatureId)
+        instance = get_object_or_404(orm.GenomicSignature, id=genomicSignatureId)
         instance = instance.get_discriminated_genomic_signature()
         try:
             return 201, revert_multitable_model(instance, eventId)

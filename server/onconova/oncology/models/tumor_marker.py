@@ -14,7 +14,7 @@ from onconova.core.models import BaseModel
 from onconova.oncology.models import NeoplasticEntity, PatientCase
 
 
-class AnalytePresence(models.TextChoices):
+class TumorMarkerPresenceChoices(models.TextChoices):
     """
     An enumeration representing the possible presence states of an analyte in a tumor marker test.
 
@@ -28,7 +28,7 @@ class AnalytePresence(models.TextChoices):
     INDETERMINATE = "indeterminate"
 
 
-class NuclearExpressionStatus(models.TextChoices):
+class TumorMarkerNuclearExpressionStatusChoices(models.TextChoices):
     """
     An enumeration representing the status of nuclear expression for a tumor marker.
 
@@ -42,7 +42,7 @@ class NuclearExpressionStatus(models.TextChoices):
     INDETERMINATE = "indeterminate"
 
 
-class TumorProportionScore(models.TextChoices):
+class TumorMarkerTumorProportionScoreChoices(models.TextChoices):
     """
     An enumeration representing tumor proportion score categories.
     
@@ -58,7 +58,7 @@ class TumorProportionScore(models.TextChoices):
     TC3 = "TC3"
 
 
-class ImmuneCellScore(models.TextChoices):
+class TumorMarkerImmuneCellScoreChoices(models.TextChoices):
     """
     Enumeration representing immune cell scores for tumor markers.
 
@@ -74,7 +74,7 @@ class ImmuneCellScore(models.TextChoices):
     IC3 = "IC3"
 
 
-class ImmunohistochemicalScore(models.TextChoices):
+class TumorMarkerImmunohistochemicalScoreChoices(models.TextChoices):
     """
     An enumeration representing possible immunohistochemical scoring values for tumor markers.
 
@@ -107,12 +107,12 @@ class TumorMarker(BaseModel):
         substance_concentration (MeasurementField[measures.SubstanceConcentration]): Substance concentration of the analyte (optional).
         fraction (MeasurementField[measures.Fraction]): Analyte fraction (optional).
         multiple_of_median (MeasurementField[measures.MultipleOfMedian]): Multiples of the median analyte (optional).
-        tumor_proportion_score (models.CharField[TumorProportionScore]): Tumor proportion score (TPS) for PD-L1 expression (optional).
-        immune_cell_score (models.CharField[ImmuneCellScore]): Immune cell score (ICS) for PD-L1 positive immune cells (optional).
+        tumor_proportion_score (models.CharField[TumorMarkerTumorProportionScoreChoices]): Tumor proportion score (TPS) for PD-L1 expression (optional).
+        immune_cell_score (models.CharField[TumorMarkerImmuneCellScoreChoices]): Immune cell score (ICS) for PD-L1 positive immune cells (optional).
         combined_positive_score (MeasurementField[measures.Fraction]): Combined positive score (CPS) for PD-L1 (optional).
-        immunohistochemical_score (models.CharField[ImmunohistochemicalScore]): Immunohistochemical score for analyte-positive cells (optional).
-        presence (models.CharField[AnalytePresence]): Indicates if the analyte tested positive or negative (optional).
-        nuclear_expression_status (models.CharField[NuclearExpressionStatus]): Status of nuclear expression of the analyte (optional).
+        immunohistochemical_score (models.CharField[TumorMarkerImmunohistochemicalScoreChoices]): Immunohistochemical score for analyte-positive cells (optional).
+        presence (models.CharField[TumorMarkerPresenceChoices]): Indicates if the analyte tested positive or negative (optional).
+        nuclear_expression_status (models.CharField[TumorMarkerNuclearExpressionStatusChoices]): Status of nuclear expression of the analyte (optional).
         value (str): Returns a string representation of the first available value among the measurement and score fields.
         description (str): Returns a human-readable description combining the analyte and its value.
 
@@ -187,7 +187,7 @@ class TumorMarker(BaseModel):
         help_text=_(
             "Categorization of the percentage of cells in a tumor that express PD-L1"
         ),
-        choices=TumorProportionScore,
+        choices=TumorMarkerTumorProportionScoreChoices,
         max_length=50,
         null=True,
         blank=True,
@@ -195,7 +195,7 @@ class TumorMarker(BaseModel):
     immune_cell_score = models.CharField(
         verbose_name=_("Immune Cells Score (ICS)"),
         help_text=_("Categorization of the percentage of PD-L1 positive immune cells"),
-        choices=ImmuneCellScore,
+        choices=TumorMarkerImmuneCellScoreChoices,
         max_length=50,
         null=True,
         blank=True,
@@ -214,7 +214,7 @@ class TumorMarker(BaseModel):
         help_text=_(
             "Categorization of the number of analyte-positive cells in a sample"
         ),
-        choices=ImmunohistochemicalScore,
+        choices=TumorMarkerImmunohistochemicalScoreChoices,
         max_length=50,
         null=True,
         blank=True,
@@ -222,7 +222,7 @@ class TumorMarker(BaseModel):
     presence = models.CharField(
         verbose_name=_("Presence"),
         help_text=_("Whether an analyte has tested positive or negative."),
-        choices=AnalytePresence,
+        choices=TumorMarkerPresenceChoices,
         max_length=50,
         null=True,
         blank=True,
@@ -230,7 +230,7 @@ class TumorMarker(BaseModel):
     nuclear_expression_status = models.CharField(
         verbose_name=_("Nuclear expression status"),
         help_text=_("Categorization of the status of expression of the analyte"),
-        choices=NuclearExpressionStatus,
+        choices=TumorMarkerNuclearExpressionStatusChoices,
         max_length=50,
         null=True,
         blank=True,
@@ -263,7 +263,7 @@ class TumorMarker(BaseModel):
     class Meta:
         constraints = [
             models.CheckConstraint(
-                check=models.Q(mass_concentration__isnull=False)
+                condition=models.Q(mass_concentration__isnull=False)
                 | models.Q(arbitrary_concentration__isnull=False)
                 | models.Q(substance_concentration__isnull=False)
                 | models.Q(fraction__isnull=False)
