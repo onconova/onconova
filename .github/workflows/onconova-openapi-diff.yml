@@ -41,13 +41,13 @@ jobs:
           npx openapi-generator validate -i A/client/openapi.json
           
       - name: Upload single OAS file from ${{ env.TARGET_BRANCH }}
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v4
         with:
           name: original-spec.yaml
           path: original-spec.yaml
           
       - name: Upload single OAS file from ${{ env.CURRENT_BRANCH }}
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v4
         with:
           name: modified-spec.yaml
           path: modified-spec.yaml
@@ -65,13 +65,13 @@ jobs:
           npm install openapi-diff -g
 
       - name: Download OAS file from SOURCE branch
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v4
         with:
           name: original-spec.yaml
           path: specs/
 
       - name: Download OAS file from TARGET branch
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v4
         with:
           name: modified-spec.yaml
           path: specs/
@@ -95,7 +95,7 @@ jobs:
           openapi-diff ${{ env.ORIGIN_SPEC }} ${{ env.MODIFIED_SPEC }} | tee ${{ env.SPECS_LOG }}
           sed -n '1!p' ${{ env.SPECS_LOG }} > ${{ env.JSON_DIFF_FILE }}
 
-      - uses: actions/upload-artifact@v1
+      - uses: actions/upload-artifact@v4
         with:
           name: openapi-diff.json
           path: breaking-changes.json
@@ -106,7 +106,7 @@ jobs:
           printf "\n\n\`\`\`yaml\n" >> ${{ env.GH_COMMENT_FILE }}
           sed -n '1!p' ${{ env.SPECS_LOG }} >> ${{ env.GH_COMMENT_FILE }}
           printf "\n\`\`\`\n" >> ${{ env.GH_COMMENT_FILE }}
-          
+
       - name: comment PR
         uses: machine-learning-apps/pr-comment@master
         env:
