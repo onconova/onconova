@@ -3,14 +3,14 @@
   "id" : "onconova-vs-icd-10-conditions",
   "text" : {
     "status" : "generated",
-    "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: ValueSet onconova-vs-icd-10-conditions</b></p><a name=\"onconova-vs-icd-10-conditions\"> </a><a name=\"hconconova-vs-icd-10-conditions\"> </a><ul><li>Include all codes defined in <a href=\"http://terminology.hl7.org/6.5.0/CodeSystem-icd10.html\"><code>http://hl7.org/fhir/sid/icd-10</code></a> version <span title=\"Version is not explicity stated. No matching Code System found\">Not Stated (use latest from terminology server)</span></li></ul></div>"
+    "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: ValueSet onconova-vs-icd-10-conditions</b></p><a name=\"onconova-vs-icd-10-conditions\"> </a><a name=\"hconconova-vs-icd-10-conditions\"> </a><ul><li>Include all codes defined in <a href=\"http://terminology.hl7.org/6.5.0/CodeSystem-icd10.html\"><code>http://hl7.org/fhir/sid/icd-10</code></a><span title=\"Version is not explicity stated. No matching Code System found\"> version Not Stated (use latest from terminology server)</span></li></ul></div>"
   },
   "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-icd-10-conditions",
   "version" : "0.1.0",
   "name" : "ICD10Conditions",
   "title" : "ICD-10 Codes",
   "status" : "active",
-  "date" : "2025-10-09T11:50:35+00:00",
+  "date" : "2025-10-15T08:18:37+00:00",
   "publisher" : "Onconova",
   "contact" : [{
     "name" : "Onconova",

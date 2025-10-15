@@ -3,14 +3,14 @@
   "id" : "onconova-vs-antineoplastic-agents",
   "text" : {
     "status" : "generated",
-    "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: ValueSet onconova-vs-antineoplastic-agents</b></p><a name=\"onconova-vs-antineoplastic-agents\"> </a><a name=\"hconconova-vs-antineoplastic-agents\"> </a><ul><li>Include codes from<a href=\"http://terminology.hl7.org/6.5.0/CodeSystem-v3-nciThesaurus.html\"><code>http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl</code></a> version <span title=\"Version is not explicity stated. No matching Code System found\">Not Stated (use latest from terminology server)</span> where Concept_In_Subset  = C128784</li></ul></div>"
+    "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: ValueSet onconova-vs-antineoplastic-agents</b></p><a name=\"onconova-vs-antineoplastic-agents\"> </a><a name=\"hconconova-vs-antineoplastic-agents\"> </a><ul><li>Include codes from<a href=\"http://terminology.hl7.org/6.5.0/CodeSystem-v3-nciThesaurus.html\"><code>http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl</code></a><span title=\"Version is not explicity stated. No matching Code System found\"> version Not Stated (use latest from terminology server)</span> where Concept_In_Subset  = C128784</li></ul></div>"
   },
   "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-antineoplastic-agents",
   "version" : "0.1.0",
   "name" : "AntineoplasticAgents",
   "title" : "Antineoplastic Agents",
   "status" : "active",
-  "date" : "2025-10-09T11:50:35+00:00",
+  "date" : "2025-10-15T08:18:37+00:00",
   "publisher" : "Onconova",
   "contact" : [{
     "name" : "Onconova",

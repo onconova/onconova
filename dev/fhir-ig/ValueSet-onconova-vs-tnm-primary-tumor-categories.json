@@ -3,14 +3,14 @@
   "id" : "onconova-vs-tnm-primary-tumor-categories",
   "text" : {
     "status" : "generated",
-    "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: ValueSet onconova-vs-tnm-primary-tumor-categories</b></p><a name=\"onconova-vs-tnm-primary-tumor-categories\"> </a><a name=\"hconconova-vs-tnm-primary-tumor-categories\"> </a><p>This value set includes codes based on the following rules:</p><ul><li>Import all the codes that are contained in <a href=\"http://hl7.org/fhir/us/mcode/STU4/ValueSet-mcode-tnm-primary-tumor-category-vs.html\">TNM Primary Tumor Category Value Set</a></li><li>Include codes from<a href=\"http://www.snomed.org/\"><code>http://snomed.info/sct</code></a> version <span title=\"Version is not explicity stated. No matching Code System found\">Not Stated (use latest from terminology server)</span> where concept  descends from 1279738002 (American Joint Committee on Cancer rpT category allowable value (qualifier value))</li><li>Include codes from<a href=\"http://www.snomed.org/\"><code>http://snomed.info/sct</code></a> version <span title=\"Version is not explicity stated. No matching Code System found\">Not Stated (use latest from terminology server)</span> where concept  descends from 1279573003 (American Joint Committee on Cancer rcT category allowable value)</li></ul></div>"
+    "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: ValueSet onconova-vs-tnm-primary-tumor-categories</b></p><a name=\"onconova-vs-tnm-primary-tumor-categories\"> </a><a name=\"hconconova-vs-tnm-primary-tumor-categories\"> </a><p>This value set includes codes based on the following rules:</p><ul><li>Import all the codes that are contained in <a href=\"http://hl7.org/fhir/us/mcode/STU4/ValueSet-mcode-tnm-primary-tumor-category-vs.html\">TNM Primary Tumor Category Value Set</a></li><li>Include codes from<a href=\"http://www.snomed.org/\"><code>http://snomed.info/sct</code></a><span title=\"Version is not explicity stated. No matching Code System found\"> version Not Stated (use latest from terminology server)</span> where concept  descends from 1279738002 (American Joint Committee on Cancer rpT category allowable value (qualifier value))</li><li>Include codes from<a href=\"http://www.snomed.org/\"><code>http://snomed.info/sct</code></a><span title=\"Version is not explicity stated. No matching Code System found\"> version Not Stated (use latest from terminology server)</span> where concept  descends from 1279573003 (American Joint Committee on Cancer rcT category allowable value)</li></ul></div>"
   },
   "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-tnm-primary-tumor-categories",
   "version" : "0.1.0",
   "name" : "TNMPrimaryTumorCategories",
   "title" : "TNM Primary Tumor Categories",
   "status" : "active",
-  "date" : "2025-10-09T11:50:35+00:00",
+  "date" : "2025-10-15T08:18:37+00:00",
   "publisher" : "Onconova",
   "contact" : [{
     "name" : "Onconova",

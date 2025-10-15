@@ -2,986 +2,986 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>http://0.0.0.0/docs/dev/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/SUMMARY/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/changelog/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/credits/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/faq/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/CapabilityStatement-onconova-capability-statement/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/CodeSystem-onconova-cs-comorbidity-panels/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/CodeSystem-onconova-cs-tbd/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-ext-therapy-line-reference/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-Karnofsky-performance-status/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-adverse-event/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-aneuploid-score/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-cancer-family-member-history/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-cancer-patient/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-cancer-risk-assessment/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-cancer-stage/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-comorbidities/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-ecog-performance-status/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-ext-adjunctive-role/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-ext-adverse-event-mitigation/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-ext-age-at-diagnosis/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-ext-age/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-ext-anonymized-entry/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-ext-cancer-morphology/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-ext-cancer-topography/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-ext-cause-of-death/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-ext-combined-with/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-ext-contributors/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-ext-ctc-grade/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-ext-cycles/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-ext-data-completion-rate/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-ext-end-of-records/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-ext-is-primary-therapy/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-ext-molecular-tumor-board-cup-characterization/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-ext-molecular-tumor-board-molecular-comparison/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-ext-molecular-tumor-board-therapeutic-recommendation/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-ext-overall-survival/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-ext-recist-is-interpreted/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-ext-recurrence-of/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-ext-risk-assessment-score/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-ext-therapy-line-intent/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-ext-therapy-line-number/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-ext-therapy-line-period/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-ext-therapy-line-progression-date/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-ext-therapy-line-progression-free-survival/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-ext-tumor-board-specialization/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-ext-tumor-marker-analyte/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-ext-unknown-entry/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-genomic-variant/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-homologous-recombination-deficiency/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-imaging-disease-status/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-lifestyle/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-loss-of-heterozygosity/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-medication-administration/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-microsatellite-instability/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-molecular-tumor-board-review/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-primary-cancer-condition/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-radiotherapy-summary/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-secondary-cancer-condition/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-serous-tumor-marker-level-category/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-surgical-procedure/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-therapy-line/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-tnm-distant-metastases-category/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-tnm-grade-category/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-tnm-lymphatic-invasion-category/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-tnm-perineural-invasion-category/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-tnm-primary-tumor-category/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-tnm-regional-nodes-category/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-tnm-residual-tumor-category/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-tnm-stage-group/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-tumor-board-review/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-tumor-marker/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-tumor-mutational-burden/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-tumor-neoantigen-burden/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/StructureDefinition-onconova-venous-invasion-category/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/ValueSet-onconova-tnm-lymphatic-invasion-categories/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/ValueSet-onconova-tnm-perineural-invasion-categories/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/ValueSet-onconova-tnm-residual-tumor-categories/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/ValueSet-onconova-vs-adjunctive-therapy-roles/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/ValueSet-onconova-vs-adverse-event-mitigation-categories/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/ValueSet-onconova-vs-adverse-event-mitigation-drugs/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/ValueSet-onconova-vs-adverse-event-mitigation-managements/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/ValueSet-onconova-vs-adverse-event-mitigation-procedures/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/ValueSet-onconova-vs-adverse-event-mitigation-treatment-adjustments/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/ValueSet-onconova-vs-antineoplastic-agents/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/ValueSet-onconova-vs-cancer-imaging-methods/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/ValueSet-onconova-vs-cancer-risk-assessment-methods/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/ValueSet-onconova-vs-cancer-risk-assessment-values/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/ValueSet-onconova-vs-causes-of-death/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/ValueSet-onconova-vs-comorbidity-panels/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/ValueSet-onconova-vs-ctc-adverse-events/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/ValueSet-onconova-vs-expected-drug-effects/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/ValueSet-onconova-vs-exposure-agents/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/ValueSet-onconova-vs-icd-10-conditions/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/ValueSet-onconova-vs-icdo3-morphology-behavior/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/ValueSet-onconova-vs-icdo3-topography/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/ValueSet-onconova-vs-observation-bodysites/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/ValueSet-onconova-vs-recreational-drugs/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/ValueSet-onconova-vs-smoking-status/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/ValueSet-onconova-vs-tnm-distant-metastasis-categories/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/ValueSet-onconova-vs-tnm-grade-categories/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/ValueSet-onconova-vs-tnm-grade-category-methods/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/ValueSet-onconova-vs-tnm-primary-tumor-categories/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/ValueSet-onconova-vs-tnm-regional-nodes-categories/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/ValueSet-onconova-vs-tnm-serum-tumor-marker-level-categories/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/ValueSet-onconova-vs-tnm-venous-invasion-categories/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/ValueSet-onconova-vs-treatment-termination-reasons/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/ValueSet-onconova-vs-tumor-board-recommendations/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/ValueSet-onconova-vs-tumor-marker-analytes/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/fhir-ig/artifacts/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/get-started/configuration/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/get-started/installation/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/get-started/license/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/get-started/requirements/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/guide/about/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/guide/api/overview/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/guide/api/specification/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/guide/database/db_schema/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/guide/database/migrations/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/guide/developers/code_of_conduct/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/guide/developers/contributing/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/guide/developers/microservices/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/guide/developers/plugins/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/guide/security/audit-trail/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/guide/security/authentication/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/guide/security/data-security/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/guide/security/permissions/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/reference/client-docs/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/api/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/asgi/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/settings/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/urls/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/wsgi/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/analytics/controllers/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/analytics/schemas/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/core/aggregates/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/core/healthcheck/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/core/models/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/core/schemas/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/core/types/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/core/utils/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/core/anonymization/base/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/core/anonymization/decorator/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/core/auth/controllers/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/core/auth/models/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/core/auth/permissions/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/core/auth/schemas/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/core/auth/token/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/core/history/middleware/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/core/history/schemas/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/core/management/commands/export_openapi/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/core/measures/controllers/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/core/measures/fields/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/core/measures/measures/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/core/measures/schemas/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/core/serialization/base/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/core/serialization/factory/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/core/serialization/fields/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/core/serialization/filters/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/core/serialization/metaclasses/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/core/serialization/ordering/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/core/serialization/transforms/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/interoperability/controllers/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/interoperability/parsers/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/interoperability/schemas/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/oncology/controllers/adverse_event/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/oncology/controllers/comorbidities/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/oncology/controllers/family_history/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/oncology/controllers/genomic_signature/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/oncology/controllers/genomic_variant/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/oncology/controllers/lifestyle/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/oncology/controllers/neoplastic_entity/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/oncology/controllers/patient_case/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/oncology/controllers/performance_status/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/oncology/controllers/radiotherapy/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/oncology/controllers/risk_assessment/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/oncology/controllers/staging/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/oncology/controllers/surgery/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/oncology/controllers/systemic_therapy/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/oncology/controllers/therapy_line/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/oncology/controllers/treatment_response/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/oncology/controllers/tumor_board/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/oncology/controllers/tumor_marker/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/oncology/controllers/vitals/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/oncology/models/adverse_event/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/oncology/models/comorbidities/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/oncology/models/family_history/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/oncology/models/genomic_signature/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/oncology/models/genomic_variant/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/oncology/models/lifestyle/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/oncology/models/neoplastic_entity/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/oncology/models/patient_case/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/oncology/models/performance_status/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/oncology/models/radiotherapy/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/oncology/models/risk_assessment/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/oncology/models/staging/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/oncology/models/surgery/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/oncology/models/systemic_therapy/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/oncology/models/therapy_line/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/oncology/models/treatment_response/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/oncology/models/tumor_board/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/oncology/models/tumor_marker/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/oncology/models/vitals/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/oncology/schemas/adverse_event/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/oncology/schemas/comorbidities/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/oncology/schemas/family_history/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/oncology/schemas/genomic_signature/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/oncology/schemas/genomic_variant/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/oncology/schemas/lifestyle/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/oncology/schemas/neoplastic_entity/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/oncology/schemas/patient_case/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/oncology/schemas/performance_status/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/oncology/schemas/radiotherapy/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/oncology/schemas/risk_assessment/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/oncology/schemas/staging/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/oncology/schemas/surgery/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/oncology/schemas/systemic_therapy/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/oncology/schemas/therapy_line/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/oncology/schemas/treatment_response/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/oncology/schemas/tumor_board/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/oncology/schemas/tumor_marker/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/oncology/schemas/vitals/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/research/compilers/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/research/controllers/analysis/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/research/controllers/cohort/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/research/controllers/dataset/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/research/controllers/project/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/research/models/cohort/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/research/models/dataset/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/research/models/project/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/research/schemas/analysis/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/research/schemas/cohort/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/research/schemas/dataset/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/research/schemas/project/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/terminology/controllers/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/terminology/digestors/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/terminology/fhir/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/terminology/fields/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/terminology/models/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/terminology/resolver/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/terminology/schemas/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/terminology/services/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/terminology/special/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/terminology/utils/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
     <url>
          <loc>http://0.0.0.0/docs/dev/server-reference/onconova/terminology/management/commands/termsynch/</loc>
-         <lastmod>2025-10-09</lastmod>
+         <lastmod>2025-10-15</lastmod>
     </url>
 </urlset>

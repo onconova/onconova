@@ -3,14 +3,14 @@
   "id" : "onconova-vs-tnm-grade-category-methods",
   "text" : {
     "status" : "generated",
-    "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: ValueSet onconova-vs-tnm-grade-category-methods</b></p><a name=\"onconova-vs-tnm-grade-category-methods\"> </a><a name=\"hconconova-vs-tnm-grade-category-methods\"> </a><ul><li>Include these codes as defined in <a href=\"http://www.snomed.org/\"><code>http://snomed.info/sct</code></a> version <span title=\"Version is not explicity stated. No matching Code System found\">Not Stated (use latest from terminology server)</span><table class=\"none\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td></tr><tr><td><a href=\"http://snomed.info/id/1222598000\">1222598000</a></td><td style=\"color: #cccccc\">American Joint Committee on Cancer clinical grade allowable value</td></tr><tr><td><a href=\"http://snomed.info/id/1222599008\">1222599008</a></td><td style=\"color: #cccccc\">American Joint Committee on Cancer pathological grade allowable value (qualifier value)</td></tr><tr><td><a href=\"http://snomed.info/id/1222600006\">1222600006</a></td><td style=\"color: #cccccc\">American Joint Committee on Cancer yp grade allowable value</td></tr></table></li></ul></div>"
+    "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: ValueSet onconova-vs-tnm-grade-category-methods</b></p><a name=\"onconova-vs-tnm-grade-category-methods\"> </a><a name=\"hconconova-vs-tnm-grade-category-methods\"> </a><ul><li>Include these codes as defined in <a href=\"http://www.snomed.org/\"><code>http://snomed.info/sct</code></a><span title=\"Version is not explicity stated. No matching Code System found\"> version Not Stated (use latest from terminology server)</span><table class=\"none\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td></tr><tr><td><a href=\"http://snomed.info/id/1222598000\">1222598000</a></td><td style=\"color: #cccccc\">American Joint Committee on Cancer clinical grade allowable value</td></tr><tr><td><a href=\"http://snomed.info/id/1222599008\">1222599008</a></td><td style=\"color: #cccccc\">American Joint Committee on Cancer pathological grade allowable value (qualifier value)</td></tr><tr><td><a href=\"http://snomed.info/id/1222600006\">1222600006</a></td><td style=\"color: #cccccc\">American Joint Committee on Cancer yp grade allowable value</td></tr></table></li></ul></div>"
   },
   "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-tnm-grade-category-methods",
   "version" : "0.1.0",
   "name" : "TNMGradeCategoryMethods",
   "title" : "TNM Grade Category Methods Value Set",
   "status" : "active",
-  "date" : "2025-10-09T11:50:35+00:00",
+  "date" : "2025-10-15T08:18:37+00:00",
   "publisher" : "Onconova",
   "contact" : [{
     "name" : "Onconova",

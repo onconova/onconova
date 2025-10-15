@@ -5968,4 +5968,4 @@ Generic: line 0, col 0, Warning - The HTML fragment 'globals-table.xhtml' is not
 /home/runner/work/onconova/onconova/fhir/ig/fsh-generated/resources/ValueSet-onconova-vs-tumor-marker-analytes.json: line 1, col 8539, Warning - Published value sets SHOULD conform to the ShareableValueSet profile, which says that the element ValueSet.experimental is mandatory, but it is not present (REQUIRED)
 
 err = 33, warn = 184, info = 5108
-IG Publisher Version: 2.0.20
+IG Publisher Version: 2.0.21

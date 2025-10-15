@@ -321,8 +321,8 @@
       "uses" : {
       },
       "StructureDefinition-onconova-primary-cancer-condition.html" : "Primary Cancer Condition Profile",
-      "StructureDefinition-onconova-secondary-cancer-condition.html" : "Secondary Cancer Condition Profile",
-      "StructureDefinition-onconova-ext-cancer-morphology.html" : "Cancer Morphology"
+      "StructureDefinition-onconova-ext-cancer-morphology.html" : "Cancer Morphology",
+      "StructureDefinition-onconova-secondary-cancer-condition.html" : "Secondary Cancer Condition Profile"
     },
     {
       "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-icdo3-topography",
@@ -468,8 +468,8 @@
       "systems" : ["http://snomed.info/sct"],
       "uses" : {
       },
-      "StructureDefinition-onconova-radiotherapy-summary.html" : "Radiotherapy Summary Profile",
-      "StructureDefinition-onconova-medication-administration.html" : "Medication Administration Profile"
+      "StructureDefinition-onconova-medication-administration.html" : "Medication Administration Profile",
+      "StructureDefinition-onconova-radiotherapy-summary.html" : "Radiotherapy Summary Profile"
     },
     {
       "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-tumor-board-recommendations",

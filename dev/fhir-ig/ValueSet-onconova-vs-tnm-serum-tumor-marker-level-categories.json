@@ -3,14 +3,14 @@
   "id" : "onconova-vs-tnm-serum-tumor-marker-level-categories",
   "text" : {
     "status" : "generated",
-    "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: ValueSet onconova-vs-tnm-serum-tumor-marker-level-categories</b></p><a name=\"onconova-vs-tnm-serum-tumor-marker-level-categories\"> </a><a name=\"hconconova-vs-tnm-serum-tumor-marker-level-categories\"> </a><ul><li>Include these codes as defined in <a href=\"http://www.snomed.org/\"><code>http://snomed.info/sct</code></a> version <span title=\"Version is not explicity stated. No matching Code System found\">Not Stated (use latest from terminology server)</span><table class=\"none\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td></tr><tr><td><a href=\"http://snomed.info/id/313139000\">313139000</a></td><td>Stage S0</td></tr><tr><td><a href=\"http://snomed.info/id/313140003\">313140003</a></td><td>Stage S1</td></tr><tr><td><a href=\"http://snomed.info/id/313141004\">313141004</a></td><td>Stage S2</td></tr><tr><td><a href=\"http://snomed.info/id/313142006\">313142006</a></td><td>Stage S3</td></tr><tr><td><a href=\"http://snomed.info/id/313138008\">313138008</a></td><td>Stage SX</td></tr></table></li></ul></div>"
+    "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: ValueSet onconova-vs-tnm-serum-tumor-marker-level-categories</b></p><a name=\"onconova-vs-tnm-serum-tumor-marker-level-categories\"> </a><a name=\"hconconova-vs-tnm-serum-tumor-marker-level-categories\"> </a><ul><li>Include these codes as defined in <a href=\"http://www.snomed.org/\"><code>http://snomed.info/sct</code></a><span title=\"Version is not explicity stated. No matching Code System found\"> version Not Stated (use latest from terminology server)</span><table class=\"none\"><tr><td style=\"white-space:nowrap\"><b>Code</b></td><td><b>Display</b></td></tr><tr><td><a href=\"http://snomed.info/id/313139000\">313139000</a></td><td>Stage S0</td></tr><tr><td><a href=\"http://snomed.info/id/313140003\">313140003</a></td><td>Stage S1</td></tr><tr><td><a href=\"http://snomed.info/id/313141004\">313141004</a></td><td>Stage S2</td></tr><tr><td><a href=\"http://snomed.info/id/313142006\">313142006</a></td><td>Stage S3</td></tr><tr><td><a href=\"http://snomed.info/id/313138008\">313138008</a></td><td>Stage SX</td></tr></table></li></ul></div>"
   },
   "url" : "http://luisfabib.github.io/onconova/ValueSet/onconova-vs-tnm-serum-tumor-marker-level-categories",
   "version" : "0.1.0",
   "name" : "TNMSerumTumorMarkerLevelCategories",
   "title" : "TNM Serum Tumor Marker Level Categories Value Set",
   "status" : "active",
-  "date" : "2025-10-09T11:50:35+00:00",
+  "date" : "2025-10-15T08:18:37+00:00",
   "publisher" : "Onconova",
   "contact" : [{
     "name" : "Onconova",
