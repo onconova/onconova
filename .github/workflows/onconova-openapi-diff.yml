@@ -5,8 +5,8 @@ on:
 
 
 env:
-  CURRENT_BRANCH: $(echo ${{ github.head_ref }} | sed 's|.*/||')
-  TARGET_BRANCH: $(echo ${{ github.base_ref }} | sed 's|.*/||')
+  CURRENT_BRANCH: ${{ github.head_ref }}
+  TARGET_BRANCH: ${{ github.base_ref }}
 
 jobs:
   build-oas-artefacts:
@@ -55,12 +55,12 @@ jobs:
   build-report:
     needs: build-oas-artefacts
     runs-on: ubuntu-latest
-    env:
-        ORIGIN_SPEC: $(echo "$(pwd)/specs/original-spec.yaml" )
-        MODIFIED_SPEC: $(echo "$(pwd)/specs/modified-spec.yaml" )
-        SPECS_LOG: $(echo "$(pwd)/breaking-changes.log" )
-        JSON_DIFF_FILE: $(echo "$(pwd)/breaking-changes.json" )
-        GH_COMMENT_FILE: $(echo "$(pwd)/Github-comment.md" )
+  env:
+    ORIGIN_SPEC: "${{ github.workspace }}/specs/original-spec.yaml"
+    MODIFIED_SPEC: "${{ github.workspace }}/specs/modified-spec.yaml"
+    SPECS_LOG: "${{ github.workspace }}/breaking-changes.log"
+    JSON_DIFF_FILE: "${{ github.workspace }}/breaking-changes.json"
+    GH_COMMENT_FILE: "${{ github.workspace }}/Github-comment.md"
     steps:
       - uses: actions/setup-node@v1
         with:
