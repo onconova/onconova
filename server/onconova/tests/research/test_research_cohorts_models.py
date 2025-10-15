@@ -50,11 +50,13 @@ class TestGetCohortTraitAverage(TestCase):
 
     def test_average_and_standard_deviation_values(self):
         ages = [c.age for c in self.cohort.cases.all()]
-        avg, stddev = self.cohort.get_cohort_trait_average(
+        avg, stdev = self.cohort.get_cohort_trait_average(
             self.cohort.cases.all(), "age"
-        )
+        ) or (None,None)
+        assert avg
+        assert stdev
         self.assertAlmostEqual(avg, average(ages))
-        self.assertAlmostEqual(stddev, std(ages))
+        self.assertAlmostEqual(stdev, std(ages))
 
     def test_invalid_trait(self):
         with self.assertRaises(FieldError):
@@ -87,11 +89,14 @@ class TestGetCohortTraitMedian(TestCase):
         )
 
     def test_median_and_iqr_values(self):
-        ages = [c.age for c in self.cohort.cases.all()]
+        cases = self.cohort.cases.all()
+        ages = [c.age for c in cases]
         median, iqr = self.cohort.get_cohort_trait_median(
-            self.cohort.cases.all(), "age"
-        )
+            cases, "age"
+        ) or (None,None)
         interp_diff = 0.5
+        assert median
+        assert iqr
         self.assertAlmostEqual(median, percentile(ages, 50) - interp_diff)
         self.assertAlmostEqual(iqr[0], percentile(ages, 25) - interp_diff)
         self.assertAlmostEqual(iqr[1], percentile(ages, 75) - interp_diff)

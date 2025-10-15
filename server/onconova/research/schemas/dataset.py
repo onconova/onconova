@@ -3,7 +3,6 @@ from enum import Enum
 from typing import Any, List, Tuple, Type, Union, get_args
 from uuid import UUID
 import inspect 
-import warnings
 
 from django.db.models import Q
 from ninja import Field, Schema
@@ -16,6 +15,7 @@ from onconova.core.schemas import (
     CodedConcept as CodedConceptSchema, 
     Measure as MeasureSchema, 
     Period as PeriodSchema,
+    Range as RangeSchema,
     MetadataMixin, 
 )
 from onconova.core.serialization import transforms as tfs
@@ -145,7 +145,7 @@ class DatasetFilters(DatasetFiltersBase):
         return Q(created_by=self.createdBy) if value is not None else Q()
 
 
-def _create_partial_schema(schema: Type[BaseSchema]) -> Type[BaseSchema]:
+def _create_partial_schema(schema: Type[PydanticBaseModel]) -> Type[BaseSchema]:
     """
     Given a Pydantic model class, return a new model class with the same fields and validators,
     but all fields are optional (default=None).
@@ -170,13 +170,13 @@ def _create_partial_schema(schema: Type[BaseSchema]) -> Type[BaseSchema]:
         if is_list(annotation):
             list_annotation = get_args(annotation)[0]
             if issubclass(list_annotation, PydanticBaseModel) and not issubclass(
-                list_annotation, (CodedConceptSchema, MeasureSchema, PeriodSchema)
+                list_annotation, (CodedConceptSchema, MeasureSchema, PeriodSchema, RangeSchema)
             ):
                 related_schema_partial = _create_partial_schema(list_annotation)
                 annotation = List[related_schema_partial]
 
         if inspect.isclass(annotation) and issubclass(annotation, PydanticBaseModel) and not issubclass(
-            annotation, (CodedConceptSchema, MeasureSchema, PeriodSchema)
+            annotation, (CodedConceptSchema, MeasureSchema, PeriodSchema, RangeSchema)
         ):
             annotation = _create_partial_schema(annotation)
 
@@ -251,8 +251,8 @@ def _create_partial_schema(schema: Type[BaseSchema]) -> Type[BaseSchema]:
         ),  # type: ignore
         **new_fields,
     )
-    print('ATTEMPTING', schema.__name__)
-    partial_schema.__orm_model = schema.__orm_model__
+    if issubclass(schema, BaseSchema):
+        partial_schema.__orm_model = schema.__orm_model__
 
     return partial_schema
 

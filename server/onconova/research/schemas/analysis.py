@@ -2,7 +2,7 @@ import math
 from collections import Counter
 from datetime import datetime
 from statistics import NormalDist
-from typing import Dict, List, Self
+from typing import Dict, List, Any
 
 from django.db.models import F, OuterRef, Subquery, Value
 from django.db.models.functions import Coalesce
@@ -141,27 +141,27 @@ class KaplanMeierCurve(Schema, AnalysisMetadataMixin):
             .. [3]  Borgan, Liestøl (1990). Scandinavian Journal of Statistics 17, 35-41
         """
         # Remove None values and convert to floats
-        survivals = [float(m) for m in survivals if m is not None]
+        _survivals = [float(m) for m in survivals if m is not None]
         # Check that there are values in the array left
-        if len(survivals) == 0:
+        if len(_survivals) == 0:
             raise ValueError("The input argument cannot be empty or None")
 
         # Round months to integers
-        survivals = [round(m) for m in survivals]
+        _survivals = [round(m) for m in _survivals]
 
         # Generate the axis of survived months
-        max_month = int(max(survivals))
+        max_month = int(max(_survivals))
         survival_axis = list(range(0, max_month + 1))
 
         # Determine the number of alive patients along the axis
-        alive = [sum(m >= month for m in survivals) for month in survival_axis]
+        alive = [sum(m >= month for m in _survivals) for month in survival_axis]
 
         # Determine the number of death events along the axis
-        events = [sum(m == month for m in survivals) for month in survival_axis]
+        events = [sum(m == month for m in _survivals) for month in survival_axis]
 
         # Truncate the axis regions where nothing more happens
         valid_indices = [i for i, a in enumerate(alive) if a > 0]
-        survival_axis = [survival_axis[i] for i in valid_indices]
+        survival_axis = [float(survival_axis[i]) for i in valid_indices]
         alive = [alive[i] for i in valid_indices]
         events = [events[i] for i in valid_indices]
 
@@ -327,6 +327,8 @@ class CategorizedSurvivals(Schema, AnalysisMetadataMixin):
             return cls(
                 survivals=cls._calculate_by_therapy_classification(cohort, therapyLine)
             )
+        else:
+            raise ValueError(f'Expected categorization to be either `drugs` or `therapies`, but got {categorization}')
 
     @classmethod
     def _calculate_by_combination_therapy(
@@ -346,8 +348,8 @@ class CategorizedSurvivals(Schema, AnalysisMetadataMixin):
             .values_list("drug_combination", flat=True)
         )
 
-        survival_per_combination = {
-            combo[0]: None for combo in Counter(drug_combinations).most_common(4)
+        survival_per_combination: Dict[str, list[float]] = {
+            combo[0]: [] for combo in Counter(drug_combinations).most_common(4)
         }
         for combination in survival_per_combination.keys():
             survival_per_combination[combination] = (
@@ -428,7 +430,7 @@ class CategorizedSurvivals(Schema, AnalysisMetadataMixin):
             category[0] for category in Counter(therapy_classifications).most_common(4)
         ]
         survival_per_classification = {
-            _parse_category_name(category): None for category in most_common
+            _parse_category_name(category): [] for category in most_common
         }
         for classification in most_common:
             survival_per_classification[_parse_category_name(classification)] = (
@@ -451,7 +453,7 @@ class CategorizedSurvivals(Schema, AnalysisMetadataMixin):
 
     @classmethod
     def _get_progression_free_survival_for_therapy_line(
-        cls, cohort: Cohort, exclude_filters: dict = {}, **include_filters: dict
+        cls, cohort: Cohort, exclude_filters: dict = {}, **include_filters: Any
     ) -> List[float]:
         """
         Returns the list of progression free survival values for the given therapy line
@@ -532,11 +534,11 @@ class Distribution(Schema, AnalysisMetadataMixin):
                 CohortTraitCounts(
                     category=category, counts=count, percentage=percentage
                 )
-                for category, (count, percentage) in cohort.get_cohort_trait_counts(
+                for category, (count, percentage) in (cohort.get_cohort_trait_counts(
                     cohort.valid_cases.all(),
-                    property_info["lookup"],
+                    str(property_info["lookup"]),
                     anonymization=property_info.get("anonymization"),
-                ).items()
+                ) if property_info else {}).items()
             ]
         )
 
@@ -566,7 +568,7 @@ class TherapyLineCasesDistribution(Distribution):
         total = cohort.valid_cases.count()
         included = cohort.valid_cases.filter(therapy_lines__label=therapyLine).count()
         not_included = total - included
-        return Distribution(
+        return TherapyLineCasesDistribution(
             items=[
                 CohortTraitCounts(
                     category=f"Included in {therapyLine}",
@@ -612,7 +614,7 @@ class TherapyLineResponseDistribution(Distribution):
                 response=Subquery(
                     TreatmentResponse.objects.annotate(
                         therapy_line_period=Subquery(
-                            TherapyLine.objects.select_properties("period")
+                            TherapyLine.objects.select_properties("period") # type: ignore
                             .filter(case_id=OuterRef("case_id"), label=therapyLine)
                             .values_list("period", flat=True)[:1]
                         )
@@ -627,7 +629,7 @@ class TherapyLineResponseDistribution(Distribution):
             )
             .values_list("response", flat=True)
         )
-        return Distribution(
+        return TherapyLineResponseDistribution(
             items=[
                 CohortTraitCounts(
                     category=key or "Unknown",

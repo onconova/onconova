@@ -221,13 +221,13 @@ class BundleParser:
                 # Import the actor of the event
                 user = self.get_or_create_user(user)
             # Manually import the event metadata
-            event_instance = orm_instance.events.create(
+            event_instance = orm_instance.events.create( # type: ignore
                 pgh_obj=orm_instance,
                 pgh_label=event.category,
                 pgh_context=dict(username=user.username if event.user else None),
             )
             # Override the automated timestamp on the event
-            orm_instance.events.filter(pk=event_instance.pk).update(
+            orm_instance.events.filter(pk=event_instance.pk).update( # type: ignore
                 pgh_created_at=event.timestamp
             )
         # Add a manual event for the importing of the data
