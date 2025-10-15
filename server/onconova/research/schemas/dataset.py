@@ -22,7 +22,7 @@ from onconova.core.serialization import transforms as tfs
 from onconova.core.serialization.factory import create_filters_schema
 from onconova.core.schemas import BaseSchema, MetadataAnonymizationMixin, AnonymizationMixin
 from onconova.core.types import Nullable, UUID
-from onconova.core.utils import is_list, is_optional
+from onconova.core.utils import is_list, is_optional, is_nullable
 from onconova.interoperability.schemas import ExportMetadata
 from onconova.oncology import schemas as oncology_schemas
 from onconova.research.models import dataset as orm
@@ -166,6 +166,14 @@ def _create_partial_schema(schema: Type[PydanticBaseModel]) -> Type[BaseSchema]:
                 annotation = Union[annotation]
             else:
                 annotation = get_args(annotation)[0]
+        elif is_nullable(annotation):
+            annotation = get_args(getattr(annotation,'__origin__'))
+            if len(annotation) > 1:
+                annotation = Union[annotation]
+            else:
+                annotation = get_args(annotation)[0]
+            
+
 
         if is_list(annotation):
             list_annotation = get_args(annotation)[0]
@@ -192,7 +200,7 @@ def _create_partial_schema(schema: Type[PydanticBaseModel]) -> Type[BaseSchema]:
                 Field(
                     default=None,
                     description=model_field.description,
-                    title=model_field.title,
+                    title=f"Dataset {model_field.title or ''}",
                     validation_alias=AliasChoices(
                         *[
                             f"{model_field.alias}.{transform.name}"
@@ -208,7 +216,7 @@ def _create_partial_schema(schema: Type[PydanticBaseModel]) -> Type[BaseSchema]:
                     default=None, 
                     validation_alias=model_field.validation_alias,
                     description=model_field.description,
-                    title=model_field.title,
+                    title=f"Dataset {model_field.title or ''}",
                 ),
             )
         elif "Period" in str(annotation):
@@ -218,7 +226,7 @@ def _create_partial_schema(schema: Type[PydanticBaseModel]) -> Type[BaseSchema]:
                     default=None, 
                     validation_alias=model_field.validation_alias,
                     description=model_field.description,
-                    title=model_field.title,
+                    title=f"Dataset {model_field.title or ''}",
                 ),
             )
         else:
@@ -228,7 +236,7 @@ def _create_partial_schema(schema: Type[PydanticBaseModel]) -> Type[BaseSchema]:
                     default=None, 
                     validation_alias=model_field.validation_alias,
                     description=model_field.description,
-                    title=model_field.title,
+                    title=f"Dataset {model_field.title or ''}",
                 ),
             )
 

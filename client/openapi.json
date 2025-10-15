@@ -90679,24 +90679,24 @@
           "id": {
             "description": "Unique identifier of the resource (UUID v4).",
             "format": "uuid",
-            "title": "Id",
+            "title": "Dataset Id",
             "type": "string"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
-            "title": "Created at",
+            "title": "Dataset Created at",
             "type": "string"
           },
           "updatedAt": {
             "description": "Date-time when the resource was last updated",
             "format": "date-time",
-            "title": "Updated at",
+            "title": "Dataset Updated at",
             "type": "string"
           },
           "createdBy": {
             "description": "Username of the user who created the resource",
-            "title": "Created by",
+            "title": "Dataset Created by",
             "type": "string"
           },
           "updatedBy": {
@@ -90704,17 +90704,17 @@
             "items": {
               "type": "string"
             },
-            "title": "Updated by",
+            "title": "Dataset Updated by",
             "type": "array"
           },
           "externalSource": {
             "description": "The digital source of the data, relevant for automated data",
-            "title": "External data source",
+            "title": "Dataset External data source",
             "type": "string"
           },
           "externalSourceId": {
             "description": "The data identifier at the digital source of the data, relevant for automated data",
-            "title": "External data source Id",
+            "title": "Dataset External data source Id",
             "type": "string"
           },
           "category": {
@@ -90724,7 +90724,7 @@
               }
             ],
             "description": "Type of mitigation employed",
-            "title": "Mitigation category"
+            "title": "Dataset Mitigation category"
           },
           "adjustment": {
             "anyOf": [
@@ -90739,7 +90739,7 @@
               }
             ],
             "description": "Classification of the adjustment of systemic anti-cancer treatment used to mitigate the adverse event (if applicable)",
-            "title": "Treatment Adjustment"
+            "title": "Dataset Treatment Adjustment"
           },
           "drug": {
             "anyOf": [
@@ -90754,7 +90754,7 @@
               }
             ],
             "description": "Classification of the pharmacological treatment used to mitigate the adverse event (if applicable)",
-            "title": "Pharmacological drug"
+            "title": "Dataset Pharmacological drug"
           },
           "procedure": {
             "anyOf": [
@@ -90769,7 +90769,7 @@
               }
             ],
             "description": "Classification of the non-pharmacological procedure used to mitigate the adverse event (if applicable)",
-            "title": "Procedure"
+            "title": "Dataset Procedure"
           },
           "management": {
             "anyOf": [
@@ -90784,7 +90784,7 @@
               }
             ],
             "description": "Management type of the adverse event mitigation",
-            "title": "Management"
+            "title": "Dataset Management"
           }
         },
         "title": "AdverseEventMitigationPartial",
@@ -90801,24 +90801,24 @@
           "id": {
             "description": "Unique identifier of the resource (UUID v4).",
             "format": "uuid",
-            "title": "Id",
+            "title": "Dataset Id",
             "type": "string"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
-            "title": "Created at",
+            "title": "Dataset Created at",
             "type": "string"
           },
           "updatedAt": {
             "description": "Date-time when the resource was last updated",
             "format": "date-time",
-            "title": "Updated at",
+            "title": "Dataset Updated at",
             "type": "string"
           },
           "createdBy": {
             "description": "Username of the user who created the resource",
-            "title": "Created by",
+            "title": "Dataset Created by",
             "type": "string"
           },
           "updatedBy": {
@@ -90826,29 +90826,29 @@
             "items": {
               "type": "string"
             },
-            "title": "Updated by",
+            "title": "Dataset Updated by",
             "type": "array"
           },
           "externalSource": {
             "description": "The digital source of the data, relevant for automated data",
-            "title": "External data source",
+            "title": "Dataset External data source",
             "type": "string"
           },
           "externalSourceId": {
             "description": "The data identifier at the digital source of the data, relevant for automated data",
-            "title": "External data source Id",
+            "title": "Dataset External data source Id",
             "type": "string"
           },
           "caseId": {
             "description": "Indicates the case of the patient who had the adverse event being recorded",
             "format": "uuid",
-            "title": "Patient case",
+            "title": "Dataset Patient case",
             "type": "string"
           },
           "date": {
             "description": "Clinically-relevant date at which the adverse event ocurred.",
             "format": "date",
-            "title": "Event date",
+            "title": "Dataset Event date",
             "type": "string"
           },
           "event": {
@@ -90864,11 +90864,11 @@
               }
             ],
             "description": "Classification of the adverse event using CTCAE criteria",
-            "title": "Adverse event"
+            "title": "Dataset Adverse event"
           },
           "grade": {
             "description": "The grade associated with the severity of an adverse event, using CTCAE criteria.",
-            "title": "Grade",
+            "title": "Dataset Grade",
             "type": "integer"
           },
           "outcome": {
@@ -90878,12 +90878,12 @@
               }
             ],
             "description": "The date when the adverse event ended or returned to baseline.",
-            "title": "Date resolved"
+            "title": "Dataset Date resolved"
           },
           "dateResolved": {
             "description": "The date when the adverse event ended or returned to baseline.",
             "format": "date",
-            "title": "Date resolved",
+            "title": "Dataset Date resolved",
             "type": "string"
           },
           "suspectedCauses": {
@@ -90891,7 +90891,7 @@
             "items": {
               "$ref": "#/components/schemas/AdverseEventSuspectedCausePartial"
             },
-            "title": "Suspected causes",
+            "title": "Dataset Suspected causes",
             "type": "array"
           },
           "mitigations": {
@@ -90899,7 +90899,7 @@
             "items": {
               "$ref": "#/components/schemas/AdverseEventMitigationPartial"
             },
-            "title": "Mitigations",
+            "title": "Dataset Mitigations",
             "type": "array"
           }
         },
@@ -90917,24 +90917,24 @@
           "id": {
             "description": "Unique identifier of the resource (UUID v4).",
             "format": "uuid",
-            "title": "Id",
+            "title": "Dataset Id",
             "type": "string"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
-            "title": "Created at",
+            "title": "Dataset Created at",
             "type": "string"
           },
           "updatedAt": {
             "description": "Date-time when the resource was last updated",
             "format": "date-time",
-            "title": "Updated at",
+            "title": "Dataset Updated at",
             "type": "string"
           },
           "createdBy": {
             "description": "Username of the user who created the resource",
-            "title": "Created by",
+            "title": "Dataset Created by",
             "type": "string"
           },
           "updatedBy": {
@@ -90942,41 +90942,41 @@
             "items": {
               "type": "string"
             },
-            "title": "Updated by",
+            "title": "Dataset Updated by",
             "type": "array"
           },
           "externalSource": {
             "description": "The digital source of the data, relevant for automated data",
-            "title": "External data source",
+            "title": "Dataset External data source",
             "type": "string"
           },
           "externalSourceId": {
             "description": "The data identifier at the digital source of the data, relevant for automated data",
-            "title": "External data source Id",
+            "title": "Dataset External data source Id",
             "type": "string"
           },
           "systemicTherapyId": {
             "description": "Systemic therapy suspected to be the cause of the adverse event",
             "format": "uuid",
-            "title": "Suspected systemic therapy",
+            "title": "Dataset Suspected systemic therapy",
             "type": "string"
           },
           "medicationId": {
             "description": "Systemic therapy medication suspected to be the cause of the adverse event",
             "format": "uuid",
-            "title": "Suspected systemic therapy medication",
+            "title": "Dataset Suspected systemic therapy medication",
             "type": "string"
           },
           "radiotherapyId": {
             "description": "Radiotherapy suspected to be the cause of the adverse event",
             "format": "uuid",
-            "title": "Suspected radiotherapy",
+            "title": "Dataset Suspected radiotherapy",
             "type": "string"
           },
           "surgeryId": {
             "description": "Surgery suspected to be the cause of the adverse event",
             "format": "uuid",
-            "title": "Suspected surgery",
+            "title": "Dataset Suspected surgery",
             "type": "string"
           },
           "causality": {
@@ -90986,7 +90986,7 @@
               }
             ],
             "description": "Assessment of the potential causality",
-            "title": "Causality"
+            "title": "Dataset Causality"
           }
         },
         "title": "AdverseEventSuspectedCausePartial",
@@ -91003,24 +91003,24 @@
           "id": {
             "description": "Unique identifier of the resource (UUID v4).",
             "format": "uuid",
-            "title": "Id",
+            "title": "Dataset Id",
             "type": "string"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
-            "title": "Created at",
+            "title": "Dataset Created at",
             "type": "string"
           },
           "updatedAt": {
             "description": "Date-time when the resource was last updated",
             "format": "date-time",
-            "title": "Updated at",
+            "title": "Dataset Updated at",
             "type": "string"
           },
           "createdBy": {
             "description": "Username of the user who created the resource",
-            "title": "Created by",
+            "title": "Dataset Created by",
             "type": "string"
           },
           "updatedBy": {
@@ -91028,40 +91028,40 @@
             "items": {
               "type": "string"
             },
-            "title": "Updated by",
+            "title": "Dataset Updated by",
             "type": "array"
           },
           "category": {
             "const": "aneuploid_score",
             "description": "Genomic signature discriminator category",
-            "title": "Category",
+            "title": "Dataset Category",
             "type": "string"
           },
           "externalSource": {
             "description": "The digital source of the data, relevant for automated data",
-            "title": "External data source",
+            "title": "Dataset External data source",
             "type": "string"
           },
           "externalSourceId": {
             "description": "The data identifier at the digital source of the data, relevant for automated data",
-            "title": "External data source Id",
+            "title": "Dataset External data source Id",
             "type": "string"
           },
           "caseId": {
             "description": "Indicates the case of the patient who's lifestyle is assesed",
             "format": "uuid",
-            "title": "Patient case",
+            "title": "Dataset Patient case",
             "type": "string"
           },
           "date": {
             "description": "Clinically-relevant date at which the patient's genomic signature was assessed.",
             "format": "date",
-            "title": "Assessment date",
+            "title": "Dataset Assessment date",
             "type": "string"
           },
           "value": {
             "description": "The actual aneuploid score (AS) value in total altered arms",
-            "title": "Value",
+            "title": "Dataset Value",
             "type": "integer"
           }
         },
@@ -91079,24 +91079,24 @@
           "id": {
             "description": "Unique identifier of the resource (UUID v4).",
             "format": "uuid",
-            "title": "Id",
+            "title": "Dataset Id",
             "type": "string"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
-            "title": "Created at",
+            "title": "Dataset Created at",
             "type": "string"
           },
           "updatedAt": {
             "description": "Date-time when the resource was last updated",
             "format": "date-time",
-            "title": "Updated at",
+            "title": "Dataset Updated at",
             "type": "string"
           },
           "createdBy": {
             "description": "Username of the user who created the resource",
-            "title": "Created by",
+            "title": "Dataset Created by",
             "type": "string"
           },
           "updatedBy": {
@@ -91104,35 +91104,35 @@
             "items": {
               "type": "string"
             },
-            "title": "Updated by",
+            "title": "Dataset Updated by",
             "type": "array"
           },
           "stagingDomain": {
             "const": "binet",
             "description": "Staging domain discriminator category",
-            "title": "Staging domain",
+            "title": "Dataset Staging domain",
             "type": "string"
           },
           "externalSource": {
             "description": "The digital source of the data, relevant for automated data",
-            "title": "External data source",
+            "title": "Dataset External data source",
             "type": "string"
           },
           "externalSourceId": {
             "description": "The data identifier at the digital source of the data, relevant for automated data",
-            "title": "External data source Id",
+            "title": "Dataset External data source Id",
             "type": "string"
           },
           "caseId": {
             "description": "Indicates the case of the patient who's cancer is staged",
             "format": "uuid",
-            "title": "Patient case",
+            "title": "Dataset Patient case",
             "type": "string"
           },
           "date": {
             "description": "Clinically-relevant date at which the staging was performed and recorded.",
             "format": "date",
-            "title": "Staging date",
+            "title": "Dataset Staging date",
             "type": "string"
           },
           "stagedEntitiesIds": {
@@ -91141,7 +91141,7 @@
               "format": "uuid",
               "type": "string"
             },
-            "title": "Staged neoplastic entities",
+            "title": "Dataset Staged neoplastic entities",
             "type": "array"
           },
           "stage": {
@@ -91157,7 +91157,7 @@
               }
             ],
             "description": "The value of the Binet stage",
-            "title": "Binet Stage"
+            "title": "Dataset Binet Stage"
           }
         },
         "title": "BinetStagingPartial",
@@ -91174,24 +91174,24 @@
           "id": {
             "description": "Unique identifier of the resource (UUID v4).",
             "format": "uuid",
-            "title": "Id",
+            "title": "Dataset Id",
             "type": "string"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
-            "title": "Created at",
+            "title": "Dataset Created at",
             "type": "string"
           },
           "updatedAt": {
             "description": "Date-time when the resource was last updated",
             "format": "date-time",
-            "title": "Updated at",
+            "title": "Dataset Updated at",
             "type": "string"
           },
           "createdBy": {
             "description": "Username of the user who created the resource",
-            "title": "Created by",
+            "title": "Dataset Created by",
             "type": "string"
           },
           "updatedBy": {
@@ -91199,35 +91199,35 @@
             "items": {
               "type": "string"
             },
-            "title": "Updated by",
+            "title": "Dataset Updated by",
             "type": "array"
           },
           "stagingDomain": {
             "const": "breslow",
             "description": "Staging domain discriminator category",
-            "title": "Staging domain",
+            "title": "Dataset Staging domain",
             "type": "string"
           },
           "externalSource": {
             "description": "The digital source of the data, relevant for automated data",
-            "title": "External data source",
+            "title": "Dataset External data source",
             "type": "string"
           },
           "externalSourceId": {
             "description": "The data identifier at the digital source of the data, relevant for automated data",
-            "title": "External data source Id",
+            "title": "Dataset External data source Id",
             "type": "string"
           },
           "caseId": {
             "description": "Indicates the case of the patient who's cancer is staged",
             "format": "uuid",
-            "title": "Patient case",
+            "title": "Dataset Patient case",
             "type": "string"
           },
           "date": {
             "description": "Clinically-relevant date at which the staging was performed and recorded.",
             "format": "date",
-            "title": "Staging date",
+            "title": "Dataset Staging date",
             "type": "string"
           },
           "stagedEntitiesIds": {
@@ -91236,7 +91236,7 @@
               "format": "uuid",
               "type": "string"
             },
-            "title": "Staged neoplastic entities",
+            "title": "Dataset Staged neoplastic entities",
             "type": "array"
           },
           "depth": {
@@ -91246,11 +91246,11 @@
               }
             ],
             "description": "Breslow depth",
-            "title": "Breslow depth"
+            "title": "Dataset Breslow depth"
           },
           "isUlcered": {
             "description": "Whether the primary tumour presents ulceration",
-            "title": "Ulcered",
+            "title": "Dataset Ulcered",
             "type": "boolean"
           },
           "stage": {
@@ -91266,7 +91266,7 @@
               }
             ],
             "description": "The value of the Binet stage",
-            "title": "Breslow Stage"
+            "title": "Dataset Breslow Stage"
           }
         },
         "title": "BreslowDepthPartial",
@@ -91283,24 +91283,24 @@
           "id": {
             "description": "Unique identifier of the resource (UUID v4).",
             "format": "uuid",
-            "title": "Id",
+            "title": "Dataset Id",
             "type": "string"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
-            "title": "Created at",
+            "title": "Dataset Created at",
             "type": "string"
           },
           "updatedAt": {
             "description": "Date-time when the resource was last updated",
             "format": "date-time",
-            "title": "Updated at",
+            "title": "Dataset Updated at",
             "type": "string"
           },
           "createdBy": {
             "description": "Username of the user who created the resource",
-            "title": "Created by",
+            "title": "Dataset Created by",
             "type": "string"
           },
           "updatedBy": {
@@ -91308,35 +91308,35 @@
             "items": {
               "type": "string"
             },
-            "title": "Updated by",
+            "title": "Dataset Updated by",
             "type": "array"
           },
           "stagingDomain": {
             "const": "clark",
             "description": "Staging domain discriminator category",
-            "title": "Staging domain",
+            "title": "Dataset Staging domain",
             "type": "string"
           },
           "externalSource": {
             "description": "The digital source of the data, relevant for automated data",
-            "title": "External data source",
+            "title": "Dataset External data source",
             "type": "string"
           },
           "externalSourceId": {
             "description": "The data identifier at the digital source of the data, relevant for automated data",
-            "title": "External data source Id",
+            "title": "Dataset External data source Id",
             "type": "string"
           },
           "caseId": {
             "description": "Indicates the case of the patient who's cancer is staged",
             "format": "uuid",
-            "title": "Patient case",
+            "title": "Dataset Patient case",
             "type": "string"
           },
           "date": {
             "description": "Clinically-relevant date at which the staging was performed and recorded.",
             "format": "date",
-            "title": "Staging date",
+            "title": "Dataset Staging date",
             "type": "string"
           },
           "stagedEntitiesIds": {
@@ -91345,7 +91345,7 @@
               "format": "uuid",
               "type": "string"
             },
-            "title": "Staged neoplastic entities",
+            "title": "Dataset Staged neoplastic entities",
             "type": "array"
           },
           "stage": {
@@ -91361,7 +91361,7 @@
               }
             ],
             "description": "The value of the Clark level stage",
-            "title": "Clark Level Stage"
+            "title": "Dataset Clark Level Stage"
           }
         },
         "title": "ClarkStagingPartial",
@@ -91378,24 +91378,24 @@
           "id": {
             "description": "Unique identifier of the resource (UUID v4).",
             "format": "uuid",
-            "title": "Id",
+            "title": "Dataset Id",
             "type": "string"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
-            "title": "Created at",
+            "title": "Dataset Created at",
             "type": "string"
           },
           "updatedAt": {
             "description": "Date-time when the resource was last updated",
             "format": "date-time",
-            "title": "Updated at",
+            "title": "Dataset Updated at",
             "type": "string"
           },
           "createdBy": {
             "description": "Username of the user who created the resource",
-            "title": "Created by",
+            "title": "Dataset Created by",
             "type": "string"
           },
           "updatedBy": {
@@ -91403,35 +91403,35 @@
             "items": {
               "type": "string"
             },
-            "title": "Updated by",
+            "title": "Dataset Updated by",
             "type": "array"
           },
           "externalSource": {
             "description": "The digital source of the data, relevant for automated data",
-            "title": "External data source",
+            "title": "Dataset External data source",
             "type": "string"
           },
           "externalSourceId": {
             "description": "The data identifier at the digital source of the data, relevant for automated data",
-            "title": "External data source Id",
+            "title": "Dataset External data source Id",
             "type": "string"
           },
           "caseId": {
             "description": "Indicates the case of the patient who's comorbidities are being recorded",
             "format": "uuid",
-            "title": "Patient case",
+            "title": "Dataset Patient case",
             "type": "string"
           },
           "date": {
             "description": "Clinically-relevant date at which the patient's comorbidities were assessed and recorded.",
             "format": "date",
-            "title": "Assessment date",
+            "title": "Dataset Assessment date",
             "type": "string"
           },
           "indexConditionId": {
             "description": "The primary neoplastic entity against which comorbidities are assessed",
             "format": "uuid",
-            "title": "Index neoplastic entity",
+            "title": "Dataset Index neoplastic entity",
             "type": "string"
           },
           "panel": {
@@ -91441,7 +91441,7 @@
               }
             ],
             "description": "Comorbidities panel",
-            "title": "Panel"
+            "title": "Dataset Panel"
           },
           "presentConditions": {
             "anyOf": [
@@ -91456,7 +91456,7 @@
               }
             ],
             "description": "Present comorbid conditions",
-            "title": "Present comorbid conditions"
+            "title": "Dataset Present comorbid conditions"
           },
           "absentConditions": {
             "anyOf": [
@@ -91471,7 +91471,7 @@
               }
             ],
             "description": "Absent comorbid conditions",
-            "title": "Absent comorbid conditions"
+            "title": "Dataset Absent comorbid conditions"
           },
           "score": {
             "anyOf": [
@@ -91483,7 +91483,7 @@
               }
             ],
             "description": "Comorbidity score",
-            "title": "Score"
+            "title": "Dataset Score"
           }
         },
         "title": "ComorbiditiesAssessmentPartial",
@@ -91542,24 +91542,24 @@
           "id": {
             "description": "Unique identifier of the resource (UUID v4).",
             "format": "uuid",
-            "title": "Id",
+            "title": "Dataset Id",
             "type": "string"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
-            "title": "Created at",
+            "title": "Dataset Created at",
             "type": "string"
           },
           "updatedAt": {
             "description": "Date-time when the resource was last updated",
             "format": "date-time",
-            "title": "Updated at",
+            "title": "Dataset Updated at",
             "type": "string"
           },
           "createdBy": {
             "description": "Username of the user who created the resource",
-            "title": "Created by",
+            "title": "Dataset Created by",
             "type": "string"
           },
           "updatedBy": {
@@ -91567,29 +91567,29 @@
             "items": {
               "type": "string"
             },
-            "title": "Updated by",
+            "title": "Dataset Updated by",
             "type": "array"
           },
           "externalSource": {
             "description": "The digital source of the data, relevant for automated data",
-            "title": "External data source",
+            "title": "Dataset External data source",
             "type": "string"
           },
           "externalSourceId": {
             "description": "The data identifier at the digital source of the data, relevant for automated data",
-            "title": "External data source Id",
+            "title": "Dataset External data source Id",
             "type": "string"
           },
           "caseId": {
             "description": "Indicates the case of the patient who's family's history is being recorded",
             "format": "uuid",
-            "title": "Patient case",
+            "title": "Dataset Patient case",
             "type": "string"
           },
           "date": {
             "description": "Clinically-relevant date at which the patient's family history was assessed and recorded.",
             "format": "date",
-            "title": "Assessment date",
+            "title": "Dataset Assessment date",
             "type": "string"
           },
           "relationship": {
@@ -91605,21 +91605,21 @@
               }
             ],
             "description": "Relationship to the patient",
-            "title": "Relationship"
+            "title": "Dataset Relationship"
           },
           "hadCancer": {
             "description": "Whether the family member has a history of cancer",
-            "title": "Had cancer",
+            "title": "Dataset Had cancer",
             "type": "boolean"
           },
           "contributedToDeath": {
             "description": "Whether the cancer contributed to the cause of death of the family member",
-            "title": "Contributed to death",
+            "title": "Dataset Contributed to death",
             "type": "boolean"
           },
           "onsetAge": {
             "description": "Age at which the family member's cancer manifested",
-            "title": "Onset age",
+            "title": "Dataset Onset age",
             "type": "integer"
           },
           "topography": {
@@ -91635,7 +91635,7 @@
               }
             ],
             "description": "Estimated or actual topography of the family member's cancer",
-            "title": "Topography"
+            "title": "Dataset Topography"
           },
           "morphology": {
             "anyOf": [
@@ -91650,7 +91650,7 @@
               }
             ],
             "description": "Morphology of the family member's cancer (if known)",
-            "title": "Morphology"
+            "title": "Dataset Morphology"
           }
         },
         "title": "FamilyHistoryPartial",
@@ -91667,24 +91667,24 @@
           "id": {
             "description": "Unique identifier of the resource (UUID v4).",
             "format": "uuid",
-            "title": "Id",
+            "title": "Dataset Id",
             "type": "string"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
-            "title": "Created at",
+            "title": "Dataset Created at",
             "type": "string"
           },
           "updatedAt": {
             "description": "Date-time when the resource was last updated",
             "format": "date-time",
-            "title": "Updated at",
+            "title": "Dataset Updated at",
             "type": "string"
           },
           "createdBy": {
             "description": "Username of the user who created the resource",
-            "title": "Created by",
+            "title": "Dataset Created by",
             "type": "string"
           },
           "updatedBy": {
@@ -91692,29 +91692,29 @@
             "items": {
               "type": "string"
             },
-            "title": "Updated by",
+            "title": "Dataset Updated by",
             "type": "array"
           },
           "externalSource": {
             "description": "The digital source of the data, relevant for automated data",
-            "title": "External data source",
+            "title": "Dataset External data source",
             "type": "string"
           },
           "externalSourceId": {
             "description": "The data identifier at the digital source of the data, relevant for automated data",
-            "title": "External data source Id",
+            "title": "Dataset External data source Id",
             "type": "string"
           },
           "caseId": {
             "description": "Indicates the case of the patient who' genomic variant is described",
             "format": "uuid",
-            "title": "Patient case",
+            "title": "Dataset Patient case",
             "type": "string"
           },
           "date": {
             "description": "Clinically-relevant date of the genomic variant (e.g. the specimen collection date).",
             "format": "date",
-            "title": "Date",
+            "title": "Dataset Date",
             "type": "string"
           },
           "genes": {
@@ -91730,32 +91730,32 @@
               }
             ],
             "description": "Gene(s) affected by this variant",
-            "title": "Gene(s)"
+            "title": "Dataset Gene(s)"
           },
           "dnaHgvs": {
             "description": "DNA HGVS expression (g-coordinate expression, HGVS version >=21.1)",
-            "title": "DNA HGVS",
+            "title": "Dataset DNA HGVS",
             "type": "string"
           },
           "rnaHgvs": {
             "description": "RNA HGVS expression (g-coordinate expression, HGVS version >=21.1)",
-            "title": "RNA HGVS",
+            "title": "Dataset RNA HGVS",
             "type": "string"
           },
           "proteinHgvs": {
             "description": "Protein HGVS expression (g-coordinate expression, HGVS version >=21.1)",
-            "title": "Protein HGVS",
+            "title": "Dataset Protein HGVS",
             "type": "string"
           },
           "assessmentDate": {
             "description": "Date at which the genomic variant was assessed and/or reported.",
             "format": "date",
-            "title": "Assessment date",
+            "title": "Dataset Assessment date",
             "type": "string"
           },
           "genePanel": {
             "description": "Commercial or official name of the gene panel tested to identify the variant",
-            "title": "Gene panel",
+            "title": "Dataset Gene panel",
             "type": "string"
           },
           "assessment": {
@@ -91765,7 +91765,7 @@
               }
             ],
             "description": "Classification of whether the variant is present or absent in the analysis results. Relevant for genomic studies that report presence and absence of variants.",
-            "title": "Assessment"
+            "title": "Dataset Assessment"
           },
           "confidence": {
             "allOf": [
@@ -91774,7 +91774,7 @@
               }
             ],
             "description": "Classification of the confidence for a true positive variant call based e.g. calling thresholds or phred-scaled confidence scores.",
-            "title": "Confidence"
+            "title": "Dataset Confidence"
           },
           "analysisMethod": {
             "anyOf": [
@@ -91789,7 +91789,7 @@
               }
             ],
             "description": "Analysis method used to detect the variant",
-            "title": "Analysis method"
+            "title": "Dataset Analysis method"
           },
           "clinicalRelevance": {
             "allOf": [
@@ -91798,7 +91798,7 @@
               }
             ],
             "description": "Classification of the clinical relevance or pathogenicity of the variant.",
-            "title": "Clinical relevance"
+            "title": "Dataset Clinical relevance"
           },
           "genomeAssemblyVersion": {
             "anyOf": [
@@ -91813,7 +91813,7 @@
               }
             ],
             "description": "The reference genome assembly versionused in this analysis.",
-            "title": "Genome assembly version"
+            "title": "Dataset Genome assembly version"
           },
           "molecularConsequence": {
             "anyOf": [
@@ -91828,21 +91828,21 @@
               }
             ],
             "description": "The calculated or observed effect of a variant on its downstream transcript and, if applicable, ensuing protein sequence.",
-            "title": "Molecular consequence"
+            "title": "Dataset Molecular consequence"
           },
           "copyNumber": {
             "description": "Genomic structural variant copy number. It is a unit-less value. Note that a copy number of 1 can imply a deletion.",
-            "title": "Copy number",
+            "title": "Dataset Copy number",
             "type": "integer"
           },
           "alleleFrequency": {
             "description": "The relative frequency (value in range [0,1]) of the allele at a given locus in the sample.",
-            "title": "Allele frequency",
+            "title": "Dataset Allele frequency",
             "type": "number"
           },
           "alleleDepth": {
             "description": "Specifies the number of reads that identified the allele in question whether it consists of one or a small sequence of contiguous nucleotides.",
-            "title": "Allele depth (reads)",
+            "title": "Dataset Allele depth (reads)",
             "type": "integer"
           },
           "zygosity": {
@@ -91858,7 +91858,7 @@
               }
             ],
             "description": "The observed level of occurrence of the variant in the set of chromosomes.",
-            "title": "Zygosity"
+            "title": "Dataset Zygosity"
           },
           "inheritance": {
             "anyOf": [
@@ -91873,7 +91873,7 @@
               }
             ],
             "description": "Variant inheritance origin (if known).",
-            "title": "Inheritance"
+            "title": "Dataset Inheritance"
           },
           "coordinateSystem": {
             "anyOf": [
@@ -91888,31 +91888,31 @@
               }
             ],
             "description": "Genomic coordinate system used for identifying nucleotides or amino acids within a sequence.",
-            "title": "Coordinate system"
+            "title": "Dataset Coordinate system"
           },
           "clinvar": {
             "description": "Accession number in the ClinVar variant database, given for cross-reference.",
-            "title": "ClinVar accession number",
+            "title": "Dataset ClinVar accession number",
             "type": "string"
           },
           "isPathogenic": {
             "description": "Whether the genomic variant is considered pathogenic in a clinical setting",
-            "title": "Is Pathogenic",
+            "title": "Dataset Is Pathogenic",
             "type": "boolean"
           },
           "isVUS": {
             "description": "Whether the genomic variant is considered a variant of unknown signifiance (VUS)",
-            "title": "Is VUS",
+            "title": "Dataset Is VUS",
             "type": "boolean"
           },
           "dnaReferenceSequence": {
             "description": "DNA reference sequence identifier used as dna HGVS reference.",
-            "title": "DNA HGVS RefSeq",
+            "title": "Dataset DNA HGVS RefSeq",
             "type": "string"
           },
           "dnaChangePosition": {
             "description": "DNA-level single-nucleotide position where the variant was found.",
-            "title": "DNA change position",
+            "title": "Dataset DNA change position",
             "type": "integer"
           },
           "dnaChangePositionRange": {
@@ -91922,7 +91922,7 @@
               }
             ],
             "description": "DNA-level single-nucleotide position where the variant was found.",
-            "title": "DNA change range"
+            "title": "Dataset DNA change range"
           },
           "dnaChangeType": {
             "allOf": [
@@ -91931,16 +91931,16 @@
               }
             ],
             "description": "DNA variant type of variant.",
-            "title": "DNA change type"
+            "title": "Dataset DNA change type"
           },
           "rnaReferenceSequence": {
             "description": "RNA reference sequence identifier used as rna HGVS reference.",
-            "title": "RNA HGVS RefSeq",
+            "title": "Dataset RNA HGVS RefSeq",
             "type": "string"
           },
           "rnaChangePosition": {
             "description": "RNA-level nucleotide position/range where the variant was found.",
-            "title": "RNA change position",
+            "title": "Dataset RNA change position",
             "type": "string"
           },
           "rnaChangeType": {
@@ -91950,11 +91950,11 @@
               }
             ],
             "description": "RNA variant type of variant.",
-            "title": "RNA change type"
+            "title": "Dataset RNA change type"
           },
           "proteinReferenceSequence": {
             "description": "Protein reference sequence identifier used as protein HGVS reference.",
-            "title": "Protein HGVS RefSeq",
+            "title": "Dataset Protein HGVS RefSeq",
             "type": "string"
           },
           "proteinChangeType": {
@@ -91964,11 +91964,11 @@
               }
             ],
             "description": "Protein variant type of variant.",
-            "title": "Protein change type"
+            "title": "Dataset Protein change type"
           },
           "nucleotidesLength": {
             "description": "Length of the variant in nucleotides",
-            "title": "Variant length",
+            "title": "Dataset Variant length",
             "type": "integer"
           },
           "regions": {
@@ -91976,7 +91976,7 @@
             "items": {
               "type": "string"
             },
-            "title": "Gene regions",
+            "title": "Dataset Gene regions",
             "type": "array"
           }
         },
@@ -91994,24 +91994,24 @@
           "id": {
             "description": "Unique identifier of the resource (UUID v4).",
             "format": "uuid",
-            "title": "Id",
+            "title": "Dataset Id",
             "type": "string"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
-            "title": "Created at",
+            "title": "Dataset Created at",
             "type": "string"
           },
           "updatedAt": {
             "description": "Date-time when the resource was last updated",
             "format": "date-time",
-            "title": "Updated at",
+            "title": "Dataset Updated at",
             "type": "string"
           },
           "createdBy": {
             "description": "Username of the user who created the resource",
-            "title": "Created by",
+            "title": "Dataset Created by",
             "type": "string"
           },
           "updatedBy": {
@@ -92019,35 +92019,35 @@
             "items": {
               "type": "string"
             },
-            "title": "Updated by",
+            "title": "Dataset Updated by",
             "type": "array"
           },
           "stagingDomain": {
             "const": "gleason",
             "description": "Staging domain discriminator category",
-            "title": "Staging domain",
+            "title": "Dataset Staging domain",
             "type": "string"
           },
           "externalSource": {
             "description": "The digital source of the data, relevant for automated data",
-            "title": "External data source",
+            "title": "Dataset External data source",
             "type": "string"
           },
           "externalSourceId": {
             "description": "The data identifier at the digital source of the data, relevant for automated data",
-            "title": "External data source Id",
+            "title": "Dataset External data source Id",
             "type": "string"
           },
           "caseId": {
             "description": "Indicates the case of the patient who's cancer is staged",
             "format": "uuid",
-            "title": "Patient case",
+            "title": "Dataset Patient case",
             "type": "string"
           },
           "date": {
             "description": "Clinically-relevant date at which the staging was performed and recorded.",
             "format": "date",
-            "title": "Staging date",
+            "title": "Dataset Staging date",
             "type": "string"
           },
           "stagedEntitiesIds": {
@@ -92056,7 +92056,7 @@
               "format": "uuid",
               "type": "string"
             },
-            "title": "Staged neoplastic entities",
+            "title": "Dataset Staged neoplastic entities",
             "type": "array"
           },
           "stage": {
@@ -92072,7 +92072,7 @@
               }
             ],
             "description": "The value of the Gleason grade stage",
-            "title": "Gleason grade Stage"
+            "title": "Dataset Gleason grade Stage"
           }
         },
         "title": "GleasonGradePartial",
@@ -92089,24 +92089,24 @@
           "id": {
             "description": "Unique identifier of the resource (UUID v4).",
             "format": "uuid",
-            "title": "Id",
+            "title": "Dataset Id",
             "type": "string"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
-            "title": "Created at",
+            "title": "Dataset Created at",
             "type": "string"
           },
           "updatedAt": {
             "description": "Date-time when the resource was last updated",
             "format": "date-time",
-            "title": "Updated at",
+            "title": "Dataset Updated at",
             "type": "string"
           },
           "createdBy": {
             "description": "Username of the user who created the resource",
-            "title": "Created by",
+            "title": "Dataset Created by",
             "type": "string"
           },
           "updatedBy": {
@@ -92114,40 +92114,40 @@
             "items": {
               "type": "string"
             },
-            "title": "Updated by",
+            "title": "Dataset Updated by",
             "type": "array"
           },
           "category": {
             "const": "homologous_recombination_deficiency",
             "description": "Genomic signature discriminator category",
-            "title": "Category",
+            "title": "Dataset Category",
             "type": "string"
           },
           "externalSource": {
             "description": "The digital source of the data, relevant for automated data",
-            "title": "External data source",
+            "title": "Dataset External data source",
             "type": "string"
           },
           "externalSourceId": {
             "description": "The data identifier at the digital source of the data, relevant for automated data",
-            "title": "External data source Id",
+            "title": "Dataset External data source Id",
             "type": "string"
           },
           "caseId": {
             "description": "Indicates the case of the patient who's lifestyle is assesed",
             "format": "uuid",
-            "title": "Patient case",
+            "title": "Dataset Patient case",
             "type": "string"
           },
           "date": {
             "description": "Clinically-relevant date at which the patient's genomic signature was assessed.",
             "format": "date",
-            "title": "Assessment date",
+            "title": "Dataset Assessment date",
             "type": "string"
           },
           "value": {
             "description": "Homologous recombination deficiency (HRD) score value",
-            "title": "Value",
+            "title": "Dataset Value",
             "type": "number"
           },
           "interpretation": {
@@ -92157,7 +92157,7 @@
               }
             ],
             "description": "Homologous recombination deficiency (HRD) interpretation",
-            "title": "Interpretation"
+            "title": "Dataset Interpretation"
           }
         },
         "title": "HomologousRecombinationDeficiencyPartial",
@@ -92174,24 +92174,24 @@
           "id": {
             "description": "Unique identifier of the resource (UUID v4).",
             "format": "uuid",
-            "title": "Id",
+            "title": "Dataset Id",
             "type": "string"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
-            "title": "Created at",
+            "title": "Dataset Created at",
             "type": "string"
           },
           "updatedAt": {
             "description": "Date-time when the resource was last updated",
             "format": "date-time",
-            "title": "Updated at",
+            "title": "Dataset Updated at",
             "type": "string"
           },
           "createdBy": {
             "description": "Username of the user who created the resource",
-            "title": "Created by",
+            "title": "Dataset Created by",
             "type": "string"
           },
           "updatedBy": {
@@ -92199,35 +92199,35 @@
             "items": {
               "type": "string"
             },
-            "title": "Updated by",
+            "title": "Dataset Updated by",
             "type": "array"
           },
           "stagingDomain": {
             "const": "inrgss",
             "description": "Staging domain discriminator category",
-            "title": "Staging domain",
+            "title": "Dataset Staging domain",
             "type": "string"
           },
           "externalSource": {
             "description": "The digital source of the data, relevant for automated data",
-            "title": "External data source",
+            "title": "Dataset External data source",
             "type": "string"
           },
           "externalSourceId": {
             "description": "The data identifier at the digital source of the data, relevant for automated data",
-            "title": "External data source Id",
+            "title": "Dataset External data source Id",
             "type": "string"
           },
           "caseId": {
             "description": "Indicates the case of the patient who's cancer is staged",
             "format": "uuid",
-            "title": "Patient case",
+            "title": "Dataset Patient case",
             "type": "string"
           },
           "date": {
             "description": "Clinically-relevant date at which the staging was performed and recorded.",
             "format": "date",
-            "title": "Staging date",
+            "title": "Dataset Staging date",
             "type": "string"
           },
           "stagedEntitiesIds": {
@@ -92236,7 +92236,7 @@
               "format": "uuid",
               "type": "string"
             },
-            "title": "Staged neoplastic entities",
+            "title": "Dataset Staged neoplastic entities",
             "type": "array"
           },
           "stage": {
@@ -92252,7 +92252,7 @@
               }
             ],
             "description": "The value of the INRGSS stage",
-            "title": "INRGSS Stage"
+            "title": "Dataset INRGSS Stage"
           }
         },
         "title": "INRGSSStagePartial",
@@ -92269,24 +92269,24 @@
           "id": {
             "description": "Unique identifier of the resource (UUID v4).",
             "format": "uuid",
-            "title": "Id",
+            "title": "Dataset Id",
             "type": "string"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
-            "title": "Created at",
+            "title": "Dataset Created at",
             "type": "string"
           },
           "updatedAt": {
             "description": "Date-time when the resource was last updated",
             "format": "date-time",
-            "title": "Updated at",
+            "title": "Dataset Updated at",
             "type": "string"
           },
           "createdBy": {
             "description": "Username of the user who created the resource",
-            "title": "Created by",
+            "title": "Dataset Created by",
             "type": "string"
           },
           "updatedBy": {
@@ -92294,35 +92294,35 @@
             "items": {
               "type": "string"
             },
-            "title": "Updated by",
+            "title": "Dataset Updated by",
             "type": "array"
           },
           "stagingDomain": {
             "const": "inss",
             "description": "Staging domain discriminator category",
-            "title": "Staging domain",
+            "title": "Dataset Staging domain",
             "type": "string"
           },
           "externalSource": {
             "description": "The digital source of the data, relevant for automated data",
-            "title": "External data source",
+            "title": "Dataset External data source",
             "type": "string"
           },
           "externalSourceId": {
             "description": "The data identifier at the digital source of the data, relevant for automated data",
-            "title": "External data source Id",
+            "title": "Dataset External data source Id",
             "type": "string"
           },
           "caseId": {
             "description": "Indicates the case of the patient who's cancer is staged",
             "format": "uuid",
-            "title": "Patient case",
+            "title": "Dataset Patient case",
             "type": "string"
           },
           "date": {
             "description": "Clinically-relevant date at which the staging was performed and recorded.",
             "format": "date",
-            "title": "Staging date",
+            "title": "Dataset Staging date",
             "type": "string"
           },
           "stagedEntitiesIds": {
@@ -92331,7 +92331,7 @@
               "format": "uuid",
               "type": "string"
             },
-            "title": "Staged neoplastic entities",
+            "title": "Dataset Staged neoplastic entities",
             "type": "array"
           },
           "stage": {
@@ -92347,7 +92347,7 @@
               }
             ],
             "description": "The value of the INSS stage",
-            "title": "INSS Stage"
+            "title": "Dataset INSS Stage"
           }
         },
         "title": "INSSStagePartial",
@@ -92364,24 +92364,24 @@
           "id": {
             "description": "Unique identifier of the resource (UUID v4).",
             "format": "uuid",
-            "title": "Id",
+            "title": "Dataset Id",
             "type": "string"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
-            "title": "Created at",
+            "title": "Dataset Created at",
             "type": "string"
           },
           "updatedAt": {
             "description": "Date-time when the resource was last updated",
             "format": "date-time",
-            "title": "Updated at",
+            "title": "Dataset Updated at",
             "type": "string"
           },
           "createdBy": {
             "description": "Username of the user who created the resource",
-            "title": "Created by",
+            "title": "Dataset Created by",
             "type": "string"
           },
           "updatedBy": {
@@ -92389,35 +92389,35 @@
             "items": {
               "type": "string"
             },
-            "title": "Updated by",
+            "title": "Dataset Updated by",
             "type": "array"
           },
           "stagingDomain": {
             "const": "iss",
             "description": "Staging domain discriminator category",
-            "title": "Staging domain",
+            "title": "Dataset Staging domain",
             "type": "string"
           },
           "externalSource": {
             "description": "The digital source of the data, relevant for automated data",
-            "title": "External data source",
+            "title": "Dataset External data source",
             "type": "string"
           },
           "externalSourceId": {
             "description": "The data identifier at the digital source of the data, relevant for automated data",
-            "title": "External data source Id",
+            "title": "Dataset External data source Id",
             "type": "string"
           },
           "caseId": {
             "description": "Indicates the case of the patient who's cancer is staged",
             "format": "uuid",
-            "title": "Patient case",
+            "title": "Dataset Patient case",
             "type": "string"
           },
           "date": {
             "description": "Clinically-relevant date at which the staging was performed and recorded.",
             "format": "date",
-            "title": "Staging date",
+            "title": "Dataset Staging date",
             "type": "string"
           },
           "stagedEntitiesIds": {
@@ -92426,7 +92426,7 @@
               "format": "uuid",
               "type": "string"
             },
-            "title": "Staged neoplastic entities",
+            "title": "Dataset Staged neoplastic entities",
             "type": "array"
           },
           "stage": {
@@ -92442,7 +92442,7 @@
               }
             ],
             "description": "The value of theISS stage",
-            "title": "ISS Stage"
+            "title": "Dataset ISS Stage"
           }
         },
         "title": "ISSStagingPartial",
@@ -92459,24 +92459,24 @@
           "id": {
             "description": "Unique identifier of the resource (UUID v4).",
             "format": "uuid",
-            "title": "Id",
+            "title": "Dataset Id",
             "type": "string"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
-            "title": "Created at",
+            "title": "Dataset Created at",
             "type": "string"
           },
           "updatedAt": {
             "description": "Date-time when the resource was last updated",
             "format": "date-time",
-            "title": "Updated at",
+            "title": "Dataset Updated at",
             "type": "string"
           },
           "createdBy": {
             "description": "Username of the user who created the resource",
-            "title": "Created by",
+            "title": "Dataset Created by",
             "type": "string"
           },
           "updatedBy": {
@@ -92484,29 +92484,29 @@
             "items": {
               "type": "string"
             },
-            "title": "Updated by",
+            "title": "Dataset Updated by",
             "type": "array"
           },
           "externalSource": {
             "description": "The digital source of the data, relevant for automated data",
-            "title": "External data source",
+            "title": "Dataset External data source",
             "type": "string"
           },
           "externalSourceId": {
             "description": "The data identifier at the digital source of the data, relevant for automated data",
-            "title": "External data source Id",
+            "title": "Dataset External data source Id",
             "type": "string"
           },
           "caseId": {
             "description": "Indicates the case of the patient who's lifestyle is assesed",
             "format": "uuid",
-            "title": "Patient case",
+            "title": "Dataset Patient case",
             "type": "string"
           },
           "date": {
             "description": "Clinically-relevant date at which the patient's lifetyle was assessed and recorded.",
             "format": "date",
-            "title": "Assessment date",
+            "title": "Dataset Assessment date",
             "type": "string"
           },
           "smokingStatus": {
@@ -92522,11 +92522,11 @@
               }
             ],
             "description": "Tobacco consumption status",
-            "title": "Smoking Status"
+            "title": "Dataset Smoking Status"
           },
           "smokingPackyears": {
             "description": "Smoking pack-years (if applicable)",
-            "title": "Smoking packyears",
+            "title": "Dataset Smoking packyears",
             "type": "number"
           },
           "smokingQuited": {
@@ -92536,7 +92536,7 @@
               }
             ],
             "description": "Estimated time since quitting smoking (if applicable)",
-            "title": "Time since quitted smoking"
+            "title": "Dataset Time since quitted smoking"
           },
           "alcoholConsumption": {
             "anyOf": [
@@ -92551,7 +92551,7 @@
               }
             ],
             "description": "Frequency of alcohol consumption",
-            "title": "Alcohol consumption"
+            "title": "Dataset Alcohol consumption"
           },
           "nightSleep": {
             "allOf": [
@@ -92560,7 +92560,7 @@
               }
             ],
             "description": "Estimated average sleep time per night",
-            "title": "Night sleep"
+            "title": "Dataset Night sleep"
           },
           "recreationalDrugs": {
             "anyOf": [
@@ -92575,7 +92575,7 @@
               }
             ],
             "description": "Any recreational drug(s) used by the patient",
-            "title": "Recreational drugs"
+            "title": "Dataset Recreational drugs"
           },
           "exposures": {
             "anyOf": [
@@ -92590,7 +92590,7 @@
               }
             ],
             "description": "Environmental or occupational exposures to hazards or carcinogenic agents",
-            "title": "Exposures"
+            "title": "Dataset Exposures"
           }
         },
         "title": "LifestylePartial",
@@ -92607,24 +92607,24 @@
           "id": {
             "description": "Unique identifier of the resource (UUID v4).",
             "format": "uuid",
-            "title": "Id",
+            "title": "Dataset Id",
             "type": "string"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
-            "title": "Created at",
+            "title": "Dataset Created at",
             "type": "string"
           },
           "updatedAt": {
             "description": "Date-time when the resource was last updated",
             "format": "date-time",
-            "title": "Updated at",
+            "title": "Dataset Updated at",
             "type": "string"
           },
           "createdBy": {
             "description": "Username of the user who created the resource",
-            "title": "Created by",
+            "title": "Dataset Created by",
             "type": "string"
           },
           "updatedBy": {
@@ -92632,40 +92632,40 @@
             "items": {
               "type": "string"
             },
-            "title": "Updated by",
+            "title": "Dataset Updated by",
             "type": "array"
           },
           "category": {
             "const": "loss_of_heterozygosity",
             "description": "Genomic signature discriminator category",
-            "title": "Category",
+            "title": "Dataset Category",
             "type": "string"
           },
           "externalSource": {
             "description": "The digital source of the data, relevant for automated data",
-            "title": "External data source",
+            "title": "Dataset External data source",
             "type": "string"
           },
           "externalSourceId": {
             "description": "The data identifier at the digital source of the data, relevant for automated data",
-            "title": "External data source Id",
+            "title": "Dataset External data source Id",
             "type": "string"
           },
           "caseId": {
             "description": "Indicates the case of the patient who's lifestyle is assesed",
             "format": "uuid",
-            "title": "Patient case",
+            "title": "Dataset Patient case",
             "type": "string"
           },
           "date": {
             "description": "Clinically-relevant date at which the patient's genomic signature was assessed.",
             "format": "date",
-            "title": "Assessment date",
+            "title": "Dataset Assessment date",
             "type": "string"
           },
           "value": {
             "description": "Loss of heterozygosity (LOH) as a percentage",
-            "title": "Value",
+            "title": "Dataset Value",
             "type": "number"
           }
         },
@@ -92683,24 +92683,24 @@
           "id": {
             "description": "Unique identifier of the resource (UUID v4).",
             "format": "uuid",
-            "title": "Id",
+            "title": "Dataset Id",
             "type": "string"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
-            "title": "Created at",
+            "title": "Dataset Created at",
             "type": "string"
           },
           "updatedAt": {
             "description": "Date-time when the resource was last updated",
             "format": "date-time",
-            "title": "Updated at",
+            "title": "Dataset Updated at",
             "type": "string"
           },
           "createdBy": {
             "description": "Username of the user who created the resource",
-            "title": "Created by",
+            "title": "Dataset Created by",
             "type": "string"
           },
           "updatedBy": {
@@ -92708,35 +92708,35 @@
             "items": {
               "type": "string"
             },
-            "title": "Updated by",
+            "title": "Dataset Updated by",
             "type": "array"
           },
           "stagingDomain": {
             "const": "lymphoma",
             "description": "Staging domain discriminator category",
-            "title": "Staging domain",
+            "title": "Dataset Staging domain",
             "type": "string"
           },
           "externalSource": {
             "description": "The digital source of the data, relevant for automated data",
-            "title": "External data source",
+            "title": "Dataset External data source",
             "type": "string"
           },
           "externalSourceId": {
             "description": "The data identifier at the digital source of the data, relevant for automated data",
-            "title": "External data source Id",
+            "title": "Dataset External data source Id",
             "type": "string"
           },
           "caseId": {
             "description": "Indicates the case of the patient who's cancer is staged",
             "format": "uuid",
-            "title": "Patient case",
+            "title": "Dataset Patient case",
             "type": "string"
           },
           "date": {
             "description": "Clinically-relevant date at which the staging was performed and recorded.",
             "format": "date",
-            "title": "Staging date",
+            "title": "Dataset Staging date",
             "type": "string"
           },
           "stagedEntitiesIds": {
@@ -92745,7 +92745,7 @@
               "format": "uuid",
               "type": "string"
             },
-            "title": "Staged neoplastic entities",
+            "title": "Dataset Staged neoplastic entities",
             "type": "array"
           },
           "stage": {
@@ -92761,7 +92761,7 @@
               }
             ],
             "description": "The value of the Lymphoma stage",
-            "title": "Lymphoma Stage"
+            "title": "Dataset Lymphoma Stage"
           },
           "methodology": {
             "anyOf": [
@@ -92776,16 +92776,16 @@
               }
             ],
             "description": "Methodology used for the Lymphoma staging",
-            "title": "Lymphoma staging methodology"
+            "title": "Dataset Lymphoma staging methodology"
           },
           "bulky": {
             "description": "Bulky modifier indicating if the lymphoma has the presence of bulky disease.",
-            "title": "Bulky disease modifier",
+            "title": "Dataset Bulky disease modifier",
             "type": "boolean"
           },
           "pathological": {
             "description": "Whether the staging was based on clinical or pathologic evidence.",
-            "title": "Pathological staging",
+            "title": "Dataset Pathological staging",
             "type": "boolean"
           },
           "modifiers": {
@@ -92801,7 +92801,7 @@
               }
             ],
             "description": "Qualifier acting as modifier for the lymphoma stage",
-            "title": "Lymphoma stage modifier"
+            "title": "Dataset Lymphoma stage modifier"
           }
         },
         "title": "LymphomaStagingPartial",
@@ -92818,24 +92818,24 @@
           "id": {
             "description": "Unique identifier of the resource (UUID v4).",
             "format": "uuid",
-            "title": "Id",
+            "title": "Dataset Id",
             "type": "string"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
-            "title": "Created at",
+            "title": "Dataset Created at",
             "type": "string"
           },
           "updatedAt": {
             "description": "Date-time when the resource was last updated",
             "format": "date-time",
-            "title": "Updated at",
+            "title": "Dataset Updated at",
             "type": "string"
           },
           "createdBy": {
             "description": "Username of the user who created the resource",
-            "title": "Created by",
+            "title": "Dataset Created by",
             "type": "string"
           },
           "updatedBy": {
@@ -92843,35 +92843,35 @@
             "items": {
               "type": "string"
             },
-            "title": "Updated by",
+            "title": "Dataset Updated by",
             "type": "array"
           },
           "category": {
             "const": "microsatellite_instability",
             "description": "Genomic signature discriminator category",
-            "title": "Category",
+            "title": "Dataset Category",
             "type": "string"
           },
           "externalSource": {
             "description": "The digital source of the data, relevant for automated data",
-            "title": "External data source",
+            "title": "Dataset External data source",
             "type": "string"
           },
           "externalSourceId": {
             "description": "The data identifier at the digital source of the data, relevant for automated data",
-            "title": "External data source Id",
+            "title": "Dataset External data source Id",
             "type": "string"
           },
           "caseId": {
             "description": "Indicates the case of the patient who's lifestyle is assesed",
             "format": "uuid",
-            "title": "Patient case",
+            "title": "Dataset Patient case",
             "type": "string"
           },
           "date": {
             "description": "Clinically-relevant date at which the patient's genomic signature was assessed.",
             "format": "date",
-            "title": "Assessment date",
+            "title": "Dataset Assessment date",
             "type": "string"
           },
           "value": {
@@ -92887,7 +92887,7 @@
               }
             ],
             "description": "Microsatellite instability (MSI) classification",
-            "title": "Value"
+            "title": "Dataset Value"
           }
         },
         "title": "MicrosatelliteInstabilityPartial",
@@ -92904,24 +92904,24 @@
           "id": {
             "description": "Unique identifier of the resource (UUID v4).",
             "format": "uuid",
-            "title": "Id",
+            "title": "Dataset Id",
             "type": "string"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
-            "title": "Created at",
+            "title": "Dataset Created at",
             "type": "string"
           },
           "updatedAt": {
             "description": "Date-time when the resource was last updated",
             "format": "date-time",
-            "title": "Updated at",
+            "title": "Dataset Updated at",
             "type": "string"
           },
           "createdBy": {
             "description": "Username of the user who created the resource",
-            "title": "Created by",
+            "title": "Dataset Created by",
             "type": "string"
           },
           "updatedBy": {
@@ -92929,23 +92929,23 @@
             "items": {
               "type": "string"
             },
-            "title": "Updated by",
+            "title": "Dataset Updated by",
             "type": "array"
           },
           "externalSource": {
             "description": "The digital source of the data, relevant for automated data",
-            "title": "External data source",
+            "title": "Dataset External data source",
             "type": "string"
           },
           "externalSourceId": {
             "description": "The data identifier at the digital source of the data, relevant for automated data",
-            "title": "External data source Id",
+            "title": "Dataset External data source Id",
             "type": "string"
           },
           "caseId": {
             "description": "Indicates the case of the patient who's neoplasm(s) are recorded",
             "format": "uuid",
-            "title": "Patient case",
+            "title": "Dataset Patient case",
             "type": "string"
           },
           "relationship": {
@@ -92955,18 +92955,18 @@
               }
             ],
             "description": "Relationship linking secondary and recurrent tumors to their primary origin or for distinguishing between different phases of the disease.",
-            "title": "Neoplastic relationship"
+            "title": "Dataset Neoplastic relationship"
           },
           "relatedPrimaryId": {
             "description": "Reference to the primary neoplasm of which the neoplasm(s) originated from.",
             "format": "uuid",
-            "title": "Related primary neoplasm",
+            "title": "Dataset Related primary neoplasm",
             "type": "string"
           },
           "assertionDate": {
             "description": "The date on which the existence of the neoplasm(s) was first asserted or acknowledged",
             "format": "date",
-            "title": "Assertion date",
+            "title": "Dataset Assertion date",
             "type": "string"
           },
           "topography": {
@@ -92982,7 +92982,7 @@
               }
             ],
             "description": "Anatomical location of the neoplasm(s)",
-            "title": "Topography"
+            "title": "Dataset Topography"
           },
           "morphology": {
             "anyOf": [
@@ -92997,7 +92997,7 @@
               }
             ],
             "description": "Describes the cell type of the tumor and its biologic activity, in other words, the characteristics of the tumor itself",
-            "title": "Morphology"
+            "title": "Dataset Morphology"
           },
           "differentitation": {
             "anyOf": [
@@ -93012,7 +93012,7 @@
               }
             ],
             "description": "Morphologic differentitation characteristics of the neoplasm(s)",
-            "title": "Differentiation"
+            "title": "Dataset Differentiation"
           },
           "laterality": {
             "anyOf": [
@@ -93027,7 +93027,7 @@
               }
             ],
             "description": "Laterality qualifier for the location of the neoplasm(s)",
-            "title": "Laterality"
+            "title": "Dataset Laterality"
           },
           "topographyGroup": {
             "anyOf": [
@@ -93042,7 +93042,7 @@
               }
             ],
             "description": "Broad anatomical location of the neoplastic entity",
-            "title": "Topographical group"
+            "title": "Dataset Topographical group"
           }
         },
         "title": "NeoplasticEntityPartial",
@@ -93066,18 +93066,18 @@
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
-            "title": "Created at",
+            "title": "Dataset Created at",
             "type": "string"
           },
           "updatedAt": {
             "description": "Date-time when the resource was last updated",
             "format": "date-time",
-            "title": "Updated at",
+            "title": "Dataset Updated at",
             "type": "string"
           },
           "createdBy": {
             "description": "Username of the user who created the resource",
-            "title": "Created by",
+            "title": "Dataset Created by",
             "type": "string"
           },
           "updatedBy": {
@@ -93085,27 +93085,27 @@
             "items": {
               "type": "string"
             },
-            "title": "Updated by",
+            "title": "Dataset Updated by",
             "type": "array"
           },
           "externalSource": {
             "description": "The digital source of the data, relevant for automated data",
-            "title": "External data source",
+            "title": "Dataset External data source",
             "type": "string"
           },
           "externalSourceId": {
             "description": "The data identifier at the digital source of the data, relevant for automated data",
-            "title": "External data source Id",
+            "title": "Dataset External data source Id",
             "type": "string"
           },
           "clinicalCenter": {
             "description": "Medical center where the patient data originally resides",
-            "title": "Medical center",
+            "title": "Dataset Medical center",
             "type": "string"
           },
           "clinicalIdentifier": {
             "description": "Unique clinical identifier (typically the clinical information system identifier) unique for a physical patient",
-            "title": "Clinical identifier",
+            "title": "Dataset Clinical identifier",
             "type": "string"
           },
           "consentStatus": {
@@ -93115,7 +93115,7 @@
               }
             ],
             "description": "Status of the general consent by the patient for the use of their data for research purposes",
-            "title": "Consent status"
+            "title": "Dataset Consent status"
           },
           "gender": {
             "anyOf": [
@@ -93130,7 +93130,7 @@
               }
             ],
             "description": "Gender of the patient for legal/administrative purposes",
-            "title": "Gender"
+            "title": "Dataset Gender"
           },
           "race": {
             "anyOf": [
@@ -93145,7 +93145,7 @@
               }
             ],
             "description": "Race of the patient",
-            "title": "Race"
+            "title": "Dataset Race"
           },
           "sexAtBirth": {
             "anyOf": [
@@ -93160,7 +93160,7 @@
               }
             ],
             "description": "Sex assigned at birth",
-            "title": "Birth sex"
+            "title": "Dataset Birth sex"
           },
           "genderIdentity": {
             "anyOf": [
@@ -93175,7 +93175,7 @@
               }
             ],
             "description": "The patient's innate sense of their gender as reported",
-            "title": "Gender identity"
+            "title": "Dataset Gender identity"
           },
           "dateOfBirth": {
             "anyOf": [
@@ -93189,7 +93189,7 @@
               }
             ],
             "description": "Date of birth of the patient",
-            "title": "Date of birth"
+            "title": "Dataset Date of birth"
           },
           "vitalStatus": {
             "allOf": [
@@ -93198,12 +93198,12 @@
               }
             ],
             "description": "Whether the patient is known to be alive or decaeased or is unknkown.",
-            "title": "Vital status"
+            "title": "Dataset Vital status"
           },
           "dateOfDeath": {
             "description": "Anonymized date of death (year/month). The day is set to the first day of the month by convention.",
             "format": "date",
-            "title": "Date of death",
+            "title": "Dataset Date of death",
             "type": "string"
           },
           "causeOfDeath": {
@@ -93219,12 +93219,12 @@
               }
             ],
             "description": "Classification of the cause of death.",
-            "title": "Cause of death"
+            "title": "Dataset Cause of death"
           },
           "endOfRecords": {
             "description": "Date of the last known record about the patient if lost to followup or vital status is unknown.",
             "format": "date",
-            "title": "End of records",
+            "title": "Dataset End of records",
             "type": "string"
           },
           "pseudoidentifier": {
@@ -93242,11 +93242,11 @@
               }
             ],
             "description": "Approximate age of the patient in years",
-            "title": "Age"
+            "title": "Dataset Age"
           },
           "overallSurvival": {
             "description": "Overall survival of the patient since diagnosis",
-            "title": "Overall survival",
+            "title": "Dataset Overall survival",
             "type": "number"
           },
           "ageAtDiagnosis": {
@@ -93259,11 +93259,11 @@
               }
             ],
             "description": "Approximate age of the patient in years at the time of the initial diagnosis",
-            "title": "Age at diagnosis"
+            "title": "Dataset Age at diagnosis"
           },
           "dataCompletionRate": {
             "description": "Percentage indicating the completeness of a case in terms of its data.",
-            "title": "Data completion rate",
+            "title": "Dataset Data completion rate",
             "type": "number"
           },
           "contributors": {
@@ -93271,7 +93271,7 @@
             "items": {
               "type": "string"
             },
-            "title": "Data contributors",
+            "title": "Dataset Data contributors",
             "type": "array"
           },
           "neoplasticEntities": {
@@ -93588,24 +93588,24 @@
           "id": {
             "description": "Unique identifier of the resource (UUID v4).",
             "format": "uuid",
-            "title": "Id",
+            "title": "Dataset Id",
             "type": "string"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
-            "title": "Created at",
+            "title": "Dataset Created at",
             "type": "string"
           },
           "updatedAt": {
             "description": "Date-time when the resource was last updated",
             "format": "date-time",
-            "title": "Updated at",
+            "title": "Dataset Updated at",
             "type": "string"
           },
           "createdBy": {
             "description": "Username of the user who created the resource",
-            "title": "Created by",
+            "title": "Dataset Created by",
             "type": "string"
           },
           "updatedBy": {
@@ -93613,39 +93613,39 @@
             "items": {
               "type": "string"
             },
-            "title": "Updated by",
+            "title": "Dataset Updated by",
             "type": "array"
           },
           "externalSource": {
             "description": "The digital source of the data, relevant for automated data",
-            "title": "External data source",
+            "title": "Dataset External data source",
             "type": "string"
           },
           "externalSourceId": {
             "description": "The data identifier at the digital source of the data, relevant for automated data",
-            "title": "External data source Id",
+            "title": "Dataset External data source Id",
             "type": "string"
           },
           "caseId": {
             "description": "Indicates the case of the patient who's performance status is assesed",
             "format": "uuid",
-            "title": "Patient case",
+            "title": "Dataset Patient case",
             "type": "string"
           },
           "date": {
             "description": "Clinically-relevant date at which the performance score was performed and recorded.",
             "format": "date",
-            "title": "Assessment date",
+            "title": "Dataset Assessment date",
             "type": "string"
           },
           "ecogScore": {
             "description": "ECOG Performance Status Score",
-            "title": "ECOG Score",
+            "title": "Dataset ECOG Score",
             "type": "integer"
           },
           "karnofskyScore": {
             "description": "Karnofsky Performance Status Score",
-            "title": "Karnofsky Score",
+            "title": "Dataset Karnofsky Score",
             "type": "integer"
           },
           "ecogInterpretation": {
@@ -93661,7 +93661,7 @@
               }
             ],
             "description": "Official interpretation of the ECOG score",
-            "title": "ECOG Interpreation"
+            "title": "Dataset ECOG Interpreation"
           },
           "karnofskyInterpretation": {
             "anyOf": [
@@ -93676,7 +93676,7 @@
               }
             ],
             "description": "Official interpretation of the Karnofsky score",
-            "title": "Karnofsky Interpreation"
+            "title": "Dataset Karnofsky Interpreation"
           }
         },
         "title": "PerformanceStatusPartial",
@@ -93693,24 +93693,24 @@
           "id": {
             "description": "Unique identifier of the resource (UUID v4).",
             "format": "uuid",
-            "title": "Id",
+            "title": "Dataset Id",
             "type": "string"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
-            "title": "Created at",
+            "title": "Dataset Created at",
             "type": "string"
           },
           "updatedAt": {
             "description": "Date-time when the resource was last updated",
             "format": "date-time",
-            "title": "Updated at",
+            "title": "Dataset Updated at",
             "type": "string"
           },
           "createdBy": {
             "description": "Username of the user who created the resource",
-            "title": "Created by",
+            "title": "Dataset Created by",
             "type": "string"
           },
           "updatedBy": {
@@ -93718,35 +93718,35 @@
             "items": {
               "type": "string"
             },
-            "title": "Updated by",
+            "title": "Dataset Updated by",
             "type": "array"
           },
           "stagingDomain": {
             "const": "riss",
             "description": "Staging domain discriminator category",
-            "title": "Staging domain",
+            "title": "Dataset Staging domain",
             "type": "string"
           },
           "externalSource": {
             "description": "The digital source of the data, relevant for automated data",
-            "title": "External data source",
+            "title": "Dataset External data source",
             "type": "string"
           },
           "externalSourceId": {
             "description": "The data identifier at the digital source of the data, relevant for automated data",
-            "title": "External data source Id",
+            "title": "Dataset External data source Id",
             "type": "string"
           },
           "caseId": {
             "description": "Indicates the case of the patient who's cancer is staged",
             "format": "uuid",
-            "title": "Patient case",
+            "title": "Dataset Patient case",
             "type": "string"
           },
           "date": {
             "description": "Clinically-relevant date at which the staging was performed and recorded.",
             "format": "date",
-            "title": "Staging date",
+            "title": "Dataset Staging date",
             "type": "string"
           },
           "stagedEntitiesIds": {
@@ -93755,7 +93755,7 @@
               "format": "uuid",
               "type": "string"
             },
-            "title": "Staged neoplastic entities",
+            "title": "Dataset Staged neoplastic entities",
             "type": "array"
           },
           "stage": {
@@ -93771,7 +93771,7 @@
               }
             ],
             "description": "The value of the RISS stage",
-            "title": "RISS Stage"
+            "title": "Dataset RISS Stage"
           }
         },
         "title": "RISSStagingPartial",
@@ -93788,24 +93788,24 @@
           "id": {
             "description": "Unique identifier of the resource (UUID v4).",
             "format": "uuid",
-            "title": "Id",
+            "title": "Dataset Id",
             "type": "string"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
-            "title": "Created at",
+            "title": "Dataset Created at",
             "type": "string"
           },
           "updatedAt": {
             "description": "Date-time when the resource was last updated",
             "format": "date-time",
-            "title": "Updated at",
+            "title": "Dataset Updated at",
             "type": "string"
           },
           "createdBy": {
             "description": "Username of the user who created the resource",
-            "title": "Created by",
+            "title": "Dataset Created by",
             "type": "string"
           },
           "updatedBy": {
@@ -93813,22 +93813,22 @@
             "items": {
               "type": "string"
             },
-            "title": "Updated by",
+            "title": "Dataset Updated by",
             "type": "array"
           },
           "externalSource": {
             "description": "The digital source of the data, relevant for automated data",
-            "title": "External data source",
+            "title": "Dataset External data source",
             "type": "string"
           },
           "externalSourceId": {
             "description": "The data identifier at the digital source of the data, relevant for automated data",
-            "title": "External data source Id",
+            "title": "Dataset External data source Id",
             "type": "string"
           },
           "fractions": {
             "description": "The total number of radiotherapy fractions delivered over the treatment period.",
-            "title": "Total fractions",
+            "title": "Dataset Total fractions",
             "type": "integer"
           },
           "dose": {
@@ -93838,7 +93838,7 @@
               }
             ],
             "description": "Total radiation dose delivered over the full radiotherapy course",
-            "title": "Total radiation dose"
+            "title": "Dataset Total radiation dose"
           },
           "irradiatedVolume": {
             "anyOf": [
@@ -93853,7 +93853,7 @@
               }
             ],
             "description": "Anatomical location of the irradiated volume",
-            "title": "Irradiated volume"
+            "title": "Dataset Irradiated volume"
           },
           "irradiatedVolumeMorphology": {
             "anyOf": [
@@ -93868,7 +93868,7 @@
               }
             ],
             "description": "Morphology of the anatomical location of the irradiated volume",
-            "title": "Irradiated volume morphology"
+            "title": "Dataset Irradiated volume morphology"
           },
           "irradiatedVolumeQualifier": {
             "anyOf": [
@@ -93883,7 +93883,7 @@
               }
             ],
             "description": "General qualifier for the anatomical location of the irradiated volume",
-            "title": "Irradiated volume qualifier"
+            "title": "Dataset Irradiated volume qualifier"
           }
         },
         "title": "RadiotherapyDosagePartial",
@@ -93900,24 +93900,24 @@
           "id": {
             "description": "Unique identifier of the resource (UUID v4).",
             "format": "uuid",
-            "title": "Id",
+            "title": "Dataset Id",
             "type": "string"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
-            "title": "Created at",
+            "title": "Dataset Created at",
             "type": "string"
           },
           "updatedAt": {
             "description": "Date-time when the resource was last updated",
             "format": "date-time",
-            "title": "Updated at",
+            "title": "Dataset Updated at",
             "type": "string"
           },
           "createdBy": {
             "description": "Username of the user who created the resource",
-            "title": "Created by",
+            "title": "Dataset Created by",
             "type": "string"
           },
           "updatedBy": {
@@ -93925,33 +93925,33 @@
             "items": {
               "type": "string"
             },
-            "title": "Updated by",
+            "title": "Dataset Updated by",
             "type": "array"
           },
           "externalSource": {
             "description": "The digital source of the data, relevant for automated data",
-            "title": "External data source",
+            "title": "Dataset External data source",
             "type": "string"
           },
           "externalSourceId": {
             "description": "The data identifier at the digital source of the data, relevant for automated data",
-            "title": "External data source Id",
+            "title": "Dataset External data source Id",
             "type": "string"
           },
           "caseId": {
             "description": "Indicates the case of the patient who received the radiotherapy",
             "format": "uuid",
-            "title": "Patient case",
+            "title": "Dataset Patient case",
             "type": "string"
           },
           "period": {
             "description": "Clinically-relevant period during which the radiotherapy was administered to the patient.",
-            "title": "Treatment period",
+            "title": "Dataset Treatment period",
             "type": "string"
           },
           "sessions": {
             "description": "The total number of radiotherapy sessions over the treatment period.",
-            "title": "Total sessions",
+            "title": "Dataset Total sessions",
             "type": "integer"
           },
           "intent": {
@@ -93961,7 +93961,7 @@
               }
             ],
             "description": "Treatment intent of the system therapy",
-            "title": "Intent"
+            "title": "Dataset Intent"
           },
           "terminationReason": {
             "anyOf": [
@@ -93976,12 +93976,12 @@
               }
             ],
             "description": "Explanation for the premature or planned termination of the radiotherapy",
-            "title": "Termination reason"
+            "title": "Dataset Termination reason"
           },
           "therapyLineId": {
             "description": "Therapy line to which the radiotherapy is assigned to",
             "format": "uuid",
-            "title": "Therapy line",
+            "title": "Dataset Therapy line",
             "type": "string"
           },
           "targetedEntitiesIds": {
@@ -93990,7 +93990,7 @@
               "format": "uuid",
               "type": "string"
             },
-            "title": "Targeted neoplastic entities",
+            "title": "Dataset Targeted neoplastic entities",
             "type": "array"
           },
           "duration": {
@@ -94000,14 +94000,14 @@
               }
             ],
             "description": "Duration of treatment",
-            "title": "Duration"
+            "title": "Dataset Duration"
           },
           "dosages": {
             "description": "Radiation doses administered during the radiotherapy",
             "items": {
               "$ref": "#/components/schemas/RadiotherapyDosagePartial"
             },
-            "title": "Dosages",
+            "title": "Dataset Dosages",
             "type": "array"
           },
           "settings": {
@@ -94015,7 +94015,7 @@
             "items": {
               "$ref": "#/components/schemas/RadiotherapySettingPartial"
             },
-            "title": "Settings",
+            "title": "Dataset Settings",
             "type": "array"
           }
         },
@@ -94033,24 +94033,24 @@
           "id": {
             "description": "Unique identifier of the resource (UUID v4).",
             "format": "uuid",
-            "title": "Id",
+            "title": "Dataset Id",
             "type": "string"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
-            "title": "Created at",
+            "title": "Dataset Created at",
             "type": "string"
           },
           "updatedAt": {
             "description": "Date-time when the resource was last updated",
             "format": "date-time",
-            "title": "Updated at",
+            "title": "Dataset Updated at",
             "type": "string"
           },
           "createdBy": {
             "description": "Username of the user who created the resource",
-            "title": "Created by",
+            "title": "Dataset Created by",
             "type": "string"
           },
           "updatedBy": {
@@ -94058,17 +94058,17 @@
             "items": {
               "type": "string"
             },
-            "title": "Updated by",
+            "title": "Dataset Updated by",
             "type": "array"
           },
           "externalSource": {
             "description": "The digital source of the data, relevant for automated data",
-            "title": "External data source",
+            "title": "Dataset External data source",
             "type": "string"
           },
           "externalSourceId": {
             "description": "The data identifier at the digital source of the data, relevant for automated data",
-            "title": "External data source Id",
+            "title": "Dataset External data source Id",
             "type": "string"
           },
           "modality": {
@@ -94084,7 +94084,7 @@
               }
             ],
             "description": "Modality of external beam or brachytherapy radiation procedures",
-            "title": "Modality"
+            "title": "Dataset Modality"
           },
           "technique": {
             "anyOf": [
@@ -94099,7 +94099,7 @@
               }
             ],
             "description": "Technique of external beam or brachytherapy radiation procedures",
-            "title": "Technique"
+            "title": "Dataset Technique"
           }
         },
         "title": "RadiotherapySettingPartial",
@@ -94116,24 +94116,24 @@
           "id": {
             "description": "Unique identifier of the resource (UUID v4).",
             "format": "uuid",
-            "title": "Id",
+            "title": "Dataset Id",
             "type": "string"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
-            "title": "Created at",
+            "title": "Dataset Created at",
             "type": "string"
           },
           "updatedAt": {
             "description": "Date-time when the resource was last updated",
             "format": "date-time",
-            "title": "Updated at",
+            "title": "Dataset Updated at",
             "type": "string"
           },
           "createdBy": {
             "description": "Username of the user who created the resource",
-            "title": "Created by",
+            "title": "Dataset Created by",
             "type": "string"
           },
           "updatedBy": {
@@ -94141,35 +94141,35 @@
             "items": {
               "type": "string"
             },
-            "title": "Updated by",
+            "title": "Dataset Updated by",
             "type": "array"
           },
           "stagingDomain": {
             "const": "rai",
             "description": "Staging domain discriminator category",
-            "title": "Staging domain",
+            "title": "Dataset Staging domain",
             "type": "string"
           },
           "externalSource": {
             "description": "The digital source of the data, relevant for automated data",
-            "title": "External data source",
+            "title": "Dataset External data source",
             "type": "string"
           },
           "externalSourceId": {
             "description": "The data identifier at the digital source of the data, relevant for automated data",
-            "title": "External data source Id",
+            "title": "Dataset External data source Id",
             "type": "string"
           },
           "caseId": {
             "description": "Indicates the case of the patient who's cancer is staged",
             "format": "uuid",
-            "title": "Patient case",
+            "title": "Dataset Patient case",
             "type": "string"
           },
           "date": {
             "description": "Clinically-relevant date at which the staging was performed and recorded.",
             "format": "date",
-            "title": "Staging date",
+            "title": "Dataset Staging date",
             "type": "string"
           },
           "stagedEntitiesIds": {
@@ -94178,7 +94178,7 @@
               "format": "uuid",
               "type": "string"
             },
-            "title": "Staged neoplastic entities",
+            "title": "Dataset Staged neoplastic entities",
             "type": "array"
           },
           "stage": {
@@ -94194,7 +94194,7 @@
               }
             ],
             "description": "The value of the Rai stage",
-            "title": "Rai Stage"
+            "title": "Dataset Rai Stage"
           },
           "methodology": {
             "anyOf": [
@@ -94209,7 +94209,7 @@
               }
             ],
             "description": "Methodology used for the Rai staging",
-            "title": "Rai staging methodology"
+            "title": "Dataset Rai staging methodology"
           }
         },
         "title": "RaiStagingPartial",
@@ -94226,24 +94226,24 @@
           "id": {
             "description": "Unique identifier of the resource (UUID v4).",
             "format": "uuid",
-            "title": "Id",
+            "title": "Dataset Id",
             "type": "string"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
-            "title": "Created at",
+            "title": "Dataset Created at",
             "type": "string"
           },
           "updatedAt": {
             "description": "Date-time when the resource was last updated",
             "format": "date-time",
-            "title": "Updated at",
+            "title": "Dataset Updated at",
             "type": "string"
           },
           "createdBy": {
             "description": "Username of the user who created the resource",
-            "title": "Created by",
+            "title": "Dataset Created by",
             "type": "string"
           },
           "updatedBy": {
@@ -94251,35 +94251,35 @@
             "items": {
               "type": "string"
             },
-            "title": "Updated by",
+            "title": "Dataset Updated by",
             "type": "array"
           },
           "stagingDomain": {
             "const": "rhabdomyosarcoma",
             "description": "Staging domain discriminator category",
-            "title": "Staging domain",
+            "title": "Dataset Staging domain",
             "type": "string"
           },
           "externalSource": {
             "description": "The digital source of the data, relevant for automated data",
-            "title": "External data source",
+            "title": "Dataset External data source",
             "type": "string"
           },
           "externalSourceId": {
             "description": "The data identifier at the digital source of the data, relevant for automated data",
-            "title": "External data source Id",
+            "title": "Dataset External data source Id",
             "type": "string"
           },
           "caseId": {
             "description": "Indicates the case of the patient who's cancer is staged",
             "format": "uuid",
-            "title": "Patient case",
+            "title": "Dataset Patient case",
             "type": "string"
           },
           "date": {
             "description": "Clinically-relevant date at which the staging was performed and recorded.",
             "format": "date",
-            "title": "Staging date",
+            "title": "Dataset Staging date",
             "type": "string"
           },
           "stagedEntitiesIds": {
@@ -94288,7 +94288,7 @@
               "format": "uuid",
               "type": "string"
             },
-            "title": "Staged neoplastic entities",
+            "title": "Dataset Staged neoplastic entities",
             "type": "array"
           },
           "stage": {
@@ -94304,7 +94304,7 @@
               }
             ],
             "description": "The value of the rhabdomyosarcoma clinical group",
-            "title": "Rhabdomyosarcoma clinical group"
+            "title": "Dataset Rhabdomyosarcoma clinical group"
           }
         },
         "title": "RhabdomyosarcomaClinicalGroupPartial",
@@ -94321,24 +94321,24 @@
           "id": {
             "description": "Unique identifier of the resource (UUID v4).",
             "format": "uuid",
-            "title": "Id",
+            "title": "Dataset Id",
             "type": "string"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
-            "title": "Created at",
+            "title": "Dataset Created at",
             "type": "string"
           },
           "updatedAt": {
             "description": "Date-time when the resource was last updated",
             "format": "date-time",
-            "title": "Updated at",
+            "title": "Dataset Updated at",
             "type": "string"
           },
           "createdBy": {
             "description": "Username of the user who created the resource",
-            "title": "Created by",
+            "title": "Dataset Created by",
             "type": "string"
           },
           "updatedBy": {
@@ -94346,29 +94346,29 @@
             "items": {
               "type": "string"
             },
-            "title": "Updated by",
+            "title": "Dataset Updated by",
             "type": "array"
           },
           "externalSource": {
             "description": "The digital source of the data, relevant for automated data",
-            "title": "External data source",
+            "title": "Dataset External data source",
             "type": "string"
           },
           "externalSourceId": {
             "description": "The data identifier at the digital source of the data, relevant for automated data",
-            "title": "External data source Id",
+            "title": "Dataset External data source Id",
             "type": "string"
           },
           "caseId": {
             "description": "Indicates the case of the patient who's cancer risk is assesed",
             "format": "uuid",
-            "title": "Patient case",
+            "title": "Dataset Patient case",
             "type": "string"
           },
           "date": {
             "description": "Clinically-relevant date at which the risk assessment was performed and recorded.",
             "format": "date",
-            "title": "Assessment date",
+            "title": "Dataset Assessment date",
             "type": "string"
           },
           "methodology": {
@@ -94384,7 +94384,7 @@
               }
             ],
             "description": "Indicates the method or type of risk assessment",
-            "title": "Assessment methodology"
+            "title": "Dataset Assessment methodology"
           },
           "risk": {
             "anyOf": [
@@ -94399,11 +94399,11 @@
               }
             ],
             "description": "Assessed risk",
-            "title": "Risk"
+            "title": "Dataset Risk"
           },
           "score": {
             "description": "Quantitative score used to classify the risk",
-            "title": "Score",
+            "title": "Dataset Score",
             "type": "number"
           },
           "assessedEntitiesIds": {
@@ -94412,7 +94412,7 @@
               "format": "uuid",
               "type": "string"
             },
-            "title": "Assessed neoplastic entities",
+            "title": "Dataset Assessed neoplastic entities",
             "type": "array"
           }
         },
@@ -94430,24 +94430,24 @@
           "id": {
             "description": "Unique identifier of the resource (UUID v4).",
             "format": "uuid",
-            "title": "Id",
+            "title": "Dataset Id",
             "type": "string"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
-            "title": "Created at",
+            "title": "Dataset Created at",
             "type": "string"
           },
           "updatedAt": {
             "description": "Date-time when the resource was last updated",
             "format": "date-time",
-            "title": "Updated at",
+            "title": "Dataset Updated at",
             "type": "string"
           },
           "createdBy": {
             "description": "Username of the user who created the resource",
-            "title": "Created by",
+            "title": "Dataset Created by",
             "type": "string"
           },
           "updatedBy": {
@@ -94455,29 +94455,29 @@
             "items": {
               "type": "string"
             },
-            "title": "Updated by",
+            "title": "Dataset Updated by",
             "type": "array"
           },
           "externalSource": {
             "description": "The digital source of the data, relevant for automated data",
-            "title": "External data source",
+            "title": "Dataset External data source",
             "type": "string"
           },
           "externalSourceId": {
             "description": "The data identifier at the digital source of the data, relevant for automated data",
-            "title": "External data source Id",
+            "title": "Dataset External data source Id",
             "type": "string"
           },
           "caseId": {
             "description": "Indicates the case of the patient who received the surgical procedure",
             "format": "uuid",
-            "title": "Patient case",
+            "title": "Dataset Patient case",
             "type": "string"
           },
           "date": {
             "description": "Clinically-relevant date of the surgical procedure.",
             "format": "date",
-            "title": "Assessment date",
+            "title": "Dataset Assessment date",
             "type": "string"
           },
           "procedure": {
@@ -94493,7 +94493,7 @@
               }
             ],
             "description": "The specific surgical procedure that was performed",
-            "title": "Surgical procedure"
+            "title": "Dataset Surgical procedure"
           },
           "intent": {
             "allOf": [
@@ -94502,7 +94502,7 @@
               }
             ],
             "description": "Therapeutic intent of the surgery",
-            "title": "Intent"
+            "title": "Dataset Intent"
           },
           "bodysite": {
             "anyOf": [
@@ -94517,7 +94517,7 @@
               }
             ],
             "description": "Anatomical location of the surgery",
-            "title": "Anatomical location"
+            "title": "Dataset Anatomical location"
           },
           "bodysiteQualifier": {
             "anyOf": [
@@ -94532,7 +94532,7 @@
               }
             ],
             "description": "General qualifier for the anatomical location of the surgery",
-            "title": "Anatomical location qualifier"
+            "title": "Dataset Anatomical location qualifier"
           },
           "bodysiteLaterality": {
             "anyOf": [
@@ -94547,7 +94547,7 @@
               }
             ],
             "description": "Laterality for the anatomical location of the surgery",
-            "title": "Anatomical location laterality"
+            "title": "Dataset Anatomical location laterality"
           },
           "outcome": {
             "anyOf": [
@@ -94562,12 +94562,12 @@
               }
             ],
             "description": "The outcome of the surgery",
-            "title": "Outcome"
+            "title": "Dataset Outcome"
           },
           "therapyLineId": {
             "description": "Therapy line to which the surgery is assigned to",
             "format": "uuid",
-            "title": "Therapy line",
+            "title": "Dataset Therapy line",
             "type": "string"
           },
           "targetedEntitiesIds": {
@@ -94576,7 +94576,7 @@
               "format": "uuid",
               "type": "string"
             },
-            "title": "Targeted neoplastic entities",
+            "title": "Dataset Targeted neoplastic entities",
             "type": "array"
           }
         },
@@ -94594,24 +94594,24 @@
           "id": {
             "description": "Unique identifier of the resource (UUID v4).",
             "format": "uuid",
-            "title": "Id",
+            "title": "Dataset Id",
             "type": "string"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
-            "title": "Created at",
+            "title": "Dataset Created at",
             "type": "string"
           },
           "updatedAt": {
             "description": "Date-time when the resource was last updated",
             "format": "date-time",
-            "title": "Updated at",
+            "title": "Dataset Updated at",
             "type": "string"
           },
           "createdBy": {
             "description": "Username of the user who created the resource",
-            "title": "Created by",
+            "title": "Dataset Created by",
             "type": "string"
           },
           "updatedBy": {
@@ -94619,17 +94619,17 @@
             "items": {
               "type": "string"
             },
-            "title": "Updated by",
+            "title": "Dataset Updated by",
             "type": "array"
           },
           "externalSource": {
             "description": "The digital source of the data, relevant for automated data",
-            "title": "External data source",
+            "title": "Dataset External data source",
             "type": "string"
           },
           "externalSourceId": {
             "description": "The data identifier at the digital source of the data, relevant for automated data",
-            "title": "External data source Id",
+            "title": "Dataset External data source Id",
             "type": "string"
           },
           "drug": {
@@ -94645,7 +94645,7 @@
               }
             ],
             "description": "Antineoplastic drug/medication administered to the patient",
-            "title": "Antineoplastic Drug"
+            "title": "Dataset Antineoplastic Drug"
           },
           "route": {
             "anyOf": [
@@ -94660,16 +94660,16 @@
               }
             ],
             "description": "Drug administration route",
-            "title": "Route"
+            "title": "Dataset Route"
           },
           "usedOfflabel": {
             "description": "Indicates whether a medication was used off-label at the time of administration",
-            "title": "Off-label use",
+            "title": "Dataset Off-label use",
             "type": "boolean"
           },
           "withinSoc": {
             "description": "Indicates whether a medication was within standard of care (SOC) at the time of administration.",
-            "title": "Within SOC",
+            "title": "Dataset Within SOC",
             "type": "boolean"
           },
           "dosageMassConcentration": {
@@ -94679,7 +94679,7 @@
               }
             ],
             "description": "Dosage of the medication expressed in mass concentration (if revelant/appliccable)",
-            "title": "Dosage - Mass concentration"
+            "title": "Dataset Dosage - Mass concentration"
           },
           "dosageMass": {
             "allOf": [
@@ -94688,7 +94688,7 @@
               }
             ],
             "description": "Dosage of the medication expressed in a fixed mass (if revelant/appliccable)",
-            "title": "Dosage - Fixed Mass"
+            "title": "Dataset Dosage - Fixed Mass"
           },
           "dosageVolume": {
             "allOf": [
@@ -94697,7 +94697,7 @@
               }
             ],
             "description": "Dosage of the medication expressed in a volume (if revelant/appliccable)",
-            "title": "Dosage - Volume"
+            "title": "Dataset Dosage - Volume"
           },
           "dosageMassSurface": {
             "allOf": [
@@ -94706,7 +94706,7 @@
               }
             ],
             "description": "Dosage of the medication expressed in a mass per body surface area (if revelant/appliccable)",
-            "title": "Dosage - Mass per body surface"
+            "title": "Dataset Dosage - Mass per body surface"
           },
           "dosageRateMassConcentration": {
             "allOf": [
@@ -94715,7 +94715,7 @@
               }
             ],
             "description": "Dosage rate of the medication expressed in mass concentration (if revelant/appliccable)",
-            "title": "Dosage rate - Mass concentration"
+            "title": "Dataset Dosage rate - Mass concentration"
           },
           "dosageRateMass": {
             "allOf": [
@@ -94724,7 +94724,7 @@
               }
             ],
             "description": "Dosage rate of the medication expressed in a fixed mass (if revelant/appliccable)",
-            "title": "Dosage rate - Fixed Mass"
+            "title": "Dataset Dosage rate - Fixed Mass"
           },
           "dosageRateVolume": {
             "allOf": [
@@ -94733,7 +94733,7 @@
               }
             ],
             "description": "Dosage rate of the medication expressed in a volume (if revelant/appliccable)",
-            "title": "Dosage rate - Volume"
+            "title": "Dataset Dosage rate - Volume"
           },
           "dosageRateMassSurface": {
             "allOf": [
@@ -94742,7 +94742,7 @@
               }
             ],
             "description": "Dosage rate of the medication expressed in a mass per body surface area (if revelant/appliccable)",
-            "title": "Dosage rate - Mass per body surface"
+            "title": "Dataset Dosage rate - Mass per body surface"
           }
         },
         "title": "SystemicTherapyMedicationPartial",
@@ -94759,24 +94759,24 @@
           "id": {
             "description": "Unique identifier of the resource (UUID v4).",
             "format": "uuid",
-            "title": "Id",
+            "title": "Dataset Id",
             "type": "string"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
-            "title": "Created at",
+            "title": "Dataset Created at",
             "type": "string"
           },
           "updatedAt": {
             "description": "Date-time when the resource was last updated",
             "format": "date-time",
-            "title": "Updated at",
+            "title": "Dataset Updated at",
             "type": "string"
           },
           "createdBy": {
             "description": "Username of the user who created the resource",
-            "title": "Created by",
+            "title": "Dataset Created by",
             "type": "string"
           },
           "updatedBy": {
@@ -94784,33 +94784,33 @@
             "items": {
               "type": "string"
             },
-            "title": "Updated by",
+            "title": "Dataset Updated by",
             "type": "array"
           },
           "externalSource": {
             "description": "The digital source of the data, relevant for automated data",
-            "title": "External data source",
+            "title": "Dataset External data source",
             "type": "string"
           },
           "externalSourceId": {
             "description": "The data identifier at the digital source of the data, relevant for automated data",
-            "title": "External data source Id",
+            "title": "Dataset External data source Id",
             "type": "string"
           },
           "caseId": {
             "description": "Indicates the case of the patient who received the systemic therapy",
             "format": "uuid",
-            "title": "Patient case",
+            "title": "Dataset Patient case",
             "type": "string"
           },
           "period": {
             "description": "Clinically-relevant period during which the therapy was administered to the patient.",
-            "title": "Treatment period",
+            "title": "Dataset Treatment period",
             "type": "string"
           },
           "cycles": {
             "description": "The total number of treatment cycles during the treatment period.",
-            "title": "Cycles",
+            "title": "Dataset Cycles",
             "type": "integer"
           },
           "intent": {
@@ -94820,7 +94820,7 @@
               }
             ],
             "description": "Treatment intent of the system therapy",
-            "title": "Intent"
+            "title": "Dataset Intent"
           },
           "adjunctiveRole": {
             "anyOf": [
@@ -94835,7 +94835,7 @@
               }
             ],
             "description": "Indicates the role of the adjunctive therapy (if applicable).",
-            "title": "Treatment Role"
+            "title": "Dataset Treatment Role"
           },
           "terminationReason": {
             "anyOf": [
@@ -94850,12 +94850,12 @@
               }
             ],
             "description": "Explanation for the premature or planned termination of the systemic therapy",
-            "title": "Termination reason"
+            "title": "Dataset Termination reason"
           },
           "therapyLineId": {
             "description": "Therapy line to which the systemic therapy is assigned to",
             "format": "uuid",
-            "title": "Therapy line",
+            "title": "Dataset Therapy line",
             "type": "string"
           },
           "targetedEntitiesIds": {
@@ -94864,7 +94864,7 @@
               "format": "uuid",
               "type": "string"
             },
-            "title": "Targeted neoplastic entities",
+            "title": "Dataset Targeted neoplastic entities",
             "type": "array"
           },
           "medications": {
@@ -94872,12 +94872,12 @@
             "items": {
               "$ref": "#/components/schemas/SystemicTherapyMedicationPartial"
             },
-            "title": "Medications",
+            "title": "Dataset Medications",
             "type": "array"
           },
           "isAdjunctive": {
             "description": "Indicates whether it is adjunctive therapy instead of a primary therapy",
-            "title": "Treatment Role",
+            "title": "Dataset Treatment Role",
             "type": "boolean"
           },
           "duration": {
@@ -94887,7 +94887,7 @@
               }
             ],
             "description": "Duration of treatment",
-            "title": "Duration"
+            "title": "Dataset Duration"
           }
         },
         "title": "SystemicTherapyPartial",
@@ -94904,24 +94904,24 @@
           "id": {
             "description": "Unique identifier of the resource (UUID v4).",
             "format": "uuid",
-            "title": "Id",
+            "title": "Dataset Id",
             "type": "string"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
-            "title": "Created at",
+            "title": "Dataset Created at",
             "type": "string"
           },
           "updatedAt": {
             "description": "Date-time when the resource was last updated",
             "format": "date-time",
-            "title": "Updated at",
+            "title": "Dataset Updated at",
             "type": "string"
           },
           "createdBy": {
             "description": "Username of the user who created the resource",
-            "title": "Created by",
+            "title": "Dataset Created by",
             "type": "string"
           },
           "updatedBy": {
@@ -94929,35 +94929,35 @@
             "items": {
               "type": "string"
             },
-            "title": "Updated by",
+            "title": "Dataset Updated by",
             "type": "array"
           },
           "stagingDomain": {
             "const": "tnm",
             "description": "Staging domain discriminator category",
-            "title": "Staging domain",
+            "title": "Dataset Staging domain",
             "type": "string"
           },
           "externalSource": {
             "description": "The digital source of the data, relevant for automated data",
-            "title": "External data source",
+            "title": "Dataset External data source",
             "type": "string"
           },
           "externalSourceId": {
             "description": "The data identifier at the digital source of the data, relevant for automated data",
-            "title": "External data source Id",
+            "title": "Dataset External data source Id",
             "type": "string"
           },
           "caseId": {
             "description": "Indicates the case of the patient who's cancer is staged",
             "format": "uuid",
-            "title": "Patient case",
+            "title": "Dataset Patient case",
             "type": "string"
           },
           "date": {
             "description": "Clinically-relevant date at which the staging was performed and recorded.",
             "format": "date",
-            "title": "Staging date",
+            "title": "Dataset Staging date",
             "type": "string"
           },
           "stagedEntitiesIds": {
@@ -94966,7 +94966,7 @@
               "format": "uuid",
               "type": "string"
             },
-            "title": "Staged neoplastic entities",
+            "title": "Dataset Staged neoplastic entities",
             "type": "array"
           },
           "stage": {
@@ -94982,7 +94982,7 @@
               }
             ],
             "description": "The classification of the TNM stage",
-            "title": "TNM Stage"
+            "title": "Dataset TNM Stage"
           },
           "methodology": {
             "anyOf": [
@@ -94997,11 +94997,11 @@
               }
             ],
             "description": "Methodology used for TNM staging",
-            "title": "TNM Staging methodology"
+            "title": "Dataset TNM Staging methodology"
           },
           "pathological": {
             "description": "Whether the staging was based on pathological (true) or clinical (false) evidence.",
-            "title": "Pathological staging",
+            "title": "Dataset Pathological staging",
             "type": "boolean"
           },
           "primarytumor": {
@@ -95017,7 +95017,7 @@
               }
             ],
             "description": "T stage (extent of the primary tumor)",
-            "title": "T Stage"
+            "title": "Dataset T Stage"
           },
           "regionalnodes": {
             "anyOf": [
@@ -95032,7 +95032,7 @@
               }
             ],
             "description": "N stage (degree of spread to regional lymph nodes)",
-            "title": "N Stage"
+            "title": "Dataset N Stage"
           },
           "distantmetastases": {
             "anyOf": [
@@ -95047,7 +95047,7 @@
               }
             ],
             "description": "M stage (presence of distant metastasis)",
-            "title": "M Stage"
+            "title": "Dataset M Stage"
           },
           "grade": {
             "anyOf": [
@@ -95062,7 +95062,7 @@
               }
             ],
             "description": "G stage (grade of the cancer cells)",
-            "title": "G Stage"
+            "title": "Dataset G Stage"
           },
           "residualtumor": {
             "anyOf": [
@@ -95077,7 +95077,7 @@
               }
             ],
             "description": "R stage (extent of residual tumor cells after operation)",
-            "title": "R Stage"
+            "title": "Dataset R Stage"
           },
           "lymphaticinvasion": {
             "anyOf": [
@@ -95092,7 +95092,7 @@
               }
             ],
             "description": "L stage (invasion into lymphatic vessels)",
-            "title": "L Stage"
+            "title": "Dataset L Stage"
           },
           "venousinvasion": {
             "anyOf": [
@@ -95107,7 +95107,7 @@
               }
             ],
             "description": "V stage (invasion into venous vessels)",
-            "title": "V Stage"
+            "title": "Dataset V Stage"
           },
           "perineuralinvasion": {
             "anyOf": [
@@ -95122,7 +95122,7 @@
               }
             ],
             "description": "Pn stage (invasion into adjunct nerves)",
-            "title": "Pn Stage"
+            "title": "Dataset Pn Stage"
           },
           "serumtumormarkerlevel": {
             "anyOf": [
@@ -95137,7 +95137,7 @@
               }
             ],
             "description": "S stage (serum tumor marker level)",
-            "title": "S Stage"
+            "title": "Dataset S Stage"
           }
         },
         "title": "TNMStagingPartial",
@@ -95154,24 +95154,24 @@
           "id": {
             "description": "Unique identifier of the resource (UUID v4).",
             "format": "uuid",
-            "title": "Id",
+            "title": "Dataset Id",
             "type": "string"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
-            "title": "Created at",
+            "title": "Dataset Created at",
             "type": "string"
           },
           "updatedAt": {
             "description": "Date-time when the resource was last updated",
             "format": "date-time",
-            "title": "Updated at",
+            "title": "Dataset Updated at",
             "type": "string"
           },
           "createdBy": {
             "description": "Username of the user who created the resource",
-            "title": "Created by",
+            "title": "Dataset Created by",
             "type": "string"
           },
           "updatedBy": {
@@ -95179,28 +95179,28 @@
             "items": {
               "type": "string"
             },
-            "title": "Updated by",
+            "title": "Dataset Updated by",
             "type": "array"
           },
           "externalSource": {
             "description": "The digital source of the data, relevant for automated data",
-            "title": "External data source",
+            "title": "Dataset External data source",
             "type": "string"
           },
           "externalSourceId": {
             "description": "The data identifier at the digital source of the data, relevant for automated data",
-            "title": "External data source Id",
+            "title": "Dataset External data source Id",
             "type": "string"
           },
           "caseId": {
             "description": "Indicates the case of the patient to whom this therapy line is associated",
             "format": "uuid",
-            "title": "Patient case",
+            "title": "Dataset Patient case",
             "type": "string"
           },
           "ordinal": {
             "description": "Number indicating the sequence in which this block of treatments were administered to the patient",
-            "title": "Line ordinal number",
+            "title": "Dataset Line ordinal number",
             "type": "integer"
           },
           "intent": {
@@ -95210,27 +95210,27 @@
               }
             ],
             "description": "Treatment intent of the system therapy",
-            "title": "Intent"
+            "title": "Dataset Intent"
           },
           "progressionDate": {
             "description": "Date at which progression was first detected, if applicable",
             "format": "date",
-            "title": "Begin of progression",
+            "title": "Dataset Begin of progression",
             "type": "string"
           },
           "period": {
             "description": "Time period of the therapy line",
-            "title": "Period",
+            "title": "Dataset Period",
             "type": "string"
           },
           "label": {
             "description": "Label categorizing the therapy line",
-            "title": "Label",
+            "title": "Dataset Label",
             "type": "string"
           },
           "progressionFreeSurvival": {
             "description": "Progression-free survival (PFS) of the patient for the therapy line",
-            "title": "Progression-free survival in months",
+            "title": "Dataset Progression-free survival in months",
             "type": "number"
           }
         },
@@ -95248,24 +95248,24 @@
           "id": {
             "description": "Unique identifier of the resource (UUID v4).",
             "format": "uuid",
-            "title": "Id",
+            "title": "Dataset Id",
             "type": "string"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
-            "title": "Created at",
+            "title": "Dataset Created at",
             "type": "string"
           },
           "updatedAt": {
             "description": "Date-time when the resource was last updated",
             "format": "date-time",
-            "title": "Updated at",
+            "title": "Dataset Updated at",
             "type": "string"
           },
           "createdBy": {
             "description": "Username of the user who created the resource",
-            "title": "Created by",
+            "title": "Dataset Created by",
             "type": "string"
           },
           "updatedBy": {
@@ -95273,29 +95273,29 @@
             "items": {
               "type": "string"
             },
-            "title": "Updated by",
+            "title": "Dataset Updated by",
             "type": "array"
           },
           "externalSource": {
             "description": "The digital source of the data, relevant for automated data",
-            "title": "External data source",
+            "title": "Dataset External data source",
             "type": "string"
           },
           "externalSourceId": {
             "description": "The data identifier at the digital source of the data, relevant for automated data",
-            "title": "External data source Id",
+            "title": "Dataset External data source Id",
             "type": "string"
           },
           "caseId": {
             "description": "Indicates the case of the patient who's treatment response is asseessed",
             "format": "uuid",
-            "title": "Patient case",
+            "title": "Dataset Patient case",
             "type": "string"
           },
           "date": {
             "description": "Clinically-relevant date of the treatment response assessment",
             "format": "date",
-            "title": "Assessment date",
+            "title": "Dataset Assessment date",
             "type": "string"
           },
           "recist": {
@@ -95311,11 +95311,11 @@
               }
             ],
             "description": "The classification of the treatment response according to RECIST",
-            "title": "RECIST"
+            "title": "Dataset RECIST"
           },
           "recistInterpreted": {
             "description": "Indicates whether the RECIST value was interpreted or taken from the radiology report",
-            "title": "RECIST Interpreted?",
+            "title": "Dataset RECIST Interpreted?",
             "type": "boolean"
           },
           "methodology": {
@@ -95331,7 +95331,7 @@
               }
             ],
             "description": "Method used to assess and classify the treatment response",
-            "title": "Assessment method"
+            "title": "Dataset Assessment method"
           },
           "assessedEntitiesIds": {
             "description": "References to the neoplastic entities that were assesed for treatment response",
@@ -95339,7 +95339,7 @@
               "format": "uuid",
               "type": "string"
             },
-            "title": "Assessed neoplastic entities",
+            "title": "Dataset Assessed neoplastic entities",
             "type": "array"
           },
           "assessedBodysites": {
@@ -95355,7 +95355,7 @@
               }
             ],
             "description": "Anatomical location assessed to determine the treatment response",
-            "title": "Assessed anatomical location"
+            "title": "Dataset Assessed anatomical location"
           }
         },
         "title": "TreatmentResponsePartial",
@@ -95372,24 +95372,24 @@
           "id": {
             "description": "Unique identifier of the resource (UUID v4).",
             "format": "uuid",
-            "title": "Id",
+            "title": "Dataset Id",
             "type": "string"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
-            "title": "Created at",
+            "title": "Dataset Created at",
             "type": "string"
           },
           "updatedAt": {
             "description": "Date-time when the resource was last updated",
             "format": "date-time",
-            "title": "Updated at",
+            "title": "Dataset Updated at",
             "type": "string"
           },
           "createdBy": {
             "description": "Username of the user who created the resource",
-            "title": "Created by",
+            "title": "Dataset Created by",
             "type": "string"
           },
           "updatedBy": {
@@ -95397,29 +95397,29 @@
             "items": {
               "type": "string"
             },
-            "title": "Updated by",
+            "title": "Dataset Updated by",
             "type": "array"
           },
           "externalSource": {
             "description": "The digital source of the data, relevant for automated data",
-            "title": "External data source",
+            "title": "Dataset External data source",
             "type": "string"
           },
           "externalSourceId": {
             "description": "The data identifier at the digital source of the data, relevant for automated data",
-            "title": "External data source Id",
+            "title": "Dataset External data source Id",
             "type": "string"
           },
           "caseId": {
             "description": "Indicates the case of the patient related to the tumor marker result",
             "format": "uuid",
-            "title": "Patient case",
+            "title": "Dataset Patient case",
             "type": "string"
           },
           "date": {
             "description": "Clinically-relevant date at which the tumor marker was analyzed.",
             "format": "date",
-            "title": "Date",
+            "title": "Dataset Date",
             "type": "string"
           },
           "analyte": {
@@ -95435,7 +95435,7 @@
               }
             ],
             "description": "The chemical or biological substance/agent that is analyzed.",
-            "title": "Analyte"
+            "title": "Dataset Analyte"
           },
           "massConcentration": {
             "allOf": [
@@ -95444,7 +95444,7 @@
               }
             ],
             "description": "Mass concentration of the analyte (if revelant/measured)",
-            "title": "Mass concentration"
+            "title": "Dataset Mass concentration"
           },
           "arbitraryConcentration": {
             "allOf": [
@@ -95453,7 +95453,7 @@
               }
             ],
             "description": "Arbitrary concentration of the analyte (if revelant/measured)",
-            "title": "Arbitrary concentration"
+            "title": "Dataset Arbitrary concentration"
           },
           "substanceConcentration": {
             "allOf": [
@@ -95462,7 +95462,7 @@
               }
             ],
             "description": "Substance concentration of the analyte (if revelant/measured)",
-            "title": "Substance concentration"
+            "title": "Dataset Substance concentration"
           },
           "fraction": {
             "allOf": [
@@ -95471,7 +95471,7 @@
               }
             ],
             "description": "Analyte fraction (if revelant/measured)",
-            "title": "Fraction"
+            "title": "Dataset Fraction"
           },
           "multipleOfMedian": {
             "allOf": [
@@ -95480,7 +95480,7 @@
               }
             ],
             "description": "Multiples of the median analyte (if revelant/measured)",
-            "title": "Multiples of the median"
+            "title": "Dataset Multiples of the median"
           },
           "tumorProportionScore": {
             "allOf": [
@@ -95489,7 +95489,7 @@
               }
             ],
             "description": "Categorization of the percentage of cells in a tumor that express PD-L1",
-            "title": "Immune Cells Score (ICS)"
+            "title": "Dataset Immune Cells Score (ICS)"
           },
           "immuneCellScore": {
             "allOf": [
@@ -95498,7 +95498,7 @@
               }
             ],
             "description": "Categorization of the percentage of PD-L1 positive immune cells",
-            "title": "Immune Cells Score (ICS)"
+            "title": "Dataset Immune Cells Score (ICS)"
           },
           "combinedPositiveScore": {
             "allOf": [
@@ -95507,7 +95507,7 @@
               }
             ],
             "description": "The number of PD-L1 positive cells, including tumor cells, lymphocytes, and macrophages divided by the total number of viable tumor cells multiplied by 100",
-            "title": "Combined Positive Score (CPS)"
+            "title": "Dataset Combined Positive Score (CPS)"
           },
           "immunohistochemicalScore": {
             "allOf": [
@@ -95516,7 +95516,7 @@
               }
             ],
             "description": "Categorization of the number of analyte-positive cells in a sample",
-            "title": "Immunohistochemical Score"
+            "title": "Dataset Immunohistochemical Score"
           },
           "presence": {
             "allOf": [
@@ -95525,7 +95525,7 @@
               }
             ],
             "description": "Whether an analyte has tested positive or negative.",
-            "title": "Presence"
+            "title": "Dataset Presence"
           },
           "nuclearExpressionStatus": {
             "allOf": [
@@ -95534,7 +95534,7 @@
               }
             ],
             "description": "Categorization of the status of expression of the analyte",
-            "title": "Nuclear expression status"
+            "title": "Dataset Nuclear expression status"
           },
           "relatedEntitiesIds": {
             "description": "References to the neoplastic entities that are related or the focus of the tumor marker analysis.",
@@ -95542,7 +95542,7 @@
               "format": "uuid",
               "type": "string"
             },
-            "title": "Related neoplastic entities",
+            "title": "Dataset Related neoplastic entities",
             "type": "array"
           }
         },
@@ -95560,24 +95560,24 @@
           "id": {
             "description": "Unique identifier of the resource (UUID v4).",
             "format": "uuid",
-            "title": "Id",
+            "title": "Dataset Id",
             "type": "string"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
-            "title": "Created at",
+            "title": "Dataset Created at",
             "type": "string"
           },
           "updatedAt": {
             "description": "Date-time when the resource was last updated",
             "format": "date-time",
-            "title": "Updated at",
+            "title": "Dataset Updated at",
             "type": "string"
           },
           "createdBy": {
             "description": "Username of the user who created the resource",
-            "title": "Created by",
+            "title": "Dataset Created by",
             "type": "string"
           },
           "updatedBy": {
@@ -95585,40 +95585,40 @@
             "items": {
               "type": "string"
             },
-            "title": "Updated by",
+            "title": "Dataset Updated by",
             "type": "array"
           },
           "category": {
             "const": "tumor_mutational_burden",
             "description": "Genomic signature discriminator category",
-            "title": "Category",
+            "title": "Dataset Category",
             "type": "string"
           },
           "externalSource": {
             "description": "The digital source of the data, relevant for automated data",
-            "title": "External data source",
+            "title": "Dataset External data source",
             "type": "string"
           },
           "externalSourceId": {
             "description": "The data identifier at the digital source of the data, relevant for automated data",
-            "title": "External data source Id",
+            "title": "Dataset External data source Id",
             "type": "string"
           },
           "caseId": {
             "description": "Indicates the case of the patient who's lifestyle is assesed",
             "format": "uuid",
-            "title": "Patient case",
+            "title": "Dataset Patient case",
             "type": "string"
           },
           "date": {
             "description": "Clinically-relevant date at which the patient's genomic signature was assessed.",
             "format": "date",
-            "title": "Assessment date",
+            "title": "Dataset Assessment date",
             "type": "string"
           },
           "value": {
             "description": "The actual tumor mutational burden (TMB) value in mutations/Mb",
-            "title": "Value",
+            "title": "Dataset Value",
             "type": "number"
           },
           "status": {
@@ -95628,7 +95628,7 @@
               }
             ],
             "description": "Cclassification of the tumor mutational burden (TMB) status",
-            "title": "Status"
+            "title": "Dataset Status"
           }
         },
         "title": "TumorMutationalBurdenPartial",
@@ -95645,24 +95645,24 @@
           "id": {
             "description": "Unique identifier of the resource (UUID v4).",
             "format": "uuid",
-            "title": "Id",
+            "title": "Dataset Id",
             "type": "string"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
-            "title": "Created at",
+            "title": "Dataset Created at",
             "type": "string"
           },
           "updatedAt": {
             "description": "Date-time when the resource was last updated",
             "format": "date-time",
-            "title": "Updated at",
+            "title": "Dataset Updated at",
             "type": "string"
           },
           "createdBy": {
             "description": "Username of the user who created the resource",
-            "title": "Created by",
+            "title": "Dataset Created by",
             "type": "string"
           },
           "updatedBy": {
@@ -95670,40 +95670,40 @@
             "items": {
               "type": "string"
             },
-            "title": "Updated by",
+            "title": "Dataset Updated by",
             "type": "array"
           },
           "category": {
             "const": "tumor_neoantigen_burden",
             "description": "Genomic signature discriminator category",
-            "title": "Category",
+            "title": "Dataset Category",
             "type": "string"
           },
           "externalSource": {
             "description": "The digital source of the data, relevant for automated data",
-            "title": "External data source",
+            "title": "Dataset External data source",
             "type": "string"
           },
           "externalSourceId": {
             "description": "The data identifier at the digital source of the data, relevant for automated data",
-            "title": "External data source Id",
+            "title": "Dataset External data source Id",
             "type": "string"
           },
           "caseId": {
             "description": "Indicates the case of the patient who's lifestyle is assesed",
             "format": "uuid",
-            "title": "Patient case",
+            "title": "Dataset Patient case",
             "type": "string"
           },
           "date": {
             "description": "Clinically-relevant date at which the patient's genomic signature was assessed.",
             "format": "date",
-            "title": "Assessment date",
+            "title": "Dataset Assessment date",
             "type": "string"
           },
           "value": {
             "description": "The actual tumor neoantigen burden (TNB) value in neoantigens/Mb",
-            "title": "Value",
+            "title": "Dataset Value",
             "type": "number"
           }
         },
@@ -95721,24 +95721,24 @@
           "id": {
             "description": "Unique identifier of the resource (UUID v4).",
             "format": "uuid",
-            "title": "Id",
+            "title": "Dataset Id",
             "type": "string"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
-            "title": "Created at",
+            "title": "Dataset Created at",
             "type": "string"
           },
           "updatedAt": {
             "description": "Date-time when the resource was last updated",
             "format": "date-time",
-            "title": "Updated at",
+            "title": "Dataset Updated at",
             "type": "string"
           },
           "createdBy": {
             "description": "Username of the user who created the resource",
-            "title": "Created by",
+            "title": "Dataset Created by",
             "type": "string"
           },
           "updatedBy": {
@@ -95746,35 +95746,35 @@
             "items": {
               "type": "string"
             },
-            "title": "Updated by",
+            "title": "Dataset Updated by",
             "type": "array"
           },
           "category": {
             "const": "unspecified",
             "description": "Tumor board discriminator category",
-            "title": "Category",
+            "title": "Dataset Category",
             "type": "string"
           },
           "externalSource": {
             "description": "The digital source of the data, relevant for automated data",
-            "title": "External data source",
+            "title": "Dataset External data source",
             "type": "string"
           },
           "externalSourceId": {
             "description": "The data identifier at the digital source of the data, relevant for automated data",
-            "title": "External data source Id",
+            "title": "Dataset External data source Id",
             "type": "string"
           },
           "caseId": {
             "description": "Indicates the case of the patient which was discussed at the tumor board",
             "format": "uuid",
-            "title": "Patient case",
+            "title": "Dataset Patient case",
             "type": "string"
           },
           "date": {
             "description": "Date at which the tumor board took place and/or when the board provided a recommendation.",
             "format": "date",
-            "title": "Date",
+            "title": "Dataset Date",
             "type": "string"
           },
           "relatedEntitiesIds": {
@@ -95783,7 +95783,7 @@
               "format": "uuid",
               "type": "string"
             },
-            "title": "Related neoplastic entities",
+            "title": "Dataset Related neoplastic entities",
             "type": "array"
           },
           "recommendations": {
@@ -95799,7 +95799,7 @@
               }
             ],
             "description": "Recommendation(s) provided by the board regarding the patient's care",
-            "title": "Recommendations"
+            "title": "Dataset Recommendations"
           }
         },
         "title": "UnspecifiedTumorBoardPartial",
@@ -95816,24 +95816,24 @@
           "id": {
             "description": "Unique identifier of the resource (UUID v4).",
             "format": "uuid",
-            "title": "Id",
+            "title": "Dataset Id",
             "type": "string"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
-            "title": "Created at",
+            "title": "Dataset Created at",
             "type": "string"
           },
           "updatedAt": {
             "description": "Date-time when the resource was last updated",
             "format": "date-time",
-            "title": "Updated at",
+            "title": "Dataset Updated at",
             "type": "string"
           },
           "createdBy": {
             "description": "Username of the user who created the resource",
-            "title": "Created by",
+            "title": "Dataset Created by",
             "type": "string"
           },
           "updatedBy": {
@@ -95841,29 +95841,29 @@
             "items": {
               "type": "string"
             },
-            "title": "Updated by",
+            "title": "Dataset Updated by",
             "type": "array"
           },
           "externalSource": {
             "description": "The digital source of the data, relevant for automated data",
-            "title": "External data source",
+            "title": "Dataset External data source",
             "type": "string"
           },
           "externalSourceId": {
             "description": "The data identifier at the digital source of the data, relevant for automated data",
-            "title": "External data source Id",
+            "title": "Dataset External data source Id",
             "type": "string"
           },
           "caseId": {
             "description": "Indicates the case of the patient who's vitals are assesed",
             "format": "uuid",
-            "title": "Patient case",
+            "title": "Dataset Patient case",
             "type": "string"
           },
           "date": {
             "description": "Clinically-relevant date at which the vitals were recorded.",
             "format": "date",
-            "title": "Assessment date",
+            "title": "Dataset Assessment date",
             "type": "string"
           },
           "height": {
@@ -95873,7 +95873,7 @@
               }
             ],
             "description": "Height of the patient",
-            "title": "Height"
+            "title": "Dataset Height"
           },
           "weight": {
             "allOf": [
@@ -95882,7 +95882,7 @@
               }
             ],
             "description": "Weight of the patient",
-            "title": "Weight"
+            "title": "Dataset Weight"
           },
           "bloodPressureSystolic": {
             "allOf": [
@@ -95891,7 +95891,7 @@
               }
             ],
             "description": "Systolic blood pressure of the patient",
-            "title": "Systolic blood pressure"
+            "title": "Dataset Systolic blood pressure"
           },
           "bloodPressureDiastolic": {
             "allOf": [
@@ -95900,7 +95900,7 @@
               }
             ],
             "description": "Diastolic blood pressure of the patient",
-            "title": "Diastolic blood pressure"
+            "title": "Dataset Diastolic blood pressure"
           },
           "temperature": {
             "allOf": [
@@ -95909,7 +95909,7 @@
               }
             ],
             "description": "Temperature of the patient",
-            "title": "Temperature"
+            "title": "Dataset Temperature"
           },
           "bodyMassIndex": {
             "allOf": [
@@ -95918,7 +95918,7 @@
               }
             ],
             "description": "Bodymass index of the patient",
-            "title": "Body mass index"
+            "title": "Dataset Body mass index"
           }
         },
         "title": "VitalsPartial",
@@ -95935,24 +95935,24 @@
           "id": {
             "description": "Unique identifier of the resource (UUID v4).",
             "format": "uuid",
-            "title": "Id",
+            "title": "Dataset Id",
             "type": "string"
           },
           "createdAt": {
             "description": "Date-time when the resource was created",
             "format": "date-time",
-            "title": "Created at",
+            "title": "Dataset Created at",
             "type": "string"
           },
           "updatedAt": {
             "description": "Date-time when the resource was last updated",
             "format": "date-time",
-            "title": "Updated at",
+            "title": "Dataset Updated at",
             "type": "string"
           },
           "createdBy": {
             "description": "Username of the user who created the resource",
-            "title": "Created by",
+            "title": "Dataset Created by",
             "type": "string"
           },
           "updatedBy": {
@@ -95960,35 +95960,35 @@
             "items": {
               "type": "string"
             },
-            "title": "Updated by",
+            "title": "Dataset Updated by",
             "type": "array"
           },
           "stagingDomain": {
             "const": "wilms",
             "description": "Staging domain discriminator category",
-            "title": "Staging domain",
+            "title": "Dataset Staging domain",
             "type": "string"
           },
           "externalSource": {
             "description": "The digital source of the data, relevant for automated data",
-            "title": "External data source",
+            "title": "Dataset External data source",
             "type": "string"
           },
           "externalSourceId": {
             "description": "The data identifier at the digital source of the data, relevant for automated data",
-            "title": "External data source Id",
+            "title": "Dataset External data source Id",
             "type": "string"
           },
           "caseId": {
             "description": "Indicates the case of the patient who's cancer is staged",
             "format": "uuid",
-            "title": "Patient case",
+            "title": "Dataset Patient case",
             "type": "string"
           },
           "date": {
             "description": "Clinically-relevant date at which the staging was performed and recorded.",
             "format": "date",
-            "title": "Staging date",
+            "title": "Dataset Staging date",
             "type": "string"
           },
           "stagedEntitiesIds": {
@@ -95997,7 +95997,7 @@
               "format": "uuid",
               "type": "string"
             },
-            "title": "Staged neoplastic entities",
+            "title": "Dataset Staged neoplastic entities",
             "type": "array"
           },
           "stage": {
@@ -96013,7 +96013,7 @@
               }
             ],
             "description": "The value of the Wilms stage",
-            "title": "Wilms Stage"
+            "title": "Dataset Wilms Stage"
           }
         },
         "title": "WilmsStagePartial",
