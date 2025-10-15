@@ -3,7 +3,7 @@ from pydantic import Field
 
 from onconova.core.serialization.factory import create_filters_schema
 from onconova.core.schemas import BaseSchema, MetadataMixin, Period
-from onconova.core.types import Nullable, Username
+from onconova.core.types import Nullable, Username, UUID
 from onconova.research.models import project as orm
 
 
@@ -107,6 +107,16 @@ class ProjectDataManagerGrant(ProjectDataManagerGrantCreate, MetadataMixin):
     isValid: bool = Field(
         title="Is valid",
         description="Whether the authorization grant is valid today",
+    )
+    member: Username = Field(
+        ...,
+        description='Manager of the project data',
+        title='Manager',
+    )
+    projectId: UUID = Field(
+        ...,
+        description='Project under which the permission is granted',
+        title='Project',
     )
 
 
