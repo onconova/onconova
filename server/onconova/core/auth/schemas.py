@@ -1,17 +1,14 @@
 """
 This module defines Pydantic schemas for user authentication and profile management within the Onconova system.
 """
-from ninja import Field, Schema
 from typing import Literal
-from pydantic import AliasChoices, model_validator, PrivateAttr
-from onconova.core.auth import models as orm
+from ninja import Field, Schema
+from datetime import datetime
+
 from onconova.core.serialization.factory import create_filters_schema
-from onconova.core.serialization.metaclasses import (
-    ModelCreateSchema,
-    ModelGetSchema,
-    SchemaConfig,
-)
-from onconova.core.types import Nullable
+from onconova.core.schemas import BaseSchema, MetadataAnonymizationMixin, MetadataMixin, AnonymizationMixin
+from onconova.core.types import Nullable, UUID
+from onconova.core.auth import models as orm
 
 
 class UserPasswordReset(Schema):
@@ -31,56 +28,94 @@ class UserPasswordReset(Schema):
     )
 
 
-class UserExportSchema(ModelGetSchema):
-    """User information to be exported for acreditation purposes"""
+class UserCreate(BaseSchema):
     
-    anonymized: bool = Field(
-        title='Anonymzied',
-        default=True      
-    )
-    config = SchemaConfig(
-        model=orm.User,
-        fields=[
-            "id",
-            "external_source",
-            "external_source_id",
-            "username",
-            "first_name",
-            "last_name",
-            "email",
-            "organization",
-        ],
-    )
+    __orm_model__ = orm.User #type: ignore
     
+    lastLogin: Nullable[datetime] = Field(
+        None, description='', 
+        title='Last Login',
+    )
+    username: str = Field(
+        ...,
+        description='Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.',
+        title='Username',
+        max_length=150,
+    )
+    firstName: Nullable[str] = Field(
+        None, description='', title='First Name',
+        max_length=150,
+    )
+    lastName: Nullable[str] = Field(
+        None, description='', title='Last Name',
+        max_length=150,
+    )
+    email: Nullable[str] = Field(
+        None, description='', title='Email Address',
+        max_length=254,
+    )
+    isActive: bool = Field(
+        True,
+        description='Designates whether this user should be treated as active. Unselect this instead of deleting accounts.',
+        title='Active',
+    )
+    externalSource: Nullable[str] = Field(
+        None,
+        description='Name of the source from which the user originated, if imported',
+        title='External source',
+        max_length=500,
+    )
+    externalSourceId: Nullable[str] = Field(
+        None,
+        description='Unique identifier within the source from which the user originated, if imported',
+        title='External source ID',
+        max_length=500,
+    )
+    isServiceAccount: bool = Field(
+        False,
+        description='Whether the user is a technical service account',
+        title='Is service account?',
+    )
+    title: Nullable[str] = Field(
+        None, 
+        description='Personal title of the user', 
+        title='Title',
+        max_length=100,
+    )
+    organization: Nullable[str] = Field(
+        None,
+        description='Organization to which the user belongs to',
+        title='Organization',
+        max_length=100,
+    )
+    department: Nullable[str] = Field(
+        None,
+        description='Department within an organization to which the user belongs to',
+        title='Department',
+        max_length=100,
+    )
+    accessLevel: int = Field(
+        0,
+        description='Level of access of the user in terms of permissions',
+        title='Access level',
+    )
+    shareable: Nullable[bool] = Field(
+        None,
+        description='Whether user has consented to its data to be shared with other Onconova instances',
+        title='Shareable',
+    )
 
-class UserSchema(ModelGetSchema):
-    """
-    Schema for representing a user and their permissions within the system.
 
-    Attributes:
-        role (orm.User.AccessRoles): The user's assigned access role.
-        canViewCases (bool): Permission to view cases.
-        canViewProjects (bool): Permission to view projects.
-        canViewCohorts (bool): Permission to view cohorts.
-        canViewUsers (bool): Permission to view other user accounts.
-        canViewDatasets (bool): Permission to view available datasets.
-        canManageCases (bool): Permission to manage cases.
-        canExportData (bool): Permission to export data out of the system.
-        canManageProjects (bool): Permission to manage projects.
-        canManageUsers (bool): Permission to create and manage users.
-        isSystemAdmin (bool): Whether the user is a system administrator.
-        isProvided (bool): Indicates whether the user account is externally provided.
-        provider (Optional[str]): The external authentication provider, if applicable.
+class User(UserCreate):
 
-    Config:
-        Associated to the `onconova.core.models.User` ORM model to autogenerate fields for this schema.
-    """
-
+    id: UUID = Field(
+        ..., 
+        description='Unique identifier of the resource (UUID v4).', 
+        title='Id'
+    )
     fullName: str = Field(
         title="Full Name",
         description="The user's full name.",
-        alias="full_name",
-        validation_alias=AliasChoices("fullName", "full_name"),
     )
     role: orm.User.AccessRoles = Field(
         title="Role", description="The user's assigned access role."
@@ -88,113 +123,114 @@ class UserSchema(ModelGetSchema):
     canViewCases: bool = Field(
         title="View Cases",
         description="Permission to view cases.",
-        alias="can_view_cases",
-        validation_alias=AliasChoices("canViewCases", "can_view_cases"),
     )
     canViewProjects: bool = Field(
         title="View Projects",
         description="Permission to view projects.",
-        alias="can_view_projects",
-        validation_alias=AliasChoices("canViewProjects", "can_view_projects"),
     )
     canViewCohorts: bool = Field(
         title="View Cohorts",
         description="Permission to view cohorts.",
-        alias="can_view_cohorts",
-        validation_alias=AliasChoices("canViewCohorts", "can_view_cohorts"),
     )
     canViewUsers: bool = Field(
         title="View Users",
         description="Permission to view other user accounts.",
-        alias="can_view_users",
-        validation_alias=AliasChoices("canViewUsers", "can_view_users"),
     )
     canViewDatasets: bool = Field(
         title="View Datasets",
         description="Permission to view available datasets.",
-        alias="can_view_datasets",
-        validation_alias=AliasChoices("canViewDatasets", "can_view_datasets"),
     )
     canManageCases: bool = Field(
         title="Manage Cases",
         description="Permission to manage cases.",
-        alias="can_manage_cases",
-        validation_alias=AliasChoices("canManageCases", "can_manage_cases"),
     )
     canExportData: bool = Field(
         title="Export Data",
         description="Permission to export data out of the system.",
-        alias="can_export_data",
-        validation_alias=AliasChoices("canExportData", "can_export_data"),
     )
     canManageProjects: bool = Field(
         title="Manage Projects",
         description="Permission to manage projects.",
-        alias="can_manage_projects",
-        validation_alias=AliasChoices("canManageProjects", "can_manage_projects"),
     )
     canManageUsers: bool = Field(
         title="Manage Users",
         description="Permission to create and manage users.",
-        alias="can_manage_users",
-        validation_alias=AliasChoices("canManageUsers", "can_manage_users"),
     )
     isSystemAdmin: bool = Field(
         title="System Administrator",
         description="Whether the user is a system administrator.",
-        alias="is_system_admin",
-        validation_alias=AliasChoices("isSystemAdmin", "is_system_admin"),
     )
     isProvided: bool = Field(
         title="Is Provided",
         description="Indicates whether the user account is externally provided.",
-        alias="is_provided",
-        validation_alias=AliasChoices("isProvided", "is_provided"),
     )
     provider: Nullable[str] = Field(
         default=None,
         title="Provider",
         description="The external authentication provider, if applicable.",
-        alias="provider",
-        validation_alias=AliasChoices("provider", "provider"),
     )
+    
 
-    config = SchemaConfig(
-        model=orm.User,
-        exclude=[
-            "date_joined",
-            "groups",
-            "is_staff",
-            "is_superuser",
-            "user_permissions",
-            "password",
-        ],
+class UserExport(BaseSchema, AnonymizationMixin):
+    """User information to be exported for acreditation purposes"""
+    
+    __orm_model__ = orm.User # type: ignore 
+    
+    id: UUID = Field(
+        ..., 
+        description='Unique identifier of the resource (UUID v4).', 
+        title='Id'
     )
-
-
-class UserCreateSchema(ModelCreateSchema):
-    """
-    Schema for creating a new User instance.
-
-    Config:
-        Associated to the `onconova.core.models.User` ORM model to autogenerate fields for this schema.
-    """
-
-    config = SchemaConfig(
-        model=orm.User,
-        exclude=[
-            "id",
-            "date_joined",
-            "groups",
-            "is_staff",
-            "is_superuser",
-            "user_permissions",
-            "password",
-        ],
+    externalSource: Nullable[str] = Field(
+        None,
+        description='Name of the source from which the user originated, if imported',
+        title='External source',
+        max_length=500,
     )
+    externalSourceId: Nullable[str] = Field(
+        None,
+        description='Unique identifier within the source from which the user originated, if imported',
+        title='External source ID',
+        max_length=500,
+    )
+    username: str = Field(
+        ...,
+        description='Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.',
+        title='Username',
+        max_length=150,
+    )
+    firstName: Nullable[str] = Field(
+        default=None,
+        title="First Name",
+        description="The user's given name.",
+        max_length=150,
+    )
+    lastName: Nullable[str] = Field(
+        default=None,
+        title="Last Name",
+        description="The user's surname.",
+        max_length=150,
+    )
+    organization: Nullable[str] = Field(
+        default=None,
+        title="Organization",
+        description="The user's affiliated organization.",
+        max_length=100,
+    )
+    email: Nullable[str] = Field(
+        default=None,
+        title="Email Address", 
+        description="The user's primary email address.",        
+        max_length=254,
+    )
+    
+    @staticmethod 
+    def resolve_anonymized(user):
+        return not user.shareable
+    
+    
 
-
-class UserProfileSchema(Schema):
+class UserProfile(BaseSchema):
     """
     Schema representing a user's profile information.
 
@@ -210,14 +246,10 @@ class UserProfileSchema(Schema):
     firstName: Nullable[str] = Field(
         title="First Name",
         description="The user's given name.",
-        alias="first_name",
-        validation_alias=AliasChoices("firstName", "first_name"),
     )
     lastName: Nullable[str] = Field(
         title="Last Name",
         description="The user's surname.",
-        alias="last_name",
-        validation_alias=AliasChoices("lastName", "last_name"),
     )
     organization: Nullable[str] = Field(
         default=None,
@@ -237,8 +269,8 @@ class UserProfileSchema(Schema):
     )
 
 
-UserFilters = create_filters_schema(schema=UserSchema, name="UserFilters")
-"""Dynamically generated schema for filtering users, based on UserSchema."""
+UserFilters = create_filters_schema(schema=User, name="UserFilters")
+"""Dynamically generated schema for filtering users, based on User schema."""
 
 
 
@@ -308,7 +340,7 @@ class UserProviderToken(Schema):
     )
 
 
-class AuthenticationMeta(Schema):
+class AuthenticationMeta(BaseSchema):
     """
     Schema representing authentication metadata.
 
@@ -321,19 +353,13 @@ class AuthenticationMeta(Schema):
         default=None,
         title="Session Token",
         description="The session token associated with the authentication, if available.",
-        alias="session_token",
-        validation_alias=AliasChoices("sessionToken", "session_token"),
     )
     accessToken: Nullable[str] = Field(
         default=None,
         title="Access Token",
         description="The access token for the authenticated session, if available.",
-        alias="access_token",
-        validation_alias=AliasChoices("accessToken", "access_token"),
     )
     isAuthenticated: bool = Field(
         title="Is Authenticated",
         description="Indicates whether the user is authenticated.",
-        alias="is_authenticated",
-        validation_alias=AliasChoices("isAuthenticated", "is_authenticated"),
     )

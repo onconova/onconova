@@ -73,7 +73,6 @@ class SchemaFactory(NinjaSchemaFactory):
         """
 
         name = name or model.__name__
-        orm_metadata = {}
         if fields and exclude:
             raise ConfigError("Only one of 'fields' or 'exclude' should be set.")
 
@@ -120,7 +119,6 @@ class SchemaFactory(NinjaSchemaFactory):
                 field_definition.python_type,
                 field_definition.field_info,
             )
-            orm_metadata[field_definition.name] = fld
 
         if custom_fields:
             for fld_name, python_type, field_info in custom_fields:
@@ -144,7 +142,6 @@ class SchemaFactory(NinjaSchemaFactory):
             setattr(schema, fcn_name, fcn)
         # Store ORM metadata
         schema.set_orm_model(model)
-        schema.set_orm_metadata(**orm_metadata)
         # Update the factory registry
         self.schemas[key] = schema
         self.schema_names.add(name)

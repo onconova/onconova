@@ -1,77 +1,203 @@
 from typing import List, Literal
+from pydantic import Field
+from datetime import date as date_aliased
 
-from pydantic import AliasChoices, Field
-
-from onconova.core.anonymization import AnonymizationConfig
-from onconova.core.serialization.metaclasses import (
-    ModelCreateSchema,
-    ModelGetSchema,
-    SchemaConfig,
-)
-from onconova.oncology import models as orm
-from onconova.oncology.models.tumor_board import TumorBoardSpecialties
+from onconova.core.schemas import BaseSchema, MetadataAnonymizationMixin, MetadataMixin, CodedConcept
+from onconova.core.types import Nullable, UUID
+from onconova.oncology.models import tumor_board as orm
 
 
-class UnspecifiedTumorBoardSchema(ModelGetSchema):
-    category: Literal[TumorBoardSpecialties.UNSPECIFIED] = Field(
-        TumorBoardSpecialties.UNSPECIFIED,
+
+
+class UnspecifiedTumorBoardCreate(BaseSchema):
+    
+    __orm_model__ = orm.UnspecifiedTumorBoard 
+    
+    category: Literal[orm.TumorBoardSpecialties.UNSPECIFIED] = Field(
+        orm.TumorBoardSpecialties.UNSPECIFIED,
         title="Category",
         description="Tumor board discriminator category",
     )
-    config = SchemaConfig(
-        model=orm.UnspecifiedTumorBoard,
-        exclude=["tumor_board"],
-        anonymization=AnonymizationConfig(fields=["date"], key="caseId"),
+    externalSource: Nullable[str] = Field(
+        None,
+        description='The digital source of the data, relevant for automated data',
+        title='External data source',
+    )
+    externalSourceId: Nullable[str] = Field(
+        None,
+        description='The data identifier at the digital source of the data, relevant for automated data',
+        title='External data source Id',
+    )
+    caseId: UUID = Field(
+        ...,
+        description='Indicates the case of the patient which was discussed at the tumor board',
+        title='Patient case',
+    )
+    date: date_aliased = Field(
+        ...,
+        description='Date at which the tumor board took place and/or when the board provided a recommendation.',
+        title='Date',
+    )
+    relatedEntitiesIds: Nullable[List[UUID]] = Field(
+        None,
+        description='References to the neoplastic entities that were the focus of the tumor board.',
+        title='Related neoplastic entities',
+    )
+    recommendations: Nullable[List[CodedConcept]] = Field(
+        None,
+        description="Recommendation(s) provided by the board regarding the patient's care",
+        title='Recommendations',
+        json_schema_extra={'x-terminology': 'TumorBoardRecommendation'},
     )
 
 
-class UnspecifiedTumorBoardCreateSchema(ModelCreateSchema):
-    category: Literal[TumorBoardSpecialties.UNSPECIFIED] = Field(
-        TumorBoardSpecialties.UNSPECIFIED,
+class UnspecifiedTumorBoard(UnspecifiedTumorBoardCreate, MetadataAnonymizationMixin):
+    
+    category: Literal[orm.TumorBoardSpecialties.UNSPECIFIED] = Field(
+        orm.TumorBoardSpecialties.UNSPECIFIED,
         title="Category",
         description="Tumor board discriminator category",
     )
-    config = SchemaConfig(model=orm.UnspecifiedTumorBoard, exclude=["tumor_board"])
+    __anonymization_fields__ = ("date",)
+    __anonymization_key__ = "caseId"
+    
+    
 
-
-class MolecularTherapeuticRecommendationSchema(ModelGetSchema):
-    config = SchemaConfig(
-        model=orm.MolecularTherapeuticRecommendation, exclude=["molecular_tumor_board"]
+class MolecularTherapeuticRecommendationCreate(BaseSchema):
+    
+    __orm_model__ = orm.MolecularTherapeuticRecommendation 
+    
+    externalSource: Nullable[str] = Field(
+        None,
+        description='The digital source of the data, relevant for automated data',
+        title='External data source',
+    )
+    externalSourceId: Nullable[str] = Field(
+        None,
+        description='The data identifier at the digital source of the data, relevant for automated data',
+        title='External data source Id',
+    )
+    expectedEffect: Nullable[CodedConcept] = Field(
+        None,
+        description='Classification of the expected effect of the drug',
+        title='Expected medication action',
+        json_schema_extra={'x-terminology': 'ExpectedDrugAction'},
+    )
+    clinicalTrial: Nullable[str] = Field(
+        None,
+        description='Clinical trial (NCT-Iddentifier) recommended by the board for enrollment',
+        title='Recommended clinical trial',
+        max_length=15,
+    )
+    offLabelUse: Nullable[bool] = Field(
+        None,
+        description='Whether the medication(s) recommended were off-label',
+        title='Off-label use',
+    )
+    withinSoc: Nullable[bool] = Field(
+        None,
+        description='Whether the medication(s) recommended were within standard of care',
+        title='Within SOC',
+    )
+    drugs: Nullable[List[CodedConcept]] = Field(
+        None,
+        description='Drugs(s) being recommended',
+        title='Drug(s)',
+        json_schema_extra={'x-terminology': 'AntineoplasticAgent'},
+    )
+    supportingGenomicVariantsIds: Nullable[List[UUID]] = Field(
+        None,
+        description='Genomic variants that support the recommendation',
+        title='Supporting genomic variants',
+    )
+    supportingGenomicSignaturesIds: Nullable[List[UUID]] = Field(
+        None,
+        description='Genomic signatures that support the recommendation',
+        title='Supporting genomic signatures',
+    )
+    supportingTumorMarkersIds: Nullable[List[UUID]] = Field(
+        None,
+        description='Tumor markers that support the recommendation',
+        title='Supporting tumor markers',
     )
 
 
-class MolecularTherapeuticRecommendationCreateSchema(ModelCreateSchema):
-    config = SchemaConfig(
-        model=orm.MolecularTherapeuticRecommendation, exclude=["molecular_tumor_board"]
-    )
+class MolecularTherapeuticRecommendation(MolecularTherapeuticRecommendationCreate, MetadataMixin):
+    pass
 
 
-class MolecularTumorBoardSchema(ModelGetSchema):
-    category: Literal[TumorBoardSpecialties.MOLECULAR] = Field(
-        TumorBoardSpecialties.MOLECULAR,
+class MolecularTumorBoardCreate(BaseSchema):
+    
+    __orm_model__ = orm.MolecularTumorBoard 
+    
+    category: Literal[orm.TumorBoardSpecialties.MOLECULAR] = Field(
+        orm.TumorBoardSpecialties.MOLECULAR,
         title="Category",
         description="Tumor board discriminator category",
     )
-    therapeuticRecommendations: List[MolecularTherapeuticRecommendationSchema] = Field(
+    externalSource: Nullable[str] = Field(
+        None,
+        description='The digital source of the data, relevant for automated data',
+        title='External data source',
+    )
+    externalSourceId: Nullable[str] = Field(
+        None,
+        description='The data identifier at the digital source of the data, relevant for automated data',
+        title='External data source Id',
+    )
+    caseId: UUID = Field(
+        ...,
+        description='Indicates the case of the patient which was discussed at the tumor board',
+        title='Patient case',
+    )
+    date: date_aliased = Field(
+        ...,
+        description='Date at which the tumor board took place and/or when the board provided a recommendation.',
+        title='Date',
+    )
+    relatedEntitiesIds: Nullable[List[UUID]] = Field(
+        None,
+        description='References to the neoplastic entities that were the focus of the tumor board.',
+        title='Related neoplastic entities',
+    )
+    recommendations: Nullable[List[CodedConcept]] = Field(
+        None,
+        description="Recommendation(s) provided by the board regarding the patient's care",
+        title='Recommendations',
+        json_schema_extra={'x-terminology': 'TumorBoardRecommendation'},
+    )
+    conductedMolecularComparison: Nullable[bool] = Field(
+        None,
+        description='Indicates whether a molecular comparison was conducted during the molecular tumor board',
+        title='Conducted molecular comparison?',
+    )
+    molecularComparisonMatchId: Nullable[UUID] = Field(
+        None,
+        description='The neoplastic entity that was matched during the molecular comparison',
+        title='Molecular comparison match',
+    )
+    conductedCupCharacterization: Nullable[bool] = Field(
+        None,
+        description='Whether there was a cancer of unknown primary (CUP) characterization during the molecular tumor board.',
+        title='Conducted CUP characterization?',
+    )
+    characterizedCup: Nullable[bool] = Field(
+        None,
+        description='Whether the cancer of unknown primary (CUP) characterization was successful.',
+        title='Successful CUP characterization?',
+    )
+    reviewedReports: List[str] = Field(
+        ...,
+        description='List of genomic reports reviewed during the board meeting.',
+        title='Reviewed Reports',
+    )
+
+class MolecularTumorBoard(MolecularTumorBoardCreate, MetadataAnonymizationMixin):
+    
+    therapeuticRecommendations: List[MolecularTherapeuticRecommendation] = Field(
         title="Therapeutic Recommendations",
         description="Therapeutic recommendations of the molecular tumor board",
-        alias="therapeutic_recommendations",
-        validation_alias=AliasChoices(
-            "therapeuticRecommendations", "therapeutic_recommendations"
-        ),
     )
-    config = SchemaConfig(
-        model=orm.MolecularTumorBoard,
-        exclude=["tumor_board"],
-        anonymization=AnonymizationConfig(fields=["date"], key="caseId"),
-    )
-
-
-class MolecularTumorBoardCreateSchema(ModelCreateSchema):
-    category: Literal[TumorBoardSpecialties.MOLECULAR] = Field(
-        TumorBoardSpecialties.MOLECULAR,
-        title="Category",
-        description="Tumor board discriminator category",
-    )
-    config = SchemaConfig(model=orm.MolecularTumorBoard, exclude=["tumor_board"])
-    config = SchemaConfig(model=orm.MolecularTumorBoard, exclude=["tumor_board"])
+    __anonymization_fields__ = ("date",)
+    __anonymization_key__ = "caseId"
+    

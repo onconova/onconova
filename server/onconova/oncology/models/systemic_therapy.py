@@ -16,6 +16,9 @@ from onconova.core.models import BaseModel
 from onconova.oncology.models import NeoplasticEntity, PatientCase
 from onconova.oncology.models.therapy_line import TherapyLine
 
+class SystemicTherapyIntentChoices(models.TextChoices):
+    CURATIVE = "curative"
+    PALLIATIVE = "palliative"
 
 @pghistory.track()
 class SystemicTherapy(BaseModel):
@@ -42,9 +45,6 @@ class SystemicTherapy(BaseModel):
 
     objects = QueryablePropertiesManager()
 
-    class TreatmentIntent(models.TextChoices):
-        CURATIVE = "curative"
-        PALLIATIVE = "palliative"
 
     case = models.ForeignKey(
         verbose_name=_("Patient case"),
@@ -103,7 +103,7 @@ class SystemicTherapy(BaseModel):
     intent = models.CharField(
         verbose_name=_("Intent"),
         help_text=_("Treatment intent of the system therapy"),
-        choices=TreatmentIntent,
+        choices=SystemicTherapyIntentChoices,
         max_length=30,
     )
     adjunctive_role = termfields.CodedConceptField(

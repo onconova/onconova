@@ -53,7 +53,7 @@ class DatasetRuleProcessor:
         """Retrieves the corresponding schema for the resource."""
         from onconova.oncology import schemas as oncology_schemas
 
-        schema = getattr(oncology_schemas, f"{resource_name}Schema", None)
+        schema = getattr(oncology_schemas, f"{resource_name}Schema", None) or getattr(oncology_schemas, resource_name, None)
         if not schema:
             raise DatasetRuleProcessingError(
                 f'Could not resolve schema "{resource_name}" into an existing class object.'
@@ -87,14 +87,14 @@ class DatasetRuleProcessor:
 
     def _get_transformer(self, transform: str | tuple | None):
         """Fetches transformation function if specified, otherwise defaults."""
+        from onconova.core.serialization import transforms
         if not transform:
             return None
-        from onconova.core.serialization import transforms
-
-        transform_class = getattr(transforms, transform or "", None)
+        _transform = transform[0] if isinstance(transform, tuple) else transform
+        transform_class = getattr(transforms, _transform or "", None)
         if not transform_class:
             raise DatasetRuleProcessingError(
-                f'Could not resolve transform "{transform}" into a transform class object.'
+                f'Could not resolve transform "{_transform}" into a transform class object.'
             )
         return transform_class
 
@@ -152,7 +152,9 @@ class DatasetRuleProcessor:
                     " ", "_"
                 ).lower()
             else:
-                return self.parent_related_name
+                if not self.parent_related_name:
+                    raise ValueError(f"{self.resource_model.__name__}'s parent_related_name attribute is None.")
+                return str(self.parent_related_name)
         else:
             key = self.resource_model._meta.get_field("case").related_query_name()
             return f"{key}"
@@ -168,12 +170,12 @@ class DatasetRuleProcessor:
         if self.model_field_name == "clinical_identifier":
             query_expression = Value("***********")
 
-        elif self._get_measure():
+        elif measure := self._get_measure():
             return Case(
                 When(**{self.query_lookup_path + "__isnull": True}, then=Value(None)),
                 default=JSONObject(
                     value=F(self.query_lookup_path),
-                    unit=Value(self._get_measure().measurement.STANDARD_UNIT),
+                    unit=Value(measure.measurement.STANDARD_UNIT),
                 ),
             )
         elif self.value_transformer:
@@ -201,7 +203,7 @@ class AnnotationNode:
     """
 
     key: str
-    expression: Expression
+    expression: Expression | F
 
 
 @dataclass
@@ -277,7 +279,7 @@ class AggregationNode:
             )
         annotations = self.annotations
         if "Id" not in annotations:
-            annotations.update({"Id": F("id")})
+            annotations.update({"Id": F("id")}) # type: ignore
         if not annotations:
             raise AttributeError(
                 "The aggregation node's subquery cannot be constructed without annotations."

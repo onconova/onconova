@@ -17,17 +17,10 @@ from onconova.core.schemas import ModifiedResource as ModifiedResourceSchema
 from onconova.core.schemas import Paginated
 from onconova.core.types import Nullable
 from onconova.core.utils import COMMON_HTTP_ERRORS
-from onconova.oncology.models import (
-    NeoplasticEntity,
-    PatientCase,
-    PatientCaseDataCompletion,
+from onconova.oncology import (
+    models as orm,
+    schemas as scm,
 )
-from onconova.oncology.schemas import (
-    PatientCaseCreateSchema,
-    PatientCaseDataCompletionStatusSchema,
-)
-from onconova.oncology.schemas import PatientCaseFilters as PatientCaseFiltersBase
-from onconova.oncology.schemas import PatientCaseSchema
 
 
 class PatientCaseIdentifier(str, Enum):
@@ -36,7 +29,7 @@ class PatientCaseIdentifier(str, Enum):
     CLINICAL = "clinicalIdentifier"
 
 
-class PatientCaseFilters(PatientCaseFiltersBase):
+class PatientCaseFilters(scm.PatientCaseFilters):
     primarySite: Nullable[str] = Field(
         default=None,
         title="Primary site",
@@ -51,7 +44,7 @@ class PatientCaseFilters(PatientCaseFiltersBase):
     def filter_primarySite(self, value: bool) -> Q | Exists:
         return (
             Exists(
-                NeoplasticEntity.objects.filter(
+                orm.NeoplasticEntity.objects.filter(
                     case_id=OuterRef("pk"),
                     topography_group__code=value,
                     relationship="primary",
@@ -64,7 +57,7 @@ class PatientCaseFilters(PatientCaseFiltersBase):
     def filter_morphology(self, value: bool) -> Q | Exists:
         return (
             Exists(
-                NeoplasticEntity.objects.filter(
+                orm.NeoplasticEntity.objects.filter(
                     case_id=OuterRef("pk"),
                     morphology__code=value,
                     relationship="primary",
@@ -84,7 +77,7 @@ class PatientCaseController(ControllerBase):
 
     @route.get(
         path="",
-        response={200: Paginated[PatientCaseSchema], **COMMON_HTTP_ERRORS},
+        response={200: Paginated[scm.PatientCase], **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCases],
         operation_id="getPatientCases",
     )
@@ -94,9 +87,9 @@ class PatientCaseController(ControllerBase):
     def get_all_patient_cases_matching_the_query(
         self,
         query: Query[PatientCaseFilters],
-        idSearch: str | None = None,
+        idSearch: Nullable[str] = None,
     ):  # type: ignore
-        queryset = PatientCase.objects.all()
+        queryset = orm.PatientCase.objects.all()
         if idSearch:
             id_query = Q(pseudoidentifier__icontains=idSearch) | Q(
                 id__icontains=idSearch
@@ -118,12 +111,12 @@ class PatientCaseController(ControllerBase):
         permissions=[perms.CanManageCases],
         operation_id="createPatientCase",
     )
-    def create_patient_case(self, payload: PatientCaseCreateSchema):
+    def create_patient_case(self, payload: scm.PatientCaseCreate):
         return 201, payload.model_dump_django()
 
     @route.get(
         path="/{caseId}",
-        response={200: PatientCaseSchema, 404: None, **COMMON_HTTP_ERRORS},
+        response={200: scm.PatientCase, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCases],
         operation_id="getPatientCaseById",
     )
@@ -135,9 +128,9 @@ class PatientCaseController(ControllerBase):
         clinicalCenter: str | None = None,
     ):
         if type == PatientCaseIdentifier.ID:
-            return get_object_or_404(PatientCase, id=caseId.strip())
+            return get_object_or_404(orm.PatientCase, id=caseId.strip())
         elif type == PatientCaseIdentifier.PSEUDO:
-            return get_object_or_404(PatientCase, pseudoidentifier=caseId.strip())
+            return get_object_or_404(orm.PatientCase, pseudoidentifier=caseId.strip())
         elif type == PatientCaseIdentifier.CLINICAL:
             if (
                 self.context
@@ -152,7 +145,7 @@ class PatientCaseController(ControllerBase):
                     "Clinical center must also be provided along the clinical identifier."
                 )
             return get_object_or_404(
-                PatientCase,
+                orm.PatientCase,
                 clinical_identifier=caseId.strip(),
                 clinical_center=clinicalCenter.strip(),
             )
@@ -163,9 +156,9 @@ class PatientCaseController(ControllerBase):
         permissions=[perms.CanManageCases],
         operation_id="updatePatientCaseById",
     )
-    def update_patient_case(self, caseId: str, payload: PatientCaseCreateSchema):  # type: ignore
-        instance = get_object_or_404(PatientCase, id=caseId)
-        return PatientCaseCreateSchema.model_validate(payload).model_dump_django(
+    def update_patient_case(self, caseId: str, payload: scm.PatientCaseCreate):  # type: ignore
+        instance = get_object_or_404(orm.PatientCase, id=caseId)
+        return scm.PatientCaseCreate.model_validate(payload).model_dump_django(
             instance=instance
         )
 
@@ -176,14 +169,14 @@ class PatientCaseController(ControllerBase):
         operation_id="deletePatientCaseById",
     )
     def delete_patient_case(self, caseId: str):
-        instance = get_object_or_404(PatientCase, id=caseId)
+        instance = get_object_or_404(orm.PatientCase, id=caseId)
         instance.delete()
         return 204, None
 
     @route.get(
         path="/{caseId}/history/events",
         response={
-            200: Paginated[HistoryEvent.bind_schema(PatientCaseCreateSchema)],
+            200: Paginated[HistoryEvent.bind_schema(scm.PatientCaseCreate)],
             404: None,
             **COMMON_HTTP_ERRORS,
         },
@@ -193,13 +186,13 @@ class PatientCaseController(ControllerBase):
     @paginate()
     @ordering()
     def get_all_patient_case_history_events(self, caseId: str):
-        instance = get_object_or_404(PatientCase, id=caseId)
+        instance = get_object_or_404(orm.PatientCase, id=caseId)
         return pghistory.models.Events.objects.tracks(instance).all()  # type: ignore
 
     @route.get(
         path="/{caseId}/history/events/{eventId}",
         response={
-            200: HistoryEvent.bind_schema(PatientCaseCreateSchema),
+            200: HistoryEvent.bind_schema(scm.PatientCaseCreate),
             404: None,
             **COMMON_HTTP_ERRORS,
         },
@@ -207,7 +200,7 @@ class PatientCaseController(ControllerBase):
         operation_id="getPatientCaseHistoryEventById",
     )
     def get_patient_case_history_event_by_id(self, caseId: str, eventId: str):
-        instance = get_object_or_404(PatientCase, id=caseId)
+        instance = get_object_or_404(orm.PatientCase, id=caseId)
         return get_object_or_404(
             pghistory.models.Events.objects.tracks(instance), pgh_id=eventId  # type: ignore
         )
@@ -219,13 +212,13 @@ class PatientCaseController(ControllerBase):
         operation_id="revertPatientCaseToHistoryEvent",
     )
     def revert_patient_case_to_history_event(self, caseId: str, eventId: str):
-        instance = get_object_or_404(PatientCase, id=caseId)
+        instance = get_object_or_404(orm.PatientCase, id=caseId)
         return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()
 
     @route.get(
         path="/{caseId}/data-completion/{category}",
         response={
-            200: PatientCaseDataCompletionStatusSchema,
+            200: scm.PatientCaseDataCompletionStatus,
             404: None,
             **COMMON_HTTP_ERRORS,
         },
@@ -233,12 +226,12 @@ class PatientCaseController(ControllerBase):
         operation_id="getPatientCaseDataCompletionStatus",
     )
     def get_patient_case_data_completion_status(
-        self, caseId: str, category: PatientCaseDataCompletion.PatientCaseDataCategories
+        self, caseId: str, category: orm.PatientCaseDataCompletion.PatientCaseDataCategories
     ):
-        category_completion = PatientCaseDataCompletion.objects.filter(
+        category_completion = orm.PatientCaseDataCompletion.objects.filter(
             case__id=caseId, category=category
         ).first()
-        return PatientCaseDataCompletionStatusSchema.model_validate(
+        return scm.PatientCaseDataCompletionStatus.model_validate(
             dict(
                 status=category_completion is not None,
                 username=(
@@ -257,10 +250,10 @@ class PatientCaseController(ControllerBase):
         operation_id="createPatientCaseDataCompletion",
     )
     def create_patient_case_data_completion(
-        self, caseId: str, category: PatientCaseDataCompletion.PatientCaseDataCategories
+        self, caseId: str, category: orm.PatientCaseDataCompletion.PatientCaseDataCategories
     ):
-        return 201, PatientCaseDataCompletion.objects.create(
-            case=get_object_or_404(PatientCase, id=caseId), category=category
+        return 201, orm.PatientCaseDataCompletion.objects.create(
+            case=get_object_or_404(orm.PatientCase, id=caseId), category=category
         )
 
     @route.delete(
@@ -270,10 +263,10 @@ class PatientCaseController(ControllerBase):
         operation_id="deletePatientCaseDataCompletion",
     )
     def delete_patient_case_data_completion(
-        self, caseId: str, category: PatientCaseDataCompletion.PatientCaseDataCategories
+        self, caseId: str, category: orm.PatientCaseDataCompletion.PatientCaseDataCategories
     ):
         instance = get_object_or_404(
-            PatientCaseDataCompletion, case__id=caseId, category=category
+            orm.PatientCaseDataCompletion, case__id=caseId, category=category
         )
         instance.delete()
         return 204, None
@@ -296,7 +289,7 @@ class OthersController(ControllerBase):
         operation_id="getClinicalCenters",
     )
     def get_clinical_centers(self, query: str = ""):
-        queryset = PatientCase.objects.all()
+        queryset = orm.PatientCase.objects.all()
         if query:
             queryset = queryset.filter(clinical_center__icontains=query)
         return queryset.values_list("clinical_center", flat=True).distinct()

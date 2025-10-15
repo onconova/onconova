@@ -16,71 +16,43 @@ from onconova.core.history.schemas import HistoryEvent
 from onconova.core.schemas import ModifiedResource as ModifiedResourceSchema
 from onconova.core.schemas import Paginated
 from onconova.core.utils import COMMON_HTTP_ERRORS, revert_multitable_model
-from onconova.oncology.models import Staging
-from onconova.oncology.schemas import (
-    BinetStagingCreateSchema,
-    BinetStagingSchema,
-    BreslowDepthCreateSchema,
-    BreslowDepthSchema,
-    ClarkStagingCreateSchema,
-    ClarkStagingSchema,
-    FIGOStagingCreateSchema,
-    FIGOStagingSchema,
-    GleasonGradeCreateSchema,
-    GleasonGradeSchema,
-    INRGSSStageCreateSchema,
-    INRGSSStageSchema,
-    INSSStageCreateSchema,
-    INSSStageSchema,
-    ISSStagingCreateSchema,
-    ISSStagingSchema,
-    LymphomaStagingCreateSchema,
-    LymphomaStagingSchema,
-    RaiStagingCreateSchema,
-    RaiStagingSchema,
-    RhabdomyosarcomaClinicalGroupCreateSchema,
-    RhabdomyosarcomaClinicalGroupSchema,
-    RISSStagingCreateSchema,
-    RISSStagingSchema,
-    StagingFilters,
-    TNMStagingCreateSchema,
-    TNMStagingSchema,
-    WilmsStageCreateSchema,
-    WilmsStageSchema,
+from onconova.oncology import (
+    models as orm,
+    schemas as scm,
 )
 
 RESPONSE_SCHEMAS = (
-    TNMStagingSchema,
-    FIGOStagingSchema,
-    BinetStagingSchema,
-    RaiStagingSchema,
-    BreslowDepthSchema,
-    ClarkStagingSchema,
-    ISSStagingSchema,
-    RISSStagingSchema,
-    GleasonGradeSchema,
-    INSSStageSchema,
-    INRGSSStageSchema,
-    WilmsStageSchema,
-    RhabdomyosarcomaClinicalGroupSchema,
-    LymphomaStagingSchema,
+    scm.TNMStaging,
+    scm.FIGOStaging,
+    scm.BinetStaging,
+    scm.RaiStaging,
+    scm.BreslowDepth,
+    scm.ClarkStaging,
+    scm.ISSStaging,
+    scm.RISSStaging,
+    scm.GleasonGrade,
+    scm.INSSStage,
+    scm.INRGSSStage,
+    scm.WilmsStage,
+    scm.RhabdomyosarcomaClinicalGroup,
+    scm.LymphomaStaging,
 )
 
 PAYLOAD_SCHEMAS = (
-    TNMStagingCreateSchema,
-    FIGOStagingCreateSchema,
-    BinetStagingCreateSchema,
-    RaiStagingCreateSchema,
-    BreslowDepthCreateSchema,
-    ClarkStagingCreateSchema,
-    ISSStagingCreateSchema,
-    RISSStagingCreateSchema,
-    GleasonGradeCreateSchema,
-    INSSStageCreateSchema,
-    INRGSSStageCreateSchema,
-    WilmsStageCreateSchema,
-    RhabdomyosarcomaClinicalGroupCreateSchema,
-    LymphomaStagingCreateSchema,
+    scm.TNMStagingCreate,
+    scm.FIGOStagingCreate,
+    scm.BinetStagingCreate,
+    scm.RaiStagingCreate,
+    scm.BreslowDepthCreate,
+    scm.ClarkStagingCreate,
+    scm.ISSStagingCreate,
+    scm.RISSStagingCreate,
+    scm.GleasonGradeCreate,
+    scm.INSSStageCreate,
+    scm.INRGSSStageCreate,
+    scm.WilmsStageCreate,
+    scm.RhabdomyosarcomaClinicalGroupCreate,
+    scm.LymphomaStagingCreate,
 )
 
 AnyResponseSchemas = TypeAliasType("AnyStaging", Union[RESPONSE_SCHEMAS])  # type: ignore# type: ignore
@@ -126,8 +98,8 @@ class StagingController(ControllerBase):
     @paginate()
     @ordering()
     @anonymize()
-    def get_all_stagings_matching_the_query(self, query: Query[StagingFilters]):  # type: ignore
-        queryset = Staging.objects.all().order_by("-date")
+    def get_all_stagings_matching_the_query(self, query: Query[scm.StagingFilters]):  # type: ignore
+        queryset = orm.Staging.objects.all().order_by("-date")
         return [
             cast_to_model_schema(staging.get_domain_staging(), RESPONSE_SCHEMAS)
             for staging in query.filter(queryset)
@@ -151,7 +123,7 @@ class StagingController(ControllerBase):
     )
     @anonymize()
     def get_staging_by_id(self, stagingId: str):
-        instance = get_object_or_404(Staging, id=stagingId)
+        instance = get_object_or_404(orm.Staging, id=stagingId)
         return cast_to_model_schema(instance.get_domain_staging(), RESPONSE_SCHEMAS)
 
     @route.put(
@@ -161,10 +133,10 @@ class StagingController(ControllerBase):
         operation_id="updateStagingById",
     )
     def update_staging(self, stagingId: str, payload: AnyPayloadSchemas):  # type: ignore
-        instance = get_object_or_404(Staging, id=stagingId)
+        instance = get_object_or_404(orm.Staging, id=stagingId)
         return cast_to_model_schema(
             instance.get_domain_staging(), PAYLOAD_SCHEMAS, payload
-        ).model_dump_django(instance=instance.get_domain_staging())
+        ).model_dump_django(instance=instance.get_domain_staging()) 
 
     @route.delete(
         path="/{stagingId}",
@@ -173,7 +145,7 @@ class StagingController(ControllerBase):
         operation_id="deleteStagingById",
     )
     def delete_staging(self, stagingId: str):
-        instance = get_object_or_404(Staging, id=stagingId)
+        instance = get_object_or_404(orm.Staging, id=stagingId)
         instance.delete()
         return 204, None
 
@@ -186,7 +158,7 @@ class StagingController(ControllerBase):
     @paginate()
     @ordering()
     def get_all_staging_history_events(self, stagingId: str):
-        instance = get_object_or_404(Staging, id=stagingId)
+        instance = get_object_or_404(orm.Staging, id=stagingId)
         return pghistory.models.Events.objects.tracks(instance).all()  # type: ignore
 
     @route.get(
@@ -196,7 +168,7 @@ class StagingController(ControllerBase):
         operation_id="getStagingHistoryEventById",
     )
     def get_staging_history_event_by_id(self, stagingId: str, eventId: str):
-        instance = get_object_or_404(Staging, id=stagingId)
+        instance = get_object_or_404(orm.Staging, id=stagingId)
         event = instance.parent_events.filter(pgh_id=eventId).first()  # type: ignore
         if not event and hasattr(instance, "events"):
             event = instance.events.filter(pgh_id=eventId).first()
@@ -213,7 +185,7 @@ class StagingController(ControllerBase):
         operation_id="revertStagingToHistoryEvent",
     )
     def revert_staging_to_history_event(self, stagingId: str, eventId: str):
-        instance = get_object_or_404(Staging, id=stagingId)
+        instance = get_object_or_404(orm.Staging, id=stagingId)
         instance = instance.get_domain_staging()
         try:
             return 201, revert_multitable_model(instance, eventId)

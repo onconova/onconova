@@ -14,7 +14,7 @@ import { UsersService } from 'onconova-api-client';
         <p-dialog 
             header="End-User Consent Notice & Terms for Data Collection" 
             [modal]="true" 
-            [visible]="(currentUser()?.shareable == null) || (currentUser()?.shareable == undefined)" 
+            [visible]="(currentUser().shareable == null) || (currentUser().shareable == undefined)" 
             [style]="{ width: '50rem' }" 
             [closable]="false"
             [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">

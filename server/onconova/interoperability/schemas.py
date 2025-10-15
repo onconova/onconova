@@ -7,9 +7,10 @@ from pydantic import AliasChoices, BaseModel, ConfigDict, Field, model_validator
 
 import onconova.oncology.schemas as sc
 from onconova.core.auth.models import User
-from onconova.core.auth.schemas import UserExportSchema
+from onconova.core.auth.schemas import UserExport
 from onconova.core.history.schemas import HistoryEvent
-from onconova.oncology.models.patient_case import PatientCaseDataCategories
+from onconova.oncology.models.patient_case import PatientCaseDataCategoryChoices
+
 
 class ExportMetadata(BaseModel):
     """
@@ -41,34 +42,34 @@ class ExportMetadata(BaseModel):
     )
 
 
-class PatientCaseBundle(sc.PatientCaseSchema):
+class PatientCaseBundle(sc.PatientCase):
     """
     PatientCaseBundle aggregates all relevant patient case data for interoperability and import/export operations.
 
-    This schema extends PatientCaseSchema and organizes multiple related entities, such as neoplastic entities, stagings, tumor markers, risk assessments, therapies, surgeries, adverse events, treatment responses, performance status, comorbidities, genomic variants, genomic signatures, vitals, lifestyles, family history, tumor boards, completed data categories, and history events.
+    This schema extends PatientCase and organizes multiple related entities, such as neoplastic entities, stagings, tumor markers, risk assessments, therapies, surgeries, adverse events, treatment responses, performance status, comorbidities, genomic variants, genomic signatures, vitals, lifestyles, family history, tumor boards, completed data categories, and history events.
 
     The order of properties is significant for import tools that rely on reference trees.
 
     Attributes:
-        neoplasticEntities (List[NeoplasticEntitySchema]): List of neoplastic entities associated with the patient case.
+        neoplasticEntities (List[NeoplasticEntity]): List of neoplastic entities associated with the patient case.
         stagings (List[Union[...]]): List of staging schemas (e.g., TNM, FIGO, Binet, etc.).
         tumorMarkers (List[TumorMarkerSchema]): List of tumor marker schemas.
-        riskAssessments (List[RiskAssessmentSchema]): List of risk assessment schemas.
-        therapyLines (List[TherapyLineSchema]): List of therapy line schemas.
-        systemicTherapies (List[SystemicTherapySchema]): List of systemic therapy schemas.
-        surgeries (List[SurgerySchema]): List of surgery schemas.
-        radiotherapies (List[RadiotherapySchema]): List of radiotherapy schemas.
-        adverseEvents (List[AdverseEventSchema]): List of adverse event schemas.
-        treatmentResponses (List[TreatmentResponseSchema]): List of treatment response schemas.
-        performanceStatus (List[PerformanceStatusSchema]): List of performance status schemas.
-        comorbidities (List[ComorbiditiesAssessmentSchema]): List of comorbidities assessment schemas.
-        genomicVariants (List[GenomicVariantSchema]): List of genomic variant schemas.
+        riskAssessments (List[RiskAssessment]): List of risk assessment schemas.
+        therapyLines (List[TherapyLine]): List of therapy line schemas.
+        systemicTherapies (List[SystemicTherapy]): List of systemic therapy schemas.
+        surgeries (List[Surgery]): List of surgery schemas.
+        radiotherapies (List[Radiotherapy]): List of radiotherapy schemas.
+        adverseEvents (List[AdverseEvent]): List of adverse event schemas.
+        treatmentResponses (List[TreatmentResponse]): List of treatment response schemas.
+        performanceStatus (List[PerformanceStatus]): List of performance status schemas.
+        comorbidities (List[ComorbiditiesAssessment]): List of comorbidities assessment schemas.
+        genomicVariants (List[GenomicVariant]): List of genomic variant schemas.
         genomicSignatures (List[Union[...]]): List of genomic signature schemas (e.g., TMB, MSI, LOH, etc.).
-        vitals (List[VitalsSchema]): List of vitals schemas.
-        lifestyles (List[LifestyleSchema]): List of lifestyle schemas.
-        familyHistory (List[FamilyHistorySchema]): List of family history schemas.
-        tumorBoards (List[Union[UnspecifiedTumorBoardSchema, MolecularTumorBoardSchema]]): List of tumor board schemas.
-        completedDataCategories (Dict[PatientCaseDataCategories, PatientCaseDataCompletionStatusSchema]): Mapping of data categories to their completion status.
+        vitals (List[Vitals]): List of vitals schemas.
+        lifestyles (List[Lifestyle]): List of lifestyle schemas.
+        familyHistory (List[FamilyHistory]): List of family history schemas.
+        tumorBoards (List[Union[UnspecifiedTumorBoard, MolecularTumorBoard]]): List of tumor board schemas.
+        completedDataCategories (Dict[PatientCaseDataCategories, PatientCaseDataCompletionStatus]): Mapping of data categories to their completion status.
         history (List[HistoryEvent]): List of history events related to the patient case.
 
     Methods:
@@ -82,118 +83,115 @@ class PatientCaseBundle(sc.PatientCaseSchema):
         model_config: Serialization configuration (serialize_by_alias=False).
     """
 
-    neoplasticEntities: List[sc.NeoplasticEntitySchema] = Field(
+    neoplasticEntities: List[sc.NeoplasticEntity] = Field(
         default=[],
         alias="neoplastic_entities",
         validation_alias=AliasChoices("neoplasticEntities", "neoplastic_entities"),
     )
     stagings: List[
         Union[
-            sc.TNMStagingSchema,
-            sc.FIGOStagingSchema,
-            sc.BinetStagingSchema,
-            sc.RaiStagingSchema,
-            sc.BreslowDepthSchema,
-            sc.ClarkStagingSchema,
-            sc.ISSStagingSchema,
-            sc.RISSStagingSchema,
-            sc.GleasonGradeSchema,
-            sc.INSSStageSchema,
-            sc.INRGSSStageSchema,
-            sc.WilmsStageSchema,
-            sc.RhabdomyosarcomaClinicalGroupSchema,
-            sc.LymphomaStagingSchema,
+            sc.TNMStaging,
+            sc.FIGOStaging,
+            sc.BinetStaging,
+            sc.RaiStaging,
+            sc.BreslowDepth,
+            sc.ClarkStaging,
+            sc.ISSStaging,
+            sc.RISSStaging,
+            sc.GleasonGrade,
+            sc.INSSStage,
+            sc.INRGSSStage,
+            sc.WilmsStage,
+            sc.RhabdomyosarcomaClinicalGroup,
+            sc.LymphomaStaging,
         ]
     ] = Field(
         default=[],
     )
-    tumorMarkers: List[sc.TumorMarkerSchema] = Field(
+    tumorMarkers: List[sc.TumorMarker] = Field(
         default=[],
         alias="tumor_markers",
         validation_alias=AliasChoices("tumorMarkers", "tumor_markers"),
     )
-    riskAssessments: List[sc.RiskAssessmentSchema] = Field(
+    riskAssessments: List[sc.RiskAssessment] = Field(
         default=[],
         alias="risk_assessments",
         validation_alias=AliasChoices("riskAssessments", "risk_assessments"),
     )
-    therapyLines: List[sc.TherapyLineSchema] = Field(
+    therapyLines: List[sc.TherapyLine] = Field(
         default=[],
         alias="therapy_lines",
         validation_alias=AliasChoices("therapyLines", "therapy_lines"),
     )
-    systemicTherapies: List[sc.SystemicTherapySchema] = Field(
+    systemicTherapies: List[sc.SystemicTherapy] = Field(
         default=[],
         alias="systemic_therapies",
         validation_alias=AliasChoices("systemicTherapies", "systemic_therapies"),
     )
-    surgeries: List[sc.SurgerySchema] = Field(
+    surgeries: List[sc.Surgery] = Field(
         default=[],
     )
-    radiotherapies: List[sc.RadiotherapySchema] = Field(
+    radiotherapies: List[sc.Radiotherapy] = Field(
         default=[],
     )
-    adverseEvents: List[sc.AdverseEventSchema] = Field(
+    adverseEvents: List[sc.AdverseEvent] = Field(
         default=[],
         alias="adverse_events",
         validation_alias=AliasChoices("adverseEvents", "adverse_events"),
     )
-    treatmentResponses: List[sc.TreatmentResponseSchema] = Field(
+    treatmentResponses: List[sc.TreatmentResponse] = Field(
         default=[],
         alias="treatment_responses",
         validation_alias=AliasChoices("treatmentResponses", "treatment_responses"),
     )
-    performanceStatus: List[sc.PerformanceStatusSchema] = Field(
+    performanceStatus: List[sc.PerformanceStatus] = Field(
         default=[],
         alias="performance_status",
         validation_alias=AliasChoices("performanceStatus", "performance_status"),
     )
-    comorbidities: List[sc.ComorbiditiesAssessmentSchema] = Field(
+    comorbidities: List[sc.ComorbiditiesAssessment] = Field(
         default=[],
     )
-    genomicVariants: List[sc.GenomicVariantSchema] = Field(
+    genomicVariants: List[sc.GenomicVariant] = Field(
         default=[],
         alias="genomic_variants",
         validation_alias=AliasChoices("genomicVariants", "genomic_variants"),
     )
     genomicSignatures: List[
         Union[
-            sc.TumorMutationalBurdenSchema,
-            sc.MicrosatelliteInstabilitySchema,
-            sc.LossOfHeterozygositySchema,
-            sc.HomologousRecombinationDeficiencySchema,
-            sc.TumorNeoantigenBurdenSchema,
-            sc.AneuploidScoreSchema,
+            sc.TumorMutationalBurden,
+            sc.MicrosatelliteInstability,
+            sc.LossOfHeterozygosity,
+            sc.HomologousRecombinationDeficiency,
+            sc.TumorNeoantigenBurden,
+            sc.AneuploidScore
         ]
     ] = Field(
         default=[],
     )
-    vitals: List[sc.VitalsSchema] = Field(
+    vitals: List[sc.Vitals] = Field(
         default=[],
     )
-    lifestyles: List[sc.LifestyleSchema] = Field(
+    lifestyles: List[sc.Lifestyle] = Field(
         default=[],
     )
-    familyHistory: List[sc.FamilyHistorySchema] = Field(
+    familyHistory: List[sc.FamilyHistory] = Field(
         default=[],
         alias="family_histories",
         validation_alias=AliasChoices("familyHistory", "family_histories"),
     )
-    vitals: List[sc.VitalsSchema] = Field(
-        default=[],
-    )
     tumorBoards: List[
-        Union[sc.UnspecifiedTumorBoardSchema, sc.MolecularTumorBoardSchema]
+        Union[sc.UnspecifiedTumorBoard, sc.MolecularTumorBoard]
     ] = Field(
         default=[],
     )
     completedDataCategories: Dict[
-        PatientCaseDataCategories, sc.PatientCaseDataCompletionStatusSchema
+        PatientCaseDataCategoryChoices, sc.PatientCaseDataCompletionStatus
     ]
     history: List[HistoryEvent] = Field(
         default=[],
     )
-    contributorsDetails: List[UserExportSchema] = Field(
+    contributorsDetails: List[UserExport] = Field(
         default=[]
     )
 
@@ -242,15 +240,15 @@ class PatientCaseBundle(sc.PatientCaseSchema):
         from onconova.oncology.models.patient_case import PatientCase
 
         return {
-            category: sc.PatientCaseDataCompletionStatusSchema(
+            category: sc.PatientCaseDataCompletionStatus(
                 status=completion is not None,
                 username=completion.created_by if completion else None,
                 timestamp=completion.created_at if completion else None,
             )
-            for category in PatientCaseDataCategories.values
+            for category in PatientCaseDataCategoryChoices.values
             for completion in (
                 (
-                    list(obj.completed_data_categories.filter(category=category))
+                    list(obj.completed_data_categories.filter(category=category)) # type: ignore
                     if isinstance(obj, PatientCase)
                     else obj.get("completed_data_categories")
                 )
@@ -264,10 +262,10 @@ class PatientCaseBundle(sc.PatientCaseSchema):
             return obj.get("history")
         else:
             return (
-                pghistory.models.Events.objects.tracks(obj)
+                pghistory.models.Events.objects.tracks(obj) # type: ignore
                 .all()
                 .union(
-                    pghistory.models.Events.objects.references(obj).filter(
+                    pghistory.models.Events.objects.references(obj).filter( # type: ignore
                         pgh_model__icontains="oncology"
                     )
                 )
@@ -279,17 +277,7 @@ class PatientCaseBundle(sc.PatientCaseSchema):
             return obj.get("contributorsDetails")
         else:
             return [
-                UserExportSchema(
-                    username=user.username, 
-                    firstName=user.first_name, 
-                    lastName=user.last_name, 
-                    anonymized=not user.shareable, 
-                    organization=user.organization, 
-                    email=user.email, 
-                    id=user.id, 
-                    externalSource=user.external_source, 
-                    externalSourceId=user.external_source_id
-                )
+                UserExport.model_validate(user)
                 for contributor_username in obj.contributors 
                 for user in User.objects.filter(username=contributor_username)
             ]   

@@ -15,17 +15,9 @@ from onconova.core.history.schemas import HistoryEvent
 from onconova.core.schemas import ModifiedResource as ModifiedResourceSchema
 from onconova.core.schemas import Paginated
 from onconova.core.utils import COMMON_HTTP_ERRORS
-from onconova.oncology.models import (
-    SystemicTherapy,
-    SystemicTherapyMedication,
-    TherapyLine,
-)
-from onconova.oncology.schemas import (
-    SystemicTherapyCreateSchema,
-    SystemicTherapyFilters,
-    SystemicTherapyMedicationCreateSchema,
-    SystemicTherapyMedicationSchema,
-    SystemicTherapySchema,
+from onconova.oncology import (
+    models as orm,
+    schemas as scm,
 )
 
 
@@ -39,7 +31,7 @@ class SystemicTherapyController(ControllerBase):
     @route.get(
         path="",
         response={
-            200: Paginated[SystemicTherapySchema],
+            200: Paginated[scm.SystemicTherapy],
             **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
@@ -48,8 +40,8 @@ class SystemicTherapyController(ControllerBase):
     @paginate()
     @ordering()
     @anonymize()
-    def get_all_systemic_therapies_matching_the_query(self, query: Query[SystemicTherapyFilters]):  # type: ignore
-        queryset = SystemicTherapy.objects.all().order_by("-period")
+    def get_all_systemic_therapies_matching_the_query(self, query: Query[scm.SystemicTherapyFilters]):  # type: ignore
+        queryset = orm.SystemicTherapy.objects.all().order_by("-period")
         return query.filter(queryset)
 
     @route.post(
@@ -58,18 +50,18 @@ class SystemicTherapyController(ControllerBase):
         permissions=[perms.CanManageCases],
         operation_id="createSystemicTherapy",
     )
-    def create_systemic_therapy(self, payload: SystemicTherapyCreateSchema):  # type: ignore
+    def create_systemic_therapy(self, payload: scm.SystemicTherapyCreate):
         return 201, payload.model_dump_django().assign_therapy_line()
 
     @route.get(
         path="/{systemicTherapyId}",
-        response={200: SystemicTherapySchema, 404: None, **COMMON_HTTP_ERRORS},
+        response={200: scm.SystemicTherapy, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCases],
         operation_id="getSystemicTherapyById",
     )
     @anonymize()
     def get_systemic_therapy_by_id(self, systemicTherapyId: str):
-        return get_object_or_404(SystemicTherapy, id=systemicTherapyId)
+        return get_object_or_404(orm.SystemicTherapy, id=systemicTherapyId)
 
     @route.delete(
         path="/{systemicTherapyId}",
@@ -78,10 +70,10 @@ class SystemicTherapyController(ControllerBase):
         operation_id="deleteSystemicTherapyById",
     )
     def delete_systemic_therapy(self, systemicTherapyId: str):
-        instance = get_object_or_404(SystemicTherapy, id=systemicTherapyId)
+        instance = get_object_or_404(orm.SystemicTherapy, id=systemicTherapyId)
         case = instance.case
         instance.delete()
-        TherapyLine.assign_therapy_lines(case)
+        orm.TherapyLine.assign_therapy_lines(case)
         return 204, None
 
     @route.put(
@@ -90,14 +82,14 @@ class SystemicTherapyController(ControllerBase):
         permissions=[perms.CanManageCases],
         operation_id="updateSystemicTherapy",
     )
-    def update_systemic_therapy(self, systemicTherapyId: str, payload: SystemicTherapyCreateSchema):  # type: ignore
-        instance = get_object_or_404(SystemicTherapy, id=systemicTherapyId)
+    def update_systemic_therapy(self, systemicTherapyId: str, payload: scm.SystemicTherapyCreate):
+        instance = get_object_or_404(orm.SystemicTherapy, id=systemicTherapyId)
         return payload.model_dump_django(instance=instance).assign_therapy_line()
 
     @route.get(
         path="/{systemicTherapyId}/history/events",
         response={
-            200: Paginated[HistoryEvent.bind_schema(SystemicTherapyCreateSchema)],
+            200: Paginated[HistoryEvent.bind_schema(scm.SystemicTherapyCreate)],
             404: None,
             **COMMON_HTTP_ERRORS,
         },
@@ -107,13 +99,13 @@ class SystemicTherapyController(ControllerBase):
     @paginate()
     @ordering()
     def get_all_systemic_therapy_history_events(self, systemicTherapyId: str):
-        instance = get_object_or_404(SystemicTherapy, id=systemicTherapyId)
+        instance = get_object_or_404(orm.SystemicTherapy, id=systemicTherapyId)
         return pghistory.models.Events.objects.tracks(instance).all()  # type: ignore
 
     @route.get(
         path="/{systemicTherapyId}/history/events/{eventId}",
         response={
-            200: HistoryEvent.bind_schema(SystemicTherapyCreateSchema),
+            200: HistoryEvent.bind_schema(scm.SystemicTherapyCreate),
             404: None,
             **COMMON_HTTP_ERRORS,
         },
@@ -123,7 +115,7 @@ class SystemicTherapyController(ControllerBase):
     def get_systemic_therapy_history_event_by_id(
         self, systemicTherapyId: str, eventId: str
     ):
-        instance = get_object_or_404(SystemicTherapy, id=systemicTherapyId)
+        instance = get_object_or_404(orm.SystemicTherapy, id=systemicTherapyId)
         return get_object_or_404(
             pghistory.models.Events.objects.tracks(instance), pgh_id=eventId  # type: ignore
         )
@@ -137,13 +129,13 @@ class SystemicTherapyController(ControllerBase):
     def revert_systemic_therapy_to_history_event(
         self, systemicTherapyId: str, eventId: str
     ):
-        instance = get_object_or_404(SystemicTherapy, id=systemicTherapyId)
+        instance = get_object_or_404(orm.SystemicTherapy, id=systemicTherapyId)
         return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()
 
     @route.get(
         path="/{systemicTherapyId}/medications",
         response={
-            200: List[SystemicTherapyMedicationSchema],
+            200: List[scm.SystemicTherapyMedication],
             404: None,
             **COMMON_HTTP_ERRORS,
         },
@@ -152,13 +144,13 @@ class SystemicTherapyController(ControllerBase):
     )
     def get_systemic_therapy_medications_matching_the_query(self, systemicTherapyId: str):  # type: ignore
         return get_object_or_404(
-            SystemicTherapy, id=systemicTherapyId
+            orm.SystemicTherapy, id=systemicTherapyId
         ).medications.all()  # type: ignore
 
     @route.get(
         path="/{systemicTherapyId}/medications/{medicationId}",
         response={
-            200: SystemicTherapyMedicationSchema,
+            200: scm.SystemicTherapyMedication,
             404: None,
             **COMMON_HTTP_ERRORS,
         },
@@ -167,7 +159,7 @@ class SystemicTherapyController(ControllerBase):
     )
     def get_systemic_therapy_medication_by_id(self, systemicTherapyId: str, medicationId: str):  # type: ignore
         return get_object_or_404(
-            SystemicTherapyMedication,
+            orm.SystemicTherapyMedication,
             id=medicationId,
             systemic_therapy__id=systemicTherapyId,
         )
@@ -178,9 +170,9 @@ class SystemicTherapyController(ControllerBase):
         permissions=[perms.CanManageCases],
         operation_id="createSystemicTherapyMedication",
     )
-    def create_systemic_therapy_medication(self, systemicTherapyId: str, payload: SystemicTherapyMedicationCreateSchema):  # type: ignore
-        instance = SystemicTherapyMedication(
-            systemic_therapy=get_object_or_404(SystemicTherapy, id=systemicTherapyId)
+    def create_systemic_therapy_medication(self, systemicTherapyId: str, payload: scm.SystemicTherapyMedicationCreate):  
+        instance = orm.SystemicTherapyMedication(
+            systemic_therapy=get_object_or_404(orm.SystemicTherapy, id=systemicTherapyId)
         )
         return 201, payload.model_dump_django(instance=instance, create=True)
 
@@ -190,9 +182,9 @@ class SystemicTherapyController(ControllerBase):
         permissions=[perms.CanManageCases],
         operation_id="updateSystemicTherapyMedication",
     )
-    def update_systemic_therapy_medication(self, systemicTherapyId: str, medicationId: str, payload: SystemicTherapyMedicationCreateSchema):  # type: ignore
+    def update_systemic_therapy_medication(self, systemicTherapyId: str, medicationId: str, payload: scm.SystemicTherapyMedicationCreate):  
         instance = get_object_or_404(
-            SystemicTherapyMedication,
+            orm.SystemicTherapyMedication,
             id=medicationId,
             systemic_therapy__id=systemicTherapyId,
         )
@@ -208,20 +200,20 @@ class SystemicTherapyController(ControllerBase):
         self, systemicTherapyId: str, medicationId: str
     ):
         instance = get_object_or_404(
-            SystemicTherapyMedication,
+            orm.SystemicTherapyMedication,
             id=medicationId,
             systemic_therapy__id=systemicTherapyId,
         )
         case = instance.systemic_therapy.case
         instance.delete()
-        TherapyLine.assign_therapy_lines(case)
+        orm.TherapyLine.assign_therapy_lines(case)
         return 204, None
 
     @route.get(
         path="/{systemicTherapyId}/medications/{medicationId}/history/events",
         response={
             200: Paginated[
-                HistoryEvent.bind_schema(SystemicTherapyMedicationCreateSchema)
+                HistoryEvent.bind_schema(scm.SystemicTherapyMedicationCreate)
             ],
             404: None,
             **COMMON_HTTP_ERRORS,
@@ -235,7 +227,7 @@ class SystemicTherapyController(ControllerBase):
         self, systemicTherapyId: str, medicationId: str
     ):
         instance = get_object_or_404(
-            SystemicTherapyMedication,
+            orm.SystemicTherapyMedication,
             id=medicationId,
             systemic_therapy__id=systemicTherapyId,
         )
@@ -244,7 +236,7 @@ class SystemicTherapyController(ControllerBase):
     @route.get(
         path="/{systemicTherapyId}/medications/{medicationId}/history/events/{eventId}",
         response={
-            200: HistoryEvent.bind_schema(SystemicTherapyMedicationCreateSchema),
+            200: HistoryEvent.bind_schema(scm.SystemicTherapyMedicationCreate),
             404: None,
             **COMMON_HTTP_ERRORS,
         },
@@ -255,7 +247,7 @@ class SystemicTherapyController(ControllerBase):
         self, systemicTherapyId: str, medicationId: str, eventId: str
     ):
         instance = get_object_or_404(
-            SystemicTherapyMedication,
+            orm.SystemicTherapyMedication,
             id=medicationId,
             systemic_therapy__id=systemicTherapyId,
         )
@@ -273,7 +265,7 @@ class SystemicTherapyController(ControllerBase):
         self, systemicTherapyId: str, medicationId: str, eventId: str
     ):
         instance = get_object_or_404(
-            SystemicTherapyMedication,
+            orm.SystemicTherapyMedication,
             id=medicationId,
             systemic_therapy__id=systemicTherapyId,
         )

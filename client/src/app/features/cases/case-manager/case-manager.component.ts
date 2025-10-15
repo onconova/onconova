@@ -20,7 +20,7 @@ import {
 import { 
     PatientCase, 
     PatientCasesService,
-    PatientCaseDataCategories,
+    PatientCaseDataCategoryChoices,
     NeoplasticEntitiesService,
     StagingsService,
     TumorMarkersService,
@@ -250,7 +250,7 @@ export class CaseManagerComponent {
     public AdverseEventFormComponent = AdverseEventFormComponent;
     public TreatmentResponseFormComponent = TreatmentResponseFormComponent;
 
-    public readonly PatientCaseDataCategories = PatientCaseDataCategories; 
+    public readonly PatientCaseDataCategoryChoices = PatientCaseDataCategoryChoices; 
 
     public icons = {
         neoplasticEntities: Tumor,

@@ -10,16 +10,16 @@ class TestPatientCaseController(CrudApiControllerTestCase):
     controller_path = "/api/v1/patient-cases"
     FACTORY = factories.PatientCaseFactory
     MODEL = models.PatientCase
-    SCHEMA = schemas.PatientCaseSchema
-    CREATE_SCHEMA = schemas.PatientCaseCreateSchema
+    SCHEMA = schemas.PatientCase
+    CREATE_SCHEMA = schemas.PatientCaseCreate
 
 
 class TestNeoplasticEntityController(CrudApiControllerTestCase):
     controller_path = "/api/v1/neoplastic-entities"
     FACTORY = factories.PrimaryNeoplasticEntityFactory
     MODEL = models.NeoplasticEntity
-    SCHEMA = schemas.NeoplasticEntitySchema
-    CREATE_SCHEMA = schemas.NeoplasticEntityCreateSchema
+    SCHEMA = schemas.NeoplasticEntity
+    CREATE_SCHEMA = schemas.NeoplasticEntityCreate
 
 
 class TestStagingController(CrudApiControllerTestCase):
@@ -33,42 +33,42 @@ class TestStagingController(CrudApiControllerTestCase):
         models.FIGOStaging,
     ]
     SCHEMA = [
-        schemas.TNMStagingSchema,
-        schemas.FIGOStagingSchema,
+        schemas.TNMStaging,
+        schemas.FIGOStaging,
     ]
-    CREATE_SCHEMA = [schemas.TNMStagingCreateSchema, schemas.FIGOStagingCreateSchema]
+    CREATE_SCHEMA = [schemas.TNMStagingCreate, schemas.FIGOStagingCreate]
 
 
 class TestTumorMarkerController(CrudApiControllerTestCase):
     controller_path = "/api/v1/tumor-markers"
     FACTORY = factories.TumorMarkerTestFactory
     MODEL = models.TumorMarker
-    SCHEMA = schemas.TumorMarkerSchema
-    CREATE_SCHEMA = schemas.TumorMarkerCreateSchema
+    SCHEMA = schemas.TumorMarker
+    CREATE_SCHEMA = schemas.TumorMarkerCreate
 
 
 class TestRiskAssessmentController(CrudApiControllerTestCase):
     controller_path = "/api/v1/risk-assessments"
     FACTORY = factories.RiskAssessmentFactory
     MODEL = models.RiskAssessment
-    SCHEMA = schemas.RiskAssessmentSchema
-    CREATE_SCHEMA = schemas.RiskAssessmentCreateSchema
+    SCHEMA = schemas.RiskAssessment
+    CREATE_SCHEMA = schemas.RiskAssessmentCreate
 
 
 class TestSystemicTherapyController(CrudApiControllerTestCase):
     controller_path = "/api/v1/systemic-therapies"
     FACTORY = factories.SystemicTherapyFactory
     MODEL = models.SystemicTherapy
-    SCHEMA = schemas.SystemicTherapySchema
-    CREATE_SCHEMA = schemas.SystemicTherapyCreateSchema
+    SCHEMA = schemas.SystemicTherapy
+    CREATE_SCHEMA = schemas.SystemicTherapyCreate
 
 
 class TestSystemicTherapyMedicationController(CrudApiControllerTestCase):
     controller_path = "/api/v1/systemic-therapies"
     FACTORY = factories.SystemicTherapyMedicationFactory
     MODEL = models.SystemicTherapyMedication
-    SCHEMA = schemas.SystemicTherapyMedicationSchema
-    CREATE_SCHEMA = schemas.SystemicTherapyMedicationCreateSchema
+    SCHEMA = schemas.SystemicTherapyMedication
+    CREATE_SCHEMA = schemas.SystemicTherapyMedicationCreate
 
     def get_route_url(self, instance):
         return f"/{instance.systemic_therapy.id}/medications"
@@ -92,24 +92,24 @@ class TestSurgeryController(CrudApiControllerTestCase):
     controller_path = "/api/v1/surgeries"
     FACTORY = factories.SurgeryFactory
     MODEL = models.Surgery
-    SCHEMA = schemas.SurgerySchema
-    CREATE_SCHEMA = schemas.SurgeryCreateSchema
+    SCHEMA = schemas.Surgery
+    CREATE_SCHEMA = schemas.SurgeryCreate
 
 
 class TestRadiotherapyController(CrudApiControllerTestCase):
     controller_path = "/api/v1/radiotherapies"
     FACTORY = factories.RadiotherapyFactory
     MODEL = models.Radiotherapy
-    SCHEMA = schemas.RadiotherapySchema
-    CREATE_SCHEMA = schemas.RadiotherapyCreateSchema
+    SCHEMA = schemas.Radiotherapy
+    CREATE_SCHEMA = schemas.RadiotherapyCreate
 
 
 class TestRadiotherapyDosageController(CrudApiControllerTestCase):
     controller_path = "/api/v1/radiotherapies"
     FACTORY = factories.RadiotherapyDosageFactory
     MODEL = models.RadiotherapyDosage
-    SCHEMA = schemas.RadiotherapyDosageSchema
-    CREATE_SCHEMA = schemas.RadiotherapyDosageCreateSchema
+    SCHEMA = schemas.RadiotherapyDosage
+    CREATE_SCHEMA = schemas.RadiotherapyDosageCreate
 
     def get_route_url(self, instance):
         return f"/{instance.radiotherapy.id}/dosages"
@@ -131,8 +131,8 @@ class TestRadiotherapySettingController(CrudApiControllerTestCase):
     controller_path = "/api/v1/radiotherapies"
     FACTORY = factories.RadiotherapySettingFactory
     MODEL = models.RadiotherapySetting
-    SCHEMA = schemas.RadiotherapySettingSchema
-    CREATE_SCHEMA = schemas.RadiotherapySettingCreateSchema
+    SCHEMA = schemas.RadiotherapySetting
+    CREATE_SCHEMA = schemas.RadiotherapySettingCreate
 
     def get_route_url(self, instance):
         return f"/{instance.radiotherapy.id}/settings"
@@ -154,24 +154,24 @@ class TestTreatmentResponseController(CrudApiControllerTestCase):
     controller_path = "/api/v1/treatment-responses"
     FACTORY = factories.TreatmentResponseFactory
     MODEL = models.TreatmentResponse
-    SCHEMA = schemas.TreatmentResponseSchema
-    CREATE_SCHEMA = schemas.TreatmentResponseCreateSchema
+    SCHEMA = schemas.TreatmentResponse
+    CREATE_SCHEMA = schemas.TreatmentResponseCreate
 
 
 class TestAdverseEventController(CrudApiControllerTestCase):
     controller_path = "/api/v1/adverse-events"
     FACTORY = factories.AdverseEventFactory
     MODEL = models.AdverseEvent
-    SCHEMA = schemas.AdverseEventSchema
-    CREATE_SCHEMA = schemas.AdverseEventCreateSchema
+    SCHEMA = schemas.AdverseEvent
+    CREATE_SCHEMA = schemas.AdverseEventCreate
 
 
 class TestAdverseEventSuspectedCauseController(CrudApiControllerTestCase):
     controller_path = "/api/v1/adverse-events"
     FACTORY = factories.AdverseEventSuspectedCauseFactory
     MODEL = models.AdverseEventSuspectedCause
-    SCHEMA = schemas.AdverseEventSuspectedCauseSchema
-    CREATE_SCHEMA = schemas.AdverseEventSuspectedCauseCreateSchema
+    SCHEMA = schemas.AdverseEventSuspectedCause
+    CREATE_SCHEMA = schemas.AdverseEventSuspectedCauseCreate
 
     def get_route_url(self, instance):
         return f"/{instance.adverse_event.id}/suspected-causes"
@@ -193,8 +193,8 @@ class TestAdverseEventMitigationController(CrudApiControllerTestCase):
     controller_path = "/api/v1/adverse-events"
     FACTORY = factories.AdverseEventMitigationFactory
     MODEL = models.AdverseEventMitigation
-    SCHEMA = schemas.AdverseEventMitigationSchema
-    CREATE_SCHEMA = schemas.AdverseEventMitigationCreateSchema
+    SCHEMA = schemas.AdverseEventMitigation
+    CREATE_SCHEMA = schemas.AdverseEventMitigationCreate
 
     def get_route_url(self, instance):
         return f"/{instance.adverse_event.id}/mitigations"
@@ -216,8 +216,8 @@ class TestGenomicVariantController(CrudApiControllerTestCase):
     controller_path = "/api/v1/genomic-variants"
     FACTORY = factories.GenomicVariantFactory
     MODEL = models.GenomicVariant
-    SCHEMA = schemas.GenomicVariantSchema
-    CREATE_SCHEMA = schemas.GenomicVariantCreateSchema
+    SCHEMA = schemas.GenomicVariant
+    CREATE_SCHEMA = schemas.GenomicVariantCreate
 
     @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
     def test_get_gene_panels(self, scenario, config):
@@ -247,12 +247,12 @@ class TestTumorBoardController(CrudApiControllerTestCase):
         models.MolecularTumorBoard,
     ]
     SCHEMA = [
-        schemas.UnspecifiedTumorBoardSchema,
-        schemas.MolecularTumorBoardSchema,
+        schemas.UnspecifiedTumorBoard,
+        schemas.MolecularTumorBoard,
     ]
     CREATE_SCHEMA = [
-        schemas.UnspecifiedTumorBoardCreateSchema,
-        schemas.MolecularTumorBoardCreateSchema,
+        schemas.UnspecifiedTumorBoardCreate,
+        schemas.MolecularTumorBoardCreate,
     ]
 
 
@@ -260,8 +260,8 @@ class TestMolecularTherapeuticRecommendationController(CrudApiControllerTestCase
     controller_path = "/api/v1/molecular-tumor-boards"
     FACTORY = factories.MolecularTherapeuticRecommendationFactory
     MODEL = models.MolecularTherapeuticRecommendation
-    SCHEMA = schemas.MolecularTherapeuticRecommendationSchema
-    CREATE_SCHEMA = schemas.MolecularTherapeuticRecommendationCreateSchema
+    SCHEMA = schemas.MolecularTherapeuticRecommendation
+    CREATE_SCHEMA = schemas.MolecularTherapeuticRecommendationCreate
 
     def get_route_url(self, instance):
         return f"/{instance.molecular_tumor_board.id}/therapeutic-recommendations"
@@ -283,48 +283,48 @@ class TestTherapyLineController(CrudApiControllerTestCase):
     controller_path = "/api/v1/therapy-lines"
     FACTORY = factories.TherapyLineFactory
     MODEL = models.TherapyLine
-    SCHEMA = schemas.TherapyLineSchema
-    CREATE_SCHEMA = schemas.TherapyLineCreateSchema
+    SCHEMA = schemas.TherapyLine
+    CREATE_SCHEMA = schemas.TherapyLineCreate
 
 
 class TestPerformanceStatusController(CrudApiControllerTestCase):
     controller_path = "/api/v1/performance-status"
     FACTORY = factories.PerformanceStatusFactory
     MODEL = models.PerformanceStatus
-    SCHEMA = schemas.PerformanceStatusSchema
-    CREATE_SCHEMA = schemas.PerformanceStatusCreateSchema
+    SCHEMA = schemas.PerformanceStatus
+    CREATE_SCHEMA = schemas.PerformanceStatusCreate
 
 
 class TestLifestyleController(CrudApiControllerTestCase):
     controller_path = "/api/v1/lifestyles"
     FACTORY = factories.LifestyleFactory
     MODEL = models.Lifestyle
-    SCHEMA = schemas.LifestyleSchema
-    CREATE_SCHEMA = schemas.LifestyleCreateSchema
+    SCHEMA = schemas.Lifestyle
+    CREATE_SCHEMA = schemas.LifestyleCreate
 
 
 class TestFamilyHistoryController(CrudApiControllerTestCase):
     controller_path = "/api/v1/family-histories"
     FACTORY = factories.FamilyHistoryFactory
     MODEL = models.FamilyHistory
-    SCHEMA = schemas.FamilyHistorySchema
-    CREATE_SCHEMA = schemas.FamilyHistoryCreateSchema
+    SCHEMA = schemas.FamilyHistory
+    CREATE_SCHEMA = schemas.FamilyHistoryCreate
 
 
 class TestVitalsController(CrudApiControllerTestCase):
     controller_path = "/api/v1/vitals"
     FACTORY = factories.VitalsFactory
     MODEL = models.Vitals
-    SCHEMA = schemas.VitalsSchema
-    CREATE_SCHEMA = schemas.VitalsCreateSchema
+    SCHEMA = schemas.Vitals
+    CREATE_SCHEMA = schemas.VitalsCreate
 
 
 class TestComorbiditiesAssessmentController(CrudApiControllerTestCase):
     controller_path = "/api/v1/comorbidities-assessments"
     FACTORY = factories.ComorbiditiesAssessmentFactory
     MODEL = models.ComorbiditiesAssessment
-    SCHEMA = schemas.ComorbiditiesAssessmentSchema
-    CREATE_SCHEMA = schemas.ComorbiditiesAssessmentCreateSchema
+    SCHEMA = schemas.ComorbiditiesAssessment
+    CREATE_SCHEMA = schemas.ComorbiditiesAssessmentCreate
 
     @parameterized.expand(common.ApiControllerTestMixin.get_scenarios)
     def test_get_all_comorbidities_panels(self, scenario, config):
@@ -361,18 +361,18 @@ class TestGenomicSignatureController(CrudApiControllerTestCase):
         models.AneuploidScore,
     ]
     SCHEMA = [
-        schemas.TumorMutationalBurdenSchema,
-        schemas.LossOfHeterozygositySchema,
-        schemas.MicrosatelliteInstabilitySchema,
-        schemas.HomologousRecombinationDeficiencySchema,
-        schemas.TumorNeoantigenBurdenSchema,
-        schemas.AneuploidScoreSchema,
+        schemas.TumorMutationalBurden,
+        schemas.LossOfHeterozygosity,
+        schemas.MicrosatelliteInstability,
+        schemas.HomologousRecombinationDeficiency,
+        schemas.TumorNeoantigenBurden,
+        schemas.AneuploidScore,
     ]
     CREATE_SCHEMA = [
-        schemas.TumorMutationalBurdenCreateSchema,
-        schemas.LossOfHeterozygosityCreateSchema,
-        schemas.MicrosatelliteInstabilityCreateSchema,
-        schemas.HomologousRecombinationDeficiencyCreateSchema,
-        schemas.TumorNeoantigenBurdenCreateSchema,
-        schemas.AneuploidScoreCreateSchema,
+        schemas.TumorMutationalBurdenCreate,
+        schemas.LossOfHeterozygosityCreate,
+        schemas.MicrosatelliteInstabilityCreate,
+        schemas.HomologousRecombinationDeficiencyCreate,
+        schemas.TumorNeoantigenBurdenCreate,
+        schemas.AneuploidScoreCreate,
     ]

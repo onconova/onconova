@@ -256,7 +256,7 @@
                         (onCompletionChange)="updateCompletion($event)"
                         [formComponent]="NeoplasticEntityFormComponent"
                         [service]="neoplasticEntityService"
-                        [category]="PatientCaseDataCategories.NeoplasticEntities"/>
+                        [category]="PatientCaseDataCategoryChoices.NeoplasticEntities"/>
                         
                     <p-divider></p-divider>
     
@@ -268,7 +268,7 @@
                         (onCompletionChange)="updateCompletion($event)"
                         [formComponent]="StagingFormComponent"
                         [service]="stagingService"
-                        [category]="PatientCaseDataCategories.Stagings"/>
+                        [category]="PatientCaseDataCategoryChoices.Stagings"/>
     
                     <p-divider></p-divider>
     
@@ -280,7 +280,7 @@
                         (onCompletionChange)="updateCompletion($event)"
                         [formComponent]="RiskAssessmentFormComponent"
                         [service]="riskAssessmentService"
-                        [category]="PatientCaseDataCategories.RiskAssessments"/>
+                        [category]="PatientCaseDataCategoryChoices.RiskAssessments"/>
     
                     <p-divider></p-divider>
     
@@ -292,7 +292,7 @@
                         (onCompletionChange)="updateCompletion($event)"
                         [formComponent]="TumorMarkerFormComponent"
                         [service]="tumorMarkerService"
-                        [category]="PatientCaseDataCategories.TumorMarkers"/>
+                        [category]="PatientCaseDataCategoryChoices.TumorMarkers"/>
     
                 </p-fieldset>
     
@@ -307,7 +307,7 @@
                         (onCompletionChange)="updateCompletion($event)"
                         [formComponent]="GenomicVariantFormComponent"
                         [service]="genomicVariantService"
-                        [category]="PatientCaseDataCategories.GenomicVariants"/>
+                        [category]="PatientCaseDataCategoryChoices.GenomicVariants"/>
     
                     <p-divider></p-divider>
     
@@ -319,7 +319,7 @@
                         (onCompletionChange)="updateCompletion($event)"
                         [formComponent]="GenomicSignatureFormComponent"
                         [service]="genomicSignatureService"
-                        [category]="PatientCaseDataCategories.GenomicSignatures"/>
+                        [category]="PatientCaseDataCategoryChoices.GenomicSignatures"/>
     
                 </p-fieldset>
             </div>
@@ -337,7 +337,7 @@
                         (onCompletionChange)="updateCompletion($event)"
                         [formComponent]="SystemicTherapyFormComponent"
                         [service]="systemicTherapyService"
-                        [category]="PatientCaseDataCategories.SystemicTherapies"/>
+                        [category]="PatientCaseDataCategoryChoices.SystemicTherapies"/>
                         
                     <p-divider></p-divider>
     
@@ -349,7 +349,7 @@
                         (onCompletionChange)="updateCompletion($event)"
                         [formComponent]="SurgeryFormComponent"
                         [service]="surgeryService"
-                        [category]="PatientCaseDataCategories.Surgeries"/>
+                        [category]="PatientCaseDataCategoryChoices.Surgeries"/>
     
                     <p-divider></p-divider>
     
@@ -361,7 +361,7 @@
                         (onCompletionChange)="updateCompletion($event)"
                         [formComponent]="RadiotherapyFormComponent"
                         [service]="radiotherapyService"
-                        [category]="PatientCaseDataCategories.Radiotherapies"/>
+                        [category]="PatientCaseDataCategoryChoices.Radiotherapies"/>
                 </p-fieldset>
     
     
@@ -374,7 +374,7 @@
                         (onCompletionChange)="updateCompletion($event)"
                         [formComponent]="LifestyleFormComponent"
                         [service]="lifestyleService"
-                        [category]="PatientCaseDataCategories.Lifestyles"/>
+                        [category]="PatientCaseDataCategoryChoices.Lifestyles"/>
                         
                     <p-divider></p-divider>
     
@@ -386,7 +386,7 @@
                         (onCompletionChange)="updateCompletion($event)"
                         [formComponent]="FamilyHistoryFormComponent"
                         [service]="familyHistoryService"
-                        [category]="PatientCaseDataCategories.FamilyHistories"/>
+                        [category]="PatientCaseDataCategoryChoices.FamilyHistories"/>
                     
                     <p-divider></p-divider>
     
@@ -398,7 +398,7 @@
                         (onCompletionChange)="updateCompletion($event)"
                         [formComponent]="ComorbiditiesAssessmentFormComponent"
                         [service]="comorbiditiesAssessmentService"
-                        [category]="PatientCaseDataCategories.ComorbiditiesAssessments"/>
+                        [category]="PatientCaseDataCategoryChoices.ComorbiditiesAssessments"/>
     
                     <p-divider></p-divider>
     
@@ -410,7 +410,7 @@
                         (onCompletionChange)="updateCompletion($event)"
                         [formComponent]="VitalsFormComponent"
                         [service]="vitalsService"
-                        [category]="PatientCaseDataCategories.Vitals"/> 
+                        [category]="PatientCaseDataCategoryChoices.Vitals"/> 
                 </p-fieldset>
             </div>
     
@@ -425,7 +425,7 @@
                         [caseId]="caseId"
                         [anonymized]="anonymized()"
                         (onCompletionChange)="updateCompletion($event)"
-                        [category]="PatientCaseDataCategories.TumorBoardReviews"
+                        [category]="PatientCaseDataCategoryChoices.TumorBoardReviews"
                         [formComponent]="TumorBoardFormComponent"
                         [service]="tumorBoardService"/>
     
@@ -437,7 +437,7 @@
                         [caseId]="caseId"
                         [anonymized]="anonymized()"
                         (onCompletionChange)="updateCompletion($event)"
-                        [category]="PatientCaseDataCategories.AdverseEvents"
+                        [category]="PatientCaseDataCategoryChoices.AdverseEvents"
                         [formComponent]="AdverseEventFormComponent"
                         [service]="adverseEventService"/>
                     
@@ -449,7 +449,7 @@
                         [caseId]="caseId"
                         [anonymized]="anonymized()"
                         (onCompletionChange)="updateCompletion($event)"
-                        [category]="PatientCaseDataCategories.TherapyResponses"
+                        [category]="PatientCaseDataCategoryChoices.TherapyResponses"
                         [formComponent]="TreatmentResponseFormComponent"
                         [service]="treatmentResponseService"/>
                     
@@ -463,7 +463,7 @@
                         (onCompletionChange)="updateCompletion($event)"
                         [formComponent]="PerformanceStatusFormComponent"
                         [service]="performanceStatusService"
-                        [category]="PatientCaseDataCategories.PerformanceStatus"/>
+                        [category]="PatientCaseDataCategoryChoices.PerformanceStatus"/>
                 </p-fieldset>
             </div>
         </div>

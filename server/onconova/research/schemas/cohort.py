@@ -3,17 +3,12 @@ from typing import Any, Iterator, List, Tuple, Union
 
 from django.db.models import Exists, OuterRef, Q
 from ninja import Field, Schema
-from pydantic import AliasChoices, field_validator
 
 from onconova.core.measures import get_measure_db_value
 from onconova.core.serialization import filters as filters_module
 from onconova.core.serialization.factory import create_filters_schema
-from onconova.core.serialization.metaclasses import (
-    ModelCreateSchema,
-    ModelGetSchema,
-    SchemaConfig,
-)
-from onconova.core.types import Nullable
+from onconova.core.schemas import BaseSchema, MetadataMixin
+from onconova.core.types import Nullable, UUID
 from onconova.core.utils import camel_to_snake
 from onconova.interoperability.schemas import ExportMetadata
 from onconova.oncology import models as oncology_models
@@ -178,63 +173,67 @@ class CohortRuleset(Schema):
         # Yield the completed, compiled logic for this branch of query back up the pipe:
         yield query
 
+class CohortCreate(BaseSchema):
+    
+    __orm_model__ = orm.Cohort 
+    
+    externalSource: Nullable[str] = Field(
+        None,
+        description='The digital source of the data, relevant for automated data',
+        title='External data source',
+    )
+    externalSourceId: Nullable[str] = Field(
+        None,
+        description='The data identifier at the digital source of the data, relevant for automated data',
+        title='External data source Id',
+    )
+    name: str = Field(
+        ..., 
+        description='Name of the cohort', 
+        title='Cohort name', 
+        max_length=255
+    )
+    projectId: Nullable[UUID] = Field(
+        None,
+        description='Project to which the cohort is associated',
+        title='Project',
+    )
+    casesIds: Nullable[List[UUID]] = Field(
+        None, 
+        description='Cases composing the cohort', 
+        title='Cases',
+    )
+    includeCriteria: Nullable[CohortRuleset] = Field(
+        None,
+        description='Logic rules to filter and constrain the cases to be included in the cohort',
+        title='Inclusion critera',
+    )
+    excludeCriteria: Nullable[CohortRuleset] = Field(
+        None,
+        description='Logic rules to filter and constrain the cases to be excluded from the cohort',
+        title='Exclusion critera',
+    )
+    manualChoicesIds: Nullable[List[UUID]] = Field(
+        None,
+        description='Manually added cases',
+        title='Manually added cases',
+    )
+    frozenSetIds: Nullable[List[UUID]] = Field(
+        None, 
+        description='Frozen cases', 
+        title='Frozen cases',
+    )
 
-class CohortSchema(ModelGetSchema):
-    """
-    Schema for representing a Cohort entity.
 
-    Attributes:
-        population (int): The size of the cohort population. This field uses the database alias 'db_population' and supports validation using either 'db_population' or 'population'.
-
-    Config:
-        model (orm.Cohort): Specifies the ORM model associated with this schema.
-    """
+class Cohort(CohortCreate, MetadataMixin):
 
     population: int = Field(
         title="Population",
         description="Cohort population",
-        alias="db_population",
-        validation_alias=AliasChoices("db_population", "population"),
     )
-    config = SchemaConfig(model=orm.Cohort)
 
 
-class CohortCreateSchema(ModelCreateSchema):
-    """
-    Schema for creating a Cohort instance.
-
-    Attributes:
-        includeCriteria (Optional[CohortRuleset]): Logic rules to filter and constrain the cases to be included in the cohort.
-            - Title: Inclusion criteria
-            - Description: Logic rules to filter and constrain the cases to be included in the cohort
-            - Aliases: "includeCriteria", "include_criteria"
-
-        excludeCriteria (Optional[CohortRuleset]): Logic rules to filter and constrain the cases to be excluded from the cohort.
-            - Title: Exclusion criteria
-            - Description: Logic rules to filter and constrain the cases to be excluded from the cohort
-            - Aliases: "excludeCriteria", "exclude_criteria"
-
-        config (SchemaConfig): Configuration for the schema, specifying the ORM model to use.
-    """
-
-    includeCriteria: Nullable[CohortRuleset] = Field(
-        default=None,
-        title="Inclusion critera",
-        description="Logic rules to filter and constrain the cases to be included in the cohort",
-        alias="include_criteria",
-        validation_alias=AliasChoices("includeCriteria", "include_criteria"),
-    )
-    excludeCriteria: Nullable[CohortRuleset] = Field(
-        default=None,
-        title="Exclusion critera",
-        description="Logic rules to filter and constrain the cases to be excluded from the cohort",
-        alias="exclude_criteria",
-        validation_alias=AliasChoices("excludeCriteria", "exclude_criteria"),
-    )
-    config = SchemaConfig(model=orm.Cohort)
-
-
-class CohortFilters(create_filters_schema(schema=CohortSchema, name="CohortFilters")):
+class CohortFilters(create_filters_schema(schema=Cohort, name="CohortFilters")):
 
     createdBy: Nullable[str] = Field(
         None,
@@ -383,7 +382,7 @@ class ExportedCohortDefinition(ExportMetadata):
     Attributes:
         definition (CohortCreateSchema): The cohort definition, including its title and description.
     """
-    definition: CohortCreateSchema = Field(
+    definition: CohortCreate = Field(
         title="Cohort Definition",
         description="The cohort definition",
     )

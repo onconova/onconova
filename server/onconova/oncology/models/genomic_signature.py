@@ -8,6 +8,26 @@ import onconova.terminology.models as terminologies
 from onconova.core.models import BaseModel
 from onconova.oncology.models import PatientCase
 
+class TumorMutationalBurdenStatusChoices(models.TextChoices):
+    """
+    An enumeration representing the possible statuses of Tumor Mutational Burden (TMB).
+
+    Attributes:
+        LOW: Indicates a low tumor mutational burden.
+        HIGH: Indicates a high tumor mutational burden.
+        INTERMEDIATE: Indicates an intermediate tumor mutational burden.
+        INDETERMINATE: Indicates that the tumor mutational burden status cannot be determined.
+    """
+    LOW = "low"
+    HIGH = "high"
+    INTERMEDIATE = "intermediate"
+    INDETERMINATE = "indeterminate"
+
+
+class HomologousRecombinationDeficiencyInterpretationChoices(models.TextChoices):
+    POSITIVE = "positive"
+    NEGATIVE = "negative"
+    INDETERMINATE = "indeterminate"
 
 class GenomicSignatureTypes(models.TextChoices):
     """
@@ -115,22 +135,7 @@ class TumorMutationalBurden(GenomicSignature):
         status (models.CharField): Classification of the TMB status. Choices are 'low', 'high', 'intermediate', or 'indeterminate'.
         description (str): Returns a human-readable description of the TMB value.
     """
-
-    class TumorMutationalBurdenStatus(models.TextChoices):
-        """
-        An enumeration representing the possible statuses of Tumor Mutational Burden (TMB).
-
-        Attributes:
-            LOW: Indicates a low tumor mutational burden.
-            HIGH: Indicates a high tumor mutational burden.
-            INTERMEDIATE: Indicates an intermediate tumor mutational burden.
-            INDETERMINATE: Indicates that the tumor mutational burden status cannot be determined.
-        """
-        LOW = "low"
-        HIGH = "high"
-        INTERMEDIATE = "intermediate"
-        INDETERMINATE = "indeterminate"
-
+    
     genomic_signature = models.OneToOneField(
         to=GenomicSignature,
         on_delete=models.CASCADE,
@@ -146,7 +151,7 @@ class TumorMutationalBurden(GenomicSignature):
     status = models.CharField(
         verbose_name=_("Status"),
         help_text=_("Cclassification of the tumor mutational burden (TMB) status"),
-        choices=TumorMutationalBurdenStatus,
+        choices=TumorMutationalBurdenStatusChoices,
         null=True,
         blank=True,
     )
@@ -235,12 +240,7 @@ class HomologousRecombinationDeficiency(GenomicSignature):
         interpretation (models.CharField[HomologousRecombinationDeficiencyPresence]): Interpretation of HRD status, can be 'positive', 'negative', or 'indeterminate'.
         description (str): Returns a string representation of the HRD value or interpretation.
     """
-
-    class HomologousRecombinationDeficiencyPresence(models.TextChoices):
-        POSITIVE = "positive"
-        NEGATIVE = "negative"
-        INDETERMINATE = "indeterminate"
-
+    
     genomic_signature = models.OneToOneField(
         to=GenomicSignature,
         on_delete=models.CASCADE,
@@ -258,7 +258,7 @@ class HomologousRecombinationDeficiency(GenomicSignature):
     interpretation = models.CharField(
         verbose_name=_("Interpretation"),
         help_text=_("Homologous recombination deficiency (HRD) interpretation"),
-        choices=HomologousRecombinationDeficiencyPresence,
+        choices=HomologousRecombinationDeficiencyInterpretationChoices,
         null=True,
         blank=True,
     )

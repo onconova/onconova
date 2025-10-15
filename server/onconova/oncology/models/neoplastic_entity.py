@@ -17,7 +17,7 @@ LOCAL_RECURRENCE = "local_recurrence"
 REGIONAL_RECURRENCE = "regional_recurrence"
 
 
-class NeoplasticEntityRelationship(models.TextChoices):
+class NeoplasticEntityRelationshipChoices(models.TextChoices):
     """
     An enumeration of possible relationships between neoplastic entities.
 
@@ -70,7 +70,7 @@ class NeoplasticEntity(BaseModel):
             "Relationship linking secondary and recurrent tumors to their primary origin or for distinguishing between different phases of the disease."
         ),
         max_length=30,
-        choices=NeoplasticEntityRelationship,
+        choices=NeoplasticEntityRelationshipChoices,
     )
     related_primary = models.ForeignKey(
         verbose_name=_("Related primary neoplasm"),
@@ -172,7 +172,7 @@ class NeoplasticEntity(BaseModel):
         verbose_name_plural = "Neoplastic Entities"
         constraints = [
             models.CheckConstraint(
-                check=models.Q(relationship="primary", related_primary=None)
+                condition=models.Q(relationship="primary", related_primary=None)
                 | ~models.Q(relationship="primary"),
                 name="primary_cannot_have_a_related_primary",
                 violation_error_message="A primary neoplasm cannot have a related primary",

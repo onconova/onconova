@@ -18,6 +18,20 @@ from pydantic import BaseModel
 COMMON_HTTP_ERRORS = {401: None, 403: None, 500: None}
 
 
+def is_nullable(annotation: Any) -> bool:
+    """
+    Check if a field is nullable, i.e. its type is Nullable.
+
+    Args:
+        annotation (Any): The annotation to check.
+
+    Returns:
+        (bool): True if the field is nullable, False otherwise.
+    """
+    origin = getattr(annotation, '__origin__', None)
+    return get_origin(origin) is Union and type(None) in get_args(origin)
+
+
 def is_optional(annotation: Any) -> bool:
     """
     Check if a field is optional, i.e. its type is a Union containing None.

@@ -158,7 +158,6 @@ class TestConstructDataset(TestCase):
             DatasetRule(
                 resource="SystemicTherapyMedication",
                 field="drug",
-                relatedResource="SystemicTherapy",
                 transform="GetCodedConceptDisplay",
             ),
         ]
@@ -239,7 +238,7 @@ class TestAggregationNode(TestCase):
                 AnnotationNode(key="key1", expression=F("key1")),
                 AnnotationNode(key="key2", expression=F("key2")),
             ],
-            aggregated_model=MockModel,
+            aggregated_model=MockModel, # type: ignore
             aggregated_model_parent_related_name="related_name",
         )
 
@@ -250,7 +249,7 @@ class TestAggregationNode(TestCase):
                 AnnotationNode(key="id", expression=F("id")),
                 AnnotationNode(key="case", expression=F("case")),
             ],
-            aggregated_model=models.NeoplasticEntity,
+            aggregated_model=models.NeoplasticEntity, # type: ignore
             aggregated_model_parent_related_name="neoplastic_entities_resources",
         )
         subquery = self.node.aggregated_subquery
@@ -410,7 +409,7 @@ class TestAnnotationCompiler(TestCase):
         annotation_node = AnnotationNode(
             key="test_key", expression=F("test_expression")
         )
-        aggregation_node = AggregationNode(key=None, annotation_nodes=[annotation_node])
+        aggregation_node = AggregationNode(key='', annotation_nodes=[annotation_node])
         compiler.aggregation_nodes = [aggregation_node]
         annotations, queryset_fields = compiler.generate_annotations()
         self.assertEqual(annotations, {"test_key": F("test_expression")})
@@ -440,7 +439,7 @@ class TestAnnotationCompiler(TestCase):
             key="test_annotation2", expression=F("test_expression2")
         )
         aggregation_node1 = AggregationNode(
-            key=None,
+            key='',
             annotation_nodes=[annotation_node1],
             aggregated_model=MagicMock(),
             aggregated_model_parent_related_name="related_name",
@@ -463,7 +462,7 @@ class TestAnnotationCompiler(TestCase):
         annotation_node = AnnotationNode(
             key="pseudoidentifier", expression=F("test_expression")
         )
-        aggregation_node = AggregationNode(key=None, annotation_nodes=[annotation_node])
+        aggregation_node = AggregationNode(key='', annotation_nodes=[annotation_node])
         aggregation_node.annotation_nodes = [annotation_node]
         compiler.aggregation_nodes = [aggregation_node]
         annotations, queryset_fields = compiler.generate_annotations()

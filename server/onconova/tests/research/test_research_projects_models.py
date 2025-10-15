@@ -14,12 +14,12 @@ class ProjectModelTest(TestCase):
         cls.project.save()
 
     def test_project_membership(self):
-        for user in self.project.members.all():
+        for user in self.project.members.all(): # type: ignore
             membership = ProjectMembership.objects.filter(
                 project=self.project, member=user
             ).first()
-            self.assertTrue(membership)
-            self.assertTrue(membership.project == self.project)
+            assert membership is not None
+            self.assertTrue(membership.project == self.project) 
             self.assertTrue(membership.date_joined == datetime.now().date())
 
 

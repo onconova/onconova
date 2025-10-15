@@ -11,7 +11,7 @@ from onconova.core.measures import measures
 from onconova.oncology.models.patient_case import (
     PatientCase,
     PatientCaseDataCompletion,
-    VitalStatus,
+    PatientCaseVitalStatusChoices,
 )
 from onconova.oncology.models.therapy_line import TherapyLine
 
@@ -40,7 +40,7 @@ class PatientCaseModelTest(TestCase):
 
     def test_cause_of_death_cannot_be_assigned_to_vital_status_alive(self):
         patient = factories.PatientCaseFactory()
-        patient.vital_status = VitalStatus.ALIVE
+        patient.vital_status = PatientCaseVitalStatusChoices.ALIVE
         patient.cause_of_death = terminology.CauseOfDeath.objects.create(
             code="cause-1", display="cause-1", system="system-1"
         )
@@ -48,20 +48,20 @@ class PatientCaseModelTest(TestCase):
 
     def test_cause_of_death_cannot_be_assigned_to_vital_status_unknown(self):
         patient = factories.PatientCaseFactory()
-        patient.vital_status = VitalStatus.UNKNOWN
+        patient.vital_status = PatientCaseVitalStatusChoices.UNKNOWN
         patient.cause_of_death = terminology.CauseOfDeath.objects.create(
             code="cause-2", display="cause-2", system="system-2"
         )
         self.assertRaises(IntegrityError, patient.save)
 
     def test_age_calculated_based_on_date_of_birth_and_today(self):
-        patient = factories.PatientCaseFactory(vital_status=VitalStatus.ALIVE)
+        patient = factories.PatientCaseFactory(vital_status=PatientCaseVitalStatusChoices.ALIVE)
         delta = date.today() - patient.date_of_birth
         self.assertLess(patient.age - delta.days / 365, 1)
 
     def test_age_calculated_based_on_date_of_birth_and_date_of_death(self):
         patient = factories.PatientCaseFactory(
-            vital_status=VitalStatus.DECEASED,
+            vital_status=PatientCaseVitalStatusChoices.DECEASED,
             date_of_death=date.today() - timedelta(days=5 * 365),
         )
         delta = patient.date_of_death - patient.date_of_birth
@@ -69,7 +69,7 @@ class PatientCaseModelTest(TestCase):
 
     def test_age_calculated_based_on_date_of_birth_and_end_of_records(self):
         patient = factories.PatientCaseFactory(
-            vital_status=VitalStatus.UNKNOWN,
+            vital_status=PatientCaseVitalStatusChoices.UNKNOWN,
             end_of_records=date.today() - timedelta(days=5 * 365),
         )
         delta = patient.end_of_records - patient.date_of_birth
@@ -100,7 +100,7 @@ class PatientCaseModelTest(TestCase):
 
     def test_overall_survival_calculated_based_on_date_of_death(self):
         patient = factories.PatientCaseFactory(
-            vital_status=VitalStatus.DECEASED, date_of_death=datetime(2010, 1, 1).date()
+            vital_status=PatientCaseVitalStatusChoices.DECEASED, date_of_death=datetime(2010, 1, 1).date()
         )
         factories.PrimaryNeoplasticEntityFactory.create(case=patient)
         delta = (
@@ -112,7 +112,7 @@ class PatientCaseModelTest(TestCase):
 
     def test_overall_survival_calculated_based_on_end_of_records(self):
         patient = factories.PatientCaseFactory(
-            vital_status=VitalStatus.UNKNOWN, end_of_records=datetime(2010, 1, 1).date()
+            vital_status=PatientCaseVitalStatusChoices.UNKNOWN, end_of_records=datetime(2010, 1, 1).date()
         )
         factories.PrimaryNeoplasticEntityFactory.create(case=patient)
         delta = (
@@ -123,7 +123,7 @@ class PatientCaseModelTest(TestCase):
         )
 
     def test_overall_survival_calculated_based_on_current_time(self):
-        patient = factories.PatientCaseFactory(vital_status=VitalStatus.ALIVE)
+        patient = factories.PatientCaseFactory(vital_status=PatientCaseVitalStatusChoices.ALIVE)
         factories.PrimaryNeoplasticEntityFactory.create(case=patient)
         delta = date.today() - patient.neoplastic_entities.first().assertion_date
         self.assertAlmostEqual(

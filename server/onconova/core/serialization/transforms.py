@@ -1,7 +1,6 @@
 from django.db.models import F
 
-from onconova.core.auth.schemas import UserSchema
-from onconova.core.measures.schemas import Measure
+from onconova.core.auth.schemas import User
 from onconova.core.schemas import CodedConcept as CodedConceptSchema
 
 
@@ -51,7 +50,7 @@ class GetCodedConceptSystem(DjangoTransform):
 class GetUserUsername(DjangoTransform):
     name = "username"
     description = "Get username of an user"
-    value_type = UserSchema
+    value_type = User
 
     @staticmethod
     def generate_annotation_expression(field_path, *args):

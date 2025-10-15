@@ -12,11 +12,9 @@ from onconova.core.history.schemas import HistoryEvent
 from onconova.core.schemas import ModifiedResource as ModifiedResourceSchema
 from onconova.core.schemas import Paginated
 from onconova.core.utils import COMMON_HTTP_ERRORS
-from onconova.oncology.models import TherapyLine, TreatmentResponse
-from onconova.oncology.schemas import (
-    TreatmentResponseCreateSchema,
-    TreatmentResponseFilters,
-    TreatmentResponseSchema,
+from onconova.oncology import (
+    models as orm,
+    schemas as scm,
 )
 
 
@@ -30,7 +28,7 @@ class TreatmentResponseController(ControllerBase):
     @route.get(
         path="",
         response={
-            200: Paginated[TreatmentResponseSchema],
+            200: Paginated[scm.TreatmentResponse],
             **COMMON_HTTP_ERRORS,
         },
         permissions=[perms.CanViewCases],
@@ -39,8 +37,8 @@ class TreatmentResponseController(ControllerBase):
     @paginate()
     @ordering()
     @anonymize()
-    def get_all_treatment_responses_matching_the_query(self, query: Query[TreatmentResponseFilters]):  # type: ignore
-        queryset = TreatmentResponse.objects.all().order_by("-date")
+    def get_all_treatment_responses_matching_the_query(self, query: Query[scm.TreatmentResponseFilters]):  # type: ignore
+        queryset = orm.TreatmentResponse.objects.all().order_by("-date")
         return query.filter(queryset)
 
     @route.post(
@@ -49,18 +47,18 @@ class TreatmentResponseController(ControllerBase):
         permissions=[perms.CanManageCases],
         operation_id="createTreatmentResponse",
     )
-    def create_treatment_response(self, payload: TreatmentResponseCreateSchema):  # type: ignore
+    def create_treatment_response(self, payload: scm.TreatmentResponseCreate):  # type: ignore
         return 201, payload.model_dump_django().assign_therapy_line()
 
     @route.get(
         path="/{treatmentRresponseId}",
-        response={200: TreatmentResponseSchema, 404: None, **COMMON_HTTP_ERRORS},
+        response={200: scm.TreatmentResponse, 404: None, **COMMON_HTTP_ERRORS},
         permissions=[perms.CanViewCases],
         operation_id="getTreatmentResponseById",
     )
     @anonymize()
     def get_treatment_response_by_id(self, treatmentRresponseId: str):
-        return get_object_or_404(TreatmentResponse, id=treatmentRresponseId)
+        return get_object_or_404(orm.TreatmentResponse, id=treatmentRresponseId)
 
     @route.put(
         path="/{treatmentRresponseId}",
@@ -68,8 +66,8 @@ class TreatmentResponseController(ControllerBase):
         permissions=[perms.CanManageCases],
         operation_id="updateTreatmentResponse",
     )
-    def update_treatment_response(self, treatmentRresponseId: str, payload: TreatmentResponseCreateSchema):  # type: ignore
-        instance = get_object_or_404(TreatmentResponse, id=treatmentRresponseId)
+    def update_treatment_response(self, treatmentRresponseId: str, payload: scm.TreatmentResponseCreate):  
+        instance = get_object_or_404(orm.TreatmentResponse, id=treatmentRresponseId)
         return payload.model_dump_django(instance=instance).assign_therapy_line()
 
     @route.delete(
@@ -79,16 +77,16 @@ class TreatmentResponseController(ControllerBase):
         operation_id="deleteTreatmentResponse",
     )
     def delete_treatment_response(self, treatmentRresponseId: str):
-        instance = get_object_or_404(TreatmentResponse, id=treatmentRresponseId)
+        instance = get_object_or_404(orm.TreatmentResponse, id=treatmentRresponseId)
         case = instance.case
         instance.delete()
-        TherapyLine.assign_therapy_lines(case)
+        orm.TherapyLine.assign_therapy_lines(case)
         return 204, None
 
     @route.get(
         path="/{treatmentRresponseId}/history/events",
         response={
-            200: Paginated[HistoryEvent.bind_schema(TreatmentResponseCreateSchema)],
+            200: Paginated[HistoryEvent.bind_schema(scm.TreatmentResponseCreate)],
             404: None,
             **COMMON_HTTP_ERRORS,
         },
@@ -98,13 +96,13 @@ class TreatmentResponseController(ControllerBase):
     @paginate()
     @ordering()
     def get_all_treatment_response_history_events(self, treatmentRresponseId: str):
-        instance = get_object_or_404(TreatmentResponse, id=treatmentRresponseId)
+        instance = get_object_or_404(orm.TreatmentResponse, id=treatmentRresponseId)
         return pghistory.models.Events.objects.tracks(instance).all()  # type: ignore
 
     @route.get(
         path="/{treatmentRresponseId}/history/events/{eventId}",
         response={
-            200: HistoryEvent.bind_schema(TreatmentResponseCreateSchema),
+            200: HistoryEvent.bind_schema(scm.TreatmentResponseCreate),
             404: None,
             **COMMON_HTTP_ERRORS,
         },
@@ -114,7 +112,7 @@ class TreatmentResponseController(ControllerBase):
     def get_treatment_response_history_event_by_id(
         self, treatmentRresponseId: str, eventId: str
     ):
-        instance = get_object_or_404(TreatmentResponse, id=treatmentRresponseId)
+        instance = get_object_or_404(orm.TreatmentResponse, id=treatmentRresponseId)
         return get_object_or_404(
             pghistory.models.Events.objects.tracks(instance), pgh_id=eventId  # type: ignore
         )
@@ -128,5 +126,5 @@ class TreatmentResponseController(ControllerBase):
     def revert_treatment_response_to_history_event(
         self, treatmentRresponseId: str, eventId: str
     ):
-        instance = get_object_or_404(TreatmentResponse, id=treatmentRresponseId)
+        instance = get_object_or_404(orm.TreatmentResponse, id=treatmentRresponseId)
         return 201, get_object_or_404(instance.events, pgh_id=eventId).revert()
