@@ -4,7 +4,7 @@ import { RatingModule } from 'primeng/rating';
 import { AvatarModule } from 'primeng/avatar';
 import { AvatarGroupModule } from 'primeng/avatargroup';
 import { SkeletonModule } from 'primeng/skeleton';
-import { DashboardService, PatientCaseDataCategories, CountsPerMonth } from 'onconova-api-client';
+import { DashboardService, PatientCaseDataCategoryChoices, CountsPerMonth } from 'onconova-api-client';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { rxResource } from '@angular/core/rxjs-interop';
@@ -90,7 +90,7 @@ import { ProgressBarModule } from 'primeng/progressbar';
 export class DataCompletionStatsComponent {
     readonly #layoutService = inject(LayoutService);
     readonly #dashboardService = inject(DashboardService);
-    readonly totalCategories = Object.keys(PatientCaseDataCategories).length;
+    readonly totalCategories = Object.keys(PatientCaseDataCategoryChoices).length;
     public data = rxResource({
         request: () => ({}),
         loader: () => this.#dashboardService.getDataCompletionStats()
