@@ -3,6 +3,11 @@ name: API Breaking Changes
 on:
   pull_request:
 
+
+env:
+  CURRENT_BRANCH: $(echo ${{ github.head_ref }} | sed 's|.*/||')
+  TARGET_BRANCH: $(echo ${{ github.base_ref }} | sed 's|.*/||')
+
 jobs:
   build-oas-artefacts:
     runs-on: ubuntu-latest
@@ -15,11 +20,6 @@ jobs:
         run: |
           npm install speccy -g
           npm install -g @openapitools/openapi-generator-cli@1.0.10-4.2.3
-
-      - name: Set up env variables
-        run:  |
-          echo "::set-env name=CURRENT_BRANCH::$(echo ${{ github.head_ref }} | sed 's|.*/||')"
-          echo "::set-env name=TARGET_BRANCH::$(echo ${{ github.base_ref }} | sed 's|.*/||')"
 
       - name: Clone repository in branch ${{ env.TARGET_BRANCH }}
         uses: actions/checkout@v2
@@ -55,6 +55,12 @@ jobs:
   build-report:
     needs: build-oas-artefacts
     runs-on: ubuntu-latest
+    env:
+        ORIGIN_SPEC: $(echo "$(pwd)/specs/original-spec.yaml" )
+        MODIFIED_SPEC: $(echo "$(pwd)/specs/modified-spec.yaml" )
+        SPECS_LOG: $(echo "$(pwd)/breaking-changes.log" )
+        JSON_DIFF_FILE: $(echo "$(pwd)/breaking-changes.json" )
+        GH_COMMENT_FILE: $(echo "$(pwd)/Github-comment.md" )
     steps:
       - uses: actions/setup-node@v1
         with:
@@ -76,15 +82,6 @@ jobs:
           name: modified-spec.yaml
           path: specs/
 
-      - name: Set up env variables
-        run:  |
-          echo "::set-env name=ORIGIN_SPEC::$(echo "$(pwd)/specs/original-spec.yaml" )"
-          echo "::set-env name=MODIFIED_SPEC::$(echo "$(pwd)/specs/modified-spec.yaml" )"
-          echo "::set-env name=SPECS_LOG::$(echo "$(pwd)/breaking-changes.log" )"
-          echo "::set-env name=JSON_DIFF_FILE::$(echo "$(pwd)/breaking-changes.json" )"
-          echo "::set-env name=GH_COMMENT_FILE::$(echo "$(pwd)/Github-comment.md" )"
-
-# See : https://github.com/actions/download-artifact/issues/14
       - name: Restore permissions
         run: |
           chmod -R 777 ${{ env.ORIGIN_SPEC }}
