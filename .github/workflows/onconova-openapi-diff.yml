@@ -1,0 +1,115 @@
+name: API Breaking Changes
+
+on:
+  pull_request:
+
+jobs:
+  build-oas-artefacts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+
+      - name: Install required tools
+        run: |
+          npm install speccy -g
+          npm install -g @openapitools/openapi-generator-cli@1.0.10-4.2.3
+
+      - name: Set up env variables
+        run:  |
+          echo "::set-env name=CURRENT_BRANCH::$(echo ${{ github.head_ref }} | sed 's|.*/||')"
+          echo "::set-env name=TARGET_BRANCH::$(echo ${{ github.base_ref }} | sed 's|.*/||')"
+
+      - name: Clone repository in branch ${{ env.TARGET_BRANCH }}
+        uses: actions/checkout@v2
+        with:
+          path: 'A'
+          ref: ${{ github.base_ref }}
+
+      - name: Clone repository in branch ${{ env.CURRENT_BRANCH }}
+        uses: actions/checkout@v2
+        with:
+          path: 'B'
+
+      - name: Check if OAS from ${{ env.CURRENT_BRANCH }} is valid
+        run: |
+          npx openapi-generator validate -i B/client/openapi.json
+
+      - name: Check if OAS from ${{ env.TARGET_BRANCH }} is valid
+        run: |
+          npx openapi-generator validate -i A/client/openapi.json
+          
+      - name: Upload single OAS file from ${{ env.TARGET_BRANCH }}
+        uses: actions/upload-artifact@v1
+        with:
+          name: original-spec.yaml
+          path: original-spec.yaml
+          
+      - name: Upload single OAS file from ${{ env.CURRENT_BRANCH }}
+        uses: actions/upload-artifact@v1
+        with:
+          name: modified-spec.yaml
+          path: modified-spec.yaml
+
+  build-report:
+    needs: build-oas-artefacts
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '13.x'
+
+      - name: Install required tools
+        run: |
+          npm install openapi-diff -g
+
+      - name: Download OAS file from SOURCE branch
+        uses: actions/download-artifact@v1
+        with:
+          name: original-spec.yaml
+          path: specs/
+
+      - name: Download OAS file from TARGET branch
+        uses: actions/download-artifact@v1
+        with:
+          name: modified-spec.yaml
+          path: specs/
+
+      - name: Set up env variables
+        run:  |
+          echo "::set-env name=ORIGIN_SPEC::$(echo "$(pwd)/specs/original-spec.yaml" )"
+          echo "::set-env name=MODIFIED_SPEC::$(echo "$(pwd)/specs/modified-spec.yaml" )"
+          echo "::set-env name=SPECS_LOG::$(echo "$(pwd)/breaking-changes.log" )"
+          echo "::set-env name=JSON_DIFF_FILE::$(echo "$(pwd)/breaking-changes.json" )"
+          echo "::set-env name=GH_COMMENT_FILE::$(echo "$(pwd)/Github-comment.md" )"
+
+# See : https://github.com/actions/download-artifact/issues/14
+      - name: Restore permissions
+        run: |
+          chmod -R 777 ${{ env.ORIGIN_SPEC }}
+          chmod -R 777 ${{ env.MODIFIED_SPEC }}
+
+      - name: Generate report
+        run: |
+          openapi-diff ${{ env.ORIGIN_SPEC }} ${{ env.MODIFIED_SPEC }} | tee ${{ env.SPECS_LOG }}
+          sed -n '1!p' ${{ env.SPECS_LOG }} > ${{ env.JSON_DIFF_FILE }}
+
+      - uses: actions/upload-artifact@v1
+        with:
+          name: openapi-diff.json
+          path: breaking-changes.json
+
+      - name: Prepare comment on Github PR
+        run: |
+          sed -n '1p' ${{ env.SPECS_LOG }} >> ${{ env.GH_COMMENT_FILE }}
+          printf "\n\n\`\`\`yaml\n" >> ${{ env.GH_COMMENT_FILE }}
+          sed -n '1!p' ${{ env.SPECS_LOG }} >> ${{ env.GH_COMMENT_FILE }}
+          printf "\n\`\`\`\n" >> ${{ env.GH_COMMENT_FILE }}
+          
+      - name: comment PR
+        uses: machine-learning-apps/pr-comment@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          path: Github-comment.md
