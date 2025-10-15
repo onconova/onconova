@@ -54,6 +54,9 @@ jobs:
           path: modified/client/openapi.json
 
   build-report:
+    permissions:
+      contents: read
+      pull-requests: write
     needs: build-oas-artefacts
     runs-on: ubuntu-latest
     env:
