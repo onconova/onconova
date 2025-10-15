@@ -206,6 +206,7 @@ class MetastaticNeoplasticEntityFactory(factory.django.DjangoModelFactory):
 class TNMStagingFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.TNMStaging
+        skip_postgeneration_save = True
 
     case = factory.SubFactory(PatientCaseFactory)
     date = factory.LazyFunction(faker.date)
@@ -221,6 +222,7 @@ class TNMStagingFactory(factory.django.DjangoModelFactory):
 class FIGOStagingFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.FIGOStaging
+        skip_postgeneration_save = True
 
     case = factory.SubFactory(PatientCaseFactory)
     date = factory.LazyFunction(faker.date)
@@ -237,6 +239,7 @@ class FIGOStagingFactory(factory.django.DjangoModelFactory):
 class TumorMarkerTestFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.TumorMarker
+        skip_postgeneration_save = True
 
     analyte = make_terminology_factory(terminology.TumorMarkerAnalyte)
     case = factory.SubFactory(PatientCaseFactory)
@@ -254,6 +257,7 @@ class TumorMarkerTestFactory(factory.django.DjangoModelFactory):
 class RiskAssessmentFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.RiskAssessment
+        skip_postgeneration_save = True
 
     case = factory.SubFactory(PatientCaseFactory)
     date = factory.LazyFunction(faker.date)
@@ -278,6 +282,7 @@ class TherapyLineFactory(factory.django.DjangoModelFactory):
 class SystemicTherapyFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.SystemicTherapy
+        skip_postgeneration_save = True
 
     case = factory.SubFactory(PatientCaseFactory)
     period = factory.LazyFunction(
@@ -314,6 +319,7 @@ class SystemicTherapyMedicationFactory(factory.django.DjangoModelFactory):
 class SurgeryFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Surgery
+        skip_postgeneration_save = True
 
     case = factory.SubFactory(PatientCaseFactory)
     date = factory.LazyFunction(faker.date)
@@ -334,6 +340,7 @@ class SurgeryFactory(factory.django.DjangoModelFactory):
 class RadiotherapyFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Radiotherapy
+        skip_postgeneration_save = True
 
     case = factory.SubFactory(PatientCaseFactory)
     period = factory.LazyFunction(
@@ -413,6 +420,7 @@ class AdverseEventMitigationFactory(factory.django.DjangoModelFactory):
 class TreatmentResponseFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.TreatmentResponse
+        skip_postgeneration_save = True
 
     case = factory.SubFactory(PatientCaseFactory)
     date = factory.LazyFunction(faker.date)
@@ -468,6 +476,7 @@ def _random_aminoacid_mutation():
 class GenomicVariantFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.GenomicVariant
+        skip_postgeneration_save = True
 
     case = factory.SubFactory(PatientCaseFactory)
     date = factory.LazyFunction(faker.date)
@@ -509,6 +518,7 @@ class PerformanceStatusFactory(factory.django.DjangoModelFactory):
 class LifestyleFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Lifestyle
+        skip_postgeneration_save = True
 
     case = factory.SubFactory(PatientCaseFactory)
     date = factory.LazyFunction(faker.date)
@@ -606,6 +616,7 @@ class AneuploidScoreFactory(factory.django.DjangoModelFactory):
 class TumorBoardFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.UnspecifiedTumorBoard
+        skip_postgeneration_save = True
 
     case = factory.SubFactory(PatientCaseFactory)
     date = factory.LazyFunction(faker.date)
@@ -624,6 +635,7 @@ class TumorBoardFactory(factory.django.DjangoModelFactory):
 class MolecularTumorBoardFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.MolecularTumorBoard
+        skip_postgeneration_save = True
 
     case = factory.SubFactory(PatientCaseFactory)
     date = factory.LazyFunction(faker.date)
@@ -644,6 +656,7 @@ class MolecularTumorBoardFactory(factory.django.DjangoModelFactory):
 class MolecularTherapeuticRecommendationFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.MolecularTherapeuticRecommendation
+        skip_postgeneration_save = True
 
     molecular_tumor_board = factory.SubFactory(MolecularTumorBoardFactory)
     expected_effect = make_terminology_factory(terminology.ExpectedDrugAction)
@@ -689,6 +702,7 @@ class MolecularTherapeuticRecommendationFactory(factory.django.DjangoModelFactor
 class ComorbiditiesAssessmentFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.ComorbiditiesAssessment
+        skip_postgeneration_save = True
 
     case = factory.SubFactory(PatientCaseFactory)
     date = factory.LazyFunction(faker.date)
@@ -730,6 +744,7 @@ class VitalsFactory(factory.django.DjangoModelFactory):
 class ProjectFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = projects_models.Project
+        skip_postgeneration_save = True
 
     title = factory.LazyFunction(
         lambda: f"Project #{random.randint(1111,9999)} - {faker.company()}"

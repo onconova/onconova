@@ -327,7 +327,7 @@ class BaseSchema(Schema,
         if not instance:
             raise ValueError("No instance provided or created.")
         serialized_data = super().model_dump()
-        for field_name, field in self.model_fields.items():
+        for field_name, field in self.__class__.model_fields.items():
             # Skip unset fields
             if field_name not in serialized_data or field_name == "password":
                 continue

@@ -31,7 +31,7 @@ class BundleParser:
         # Import all other resources
         self.list_fields = [
             field_name
-            for field_name, field_info in self.bundle.model_fields.items()
+            for field_name, field_info in self.bundle.__class__.model_fields.items()
             if get_origin(field_info.annotation) is list
             and field_name not in ["history", "contributorsDetails"]
         ]
@@ -172,7 +172,7 @@ class BundleParser:
         """
         for field_name in [
             field
-            for field in schema_instance.model_fields
+            for field in schema_instance.__class__.model_fields
             if field not in ["externalSourceId"]
         ]:
             if field_name.endswith("Id"):

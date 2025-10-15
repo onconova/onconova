@@ -193,10 +193,6 @@ class UserExport(BaseSchema, AnonymizationMixin):
         title='External source ID',
         max_length=500,
     )
-    anonymized: bool = Field(
-        title='Anonymzied',
-        default=True      
-    )
     username: str = Field(
         ...,
         description='Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.',

@@ -104,7 +104,7 @@ class TestExpandValueSet(unittest.TestCase):
 
     def test_error_handling_when_neither_expansion_nor_composition_is_present(self):
         # Mock valuesetdef with neither expansion nor composition
-        valuesetdef = ValueSet.construct()
+        valuesetdef = ValueSet.model_construct()
         with self.assertRaises(ValueError):
             expand_valueset(valuesetdef)
 
@@ -153,7 +153,7 @@ class TestFollowValueSetCompositionRule(unittest.TestCase):
         rule = ValueSetComposeInclude(
             system="http://example.com/codesystem",
             filter=[
-                ValueSetComposeIncludeFilter.construct(
+                ValueSetComposeIncludeFilter.model_construct(
                     op=FilterOperator.IS_A, value="code1"
                 )
             ],
