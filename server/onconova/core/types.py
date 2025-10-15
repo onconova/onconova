@@ -99,7 +99,9 @@ class Username(str):
     """
 
     @classmethod
-    def _validate(cls, v: str) -> 'Username':
+    def _validate(cls, v: str | DjangoModel) -> 'Username':
+        if isinstance(v, DjangoModel) and hasattr(v, 'username'):
+            return cls(v.username)
         return cls(str(v))
 
     @classmethod
@@ -110,7 +112,7 @@ class Username(str):
     def __get_pydantic_core_schema__(
         cls, source: type[Any], handler: GetCoreSchemaHandler
     ) -> core_schema.CoreSchema:
-        return core_schema.no_info_after_validator_function(
+        return core_schema.no_info_before_validator_function(
             cls._validate,
             core_schema.str_schema(),
             serialization=core_schema.plain_serializer_function_ser_schema(

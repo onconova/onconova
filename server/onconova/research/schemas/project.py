@@ -3,7 +3,7 @@ from pydantic import Field
 
 from onconova.core.serialization.factory import create_filters_schema
 from onconova.core.schemas import BaseSchema, MetadataMixin, Period
-from onconova.core.types import Nullable
+from onconova.core.types import Nullable, Username
 from onconova.research.models import project as orm
 
 
@@ -21,7 +21,7 @@ class ProjectCreate(BaseSchema):
         description='The data identifier at the digital source of the data, relevant for automated data',
         title='External data source Id',
     )
-    leader: str = Field(
+    leader: Username = Field(
         ...,
         description='User responsible for the project and its members',
         title='Project leader',
@@ -29,7 +29,7 @@ class ProjectCreate(BaseSchema):
     clinicalCenters: List[str] = Field(
         ...,
         description='Clinical centers that are part of the project',
-        max_items=100,
+        max_length=100,
         title='Clinical Centers',
     )
     title: str = Field(
@@ -50,7 +50,7 @@ class ProjectCreate(BaseSchema):
         max_length=100,
     )
     status: Nullable[orm.ProjectStatusChoices] = Field(
-        'planned',
+        orm.ProjectStatusChoices.PLANNED,
         description='Status of the project',
         title='Project status',
     )
@@ -59,7 +59,7 @@ class ProjectCreate(BaseSchema):
         description='Data constraints of the project',
         title='Data constraints',
     )
-    members: Nullable[List[str]] = Field(
+    members: Nullable[List[Username]] = Field(
         None,
         description='Users that are part of the project',
         title='Project members',
@@ -97,7 +97,9 @@ class ProjectDataManagerGrantCreate(BaseSchema):
         title='Revoked',
     )
     validityPeriod: Period = Field(
-        ..., description='Period of validity', title='Validity period', x_expanded=False
+        ..., 
+        description='Period of validity', 
+        title='Validity period'
     )
     
 class ProjectDataManagerGrant(ProjectDataManagerGrantCreate, MetadataMixin):

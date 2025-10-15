@@ -8,10 +8,21 @@ from pydantic import Field, field_validator, model_validator
 from onconova.core.anonymization import AnonymizationMixin
 from onconova.core.serialization.base import BaseSchema
 from onconova.core.measures.schemas import Measure
-from onconova.core.types import Nullable, UUID
+from onconova.core.types import Nullable, UUID, Username
 
 T = TypeVar("T")
 
+__all__ = (
+    "BaseSchema",
+    "MetadataMixin",
+    "MetadataAnonymizationMixin",
+    "Paginated",
+    "ModifiedResource",
+    "Measure",
+    "CodedConcept",
+    "Range",
+    "Period"
+)
 
 class MetadataMixin:
     
@@ -29,12 +40,12 @@ class MetadataMixin:
         description='Date-time when the resource was last updated',
         title='Updated at',
     )
-    createdBy: Nullable[str] = Field(
+    createdBy: Nullable[Username] = Field(
         None,
         description='Username of the user who created the resource',
         title='Created by',
     )
-    updatedBy: Nullable[List[str]] = Field(
+    updatedBy: Nullable[List[Username]] = Field(
         None,
         description='Usernames of the users who have updated the resource',
         title='Updated by',
@@ -43,9 +54,6 @@ class MetadataMixin:
 class MetadataAnonymizationMixin(MetadataMixin, AnonymizationMixin):
     pass
     
-    
-    
-
 class Paginated(Schema, Generic[T]):
     """
     A generic paginated response schema.
@@ -67,7 +75,6 @@ class Paginated(Schema, Generic[T]):
             value = list(value)
         return value
 
-
 class ModifiedResource(Schema):
     """
     Represents a resource that was modified in the system.
@@ -85,7 +92,6 @@ class ModifiedResource(Schema):
         title="Description",
         description="A human-readable description of the modified resource.",
     )
-
 
 class CodedConcept(Schema):
     """
@@ -129,7 +135,6 @@ class CodedConcept(Schema):
         description="Additional properties associated with the concept.",
     )
 
-
 class Range(Schema):
     """
     Range schema for representing a numeric interval with optional bounds.
@@ -165,7 +170,6 @@ class Range(Schema):
         Converts this Range schema into a Python tuple.
         """
         return (self.start, self.end)
-
 
 class Period(Schema):
     """
