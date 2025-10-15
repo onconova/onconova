@@ -44,24 +44,24 @@ jobs:
       - name: Upload single OAS file from ${{ env.TARGET_BRANCH }}
         uses: actions/upload-artifact@v4
         with:
-          name: original-spec.yaml
+          name: original-spec
           path: original/client/openapi.json
           
       - name: Upload single OAS file from ${{ env.CURRENT_BRANCH }}
         uses: actions/upload-artifact@v4
         with:
-          name: modified-spec.yaml
+          name: modified-spec
           path: modified/client/openapi.json
 
   build-report:
     needs: build-oas-artefacts
     runs-on: ubuntu-latest
     env:
-      ORIGIN_SPEC: "${{ github.workspace }}/specs/original-spec.yaml"
-      MODIFIED_SPEC: "${{ github.workspace }}/specs/modified-spec.yaml"
-      SPECS_LOG: "${{ github.workspace }}/breaking-changes.log"
-      JSON_DIFF_FILE: "${{ github.workspace }}/breaking-changes.json"
-      GH_COMMENT_FILE: "${{ github.workspace }}/Github-comment.md"
+      ORIGIN_SPEC: "original-spec/openapi.json"
+      MODIFIED_SPEC: "modified-spec/openapi.json"
+      SPECS_LOG: "breaking-changes.log"
+      JSON_DIFF_FILE: "breaking-changes.json"
+      GH_COMMENT_FILE: "Github-comment.md"
     steps:
       - uses: actions/setup-node@v1
         with:
@@ -71,17 +71,8 @@ jobs:
         run: |
           npm install openapi-diff -g
 
-      - name: Download OAS file from SOURCE branch
+      - name: Download OAS files from artifacts
         uses: actions/download-artifact@v4
-        with:
-          name: original-spec.yaml
-          path: specs/
-
-      - name: Download OAS file from TARGET branch
-        uses: actions/download-artifact@v4
-        with:
-          name: modified-spec.yaml
-          path: specs/
 
       - name: Restore permissions
         run: |
@@ -95,13 +86,13 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: openapi-diff.json
+          name: openapi-diff
           path: breaking-changes.json
 
       - name: Prepare comment on Github PR
         run: |
           sed -n '1p' ${{ env.SPECS_LOG }} >> ${{ env.GH_COMMENT_FILE }}
-          printf "\n\n\`\`\`yaml\n" >> ${{ env.GH_COMMENT_FILE }}
+          printf "\n\n\`\`\`json\n" >> ${{ env.GH_COMMENT_FILE }}
           sed -n '1!p' ${{ env.SPECS_LOG }} >> ${{ env.GH_COMMENT_FILE }}
           printf "\n\`\`\`\n" >> ${{ env.GH_COMMENT_FILE }}
 
