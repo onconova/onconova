@@ -105,9 +105,10 @@ jobs:
           sed -n '1!p' ${{ env.SPECS_LOG }} >> ${{ env.GH_COMMENT_FILE }}
           printf "\n\`\`\`\n" >> ${{ env.GH_COMMENT_FILE }}
 
-      - name: comment PR
-        uses: machine-learning-apps/pr-comment@master
+      - name: PR Comment
+        run:
+          gh pr comment $PRNUM --body-file ${{ env.GH_COMMENT_FILE }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          path: Github-comment.md
+          GH_REPO: ${{ github.repository }}
+          PRNUM: ${{ github.event.pull_request.number }}
