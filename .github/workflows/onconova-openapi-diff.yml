@@ -14,43 +14,44 @@ jobs:
     steps:
       - uses: actions/setup-node@v1
         with:
-          node-version: '12.x'
+          node-version: '22.x'
 
       - name: Install required tools
         run: |
           npm install speccy -g
           npm install -g @openapitools/openapi-generator-cli@1.0.10-4.2.3
 
-      - name: Clone repository in branch ${{ env.TARGET_BRANCH }}
+      - name: Clone repository from ${{ env.TARGET_BRANCH }} branch 
         uses: actions/checkout@v2
         with:
-          path: 'A'
+          path: 'original'
           ref: ${{ github.base_ref }}
 
-      - name: Clone repository in branch ${{ env.CURRENT_BRANCH }}
+      - name: Clone repository from ${{ env.CURRENT_BRANCH }} branch
         uses: actions/checkout@v2
         with:
-          path: 'B'
+          path: 'modified'
+          ref: ${{ github.head_ref }}
 
       - name: Check if OAS from ${{ env.CURRENT_BRANCH }} is valid
         run: |
-          npx openapi-generator validate -i B/client/openapi.json
+          npx @openapitools/openapi-generator-cli validate -i modified/client/openapi.json
 
       - name: Check if OAS from ${{ env.TARGET_BRANCH }} is valid
         run: |
-          npx openapi-generator validate -i A/client/openapi.json
-          
+          npx @openapitools/openapi-generator-cli validate -i original/client/openapi.json
+
       - name: Upload single OAS file from ${{ env.TARGET_BRANCH }}
         uses: actions/upload-artifact@v4
         with:
           name: original-spec.yaml
-          path: original-spec.yaml
+          path: original/client/openapi.json
           
       - name: Upload single OAS file from ${{ env.CURRENT_BRANCH }}
         uses: actions/upload-artifact@v4
         with:
           name: modified-spec.yaml
-          path: modified-spec.yaml
+          path: modified/client/openapi.json
 
   build-report:
     needs: build-oas-artefacts
