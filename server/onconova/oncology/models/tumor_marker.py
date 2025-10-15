@@ -263,7 +263,7 @@ class TumorMarker(BaseModel):
     class Meta:
         constraints = [
             models.CheckConstraint(
-                check=models.Q(mass_concentration__isnull=False)
+                condition=models.Q(mass_concentration__isnull=False)
                 | models.Q(arbitrary_concentration__isnull=False)
                 | models.Q(substance_concentration__isnull=False)
                 | models.Q(fraction__isnull=False)

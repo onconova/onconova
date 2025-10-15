@@ -995,17 +995,17 @@ class GenomicVariant(BaseModel):
     class Meta:
         constraints = [
             CheckConstraint(
-                check=Q(dna_hgvs__isnull=True) | Q(dna_hgvs__regex=HGVSRegex.DNA_HGVS),
+                condition=Q(dna_hgvs__isnull=True) | Q(dna_hgvs__regex=HGVSRegex.DNA_HGVS),
                 name="valid_dna_hgvs",
                 violation_error_message="DNA HGVS must be a valid 'c.'-HGVS expression.",
             ),
             CheckConstraint(
-                check=Q(rna_hgvs__isnull=True) | Q(rna_hgvs__regex=HGVSRegex.RNA_HGVS),
+                condition=Q(rna_hgvs__isnull=True) | Q(rna_hgvs__regex=HGVSRegex.RNA_HGVS),
                 name="valid_rna_hgvs",
                 violation_error_message="RNA HGVS must be a valid 'r.'-HGVS expression.",
             ),
             CheckConstraint(
-                check=Q(protein_hgvs__isnull=True)
+                condition=Q(protein_hgvs__isnull=True)
                 | Q(protein_hgvs__regex=HGVSRegex.PROTEIN_HGVS),
                 name="valid_protein_hgvs",
                 violation_error_message="Protein HGVS must be a valid 'p.'-HGVS expression.",

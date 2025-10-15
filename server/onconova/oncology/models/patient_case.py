@@ -441,22 +441,22 @@ class PatientCase(BaseModel):
                 name="unique_clinical_identifier_per_center",
             ),
             models.CheckConstraint(
-                check=Q(date_of_birth__day=1),
+                condition=Q(date_of_birth__day=1),
                 name="date_of_birth_must_be_first_of_month",
                 violation_error_message="Birthdate must be the first day of the month",
             ),
             models.CheckConstraint(
-                check=Q(date_of_death__day=1),
+                condition=Q(date_of_death__day=1),
                 name="date_of_death_must_be_first_of_month",
                 violation_error_message="Birthdate must be the first day of the month",
             ),
             models.CheckConstraint(
-                check=Q(end_of_records__day=1),
+                condition=Q(end_of_records__day=1),
                 name="end_of_records_must_be_first_of_month",
                 violation_error_message="End of records must be the first day of the month",
             ),
             models.CheckConstraint(
-                check=Case(
+                condition=Case(
                     When(
                         Q(
                             Q(vital_status=PatientCaseVitalStatusChoices.ALIVE)
@@ -484,7 +484,7 @@ class PatientCase(BaseModel):
                 violation_error_message="Invalid vital status and date of death combination",
             ),
             models.CheckConstraint(
-                check=Case(
+                condition=Case(
                     When(
                         Q(
                             Q(vital_status=PatientCaseVitalStatusChoices.UNKNOWN)
@@ -498,7 +498,7 @@ class PatientCase(BaseModel):
                 violation_error_message="Unknown vital status requires a valid end of records date.",
             ),
             models.CheckConstraint(
-                check=Case(
+                condition=Case(
                     When(
                         Q(
                             Q(vital_status=PatientCaseVitalStatusChoices.ALIVE)
