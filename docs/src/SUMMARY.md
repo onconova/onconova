@@ -28,4 +28,4 @@
 - Server API Reference
     -  ./server-reference/onconova/*
 - [Client API Reference](reference/client-docs.md)
-- [FHIR Implementation Guide](fhir-ig/index.html)
+- [FHIR IG](https://onconova.github.io/fhir/)
