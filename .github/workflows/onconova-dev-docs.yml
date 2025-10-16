@@ -55,9 +55,11 @@ jobs:
       - name: Build and deploy documentation
         env:
           GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
+          GIT_COMMITTER_NAME: ${{ steps.app-token.outputs.app-slug }}[bot]
+          GIT_COMMITTER_EMAIL: ${{ steps.get-user-id.outputs.user-id }}+${{ steps.app-token.outputs.app-slug }}[bot]@users.noreply.github.com
         run: |
           cd docs
           npx @compodoc/compodoc@1.1.26 -p ../client/tsconfig.doc.json -d ./src/compodoc/ -y src/assets/css/compodoc/ --hideGenerator --theme material
-          git fetch https://@github.com/onconova/docs.git main --depth=1
+          git fetch https://github.com/onconova/docs.git main --depth=1
           mike deploy --push -r https://github.com/onconova/docs.git -b main dev
           mike set-default latest
