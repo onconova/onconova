@@ -61,6 +61,5 @@ jobs:
           cd docs
           npx @compodoc/compodoc@1.1.26 -p ../client/tsconfig.doc.json -d ./src/compodoc/ -y src/assets/css/compodoc/ --hideGenerator --theme material
           git fetch https://github.com/onconova/docs.git main --depth=1
-          GIT_COMMITTER_NAME=${{ steps.app-token.outputs.app-slug }}[bot] GIT_COMMITTER_EMAIL=${{ steps.get-user-id.outputs.user-id }}+${{ steps.app-token.outputs.app-slug }}[bot]@users.noreply.github.com \
-          mike deploy --push -r https://github.com/onconova/docs.git -b main dev
+          mike deploy --push -r https://${{ env.GITHUB_TOKEN }}@github.com/onconova/docs.git -b main dev
           mike set-default latest
