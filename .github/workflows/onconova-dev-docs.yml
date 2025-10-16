@@ -42,5 +42,5 @@ jobs:
         run: |
           cd docs
           npx @compodoc/compodoc@1.1.26 -p ../client/tsconfig.doc.json -d ./src/compodoc/ -y src/assets/css/compodoc/ --hideGenerator --theme material
-          git fetch origin gh-pages --depth=1
-          mike deploy --push dev
+          git fetch https://github.com/onconova/docs.git main --depth=1
+          mike deploy --push dev -r https://github.com/onconova/docs.git -b main
