@@ -72,6 +72,10 @@ jobs:
           owner: onconova
           repositories: docs
 
+      - name: Get GitHub App User ID
+        id: get-user-id
+        run: echo "user-id=$(gh api "/users/${{ steps.app-token.outputs.app-slug }}[bot]" --jq .id)" >> "$GITHUB_OUTPUT"
+        
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
