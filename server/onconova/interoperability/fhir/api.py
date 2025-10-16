@@ -1,17 +1,15 @@
 """
-This module defines and configures the main Onconova API using NinjaExtraAPI, providing a secure, 
-standards-based interface for cancer genomics and clinical research data management. It registers all core, 
+This module defines and configures the main Onconova API using NinjaExtraAPI, providing a secure,
+standards-based interface for cancer genomics and clinical research data management. It registers all core,
 oncology, research, and interoperability controllers, and sets up OpenAPI documentation with custom settings and license information.
 """
 
 from ninja import Redoc
 from ninja_extra import NinjaExtraAPI
 
-from onconova.interoperability.fhir.controllers import (
-    PatientController
-)
+from onconova.interoperability.fhir.controllers import PatientController
 
-api:NinjaExtraAPI 
+api: NinjaExtraAPI
 """An Onconova FHIR API, This API serves as the entry point for all FHIR RESTful endpoints"""
 
 api = NinjaExtraAPI(
@@ -37,7 +35,7 @@ api = NinjaExtraAPI(
 api.description = """
 Welcome to the Onconova FHIR API — a secure, FHIR-based interface designed to facilitate the exchange, management, and 
 analysis of research data related to cancer genomics, clinical records, and associated metadata. 
-This API implements the FHIR operations defined in the Onconova FHIR Implementation Guide [CapabilityStatement](https://luisfabib.github.io/onconova/dev/fhir-ig/CapabilityStatement-onconova-capability-statement.html).
+This API implements the FHIR operations defined in the Onconova FHIR Implementation Guide [CapabilityStatement](https://onconova.github.io/fhir/CapabilityStatement-onconova-capability-statement.html).
 
 ### Authentication
 To ensure the security and integrity of cancer research data, **all API requests require proper authentication**.
