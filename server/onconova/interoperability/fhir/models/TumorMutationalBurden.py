@@ -404,7 +404,7 @@ This profile extends the GenomicsReporting IG [TumorMutationalBurden profile](ht
     meta: Optional[Meta] = Field(
         title="Meta",
         description="Metadata about the resource.",
-        default_factory=lambda: Meta(versionId='0.1.0', profile=['http://luisfabib.github.io/onconova/StructureDefinition/onconova-tumor-mutational-burden']),
+        default_factory=lambda: Meta(versionId='0.1.0', profile=['http://onconova.github.io/fhir/StructureDefinition/onconova-tumor-mutational-burden']),
     )
     implicitRules: Optional[Uri] = Field(
         description="A set of rules under which this content was created",

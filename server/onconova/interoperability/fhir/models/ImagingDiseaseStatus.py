@@ -274,7 +274,7 @@ It constrains the mCODE [CancerDiseaseStatus profile](http://hl7.org/fhir/us/mco
     meta: Optional[Meta] = Field(
         title="Meta",
         description="Metadata about the resource.",
-        default_factory=lambda: Meta(versionId='0.1.0', profile=['http://luisfabib.github.io/onconova/StructureDefinition/onconova-imaging-disease-status']),
+        default_factory=lambda: Meta(versionId='0.1.0', profile=['http://onconova.github.io/fhir/StructureDefinition/onconova-imaging-disease-status']),
     )
     implicitRules: Optional[Uri] = Field(
         description="A set of rules under which this content was created",

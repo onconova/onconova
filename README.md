@@ -24,7 +24,7 @@
     Onconova is an open-source data platform aiming to enable reliable, structured data collection and analysis in precision oncology. 
     Our goal is to support clinical research and development through interoperable, accessible software.
     <br />
-    <h3><a href="https://luisfabib.github.io/onconova/latest/">Explore the documentation »</a></h3>
+    <h3><a href="https://onconova.github.io/docs/latest/">Explore the documentation »</a></h3>
     <a href="https://github.com/luisfabib/onconova/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
     ·
     <a href="https://github.com/luisfabib/onconova/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
@@ -57,13 +57,13 @@ A flexible plugin system allows for institution-specific enhancements without mo
 
 ## Installation
 
-Checkout the [Installation Guide](https://luisfabib.github.io/onconova/latest/get-started/installation/) for detailed setup instructions.
+Checkout the [Installation Guide](https://onconova.github.io/docs/latest/get-started/installation/) for detailed setup instructions.
 
-If you need help, consult the [FAQ](https://luisfabib.github.io/onconova/latest/faq/) or [open an issue](https://github.com/luisfabib/onconova/issues).
+If you need help, consult the [FAQ](https://onconova.github.io/docs/latest/faq/) or [open an issue](https://github.com/luisfabib/onconova/issues).
 
 ### Prerequisites
 
-See the [requirements](https://luisfabib.github.io/onconova/latest/get-started/requirements/) for supported platforms and dependencies.
+See the [requirements](https://onconova.github.io/docs/latest/get-started/requirements/) for supported platforms and dependencies.
 
 
 <!-- CONTRIBUTING -->
@@ -75,7 +75,7 @@ If you have a suggestion that would make this better, please fork the repo and c
 
 ### Development Setup
 
-Follow the [Installation Guide](https://luisfabib.github.io/onconova/latest)/get-started/installation.md) to set up Onconova for local development using Docker Compose.
+Follow the [Installation Guide](https://onconova.github.io/docs/latest)/get-started/installation.md) to set up Onconova for local development using Docker Compose.
 
 Use the `compose.dev.yml` file for development. You can specify it directly when starting the containers:
 ```sh

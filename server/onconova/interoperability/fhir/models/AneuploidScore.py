@@ -404,7 +404,7 @@ This profile extends the GenomicsReporting IG [GenomicsBase profile](http://hl7.
     meta: Optional[Meta] = Field(
         title="Meta",
         description="Metadata about the resource.",
-        default_factory=lambda: Meta(versionId='0.1.0', profile=['http://luisfabib.github.io/onconova/StructureDefinition/onconova-aneuploid-score']),
+        default_factory=lambda: Meta(versionId='0.1.0', profile=['http://onconova.github.io/fhir/StructureDefinition/onconova-aneuploid-score']),
     )
     implicitRules: Optional[Uri] = Field(
         description="A set of rules under which this content was created",
@@ -467,7 +467,7 @@ This profile extends the GenomicsReporting IG [GenomicsBase profile](http://hl7.
     )
     code: CodeableConcept = Field(
         description="Type of observation (code / type)",
-        default_factory=lambda: CodeableConcept(coding=[{'system': 'http://luisfabib.github.io/onconova/CodeSystem/onconova-cs-tbd', 'code': 'aneuploid-score', 'display': 'Aneuploid Score'}]),
+        default_factory=lambda: CodeableConcept(coding=[{'system': 'http://onconova.github.io/fhir/CodeSystem/onconova-cs-tbd', 'code': 'aneuploid-score', 'display': 'Aneuploid Score'}]),
     )
     subject: Optional[Reference] = Field(
         description="Who and/or what the observation is about",
@@ -629,7 +629,7 @@ This profile extends the GenomicsReporting IG [GenomicsBase profile](http://hl7.
     @classmethod
     def FHIR_code_pattern_constraint(cls, value):    
         return validate_FHIR_element_pattern(cls, value, 
-            pattern=CodeableConcept(coding=[{'system': 'http://luisfabib.github.io/onconova/CodeSystem/onconova-cs-tbd', 'code': 'aneuploid-score', 'display': 'Aneuploid Score'}]),
+            pattern=CodeableConcept(coding=[{'system': 'http://onconova.github.io/fhir/CodeSystem/onconova-cs-tbd', 'code': 'aneuploid-score', 'display': 'Aneuploid Score'}]),
         )
 
 
