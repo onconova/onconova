@@ -161,8 +161,8 @@ def build_markdown_table(package_infos):
 root = Path(__file__).parent.parent
 src = root / "src" 
 
-pyproject = ['../server/pyproject.toml', './pyproject.toml']
-packagejson = ['../client/package.json']
+pyproject = [root / '../server/pyproject.toml', root / './pyproject.toml']
+packagejson = [root / '../client/package.json']
 all_package_infos = []
 
 py_deps = parse_pyproject_dependencies(pyproject)
