@@ -21,6 +21,12 @@ jobs:
           app-id: ${{ secrets.DEPLOY_BOT_APP_ID }}
           private-key: ${{ secrets.DEPLOY_BOT_APP_KEY }}
 
+      - name: Get GitHub App User ID
+        id: get-user-id
+        run: echo "user-id=$(gh api "/users/${{ steps.app-token.outputs.app-slug }}[bot]" --jq .id)" >> "$GITHUB_OUTPUT"
+        env:
+          GH_TOKEN: ${{ github.token }}
+
       - name: Checkout Onconova repository
         uses: actions/checkout@v4
 
@@ -51,10 +57,16 @@ jobs:
           pip install ../docs
           pip install ../server
 
+      - name: Setup Git CLI user
+        working-directory: ./docs-repo
+        run: |
+          git config user.name '${{ steps.app-token.outputs.app-slug }}[bot]'
+          git config user.email '${{ steps.get-user-id.outputs.user-id }}+${{ steps.app-token.outputs.app-slug }}[bot]@users.noreply.github.com'
+
       - name: Build and deploy documentation
         working-directory: ./docs-repo
         run: |
           npx @compodoc/compodoc@1.1.26 -p ../client/tsconfig.doc.json -d ../docs/src/compodoc/ -y ../docs/src/assets/css/compodoc/ --hideGenerator --theme material
-          git fetch main --depth=1
+          git fetch origin main --depth=1
           mike deploy --push -b main dev --config-file ../docs/mkdocs.yml
           mike set-default latest
