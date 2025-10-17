@@ -33,6 +33,8 @@ jobs:
           ref: main
           # Make sure the value of GITHUB_TOKEN will not be persisted in repo's config
           persist-credentials: false
+
+      - name: Switch to the docs repository
         run: cd docs-repo
 
       - name: Set up Python
