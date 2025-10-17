@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "server"
-version = "1.2.0"
+version = "1.2.1"
 description = "Onconova is an open-source project aimed at capturing and structuring cancer-related clinical data, while enabling interactive aggregated data analysis."
 readme = "../README.md"
 license = "MIT"
