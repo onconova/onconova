@@ -4,6 +4,16 @@ All notable changes to this project will be documented here.
 
 -----------------
 
+## 1.2.1 - 2025-10-17
+
+### Fix 
+
+- Fix the documentation deployment workflow for releases. 
+
+**Full Changelog**: https://github.com/onconova/onconova/compare/1.2.0...1.2.1
+
+-----------------
+
 ## 1.2.0 - 2025-10-17
 
 ### Changed 
