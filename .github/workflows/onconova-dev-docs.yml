@@ -14,8 +14,26 @@ jobs:
   build-and-deploy-docs:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Generate GitHub App Token
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.DEPLOY_BOT_APP_ID }}
+          private-key: ${{ secrets.DEPLOY_BOT_APP_KEY }}
+
+      - name: Checkout Onconova repository
         uses: actions/checkout@v4
+
+      - name: Checkout docs repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+          repository: onconova/docs
+          path: docs-repo
+          ref: main
+          # Make sure the value of GITHUB_TOKEN will not be persisted in repo's config
+          persist-credentials: false
+        run: cd docs-repo
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -31,18 +49,12 @@ jobs:
         run: |
           cd docs
           python -m pip install --upgrade pip
-          pip install .
+          pip install ../docs
           pip install ../server
-
-      - name: Setup Git CLI
-        run: |
-          git config --global user.name 'onconova'
-          git config --global user.email 'onconova@users.noreply.github.com'
 
       - name: Build and deploy documentation
         run: |
-          cd docs
-          npx @compodoc/compodoc@1.1.26 -p ../client/tsconfig.doc.json -d ./src/compodoc/ -y src/assets/css/compodoc/ --hideGenerator --theme material
-          git fetch https://github.com/onconova/docs.git main --depth=1
-          mike deploy --push -r https://onconova:${{ secrets.ONCONOVA_DOCS_ACCESS_TOKEN }}@github.com/onconova/docs.git -b main dev
+          npx @compodoc/compodoc@1.1.26 -p ../client/tsconfig.doc.json -d ../docs/src/compodoc/ -y ../docs/src/assets/css/compodoc/ --hideGenerator --theme material
+          git fetch main --depth=1
+          mike deploy --push -b main dev --config-file ../docs/mkdocs.yml
           mike set-default latest
