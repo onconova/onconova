@@ -8,7 +8,7 @@ All notable changes to this project will be documented here.
 
 ### Added 
 
-- Add a FHIR Implementation Guide for Onconova's FHIR Interface (provisional) by @luisfabib in https://github.com/luisfabib/onconova/pull/142
+- Add a FHIR Implementation Guide for Onconova's FHIR Interface (provisional) by @luisfabib in https://github.com/onconova/onconova/pull/142
 
 ### Fixed
 
@@ -16,7 +16,7 @@ All notable changes to this project will be documented here.
 - Freeze `pydantic` and `django-ninja` dependencies of the server to avoid bugs caused by newer release combinations
 - Refactor annotation check to use inspect.isclass in dataset.py to avoid error in server. 
 
-**Full Changelog**: https://github.com/luisfabib/onconova/compare/1.0.0...1.0.1
+**Full Changelog**: https://github.com/onconova/onconova/compare/1.0.0...1.0.1
 
 -----------------
 

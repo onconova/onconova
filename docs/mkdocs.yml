@@ -3,7 +3,7 @@ site_description: Precision Oncology Platform
 site_url: http://0.0.0.0/docs
 site_author: Luis Fabregas
 copyright: Copyright &copy; 2025 - Luis Fabregas
-repo_url: https://github.com/luisfabib/onconova
+repo_url: https://github.com/onconova/onconova
 docs_dir: src
 theme:
   name: material

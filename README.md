@@ -1,6 +1,6 @@
 <br />
 <div align="center">
-    <a href="https://github.com/luisfabib/onconova">
+    <a href="https://github.com/onconova/onconova">
         <picture>
             <source srcset="docs/src/assets/img/logo-white.svg" media="(prefers-color-scheme: dark)" width="12%"/>
             <img src="docs/src/assets/img/logo.svg" alt="Onconova Logo" width="12%"/>
@@ -9,9 +9,9 @@
     <h1>Onconova</h1>
     <h3>Precision Oncology Data Platform</h3>
 
-[![releases](https://img.shields.io/github/v/release/luisfabib/onconova)](https://github.com/luisfabib/onconova)
-[![license](https://img.shields.io/github/license/luisfabib/onconova.svg)](https://github.com/luisfabib/onconova/blob/main/LICENSE)
-![GitHub commit activity](https://img.shields.io/github/commit-activity/y/luisfabib/onconova)
+[![releases](https://img.shields.io/github/v/release/onconova/onconova)](https://github.com/onconova/onconova)
+[![license](https://img.shields.io/github/license/onconova/onconova.svg)](https://github.com/onconova/onconova/blob/main/LICENSE)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/y/onconova/onconova)
 
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
 ![Django](https://img.shields.io/badge/django-%23092E20.svg?style=for-the-badge&logo=django&logoColor=white)
@@ -25,9 +25,9 @@
     Our goal is to support clinical research and development through interoperable, accessible software.
     <br />
     <h3><a href="https://onconova.github.io/docs/latest/">Explore the documentation »</a></h3>
-    <a href="https://github.com/luisfabib/onconova/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
+    <a href="https://github.com/onconova/onconova/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
     ·
-    <a href="https://github.com/luisfabib/onconova/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
+    <a href="https://github.com/onconova/onconova/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
   </p>
 </div>
 
@@ -59,7 +59,7 @@ A flexible plugin system allows for institution-specific enhancements without mo
 
 Checkout the [Installation Guide](https://onconova.github.io/docs/latest/get-started/installation/) for detailed setup instructions.
 
-If you need help, consult the [FAQ](https://onconova.github.io/docs/latest/faq/) or [open an issue](https://github.com/luisfabib/onconova/issues).
+If you need help, consult the [FAQ](https://onconova.github.io/docs/latest/faq/) or [open an issue](https://github.com/onconova/onconova/issues).
 
 ### Prerequisites
 
@@ -103,4 +103,4 @@ Automated tests validate UI components, services, and client logic. In addition 
 <!-- LICENSE -->
 ## License
 
-Distributed under the MIT License. See [LICENSE](https://github.com/luisfabib/onconova?tab=MIT-1-ov-file) for more information.
+Distributed under the MIT License. See [LICENSE](https://github.com/onconova/onconova?tab=MIT-1-ov-file) for more information.

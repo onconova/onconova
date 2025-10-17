@@ -1,7 +1,7 @@
 name: onconova
 services:
     server:
-        image: ghcr.io/luisfabib/onconova/server:1.0.0
+        image: ghcr.io/onconova/onconova/server:1.0.0
         restart: unless-stopped
         env_file: .env
         expose:
@@ -10,7 +10,7 @@ services:
             - database
 
     client:
-        image: ghcr.io/luisfabib/onconova/client:1.0.0
+        image: ghcr.io/onconova/onconova/client:1.0.0
         restart: unless-stopped
         env_file: .env
 

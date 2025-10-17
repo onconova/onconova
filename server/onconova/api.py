@@ -62,7 +62,7 @@ api = NinjaExtraAPI(
         info=dict(
             license=dict(
                 name="MIT",
-                url="https://github.com/luisfabib/onconova/blob/main/LICENSE",
+                url="https://github.com/onconova/onconova/blob/main/LICENSE",
             )
         )
     ),
