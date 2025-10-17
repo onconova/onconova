@@ -20,6 +20,8 @@ jobs:
         with:
           app-id: ${{ secrets.DEPLOY_BOT_APP_ID }}
           private-key: ${{ secrets.DEPLOY_BOT_APP_KEY }}
+          owner: ${{ github.repository_owner }}
+          permission-contents: write
 
       - name: Get GitHub App User ID
         id: get-user-id
