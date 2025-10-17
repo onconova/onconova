@@ -37,8 +37,7 @@ jobs:
           repository: onconova/docs
           path: docs-repo
           ref: main
-          # Make sure the value of GITHUB_TOKEN will not be persisted in repo's config
-          persist-credentials: false
+          persist-credentials: true
 
       - name: Set up Python
         uses: actions/setup-python@v4
