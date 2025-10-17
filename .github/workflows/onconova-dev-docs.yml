@@ -70,4 +70,3 @@ jobs:
           npx @compodoc/compodoc@1.1.26 -p ../client/tsconfig.doc.json -d ../docs/src/compodoc/ -y ../docs/src/assets/css/compodoc/ --hideGenerator --theme material
           git fetch origin main --depth=1
           mike deploy --push -b main --config-file ../docs/mkdocs.yml dev
-          mike set-default -b main --config-file ../docs/mkdocs.yml latest
