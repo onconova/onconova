@@ -60,8 +60,32 @@ jobs:
     permissions:
       contents: write
     steps:
-      - name: Checkout repository
+      - name: Generate GitHub App Token
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.DEPLOY_BOT_APP_ID }}
+          private-key: ${{ secrets.DEPLOY_BOT_APP_KEY }}
+          owner: ${{ github.repository_owner }}
+          permission-contents: write
+
+      - name: Get GitHub App User ID
+        id: get-user-id
+        run: echo "user-id=$(gh api "/users/${{ steps.app-token.outputs.app-slug }}[bot]" --jq .id)" >> "$GITHUB_OUTPUT"
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Checkout Onconova repository
         uses: actions/checkout@v4
+
+      - name: Checkout docs repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+          repository: onconova/docs
+          path: docs-repo
+          ref: main
+          persist-credentials: true
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -72,36 +96,24 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '16.x'
-  
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: 3.1
 
       - name: Install dependencies
+        working-directory: ./docs-repo
         run: |
-          cd docs
           python -m pip install --upgrade pip
-          pip install .
+          pip install ../docs
           pip install ../server
-          # Install FHIR IG Publisher dependencies
-          npm install -g fsh-sushi
-          gem install jekyll bundler
 
-      - name: Setup Docs Deploy
+      - name: Setup Git CLI user
+        working-directory: ./docs-repo
         run: |
-          git config --global user.name github-actions[bot]
-          git config --global user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git config user.name '${{ steps.app-token.outputs.app-slug }}[bot]'
+          git config user.email '${{ steps.get-user-id.outputs.user-id }}+${{ steps.app-token.outputs.app-slug }}[bot]@users.noreply.github.com'
 
       - name: Build and deploy documentation
+        working-directory: ./docs-repo
         run: |
-          cd docs
-          npx @compodoc/compodoc@1.1.26 -p ../client/tsconfig.doc.json -d ./src/compodoc/ -y src/assets/css/compodoc/ --hideGenerator --theme material
-          cd ../fhir/ig/ 
-          ./_updatePublisher.sh -y
-          ./_genonce.sh 
-          mv ./output ../../docs/src/fhir-ig 
-          cd ../../docs
-          git fetch origin gh-pages --depth=1
-          mike deploy --push --update-aliases $(echo "${{ github.event.release.tag_name }}" | grep -oP '^\d+\.\d+') latest
-          mike set-default latest
+          npx @compodoc/compodoc@1.1.26 -p ../client/tsconfig.doc.json -d ../docs/src/compodoc/ -y ../docs/src/assets/css/compodoc/ --hideGenerator --theme material
+          git fetch origin main --depth=1
+          mike deploy --push -b main --config-file ../docs/mkdocs.yml --update-aliases $(echo "${{ github.event.release.tag_name }}" | grep -oP '^\d+\.\d+') latest
+          mike set-default -b main --config-file ../docs/mkdocs.yml latest

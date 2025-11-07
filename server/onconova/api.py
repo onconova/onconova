@@ -50,6 +50,7 @@ and clinical research data management."""
 
 api = NinjaExtraAPI(
     title="Onconova API",
+    version="1.2.1",
     urls_namespace="onconova",
     servers=[
         dict(
@@ -62,7 +63,7 @@ api = NinjaExtraAPI(
         info=dict(
             license=dict(
                 name="MIT",
-                url="https://github.com/luisfabib/onconova/blob/main/LICENSE",
+                url="https://github.com/onconova/onconova/blob/main/LICENSE",
             )
         )
     ),

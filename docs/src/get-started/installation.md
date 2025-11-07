@@ -20,13 +20,13 @@ Follow these steps to install and set up Onconova from its source code.
     
     === "Installing Public Release"
 
-        Download the Docker compose orchestration file from [here](https://raw.githubusercontent.com/luisfabib/onconova/refs/tags/1.0.0/.env.sample).
+        Download the Docker compose orchestration file from [here](https://raw.githubusercontent.com/onconova/onconova/refs/tags/1.0.0/.env.sample).
 
     === "Installing From Source"
 
         Download the Onconova source code and navigate to the project directory:
         ```bash
-        git clone https://github.com/luisfabib/onconova.git
+        git clone https://github.com/onconova/onconova.git
         cd onconova
         ```
    
@@ -71,7 +71,7 @@ Follow these steps to install and set up Onconova from its source code.
 
     === "Installing Public Release"
 
-        - Download the sample environment [here](https://raw.githubusercontent.com/luisfabib/onconova/refs/tags/1.0.0/compose.yml) and save it under `.env`.
+        - Download the sample environment [here](https://raw.githubusercontent.com/onconova/onconova/refs/tags/1.0.0/compose.yml) and save it under `.env`.
 
     === "Installing From Source"
 

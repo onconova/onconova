@@ -23,12 +23,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 Project base directory path
 """
 
-# Read project version from pyproject.toml
-with open("pyproject.toml", "rb") as f:
-    VERSION = tomllib.load(f).get("tool", {}).get("poetry", {}).get("version", None)
-    """
+if BASE_DIR.joinpath("pyproject.toml").exists():
+    # Read project version from pyproject.toml
+    with open(BASE_DIR / "pyproject.toml", "rb") as f:
+        VERSION = tomllib.load(f).get("tool", {}).get("poetry", {}).get("version", None)
+        """
     Version of the Onconova project, set automatically based on package version.
     """
+else:
+    VERSION = "unknown"
 
 DEBUG = os.getenv("ENVIRONMENT") == "development"
 """
