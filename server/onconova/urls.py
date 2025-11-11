@@ -7,6 +7,7 @@ provided by Django Allauth and Allauth Headless.
 from django.urls import URLPattern, include, path
 
 from onconova.api import api
+from onconova.interoperability.fhir.api import api as fhir
 
 urlpatterns: list[URLPattern]
 """URL Patterns resolved by Django:
@@ -18,6 +19,7 @@ urlpatterns: list[URLPattern]
 urlpatterns = [
     # Onconova API endpoints
     path("api/v1/", api.urls),
+    path("api/fhir/", fhir.urls),
     # Allauth API endpoints
     path("api/accounts/", include("allauth.urls")),
     path("api/allauth/", include("allauth.headless.urls")),
