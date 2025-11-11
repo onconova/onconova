@@ -10,10 +10,8 @@ from onconova.core.utils import COMMON_HTTP_ERRORS
 from onconova.oncology.models import (
     PatientCase,
 )
-from onconova.interoperability.fhir.schemas import CancerPatient
+from onconova.interoperability.fhir.schemas import OnconovaCancerPatient
 from django.urls import resolve
-
-from onconova.oncology import schemas
 
 @api_controller(
     "Patient",
@@ -23,13 +21,10 @@ from onconova.oncology import schemas
 class PatientController(ControllerBase):
 
     @route.get(
-        path="",
-        response={200: Paginated[CancerPatient], **COMMON_HTTP_ERRORS},
+        path="{rid}",
+        response={200: OnconovaCancerPatient, **COMMON_HTTP_ERRORS},
         # permissions=[perms.CanViewCases],
-        operation_id="getPatientCases",
+        operation_id="readPatient",
     )
-    @paginate()
-    @ordering()
-    @anonymize()
-    def get_patients(self): 
-        return PatientCase.objects.all()
+    def read_patient(self, rid: str): 
+        return PatientCase.objects.get(id=rid)

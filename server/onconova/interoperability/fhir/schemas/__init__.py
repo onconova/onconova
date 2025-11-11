@@ -1,5 +1,5 @@
-from .cancer_patient import CancerPatient
+from .cancer_patient import OnconovaCancerPatient
 
 __all__ = (
-    "CancerPatient",
+    "OnconovaCancerPatient",
 )
