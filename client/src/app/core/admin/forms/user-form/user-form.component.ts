@@ -85,6 +85,13 @@ export class UserFormComponent extends AbstractFormBase {
     // API Payload construction function
     readonly payload = (): UserCreate => { 
         this.form.get('username')?.enable(); 
+        if (this.initialData()?.isProvided) {
+            Object.keys(this.form.controls).forEach((controlName) => {
+                if (controlName !== 'accessLevel') {
+                    this.form.get(controlName)?.enable();
+                }
+            });
+        }
         const data = this.form.value;   
         return {
             username: data.username!,

@@ -146,8 +146,7 @@ class UsersController(ControllerBase):
         Updates the profile information of a user with the given user ID.
         """
         user = get_object_or_404(orm.User, id=userId)
-        orm.User.objects.filter(pk=user.id).update(**payload.model_dump(by_alias=True))
-        return 201, get_object_or_404(orm.User, id=user.id)
+        return 201, payload.model_dump_django(instance=user)
 
     @route.put(
         path="/{userId}/password",
