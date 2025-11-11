@@ -11,18 +11,15 @@ from ninja_extra.pagination import paginate
 from pghistory.models import Events
 from pydantic import AliasChoices, Field
 
+from onconova.core.auth import models as orm
 from onconova.core.auth import permissions as perms
-from onconova.core.auth import (
-    models as orm,
-    schemas as scm,
-)
+from onconova.core.auth import schemas as scm
 from onconova.core.auth.token import XSessionTokenAuth
 from onconova.core.history.schemas import HistoryEvent
 from onconova.core.schemas import ModifiedResource as ModifiedResourceSchema
 from onconova.core.schemas import Paginated
 from onconova.core.types import Nullable
 from onconova.core.utils import COMMON_HTTP_ERRORS
-
 
 
 @api_controller(
@@ -64,7 +61,7 @@ class AuthController(ControllerBase):
     )
     def login_with_provider_token(self, credentials: scm.UserProviderToken):
         """
-        Authenticates a user using a provider token. 
+        Authenticates a user using a provider token.
         """
         # The request is routed internally to the Django-Allauth `allauth/app/v1/auth/provider/token` endpoint to actually handle the authentication.
         view = resolve("/api/allauth/app/v1/auth/provider/token")
@@ -125,7 +122,7 @@ class UsersController(ControllerBase):
     @route.put(
         path="/{userId}",
         response={200: scm.User, 404: None, **COMMON_HTTP_ERRORS},
-        permissions=[perms.CanManageUsers],
+        permissions=[perms.CanManageUsers | perms.IsRequestingUser],
         operation_id="updateUser",
     )
     def update_user(self, userId: str, payload: scm.UserCreate):
