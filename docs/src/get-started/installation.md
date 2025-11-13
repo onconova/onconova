@@ -20,8 +20,9 @@ Follow these steps to install and set up Onconova from its source code.
     
     === "Installing Public Release"
 
-        Download the Docker compose orchestration file from [here](https://raw.githubusercontent.com/onconova/onconova/refs/tags/1.0.0/.env.sample).
-
+        - Download the Docker compose orchestration file from [here](https://raw.githubusercontent.com/onconova/onconova/refs/tags/1.0.0/compose.yml).
+        - Download the reverse proxy configuration [here](https://raw.githubusercontent.com/onconova/onconova/refs/tags/1.0.0/nginx.conf) and save it under `nginx.conf`.
+  
     === "Installing From Source"
 
         Download the Onconova source code and navigate to the project directory:
@@ -71,7 +72,7 @@ Follow these steps to install and set up Onconova from its source code.
 
     === "Installing Public Release"
 
-        - Download the sample environment [here](https://raw.githubusercontent.com/onconova/onconova/refs/tags/1.0.0/compose.yml) and save it under `.env`.
+        - Download the sample environment [here](https://raw.githubusercontent.com/onconova/onconova/refs/tags/1.0.0/.env.sample) and save it under `.env`.
 
     === "Installing From Source"
 
