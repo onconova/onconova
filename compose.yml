@@ -19,7 +19,7 @@ services:
         container_name: "${COMPOSE_PROJECT_NAME}-nginx"
         restart: unless-stopped
         volumes:
-            - ./nginx.conf:/etc/nginx/conf.d/default.conf
+            - ./nginx.conf:/etc/nginx/nginx.conf
             - ${ONCONOVA_REVERSE_PROXY_SSL_CERTIFICATE_BUNDLE}:/etc/nginx/ssl/cert_host.pem
             - ${ONCONOVA_REVERSE_PROXY_SSL_CERTIFICATE_PRIVATE_KEY}:/etc/nginx/ssl/cert_host.key 
         expose:
@@ -51,7 +51,7 @@ services:
         ports:
             - ${ONCONOVA_POSTGRES_PORT}
         command: 
-            - -p ${ONCONOVA_POSTGRES_PORT}      
+            - -p ${ONCONOVA_POSTGRES_PORT}
 
 volumes:
     postgresql-data:
