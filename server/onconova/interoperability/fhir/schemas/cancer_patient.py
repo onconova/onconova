@@ -3,7 +3,11 @@ from fhircraft.fhir.resources.datatypes.R4.complex import (
     Reference,
 )
 from ninja.schema import DjangoGetter
-from onconova.interoperability.fhir.schemas.base import OnconovaFhirBaseSchema
+from onconova.interoperability.fhir.schemas.base import (
+    MappingRegistry,
+    MappingRule,
+    OnconovaFhirBaseSchema,
+)
 from pydantic import ValidationError, model_validator
 
 from onconova.core.schemas import BaseSchema, CodedConcept
@@ -14,72 +18,62 @@ from onconova.oncology.models.patient_case import (
     PatientCaseVitalStatusChoices,
 )
 
-CONSENT_STATUS_MAPPING = {
-    "valid": PatientCaseConsentStatusChoices.VALID,
-    "revoked": PatientCaseConsentStatusChoices.REVOKED,
-    "unknown": PatientCaseConsentStatusChoices.UNKNOWN,
-}
-VITAL_STATUS_MAPPING = {
-    PatientCaseVitalStatusChoices.ALIVE: fhir.Coding(
-        code="438949009", system="http://snomed.info/sct", display="Alive"
-    ),
-    PatientCaseVitalStatusChoices.DECEASED: fhir.Coding(
-        code="419099009", system="http://snomed.info/sct", display="Deceased"
-    ),
-    PatientCaseVitalStatusChoices.UNKNOWN: fhir.Coding(
-        code="261665006", system="http://snomed.info/sct", display="Unknown"
-    ),
-}
+mapping_registry = MappingRegistry()
+
+# Vital status mappings
+mapping_registry.register(
+    "vitalStatus",
+    [
+        MappingRule(
+            PatientCaseVitalStatusChoices.ALIVE,
+            fhir.Coding(
+                code="438949009",
+                system="http://snomed.info/sct",
+                display="Alive",
+            ),
+        ),
+        MappingRule(
+            PatientCaseVitalStatusChoices.DECEASED,
+            fhir.Coding(
+                code="419099009",
+                system="http://snomed.info/sct",
+                display="Deceased",
+            ),
+        ),
+        MappingRule(
+            PatientCaseVitalStatusChoices.UNKNOWN,
+            fhir.Coding(
+                code="261665006",
+                system="http://snomed.info/sct",
+                display="Unknown",
+            ),
+        ),
+    ],
+)
+
+# Consent status mappings
+mapping_registry.register(
+    "consentStatus",
+    [
+        MappingRule(PatientCaseConsentStatusChoices.VALID, "valid", "Valid consent"),
+        MappingRule(
+            PatientCaseConsentStatusChoices.REVOKED,
+            "revoked",
+            "Revoked consent",
+        ),
+        MappingRule(
+            PatientCaseConsentStatusChoices.UNKNOWN,
+            "unknown",
+            "Unknown consent status",
+        ),
+    ],
+)
 
 
 class OnconovaCancerPatient(OnconovaFhirBaseSchema, fhir.OnconovaCancerPatient):
 
     __model__ = models.PatientCase
     __schema__ = schemas.PatientCase
-
-    @classmethod
-    def _map_to_fhir_vital_status(
-        cls, value: PatientCaseVitalStatusChoices
-    ) -> fhir.CodeableConcept:
-        if value is None:
-            return None
-        return fhir.CodeableConcept(coding=[VITAL_STATUS_MAPPING[value]])
-
-    @classmethod
-    def _map_to_onconova_vital_status(
-        cls, value: fhir.Coding
-    ) -> PatientCaseVitalStatusChoices:
-        if value is None:
-            return PatientCaseVitalStatusChoices.UNKNOWN
-        for key, coding in VITAL_STATUS_MAPPING.items():
-            if coding.code == value.code and coding.system == value.system:
-                return key
-        else:
-            raise ValidationError(
-                f"Cannot map vital status coding: code={value.code}, system={value.system}"
-            )
-
-    @classmethod
-    def _map_to_fhir_consent_status(cls, value: PatientCaseConsentStatusChoices) -> str:
-        if value is None:
-            return "unknown"
-        for key, mapping in CONSENT_STATUS_MAPPING.items():
-            if mapping == value:
-                return key
-        else:
-            raise ValidationError(f"Cannot map consent status: {value}")
-
-    @classmethod
-    def _map_to_onconova_consent_status(
-        cls, value: str
-    ) -> PatientCaseConsentStatusChoices:
-        if value is None:
-            return PatientCaseConsentStatusChoices.UNKNOWN
-        for key, mapping in CONSENT_STATUS_MAPPING.items():
-            if key == value:
-                return mapping
-        else:
-            raise ValidationError(f"Cannot map consent status: {value}")
 
     @classmethod
     def _get_gender_codesystem(cls) -> str:
@@ -102,15 +96,17 @@ class OnconovaCancerPatient(OnconovaFhirBaseSchema, fhir.OnconovaCancerPatient):
             clinicalIdentifier=obj.fhirpath_single(
                 "Patient.identifier.where(type.coding.code='MR').value"
             ),
-            consentStatus=cls._map_to_onconova_consent_status(
+            consentStatus=mapping_registry.to_internal(
+                "consentStatus",
                 obj.fhirpath_single(
                     "Patient.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-consent-status').valueCode"
-                )
+                ),
             ),
-            vitalStatus=cls._map_to_onconova_vital_status(
+            vitalStatus=mapping_registry.to_internal(
+                "vitalStatus",
                 obj.fhirpath_single(
                     "Patient.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-vital-status').valueCodeableConcept.coding"
-                )
+                ),
             ),
             gender=CodedConcept(
                 code=obj.fhirpath_single("Patient.gender"),
@@ -206,13 +202,19 @@ class OnconovaCancerPatient(OnconovaFhirBaseSchema, fhir.OnconovaCancerPatient):
         if obj.consentStatus is not None:
             resource.extension.append(
                 fhir.ConsentStatus(
-                    valueCode=cls._map_to_fhir_consent_status(obj.consentStatus)
+                    valueCode=mapping_registry.to_fhir(
+                        "consentStatus", obj.consentStatus
+                    )
                 )
             )
         if obj.vitalStatus is not None:
             resource.extension.append(
                 fhir.VitalStatus(
-                    valueCodeableConcept=cls._map_to_fhir_vital_status(obj.vitalStatus)
+                    valueCodeableConcept=fhir.CodeableConcept(
+                        coding=[
+                            mapping_registry.to_fhir("vitalStatus", obj.vitalStatus)
+                        ]
+                    )
                 )
             )
         if obj.causeOfDeath is not None:

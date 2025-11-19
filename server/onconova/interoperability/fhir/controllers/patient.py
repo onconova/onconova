@@ -42,7 +42,7 @@ class PatientController(FhirBaseController):
         exclude_none=True,
     )
     def update_patient(self, rid: str, payload: OnconovaCancerPatient):
-        return self.update_fhir_resource(rid, payload)
+        return self.update_fhir_resource(rid, PatientCase, payload)
 
     @route.delete(
         path="{rid}",

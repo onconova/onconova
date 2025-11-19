@@ -1,8 +1,5 @@
 from django.db import IntegrityError, models
-from ninja_extra import ControllerBase, api_controller, route
-from onconova.core.utils import COMMON_HTTP_ERRORS
-from onconova.interoperability.fhir.schemas import OnconovaCancerPatient
-from onconova.oncology.models import PatientCase
+from ninja_extra import ControllerBase
 from fhircraft.fhir.resources.datatypes.R4.core.operation_outcome import (
     OperationOutcome,
     OperationOutcomeIssue,
@@ -41,10 +38,12 @@ class FhirBaseController(ControllerBase):
             self.context.response.headers["Last-Modified"] = instance.updated_at.isoformat()  # type: ignore
         return instance
 
-    def update_fhir_resource(self, rid: str, payload: FHIRBaseModel):
+    def update_fhir_resource(
+        self, rid: str, model: type[models.Model], payload: FHIRBaseModel
+    ):
         """Update a FHIR resource by its ID"""
         assert self.context and self.context.response and self.context.request
-        instance = PatientCase.objects.filter(id=rid).first()
+        instance = model.objects.filter(id=rid).first()
         if not instance:
             return 405, OperationOutcome(
                 issue=[
@@ -89,7 +88,9 @@ class FhirBaseController(ControllerBase):
                     )
                 ]
             )
-        self.context.response.headers["Location"] = f"/fhir/Patient/{resource.id}"
+        self.context.response.headers["Location"] = (
+            f"/fhir/{payload.resourceType}/{resource.id}"
+        )
         preference = self.context.request.headers.get("Prefer", "return=representation")
         if preference == "return=representation":
             return 200, resource
@@ -145,7 +146,9 @@ class FhirBaseController(ControllerBase):
                     )
                 ]
             )
-        self.context.response.headers["Location"] = f"/fhir/Patient/{resource.id}"
+        self.context.response.headers["Location"] = (
+            f"/fhir/{payload.resourceType}/{resource.id}"
+        )
         preference = self.context.request.headers.get("Prefer", "return=representation")
         if preference == "return=representation":
             return 200, resource

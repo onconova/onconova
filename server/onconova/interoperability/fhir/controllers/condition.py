@@ -30,7 +30,7 @@ class ConditionController(FhirBaseController):
             200: OnconovaPrimaryCancerCondition | OnconovaSecondaryCancerCondition,
             **COMMON_READ_HTTP_ERRORS,
         },
-        permissions=[perms.CanViewCases],
+        permissions=[perms.CanManageCases],
         operation_id="readPatient",
         exclude_none=True,
     )
@@ -46,7 +46,7 @@ class ConditionController(FhirBaseController):
             | None,
             **COMMON_UPDATE_HTTP_ERRORS,
         },
-        permissions=[perms.CanViewCases],
+        permissions=[perms.CanManageCases],
         operation_id="updatePatient",
         exclude_none=True,
     )
@@ -55,7 +55,7 @@ class ConditionController(FhirBaseController):
         rid: str,
         payload: OnconovaPrimaryCancerCondition | OnconovaSecondaryCancerCondition,
     ):
-        return self.update_fhir_resource(rid, payload)
+        return self.update_fhir_resource(rid, NeoplasticEntity, payload)
 
     @route.delete(
         path="{rid}",
@@ -63,7 +63,7 @@ class ConditionController(FhirBaseController):
             204: None,
             404: OperationOutcome,
         },
-        permissions=[perms.CanViewCases],
+        permissions=[perms.CanManageCases],
         operation_id="deletePatient",
         exclude_none=True,
     )
@@ -80,7 +80,7 @@ class ConditionController(FhirBaseController):
             400: OperationOutcome,
             409: OperationOutcome,
         },
-        permissions=[perms.CanViewCases],
+        permissions=[perms.CanManageCases],
         operation_id="createPatient",
         exclude_none=True,
     )

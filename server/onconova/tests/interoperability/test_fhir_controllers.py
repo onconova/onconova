@@ -95,8 +95,6 @@ class FhirCrudApiControllerTestCase(ApiControllerTestMixin, TestCase):
                         f"Response FHIR data does not match expected for {model.__name__}",
                     )
 
-                model.objects.all().delete()
-
     @parameterized.expand(HTTP_SCENARIOS)
     def test_delete_operation(self, scenario, config):
         for i, (instance, schema, model) in enumerate(
@@ -118,7 +116,6 @@ class FhirCrudApiControllerTestCase(ApiControllerTestMixin, TestCase):
                         ).exists(),
                         "Event not properly registered",
                     )
-                model.objects.all().delete()
 
     @parameterized.expand(HTTP_SCENARIOS)
     def test_create_operation(self, scenario, config, *args):
@@ -146,7 +143,6 @@ class FhirCrudApiControllerTestCase(ApiControllerTestMixin, TestCase):
                         created_instance.events.filter(pgh_label="create").exists(),  # type: ignore
                         "Event not properly registered",
                     )
-                model.objects.all().delete()
 
     @parameterized.expand(HTTP_SCENARIOS)
     def test_update_operation(self, scenario, config, *args):
@@ -190,7 +186,6 @@ class FhirCrudApiControllerTestCase(ApiControllerTestMixin, TestCase):
                         ).exists(),
                         "Event not properly registered",
                     )
-                model.objects.all().delete()
 
 
 class TestPatientsController(FhirCrudApiControllerTestCase):

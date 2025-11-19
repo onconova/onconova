@@ -19,23 +19,22 @@ class OnconovaPrimaryCancerCondition(
     __model__ = models.NeoplasticEntity
     __schema__ = schemas.NeoplasticEntity
 
-    @model_validator(mode="before")
-    @classmethod
-    def discriminator(cls, obj):
-        if isinstance(
-            obj, (DjangoGetter, schemas.NeoplasticEntity, models.NeoplasticEntity)
-        ):
-            if obj.relationship != NeoplasticEntityRelationshipChoices.PRIMARY:
-                raise ValueError(
-                    "NeoplasticEntity relationship must be 'primary' for PrimaryCancerCondition"
-                )
-        return obj
+    # @model_validator(mode="before")
+    # @classmethod
+    # def discriminator(cls, obj):
+    #     if isinstance(
+    #         obj, (DjangoGetter, schemas.NeoplasticEntity, models.NeoplasticEntity)
+    #     ):
+    #         if obj.relationship != NeoplasticEntityRelationshipChoices.PRIMARY:
+    #             raise ValueError(
+    #                 "NeoplasticEntity relationship must be 'primary' for PrimaryCancerCondition"
+    #             )
+    #     return obj
 
     @classmethod
     def fhir_to_onconova(
         cls, obj: fhir.OnconovaPrimaryCancerCondition
     ) -> schemas.NeoplasticEntityCreate:
-        print("FHIR RESOURCE:", obj.model_dump_json(indent=2))
         return schemas.NeoplasticEntityCreate(
             externalSource=None,
             externalSourceId=None,
@@ -94,8 +93,13 @@ class OnconovaPrimaryCancerCondition(
         resource: fhir.OnconovaPrimaryCancerCondition = (
             fhir.OnconovaPrimaryCancerCondition.model_construct()
         )  # type: ignore
+        resource.id = str(obj.id)
         resource.subject = Reference(
             reference=f"Patient/{obj.caseId}",
+        )
+        resource.text = fhir.Narrative(
+            status="generated",
+            div=f'<div xmlns="http://www.w3.org/1999/xhtml">{obj.description}</div>',
         )
         resource.bodySite = [
             fhir.OnconovaPrimaryCancerConditionBodySite(
@@ -136,6 +140,10 @@ class OnconovaPrimaryCancerCondition(
                         ]
                     )
                 )
+            )
+        if obj.relationship == NeoplasticEntityRelationshipChoices.METASTATIC:
+            raise ValueError(
+                "NeoplasticEntity relationship cannot be 'metastatic' for PrimaryCancerCondition"
             )
         if (
             obj.relationship == NeoplasticEntityRelationshipChoices.LOCAL_RECURRENCE

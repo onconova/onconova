@@ -1,9 +1,12 @@
 from ninja import Schema
 from django.db.models import Model
-from typing import ClassVar
+from typing import Any, ClassVar, Dict, List, Optional
 from onconova.core.serialization.base import BaseSchema, DjangoGetter
 from fhircraft.fhir.resources.base import FHIRBaseModel
+from fhircraft.fhir.resources.datatypes.R4.complex import Coding
+from onconova.terminology import fhir
 from pydantic import model_validator
+from dataclasses import dataclass
 
 
 class OnconovaFhirBaseSchema(BaseSchema):
@@ -30,3 +33,65 @@ class OnconovaFhirBaseSchema(BaseSchema):
         elif isinstance(obj, cls.__schema__):
             return cls.onconova_to_fhir(obj)
         return obj
+
+
+@dataclass
+class MappingRule:
+    """Represents a bidirectional mapping rule between internal and FHIR values."""
+
+    internal_value: Any
+    fhir_value: Any
+    description: Optional[str] = None
+
+
+class MappingRegistry:
+    """Registry for managing bidirectional mappings between internal and FHIR values."""
+
+    def __init__(self):
+        self._mappings: Dict[str, List[MappingRule]] = {}
+
+    def register(self, mapping_name: str, rules: List[MappingRule]):
+        """Register a set of mapping rules."""
+        self._mappings[mapping_name] = rules
+
+    def to_fhir(self, mapping_name: str, internal_value: Any) -> Any:
+        """Convert internal value to FHIR value."""
+        rules = self._mappings.get(mapping_name, [])
+        for rule in rules:
+            if rule.internal_value == internal_value:
+                return rule.fhir_value
+
+        if internal_value is None:
+            return None
+
+        raise KeyError(f"No FHIR mapping found for {mapping_name}: {internal_value}")
+
+    def to_internal(self, mapping_name: str, fhir_value: Any) -> Any:
+        """Convert FHIR value to internal value."""
+        rules = self._mappings.get(mapping_name, [])
+
+        # Handle None/empty cases
+        if fhir_value is None:
+            # Return the default for the mapping if available
+            defaults = [
+                rule.internal_value
+                for rule in rules
+                if hasattr(rule.internal_value, "UNKNOWN")
+            ]
+            return defaults[0] if defaults else None
+
+        # For Coding objects, compare by code and system
+        if isinstance(fhir_value, Coding):
+            for rule in rules:
+                if (
+                    isinstance(rule.fhir_value, Coding)
+                    and rule.fhir_value.code == fhir_value.code
+                    and rule.fhir_value.system == fhir_value.system
+                ):
+                    return rule.internal_value
+        else:
+            for rule in rules:
+                if rule.fhir_value == fhir_value:
+                    return rule.internal_value
+
+        raise KeyError(f"No internal mapping found for {mapping_name}: {fhir_value}")

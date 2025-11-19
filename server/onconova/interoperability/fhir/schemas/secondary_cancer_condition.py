@@ -18,21 +18,20 @@ class OnconovaSecondaryCancerCondition(
     __model__ = models.NeoplasticEntity
     __schema__ = schemas.NeoplasticEntity
 
-    @model_validator(mode="before")
-    @classmethod
-    def discriminator(cls, obj):
-        if isinstance(obj, (schemas.NeoplasticEntity, models.NeoplasticEntity)):
-            if obj.relationship != NeoplasticEntityRelationshipChoices.METASTATIC:
-                raise ValueError(
-                    "NeoplasticEntity relationship must be 'metastatic' for SecondaryCancerCondition"
-                )
-        return obj
+    # @model_validator(mode="before")
+    # @classmethod
+    # def discriminator(cls, obj):
+    #     if isinstance(obj, (schemas.NeoplasticEntity, models.NeoplasticEntity)):
+    #         if obj.relationship != NeoplasticEntityRelationshipChoices.METASTATIC:
+    #             raise ValueError(
+    #                 "NeoplasticEntity relationship must be 'metastatic' for SecondaryCancerCondition"
+    #             )
+    #     return obj
 
     @classmethod
     def fhir_to_onconova(
         cls, obj: fhir.OnconovaSecondaryCancerCondition
     ) -> schemas.NeoplasticEntityCreate:
-        print("FHIR RESOURCE:", obj.model_dump_json(indent=2))
         return schemas.NeoplasticEntityCreate(
             externalSource=None,
             externalSourceId=None,
@@ -76,11 +75,20 @@ class OnconovaSecondaryCancerCondition(
     def onconova_to_fhir(
         cls, obj: schemas.NeoplasticEntity
     ) -> fhir.OnconovaSecondaryCancerCondition:
+        if obj.relationship != NeoplasticEntityRelationshipChoices.METASTATIC:
+            raise ValueError(
+                "NeoplasticEntity relationship must be 'metastatic' for SecondaryCancerCondition"
+            )
         resource: fhir.OnconovaSecondaryCancerCondition = (
             fhir.OnconovaSecondaryCancerCondition.model_construct()
-        )  # type: ignore
+        )
+        resource.id = str(obj.id)
         resource.subject = Reference(
             reference=f"Patient/{obj.caseId}",
+        )
+        resource.text = fhir.Narrative(
+            status="generated",
+            div=f'<div xmlns="http://www.w3.org/1999/xhtml">{obj.description}</div>',
         )
         resource.bodySite = [
             fhir.OnconovaSecondaryCancerConditionBodySite(
