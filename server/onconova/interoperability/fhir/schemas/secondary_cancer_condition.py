@@ -1,0 +1,135 @@
+from fhircraft.fhir.resources.datatypes.R4.complex import (
+    Reference,
+)
+from onconova.core.schemas import CodedConcept
+from onconova.interoperability.fhir.schemas.base import OnconovaFhirBaseSchema
+from onconova.interoperability.fhir.models import SecondaryCancerCondition as fhir
+from onconova.oncology import models, schemas
+from onconova.oncology.models.neoplastic_entity import (
+    NeoplasticEntityRelationshipChoices,
+)
+from pydantic import model_validator
+
+
+class OnconovaSecondaryCancerCondition(
+    OnconovaFhirBaseSchema, fhir.OnconovaSecondaryCancerCondition
+):
+
+    __model__ = models.NeoplasticEntity
+    __schema__ = schemas.NeoplasticEntity
+
+    @model_validator(mode="before")
+    @classmethod
+    def discriminator(cls, obj):
+        if isinstance(obj, (schemas.NeoplasticEntity, models.NeoplasticEntity)):
+            if obj.relationship != NeoplasticEntityRelationshipChoices.METASTATIC:
+                raise ValueError(
+                    "NeoplasticEntity relationship must be 'metastatic' for SecondaryCancerCondition"
+                )
+        return obj
+
+    @classmethod
+    def fhir_to_onconova(
+        cls, obj: fhir.OnconovaSecondaryCancerCondition
+    ) -> schemas.NeoplasticEntityCreate:
+        print("FHIR RESOURCE:", obj.model_dump_json(indent=2))
+        return schemas.NeoplasticEntityCreate(
+            externalSource=None,
+            externalSourceId=None,
+            relationship=NeoplasticEntityRelationshipChoices.METASTATIC,
+            caseId=obj.fhirpath_single("Condition.subject.reference").replace(
+                "Patient/", ""
+            ),
+            topography=obj.fhirpath_single("Condition.bodySite.coding"),
+            differentitation=(
+                CodedConcept.model_validate(
+                    obj.fhirpath_single(
+                        "Condition.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-differentiation').valueCodeableConcept.coding"
+                    )
+                )
+            ),
+            relatedPrimaryId=obj.fhirpath_single(
+                "Condition.extension('http://hl7.org/fhir/StructureDefinition/condition-related').valueReference.reference"
+            ).replace("Condition/", ""),
+            laterality=(
+                CodedConcept.model_validate(coding)
+                if (
+                    coding := obj.fhirpath_single(
+                        "Condition.bodySite.extension('http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-laterality-qualifier').valueCodeableConcept.coding"
+                    )
+                )
+                else None
+            ),
+            morphology=(
+                CodedConcept.model_validate(
+                    obj.fhirpath_single(
+                        "Condition.extension('http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-histology-morphology-behavior').valueCodeableConcept.coding"
+                    )
+                )
+            ),
+            assertionDate=obj.fhirpath_single(
+                "Condition.extension('http://hl7.org/fhir/StructureDefinition/condition-assertedDate').valueDateTime"
+            ),
+        )
+
+    @classmethod
+    def onconova_to_fhir(
+        cls, obj: schemas.NeoplasticEntity
+    ) -> fhir.OnconovaSecondaryCancerCondition:
+        resource: fhir.OnconovaSecondaryCancerCondition = (
+            fhir.OnconovaSecondaryCancerCondition.model_construct()
+        )  # type: ignore
+        resource.subject = Reference(
+            reference=f"Patient/{obj.caseId}",
+        )
+        resource.bodySite = [
+            fhir.OnconovaSecondaryCancerConditionBodySite(
+                coding=[fhir.Coding.model_validate(obj.topography.model_dump())],
+                extension=(
+                    [
+                        fhir.LateralityQualifier(
+                            valueCodeableConcept=fhir.CodeableConcept(
+                                coding=[
+                                    fhir.Coding.model_validate(
+                                        obj.laterality.model_dump()
+                                    )
+                                ]
+                            )
+                        )
+                    ]
+                    if obj.laterality
+                    else None
+                ),
+            ),
+        ]
+        resource.extension = [
+            fhir.HistologyMorphologyBehavior(
+                valueCodeableConcept=fhir.CodeableConcept(
+                    coding=[fhir.Coding.model_validate(obj.morphology.model_dump())]
+                )
+            ),
+            fhir.ConditionAssertedDate(valueDateTime=obj.assertionDate.isoformat()),
+        ]
+        if obj.differentitation:
+            resource.extension.append(
+                fhir.Differentiation(
+                    valueCodeableConcept=fhir.CodeableConcept(
+                        coding=[
+                            fhir.Coding.model_validate(
+                                obj.differentitation.model_dump()
+                            )
+                        ]
+                    )
+                )
+            )
+        assert resource.extension is not None
+        if obj.relatedPrimaryId:
+            resource.extension.append(
+                fhir.ConditionRelated(
+                    valueReference=Reference(
+                        reference=f"Condition/{obj.relatedPrimaryId}",
+                    )
+                )
+            )
+
+        return resource

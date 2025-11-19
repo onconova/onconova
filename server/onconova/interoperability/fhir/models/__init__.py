@@ -1,6 +1,3 @@
-
-from .CancerPatient import OnconovaCancerPatient
-
-__all__ = (
-    "OnconovaCancerPatient",
-)
+from .CancerPatient import *
+from .PrimaryCancerCondition import *
+from .SecondaryCancerCondition import *

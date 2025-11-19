@@ -1,7 +1,7 @@
 from django.test import TestCase
 from parameterized import parameterized
-
-from onconova.oncology import models, schemas
+from unittest.mock import patch
+from onconova.oncology import models
 from onconova.interoperability.fhir import schemas
 from onconova.tests import common, factories
 from onconova.tests.common import (
@@ -23,7 +23,7 @@ class FhirCrudApiControllerTestCase(ApiControllerTestMixin, TestCase):
     FACTORY: type[DjangoModelFactory] | List[type[DjangoModelFactory]]
     factories: List[type[DjangoModelFactory]]
     MODEL: Type[BaseModel] | List[Type[BaseModel]]
-    SCHEMA: Type[Schema]
+    SCHEMA: Type[Schema] | List[Type[Schema]]
 
     # Internal state
     models: List[Type[BaseModel]]
@@ -54,12 +54,28 @@ class FhirCrudApiControllerTestCase(ApiControllerTestMixin, TestCase):
             if not isinstance(cls.SCHEMA, list)
             else cls.SCHEMA
         )
+        cls.create_schemas = (
+            [cls.SCHEMA] * cls.subtests
+            if not isinstance(cls.SCHEMA, list)
+            else cls.SCHEMA
+        )
         cls.instances = []
         cls.create_payloads = []
         cls.update_payloads = []
+        for factory, schema in zip(cls.factories, cls.create_schemas):
+            with pghistory.context(username=cls.user.username):
+                instance1, instance2 = factory.create_batch(2)
+                cls.instances.append(instance1)
+                cls.create_payloads.append(
+                    schema.model_validate(instance1).model_dump(mode="json")
+                )
+                cls.update_payloads.append(
+                    schema.model_validate(instance2).model_dump(mode="json")
+                )
+                instance2.delete()
 
     @parameterized.expand(GET_HTTP_SCENARIOS)
-    def test_read_operation(self, scenario, config):
+    def test_read_operation(self, scenario, config, *args):
         for i, (instance, schema, model) in enumerate(
             zip(self.instances, self.schemas, self.models)
         ):
@@ -105,7 +121,7 @@ class FhirCrudApiControllerTestCase(ApiControllerTestMixin, TestCase):
                 model.objects.all().delete()
 
     @parameterized.expand(HTTP_SCENARIOS)
-    def test_create_operation(self, scenario, config):
+    def test_create_operation(self, scenario, config, *args):
         for i, (instance, payload, model) in enumerate(
             zip(self.instances, self.create_payloads, self.models)
         ):
@@ -133,11 +149,12 @@ class FhirCrudApiControllerTestCase(ApiControllerTestMixin, TestCase):
                 model.objects.all().delete()
 
     @parameterized.expand(HTTP_SCENARIOS)
-    def test_update_operation(self, scenario, config):
+    def test_update_operation(self, scenario, config, *args):
         for i, (instance, payload, model) in enumerate(
             zip(self.instances, self.update_payloads, self.models)
         ):
             with self.subTest(i=i):
+                payload["id"] = str(instance.id)
                 # Call the API endpoint
                 response = self.call_api_endpoint(
                     "PUT", self.get_route_url_with_id(instance), data=payload, **config
@@ -176,8 +193,37 @@ class FhirCrudApiControllerTestCase(ApiControllerTestMixin, TestCase):
                 model.objects.all().delete()
 
 
-class TestPatientCaseController(FhirCrudApiControllerTestCase):
-    controller_path = "/api/fhir/Patient/"
+class TestPatientsController(FhirCrudApiControllerTestCase):
+    controller_path = "/api/fhir/Patient"
     FACTORY = factories.PatientCaseFactory
     MODEL = models.PatientCase
     SCHEMA = schemas.OnconovaCancerPatient
+
+    def setUp(self):
+        self.patcher = patch(
+            "onconova.interoperability.fhir.schemas.cancer_patient.OnconovaCancerPatient._get_birthsex_codesystem",
+            autospec=True,
+            return_value="http://test.org/codesystem/birthsex",
+        )
+        self.mock_function = self.patcher.start()
+        self.addCleanup(self.patcher.stop)
+        self.patcher = patch(
+            "onconova.interoperability.fhir.schemas.cancer_patient.OnconovaCancerPatient._get_gender_codesystem",
+            autospec=True,
+            return_value="http://test.org/codesystem/administrativegender",
+        )
+        self.mock_function = self.patcher.start()
+        self.addCleanup(self.patcher.stop)
+
+
+class TestConditionsController(FhirCrudApiControllerTestCase):
+    controller_path = "/api/fhir/Condition"
+    FACTORY = [
+        factories.PrimaryNeoplasticEntityFactory,
+        factories.MetastaticNeoplasticEntityFactory,
+    ]
+    MODEL = [models.NeoplasticEntity, models.NeoplasticEntity]
+    SCHEMA = [
+        schemas.OnconovaPrimaryCancerCondition,
+        schemas.OnconovaSecondaryCancerCondition,
+    ]

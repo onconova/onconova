@@ -7,7 +7,10 @@ oncology, research, and interoperability controllers, and sets up OpenAPI docume
 from ninja import Redoc
 from ninja_extra import NinjaExtraAPI
 
-from onconova.interoperability.fhir.controllers import PatientController
+from onconova.interoperability.fhir.controllers import (
+    PatientController,
+    ConditionController,
+)
 import json
 from ninja.renderers import JSONRenderer
 from io import StringIO
@@ -157,4 +160,5 @@ modify, merge, publish, distribute, sublicense, and/or sell copies of the softwa
     """
 api.register_controllers(
     PatientController,
+    ConditionController,
 )
