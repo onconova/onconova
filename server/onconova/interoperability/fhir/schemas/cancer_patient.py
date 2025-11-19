@@ -8,33 +8,65 @@ from pydantic import model_validator
 from onconova.core.schemas import BaseSchema, CodedConcept
 from onconova.interoperability.fhir.models import CancerPatient as fhir
 from onconova.oncology import models, schemas
-from onconova.oncology.models.patient_case import PatientCaseConsentStatusChoices, PatientCaseVitalStatusChoices
+from onconova.oncology.models.patient_case import (
+    PatientCaseConsentStatusChoices,
+    PatientCaseVitalStatusChoices,
+)
 
 
 class OnconovaCancerPatient(BaseSchema, fhir.OnconovaCancerPatient):
 
     @classmethod
-    def fhir_to_onconova(cls, obj: fhir.OnconovaCancerPatient) -> schemas.PatientCaseCreate:
+    def fhir_to_onconova(
+        cls, obj: fhir.OnconovaCancerPatient
+    ) -> schemas.PatientCaseCreate:
         return schemas.PatientCaseCreate(
-            externalSource = None,
-            externalSourceId = None,       
-            clinicalCenter = obj.fhirpath_single("Patient.identifier.where(type.code='MR').system"),
-            clinicalIdentifier= obj.fhirpath_single("Patient.identifier.where(type.code='MR').value"),
+            externalSource=None,
+            externalSourceId=None,
+            clinicalCenter=obj.fhirpath_single(
+                "Patient.identifier.where(type.coding.code='MR').system"
+            ),
+            clinicalIdentifier=obj.fhirpath_single(
+                "Patient.identifier.where(type.coding.code='MR').value"
+            ),
             consentStatus=PatientCaseConsentStatusChoices.UNKNOWN,
             vitalStatus=PatientCaseVitalStatusChoices.UNKNOWN,
-            gender=CodedConcept(code=obj.fhirpath_single("Patient.gender"), system="http://hl7.org/fhir/administrative-gender"), 
-            race=CodedConcept(**obj.fhirpath_single("Patient.extension('http://hl7.org/fhir/us/core/StructureDefinition/us-core-race').extension('ombCategory').valueCoding").model_dump()),
-            sexAtBirth=CodedConcept(
-                code=obj.fhirpath_single("Patient.extension('http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex').valueCode"), 
-                system="http://hl7.org/fhir/administrative-gender"
+            gender=CodedConcept(
+                code=obj.fhirpath_single("Patient.gender"),
+                system="http://hl7.org/fhir/administrative-gender",
             ),
-            dateOfBirth=obj.fhirpath_single('Patient.birthDate'),
-            endOfRecords=obj.fhirpath_single("Patient.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-end-of-records').valueDate"),
-            dateOfDeath=obj.fhirpath_single('Patient.deceasedDateTime'),
-            causeOfDeath=CodedConcept(**obj.fhirpath_single("Patient.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-cause-of-death').valueCodeableConcept.coding").model_dump()),
+            race=(
+                CodedConcept(**coding)
+                if (
+                    coding := obj.fhirpath_single(
+                        "Patient.extension('http://hl7.org/fhir/us/core/StructureDefinition/us-core-race').extension('ombCategory').valueCoding"
+                    )
+                )
+                else None
+            ),
+            sexAtBirth=CodedConcept(
+                code=obj.fhirpath_single(
+                    "Patient.extension('http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex').valueCode"
+                ),
+                system="http://hl7.org/fhir/administrative-gender",
+            ),
+            dateOfBirth=obj.fhirpath_single("Patient.birthDate"),
+            endOfRecords=obj.fhirpath_single(
+                "Patient.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-end-of-records').valueDate"
+            ),
+            dateOfDeath=obj.fhirpath_single("Patient.deceasedDateTime"),
+            causeOfDeath=(
+                CodedConcept(**coding)
+                if (
+                    coding := obj.fhirpath_single(
+                        "Patient.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-cause-of-death').valueCodeableConcept.coding"
+                    )
+                )
+                else None
+            ),
             genderIdentity=None,
         )
-        
+
     @classmethod
     def onconova_to_fhir(cls, obj: schemas.PatientCase) -> fhir.OnconovaCancerPatient:
         data = obj.model_dump()
@@ -125,12 +157,16 @@ class OnconovaCancerPatient(BaseSchema, fhir.OnconovaCancerPatient):
                     ]
                 )
             )
+        assert resource.meta is not None
+        resource.meta.lastUpdated = obj.updatedAt
         return resource
 
     @model_validator(mode="before")
     @classmethod
     def pre_validator(cls, obj):
-        if isinstance(obj, DjangoGetter):
+        if isinstance(obj, models.PatientCase):
+            obj = schemas.PatientCase.model_validate(obj)
+        if isinstance(obj, DjangoGetter) and isinstance(obj._obj, models.PatientCase):
             obj = schemas.PatientCase.model_validate(obj)
             return cls.onconova_to_fhir(obj)
         elif isinstance(obj, schemas.PatientCase):
