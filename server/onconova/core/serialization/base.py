@@ -13,14 +13,23 @@ from typing import (
 
 from django.contrib.postgres.fields import BigIntegerRangeField, DateRangeField
 from django.db import transaction
+from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Field as DjangoField
 from django.db.models import Model as DjangoModel
 from ninja import Schema
 from ninja.schema import DjangoGetter as BaseDjangoGetter
-from pydantic import BaseModel as PydanticBaseModel
+from pydantic import BaseModel as PydanticBaseModel, ValidationError
 from pydantic import ConfigDict, model_validator
 
-from pydantic import AliasChoices, ConfigDict, ValidationInfo, model_validator, AliasGenerator, AliasChoices, WithJsonSchema
+from pydantic import (
+    AliasChoices,
+    ConfigDict,
+    ValidationInfo,
+    model_validator,
+    AliasGenerator,
+    AliasChoices,
+    WithJsonSchema,
+)
 
 from onconova.core.auth.models import User
 from onconova.core.measures.fields import MeasurementField
@@ -32,21 +41,27 @@ from onconova.core.utils import camel_to_snake
 
 _DjangoModel = TypeVar("_DjangoModel", bound=DjangoModel)
 
+
 def get_orm_alias(name):
     name = camel_to_snake(name)
-    if name.endswith("_id"): name=name.replace("_id", "")
-    elif name.endswith("_ids"): name=name.replace("_ids", "")
+    if name.endswith("_id"):
+        name = name.replace("_id", "")
+    elif name.endswith("_ids"):
+        name = name.replace("_ids", "")
     return name
 
-class BaseSchema(Schema, 
-        alias_generator=AliasGenerator(
-            alias=get_orm_alias,
-            validation_alias=lambda name: AliasChoices(name, get_orm_alias(name))
-        ),
-        from_attributes=True,
-        populate_by_name=True,):
+
+class BaseSchema(
+    Schema,
+    alias_generator=AliasGenerator(
+        alias=get_orm_alias,
+        validation_alias=lambda name: AliasChoices(name, get_orm_alias(name)),
+    ),
+    from_attributes=True,
+    populate_by_name=True,
+):
     """
-    
+
     A base schema class that extends Pydantic's Schema class to provide seamless integration between
     Pydantic models and Django ORM models, with support for serialization and deserialization.
 
@@ -61,9 +76,9 @@ class BaseSchema(Schema,
     Attributes:
         __orm_model__ (ClassVar[Type[UntrackedBaseModel]]): The associated Django model class
     """
-    
+
     __orm_model__: ClassVar[Type[UntrackedBaseModel]]
-    
+
     @classmethod
     def set_orm_model(cls, model: Type[UntrackedBaseModel] | Type[BaseModel]) -> None:
         """Sets the ORM model class for the serializer.
@@ -148,7 +163,7 @@ class BaseSchema(Schema,
         kwargs.setdefault("exclude_none", True)
         return super().model_dump_json(*args, **kwargs)
 
-    @model_validator(mode='before')
+    @model_validator(mode="before")
     @classmethod
     def validator(cls, obj, info: ValidationInfo):
         """
@@ -335,7 +350,9 @@ class BaseSchema(Schema,
             data = serialized_data[field_name]
             # Get field metadata
             try:
-                orm_field: DjangoField = model._meta.get_field(field.alias if field.alias else field_name) 
+                orm_field: DjangoField = model._meta.get_field(
+                    field.alias if field.alias else field_name
+                )
             except:
                 continue
             if orm_field is None:
@@ -391,9 +408,13 @@ class BaseSchema(Schema,
                         else:
                             if issubclass(related_model, CodedConcept):
                                 # For coded concepts, query the database via the code and codesystem
-                                related_instance = related_model.objects.get(
+                                related_instance = related_model.objects.filter(
                                     code=data.get("code"), system=data.get("system")
-                                )
+                                ).first()
+                                if not related_instance:
+                                    raise ObjectDoesNotExist(
+                                        f"CodedConcept with code {data.get('code')} and system {data.get('system')} does not exist."
+                                    )
                             elif issubclass(related_model, User):
                                 # For users. query the database via the username
                                 related_instance = related_model.objects.get(
@@ -462,7 +483,9 @@ class BaseSchema(Schema,
         return related_schema.model_validate(getattr(obj, orm_field_name))
 
     @staticmethod
-    def _resolve_expanded_many_to_many(obj: DjangoModel, orm_field_name, related_schema):
+    def _resolve_expanded_many_to_many(
+        obj: DjangoModel, orm_field_name, related_schema
+    ):
         if not getattr(obj, orm_field_name, None):
             return []
         # Collect related objects and apply validation or get their IDs
@@ -488,7 +511,7 @@ class BaseSchema(Schema,
             return None
 
         measure = getattr(obj, orm_field_name)
-        default_unit = obj._meta.get_field(orm_field_name).get_default_unit() # type: ignore
+        default_unit = obj._meta.get_field(orm_field_name).get_default_unit()  # type: ignore
         return Measure(
             value=(
                 measure
@@ -558,6 +581,6 @@ class DjangoGetter(BaseDjangoGetter):
                 value = resolver(self._obj, context=self._context)
             else:
                 value = resolver(self._obj)
-            return self._convert_result(value)    
+            return self._convert_result(value)
         else:
             return super().__getattr__(key)

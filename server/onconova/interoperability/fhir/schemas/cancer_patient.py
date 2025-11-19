@@ -3,7 +3,7 @@ from fhircraft.fhir.resources.datatypes.R4.complex import (
     Reference,
 )
 from ninja.schema import DjangoGetter
-from pydantic import model_validator
+from pydantic import ValidationError, model_validator
 
 from onconova.core.schemas import BaseSchema, CodedConcept
 from onconova.interoperability.fhir.models import CancerPatient as fhir
@@ -13,8 +13,69 @@ from onconova.oncology.models.patient_case import (
     PatientCaseVitalStatusChoices,
 )
 
+CONSENT_STATUS_MAPPING = {
+    "valid": PatientCaseConsentStatusChoices.VALID,
+    "revoked": PatientCaseConsentStatusChoices.REVOKED,
+    "unknown": PatientCaseConsentStatusChoices.UNKNOWN,
+}
+VITAL_STATUS_MAPPING = {
+    PatientCaseVitalStatusChoices.ALIVE: fhir.Coding(
+        code="438949009", system="http://snomed.info/sct", display="Alive"
+    ),
+    PatientCaseVitalStatusChoices.DECEASED: fhir.Coding(
+        code="419099009", system="http://snomed.info/sct", display="Deceased"
+    ),
+    PatientCaseVitalStatusChoices.UNKNOWN: fhir.Coding(
+        code="261665006", system="http://snomed.info/sct", display="Unknown"
+    ),
+}
+
 
 class OnconovaCancerPatient(BaseSchema, fhir.OnconovaCancerPatient):
+
+    @classmethod
+    def _map_to_fhir_vital_status(
+        cls, value: PatientCaseVitalStatusChoices
+    ) -> fhir.CodeableConcept:
+        if value is None:
+            return None
+        return fhir.CodeableConcept(coding=[VITAL_STATUS_MAPPING[value]])
+
+    @classmethod
+    def _map_to_onconova_vital_status(
+        cls, value: fhir.Coding
+    ) -> PatientCaseVitalStatusChoices:
+        if value is None:
+            return PatientCaseVitalStatusChoices.UNKNOWN
+        for key, coding in VITAL_STATUS_MAPPING.items():
+            if coding.code == value.code and coding.system == value.system:
+                return key
+        else:
+            raise ValidationError(
+                f"Cannot map vital status coding: code={value.code}, system={value.system}"
+            )
+
+    @classmethod
+    def _map_to_fhir_consent_status(cls, value: PatientCaseConsentStatusChoices) -> str:
+        if value is None:
+            return "unknown"
+        for key, mapping in CONSENT_STATUS_MAPPING.items():
+            if mapping == value:
+                return key
+        else:
+            raise ValidationError(f"Cannot map consent status: {value}")
+
+    @classmethod
+    def _map_to_onconova_consent_status(
+        cls, value: str
+    ) -> PatientCaseConsentStatusChoices:
+        if value is None:
+            return PatientCaseConsentStatusChoices.UNKNOWN
+        for key, mapping in CONSENT_STATUS_MAPPING.items():
+            if key == value:
+                return mapping
+        else:
+            raise ValidationError(f"Cannot map consent status: {value}")
 
     @classmethod
     def fhir_to_onconova(
@@ -29,8 +90,16 @@ class OnconovaCancerPatient(BaseSchema, fhir.OnconovaCancerPatient):
             clinicalIdentifier=obj.fhirpath_single(
                 "Patient.identifier.where(type.coding.code='MR').value"
             ),
-            consentStatus=PatientCaseConsentStatusChoices.UNKNOWN,
-            vitalStatus=PatientCaseVitalStatusChoices.UNKNOWN,
+            consentStatus=cls._map_to_onconova_consent_status(
+                obj.fhirpath_single(
+                    "Patient.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-consent-status').valueCode"
+                )
+            ),
+            vitalStatus=cls._map_to_onconova_vital_status(
+                obj.fhirpath_single(
+                    "Patient.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-vital-status').valueCodeableConcept.coding"
+                )
+            ),
             gender=CodedConcept(
                 code=obj.fhirpath_single("Patient.gender"),
                 system="http://hl7.org/fhir/administrative-gender",
@@ -84,11 +153,6 @@ class OnconovaCancerPatient(BaseSchema, fhir.OnconovaCancerPatient):
                     value=obj.clinicalIdentifier, system=obj.clinicalCenter
                 ),
             ],
-            extension=(
-                [fhir.USCoreBirthSexExtension(valueCode=obj.sexAtBirth.code)]
-                if obj.sexAtBirth
-                else []
-            ),
         )
         resource = fhir.OnconovaCancerPatient.model_validate(data)
         resource.extension = []
@@ -114,7 +178,7 @@ class OnconovaCancerPatient(BaseSchema, fhir.OnconovaCancerPatient):
             resource.extension.append(
                 fhir.DataCompletionRate(valueDecimal=obj.dataCompletionRate)
             )
-        if obj.contributors is not None:
+        if obj.contributors is not None and len(obj.contributors) > 0:
             resource.extension.extend(
                 [
                     fhir.Contributors(
@@ -122,6 +186,18 @@ class OnconovaCancerPatient(BaseSchema, fhir.OnconovaCancerPatient):
                     )
                     for contributor in obj.contributors
                 ]
+            )
+        if obj.consentStatus is not None:
+            resource.extension.append(
+                fhir.ConsentStatus(
+                    valueCode=cls._map_to_fhir_consent_status(obj.consentStatus)
+                )
+            )
+        if obj.vitalStatus is not None:
+            resource.extension.append(
+                fhir.VitalStatus(
+                    valueCodeableConcept=cls._map_to_fhir_vital_status(obj.vitalStatus)
+                )
             )
         if obj.causeOfDeath is not None:
             resource.extension.append(
