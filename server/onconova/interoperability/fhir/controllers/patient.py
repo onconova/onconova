@@ -4,7 +4,7 @@ from onconova.core.auth import permissions as perms
 from onconova.core.auth.token import XSessionTokenAuth
 from onconova.interoperability.fhir.schemas import OnconovaCancerPatient
 from onconova.oncology.models import PatientCase
-from fhircraft.fhir.resources.datatypes.R4.resources.operation_outcome import (
+from fhircraft.fhir.resources.datatypes.R4.core.operation_outcome import (
     OperationOutcome,
 )
 from onconova.interoperability.fhir.controllers.base import (
