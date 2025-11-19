@@ -1,22 +1,113 @@
 """
-This module defines and configures the FHIR Onconova Interface API using NinjaExtraAPI, providing a secure, 
-standards-based interface for cancer genomics and clinical research data management. It registers all core, 
+This module defines and configures the FHIR Onconova Interface API using NinjaExtraAPI, providing a secure,
+standards-based interface for cancer genomics and clinical research data management. It registers all core,
 oncology, research, and interoperability controllers, and sets up OpenAPI documentation with custom settings and license information.
 """
 
 from ninja import Redoc
 from ninja_extra import NinjaExtraAPI
 
-from onconova.interoperability.fhir.controllers import (
-    PatientController
-)
+from onconova.interoperability.fhir.controllers import PatientController
+import json
+from ninja.renderers import JSONRenderer
+from io import StringIO
+from django.utils.encoding import force_str
+from django.utils.xmlutils import SimplerXMLGenerator
 
-api:NinjaExtraAPI 
+
+class FHIRRenderer(JSONRenderer):
+    media_type = "application/fhir+json"
+
+    def _is_primitive_type(self, value):
+        """Check if a value is a FHIR primitive type that should be rendered as an attribute."""
+        return isinstance(value, (str, int, float, bool)) and not isinstance(
+            value, dict
+        )
+
+    def _to_fhir_xml(self, xml, data, element_name=None):
+        """Convert data to FHIR-compliant XML format."""
+        if isinstance(data, dict):
+            # Handle FHIR resource or complex type
+            resource_type = data.get("resourceType")
+            if resource_type and element_name is None:
+                # Root FHIR resource - use resourceType as root element
+                element_name = resource_type
+                xml.startElement(element_name, {"xmlns": "http://hl7.org/fhir"})
+            elif element_name:
+                xml.startElement(element_name, {})
+
+            for key, value in data.items():
+                if key == "resourceType":
+                    continue  # Already handled as root element
+
+                if value is None:
+                    continue
+
+                if isinstance(value, (list, tuple)):
+                    # Handle arrays - each item gets the same element name
+                    for item in value:
+                        self._to_fhir_xml(xml, item, key)
+                elif self._is_primitive_type(value):
+                    # Primitive values become elements with value attribute
+                    xml.startElement(key, {"value": force_str(value)})
+                    xml.endElement(key)
+                else:
+                    # Complex types become child elements
+                    self._to_fhir_xml(xml, value, key)
+
+            if element_name:
+                xml.endElement(element_name)
+
+        elif isinstance(data, (list, tuple)):
+            # Handle top-level arrays (like Bundle entries)
+            for item in data:
+                if isinstance(item, dict) and "resourceType" in item:
+                    self._to_fhir_xml(xml, item)
+                else:
+                    self._to_fhir_xml(xml, item, element_name or "item")
+
+        elif self._is_primitive_type(data):
+            # Standalone primitive value
+            if element_name:
+                xml.startElement(element_name, {"value": force_str(data)})
+                xml.endElement(element_name)
+            else:
+                xml.characters(force_str(data))
+        else:
+            # Handle other types
+            if data is not None:
+                if element_name:
+                    xml.startElement(element_name, {})
+                    xml.characters(force_str(data))
+                    xml.endElement(element_name)
+                else:
+                    xml.characters(force_str(data))
+
+    def render(self, request, data, *, response_status: int) -> str:
+        if request.headers.get("Accept") == "application/fhir+json":
+            self.media_type = "application/fhir+json"
+            return json.dumps(data, cls=self.encoder_class, **self.json_dumps_params)
+        elif request.headers.get("Accept") == "application/fhir+xml":
+            self.media_type = "application/fhir+xml"
+            stream = StringIO()
+            xml = SimplerXMLGenerator(stream, "utf-8")
+            xml.startDocument()
+            self._to_fhir_xml(xml, data)
+            xml.endDocument()
+            return stream.getvalue()
+
+        else:
+            self.media_type = "application/json"
+            return super().render(request, data, response_status=response_status)
+
+
+api: NinjaExtraAPI
 """An Onconova FHIR API, This API serves as the entry point for all FHIR RESTful endpoints"""
 
 api = NinjaExtraAPI(
     title="Onconova FHIR API",
     urls_namespace="fhir",
+    renderer=FHIRRenderer(),
     servers=[
         dict(
             url="https://{domain}:{port}/api/fhir",
