@@ -82,3 +82,10 @@ class TestFhirSchemas(TestCase):
             fhir.TumorMarkerProfile,
             factories.TumorMarkerTestFactory,
         )
+    
+    def test_cancer_risk_assessment_schema_mappings(self, *args, **kwargs):
+        self._test_circular_mapping(
+            schemas.RiskAssessment,
+            fhir.CancerRiskAssessmentProfile,
+            factories.RiskAssessmentFactory,
+        )

@@ -229,10 +229,15 @@ class TestObservationsController(FhirCrudApiControllerTestCase):
     controller_path = "/api/fhir/Observation"
     FACTORY = [
         factories.TumorMarkerTestFactory,
+        factories.RiskAssessmentFactory,
     ]
-    MODEL = [models.TumorMarker]
+    MODEL = [
+        models.TumorMarker,
+        models.RiskAssessment,
+    ]
     SCHEMA = [
         schemas.TumorMarkerProfile,
+        schemas.CancerRiskAssessmentProfile,
     ]
 
     @classmethod

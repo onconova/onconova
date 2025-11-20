@@ -1,3 +1,4 @@
+from typing import List
 from django.db import IntegrityError, models
 from ninja_extra import ControllerBase
 from fhircraft.fhir.resources.datatypes.R4.core.operation_outcome import (
@@ -5,6 +6,9 @@ from fhircraft.fhir.resources.datatypes.R4.core.operation_outcome import (
     OperationOutcomeIssue,
 )
 from fhircraft.fhir.resources.base import FHIRBaseModel
+from onconova.interoperability.fhir.schemas.base import (
+    OnconovaFhirBaseSchema,
+)
 from pydantic_core import ValidationError
 
 COMMON_READ_HTTP_ERRORS = {410: None, 404: None}
@@ -23,15 +27,20 @@ COMMON_CREATE_HTTP_ERRORS = {
 
 class FhirBaseController(ControllerBase):
 
-    def read_fhir_resource(self, rid: str, model: type[models.Model]):
+    def read_fhir_resource(self, rid: str, models: type[models.Model] | List[type[models.Model]]):
         """Read a FHIR resource by its ID"""
+        if not isinstance(models, list): models = [models]
         # Get the instance from the database
-        instance = model.objects.filter(id=rid).first()
-        if not instance:
-            # If resource not found, check if it was deleted
-            if model.pgh_event_model.objects.filter(pgh_obj_id=rid, pgh_label="delete").exists():  # type: ignore
-                return 410, None
-            return 404, None
+        for model in models:
+            if instance := model.objects.filter(id=rid).first(): 
+                break
+        else:
+            for model in models:
+                # If resource not found, check if it was deleted
+                if model.pgh_event_model.objects.filter(pgh_obj_id=rid, pgh_label="delete").exists():  # type: ignore
+                    return 410, None
+            else:
+                return 404, None
         # Set the Last-Modified header if the instance has an updated_at timestamp
         if getattr(instance, "updated_at", None):
             assert self.context and self.context.response
@@ -39,12 +48,11 @@ class FhirBaseController(ControllerBase):
         return instance
 
     def update_fhir_resource(
-        self, rid: str, model: type[models.Model], payload: FHIRBaseModel
+        self, rid: str, payload: OnconovaFhirBaseSchema
     ):
         """Update a FHIR resource by its ID"""
         assert self.context and self.context.response and self.context.request
-        instance = model.objects.filter(id=rid).first()
-        if not instance:
+        if not (instance := payload.__class__.__model__.objects.filter(id=rid).first()):
             return 405, OperationOutcome(
                 issue=[
                     OperationOutcomeIssue(
@@ -103,11 +111,14 @@ class FhirBaseController(ControllerBase):
         else:
             return 400, None
 
-    def delete_fhir_resource(self, rid: str, model: type[models.Model]):
+    def delete_fhir_resource(self, rid: str, models: type[models.Model] | List[type[models.Model]]):
         """Delete a FHIR resource by its ID"""
+        if not isinstance(models, list): models = [models]
         assert self.context and self.context.response and self.context.request
-        instance = model.objects.filter(id=rid).first()
-        if not instance:
+        for model in models:
+            if instance := model.objects.filter(id=rid).first():
+                break
+        else:
             return 404, OperationOutcome(
                 issue=[
                     OperationOutcomeIssue(
@@ -120,7 +131,7 @@ class FhirBaseController(ControllerBase):
         instance.delete()
         return 204, None
 
-    def create_fhir_resource(self, payload: FHIRBaseModel):
+    def create_fhir_resource(self, payload: OnconovaFhirBaseSchema):
         assert self.context and self.context.response and self.context.request
         try:
             resource = payload.__class__.fhir_to_onconova(  # type: ignore

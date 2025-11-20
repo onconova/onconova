@@ -55,7 +55,7 @@ class ConditionController(FhirBaseController):
         rid: str,
         payload: PrimaryCancerConditionProfile | SecondaryCancerConditionProfile,
     ):
-        return self.update_fhir_resource(rid, NeoplasticEntity, payload)
+        return self.update_fhir_resource(rid, payload)
 
     @route.delete(
         path="{rid}",

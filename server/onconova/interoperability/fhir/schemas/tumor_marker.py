@@ -4,7 +4,6 @@ from fhircraft.fhir.resources.datatypes.R4.complex import (
     CodeableConcept
 )
 from onconova.interoperability.fhir.schemas.base import (
-    MappingRegistry,
     MappingRule,
     OnconovaFhirBaseSchema,
 )
@@ -14,8 +13,6 @@ from onconova.core.schemas import CodedConcept, Measure
 from onconova.oncology.models.tumor_marker import (
     AnalyteResultType,
 )
-
-mapping_registry = MappingRegistry()
 
 def internal_to_ucum(unit: str):
     unit = unit.replace('__','/')
