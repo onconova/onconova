@@ -10,7 +10,7 @@ from onconova.oncology.models.neoplastic_entity import (
 )
 
 
-class OnconovaSecondaryCancerCondition(
+class SecondaryCancerConditionProfile(
     OnconovaFhirBaseSchema, fhir.OnconovaSecondaryCancerCondition
 ):
 

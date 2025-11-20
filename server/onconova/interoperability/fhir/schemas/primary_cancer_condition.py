@@ -11,7 +11,7 @@ from onconova.oncology.models.neoplastic_entity import (
 )
 
 
-class OnconovaPrimaryCancerCondition(
+class PrimaryCancerConditionProfile(
     OnconovaFhirBaseSchema, fhir.OnconovaPrimaryCancerCondition
 ):
 

@@ -2,10 +2,9 @@ from django.test import TestCase
 from ninja import Schema
 from unittest.mock import patch
 import json
-from onconova.oncology import models, schemas
+from onconova.oncology import schemas
 from onconova.interoperability.fhir import schemas as fhir
-from onconova.tests import common, factories
-from onconova.terminology import models
+from onconova.tests import factories
 
 from fhircraft.fhir.resources.datatypes.R4.complex import (
     Coding,
@@ -38,38 +37,38 @@ class TestFhirSchemas(TestCase):
         self.assertDictEqual(original_schema_dict, resulting_schema_dict)
 
     @patch(
-        "onconova.interoperability.fhir.schemas.cancer_patient.OnconovaCancerPatient._get_gender_codesystem",
+        "onconova.interoperability.fhir.schemas.cancer_patient.CancerPatientProfile._get_gender_codesystem",
         autospec=True,
         return_value="http://test.org/codesystem/administrativegender",
     )
     @patch(
-        "onconova.interoperability.fhir.schemas.cancer_patient.OnconovaCancerPatient._get_birthsex_codesystem",
+        "onconova.interoperability.fhir.schemas.cancer_patient.CancerPatientProfile._get_birthsex_codesystem",
         autospec=True,
         return_value="http://test.org/codesystem/birthsex",
     )
     def test_cancer_patient_profile_schema_mappings(self, *args, **kwargs):
         self._test_circular_mapping(
             schemas.PatientCase,
-            fhir.OnconovaCancerPatient,
+            fhir.CancerPatientProfile,
             factories.PatientCaseFactory,
         )
 
     def test_primary_cancer_condition_profile_schema_mappings(self, *args, **kwargs):
         self._test_circular_mapping(
             schemas.NeoplasticEntity,
-            fhir.OnconovaPrimaryCancerCondition,
+            fhir.PrimaryCancerConditionProfile,
             factories.PrimaryNeoplasticEntityFactory,
         )
 
     def test_secondary_cancer_condition_profile_schema_mappings(self, *args, **kwargs):
         self._test_circular_mapping(
             schemas.NeoplasticEntity,
-            fhir.OnconovaSecondaryCancerCondition,
+            fhir.SecondaryCancerConditionProfile,
             factories.MetastaticNeoplasticEntityFactory,
         )
 
     @patch(
-        "onconova.interoperability.fhir.schemas.tumor_marker.mapping_registry.to_fhir",
+        "onconova.interoperability.fhir.schemas.tumor_marker.TumorMarkerProfile.map_to_fhir",
         autospec=True,
         return_value=Coding(
                 code="9811-1",
@@ -80,6 +79,6 @@ class TestFhirSchemas(TestCase):
     def test_tumor_marker_profile_schema_mappings(self, *args, **kwargs):
         self._test_circular_mapping(
             schemas.TumorMarker,
-            fhir.OnconovaTumorMarker,
+            fhir.TumorMarkerProfile,
             factories.TumorMarkerTestFactory,
         )

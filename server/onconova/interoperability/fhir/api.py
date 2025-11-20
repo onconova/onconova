@@ -10,6 +10,7 @@ from ninja_extra import NinjaExtraAPI
 from onconova.interoperability.fhir.controllers import (
     PatientController,
     ConditionController,
+    ObservationController,
 )
 import json
 from ninja.renderers import JSONRenderer
@@ -161,4 +162,5 @@ modify, merge, publish, distribute, sublicense, and/or sell copies of the softwa
 api.register_controllers(
     PatientController,
     ConditionController,
+    ObservationController,
 )

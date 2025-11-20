@@ -1,8 +1,7 @@
 from ninja_extra import api_controller, route
-from onconova.core.utils import COMMON_HTTP_ERRORS
 from onconova.core.auth import permissions as perms
 from onconova.core.auth.token import XSessionTokenAuth
-from onconova.interoperability.fhir.schemas import OnconovaCancerPatient
+from onconova.interoperability.fhir.schemas import CancerPatientProfile
 from onconova.oncology.models import PatientCase
 from fhircraft.fhir.resources.datatypes.R4.core.operation_outcome import (
     OperationOutcome,
@@ -23,7 +22,7 @@ class PatientController(FhirBaseController):
 
     @route.get(
         path="{rid}",
-        response={200: OnconovaCancerPatient, **COMMON_READ_HTTP_ERRORS},
+        response={200: CancerPatientProfile, **COMMON_READ_HTTP_ERRORS},
         permissions=[perms.CanManageCases],
         operation_id="readPatient",
         exclude_none=True,
@@ -34,14 +33,14 @@ class PatientController(FhirBaseController):
     @route.put(
         path="{rid}",
         response={
-            200: OnconovaCancerPatient | OperationOutcome | None,
+            200: CancerPatientProfile | OperationOutcome | None,
             **COMMON_UPDATE_HTTP_ERRORS,
         },
         permissions=[perms.CanManageCases],
         operation_id="updatePatient",
         exclude_none=True,
     )
-    def update_patient(self, rid: str, payload: OnconovaCancerPatient):
+    def update_patient(self, rid: str, payload: CancerPatientProfile):
         return self.update_fhir_resource(rid, PatientCase, payload)
 
     @route.delete(
@@ -60,7 +59,7 @@ class PatientController(FhirBaseController):
     @route.post(
         path="",
         response={
-            200: OnconovaCancerPatient | OperationOutcome | None,
+            200: CancerPatientProfile | OperationOutcome | None,
             400: OperationOutcome,
             409: OperationOutcome,
         },
@@ -68,5 +67,5 @@ class PatientController(FhirBaseController):
         operation_id="createPatient",
         exclude_none=True,
     )
-    def create_patient(self, payload: OnconovaCancerPatient):
+    def create_patient(self, payload: CancerPatientProfile):
         return self.create_fhir_resource(payload)

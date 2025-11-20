@@ -1,11 +1,11 @@
-from .cancer_patient import OnconovaCancerPatient
-from .primary_cancer_condition import OnconovaPrimaryCancerCondition
-from .secondary_cancer_condition import OnconovaSecondaryCancerCondition
-from .tumor_marker import OnconovaTumorMarker
+from .cancer_patient import CancerPatientProfile
+from .primary_cancer_condition import PrimaryCancerConditionProfile
+from .secondary_cancer_condition import SecondaryCancerConditionProfile
+from .tumor_marker import TumorMarkerProfile
 
 __all__ = (
-    "OnconovaCancerPatient",
-    "OnconovaPrimaryCancerCondition",
-    "OnconovaSecondaryCancerCondition",
-    "OnconovaTumorMarker",
+    "CancerPatientProfile",
+    "PrimaryCancerConditionProfile",
+    "SecondaryCancerConditionProfile",
+    "TumorMarkerProfile",
 )

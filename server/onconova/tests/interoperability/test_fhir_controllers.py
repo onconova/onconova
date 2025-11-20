@@ -3,17 +3,17 @@ from parameterized import parameterized
 from unittest.mock import patch
 from onconova.oncology import models
 from onconova.interoperability.fhir import schemas
-from onconova.tests import common, factories
+from onconova.tests import factories
 from onconova.tests.common import (
     GET_HTTP_SCENARIOS,
     HTTP_SCENARIOS,
     ApiControllerTestMixin,
 )
 from typing import List, Type
+from fhircraft.fhir.resources.datatypes.R4.complex import Coding
 from factory.django import DjangoModelFactory
 from ninja import Schema
 import pghistory
-
 from onconova.core.models import BaseModel
 
 
@@ -192,18 +192,18 @@ class TestPatientsController(FhirCrudApiControllerTestCase):
     controller_path = "/api/fhir/Patient"
     FACTORY = factories.PatientCaseFactory
     MODEL = models.PatientCase
-    SCHEMA = schemas.OnconovaCancerPatient
+    SCHEMA = schemas.CancerPatientProfile
 
     def setUp(self):
         self.patcher = patch(
-            "onconova.interoperability.fhir.schemas.cancer_patient.OnconovaCancerPatient._get_birthsex_codesystem",
+            "onconova.interoperability.fhir.schemas.cancer_patient.CancerPatientProfile._get_birthsex_codesystem",
             autospec=True,
             return_value="http://test.org/codesystem/birthsex",
         )
         self.mock_function = self.patcher.start()
         self.addCleanup(self.patcher.stop)
         self.patcher = patch(
-            "onconova.interoperability.fhir.schemas.cancer_patient.OnconovaCancerPatient._get_gender_codesystem",
+            "onconova.interoperability.fhir.schemas.cancer_patient.CancerPatientProfile._get_gender_codesystem",
             autospec=True,
             return_value="http://test.org/codesystem/administrativegender",
         )
@@ -219,6 +219,36 @@ class TestConditionsController(FhirCrudApiControllerTestCase):
     ]
     MODEL = [models.NeoplasticEntity, models.NeoplasticEntity]
     SCHEMA = [
-        schemas.OnconovaPrimaryCancerCondition,
-        schemas.OnconovaSecondaryCancerCondition,
+        schemas.PrimaryCancerConditionProfile,
+        schemas.SecondaryCancerConditionProfile,
     ]
+
+
+
+class TestObservationsController(FhirCrudApiControllerTestCase):
+    controller_path = "/api/fhir/Observation"
+    FACTORY = [
+        factories.TumorMarkerTestFactory,
+    ]
+    MODEL = [models.TumorMarker]
+    SCHEMA = [
+        schemas.TumorMarkerProfile,
+    ]
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.patcher = patch(
+            "onconova.interoperability.fhir.schemas.tumor_marker.TumorMarkerProfile.map_to_fhir",
+            return_value=Coding(
+                code="9811-1",
+                system="http://loinc.org",
+                display="Chromogranin A [Mass/volume] in Serum or Plasma",
+            )
+        )
+        cls.mock_to_fhir = cls.patcher.start()
+        super().setUpTestData()
+        
+    @classmethod
+    def tearDownClass(cls):
+        cls.patcher.stop()
+        super().tearDownClass()

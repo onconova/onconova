@@ -3,7 +3,6 @@ from fhircraft.fhir.resources.datatypes.R4.complex import (
     Reference,
 )
 from onconova.interoperability.fhir.schemas.base import (
-    MappingRegistry,
     MappingRule,
     OnconovaFhirBaseSchema,
 )
@@ -15,59 +14,7 @@ from onconova.oncology.models.patient_case import (
     PatientCaseVitalStatusChoices,
 )
 
-mapping_registry = MappingRegistry()
-
-# Vital status mappings
-mapping_registry.register(
-    "vitalStatus",
-    [
-        MappingRule(
-            PatientCaseVitalStatusChoices.ALIVE,
-            fhir.Coding(
-                code="438949009",
-                system="http://snomed.info/sct",
-                display="Alive",
-            ),
-        ),
-        MappingRule(
-            PatientCaseVitalStatusChoices.DECEASED,
-            fhir.Coding(
-                code="419099009",
-                system="http://snomed.info/sct",
-                display="Deceased",
-            ),
-        ),
-        MappingRule(
-            PatientCaseVitalStatusChoices.UNKNOWN,
-            fhir.Coding(
-                code="261665006",
-                system="http://snomed.info/sct",
-                display="Unknown",
-            ),
-        ),
-    ],
-)
-
-# Consent status mappings
-mapping_registry.register(
-    "consentStatus",
-    [
-        MappingRule(PatientCaseConsentStatusChoices.VALID, "valid", "Valid consent"),
-        MappingRule(
-            PatientCaseConsentStatusChoices.REVOKED,
-            "revoked",
-            "Revoked consent",
-        ),
-        MappingRule(
-            PatientCaseConsentStatusChoices.UNKNOWN,
-            "unknown",
-            "Unknown consent status",
-        ),
-    ],
-)
-
-
-class OnconovaCancerPatient(OnconovaFhirBaseSchema, fhir.OnconovaCancerPatient):
+class CancerPatientProfile(OnconovaFhirBaseSchema, fhir.OnconovaCancerPatient):
 
     __model__ = models.PatientCase
     __schema__ = schemas.PatientCase
@@ -93,13 +40,13 @@ class OnconovaCancerPatient(OnconovaFhirBaseSchema, fhir.OnconovaCancerPatient):
             clinicalIdentifier=obj.fhirpath_single(
                 "Patient.identifier.where(type.coding.code='MR').value"
             ),
-            consentStatus=mapping_registry.to_internal(
+            consentStatus=cls.map_to_internal(
                 "consentStatus",
                 obj.fhirpath_single(
                     "Patient.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-consent-status').valueCode"
                 ),
             ),
-            vitalStatus=mapping_registry.to_internal(
+            vitalStatus=cls.map_to_internal(
                 "vitalStatus",
                 obj.fhirpath_single(
                     "Patient.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-vital-status').valueCodeableConcept.coding"
@@ -199,7 +146,7 @@ class OnconovaCancerPatient(OnconovaFhirBaseSchema, fhir.OnconovaCancerPatient):
         if obj.consentStatus is not None:
             resource.extension.append(
                 fhir.ConsentStatus(
-                    valueCode=mapping_registry.to_fhir(
+                    valueCode=cls.map_to_fhir(
                         "consentStatus", obj.consentStatus
                     )
                 )
@@ -209,7 +156,7 @@ class OnconovaCancerPatient(OnconovaFhirBaseSchema, fhir.OnconovaCancerPatient):
                 fhir.VitalStatus(
                     valueCodeableConcept=fhir.CodeableConcept(
                         coding=[
-                            mapping_registry.to_fhir("vitalStatus", obj.vitalStatus)
+                            cls.map_to_fhir("vitalStatus", obj.vitalStatus)
                         ]
                     )
                 )
@@ -251,3 +198,54 @@ class OnconovaCancerPatient(OnconovaFhirBaseSchema, fhir.OnconovaCancerPatient):
         assert resource.meta is not None
         resource.meta.lastUpdated = obj.updatedAt
         return resource
+
+
+
+CancerPatientProfile.register_mapping(
+    "vitalStatus",
+    [
+        MappingRule(
+            PatientCaseVitalStatusChoices.ALIVE,
+            fhir.Coding(
+                code="438949009",
+                system="http://snomed.info/sct",
+                display="Alive",
+            ),
+        ),
+        MappingRule(
+            PatientCaseVitalStatusChoices.DECEASED,
+            fhir.Coding(
+                code="419099009",
+                system="http://snomed.info/sct",
+                display="Deceased",
+            ),
+        ),
+        MappingRule(
+            PatientCaseVitalStatusChoices.UNKNOWN,
+            fhir.Coding(
+                code="261665006",
+                system="http://snomed.info/sct",
+                display="Unknown",
+            ),
+        ),
+    ],
+)
+
+# Consent status mappings
+CancerPatientProfile.register_mapping(
+    "consentStatus",
+    [
+        MappingRule(PatientCaseConsentStatusChoices.VALID, "valid", "Valid consent"),
+        MappingRule(
+            PatientCaseConsentStatusChoices.REVOKED,
+            "revoked",
+            "Revoked consent",
+        ),
+        MappingRule(
+            PatientCaseConsentStatusChoices.UNKNOWN,
+            "unknown",
+            "Unknown consent status",
+        ),
+    ],
+)
+

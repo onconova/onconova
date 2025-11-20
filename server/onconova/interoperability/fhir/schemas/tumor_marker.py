@@ -27,18 +27,18 @@ def ucum_to_internal(unit: str):
     unit = unit.replace('[iU]','IU')
     return unit
 
-class OnconovaTumorMarker(
+class TumorMarkerProfile(
     OnconovaFhirBaseSchema, fhir.OnconovaTumorMarker
 ):
 
-    __model__ = models.NeoplasticEntity
-    __schema__ = schemas.NeoplasticEntity
+    __model__ = models.TumorMarker
+    __schema__ = schemas.TumorMarker
 
     @classmethod
     def fhir_to_onconova(
         cls, obj: fhir.OnconovaTumorMarker
     ) -> schemas.TumorMarkerCreate:
-        map = mapping_registry.to_internal("tumorMarkerTestCode", obj.fhirpath_single("Observation.code.coding"))
+        map = cls.map_to_internal("tumorMarkerTestCode", obj.fhirpath_single("Observation.code.coding"))
         result_type = map.get("result_type")
         return schemas.TumorMarkerCreate(
             externalSource=None,
@@ -173,14 +173,13 @@ class OnconovaTumorMarker(
             result_type = None
         
         resource.code = CodeableConcept(coding=[
-            mapping_registry.to_fhir("tumorMarkerTestCode",dict(code=obj.analyte.code, result_type=result_type))
+            cls.map_to_fhir("tumorMarkerTestCode",dict(code=obj.analyte.code, result_type=result_type))
             if result_type else Coding(code="", display="Tumor marker Cancer", system="http://loinc.org",)
         ]) 
         return resource
 
 
-# Vital status mappings
-mapping_registry.register(
+TumorMarkerProfile.register_mapping(
     "tumorMarkerTestCode",
     [   
         # Carcinoembryonic Antigen (CEA)

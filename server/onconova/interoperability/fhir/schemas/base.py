@@ -4,35 +4,8 @@ from typing import Any, ClassVar, Dict, List, Optional
 from onconova.core.serialization.base import BaseSchema, DjangoGetter
 from fhircraft.fhir.resources.base import FHIRBaseModel
 from fhircraft.fhir.resources.datatypes.R4.complex import Coding
-from onconova.terminology import fhir
 from pydantic import model_validator
 from dataclasses import dataclass
-
-
-class OnconovaFhirBaseSchema(BaseSchema):
-
-    __model__: ClassVar[type[Model]]
-    __schema__: ClassVar[type[Schema]]
-
-    @classmethod
-    def fhir_to_onconova(cls, obj: FHIRBaseModel) -> Schema:
-        raise NotImplementedError("Subclasses must implement fhir_to_onconova method")
-
-    @classmethod
-    def onconova_to_fhir(cls, obj: Schema) -> FHIRBaseModel:
-        raise NotImplementedError("Subclasses must implement onconova_to_fhir method")
-
-    @model_validator(mode="before")
-    @classmethod
-    def pre_validator(cls, obj):
-        if isinstance(obj, cls.__model__):
-            obj = cls.__schema__.model_validate(obj)
-        if isinstance(obj, DjangoGetter) and isinstance(obj._obj, cls.__model__):
-            obj = cls.__schema__.model_validate(obj)
-            return cls.onconova_to_fhir(obj)
-        elif isinstance(obj, cls.__schema__):
-            return cls.onconova_to_fhir(obj)
-        return obj
 
 
 @dataclass
@@ -95,3 +68,42 @@ class MappingRegistry:
                     return rule.internal_value
 
         raise KeyError(f"No internal mapping found for {mapping_name}: {fhir_value}")
+
+
+class OnconovaFhirBaseSchema(BaseSchema):
+
+    __model__: ClassVar[type[Model]]
+    __schema__: ClassVar[type[Schema]]
+    __registry__: ClassVar[type[MappingRegistry]] = MappingRegistry()
+    
+    @classmethod
+    def map_to_fhir(cls, map: str, value: Any):
+        return cls.__registry__.to_fhir(map, value)
+
+    @classmethod
+    def map_to_internal(cls, map: str, value: Any):
+        return cls.__registry__.to_internal(map, value)
+    
+    @classmethod
+    def register_mapping(cls, mapping_name: str, rules: List[MappingRule]):
+        return cls.__registry__.register(mapping_name, rules)
+    
+    @classmethod
+    def fhir_to_onconova(cls, obj: FHIRBaseModel) -> Schema:
+        raise NotImplementedError("Subclasses must implement fhir_to_onconova method")
+
+    @classmethod
+    def onconova_to_fhir(cls, obj: Schema) -> FHIRBaseModel:
+        raise NotImplementedError("Subclasses must implement onconova_to_fhir method")
+
+    @model_validator(mode="before")
+    @classmethod
+    def pre_validator(cls, obj):
+        if isinstance(obj, cls.__model__):
+            obj = cls.__schema__.model_validate(obj)
+        if isinstance(obj, DjangoGetter) and isinstance(obj._obj, cls.__model__):
+            obj = cls.__schema__.model_validate(obj)
+            return cls.onconova_to_fhir(obj)
+        elif isinstance(obj, cls.__schema__):
+            return cls.onconova_to_fhir(obj)
+        return obj

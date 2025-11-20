@@ -1,12 +1,10 @@
 from ninja_extra import api_controller, route
-from onconova.core.utils import COMMON_HTTP_ERRORS
 from onconova.core.auth import permissions as perms
 from onconova.core.auth.token import XSessionTokenAuth
 from onconova.interoperability.fhir.schemas import (
-    PrimaryCancerConditionProfile,
-    SecondaryCancerConditionProfile,
+    TumorMarkerProfile,
 )
-from onconova.oncology.models import NeoplasticEntity
+from onconova.oncology.models import TumorMarker
 from fhircraft.fhir.resources.datatypes.R4.core.operation_outcome import (
     OperationOutcome,
 )
@@ -18,44 +16,44 @@ from onconova.interoperability.fhir.controllers.base import (
 
 
 @api_controller(
-    "Condition",
+    "Observation",
     auth=[XSessionTokenAuth()],
-    tags=["Conditions"],
+    tags=["Observations"],
 )
-class ConditionController(FhirBaseController):
+class ObservationController(FhirBaseController):
 
     @route.get(
         path="{rid}",
         response={
-            200: PrimaryCancerConditionProfile | SecondaryCancerConditionProfile,
+            200: TumorMarkerProfile,
             **COMMON_READ_HTTP_ERRORS,
         },
         permissions=[perms.CanManageCases],
-        operation_id="readPatient",
+        operation_id="readObservation",
         exclude_none=True,
     )
-    def read_patient(self, rid: str):
-        return self.read_fhir_resource(rid, NeoplasticEntity)
+    def read_observation(self, rid: str):
+        return self.read_fhir_resource(rid, TumorMarker)
 
     @route.put(
         path="{rid}",
         response={
-            200: PrimaryCancerConditionProfile
-            | SecondaryCancerConditionProfile
+            200: TumorMarkerProfile
             | OperationOutcome
             | None,
             **COMMON_UPDATE_HTTP_ERRORS,
         },
         permissions=[perms.CanManageCases],
-        operation_id="updatePatient",
+        operation_id="updateObservation",
         exclude_none=True,
     )
-    def update_patient(
+    def update_observation(
         self,
         rid: str,
-        payload: PrimaryCancerConditionProfile | SecondaryCancerConditionProfile,
+        payload: TumorMarkerProfile,
     ):
-        return self.update_fhir_resource(rid, NeoplasticEntity, payload)
+        if isinstance(payload, TumorMarkerProfile):
+            return self.update_fhir_resource(rid, TumorMarker, payload)
 
     @route.delete(
         path="{rid}",
@@ -64,27 +62,26 @@ class ConditionController(FhirBaseController):
             404: OperationOutcome,
         },
         permissions=[perms.CanManageCases],
-        operation_id="deletePatient",
+        operation_id="deleteObservation",
         exclude_none=True,
     )
-    def delete_patient(self, rid: str):
-        return self.delete_fhir_resource(rid, NeoplasticEntity)
+    def delete_observation(self, rid: str):
+        return self.delete_fhir_resource(rid, TumorMarker)
 
     @route.post(
         path="",
         response={
-            200: PrimaryCancerConditionProfile
-            | SecondaryCancerConditionProfile
+            200: TumorMarkerProfile
             | OperationOutcome
             | None,
             400: OperationOutcome,
             409: OperationOutcome,
         },
         permissions=[perms.CanManageCases],
-        operation_id="createPatient",
+        operation_id="createObservation",
         exclude_none=True,
     )
-    def create_patient(
-        self, payload: PrimaryCancerConditionProfile | SecondaryCancerConditionProfile
+    def create_observation(
+        self, payload: TumorMarkerProfile
     ):
         return self.create_fhir_resource(payload)
