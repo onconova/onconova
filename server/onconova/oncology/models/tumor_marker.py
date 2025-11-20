@@ -398,13 +398,27 @@ ANALYTES_DATA = {
         display="Circulating tumor cells",
         valueTypes=[AnalyteResultType.arbitary_concentration],
     ),
-    "LP63010-0": AnalyteDetails(
-        acronym="FGF",
-        display="Fibroblast growth factor",
+    "LP428253-1": AnalyteDetails(
+        acronym="FGF-2",
+        display="Fibroblast growth factor 2",
         valueTypes=[
             AnalyteResultType.mass_concentration,
+        ],
+    ),
+    "LP40488-6": AnalyteDetails(
+        acronym="FGF-23",
+        display="Fibroblast growth factor 23",
+        valueTypes=[
             AnalyteResultType.arbitary_concentration,
             AnalyteResultType.substance_concentration,
+            AnalyteResultType.presence,
+        ],
+    ),
+    "LP263758-7": AnalyteDetails(
+        acronym="FGF-21",
+        display="Fibroblast growth factor 21",
+        valueTypes=[
+            AnalyteResultType.mass_concentration,
         ],
     ),
     "LP420752-0": AnalyteDetails(
@@ -507,7 +521,10 @@ ANALYTES_DATA = {
     "LP38066-4": AnalyteDetails(
         acronym="EBV Ab",
         display="Epstein Barr Virus Ab",
-        valueTypes=[AnalyteResultType.arbitary_concentration],
+        valueTypes=[
+            AnalyteResultType.arbitary_concentration,
+            AnalyteResultType.presence,
+        ],
     ),
     "LP220351-3": AnalyteDetails(
         acronym="PD-L1",

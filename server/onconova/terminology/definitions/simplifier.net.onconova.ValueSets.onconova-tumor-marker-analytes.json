@@ -66,8 +66,16 @@
                         "display": "Circulating tumor cells"
                     },
                     {
-                        "code": "LP63010-0",
-                        "display": "Fibroblast growth factor"
+                        "code": "LP428253-1",
+                        "display": "Fibroblast growth factor 2"
+                    },
+                    {
+                        "code": "LP40488-6",
+                        "display": "Fibroblast growth factor 23"
+                    },
+                    {
+                        "code": "LP263758-7",
+                        "display": "Fibroblast growth factor 21"
                     },
                     {
                         "code": "LP420752-0",
