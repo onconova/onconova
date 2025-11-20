@@ -8,6 +8,7 @@ from ninja import Redoc
 from ninja_extra import NinjaExtraAPI
 
 from onconova.interoperability.fhir.controllers import (
+    MetadataController,
     PatientController,
     ConditionController,
     ObservationController,
@@ -160,6 +161,7 @@ The Onconova FHIR API specification is made available under the MIT License, a p
 modify, merge, publish, distribute, sublicense, and/or sell copies of the software, subject to the inclusion of the original copyright and license.
     """
 api.register_controllers(
+    MetadataController,
     PatientController,
     ConditionController,
     ObservationController,
