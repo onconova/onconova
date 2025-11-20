@@ -9,7 +9,6 @@ from onconova.core.schemas import CodedConcept
 from onconova.oncology.models.neoplastic_entity import (
     NeoplasticEntityRelationshipChoices,
 )
-from pydantic import model_validator
 
 
 class OnconovaPrimaryCancerCondition(
@@ -18,18 +17,6 @@ class OnconovaPrimaryCancerCondition(
 
     __model__ = models.NeoplasticEntity
     __schema__ = schemas.NeoplasticEntity
-
-    # @model_validator(mode="before")
-    # @classmethod
-    # def discriminator(cls, obj):
-    #     if isinstance(
-    #         obj, (DjangoGetter, schemas.NeoplasticEntity, models.NeoplasticEntity)
-    #     ):
-    #         if obj.relationship != NeoplasticEntityRelationshipChoices.PRIMARY:
-    #             raise ValueError(
-    #                 "NeoplasticEntity relationship must be 'primary' for PrimaryCancerCondition"
-    #             )
-    #     return obj
 
     @classmethod
     def fhir_to_onconova(

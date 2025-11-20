@@ -67,3 +67,19 @@ class TestFhirSchemas(TestCase):
             fhir.OnconovaSecondaryCancerCondition,
             factories.MetastaticNeoplasticEntityFactory,
         )
+
+    @patch(
+        "onconova.interoperability.fhir.schemas.tumor_marker.mapping_registry.to_fhir",
+        autospec=True,
+        return_value=Coding(
+                code="9811-1",
+                system="http://loinc.org",
+                display="Chromogranin A [Mass/volume] in Serum or Plasma",
+        ),
+    )
+    def test_tumor_marker_profile_schema_mappings(self, *args, **kwargs):
+        self._test_circular_mapping(
+            schemas.TumorMarker,
+            fhir.OnconovaTumorMarker,
+            factories.TumorMarkerTestFactory,
+        )

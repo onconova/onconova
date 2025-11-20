@@ -2,15 +2,12 @@ from fhircraft.fhir.resources.datatypes.R4.complex import (
     Duration,
     Reference,
 )
-from ninja.schema import DjangoGetter
 from onconova.interoperability.fhir.schemas.base import (
     MappingRegistry,
     MappingRule,
     OnconovaFhirBaseSchema,
 )
-from pydantic import ValidationError, model_validator
-
-from onconova.core.schemas import BaseSchema, CodedConcept
+from onconova.core.schemas import CodedConcept
 from onconova.interoperability.fhir.models import CancerPatient as fhir
 from onconova.oncology import models, schemas
 from onconova.oncology.models.patient_case import (

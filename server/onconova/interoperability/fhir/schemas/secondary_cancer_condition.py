@@ -8,7 +8,6 @@ from onconova.oncology import models, schemas
 from onconova.oncology.models.neoplastic_entity import (
     NeoplasticEntityRelationshipChoices,
 )
-from pydantic import model_validator
 
 
 class OnconovaSecondaryCancerCondition(
@@ -17,16 +16,6 @@ class OnconovaSecondaryCancerCondition(
 
     __model__ = models.NeoplasticEntity
     __schema__ = schemas.NeoplasticEntity
-
-    # @model_validator(mode="before")
-    # @classmethod
-    # def discriminator(cls, obj):
-    #     if isinstance(obj, (schemas.NeoplasticEntity, models.NeoplasticEntity)):
-    #         if obj.relationship != NeoplasticEntityRelationshipChoices.METASTATIC:
-    #             raise ValueError(
-    #                 "NeoplasticEntity relationship must be 'metastatic' for SecondaryCancerCondition"
-    #             )
-    #     return obj
 
     @classmethod
     def fhir_to_onconova(
