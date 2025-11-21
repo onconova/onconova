@@ -151,6 +151,16 @@ class GenomicVariant(GenomicVariantCreate, MetadataAnonymizationMixin):
         title="Is VUS",
         description="Whether the genomic variant is considered a variant of unknown signifiance (VUS)",
     )
+    cytogeneticLocation: Nullable[str] = Field(
+        default=None,
+        title="Cytogenetic Location",
+        description="Cytogenetic location of the variant (e.g. 17q21.31)",
+    )
+    chromosomes: Nullable[List[str]] = Field(
+        default=None,
+        title="Chromosomes",
+        description="Chromosomes involved in the variant (e.g. 17, X)",
+    )
     dnaReferenceSequence: Nullable[str] = Field(
         default=None,
         title="DNA HGVS RefSeq",
