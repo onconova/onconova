@@ -194,10 +194,12 @@ class GenomicVariantAssessmentChoices(models.TextChoices):
         NOCALL: Indicates the variant call could not be made.
         INDETERMINATE: Indicates the assessment is inconclusive.
     """
+
     PRESENT = "present"
     ABSENT = "absent"
     NOCALL = "no-call"
     INDETERMINATE = "indeterminate"
+
 
 class GenomicVariantConfidenceChoices(models.TextChoices):
     """
@@ -208,9 +210,11 @@ class GenomicVariantConfidenceChoices(models.TextChoices):
         HIGH: Indicates high confidence in the variant call.
         INDETERMINATE: Indicates that the confidence level could not be determined.
     """
+
     LOW = "low"
     HIGH = "high"
     INDETERMINATE = "indeterminate"
+
 
 class GenomicVariantClinicalRelevanceChoices(models.TextChoices):
     """
@@ -224,12 +228,14 @@ class GenomicVariantClinicalRelevanceChoices(models.TextChoices):
         LIKELY_BENIGN: Indicates the variant is likely benign.
         BENIGN: Indicates the variant is benign.
     """
+
     PATHOGENIC = "pathogenic"
     LIKELY_PATHOGENIC = "likely_pathogenic"
     UNCERTAIN_SIGNIFICANCE = "uncertain_significance"
     AMBIGUOUS = "ambiguous"
     LIKELY_BENIGN = "likely_benign"
     BENIGN = "benign"
+
 
 class DNAChangeType(models.TextChoices):
     """
@@ -250,6 +256,7 @@ class DNAChangeType(models.TextChoices):
         METHYLATION_LOSS: Loss of methylation at a specific DNA region.
         METHYLATION_UNCHANGED: No change in methylation status.
     """
+
     SUBSTITUTION = "substitution"
     DELETION_INSERTION = "deletion-insertion"
     INSERTION = "insertion"
@@ -263,6 +270,7 @@ class DNAChangeType(models.TextChoices):
     METHYLATION_GAIN = "methylation-gain"
     METHYLATION_LOSS = "methylation-loss"
     METHYLATION_UNCHANGED = "methylation-unchanged"
+
 
 class RNAChangeType(models.TextChoices):
     """
@@ -278,6 +286,7 @@ class RNAChangeType(models.TextChoices):
         UNCHANGED: Indicates no change in the RNA sequence.
         REPETITION: Represents a repetition mutation in RNA.
     """
+
     SUBSTITUTION = "substitution"
     DELETION_INSERTION = "deletion-insertion"
     INSERTION = "insertion"
@@ -286,6 +295,7 @@ class RNAChangeType(models.TextChoices):
     INVERSION = "inversion"
     UNCHANGED = "unchanged"
     REPETITION = "repetition"
+
 
 class ProteinChangeType(models.TextChoices):
     """
@@ -305,6 +315,7 @@ class ProteinChangeType(models.TextChoices):
         UNKNOWN: The effect of the mutation on the protein is unknown.
         REPETITION: Repetition of a segment within the protein sequence.
     """
+
     MISSENSE = "missense"
     NONSENSE = "nonsense"
     DELETION_INSERTION = "deletion-insertion"
@@ -317,6 +328,7 @@ class ProteinChangeType(models.TextChoices):
     NO_PROTEIN = "no-protein"
     UNKNOWN = "unknown"
     REPETITION = "repetition"
+
 
 @pghistory.track()
 class GenomicVariant(BaseModel):
@@ -967,6 +979,13 @@ class GenomicVariant(BaseModel):
         null=True,
         blank=True,
     )
+    source = termfields.CodedConceptField(
+        verbose_name=_("Source"),
+        help_text=_("Variant genomic source"),
+        terminology=terminologies.GeneticVariantSource,
+        null=True,
+        blank=True,
+    )
     inheritance = termfields.CodedConceptField(
         verbose_name=_("Inheritance"),
         help_text=_("Variant inheritance origin (if known)."),
@@ -995,12 +1014,14 @@ class GenomicVariant(BaseModel):
     class Meta:
         constraints = [
             CheckConstraint(
-                condition=Q(dna_hgvs__isnull=True) | Q(dna_hgvs__regex=HGVSRegex.DNA_HGVS),
+                condition=Q(dna_hgvs__isnull=True)
+                | Q(dna_hgvs__regex=HGVSRegex.DNA_HGVS),
                 name="valid_dna_hgvs",
                 violation_error_message="DNA HGVS must be a valid 'c.'-HGVS expression.",
             ),
             CheckConstraint(
-                condition=Q(rna_hgvs__isnull=True) | Q(rna_hgvs__regex=HGVSRegex.RNA_HGVS),
+                condition=Q(rna_hgvs__isnull=True)
+                | Q(rna_hgvs__regex=HGVSRegex.RNA_HGVS),
                 name="valid_rna_hgvs",
                 violation_error_message="RNA HGVS must be a valid 'r.'-HGVS expression.",
             ),

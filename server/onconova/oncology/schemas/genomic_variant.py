@@ -2,40 +2,45 @@ from typing import List
 from pydantic import Field
 from datetime import date as date_aliased
 
-from onconova.core.schemas import BaseSchema, MetadataAnonymizationMixin, CodedConcept, Range
+from onconova.core.schemas import (
+    BaseSchema,
+    MetadataAnonymizationMixin,
+    CodedConcept,
+    Range,
+)
 from onconova.core.types import Nullable, UUID
 from onconova.oncology.models import genomic_variant as orm
 
 
 class GenomicVariantCreate(BaseSchema):
-    
-    __orm_model__ = orm.GenomicVariant 
-    
+
+    __orm_model__ = orm.GenomicVariant
+
     externalSource: Nullable[str] = Field(
         None,
-        description='The digital source of the data, relevant for automated data',
-        title='External data source',
+        description="The digital source of the data, relevant for automated data",
+        title="External data source",
     )
     externalSourceId: Nullable[str] = Field(
         None,
-        description='The data identifier at the digital source of the data, relevant for automated data',
-        title='External data source Id',
+        description="The data identifier at the digital source of the data, relevant for automated data",
+        title="External data source Id",
     )
     caseId: UUID = Field(
         ...,
         description="Indicates the case of the patient who' genomic variant is described",
-        title='Patient case',
+        title="Patient case",
     )
     date: date_aliased = Field(
         ...,
-        description='Clinically-relevant date of the genomic variant (e.g. the specimen collection date).',
-        title='Date',
+        description="Clinically-relevant date of the genomic variant (e.g. the specimen collection date).",
+        title="Date",
     )
     genes: List[CodedConcept] = Field(
         ...,
-        description='Gene(s) affected by this variant',
-        title='Gene(s)',
-        json_schema_extra={'x-terminology': 'Gene'},
+        description="Gene(s) affected by this variant",
+        title="Gene(s)",
+        json_schema_extra={"x-terminology": "Gene"},
     )
     dnaHgvs: Nullable[str] = Field(
         default=None,
@@ -57,90 +62,96 @@ class GenomicVariantCreate(BaseSchema):
     )
     assessmentDate: Nullable[date_aliased] = Field(
         None,
-        description='Date at which the genomic variant was assessed and/or reported.',
-        title='Assessment date',
+        description="Date at which the genomic variant was assessed and/or reported.",
+        title="Assessment date",
     )
     genePanel: Nullable[str] = Field(
         None,
-        description='Commercial or official name of the gene panel tested to identify the variant',
-        title='Gene panel',
+        description="Commercial or official name of the gene panel tested to identify the variant",
+        title="Gene panel",
         max_length=200,
     )
     assessment: Nullable[orm.GenomicVariantAssessmentChoices] = Field(
         None,
-        description='Classification of whether the variant is present or absent in the analysis results. Relevant for genomic studies that report presence and absence of variants.',
-        title='Assessment',
+        description="Classification of whether the variant is present or absent in the analysis results. Relevant for genomic studies that report presence and absence of variants.",
+        title="Assessment",
     )
     confidence: Nullable[orm.GenomicVariantConfidenceChoices] = Field(
         None,
-        description='Classification of the confidence for a true positive variant call based e.g. calling thresholds or phred-scaled confidence scores.',
-        title='Confidence',
+        description="Classification of the confidence for a true positive variant call based e.g. calling thresholds or phred-scaled confidence scores.",
+        title="Confidence",
     )
     analysisMethod: Nullable[CodedConcept] = Field(
         None,
-        description='Analysis method used to detect the variant',
-        title='Analysis method',
-        json_schema_extra={'x-terminology': 'StructuralVariantAnalysisMethod'},
+        description="Analysis method used to detect the variant",
+        title="Analysis method",
+        json_schema_extra={"x-terminology": "StructuralVariantAnalysisMethod"},
     )
     clinicalRelevance: Nullable[orm.GenomicVariantClinicalRelevanceChoices] = Field(
         None,
-        description='Classification of the clinical relevance or pathogenicity of the variant.',
-        title='Clinical relevance',
+        description="Classification of the clinical relevance or pathogenicity of the variant.",
+        title="Clinical relevance",
     )
     genomeAssemblyVersion: Nullable[CodedConcept] = Field(
         None,
-        description='The reference genome assembly versionused in this analysis.',
-        title='Genome assembly version',
-        json_schema_extra={'x-terminology': 'ReferenceGenomeBuild'},
+        description="The reference genome assembly versionused in this analysis.",
+        title="Genome assembly version",
+        json_schema_extra={"x-terminology": "ReferenceGenomeBuild"},
     )
     molecularConsequence: Nullable[CodedConcept] = Field(
         None,
-        description='The calculated or observed effect of a variant on its downstream transcript and, if applicable, ensuing protein sequence.',
-        title='Molecular consequence',
-        json_schema_extra={'x-terminology': 'MolecularConsequence'},
+        description="The calculated or observed effect of a variant on its downstream transcript and, if applicable, ensuing protein sequence.",
+        title="Molecular consequence",
+        json_schema_extra={"x-terminology": "MolecularConsequence"},
     )
     copyNumber: Nullable[int] = Field(
         None,
-        description='Genomic structural variant copy number. It is a unit-less value. Note that a copy number of 1 can imply a deletion.',
-        title='Copy number',
+        description="Genomic structural variant copy number. It is a unit-less value. Note that a copy number of 1 can imply a deletion.",
+        title="Copy number",
     )
     alleleFrequency: Nullable[float] = Field(
         None,
-        description='The relative frequency (value in range [0,1]) of the allele at a given locus in the sample.',
-        title='Allele frequency',
+        description="The relative frequency (value in range [0,1]) of the allele at a given locus in the sample.",
+        title="Allele frequency",
     )
     alleleDepth: Nullable[int] = Field(
         None,
-        description='Specifies the number of reads that identified the allele in question whether it consists of one or a small sequence of contiguous nucleotides.',
-        title='Allele depth (reads)',
+        description="Specifies the number of reads that identified the allele in question whether it consists of one or a small sequence of contiguous nucleotides.",
+        title="Allele depth (reads)",
     )
     zygosity: Nullable[CodedConcept] = Field(
         None,
-        description='The observed level of occurrence of the variant in the set of chromosomes.',
-        title='Zygosity',
-        json_schema_extra={'x-terminology': 'Zygosity'},
+        description="The observed level of occurrence of the variant in the set of chromosomes.",
+        title="Zygosity",
+        json_schema_extra={"x-terminology": "Zygosity"},
+    )
+    source: Nullable[CodedConcept] = Field(
+        None,
+        description="Variant genomic source (if known).",
+        title="Source",
+        json_schema_extra={"x-terminology": "GeneticVariantSource"},
     )
     inheritance: Nullable[CodedConcept] = Field(
         None,
-        description='Variant inheritance origin (if known).',
-        title='Inheritance',
-        json_schema_extra={'x-terminology': 'VariantInheritance'},
+        description="Variant inheritance origin (if known).",
+        title="Inheritance",
+        json_schema_extra={"x-terminology": "VariantInheritance"},
     )
     coordinateSystem: Nullable[CodedConcept] = Field(
         None,
-        description='Genomic coordinate system used for identifying nucleotides or amino acids within a sequence.',
-        title='Coordinate system',
-        json_schema_extra={'x-terminology': 'GenomicCoordinateSystem'},
+        description="Genomic coordinate system used for identifying nucleotides or amino acids within a sequence.",
+        title="Coordinate system",
+        json_schema_extra={"x-terminology": "GenomicCoordinateSystem"},
     )
     clinvar: Nullable[str] = Field(
         None,
-        description='Accession number in the ClinVar variant database, given for cross-reference.',
-        title='ClinVar accession number',
+        description="Accession number in the ClinVar variant database, given for cross-reference.",
+        title="ClinVar accession number",
     )
 
 
 class GenomicVariant(GenomicVariantCreate, MetadataAnonymizationMixin):
-    
+
     isPathogenic: Nullable[bool] = Field(
         default=None,
         title="Is Pathogenic",
@@ -222,5 +233,8 @@ class GenomicVariant(GenomicVariantCreate, MetadataAnonymizationMixin):
         alias="regions",
     )
 
-    __anonymization_fields__ = ("date","assessmentDate",)
+    __anonymization_fields__ = (
+        "date",
+        "assessmentDate",
+    )
     __anonymization_key__ = "caseId"
