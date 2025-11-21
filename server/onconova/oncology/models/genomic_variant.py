@@ -46,6 +46,8 @@ class HGVSRegex:
         Use these regex patterns to match, validate, or extract components from HGVS variant strings in genomic data processing pipelines.
     """
 
+    VERSION = "21.1.2"
+
     AMINOACID = r"(?:Ter|(?:Gly|Ala|Val|Leu|Ile|Met|Phe|Trp|Pro|Ser|Thr|Cys|Tyr|Asn|Gln|Asp|Glu|Lys|Arg|His))"
     REPETITION_COPIES = r"\[(?:\d+|(?:\(\d+_\d+\)))\]"
 

@@ -152,6 +152,11 @@ class GenomicVariantCreate(BaseSchema):
 
 class GenomicVariant(GenomicVariantCreate, MetadataAnonymizationMixin):
 
+    hgvsVersion: str = Field(
+        default=orm.HGVSRegex.VERSION,
+        title="HGVS Version",
+        description="Version of the HGVS nomenclature used for the HGVS expressions",
+    )
     isPathogenic: Nullable[bool] = Field(
         default=None,
         title="Is Pathogenic",
