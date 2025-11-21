@@ -4,6 +4,7 @@
 import fhircraft
 from fhircraft.fhir.resources.base import FHIRBaseModel
 import fhircraft.fhir.resources.validators as fhir_validators
+
 # Pydantic modules
 from pydantic import Field, field_validator, model_validator, BaseModel
 from pydantic.fields import FieldInfo
@@ -11,34 +12,59 @@ from pydantic.fields import FieldInfo
 # Standard modules
 from typing import Optional, Literal, Union, ClassVar
 from enum import Enum
+
 NoneType = type(None)
 
-# Dynamic modules 
-from fhircraft.fhir.resources.base import FHIRBaseModel,FHIRSliceModel
-from typing import Optional,List,Annotated,Union,Literal
-from fhircraft.fhir.resources.datatypes.primitives import String,Uri,Code,DateTime,Instant,Integer
+# Dynamic modules
+from fhircraft.fhir.resources.base import FHIRBaseModel, FHIRSliceModel
+from typing import Optional, List, Annotated, Union, Literal
+from fhircraft.fhir.resources.datatypes.primitives import (
+    String,
+    Uri,
+    Code,
+    DateTime,
+    Instant,
+    Integer,
+)
 from fhircraft.fhir.resources.datatypes.R4.complex.element import Element
 from fhircraft.fhir.resources.datatypes.R4.complex.meta import Meta
 from fhircraft.fhir.resources.datatypes.R4.complex.narrative import Narrative
 from fhircraft.fhir.resources.datatypes.R4.complex.resource import Resource
 from fhircraft.fhir.resources.datatypes.R4.complex.extension import Extension
-from fhircraft.fhir.resources.datatypes.R4.complex.codeable_concept import CodeableConcept
-from fhircraft.fhir.resources.validators import get_type_choice_value_by_base,validate_element_constraint,validate_type_choice_element,validate_model_constraint,validate_FHIR_element_pattern,validate_slicing_cardinalities,validate_contained_resource
+from fhircraft.fhir.resources.datatypes.R4.complex.codeable_concept import (
+    CodeableConcept,
+)
+from fhircraft.fhir.resources.validators import (
+    get_type_choice_value_by_base,
+    validate_element_constraint,
+    validate_type_choice_element,
+    validate_model_constraint,
+    validate_FHIR_element_pattern,
+    validate_slicing_cardinalities,
+    validate_contained_resource,
+)
 from fhircraft.fhir.resources.datatypes.R4.complex.reference import Reference
 from fhircraft.fhir.resources.datatypes.R4.complex.identifier import Identifier
 from fhircraft.fhir.resources.datatypes.R4.complex.coding import Coding
 from fhircraft.fhir.resources.datatypes.R4.complex.annotation import Annotation
-from fhircraft.fhir.resources.datatypes.R4.complex.backbone_element import BackboneElement
+from fhircraft.fhir.resources.datatypes.R4.complex.backbone_element import (
+    BackboneElement,
+)
 from fhircraft.fhir.resources.datatypes.R4.complex.quantity import Quantity
 from fhircraft.fhir.resources.datatypes.R4.complex.range import Range
- 
+from fhircraft.fhir.resources.datatypes.R4.core.observation import (
+    ObservationComponentReferenceRange,
+)
+
+
 class ObsSecondaryFinding(FHIRSliceModel):
     """
-    Secondary findings are genetic test results that provide information about variants in a gene unrelated to the primary purpose for the testing, most often discovered when [Whole Exome Sequencing (WES)](https://en.wikipedia.org/wiki/Exome_sequencing) or [Whole Genome Sequencing (WGS)](https://en.wikipedia.org/wiki/Whole_genome_sequencing) is performed. This extension should be used to denote when a genetic finding is being shared as a secondary finding, and ideally refer to a corresponding guideline or policy statement.
+        Secondary findings are genetic test results that provide information about variants in a gene unrelated to the primary purpose for the testing, most often discovered when [Whole Exome Sequencing (WES)](https://en.wikipedia.org/wiki/Exome_sequencing) or [Whole Genome Sequencing (WGS)](https://en.wikipedia.org/wiki/Whole_genome_sequencing) is performed. This extension should be used to denote when a genetic finding is being shared as a secondary finding, and ideally refer to a corresponding guideline or policy statement.
 
-For more detail, please see:
-https://ghr.nlm.nih.gov/primer/testing/secondaryfindings.
+    For more detail, please see:
+    https://ghr.nlm.nih.gov/primer/testing/secondaryfindings.
     """
+
     min_cardinality: ClassVar[int] = 0
     max_cardinality: ClassVar[int] = 1
     id: Optional[String] = Field(
@@ -54,7 +80,9 @@ https://ghr.nlm.nih.gov/primer/testing/secondaryfindings.
         description="Extension",
         default=None,
     )
-    url: Literal['http://hl7.org/fhir/StructureDefinition/observation-secondaryFinding'] = Field(
+    url: Literal[
+        "http://hl7.org/fhir/StructureDefinition/observation-secondaryFinding"
+    ] = Field(
         description="identifies the meaning of the extension",
         default="http://hl7.org/fhir/StructureDefinition/observation-secondaryFinding",
     )
@@ -62,67 +90,73 @@ https://ghr.nlm.nih.gov/primer/testing/secondaryfindings.
         description="Value of extension",
         default=None,
     )
-    
-    @property 
+
+    @property
     def value(self):
-        return get_type_choice_value_by_base(self, 
+        return get_type_choice_value_by_base(
+            self,
             base="value",
         )
-        
-    @field_validator(*('extension',), mode="after", check_fields=None)
+
+    @field_validator(*("extension",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
-    @field_validator(*('extension',), mode="after", check_fields=None)
+
+    @field_validator(*("extension",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_ext_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ext_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
+
     @model_validator(mode="after")
     def value_type_choice_validator(self):
-        return validate_type_choice_element( 
+        return validate_type_choice_element(
             self,
             field_types=[CodeableConcept],
             field_name_base="value",
             required=True,
         )
-        
+
     @model_validator(mode="after")
     def FHIR_ele_1_constraint_model_validator(self):
-        return validate_model_constraint( 
+        return validate_model_constraint(
             self,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
+
     @model_validator(mode="after")
     def FHIR_ext_1_constraint_model_validator(self):
-        return validate_model_constraint( 
+        return validate_model_constraint(
             self,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
- 
+
+
 class BodyStructureReference(FHIRSliceModel):
     """
     Record details about the anatomical location of a specimen or body part. This resource may be used when a coded concept does not provide the necessary detail needed for the use case.
     """
+
     min_cardinality: ClassVar[int] = 0
     max_cardinality: ClassVar[int] = 1
     id: Optional[String] = Field(
@@ -138,7 +172,7 @@ class BodyStructureReference(FHIRSliceModel):
         description="Extension",
         default=None,
     )
-    url: Literal['http://hl7.org/fhir/StructureDefinition/bodySite'] = Field(
+    url: Literal["http://hl7.org/fhir/StructureDefinition/bodySite"] = Field(
         description="identifies the meaning of the extension",
         default="http://hl7.org/fhir/StructureDefinition/bodySite",
     )
@@ -146,67 +180,73 @@ class BodyStructureReference(FHIRSliceModel):
         description="Value of extension",
         default=None,
     )
-    
-    @property 
+
+    @property
     def value(self):
-        return get_type_choice_value_by_base(self, 
+        return get_type_choice_value_by_base(
+            self,
             base="value",
         )
-        
-    @field_validator(*('extension',), mode="after", check_fields=None)
+
+    @field_validator(*("extension",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
-    @field_validator(*('extension',), mode="after", check_fields=None)
+
+    @field_validator(*("extension",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_ext_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ext_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
+
     @model_validator(mode="after")
     def value_type_choice_validator(self):
-        return validate_type_choice_element( 
+        return validate_type_choice_element(
             self,
             field_types=[Reference],
             field_name_base="value",
             required=True,
         )
-        
+
     @model_validator(mode="after")
     def FHIR_ele_1_constraint_model_validator(self):
-        return validate_model_constraint( 
+        return validate_model_constraint(
             self,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
+
     @model_validator(mode="after")
     def FHIR_ext_1_constraint_model_validator(self):
-        return validate_model_constraint( 
+        return validate_model_constraint(
             self,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
- 
+
+
 class GenomicAssessmentDate(FHIRSliceModel):
     """
     Date at which the genomic variant was assessed and/or reported.
     """
+
     min_cardinality: ClassVar[int] = 0
     max_cardinality: ClassVar[int] = 1
     id: Optional[String] = Field(
@@ -222,7 +262,9 @@ class GenomicAssessmentDate(FHIRSliceModel):
         description="Extension",
         default=None,
     )
-    url: Literal['http://onconova.github.io/fhir/StructureDefinition/onconova-ext-genomic-assessment-date'] = Field(
+    url: Literal[
+        "http://onconova.github.io/fhir/StructureDefinition/onconova-ext-genomic-assessment-date"
+    ] = Field(
         description="identifies the meaning of the extension",
         default="http://onconova.github.io/fhir/StructureDefinition/onconova-ext-genomic-assessment-date",
     )
@@ -230,108 +272,127 @@ class GenomicAssessmentDate(FHIRSliceModel):
         description="Value of extension",
         default=None,
     )
-    
-    @property 
+
+    @property
     def value(self):
-        return get_type_choice_value_by_base(self, 
+        return get_type_choice_value_by_base(
+            self,
             base="value",
         )
-        
-    @field_validator(*('extension',), mode="after", check_fields=None)
+
+    @field_validator(*("extension",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
-    @field_validator(*('extension',), mode="after", check_fields=None)
+
+    @field_validator(*("extension",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_ext_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ext_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
+
     @model_validator(mode="after")
     def value_type_choice_validator(self):
-        return validate_type_choice_element( 
+        return validate_type_choice_element(
             self,
             field_types=[DateTime],
             field_name_base="value",
             required=False,
         )
-        
+
     @model_validator(mode="after")
     def FHIR_ele_1_constraint_model_validator(self):
-        return validate_model_constraint( 
+        return validate_model_constraint(
             self,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
+
     @model_validator(mode="after")
     def FHIR_ext_1_constraint_model_validator(self):
-        return validate_model_constraint( 
+        return validate_model_constraint(
             self,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
- 
+
+
 class OnconovaGenomicVariantLabCategory(CodeableConcept):
     """
     Classification of  type of observation
     """
+
     extension: Optional[List[Extension]] = Field(
         description="Additional content defined by implementations",
         default=None,
     )
     coding: Coding = Field(
         description="Code defined by a terminology system",
-        default_factory=lambda: Coding(code="laboratory", system="http://terminology.hl7.org/CodeSystem/observation-category"),
+        default_factory=lambda: Coding(
+            code="laboratory",
+            system="http://terminology.hl7.org/CodeSystem/observation-category",
+        ),
     )
-    
-    @field_validator(*('text', 'coding', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(*("text", "coding", "extension"), mode="after", check_fields=None)
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
-    @field_validator(*('extension',), mode="after", check_fields=None)
+
+    @field_validator(*("extension",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_ext_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ext_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
-    @field_validator(*('coding',), mode="after", check_fields=None)
+
+    @field_validator(*("coding",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_coding_pattern_constraint(cls, value):    
-        return validate_FHIR_element_pattern(cls, value, 
-            pattern=Coding(code="laboratory", system="http://terminology.hl7.org/CodeSystem/observation-category"),
+    def FHIR_coding_pattern_constraint(cls, value):
+        return validate_FHIR_element_pattern(
+            cls,
+            value,
+            pattern=Coding(
+                code="laboratory",
+                system="http://terminology.hl7.org/CodeSystem/observation-category",
+            ),
         )
-        
- 
+
+
 class OnconovaGenomicVariantReferenceRange(BackboneElement):
     """
     Not used in this profile
     """
+
     low: Optional[Quantity] = Field(
         description="Low Range, if relevant",
         default=None,
@@ -361,22 +422,48 @@ class OnconovaGenomicVariantReferenceRange(BackboneElement):
         default=None,
         alias="_text",
     )
-    
-    @field_validator(*('text', 'age', 'appliesTo', 'type', 'high', 'low', 'modifierExtension', 'extension', 'modifierExtension', 'extension', 'modifierExtension', 'extension', 'modifierExtension', 'extension', 'modifierExtension', 'extension', 'modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *(
+            "text",
+            "age",
+            "appliesTo",
+            "type",
+            "high",
+            "low",
+            "modifierExtension",
+            "extension",
+            "modifierExtension",
+            "extension",
+            "modifierExtension",
+            "extension",
+            "modifierExtension",
+            "extension",
+            "modifierExtension",
+            "extension",
+            "modifierExtension",
+            "extension",
+        ),
+        mode="after",
+        check_fields=None
+    )
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
- 
+
+
 class OnconovaGenomicVariantConclusionStringComponentReferenceRange(BackboneElement):
     """
     Guidance on how to interpret the value by comparison to a normal or recommended range.
     """
+
     low: Optional[Quantity] = Field(
         description="Low Range, if relevant",
         default=None,
@@ -406,22 +493,48 @@ class OnconovaGenomicVariantConclusionStringComponentReferenceRange(BackboneElem
         default=None,
         alias="_text",
     )
-    
-    @field_validator(*('text', 'age', 'appliesTo', 'type', 'high', 'low', 'modifierExtension', 'extension', 'modifierExtension', 'extension', 'modifierExtension', 'extension', 'modifierExtension', 'extension', 'modifierExtension', 'extension', 'modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *(
+            "text",
+            "age",
+            "appliesTo",
+            "type",
+            "high",
+            "low",
+            "modifierExtension",
+            "extension",
+            "modifierExtension",
+            "extension",
+            "modifierExtension",
+            "extension",
+            "modifierExtension",
+            "extension",
+            "modifierExtension",
+            "extension",
+            "modifierExtension",
+            "extension",
+        ),
+        mode="after",
+        check_fields=None
+    )
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
- 
+
+
 class OnconovaGenomicVariantConclusionString(BackboneElement):
     """
     Clinical Conclusion
     """
+
     extension: Optional[List[Extension]] = Field(
         description="Additional content defined by implementations",
         default=None,
@@ -432,7 +545,14 @@ class OnconovaGenomicVariantConclusionString(BackboneElement):
     )
     code: CodeableConcept = Field(
         description="conclusion-string",
-        default_factory=lambda: CodeableConcept(coding=[Coding(code="conclusion-string", system="http://hl7.org/fhir/uv/genomics-reporting/CodeSystem/tbd-codes-cs")]),
+        default_factory=lambda: CodeableConcept(
+            coding=[
+                Coding(
+                    code="conclusion-string",
+                    system="http://hl7.org/fhir/uv/genomics-reporting/CodeSystem/tbd-codes-cs",
+                )
+            ]
+        ),
     )
     valueString: Optional[String] = Field(
         description="Summary conclusion (interpretation/impression)",
@@ -446,58 +566,88 @@ class OnconovaGenomicVariantConclusionString(BackboneElement):
         description="High, low, normal, etc.",
         default=None,
     )
-    referenceRange: Optional[List[OnconovaGenomicVariantConclusionStringComponentReferenceRange]] = Field(
+    referenceRange: Optional[
+        List[OnconovaGenomicVariantConclusionStringComponentReferenceRange]
+    ] = Field(
         description="Provides guide for interpretation of component result",
         default=None,
     )
-    
-    @property 
+
+    @property
     def value(self):
-        return get_type_choice_value_by_base(self, 
+        return get_type_choice_value_by_base(
+            self,
             base="value",
         )
-        
-    @field_validator(*('referenceRange', 'interpretation', 'dataAbsentReason', 'code', 'modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *(
+            "referenceRange",
+            "interpretation",
+            "dataAbsentReason",
+            "code",
+            "modifierExtension",
+            "extension",
+        ),
+        mode="after",
+        check_fields=None
+    )
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
-    @field_validator(*('modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *("modifierExtension", "extension"), mode="after", check_fields=None
+    )
     @classmethod
-    def FHIR_ext_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ext_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
-    @field_validator(*('code',), mode="after", check_fields=None)
+
+    @field_validator(*("code",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_code_pattern_constraint(cls, value):    
-        return validate_FHIR_element_pattern(cls, value, 
-            pattern=CodeableConcept(coding=[Coding(code="conclusion-string", system="http://hl7.org/fhir/uv/genomics-reporting/CodeSystem/tbd-codes-cs")]),
+    def FHIR_code_pattern_constraint(cls, value):
+        return validate_FHIR_element_pattern(
+            cls,
+            value,
+            pattern=CodeableConcept(
+                coding=[
+                    Coding(
+                        code="conclusion-string",
+                        system="http://hl7.org/fhir/uv/genomics-reporting/CodeSystem/tbd-codes-cs",
+                    )
+                ]
+            ),
         )
-        
+
     @model_validator(mode="after")
     def value_type_choice_validator(self):
-        return validate_type_choice_element( 
+        return validate_type_choice_element(
             self,
             field_types=[String],
             field_name_base="value",
             required=False,
         )
-        
- 
+
+
 class OnconovaGenomicVariantGeneStudied(BackboneElement):
     """
     Gene Studied
     """
+
     extension: Optional[List[Extension]] = Field(
         description="Additional content defined by implementations",
         default=None,
@@ -508,7 +658,9 @@ class OnconovaGenomicVariantGeneStudied(BackboneElement):
     )
     code: CodeableConcept = Field(
         description="48018-6",
-        default_factory=lambda: CodeableConcept(coding=[Coding(code="48018-6", system="http://loinc.org")]),
+        default_factory=lambda: CodeableConcept(
+            coding=[Coding(code="48018-6", system="http://loinc.org")]
+        ),
     )
     valueCodeableConcept: Optional[CodeableConcept] = Field(
         description="The HGNC gene symbol is to be used as display text and the HGNC gene ID used as the code. If no HGNC code issued for this gene yet, NCBI gene IDs SHALL be used.",
@@ -522,58 +674,81 @@ class OnconovaGenomicVariantGeneStudied(BackboneElement):
         description="High, low, normal, etc.",
         default=None,
     )
-    referenceRange: Optional[List['OnconovaGenomicVariantGeneStudiedReferenceRange']] = Field(
+    referenceRange: Optional[List["ObservationComponentReferenceRange"]] = Field(
         description="Provides guide for interpretation of component result",
         default=None,
     )
-    
-    @property 
+
+    @property
     def value(self):
-        return get_type_choice_value_by_base(self, 
+        return get_type_choice_value_by_base(
+            self,
             base="value",
         )
-        
-    @field_validator(*('referenceRange', 'interpretation', 'dataAbsentReason', 'code', 'modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *(
+            "referenceRange",
+            "interpretation",
+            "dataAbsentReason",
+            "code",
+            "modifierExtension",
+            "extension",
+        ),
+        mode="after",
+        check_fields=None
+    )
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
-    @field_validator(*('modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *("modifierExtension", "extension"), mode="after", check_fields=None
+    )
     @classmethod
-    def FHIR_ext_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ext_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
-    @field_validator(*('code',), mode="after", check_fields=None)
+
+    @field_validator(*("code",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_code_pattern_constraint(cls, value):    
-        return validate_FHIR_element_pattern(cls, value, 
-            pattern=CodeableConcept(coding=[Coding(code="48018-6", system="http://loinc.org")]),
+    def FHIR_code_pattern_constraint(cls, value):
+        return validate_FHIR_element_pattern(
+            cls,
+            value,
+            pattern=CodeableConcept(
+                coding=[Coding(code="48018-6", system="http://loinc.org")]
+            ),
         )
-        
+
     @model_validator(mode="after")
     def value_type_choice_validator(self):
-        return validate_type_choice_element( 
+        return validate_type_choice_element(
             self,
             field_types=[CodeableConcept],
             field_name_base="value",
             required=True,
         )
-        
- 
+
+
 class OnconovaGenomicVariantCytogeneticLocation(BackboneElement):
     """
     Cytogenetic (Chromosome) Location
     """
+
     extension: Optional[List[Extension]] = Field(
         description="Additional content defined by implementations",
         default=None,
@@ -584,7 +759,9 @@ class OnconovaGenomicVariantCytogeneticLocation(BackboneElement):
     )
     code: CodeableConcept = Field(
         description="48001-2",
-        default_factory=lambda: CodeableConcept(coding=[Coding(code="48001-2", system="http://loinc.org")]),
+        default_factory=lambda: CodeableConcept(
+            coding=[Coding(code="48001-2", system="http://loinc.org")]
+        ),
     )
     valueCodeableConcept: Optional[CodeableConcept] = Field(
         description="Example: 1q21.1",
@@ -598,58 +775,81 @@ class OnconovaGenomicVariantCytogeneticLocation(BackboneElement):
         description="High, low, normal, etc.",
         default=None,
     )
-    referenceRange: Optional[List['OnconovaGenomicVariantCytogeneticLocationReferenceRange']] = Field(
+    referenceRange: Optional[List["ObservationComponentReferenceRange"]] = Field(
         description="Provides guide for interpretation of component result",
         default=None,
     )
-    
-    @property 
+
+    @property
     def value(self):
-        return get_type_choice_value_by_base(self, 
+        return get_type_choice_value_by_base(
+            self,
             base="value",
         )
-        
-    @field_validator(*('referenceRange', 'interpretation', 'dataAbsentReason', 'code', 'modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *(
+            "referenceRange",
+            "interpretation",
+            "dataAbsentReason",
+            "code",
+            "modifierExtension",
+            "extension",
+        ),
+        mode="after",
+        check_fields=None
+    )
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
-    @field_validator(*('modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *("modifierExtension", "extension"), mode="after", check_fields=None
+    )
     @classmethod
-    def FHIR_ext_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ext_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
-    @field_validator(*('code',), mode="after", check_fields=None)
+
+    @field_validator(*("code",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_code_pattern_constraint(cls, value):    
-        return validate_FHIR_element_pattern(cls, value, 
-            pattern=CodeableConcept(coding=[Coding(code="48001-2", system="http://loinc.org")]),
+    def FHIR_code_pattern_constraint(cls, value):
+        return validate_FHIR_element_pattern(
+            cls,
+            value,
+            pattern=CodeableConcept(
+                coding=[Coding(code="48001-2", system="http://loinc.org")]
+            ),
         )
-        
+
     @model_validator(mode="after")
     def value_type_choice_validator(self):
-        return validate_type_choice_element( 
+        return validate_type_choice_element(
             self,
             field_types=[CodeableConcept],
             field_name_base="value",
             required=True,
         )
-        
- 
+
+
 class OnconovaGenomicVariantReferenceSequenceAssembly(BackboneElement):
     """
     Human Reference Sequence Assembly
     """
+
     extension: Optional[List[Extension]] = Field(
         description="Additional content defined by implementations",
         default=None,
@@ -660,7 +860,9 @@ class OnconovaGenomicVariantReferenceSequenceAssembly(BackboneElement):
     )
     code: CodeableConcept = Field(
         description="62374-4",
-        default_factory=lambda: CodeableConcept(coding=[Coding(code="62374-4", system="http://loinc.org")]),
+        default_factory=lambda: CodeableConcept(
+            coding=[Coding(code="62374-4", system="http://loinc.org")]
+        ),
     )
     valueCodeableConcept: Optional[CodeableConcept] = Field(
         description="GRCh37 | GRCh38 | ...",
@@ -674,58 +876,81 @@ class OnconovaGenomicVariantReferenceSequenceAssembly(BackboneElement):
         description="High, low, normal, etc.",
         default=None,
     )
-    referenceRange: Optional[List['OnconovaGenomicVariantReferenceSequenceAssemblyReferenceRange']] = Field(
+    referenceRange: Optional[List["ObservationComponentReferenceRange"]] = Field(
         description="Provides guide for interpretation of component result",
         default=None,
     )
-    
-    @property 
+
+    @property
     def value(self):
-        return get_type_choice_value_by_base(self, 
+        return get_type_choice_value_by_base(
+            self,
             base="value",
         )
-        
-    @field_validator(*('referenceRange', 'interpretation', 'dataAbsentReason', 'code', 'modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *(
+            "referenceRange",
+            "interpretation",
+            "dataAbsentReason",
+            "code",
+            "modifierExtension",
+            "extension",
+        ),
+        mode="after",
+        check_fields=None
+    )
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
-    @field_validator(*('modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *("modifierExtension", "extension"), mode="after", check_fields=None
+    )
     @classmethod
-    def FHIR_ext_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ext_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
-    @field_validator(*('code',), mode="after", check_fields=None)
+
+    @field_validator(*("code",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_code_pattern_constraint(cls, value):    
-        return validate_FHIR_element_pattern(cls, value, 
-            pattern=CodeableConcept(coding=[Coding(code="62374-4", system="http://loinc.org")]),
+    def FHIR_code_pattern_constraint(cls, value):
+        return validate_FHIR_element_pattern(
+            cls,
+            value,
+            pattern=CodeableConcept(
+                coding=[Coding(code="62374-4", system="http://loinc.org")]
+            ),
         )
-        
+
     @model_validator(mode="after")
     def value_type_choice_validator(self):
-        return validate_type_choice_element( 
+        return validate_type_choice_element(
             self,
             field_types=[CodeableConcept],
             field_name_base="value",
             required=True,
         )
-        
- 
+
+
 class OnconovaGenomicVariantCodingHgvs(BackboneElement):
     """
     Coding (cDNA) Change - cHGVS
     """
+
     extension: Optional[List[Extension]] = Field(
         description="Additional content defined by implementations",
         default=None,
@@ -736,7 +961,9 @@ class OnconovaGenomicVariantCodingHgvs(BackboneElement):
     )
     code: CodeableConcept = Field(
         description="48004-6",
-        default_factory=lambda: CodeableConcept(coding=[Coding(code="48004-6", system="http://loinc.org")]),
+        default_factory=lambda: CodeableConcept(
+            coding=[Coding(code="48004-6", system="http://loinc.org")]
+        ),
     )
     valueCodeableConcept: Optional[CodeableConcept] = Field(
         description="A valid HGVS-formatted (version \u003e= {hgvsVersion component}) \u0027c.\u0027 string, e.g. NM_005228.5:c.2369C\u003eT",
@@ -750,58 +977,81 @@ class OnconovaGenomicVariantCodingHgvs(BackboneElement):
         description="High, low, normal, etc.",
         default=None,
     )
-    referenceRange: Optional[List['OnconovaGenomicVariantCodingHgvsReferenceRange']] = Field(
+    referenceRange: Optional[List["ObservationComponentReferenceRange"]] = Field(
         description="Provides guide for interpretation of component result",
         default=None,
     )
-    
-    @property 
+
+    @property
     def value(self):
-        return get_type_choice_value_by_base(self, 
+        return get_type_choice_value_by_base(
+            self,
             base="value",
         )
-        
-    @field_validator(*('referenceRange', 'interpretation', 'dataAbsentReason', 'code', 'modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *(
+            "referenceRange",
+            "interpretation",
+            "dataAbsentReason",
+            "code",
+            "modifierExtension",
+            "extension",
+        ),
+        mode="after",
+        check_fields=None
+    )
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
-    @field_validator(*('modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *("modifierExtension", "extension"), mode="after", check_fields=None
+    )
     @classmethod
-    def FHIR_ext_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ext_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
-    @field_validator(*('code',), mode="after", check_fields=None)
+
+    @field_validator(*("code",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_code_pattern_constraint(cls, value):    
-        return validate_FHIR_element_pattern(cls, value, 
-            pattern=CodeableConcept(coding=[Coding(code="48004-6", system="http://loinc.org")]),
+    def FHIR_code_pattern_constraint(cls, value):
+        return validate_FHIR_element_pattern(
+            cls,
+            value,
+            pattern=CodeableConcept(
+                coding=[Coding(code="48004-6", system="http://loinc.org")]
+            ),
         )
-        
+
     @model_validator(mode="after")
     def value_type_choice_validator(self):
-        return validate_type_choice_element( 
+        return validate_type_choice_element(
             self,
             field_types=[CodeableConcept],
             field_name_base="value",
             required=True,
         )
-        
- 
+
+
 class OnconovaGenomicVariantGenomicHgvs(BackboneElement):
     """
     Genomic (gDNA) Change - gHGVS
     """
+
     extension: Optional[List[Extension]] = Field(
         description="Additional content defined by implementations",
         default=None,
@@ -812,7 +1062,9 @@ class OnconovaGenomicVariantGenomicHgvs(BackboneElement):
     )
     code: CodeableConcept = Field(
         description="81290-9",
-        default_factory=lambda: CodeableConcept(coding=[Coding(code="81290-9", system="http://loinc.org")]),
+        default_factory=lambda: CodeableConcept(
+            coding=[Coding(code="81290-9", system="http://loinc.org")]
+        ),
     )
     valueCodeableConcept: Optional[CodeableConcept] = Field(
         description="A valid HGVS-formatted (version \u003e= {hgvsVersion component}) \u0027g.\u0027 string, e.g. NC_000016.9:g.2124200_2138612dup",
@@ -826,58 +1078,81 @@ class OnconovaGenomicVariantGenomicHgvs(BackboneElement):
         description="High, low, normal, etc.",
         default=None,
     )
-    referenceRange: Optional[List['OnconovaGenomicVariantGenomicHgvsReferenceRange']] = Field(
+    referenceRange: Optional[List["ObservationComponentReferenceRange"]] = Field(
         description="Provides guide for interpretation of component result",
         default=None,
     )
-    
-    @property 
+
+    @property
     def value(self):
-        return get_type_choice_value_by_base(self, 
+        return get_type_choice_value_by_base(
+            self,
             base="value",
         )
-        
-    @field_validator(*('referenceRange', 'interpretation', 'dataAbsentReason', 'code', 'modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *(
+            "referenceRange",
+            "interpretation",
+            "dataAbsentReason",
+            "code",
+            "modifierExtension",
+            "extension",
+        ),
+        mode="after",
+        check_fields=None
+    )
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
-    @field_validator(*('modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *("modifierExtension", "extension"), mode="after", check_fields=None
+    )
     @classmethod
-    def FHIR_ext_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ext_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
-    @field_validator(*('code',), mode="after", check_fields=None)
+
+    @field_validator(*("code",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_code_pattern_constraint(cls, value):    
-        return validate_FHIR_element_pattern(cls, value, 
-            pattern=CodeableConcept(coding=[Coding(code="81290-9", system="http://loinc.org")]),
+    def FHIR_code_pattern_constraint(cls, value):
+        return validate_FHIR_element_pattern(
+            cls,
+            value,
+            pattern=CodeableConcept(
+                coding=[Coding(code="81290-9", system="http://loinc.org")]
+            ),
         )
-        
+
     @model_validator(mode="after")
     def value_type_choice_validator(self):
-        return validate_type_choice_element( 
+        return validate_type_choice_element(
             self,
             field_types=[CodeableConcept],
             field_name_base="value",
             required=True,
         )
-        
- 
+
+
 class OnconovaGenomicVariantCytogenomicNomenclature(BackboneElement):
     """
     Cytogenomic Nomenclature (ISCN)
     """
+
     extension: Optional[List[Extension]] = Field(
         description="Additional content defined by implementations",
         default=None,
@@ -888,7 +1163,9 @@ class OnconovaGenomicVariantCytogenomicNomenclature(BackboneElement):
     )
     code: CodeableConcept = Field(
         description="81291-7",
-        default_factory=lambda: CodeableConcept(coding=[Coding(code="81291-7", system="http://loinc.org")]),
+        default_factory=lambda: CodeableConcept(
+            coding=[Coding(code="81291-7", system="http://loinc.org")]
+        ),
     )
     valueCodeableConcept: Optional[CodeableConcept] = Field(
         description="Actual component result",
@@ -902,58 +1179,81 @@ class OnconovaGenomicVariantCytogenomicNomenclature(BackboneElement):
         description="High, low, normal, etc.",
         default=None,
     )
-    referenceRange: Optional[List['OnconovaGenomicVariantCytogenomicNomenclatureReferenceRange']] = Field(
+    referenceRange: Optional[List["ObservationComponentReferenceRange"]] = Field(
         description="Provides guide for interpretation of component result",
         default=None,
     )
-    
-    @property 
+
+    @property
     def value(self):
-        return get_type_choice_value_by_base(self, 
+        return get_type_choice_value_by_base(
+            self,
             base="value",
         )
-        
-    @field_validator(*('referenceRange', 'interpretation', 'dataAbsentReason', 'code', 'modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *(
+            "referenceRange",
+            "interpretation",
+            "dataAbsentReason",
+            "code",
+            "modifierExtension",
+            "extension",
+        ),
+        mode="after",
+        check_fields=None
+    )
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
-    @field_validator(*('modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *("modifierExtension", "extension"), mode="after", check_fields=None
+    )
     @classmethod
-    def FHIR_ext_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ext_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
-    @field_validator(*('code',), mode="after", check_fields=None)
+
+    @field_validator(*("code",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_code_pattern_constraint(cls, value):    
-        return validate_FHIR_element_pattern(cls, value, 
-            pattern=CodeableConcept(coding=[Coding(code="81291-7", system="http://loinc.org")]),
+    def FHIR_code_pattern_constraint(cls, value):
+        return validate_FHIR_element_pattern(
+            cls,
+            value,
+            pattern=CodeableConcept(
+                coding=[Coding(code="81291-7", system="http://loinc.org")]
+            ),
         )
-        
+
     @model_validator(mode="after")
     def value_type_choice_validator(self):
-        return validate_type_choice_element( 
+        return validate_type_choice_element(
             self,
             field_types=[CodeableConcept],
             field_name_base="value",
             required=True,
         )
-        
- 
+
+
 class OnconovaGenomicVariantGenomicRefSeq(BackboneElement):
     """
     Genomic Reference Sequence
     """
+
     extension: Optional[List[Extension]] = Field(
         description="Additional content defined by implementations",
         default=None,
@@ -964,7 +1264,9 @@ class OnconovaGenomicVariantGenomicRefSeq(BackboneElement):
     )
     code: CodeableConcept = Field(
         description="48013-7",
-        default_factory=lambda: CodeableConcept(coding=[Coding(code="48013-7", system="http://loinc.org")]),
+        default_factory=lambda: CodeableConcept(
+            coding=[Coding(code="48013-7", system="http://loinc.org")]
+        ),
     )
     valueCodeableConcept: Optional[CodeableConcept] = Field(
         description="Versioned genomic reference sequence identifier",
@@ -978,58 +1280,81 @@ class OnconovaGenomicVariantGenomicRefSeq(BackboneElement):
         description="High, low, normal, etc.",
         default=None,
     )
-    referenceRange: Optional[List['OnconovaGenomicVariantGenomicRefSeqReferenceRange']] = Field(
+    referenceRange: Optional[List["ObservationComponentReferenceRange"]] = Field(
         description="Provides guide for interpretation of component result",
         default=None,
     )
-    
-    @property 
+
+    @property
     def value(self):
-        return get_type_choice_value_by_base(self, 
+        return get_type_choice_value_by_base(
+            self,
             base="value",
         )
-        
-    @field_validator(*('referenceRange', 'interpretation', 'dataAbsentReason', 'code', 'modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *(
+            "referenceRange",
+            "interpretation",
+            "dataAbsentReason",
+            "code",
+            "modifierExtension",
+            "extension",
+        ),
+        mode="after",
+        check_fields=None
+    )
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
-    @field_validator(*('modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *("modifierExtension", "extension"), mode="after", check_fields=None
+    )
     @classmethod
-    def FHIR_ext_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ext_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
-    @field_validator(*('code',), mode="after", check_fields=None)
+
+    @field_validator(*("code",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_code_pattern_constraint(cls, value):    
-        return validate_FHIR_element_pattern(cls, value, 
-            pattern=CodeableConcept(coding=[Coding(code="48013-7", system="http://loinc.org")]),
+    def FHIR_code_pattern_constraint(cls, value):
+        return validate_FHIR_element_pattern(
+            cls,
+            value,
+            pattern=CodeableConcept(
+                coding=[Coding(code="48013-7", system="http://loinc.org")]
+            ),
         )
-        
+
     @model_validator(mode="after")
     def value_type_choice_validator(self):
-        return validate_type_choice_element( 
+        return validate_type_choice_element(
             self,
             field_types=[CodeableConcept],
             field_name_base="value",
             required=True,
         )
-        
- 
+
+
 class OnconovaGenomicVariantTranscriptRefSeq(BackboneElement):
     """
     Reference Transcript
     """
+
     extension: Optional[List[Extension]] = Field(
         description="Additional content defined by implementations",
         default=None,
@@ -1040,7 +1365,9 @@ class OnconovaGenomicVariantTranscriptRefSeq(BackboneElement):
     )
     code: CodeableConcept = Field(
         description="51958-7",
-        default_factory=lambda: CodeableConcept(coding=[Coding(code="51958-7", system="http://loinc.org")]),
+        default_factory=lambda: CodeableConcept(
+            coding=[Coding(code="51958-7", system="http://loinc.org")]
+        ),
     )
     valueCodeableConcept: Optional[CodeableConcept] = Field(
         description="Versioned transcript reference sequence identifier",
@@ -1054,58 +1381,81 @@ class OnconovaGenomicVariantTranscriptRefSeq(BackboneElement):
         description="High, low, normal, etc.",
         default=None,
     )
-    referenceRange: Optional[List['OnconovaGenomicVariantTranscriptRefSeqReferenceRange']] = Field(
+    referenceRange: Optional[List["ObservationComponentReferenceRange"]] = Field(
         description="Provides guide for interpretation of component result",
         default=None,
     )
-    
-    @property 
+
+    @property
     def value(self):
-        return get_type_choice_value_by_base(self, 
+        return get_type_choice_value_by_base(
+            self,
             base="value",
         )
-        
-    @field_validator(*('referenceRange', 'interpretation', 'dataAbsentReason', 'code', 'modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *(
+            "referenceRange",
+            "interpretation",
+            "dataAbsentReason",
+            "code",
+            "modifierExtension",
+            "extension",
+        ),
+        mode="after",
+        check_fields=None
+    )
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
-    @field_validator(*('modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *("modifierExtension", "extension"), mode="after", check_fields=None
+    )
     @classmethod
-    def FHIR_ext_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ext_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
-    @field_validator(*('code',), mode="after", check_fields=None)
+
+    @field_validator(*("code",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_code_pattern_constraint(cls, value):    
-        return validate_FHIR_element_pattern(cls, value, 
-            pattern=CodeableConcept(coding=[Coding(code="51958-7", system="http://loinc.org")]),
+    def FHIR_code_pattern_constraint(cls, value):
+        return validate_FHIR_element_pattern(
+            cls,
+            value,
+            pattern=CodeableConcept(
+                coding=[Coding(code="51958-7", system="http://loinc.org")]
+            ),
         )
-        
+
     @model_validator(mode="after")
     def value_type_choice_validator(self):
-        return validate_type_choice_element( 
+        return validate_type_choice_element(
             self,
             field_types=[CodeableConcept],
             field_name_base="value",
             required=True,
         )
-        
- 
+
+
 class OnconovaGenomicVariantExactStartEnd(BackboneElement):
     """
     Exact Start-End
     """
+
     extension: Optional[List[Extension]] = Field(
         description="Additional content defined by implementations",
         default=None,
@@ -1116,7 +1466,9 @@ class OnconovaGenomicVariantExactStartEnd(BackboneElement):
     )
     code: CodeableConcept = Field(
         description="81254-5",
-        default_factory=lambda: CodeableConcept(coding=[Coding(code="81254-5", system="http://loinc.org")]),
+        default_factory=lambda: CodeableConcept(
+            coding=[Coding(code="81254-5", system="http://loinc.org")]
+        ),
     )
     valueRange: Optional[Range] = Field(
         description="Range in question. \u0027High\u0027 can be omitted for single nucleotide variants.",
@@ -1130,58 +1482,81 @@ class OnconovaGenomicVariantExactStartEnd(BackboneElement):
         description="High, low, normal, etc.",
         default=None,
     )
-    referenceRange: Optional[List['OnconovaGenomicVariantExactStartEndReferenceRange']] = Field(
+    referenceRange: Optional[List["ObservationComponentReferenceRange"]] = Field(
         description="Provides guide for interpretation of component result",
         default=None,
     )
-    
-    @property 
+
+    @property
     def value(self):
-        return get_type_choice_value_by_base(self, 
+        return get_type_choice_value_by_base(
+            self,
             base="value",
         )
-        
-    @field_validator(*('referenceRange', 'interpretation', 'dataAbsentReason', 'code', 'modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *(
+            "referenceRange",
+            "interpretation",
+            "dataAbsentReason",
+            "code",
+            "modifierExtension",
+            "extension",
+        ),
+        mode="after",
+        check_fields=None
+    )
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
-    @field_validator(*('modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *("modifierExtension", "extension"), mode="after", check_fields=None
+    )
     @classmethod
-    def FHIR_ext_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ext_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
-    @field_validator(*('code',), mode="after", check_fields=None)
+
+    @field_validator(*("code",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_code_pattern_constraint(cls, value):    
-        return validate_FHIR_element_pattern(cls, value, 
-            pattern=CodeableConcept(coding=[Coding(code="81254-5", system="http://loinc.org")]),
+    def FHIR_code_pattern_constraint(cls, value):
+        return validate_FHIR_element_pattern(
+            cls,
+            value,
+            pattern=CodeableConcept(
+                coding=[Coding(code="81254-5", system="http://loinc.org")]
+            ),
         )
-        
+
     @model_validator(mode="after")
     def value_type_choice_validator(self):
-        return validate_type_choice_element( 
+        return validate_type_choice_element(
             self,
             field_types=[Range],
             field_name_base="value",
             required=False,
         )
-        
- 
+
+
 class OnconovaGenomicVariantInnerStartEnd(BackboneElement):
     """
     Inner Start-End
     """
+
     extension: Optional[List[Extension]] = Field(
         description="Additional content defined by implementations",
         default=None,
@@ -1192,7 +1567,9 @@ class OnconovaGenomicVariantInnerStartEnd(BackboneElement):
     )
     code: CodeableConcept = Field(
         description="81302-2",
-        default_factory=lambda: CodeableConcept(coding=[Coding(code="81302-2", system="http://loinc.org")]),
+        default_factory=lambda: CodeableConcept(
+            coding=[Coding(code="81302-2", system="http://loinc.org")]
+        ),
     )
     valueRange: Optional[Range] = Field(
         description="Imprecise variant inner-bounding range",
@@ -1206,58 +1583,81 @@ class OnconovaGenomicVariantInnerStartEnd(BackboneElement):
         description="High, low, normal, etc.",
         default=None,
     )
-    referenceRange: Optional[List['OnconovaGenomicVariantInnerStartEndReferenceRange']] = Field(
+    referenceRange: Optional[List["ObservationComponentReferenceRange"]] = Field(
         description="Provides guide for interpretation of component result",
         default=None,
     )
-    
-    @property 
+
+    @property
     def value(self):
-        return get_type_choice_value_by_base(self, 
+        return get_type_choice_value_by_base(
+            self,
             base="value",
         )
-        
-    @field_validator(*('referenceRange', 'interpretation', 'dataAbsentReason', 'code', 'modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *(
+            "referenceRange",
+            "interpretation",
+            "dataAbsentReason",
+            "code",
+            "modifierExtension",
+            "extension",
+        ),
+        mode="after",
+        check_fields=None
+    )
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
-    @field_validator(*('modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *("modifierExtension", "extension"), mode="after", check_fields=None
+    )
     @classmethod
-    def FHIR_ext_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ext_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
-    @field_validator(*('code',), mode="after", check_fields=None)
+
+    @field_validator(*("code",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_code_pattern_constraint(cls, value):    
-        return validate_FHIR_element_pattern(cls, value, 
-            pattern=CodeableConcept(coding=[Coding(code="81302-2", system="http://loinc.org")]),
+    def FHIR_code_pattern_constraint(cls, value):
+        return validate_FHIR_element_pattern(
+            cls,
+            value,
+            pattern=CodeableConcept(
+                coding=[Coding(code="81302-2", system="http://loinc.org")]
+            ),
         )
-        
+
     @model_validator(mode="after")
     def value_type_choice_validator(self):
-        return validate_type_choice_element( 
+        return validate_type_choice_element(
             self,
             field_types=[Range],
             field_name_base="value",
             required=False,
         )
-        
- 
+
+
 class OnconovaGenomicVariantOuterStartEnd(BackboneElement):
     """
     Outer Start-End
     """
+
     extension: Optional[List[Extension]] = Field(
         description="Additional content defined by implementations",
         default=None,
@@ -1268,7 +1668,9 @@ class OnconovaGenomicVariantOuterStartEnd(BackboneElement):
     )
     code: CodeableConcept = Field(
         description="81301-4",
-        default_factory=lambda: CodeableConcept(coding=[Coding(code="81301-4", system="http://loinc.org")]),
+        default_factory=lambda: CodeableConcept(
+            coding=[Coding(code="81301-4", system="http://loinc.org")]
+        ),
     )
     valueRange: Optional[Range] = Field(
         description="Imprecise variant outer-bounding range",
@@ -1282,58 +1684,81 @@ class OnconovaGenomicVariantOuterStartEnd(BackboneElement):
         description="High, low, normal, etc.",
         default=None,
     )
-    referenceRange: Optional[List['OnconovaGenomicVariantOuterStartEndReferenceRange']] = Field(
+    referenceRange: Optional[List["ObservationComponentReferenceRange"]] = Field(
         description="Provides guide for interpretation of component result",
         default=None,
     )
-    
-    @property 
+
+    @property
     def value(self):
-        return get_type_choice_value_by_base(self, 
+        return get_type_choice_value_by_base(
+            self,
             base="value",
         )
-        
-    @field_validator(*('referenceRange', 'interpretation', 'dataAbsentReason', 'code', 'modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *(
+            "referenceRange",
+            "interpretation",
+            "dataAbsentReason",
+            "code",
+            "modifierExtension",
+            "extension",
+        ),
+        mode="after",
+        check_fields=None
+    )
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
-    @field_validator(*('modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *("modifierExtension", "extension"), mode="after", check_fields=None
+    )
     @classmethod
-    def FHIR_ext_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ext_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
-    @field_validator(*('code',), mode="after", check_fields=None)
+
+    @field_validator(*("code",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_code_pattern_constraint(cls, value):    
-        return validate_FHIR_element_pattern(cls, value, 
-            pattern=CodeableConcept(coding=[Coding(code="81301-4", system="http://loinc.org")]),
+    def FHIR_code_pattern_constraint(cls, value):
+        return validate_FHIR_element_pattern(
+            cls,
+            value,
+            pattern=CodeableConcept(
+                coding=[Coding(code="81301-4", system="http://loinc.org")]
+            ),
         )
-        
+
     @model_validator(mode="after")
     def value_type_choice_validator(self):
-        return validate_type_choice_element( 
+        return validate_type_choice_element(
             self,
             field_types=[Range],
             field_name_base="value",
             required=False,
         )
-        
- 
+
+
 class OnconovaGenomicVariantCoordinateSystem(BackboneElement):
     """
     Coordinate System
     """
+
     extension: Optional[List[Extension]] = Field(
         description="Additional content defined by implementations",
         default=None,
@@ -1344,7 +1769,9 @@ class OnconovaGenomicVariantCoordinateSystem(BackboneElement):
     )
     code: CodeableConcept = Field(
         description="92822-6",
-        default_factory=lambda: CodeableConcept(coding=[Coding(code="92822-6", system="http://loinc.org")]),
+        default_factory=lambda: CodeableConcept(
+            coding=[Coding(code="92822-6", system="http://loinc.org")]
+        ),
     )
     valueCodeableConcept: Optional[CodeableConcept] = Field(
         description="0-based interval counting | 0-based character counting | 1-based character counting",
@@ -1358,58 +1785,81 @@ class OnconovaGenomicVariantCoordinateSystem(BackboneElement):
         description="High, low, normal, etc.",
         default=None,
     )
-    referenceRange: Optional[List['OnconovaGenomicVariantCoordinateSystemReferenceRange']] = Field(
+    referenceRange: Optional[List["ObservationComponentReferenceRange"]] = Field(
         description="Provides guide for interpretation of component result",
         default=None,
     )
-    
-    @property 
+
+    @property
     def value(self):
-        return get_type_choice_value_by_base(self, 
+        return get_type_choice_value_by_base(
+            self,
             base="value",
         )
-        
-    @field_validator(*('referenceRange', 'interpretation', 'dataAbsentReason', 'code', 'modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *(
+            "referenceRange",
+            "interpretation",
+            "dataAbsentReason",
+            "code",
+            "modifierExtension",
+            "extension",
+        ),
+        mode="after",
+        check_fields=None
+    )
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
-    @field_validator(*('modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *("modifierExtension", "extension"), mode="after", check_fields=None
+    )
     @classmethod
-    def FHIR_ext_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ext_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
-    @field_validator(*('code',), mode="after", check_fields=None)
+
+    @field_validator(*("code",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_code_pattern_constraint(cls, value):    
-        return validate_FHIR_element_pattern(cls, value, 
-            pattern=CodeableConcept(coding=[Coding(code="92822-6", system="http://loinc.org")]),
+    def FHIR_code_pattern_constraint(cls, value):
+        return validate_FHIR_element_pattern(
+            cls,
+            value,
+            pattern=CodeableConcept(
+                coding=[Coding(code="92822-6", system="http://loinc.org")]
+            ),
         )
-        
+
     @model_validator(mode="after")
     def value_type_choice_validator(self):
-        return validate_type_choice_element( 
+        return validate_type_choice_element(
             self,
             field_types=[CodeableConcept],
             field_name_base="value",
             required=True,
         )
-        
- 
+
+
 class OnconovaGenomicVariantRefAllele(BackboneElement):
     """
     Genomic Ref Allele
     """
+
     extension: Optional[List[Extension]] = Field(
         description="Additional content defined by implementations",
         default=None,
@@ -1420,7 +1870,9 @@ class OnconovaGenomicVariantRefAllele(BackboneElement):
     )
     code: CodeableConcept = Field(
         description="69547-8",
-        default_factory=lambda: CodeableConcept(coding=[Coding(code="69547-8", system="http://loinc.org")]),
+        default_factory=lambda: CodeableConcept(
+            coding=[Coding(code="69547-8", system="http://loinc.org")]
+        ),
     )
     valueString: Optional[String] = Field(
         description="Normalized string per the VCF format.",
@@ -1434,58 +1886,81 @@ class OnconovaGenomicVariantRefAllele(BackboneElement):
         description="High, low, normal, etc.",
         default=None,
     )
-    referenceRange: Optional[List['OnconovaGenomicVariantRefAlleleReferenceRange']] = Field(
+    referenceRange: Optional[List["ObservationComponentReferenceRange"]] = Field(
         description="Provides guide for interpretation of component result",
         default=None,
     )
-    
-    @property 
+
+    @property
     def value(self):
-        return get_type_choice_value_by_base(self, 
+        return get_type_choice_value_by_base(
+            self,
             base="value",
         )
-        
-    @field_validator(*('referenceRange', 'interpretation', 'dataAbsentReason', 'code', 'modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *(
+            "referenceRange",
+            "interpretation",
+            "dataAbsentReason",
+            "code",
+            "modifierExtension",
+            "extension",
+        ),
+        mode="after",
+        check_fields=None
+    )
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
-    @field_validator(*('modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *("modifierExtension", "extension"), mode="after", check_fields=None
+    )
     @classmethod
-    def FHIR_ext_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ext_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
-    @field_validator(*('code',), mode="after", check_fields=None)
+
+    @field_validator(*("code",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_code_pattern_constraint(cls, value):    
-        return validate_FHIR_element_pattern(cls, value, 
-            pattern=CodeableConcept(coding=[Coding(code="69547-8", system="http://loinc.org")]),
+    def FHIR_code_pattern_constraint(cls, value):
+        return validate_FHIR_element_pattern(
+            cls,
+            value,
+            pattern=CodeableConcept(
+                coding=[Coding(code="69547-8", system="http://loinc.org")]
+            ),
         )
-        
+
     @model_validator(mode="after")
     def value_type_choice_validator(self):
-        return validate_type_choice_element( 
+        return validate_type_choice_element(
             self,
             field_types=[String],
             field_name_base="value",
             required=False,
         )
-        
- 
+
+
 class OnconovaGenomicVariantAltAllele(BackboneElement):
     """
     Genomic Alt Allele
     """
+
     extension: Optional[List[Extension]] = Field(
         description="Additional content defined by implementations",
         default=None,
@@ -1496,7 +1971,9 @@ class OnconovaGenomicVariantAltAllele(BackboneElement):
     )
     code: CodeableConcept = Field(
         description="69551-0",
-        default_factory=lambda: CodeableConcept(coding=[Coding(code="69551-0", system="http://loinc.org")]),
+        default_factory=lambda: CodeableConcept(
+            coding=[Coding(code="69551-0", system="http://loinc.org")]
+        ),
     )
     valueString: Optional[String] = Field(
         description="Normalized string per the VCF format.",
@@ -1510,58 +1987,81 @@ class OnconovaGenomicVariantAltAllele(BackboneElement):
         description="High, low, normal, etc.",
         default=None,
     )
-    referenceRange: Optional[List['OnconovaGenomicVariantAltAlleleReferenceRange']] = Field(
+    referenceRange: Optional[List["ObservationComponentReferenceRange"]] = Field(
         description="Provides guide for interpretation of component result",
         default=None,
     )
-    
-    @property 
+
+    @property
     def value(self):
-        return get_type_choice_value_by_base(self, 
+        return get_type_choice_value_by_base(
+            self,
             base="value",
         )
-        
-    @field_validator(*('referenceRange', 'interpretation', 'dataAbsentReason', 'code', 'modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *(
+            "referenceRange",
+            "interpretation",
+            "dataAbsentReason",
+            "code",
+            "modifierExtension",
+            "extension",
+        ),
+        mode="after",
+        check_fields=None
+    )
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
-    @field_validator(*('modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *("modifierExtension", "extension"), mode="after", check_fields=None
+    )
     @classmethod
-    def FHIR_ext_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ext_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
-    @field_validator(*('code',), mode="after", check_fields=None)
+
+    @field_validator(*("code",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_code_pattern_constraint(cls, value):    
-        return validate_FHIR_element_pattern(cls, value, 
-            pattern=CodeableConcept(coding=[Coding(code="69551-0", system="http://loinc.org")]),
+    def FHIR_code_pattern_constraint(cls, value):
+        return validate_FHIR_element_pattern(
+            cls,
+            value,
+            pattern=CodeableConcept(
+                coding=[Coding(code="69551-0", system="http://loinc.org")]
+            ),
         )
-        
+
     @model_validator(mode="after")
     def value_type_choice_validator(self):
-        return validate_type_choice_element( 
+        return validate_type_choice_element(
             self,
             field_types=[String],
             field_name_base="value",
             required=False,
         )
-        
- 
+
+
 class OnconovaGenomicVariantCodingChangeType(BackboneElement):
     """
     Coding DNA Change Type
     """
+
     extension: Optional[List[Extension]] = Field(
         description="Additional content defined by implementations",
         default=None,
@@ -1572,7 +2072,9 @@ class OnconovaGenomicVariantCodingChangeType(BackboneElement):
     )
     code: CodeableConcept = Field(
         description="48019-4",
-        default_factory=lambda: CodeableConcept(coding=[Coding(code="48019-4", system="http://loinc.org")]),
+        default_factory=lambda: CodeableConcept(
+            coding=[Coding(code="48019-4", system="http://loinc.org")]
+        ),
     )
     valueCodeableConcept: Optional[CodeableConcept] = Field(
         description="deletion | insertion | delins | SNV | copy_number_gain | copy_number_loss | ... (many)",
@@ -1586,58 +2088,81 @@ class OnconovaGenomicVariantCodingChangeType(BackboneElement):
         description="High, low, normal, etc.",
         default=None,
     )
-    referenceRange: Optional[List['OnconovaGenomicVariantCodingChangeTypeReferenceRange']] = Field(
+    referenceRange: Optional[List["ObservationComponentReferenceRange"]] = Field(
         description="Provides guide for interpretation of component result",
         default=None,
     )
-    
-    @property 
+
+    @property
     def value(self):
-        return get_type_choice_value_by_base(self, 
+        return get_type_choice_value_by_base(
+            self,
             base="value",
         )
-        
-    @field_validator(*('referenceRange', 'interpretation', 'dataAbsentReason', 'code', 'modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *(
+            "referenceRange",
+            "interpretation",
+            "dataAbsentReason",
+            "code",
+            "modifierExtension",
+            "extension",
+        ),
+        mode="after",
+        check_fields=None
+    )
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
-    @field_validator(*('modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *("modifierExtension", "extension"), mode="after", check_fields=None
+    )
     @classmethod
-    def FHIR_ext_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ext_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
-    @field_validator(*('code',), mode="after", check_fields=None)
+
+    @field_validator(*("code",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_code_pattern_constraint(cls, value):    
-        return validate_FHIR_element_pattern(cls, value, 
-            pattern=CodeableConcept(coding=[Coding(code="48019-4", system="http://loinc.org")]),
+    def FHIR_code_pattern_constraint(cls, value):
+        return validate_FHIR_element_pattern(
+            cls,
+            value,
+            pattern=CodeableConcept(
+                coding=[Coding(code="48019-4", system="http://loinc.org")]
+            ),
         )
-        
+
     @model_validator(mode="after")
     def value_type_choice_validator(self):
-        return validate_type_choice_element( 
+        return validate_type_choice_element(
             self,
             field_types=[CodeableConcept],
             field_name_base="value",
             required=True,
         )
-        
- 
+
+
 class OnconovaGenomicVariantGenomicSourceClass(BackboneElement):
     """
     Genomic Source Class
     """
+
     extension: Optional[List[Extension]] = Field(
         description="Additional content defined by implementations",
         default=None,
@@ -1648,7 +2173,9 @@ class OnconovaGenomicVariantGenomicSourceClass(BackboneElement):
     )
     code: CodeableConcept = Field(
         description="48002-0",
-        default_factory=lambda: CodeableConcept(coding=[Coding(code="48002-0", system="http://loinc.org")]),
+        default_factory=lambda: CodeableConcept(
+            coding=[Coding(code="48002-0", system="http://loinc.org")]
+        ),
     )
     valueCodeableConcept: Optional[CodeableConcept] = Field(
         description="Germline | Somatic | Fetal | Likely germline | Likely somatic | Likely fetal | Unknown genomic origin | De novo",
@@ -1662,58 +2189,81 @@ class OnconovaGenomicVariantGenomicSourceClass(BackboneElement):
         description="High, low, normal, etc.",
         default=None,
     )
-    referenceRange: Optional[List['OnconovaGenomicVariantGenomicSourceClassReferenceRange']] = Field(
+    referenceRange: Optional[List["ObservationComponentReferenceRange"]] = Field(
         description="Provides guide for interpretation of component result",
         default=None,
     )
-    
-    @property 
+
+    @property
     def value(self):
-        return get_type_choice_value_by_base(self, 
+        return get_type_choice_value_by_base(
+            self,
             base="value",
         )
-        
-    @field_validator(*('referenceRange', 'interpretation', 'dataAbsentReason', 'code', 'modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *(
+            "referenceRange",
+            "interpretation",
+            "dataAbsentReason",
+            "code",
+            "modifierExtension",
+            "extension",
+        ),
+        mode="after",
+        check_fields=None
+    )
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
-    @field_validator(*('modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *("modifierExtension", "extension"), mode="after", check_fields=None
+    )
     @classmethod
-    def FHIR_ext_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ext_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
-    @field_validator(*('code',), mode="after", check_fields=None)
+
+    @field_validator(*("code",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_code_pattern_constraint(cls, value):    
-        return validate_FHIR_element_pattern(cls, value, 
-            pattern=CodeableConcept(coding=[Coding(code="48002-0", system="http://loinc.org")]),
+    def FHIR_code_pattern_constraint(cls, value):
+        return validate_FHIR_element_pattern(
+            cls,
+            value,
+            pattern=CodeableConcept(
+                coding=[Coding(code="48002-0", system="http://loinc.org")]
+            ),
         )
-        
+
     @model_validator(mode="after")
     def value_type_choice_validator(self):
-        return validate_type_choice_element( 
+        return validate_type_choice_element(
             self,
             field_types=[CodeableConcept],
             field_name_base="value",
             required=True,
         )
-        
- 
+
+
 class OnconovaGenomicVariantSampleAllelicFrequency(BackboneElement):
     """
     Sample Allelic Frequency
     """
+
     extension: Optional[List[Extension]] = Field(
         description="Additional content defined by implementations",
         default=None,
@@ -1724,7 +2274,9 @@ class OnconovaGenomicVariantSampleAllelicFrequency(BackboneElement):
     )
     code: CodeableConcept = Field(
         description="81258-6",
-        default_factory=lambda: CodeableConcept(coding=[Coding(code="81258-6", system="http://loinc.org")]),
+        default_factory=lambda: CodeableConcept(
+            coding=[Coding(code="81258-6", system="http://loinc.org")]
+        ),
     )
     valueQuantity: Optional[Quantity] = Field(
         description="Relative frequency in the sample",
@@ -1738,58 +2290,81 @@ class OnconovaGenomicVariantSampleAllelicFrequency(BackboneElement):
         description="High, low, normal, etc.",
         default=None,
     )
-    referenceRange: Optional[List['OnconovaGenomicVariantSampleAllelicFrequencyReferenceRange']] = Field(
+    referenceRange: Optional[List["ObservationComponentReferenceRange"]] = Field(
         description="Provides guide for interpretation of component result",
         default=None,
     )
-    
-    @property 
+
+    @property
     def value(self):
-        return get_type_choice_value_by_base(self, 
+        return get_type_choice_value_by_base(
+            self,
             base="value",
         )
-        
-    @field_validator(*('referenceRange', 'interpretation', 'dataAbsentReason', 'code', 'modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *(
+            "referenceRange",
+            "interpretation",
+            "dataAbsentReason",
+            "code",
+            "modifierExtension",
+            "extension",
+        ),
+        mode="after",
+        check_fields=None
+    )
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
-    @field_validator(*('modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *("modifierExtension", "extension"), mode="after", check_fields=None
+    )
     @classmethod
-    def FHIR_ext_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ext_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
-    @field_validator(*('code',), mode="after", check_fields=None)
+
+    @field_validator(*("code",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_code_pattern_constraint(cls, value):    
-        return validate_FHIR_element_pattern(cls, value, 
-            pattern=CodeableConcept(coding=[Coding(code="81258-6", system="http://loinc.org")]),
+    def FHIR_code_pattern_constraint(cls, value):
+        return validate_FHIR_element_pattern(
+            cls,
+            value,
+            pattern=CodeableConcept(
+                coding=[Coding(code="81258-6", system="http://loinc.org")]
+            ),
         )
-        
+
     @model_validator(mode="after")
     def value_type_choice_validator(self):
-        return validate_type_choice_element( 
+        return validate_type_choice_element(
             self,
             field_types=[Quantity],
             field_name_base="value",
             required=False,
         )
-        
- 
+
+
 class OnconovaGenomicVariantAllelicReadDepth(BackboneElement):
     """
     Allelic Read Depth
     """
+
     extension: Optional[List[Extension]] = Field(
         description="Additional content defined by implementations",
         default=None,
@@ -1800,7 +2375,9 @@ class OnconovaGenomicVariantAllelicReadDepth(BackboneElement):
     )
     code: CodeableConcept = Field(
         description="82121-5",
-        default_factory=lambda: CodeableConcept(coding=[Coding(code="82121-5", system="http://loinc.org")]),
+        default_factory=lambda: CodeableConcept(
+            coding=[Coding(code="82121-5", system="http://loinc.org")]
+        ),
     )
     valueQuantity: Optional[Quantity] = Field(
         description="Unfiltered count of supporting reads",
@@ -1814,58 +2391,81 @@ class OnconovaGenomicVariantAllelicReadDepth(BackboneElement):
         description="High, low, normal, etc.",
         default=None,
     )
-    referenceRange: Optional[List['OnconovaGenomicVariantAllelicReadDepthReferenceRange']] = Field(
+    referenceRange: Optional[List["ObservationComponentReferenceRange"]] = Field(
         description="Provides guide for interpretation of component result",
         default=None,
     )
-    
-    @property 
+
+    @property
     def value(self):
-        return get_type_choice_value_by_base(self, 
+        return get_type_choice_value_by_base(
+            self,
             base="value",
         )
-        
-    @field_validator(*('referenceRange', 'interpretation', 'dataAbsentReason', 'code', 'modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *(
+            "referenceRange",
+            "interpretation",
+            "dataAbsentReason",
+            "code",
+            "modifierExtension",
+            "extension",
+        ),
+        mode="after",
+        check_fields=None
+    )
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
-    @field_validator(*('modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *("modifierExtension", "extension"), mode="after", check_fields=None
+    )
     @classmethod
-    def FHIR_ext_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ext_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
-    @field_validator(*('code',), mode="after", check_fields=None)
+
+    @field_validator(*("code",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_code_pattern_constraint(cls, value):    
-        return validate_FHIR_element_pattern(cls, value, 
-            pattern=CodeableConcept(coding=[Coding(code="82121-5", system="http://loinc.org")]),
+    def FHIR_code_pattern_constraint(cls, value):
+        return validate_FHIR_element_pattern(
+            cls,
+            value,
+            pattern=CodeableConcept(
+                coding=[Coding(code="82121-5", system="http://loinc.org")]
+            ),
         )
-        
+
     @model_validator(mode="after")
     def value_type_choice_validator(self):
-        return validate_type_choice_element( 
+        return validate_type_choice_element(
             self,
             field_types=[Quantity],
             field_name_base="value",
             required=False,
         )
-        
- 
+
+
 class OnconovaGenomicVariantAllelicState(BackboneElement):
     """
     Allelic State
     """
+
     extension: Optional[List[Extension]] = Field(
         description="Additional content defined by implementations",
         default=None,
@@ -1876,7 +2476,9 @@ class OnconovaGenomicVariantAllelicState(BackboneElement):
     )
     code: CodeableConcept = Field(
         description="53034-5",
-        default_factory=lambda: CodeableConcept(coding=[Coding(code="53034-5", system="http://loinc.org")]),
+        default_factory=lambda: CodeableConcept(
+            coding=[Coding(code="53034-5", system="http://loinc.org")]
+        ),
     )
     valueCodeableConcept: Optional[CodeableConcept] = Field(
         description="Heteroplasmic | Homoplasmic | Homozygous | Heterozygous | Hemizygous",
@@ -1890,58 +2492,81 @@ class OnconovaGenomicVariantAllelicState(BackboneElement):
         description="High, low, normal, etc.",
         default=None,
     )
-    referenceRange: Optional[List['OnconovaGenomicVariantAllelicStateReferenceRange']] = Field(
+    referenceRange: Optional[List["ObservationComponentReferenceRange"]] = Field(
         description="Provides guide for interpretation of component result",
         default=None,
     )
-    
-    @property 
+
+    @property
     def value(self):
-        return get_type_choice_value_by_base(self, 
+        return get_type_choice_value_by_base(
+            self,
             base="value",
         )
-        
-    @field_validator(*('referenceRange', 'interpretation', 'dataAbsentReason', 'code', 'modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *(
+            "referenceRange",
+            "interpretation",
+            "dataAbsentReason",
+            "code",
+            "modifierExtension",
+            "extension",
+        ),
+        mode="after",
+        check_fields=None
+    )
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
-    @field_validator(*('modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *("modifierExtension", "extension"), mode="after", check_fields=None
+    )
     @classmethod
-    def FHIR_ext_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ext_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
-    @field_validator(*('code',), mode="after", check_fields=None)
+
+    @field_validator(*("code",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_code_pattern_constraint(cls, value):    
-        return validate_FHIR_element_pattern(cls, value, 
-            pattern=CodeableConcept(coding=[Coding(code="53034-5", system="http://loinc.org")]),
+    def FHIR_code_pattern_constraint(cls, value):
+        return validate_FHIR_element_pattern(
+            cls,
+            value,
+            pattern=CodeableConcept(
+                coding=[Coding(code="53034-5", system="http://loinc.org")]
+            ),
         )
-        
+
     @model_validator(mode="after")
     def value_type_choice_validator(self):
-        return validate_type_choice_element( 
+        return validate_type_choice_element(
             self,
             field_types=[CodeableConcept],
             field_name_base="value",
             required=True,
         )
-        
- 
+
+
 class OnconovaGenomicVariantVariantInheritance(BackboneElement):
     """
     Variant Inheritance
     """
+
     extension: Optional[List[Extension]] = Field(
         description="Additional content defined by implementations",
         default=None,
@@ -1952,7 +2577,14 @@ class OnconovaGenomicVariantVariantInheritance(BackboneElement):
     )
     code: CodeableConcept = Field(
         description="variant-inheritance",
-        default_factory=lambda: CodeableConcept(coding=[Coding(code="variant-inheritance", system="http://hl7.org/fhir/uv/genomics-reporting/CodeSystem/tbd-codes-cs")]),
+        default_factory=lambda: CodeableConcept(
+            coding=[
+                Coding(
+                    code="variant-inheritance",
+                    system="http://hl7.org/fhir/uv/genomics-reporting/CodeSystem/tbd-codes-cs",
+                )
+            ]
+        ),
     )
     valueCodeableConcept: Optional[CodeableConcept] = Field(
         description="Maternal | Paternal | Unknown",
@@ -1966,58 +2598,86 @@ class OnconovaGenomicVariantVariantInheritance(BackboneElement):
         description="High, low, normal, etc.",
         default=None,
     )
-    referenceRange: Optional[List['OnconovaGenomicVariantVariantInheritanceReferenceRange']] = Field(
+    referenceRange: Optional[List["ObservationComponentReferenceRange"]] = Field(
         description="Provides guide for interpretation of component result",
         default=None,
     )
-    
-    @property 
+
+    @property
     def value(self):
-        return get_type_choice_value_by_base(self, 
+        return get_type_choice_value_by_base(
+            self,
             base="value",
         )
-        
-    @field_validator(*('referenceRange', 'interpretation', 'dataAbsentReason', 'code', 'modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *(
+            "referenceRange",
+            "interpretation",
+            "dataAbsentReason",
+            "code",
+            "modifierExtension",
+            "extension",
+        ),
+        mode="after",
+        check_fields=None
+    )
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
-    @field_validator(*('modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *("modifierExtension", "extension"), mode="after", check_fields=None
+    )
     @classmethod
-    def FHIR_ext_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ext_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
-    @field_validator(*('code',), mode="after", check_fields=None)
+
+    @field_validator(*("code",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_code_pattern_constraint(cls, value):    
-        return validate_FHIR_element_pattern(cls, value, 
-            pattern=CodeableConcept(coding=[Coding(code="variant-inheritance", system="http://hl7.org/fhir/uv/genomics-reporting/CodeSystem/tbd-codes-cs")]),
+    def FHIR_code_pattern_constraint(cls, value):
+        return validate_FHIR_element_pattern(
+            cls,
+            value,
+            pattern=CodeableConcept(
+                coding=[
+                    Coding(
+                        code="variant-inheritance",
+                        system="http://hl7.org/fhir/uv/genomics-reporting/CodeSystem/tbd-codes-cs",
+                    )
+                ]
+            ),
         )
-        
+
     @model_validator(mode="after")
     def value_type_choice_validator(self):
-        return validate_type_choice_element( 
+        return validate_type_choice_element(
             self,
             field_types=[CodeableConcept],
             field_name_base="value",
             required=True,
         )
-        
- 
+
+
 class OnconovaGenomicVariantVariationCode(BackboneElement):
     """
     Variation Code
     """
+
     extension: Optional[List[Extension]] = Field(
         description="Additional content defined by implementations",
         default=None,
@@ -2028,7 +2688,9 @@ class OnconovaGenomicVariantVariationCode(BackboneElement):
     )
     code: CodeableConcept = Field(
         description="81252-9",
-        default_factory=lambda: CodeableConcept(coding=[Coding(code="81252-9", system="http://loinc.org")]),
+        default_factory=lambda: CodeableConcept(
+            coding=[Coding(code="81252-9", system="http://loinc.org")]
+        ),
     )
     valueCodeableConcept: Optional[CodeableConcept] = Field(
         description="ClinVar ID or similar",
@@ -2042,58 +2704,81 @@ class OnconovaGenomicVariantVariationCode(BackboneElement):
         description="High, low, normal, etc.",
         default=None,
     )
-    referenceRange: Optional[List['OnconovaGenomicVariantVariationCodeReferenceRange']] = Field(
+    referenceRange: Optional[List["ObservationComponentReferenceRange"]] = Field(
         description="Provides guide for interpretation of component result",
         default=None,
     )
-    
-    @property 
+
+    @property
     def value(self):
-        return get_type_choice_value_by_base(self, 
+        return get_type_choice_value_by_base(
+            self,
             base="value",
         )
-        
-    @field_validator(*('referenceRange', 'interpretation', 'dataAbsentReason', 'code', 'modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *(
+            "referenceRange",
+            "interpretation",
+            "dataAbsentReason",
+            "code",
+            "modifierExtension",
+            "extension",
+        ),
+        mode="after",
+        check_fields=None
+    )
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
-    @field_validator(*('modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *("modifierExtension", "extension"), mode="after", check_fields=None
+    )
     @classmethod
-    def FHIR_ext_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ext_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
-    @field_validator(*('code',), mode="after", check_fields=None)
+
+    @field_validator(*("code",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_code_pattern_constraint(cls, value):    
-        return validate_FHIR_element_pattern(cls, value, 
-            pattern=CodeableConcept(coding=[Coding(code="81252-9", system="http://loinc.org")]),
+    def FHIR_code_pattern_constraint(cls, value):
+        return validate_FHIR_element_pattern(
+            cls,
+            value,
+            pattern=CodeableConcept(
+                coding=[Coding(code="81252-9", system="http://loinc.org")]
+            ),
         )
-        
+
     @model_validator(mode="after")
     def value_type_choice_validator(self):
-        return validate_type_choice_element( 
+        return validate_type_choice_element(
             self,
             field_types=[CodeableConcept],
             field_name_base="value",
             required=True,
         )
-        
- 
+
+
 class OnconovaGenomicVariantChromosomeIdentifier(BackboneElement):
     """
     Chromosome Identifier
     """
+
     extension: Optional[List[Extension]] = Field(
         description="Additional content defined by implementations",
         default=None,
@@ -2104,7 +2789,9 @@ class OnconovaGenomicVariantChromosomeIdentifier(BackboneElement):
     )
     code: CodeableConcept = Field(
         description="48000-4",
-        default_factory=lambda: CodeableConcept(coding=[Coding(code="48000-4", system="http://loinc.org")]),
+        default_factory=lambda: CodeableConcept(
+            coding=[Coding(code="48000-4", system="http://loinc.org")]
+        ),
     )
     valueCodeableConcept: Optional[CodeableConcept] = Field(
         description="Chromosome 1 | Chromosome 2 | ... | Chromosome 22 | Chromosome X | Chromosome Y",
@@ -2118,58 +2805,81 @@ class OnconovaGenomicVariantChromosomeIdentifier(BackboneElement):
         description="High, low, normal, etc.",
         default=None,
     )
-    referenceRange: Optional[List['OnconovaGenomicVariantChromosomeIdentifierReferenceRange']] = Field(
+    referenceRange: Optional[List["ObservationComponentReferenceRange"]] = Field(
         description="Provides guide for interpretation of component result",
         default=None,
     )
-    
-    @property 
+
+    @property
     def value(self):
-        return get_type_choice_value_by_base(self, 
+        return get_type_choice_value_by_base(
+            self,
             base="value",
         )
-        
-    @field_validator(*('referenceRange', 'interpretation', 'dataAbsentReason', 'code', 'modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *(
+            "referenceRange",
+            "interpretation",
+            "dataAbsentReason",
+            "code",
+            "modifierExtension",
+            "extension",
+        ),
+        mode="after",
+        check_fields=None
+    )
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
-    @field_validator(*('modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *("modifierExtension", "extension"), mode="after", check_fields=None
+    )
     @classmethod
-    def FHIR_ext_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ext_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
-    @field_validator(*('code',), mode="after", check_fields=None)
+
+    @field_validator(*("code",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_code_pattern_constraint(cls, value):    
-        return validate_FHIR_element_pattern(cls, value, 
-            pattern=CodeableConcept(coding=[Coding(code="48000-4", system="http://loinc.org")]),
+    def FHIR_code_pattern_constraint(cls, value):
+        return validate_FHIR_element_pattern(
+            cls,
+            value,
+            pattern=CodeableConcept(
+                coding=[Coding(code="48000-4", system="http://loinc.org")]
+            ),
         )
-        
+
     @model_validator(mode="after")
     def value_type_choice_validator(self):
-        return validate_type_choice_element( 
+        return validate_type_choice_element(
             self,
             field_types=[CodeableConcept],
             field_name_base="value",
             required=True,
         )
-        
- 
+
+
 class OnconovaGenomicVariantProteinHgvs(BackboneElement):
     """
     Protein (Amino Acid) Change - pHGVS
     """
+
     extension: Optional[List[Extension]] = Field(
         description="Additional content defined by implementations",
         default=None,
@@ -2180,7 +2890,9 @@ class OnconovaGenomicVariantProteinHgvs(BackboneElement):
     )
     code: CodeableConcept = Field(
         description="48005-3",
-        default_factory=lambda: CodeableConcept(coding=[Coding(code="48005-3", system="http://loinc.org")]),
+        default_factory=lambda: CodeableConcept(
+            coding=[Coding(code="48005-3", system="http://loinc.org")]
+        ),
     )
     valueCodeableConcept: Optional[CodeableConcept] = Field(
         description="A valid HGVS-formatted (version \u003e= {hgvsVersion component}) \u0027p.\u0027 string, e.g. NP_000050.2:p.(Asn1836Lys)",
@@ -2194,58 +2906,81 @@ class OnconovaGenomicVariantProteinHgvs(BackboneElement):
         description="High, low, normal, etc.",
         default=None,
     )
-    referenceRange: Optional[List['OnconovaGenomicVariantProteinHgvsReferenceRange']] = Field(
+    referenceRange: Optional[List["ObservationComponentReferenceRange"]] = Field(
         description="Provides guide for interpretation of component result",
         default=None,
     )
-    
-    @property 
+
+    @property
     def value(self):
-        return get_type_choice_value_by_base(self, 
+        return get_type_choice_value_by_base(
+            self,
             base="value",
         )
-        
-    @field_validator(*('referenceRange', 'interpretation', 'dataAbsentReason', 'code', 'modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *(
+            "referenceRange",
+            "interpretation",
+            "dataAbsentReason",
+            "code",
+            "modifierExtension",
+            "extension",
+        ),
+        mode="after",
+        check_fields=None
+    )
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
-    @field_validator(*('modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *("modifierExtension", "extension"), mode="after", check_fields=None
+    )
     @classmethod
-    def FHIR_ext_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ext_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
-    @field_validator(*('code',), mode="after", check_fields=None)
+
+    @field_validator(*("code",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_code_pattern_constraint(cls, value):    
-        return validate_FHIR_element_pattern(cls, value, 
-            pattern=CodeableConcept(coding=[Coding(code="48005-3", system="http://loinc.org")]),
+    def FHIR_code_pattern_constraint(cls, value):
+        return validate_FHIR_element_pattern(
+            cls,
+            value,
+            pattern=CodeableConcept(
+                coding=[Coding(code="48005-3", system="http://loinc.org")]
+            ),
         )
-        
+
     @model_validator(mode="after")
     def value_type_choice_validator(self):
-        return validate_type_choice_element( 
+        return validate_type_choice_element(
             self,
             field_types=[CodeableConcept],
             field_name_base="value",
             required=True,
         )
-        
- 
+
+
 class OnconovaGenomicVariantAminoAcidChangeType(BackboneElement):
     """
     Amino Acid Change Type
     """
+
     extension: Optional[List[Extension]] = Field(
         description="Additional content defined by implementations",
         default=None,
@@ -2256,7 +2991,9 @@ class OnconovaGenomicVariantAminoAcidChangeType(BackboneElement):
     )
     code: CodeableConcept = Field(
         description="48006-1",
-        default_factory=lambda: CodeableConcept(coding=[Coding(code="48006-1", system="http://loinc.org")]),
+        default_factory=lambda: CodeableConcept(
+            coding=[Coding(code="48006-1", system="http://loinc.org")]
+        ),
     )
     valueCodeableConcept: Optional[CodeableConcept] = Field(
         description="Wild type | Deletion | Duplication | Frameshift | Initiating Methionine | Insertion | Insertion and Deletion | Missense | Nonsense | Silent",
@@ -2270,58 +3007,81 @@ class OnconovaGenomicVariantAminoAcidChangeType(BackboneElement):
         description="High, low, normal, etc.",
         default=None,
     )
-    referenceRange: Optional[List['OnconovaGenomicVariantAminoAcidChangeTypeReferenceRange']] = Field(
+    referenceRange: Optional[List["ObservationComponentReferenceRange"]] = Field(
         description="Provides guide for interpretation of component result",
         default=None,
     )
-    
-    @property 
+
+    @property
     def value(self):
-        return get_type_choice_value_by_base(self, 
+        return get_type_choice_value_by_base(
+            self,
             base="value",
         )
-        
-    @field_validator(*('referenceRange', 'interpretation', 'dataAbsentReason', 'code', 'modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *(
+            "referenceRange",
+            "interpretation",
+            "dataAbsentReason",
+            "code",
+            "modifierExtension",
+            "extension",
+        ),
+        mode="after",
+        check_fields=None
+    )
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
-    @field_validator(*('modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *("modifierExtension", "extension"), mode="after", check_fields=None
+    )
     @classmethod
-    def FHIR_ext_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ext_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
-    @field_validator(*('code',), mode="after", check_fields=None)
+
+    @field_validator(*("code",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_code_pattern_constraint(cls, value):    
-        return validate_FHIR_element_pattern(cls, value, 
-            pattern=CodeableConcept(coding=[Coding(code="48006-1", system="http://loinc.org")]),
+    def FHIR_code_pattern_constraint(cls, value):
+        return validate_FHIR_element_pattern(
+            cls,
+            value,
+            pattern=CodeableConcept(
+                coding=[Coding(code="48006-1", system="http://loinc.org")]
+            ),
         )
-        
+
     @model_validator(mode="after")
     def value_type_choice_validator(self):
-        return validate_type_choice_element( 
+        return validate_type_choice_element(
             self,
             field_types=[CodeableConcept],
             field_name_base="value",
             required=True,
         )
-        
- 
+
+
 class OnconovaGenomicVariantMolecularConsequence(BackboneElement):
     """
     Molecular Consequence
     """
+
     extension: Optional[List[Extension]] = Field(
         description="Additional content defined by implementations",
         default=None,
@@ -2332,7 +3092,14 @@ class OnconovaGenomicVariantMolecularConsequence(BackboneElement):
     )
     code: CodeableConcept = Field(
         description="molecular-consequence",
-        default_factory=lambda: CodeableConcept(coding=[Coding(code="molecular-consequence", system="http://hl7.org/fhir/uv/genomics-reporting/CodeSystem/tbd-codes-cs")]),
+        default_factory=lambda: CodeableConcept(
+            coding=[
+                Coding(
+                    code="molecular-consequence",
+                    system="http://hl7.org/fhir/uv/genomics-reporting/CodeSystem/tbd-codes-cs",
+                )
+            ]
+        ),
     )
     valueCodeableConcept: Optional[CodeableConcept] = Field(
         description="stop_lost | stop_gained | inframe_insertion | frameshift_variant | ... (many)",
@@ -2346,58 +3113,86 @@ class OnconovaGenomicVariantMolecularConsequence(BackboneElement):
         description="High, low, normal, etc.",
         default=None,
     )
-    referenceRange: Optional[List['OnconovaGenomicVariantMolecularConsequenceReferenceRange']] = Field(
+    referenceRange: Optional[List["ObservationComponentReferenceRange"]] = Field(
         description="Provides guide for interpretation of component result",
         default=None,
     )
-    
-    @property 
+
+    @property
     def value(self):
-        return get_type_choice_value_by_base(self, 
+        return get_type_choice_value_by_base(
+            self,
             base="value",
         )
-        
-    @field_validator(*('referenceRange', 'interpretation', 'dataAbsentReason', 'code', 'modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *(
+            "referenceRange",
+            "interpretation",
+            "dataAbsentReason",
+            "code",
+            "modifierExtension",
+            "extension",
+        ),
+        mode="after",
+        check_fields=None
+    )
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
-    @field_validator(*('modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *("modifierExtension", "extension"), mode="after", check_fields=None
+    )
     @classmethod
-    def FHIR_ext_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ext_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
-    @field_validator(*('code',), mode="after", check_fields=None)
+
+    @field_validator(*("code",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_code_pattern_constraint(cls, value):    
-        return validate_FHIR_element_pattern(cls, value, 
-            pattern=CodeableConcept(coding=[Coding(code="molecular-consequence", system="http://hl7.org/fhir/uv/genomics-reporting/CodeSystem/tbd-codes-cs")]),
+    def FHIR_code_pattern_constraint(cls, value):
+        return validate_FHIR_element_pattern(
+            cls,
+            value,
+            pattern=CodeableConcept(
+                coding=[
+                    Coding(
+                        code="molecular-consequence",
+                        system="http://hl7.org/fhir/uv/genomics-reporting/CodeSystem/tbd-codes-cs",
+                    )
+                ]
+            ),
         )
-        
+
     @model_validator(mode="after")
     def value_type_choice_validator(self):
-        return validate_type_choice_element( 
+        return validate_type_choice_element(
             self,
             field_types=[CodeableConcept],
             field_name_base="value",
             required=True,
         )
-        
- 
+
+
 class OnconovaGenomicVariantCopyNumber(BackboneElement):
     """
     Genomic Structural Variant Copy Number
     """
+
     extension: Optional[List[Extension]] = Field(
         description="Additional content defined by implementations",
         default=None,
@@ -2408,7 +3203,9 @@ class OnconovaGenomicVariantCopyNumber(BackboneElement):
     )
     code: CodeableConcept = Field(
         description="82155-3",
-        default_factory=lambda: CodeableConcept(coding=[Coding(code="82155-3", system="http://loinc.org")]),
+        default_factory=lambda: CodeableConcept(
+            coding=[Coding(code="82155-3", system="http://loinc.org")]
+        ),
     )
     valueQuantity: Optional[Quantity] = Field(
         description="Actual component result",
@@ -2422,58 +3219,81 @@ class OnconovaGenomicVariantCopyNumber(BackboneElement):
         description="High, low, normal, etc.",
         default=None,
     )
-    referenceRange: Optional[List['OnconovaGenomicVariantCopyNumberReferenceRange']] = Field(
+    referenceRange: Optional[List["ObservationComponentReferenceRange"]] = Field(
         description="Provides guide for interpretation of component result",
         default=None,
     )
-    
-    @property 
+
+    @property
     def value(self):
-        return get_type_choice_value_by_base(self, 
+        return get_type_choice_value_by_base(
+            self,
             base="value",
         )
-        
-    @field_validator(*('referenceRange', 'interpretation', 'dataAbsentReason', 'code', 'modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *(
+            "referenceRange",
+            "interpretation",
+            "dataAbsentReason",
+            "code",
+            "modifierExtension",
+            "extension",
+        ),
+        mode="after",
+        check_fields=None
+    )
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
-    @field_validator(*('modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *("modifierExtension", "extension"), mode="after", check_fields=None
+    )
     @classmethod
-    def FHIR_ext_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ext_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
-    @field_validator(*('code',), mode="after", check_fields=None)
+
+    @field_validator(*("code",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_code_pattern_constraint(cls, value):    
-        return validate_FHIR_element_pattern(cls, value, 
-            pattern=CodeableConcept(coding=[Coding(code="82155-3", system="http://loinc.org")]),
+    def FHIR_code_pattern_constraint(cls, value):
+        return validate_FHIR_element_pattern(
+            cls,
+            value,
+            pattern=CodeableConcept(
+                coding=[Coding(code="82155-3", system="http://loinc.org")]
+            ),
         )
-        
+
     @model_validator(mode="after")
     def value_type_choice_validator(self):
-        return validate_type_choice_element( 
+        return validate_type_choice_element(
             self,
             field_types=[Quantity],
             field_name_base="value",
             required=False,
         )
-        
- 
+
+
 class OnconovaGenomicVariantVariantConfidenceStatus(BackboneElement):
     """
     Variant Confidence Status
     """
+
     extension: Optional[List[Extension]] = Field(
         description="Additional content defined by implementations",
         default=None,
@@ -2484,7 +3304,14 @@ class OnconovaGenomicVariantVariantConfidenceStatus(BackboneElement):
     )
     code: CodeableConcept = Field(
         description="variant-confidence-status",
-        default_factory=lambda: CodeableConcept(coding=[Coding(code="variant-confidence-status", system="http://hl7.org/fhir/uv/genomics-reporting/CodeSystem/tbd-codes-cs")]),
+        default_factory=lambda: CodeableConcept(
+            coding=[
+                Coding(
+                    code="variant-confidence-status",
+                    system="http://hl7.org/fhir/uv/genomics-reporting/CodeSystem/tbd-codes-cs",
+                )
+            ]
+        ),
     )
     valueCodeableConcept: Optional[CodeableConcept] = Field(
         description="High | Intermediate | Low",
@@ -2498,58 +3325,86 @@ class OnconovaGenomicVariantVariantConfidenceStatus(BackboneElement):
         description="High, low, normal, etc.",
         default=None,
     )
-    referenceRange: Optional[List['OnconovaGenomicVariantVariantConfidenceStatusReferenceRange']] = Field(
+    referenceRange: Optional[List["ObservationComponentReferenceRange"]] = Field(
         description="Provides guide for interpretation of component result",
         default=None,
     )
-    
-    @property 
+
+    @property
     def value(self):
-        return get_type_choice_value_by_base(self, 
+        return get_type_choice_value_by_base(
+            self,
             base="value",
         )
-        
-    @field_validator(*('referenceRange', 'interpretation', 'dataAbsentReason', 'code', 'modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *(
+            "referenceRange",
+            "interpretation",
+            "dataAbsentReason",
+            "code",
+            "modifierExtension",
+            "extension",
+        ),
+        mode="after",
+        check_fields=None
+    )
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
-    @field_validator(*('modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *("modifierExtension", "extension"), mode="after", check_fields=None
+    )
     @classmethod
-    def FHIR_ext_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ext_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
-    @field_validator(*('code',), mode="after", check_fields=None)
+
+    @field_validator(*("code",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_code_pattern_constraint(cls, value):    
-        return validate_FHIR_element_pattern(cls, value, 
-            pattern=CodeableConcept(coding=[Coding(code="variant-confidence-status", system="http://hl7.org/fhir/uv/genomics-reporting/CodeSystem/tbd-codes-cs")]),
+    def FHIR_code_pattern_constraint(cls, value):
+        return validate_FHIR_element_pattern(
+            cls,
+            value,
+            pattern=CodeableConcept(
+                coding=[
+                    Coding(
+                        code="variant-confidence-status",
+                        system="http://hl7.org/fhir/uv/genomics-reporting/CodeSystem/tbd-codes-cs",
+                    )
+                ]
+            ),
         )
-        
+
     @model_validator(mode="after")
     def value_type_choice_validator(self):
-        return validate_type_choice_element( 
+        return validate_type_choice_element(
             self,
             field_types=[CodeableConcept],
             field_name_base="value",
             required=True,
         )
-        
- 
+
+
 class OnconovaGenomicVariantClinicalRelevance(BackboneElement):
     """
     Clinical relevance of the genomic variant
     """
+
     extension: Optional[List[Extension]] = Field(
         description="Additional content defined by implementations",
         default=None,
@@ -2560,7 +3415,15 @@ class OnconovaGenomicVariantClinicalRelevance(BackboneElement):
     )
     code: CodeableConcept = Field(
         description="Type of component observation (code / type)",
-        default_factory=lambda: CodeableConcept(coding=[Coding(code="LL4034-6", display="ACMG_Clinical significance of genetic variation", system="http://loinc.org")]),
+        default_factory=lambda: CodeableConcept(
+            coding=[
+                Coding(
+                    code="LL4034-6",
+                    display="ACMG_Clinical significance of genetic variation",
+                    system="http://loinc.org",
+                )
+            ]
+        ),
     )
     valueCodeableConcept: Optional[CodeableConcept] = Field(
         description="Actual component result",
@@ -2574,58 +3437,87 @@ class OnconovaGenomicVariantClinicalRelevance(BackboneElement):
         description="High, low, normal, etc.",
         default=None,
     )
-    referenceRange: Optional[List['OnconovaGenomicVariantClinicalRelevanceReferenceRange']] = Field(
+    referenceRange: Optional[List["ObservationComponentReferenceRange"]] = Field(
         description="Provides guide for interpretation of component result",
         default=None,
     )
-    
-    @property 
+
+    @property
     def value(self):
-        return get_type_choice_value_by_base(self, 
+        return get_type_choice_value_by_base(
+            self,
             base="value",
         )
-        
-    @field_validator(*('referenceRange', 'interpretation', 'dataAbsentReason', 'code', 'modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *(
+            "referenceRange",
+            "interpretation",
+            "dataAbsentReason",
+            "code",
+            "modifierExtension",
+            "extension",
+        ),
+        mode="after",
+        check_fields=None
+    )
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
-    @field_validator(*('modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *("modifierExtension", "extension"), mode="after", check_fields=None
+    )
     @classmethod
-    def FHIR_ext_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ext_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
-    @field_validator(*('code',), mode="after", check_fields=None)
+
+    @field_validator(*("code",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_code_pattern_constraint(cls, value):    
-        return validate_FHIR_element_pattern(cls, value, 
-            pattern=CodeableConcept(coding=[Coding(code="LL4034-6", display="ACMG_Clinical significance of genetic variation", system="http://loinc.org")]),
+    def FHIR_code_pattern_constraint(cls, value):
+        return validate_FHIR_element_pattern(
+            cls,
+            value,
+            pattern=CodeableConcept(
+                coding=[
+                    Coding(
+                        code="LL4034-6",
+                        display="ACMG_Clinical significance of genetic variation",
+                        system="http://loinc.org",
+                    )
+                ]
+            ),
         )
-        
+
     @model_validator(mode="after")
     def value_type_choice_validator(self):
-        return validate_type_choice_element( 
+        return validate_type_choice_element(
             self,
             field_types=[CodeableConcept],
             field_name_base="value",
             required=False,
         )
-        
- 
+
+
 class OnconovaGenomicVariantNucleotidesCount(BackboneElement):
     """
     Length of of the variant in nNucleotides
     """
+
     extension: Optional[List[Extension]] = Field(
         description="Additional content defined by implementations",
         default=None,
@@ -2636,7 +3528,15 @@ class OnconovaGenomicVariantNucleotidesCount(BackboneElement):
     )
     code: CodeableConcept = Field(
         description="Type of component observation (code / type)",
-        default_factory=lambda: CodeableConcept(coding=[Coding(code="C709", display="Nucleotides", system="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl")]),
+        default_factory=lambda: CodeableConcept(
+            coding=[
+                Coding(
+                    code="C709",
+                    display="Nucleotides",
+                    system="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+                )
+            ]
+        ),
     )
     valueInteger: Optional[Integer] = Field(
         description="Actual component result",
@@ -2650,58 +3550,87 @@ class OnconovaGenomicVariantNucleotidesCount(BackboneElement):
         description="High, low, normal, etc.",
         default=None,
     )
-    referenceRange: Optional[List['OnconovaGenomicVariantNucleotidesCountReferenceRange']] = Field(
+    referenceRange: Optional[List["ObservationComponentReferenceRange"]] = Field(
         description="Provides guide for interpretation of component result",
         default=None,
     )
-    
-    @property 
+
+    @property
     def value(self):
-        return get_type_choice_value_by_base(self, 
+        return get_type_choice_value_by_base(
+            self,
             base="value",
         )
-        
-    @field_validator(*('referenceRange', 'interpretation', 'dataAbsentReason', 'code', 'modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *(
+            "referenceRange",
+            "interpretation",
+            "dataAbsentReason",
+            "code",
+            "modifierExtension",
+            "extension",
+        ),
+        mode="after",
+        check_fields=None
+    )
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
-    @field_validator(*('modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *("modifierExtension", "extension"), mode="after", check_fields=None
+    )
     @classmethod
-    def FHIR_ext_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ext_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
-    @field_validator(*('code',), mode="after", check_fields=None)
+
+    @field_validator(*("code",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_code_pattern_constraint(cls, value):    
-        return validate_FHIR_element_pattern(cls, value, 
-            pattern=CodeableConcept(coding=[Coding(code="C709", display="Nucleotides", system="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl")]),
+    def FHIR_code_pattern_constraint(cls, value):
+        return validate_FHIR_element_pattern(
+            cls,
+            value,
+            pattern=CodeableConcept(
+                coding=[
+                    Coding(
+                        code="C709",
+                        display="Nucleotides",
+                        system="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+                    )
+                ]
+            ),
         )
-        
+
     @model_validator(mode="after")
     def value_type_choice_validator(self):
-        return validate_type_choice_element( 
+        return validate_type_choice_element(
             self,
             field_types=[Integer],
             field_name_base="value",
             required=False,
         )
-        
- 
+
+
 class OnconovaGenomicVariantGeneRegion(BackboneElement):
     """
     Region (exon, intron, etc.) of the gene affected by the variant
     """
+
     extension: Optional[List[Extension]] = Field(
         description="Additional content defined by implementations",
         default=None,
@@ -2712,7 +3641,15 @@ class OnconovaGenomicVariantGeneRegion(BackboneElement):
     )
     code: CodeableConcept = Field(
         description="Type of component observation (code / type)",
-        default_factory=lambda: CodeableConcept(coding=[Coding(code="C13445", display="Gene Feature", system="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl")]),
+        default_factory=lambda: CodeableConcept(
+            coding=[
+                Coding(
+                    code="C13445",
+                    display="Gene Feature",
+                    system="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+                )
+            ]
+        ),
     )
     valueString: Optional[String] = Field(
         description="Actual component result",
@@ -2726,58 +3663,87 @@ class OnconovaGenomicVariantGeneRegion(BackboneElement):
         description="High, low, normal, etc.",
         default=None,
     )
-    referenceRange: Optional[List['OnconovaGenomicVariantGeneRegionReferenceRange']] = Field(
+    referenceRange: Optional[List["ObservationComponentReferenceRange"]] = Field(
         description="Provides guide for interpretation of component result",
         default=None,
     )
-    
-    @property 
+
+    @property
     def value(self):
-        return get_type_choice_value_by_base(self, 
+        return get_type_choice_value_by_base(
+            self,
             base="value",
         )
-        
-    @field_validator(*('referenceRange', 'interpretation', 'dataAbsentReason', 'code', 'modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *(
+            "referenceRange",
+            "interpretation",
+            "dataAbsentReason",
+            "code",
+            "modifierExtension",
+            "extension",
+        ),
+        mode="after",
+        check_fields=None
+    )
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
-    @field_validator(*('modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *("modifierExtension", "extension"), mode="after", check_fields=None
+    )
     @classmethod
-    def FHIR_ext_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ext_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
-    @field_validator(*('code',), mode="after", check_fields=None)
+
+    @field_validator(*("code",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_code_pattern_constraint(cls, value):    
-        return validate_FHIR_element_pattern(cls, value, 
-            pattern=CodeableConcept(coding=[Coding(code="C13445", display="Gene Feature", system="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl")]),
+    def FHIR_code_pattern_constraint(cls, value):
+        return validate_FHIR_element_pattern(
+            cls,
+            value,
+            pattern=CodeableConcept(
+                coding=[
+                    Coding(
+                        code="C13445",
+                        display="Gene Feature",
+                        system="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+                    )
+                ]
+            ),
         )
-        
+
     @model_validator(mode="after")
     def value_type_choice_validator(self):
-        return validate_type_choice_element( 
+        return validate_type_choice_element(
             self,
             field_types=[String],
             field_name_base="value",
             required=False,
         )
-        
- 
+
+
 class OnconovaGenomicVariantRnaHgvs(BackboneElement):
     """
     Component results
     """
+
     extension: Optional[List[Extension]] = Field(
         description="Additional content defined by implementations",
         default=None,
@@ -2788,7 +3754,15 @@ class OnconovaGenomicVariantRnaHgvs(BackboneElement):
     )
     code: CodeableConcept = Field(
         description="Type of component observation (code / type)",
-        default_factory=lambda: CodeableConcept(coding=[Coding(code="rna-hgvs", display="Transcript RNA change (rHGVS)", system="http://onconova.github.io/fhir/CodeSystem/onconova-cs-tbd")]),
+        default_factory=lambda: CodeableConcept(
+            coding=[
+                Coding(
+                    code="rna-hgvs",
+                    display="Transcript RNA change (rHGVS)",
+                    system="http://onconova.github.io/fhir/CodeSystem/onconova-cs-tbd",
+                )
+            ]
+        ),
     )
     valueCodeableConcept: Optional[CodeableConcept] = Field(
         description="A valid HGVS-formatted (version \u003e= {hgvsVersion component}) \u0027r.\u0027 string, e.g. NM_005228.5:r.2369c\u003et",
@@ -2802,58 +3776,87 @@ class OnconovaGenomicVariantRnaHgvs(BackboneElement):
         description="High, low, normal, etc.",
         default=None,
     )
-    referenceRange: Optional[List['OnconovaGenomicVariantRnaHgvsReferenceRange']] = Field(
+    referenceRange: Optional[List["ObservationComponentReferenceRange"]] = Field(
         description="Provides guide for interpretation of component result",
         default=None,
     )
-    
-    @property 
+
+    @property
     def value(self):
-        return get_type_choice_value_by_base(self, 
+        return get_type_choice_value_by_base(
+            self,
             base="value",
         )
-        
-    @field_validator(*('referenceRange', 'interpretation', 'dataAbsentReason', 'code', 'modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *(
+            "referenceRange",
+            "interpretation",
+            "dataAbsentReason",
+            "code",
+            "modifierExtension",
+            "extension",
+        ),
+        mode="after",
+        check_fields=None
+    )
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
-    @field_validator(*('modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *("modifierExtension", "extension"), mode="after", check_fields=None
+    )
     @classmethod
-    def FHIR_ext_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ext_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
-    @field_validator(*('code',), mode="after", check_fields=None)
+
+    @field_validator(*("code",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_code_pattern_constraint(cls, value):    
-        return validate_FHIR_element_pattern(cls, value, 
-            pattern=CodeableConcept(coding=[Coding(code="rna-hgvs", display="Transcript RNA change (rHGVS)", system="http://onconova.github.io/fhir/CodeSystem/onconova-cs-tbd")]),
+    def FHIR_code_pattern_constraint(cls, value):
+        return validate_FHIR_element_pattern(
+            cls,
+            value,
+            pattern=CodeableConcept(
+                coding=[
+                    Coding(
+                        code="rna-hgvs",
+                        display="Transcript RNA change (rHGVS)",
+                        system="http://onconova.github.io/fhir/CodeSystem/onconova-cs-tbd",
+                    )
+                ]
+            ),
         )
-        
+
     @model_validator(mode="after")
     def value_type_choice_validator(self):
-        return validate_type_choice_element( 
+        return validate_type_choice_element(
             self,
             field_types=[CodeableConcept],
             field_name_base="value",
             required=False,
         )
-        
- 
+
+
 class OnconovaGenomicVariantGenePanelSequencing(BackboneElement):
     """
     Component results
     """
+
     extension: Optional[List[Extension]] = Field(
         description="Additional content defined by implementations",
         default=None,
@@ -2864,7 +3867,15 @@ class OnconovaGenomicVariantGenePanelSequencing(BackboneElement):
     )
     code: CodeableConcept = Field(
         description="Type of component observation (code / type)",
-        default_factory=lambda: CodeableConcept(coding=[Coding(code="C165600", display="Tumor Panel Sequencing", system="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl")]),
+        default_factory=lambda: CodeableConcept(
+            coding=[
+                Coding(
+                    code="C165600",
+                    display="Tumor Panel Sequencing",
+                    system="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+                )
+            ]
+        ),
     )
     valueString: Optional[String] = Field(
         description="Sequencing Gene Panel",
@@ -2878,58 +3889,87 @@ class OnconovaGenomicVariantGenePanelSequencing(BackboneElement):
         description="High, low, normal, etc.",
         default=None,
     )
-    referenceRange: Optional[List['OnconovaGenomicVariantGenePanelSequencingReferenceRange']] = Field(
+    referenceRange: Optional[List["ObservationComponentReferenceRange"]] = Field(
         description="Provides guide for interpretation of component result",
         default=None,
     )
-    
-    @property 
+
+    @property
     def value(self):
-        return get_type_choice_value_by_base(self, 
+        return get_type_choice_value_by_base(
+            self,
             base="value",
         )
-        
-    @field_validator(*('referenceRange', 'interpretation', 'dataAbsentReason', 'code', 'modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *(
+            "referenceRange",
+            "interpretation",
+            "dataAbsentReason",
+            "code",
+            "modifierExtension",
+            "extension",
+        ),
+        mode="after",
+        check_fields=None
+    )
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
-    @field_validator(*('modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *("modifierExtension", "extension"), mode="after", check_fields=None
+    )
     @classmethod
-    def FHIR_ext_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ext_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
-    @field_validator(*('code',), mode="after", check_fields=None)
+
+    @field_validator(*("code",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_code_pattern_constraint(cls, value):    
-        return validate_FHIR_element_pattern(cls, value, 
-            pattern=CodeableConcept(coding=[Coding(code="C165600", display="Tumor Panel Sequencing", system="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl")]),
+    def FHIR_code_pattern_constraint(cls, value):
+        return validate_FHIR_element_pattern(
+            cls,
+            value,
+            pattern=CodeableConcept(
+                coding=[
+                    Coding(
+                        code="C165600",
+                        display="Tumor Panel Sequencing",
+                        system="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+                    )
+                ]
+            ),
         )
-        
+
     @model_validator(mode="after")
     def value_type_choice_validator(self):
-        return validate_type_choice_element( 
+        return validate_type_choice_element(
             self,
             field_types=[String],
             field_name_base="value",
             required=False,
         )
-        
- 
+
+
 class OnconovaGenomicVariantHgvsVersion(BackboneElement):
     """
     HGVS Version
     """
+
     extension: Optional[List[Extension]] = Field(
         description="Additional content defined by implementations",
         default=None,
@@ -2940,7 +3980,15 @@ class OnconovaGenomicVariantHgvsVersion(BackboneElement):
     )
     code: CodeableConcept = Field(
         description="Type of component observation (code / type)",
-        default_factory=lambda: CodeableConcept(coding=[Coding(code="81303-0", display="HGVS version [ID]", system="http://loinc.org")]),
+        default_factory=lambda: CodeableConcept(
+            coding=[
+                Coding(
+                    code="81303-0",
+                    display="HGVS version [ID]",
+                    system="http://loinc.org",
+                )
+            ]
+        ),
     )
     valueString: Optional[String] = Field(
         description="Actual component result",
@@ -2954,60 +4002,89 @@ class OnconovaGenomicVariantHgvsVersion(BackboneElement):
         description="High, low, normal, etc.",
         default=None,
     )
-    referenceRange: Optional[List['OnconovaGenomicVariantHgvsVersionReferenceRange']] = Field(
+    referenceRange: Optional[List["ObservationComponentReferenceRange"]] = Field(
         description="Provides guide for interpretation of component result",
         default=None,
     )
-    
-    @property 
+
+    @property
     def value(self):
-        return get_type_choice_value_by_base(self, 
+        return get_type_choice_value_by_base(
+            self,
             base="value",
         )
-        
-    @field_validator(*('referenceRange', 'interpretation', 'dataAbsentReason', 'code', 'modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *(
+            "referenceRange",
+            "interpretation",
+            "dataAbsentReason",
+            "code",
+            "modifierExtension",
+            "extension",
+        ),
+        mode="after",
+        check_fields=None
+    )
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
-    @field_validator(*('modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *("modifierExtension", "extension"), mode="after", check_fields=None
+    )
     @classmethod
-    def FHIR_ext_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ext_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
-    @field_validator(*('code',), mode="after", check_fields=None)
+
+    @field_validator(*("code",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_code_pattern_constraint(cls, value):    
-        return validate_FHIR_element_pattern(cls, value, 
-            pattern=CodeableConcept(coding=[Coding(code="81303-0", display="HGVS version [ID]", system="http://loinc.org")]),
+    def FHIR_code_pattern_constraint(cls, value):
+        return validate_FHIR_element_pattern(
+            cls,
+            value,
+            pattern=CodeableConcept(
+                coding=[
+                    Coding(
+                        code="81303-0",
+                        display="HGVS version [ID]",
+                        system="http://loinc.org",
+                    )
+                ]
+            ),
         )
-        
+
     @model_validator(mode="after")
     def value_type_choice_validator(self):
-        return validate_type_choice_element( 
+        return validate_type_choice_element(
             self,
             field_types=[String],
             field_name_base="value",
             required=False,
         )
-        
- 
+
+
 class OnconovaGenomicVariant(FHIRBaseModel):
     """
-    A profile representing a genomic variant identified for a cancer patient. 
+        A profile representing a genomic variant identified for a cancer patient.
 
-This profile extends the base mCODE [GenomicVariant profile](http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-genomic-variant) (which in turn profiles the Genomics Reporting [Variant profile](http://hl7.org/fhir/uv/genomics-reporting/StructureDefinition/variant)) to include specific constraints and extensions relevant to Onconova.
+    This profile extends the base mCODE [GenomicVariant profile](http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-genomic-variant) (which in turn profiles the Genomics Reporting [Variant profile](http://hl7.org/fhir/uv/genomics-reporting/StructureDefinition/variant)) to include specific constraints and extensions relevant to Onconova.
     """
+
     id: Optional[String] = Field(
         description="Logical id of this artifact",
         default=None,
@@ -3020,7 +4097,12 @@ This profile extends the base mCODE [GenomicVariant profile](http://hl7.org/fhir
     meta: Optional[Meta] = Field(
         title="Meta",
         description="Metadata about the resource.",
-        default_factory=lambda: Meta(profile=['http://onconova.github.io/fhir/StructureDefinition/onconova-genomic-variant'], versionId="0.2.0"),
+        default_factory=lambda: Meta(
+            profile=[
+                "http://onconova.github.io/fhir/StructureDefinition/onconova-genomic-variant"
+            ],
+            versionId="0.2.0",
+        ),
     )
     implicitRules: Optional[Uri] = Field(
         description="A set of rules under which this content was created",
@@ -3048,7 +4130,19 @@ This profile extends the base mCODE [GenomicVariant profile](http://hl7.org/fhir
         description="Contained, inline Resources",
         default=None,
     )
-    extension: Optional[List[Annotated[Union[ObsSecondaryFinding, BodyStructureReference, GenomicAssessmentDate, Extension], Field(union_mode='left_to_right')]]] = Field(
+    extension: Optional[
+        List[
+            Annotated[
+                Union[
+                    ObsSecondaryFinding,
+                    BodyStructureReference,
+                    GenomicAssessmentDate,
+                    Extension,
+                ],
+                Field(union_mode="left_to_right"),
+            ]
+        ]
+    ] = Field(
         description="Extension",
         default=None,
     )
@@ -3077,13 +4171,22 @@ This profile extends the base mCODE [GenomicVariant profile](http://hl7.org/fhir
         default=None,
         alias="_status",
     )
-    category: Optional[List[Annotated[Union[OnconovaGenomicVariantLabCategory, CodeableConcept], Field(union_mode='left_to_right')]]] = Field(
+    category: Optional[
+        List[
+            Annotated[
+                Union[OnconovaGenomicVariantLabCategory, CodeableConcept],
+                Field(union_mode="left_to_right"),
+            ]
+        ]
+    ] = Field(
         description="Classification of  type of observation",
         default=None,
     )
     code: CodeableConcept = Field(
         description="69548-6",
-        default_factory=lambda: CodeableConcept(coding=[Coding(code="69548-6", system="http://loinc.org")]),
+        default_factory=lambda: CodeableConcept(
+            coding=[Coding(code="69548-6", system="http://loinc.org")]
+        ),
     )
     subject: Optional[Reference] = Field(
         description="Who and/or what the observation is about",
@@ -3158,227 +4261,327 @@ This profile extends the base mCODE [GenomicVariant profile](http://hl7.org/fhir
         description="Related measurements the observation is made from",
         default=None,
     )
-    component: Optional[List[Annotated[Union[OnconovaGenomicVariantConclusionString, OnconovaGenomicVariantGeneStudied, OnconovaGenomicVariantCytogeneticLocation, OnconovaGenomicVariantReferenceSequenceAssembly, OnconovaGenomicVariantCodingHgvs, OnconovaGenomicVariantGenomicHgvs, OnconovaGenomicVariantCytogenomicNomenclature, OnconovaGenomicVariantGenomicRefSeq, OnconovaGenomicVariantTranscriptRefSeq, OnconovaGenomicVariantExactStartEnd, OnconovaGenomicVariantInnerStartEnd, OnconovaGenomicVariantOuterStartEnd, OnconovaGenomicVariantCoordinateSystem, OnconovaGenomicVariantRefAllele, OnconovaGenomicVariantAltAllele, OnconovaGenomicVariantCodingChangeType, OnconovaGenomicVariantGenomicSourceClass, OnconovaGenomicVariantSampleAllelicFrequency, OnconovaGenomicVariantAllelicReadDepth, OnconovaGenomicVariantAllelicState, OnconovaGenomicVariantVariantInheritance, OnconovaGenomicVariantVariationCode, OnconovaGenomicVariantChromosomeIdentifier, OnconovaGenomicVariantProteinHgvs, OnconovaGenomicVariantAminoAcidChangeType, OnconovaGenomicVariantMolecularConsequence, OnconovaGenomicVariantCopyNumber, OnconovaGenomicVariantVariantConfidenceStatus, OnconovaGenomicVariantClinicalRelevance, OnconovaGenomicVariantNucleotidesCount, OnconovaGenomicVariantGeneRegion, OnconovaGenomicVariantRnaHgvs, OnconovaGenomicVariantGenePanelSequencing, OnconovaGenomicVariantHgvsVersion, BackboneElement], Field(union_mode='left_to_right')]]] = Field(
+    component: Optional[
+        List[
+            Annotated[
+                Union[
+                    OnconovaGenomicVariantConclusionString,
+                    OnconovaGenomicVariantGeneStudied,
+                    OnconovaGenomicVariantCytogeneticLocation,
+                    OnconovaGenomicVariantReferenceSequenceAssembly,
+                    OnconovaGenomicVariantCodingHgvs,
+                    OnconovaGenomicVariantGenomicHgvs,
+                    OnconovaGenomicVariantCytogenomicNomenclature,
+                    OnconovaGenomicVariantGenomicRefSeq,
+                    OnconovaGenomicVariantTranscriptRefSeq,
+                    OnconovaGenomicVariantExactStartEnd,
+                    OnconovaGenomicVariantInnerStartEnd,
+                    OnconovaGenomicVariantOuterStartEnd,
+                    OnconovaGenomicVariantCoordinateSystem,
+                    OnconovaGenomicVariantRefAllele,
+                    OnconovaGenomicVariantAltAllele,
+                    OnconovaGenomicVariantCodingChangeType,
+                    OnconovaGenomicVariantGenomicSourceClass,
+                    OnconovaGenomicVariantSampleAllelicFrequency,
+                    OnconovaGenomicVariantAllelicReadDepth,
+                    OnconovaGenomicVariantAllelicState,
+                    OnconovaGenomicVariantVariantInheritance,
+                    OnconovaGenomicVariantVariationCode,
+                    OnconovaGenomicVariantChromosomeIdentifier,
+                    OnconovaGenomicVariantProteinHgvs,
+                    OnconovaGenomicVariantAminoAcidChangeType,
+                    OnconovaGenomicVariantMolecularConsequence,
+                    OnconovaGenomicVariantCopyNumber,
+                    OnconovaGenomicVariantVariantConfidenceStatus,
+                    OnconovaGenomicVariantClinicalRelevance,
+                    OnconovaGenomicVariantNucleotidesCount,
+                    OnconovaGenomicVariantGeneRegion,
+                    OnconovaGenomicVariantRnaHgvs,
+                    OnconovaGenomicVariantGenePanelSequencing,
+                    OnconovaGenomicVariantHgvsVersion,
+                    BackboneElement,
+                ],
+                Field(union_mode="left_to_right"),
+            ]
+        ]
+    ] = Field(
         description="Component results",
         default=None,
     )
-    resourceType: Literal['Observation'] = Field(
+    resourceType: Literal["Observation"] = Field(
         description=None,
         default="Observation",
     )
-    
-    @property 
+
+    @property
     def effective(self):
-        return get_type_choice_value_by_base(self, 
+        return get_type_choice_value_by_base(
+            self,
             base="effective",
         )
-        
-    @property 
+
+    @property
     def value(self):
-        return get_type_choice_value_by_base(self, 
+        return get_type_choice_value_by_base(
+            self,
             base="value",
         )
-        
-    @field_validator(*('component', 'derivedFrom', 'hasMember', 'referenceRange', 'device', 'specimen', 'method', 'bodySite', 'note', 'interpretation', 'dataAbsentReason', 'performer', 'issued', 'encounter', 'focus', 'subject', 'code', 'category', 'status', 'partOf', 'basedOn', 'identifier', 'modifierExtension', 'extension', 'text', 'language', 'implicitRules', 'meta'), mode="after", check_fields=None)
+
+    @field_validator(
+        *(
+            "component",
+            "derivedFrom",
+            "hasMember",
+            "referenceRange",
+            "device",
+            "specimen",
+            "method",
+            "bodySite",
+            "note",
+            "interpretation",
+            "dataAbsentReason",
+            "performer",
+            "issued",
+            "encounter",
+            "focus",
+            "subject",
+            "code",
+            "category",
+            "status",
+            "partOf",
+            "basedOn",
+            "identifier",
+            "modifierExtension",
+            "extension",
+            "text",
+            "language",
+            "implicitRules",
+            "meta",
+        ),
+        mode="after",
+        check_fields=None
+    )
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
-    @field_validator(*('modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *("modifierExtension", "extension"), mode="after", check_fields=None
+    )
     @classmethod
-    def FHIR_ext_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ext_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
-    @field_validator(*('extension',), mode="after", check_fields=None)
+
+    @field_validator(*("extension",), mode="after", check_fields=None)
     @classmethod
-    def extension_slicing_cardinality_validator(cls, value):    
-        return validate_slicing_cardinalities(cls, value, 
+    def extension_slicing_cardinality_validator(cls, value):
+        return validate_slicing_cardinalities(
+            cls,
+            value,
             field_name="extension",
         )
-        
-    @field_validator(*('status',), mode="after", check_fields=None)
+
+    @field_validator(*("status",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_status_pattern_constraint(cls, value):    
-        return validate_FHIR_element_pattern(cls, value, 
+    def FHIR_status_pattern_constraint(cls, value):
+        return validate_FHIR_element_pattern(
+            cls,
+            value,
             pattern="final",
         )
-        
-    @field_validator(*('category',), mode="after", check_fields=None)
+
+    @field_validator(*("category",), mode="after", check_fields=None)
     @classmethod
-    def category_slicing_cardinality_validator(cls, value):    
-        return validate_slicing_cardinalities(cls, value, 
+    def category_slicing_cardinality_validator(cls, value):
+        return validate_slicing_cardinalities(
+            cls,
+            value,
             field_name="category",
         )
-        
-    @field_validator(*('code',), mode="after", check_fields=None)
+
+    @field_validator(*("code",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_code_pattern_constraint(cls, value):    
-        return validate_FHIR_element_pattern(cls, value, 
-            pattern=CodeableConcept(coding=[Coding(code="69548-6", system="http://loinc.org")]),
+    def FHIR_code_pattern_constraint(cls, value):
+        return validate_FHIR_element_pattern(
+            cls,
+            value,
+            pattern=CodeableConcept(
+                coding=[Coding(code="69548-6", system="http://loinc.org")]
+            ),
         )
-        
-    @field_validator(*('referenceRange',), mode="after", check_fields=None)
+
+    @field_validator(*("referenceRange",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_obs_3_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_obs_3_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="low.exists() or high.exists() or text.exists()",
             human="Must have at least a low or a high or text",
             key="obs-3",
             severity="error",
         )
-        
-    @field_validator(*('component',), mode="after", check_fields=None)
+
+    @field_validator(*("component",), mode="after", check_fields=None)
     @classmethod
-    def component_slicing_cardinality_validator(cls, value):    
-        return validate_slicing_cardinalities(cls, value, 
+    def component_slicing_cardinality_validator(cls, value):
+        return validate_slicing_cardinalities(
+            cls,
+            value,
             field_name="component",
         )
-        
-    @field_validator(*('contained',), mode="plain", check_fields=None)
+
+    @field_validator(*("contained",), mode="plain", check_fields=None)
     @classmethod
-    def contained_FHIR_resource_validator(cls, value):    
-        return validate_contained_resource(cls, value, 
+    def contained_FHIR_resource_validator(cls, value):
+        return validate_contained_resource(
+            cls,
+            value,
             release="R4",
         )
-        
+
     @model_validator(mode="after")
     def effective_type_choice_validator(self):
-        return validate_type_choice_element( 
+        return validate_type_choice_element(
             self,
             field_types=[DateTime],
             field_name_base="effective",
             required=False,
         )
-        
+
     @model_validator(mode="after")
     def value_type_choice_validator(self):
-        return validate_type_choice_element( 
+        return validate_type_choice_element(
             self,
             field_types=[CodeableConcept],
             field_name_base="value",
             required=False,
         )
-        
+
     @model_validator(mode="after")
     def FHIR_dom_2_constraint_model_validator(self):
-        return validate_model_constraint( 
+        return validate_model_constraint(
             self,
             expression="contained.contained.empty()",
             human="If the resource is contained in another resource, it SHALL NOT contain nested Resources",
             key="dom-2",
             severity="error",
         )
-        
+
     @model_validator(mode="after")
     def FHIR_dom_3_constraint_model_validator(self):
-        return validate_model_constraint( 
+        return validate_model_constraint(
             self,
             expression="contained.where((('#'+id in (%resource.descendants().reference | %resource.descendants().as(canonical) | %resource.descendants().as(uri) | %resource.descendants().as(url))) or descendants().where(reference = '#').exists() or descendants().where(as(canonical) = '#').exists() or descendants().where(as(canonical) = '#').exists()).not()).trace('unmatched', id).empty()",
             human="If the resource is contained in another resource, it SHALL be referred to from elsewhere in the resource or SHALL refer to the containing resource",
             key="dom-3",
             severity="error",
         )
-        
+
     @model_validator(mode="after")
     def FHIR_dom_4_constraint_model_validator(self):
-        return validate_model_constraint( 
+        return validate_model_constraint(
             self,
             expression="contained.meta.versionId.empty() and contained.meta.lastUpdated.empty()",
             human="If a resource is contained in another resource, it SHALL NOT have a meta.versionId or a meta.lastUpdated",
             key="dom-4",
             severity="error",
         )
-        
+
     @model_validator(mode="after")
     def FHIR_dom_5_constraint_model_validator(self):
-        return validate_model_constraint( 
+        return validate_model_constraint(
             self,
             expression="contained.meta.security.empty()",
             human="If a resource is contained in another resource, it SHALL NOT have a security label",
             key="dom-5",
             severity="error",
         )
-        
+
     @model_validator(mode="after")
     def FHIR_dom_6_constraint_model_validator(self):
-        return validate_model_constraint( 
+        return validate_model_constraint(
             self,
             expression="text.`div`.exists()",
             human="A resource should have narrative for robust management",
             key="dom-6",
             severity="warning",
         )
-        
+
     @model_validator(mode="after")
     def FHIR_obs_6_constraint_model_validator(self):
-        return validate_model_constraint( 
+        return validate_model_constraint(
             self,
             expression="dataAbsentReason.empty() or value.empty()",
             human="dataAbsentReason SHALL only be present if Observation.value[x] is not present",
             key="obs-6",
             severity="error",
         )
-        
+
     @model_validator(mode="after")
     def FHIR_obs_7_constraint_model_validator(self):
-        return validate_model_constraint( 
+        return validate_model_constraint(
             self,
             expression="value.empty() or component.code.where(coding.intersect(%resource.code.coding).exists()).empty()",
             human="If Observation.code is the same as an Observation.component.code then the value element associated with the code SHALL NOT be present",
             key="obs-7",
             severity="error",
         )
-        
+
     @model_validator(mode="after")
     def FHIR_o_var_req_1_constraint_model_validator(self):
-        return validate_model_constraint( 
+        return validate_model_constraint(
             self,
             expression="subject.exists() and subject.resolve().is(Patient)",
             human="The subject element is required and must be provided.",
             key="o-var-req-1",
             severity="error",
         )
-        
+
     @model_validator(mode="after")
     def FHIR_o_var_req_2_constraint_model_validator(self):
-        return validate_model_constraint( 
+        return validate_model_constraint(
             self,
             expression="effectiveDateTime.exists() and effectiveDateTime.hasValue()",
             human="The effectiveDateTime element is required and must be provided.",
             key="o-var-req-2",
             severity="error",
         )
-        
+
     @model_validator(mode="after")
     def FHIR_o_var_req_3_constraint_model_validator(self):
-        return validate_model_constraint( 
+        return validate_model_constraint(
             self,
             expression="component.where(code.coding.code = '48018-6').exists()",
             human="The genes extension is required and must be provided.",
             key="o-var-req-3",
             severity="error",
         )
-        
+
     @model_validator(mode="after")
     def FHIR_o_var_req_4_constraint_model_validator(self):
-        return validate_model_constraint( 
+        return validate_model_constraint(
             self,
             expression="component.where(code.coding.code = '48004-6').exists() or component.where(code.coding.code = '81290-9').exists() or component.where(code.coding.code = '48005-3').exists()",
             human="At least one HGVS representation (coding, protein, or genomic) must be provided.",
             key="o-var-req-4",
             severity="error",
         )
-        
+
 
 ObsSecondaryFinding.model_rebuild()
 BodyStructureReference.model_rebuild()

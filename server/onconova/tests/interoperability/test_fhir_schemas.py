@@ -71,9 +71,9 @@ class TestFhirSchemas(TestCase):
         "onconova.interoperability.fhir.schemas.tumor_marker.TumorMarkerProfile.map_to_fhir",
         autospec=True,
         return_value=Coding(
-                code="9811-1",
-                system="http://loinc.org",
-                display="Chromogranin A [Mass/volume] in Serum or Plasma",
+            code="9811-1",
+            system="http://loinc.org",
+            display="Chromogranin A [Mass/volume] in Serum or Plasma",
         ),
     )
     def test_tumor_marker_profile_schema_mappings(self, *args, **kwargs):
@@ -82,10 +82,17 @@ class TestFhirSchemas(TestCase):
             fhir.TumorMarkerProfile,
             factories.TumorMarkerTestFactory,
         )
-    
+
     def test_cancer_risk_assessment_schema_mappings(self, *args, **kwargs):
         self._test_circular_mapping(
             schemas.RiskAssessment,
             fhir.CancerRiskAssessmentProfile,
             factories.RiskAssessmentFactory,
+        )
+
+    def test_genomic_variant_profile_schema_mappings(self, *args, **kwargs):
+        self._test_circular_mapping(
+            schemas.GenomicVariant,
+            fhir.GenomicVariantProfile,
+            factories.GenomicVariantFactory,
         )

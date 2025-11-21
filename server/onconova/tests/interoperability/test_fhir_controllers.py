@@ -79,11 +79,14 @@ class FhirCrudApiControllerTestCase(ApiControllerTestMixin, TestCase):
         for i, (instance, schema, model) in enumerate(
             zip(self.instances, self.schemas, self.models)
         ):
-            # Call the API endpoint
-            response = self.call_api_endpoint(
-                "GET", self.get_route_url_with_id(instance), anonymized=False, **config
-            )
             with self.subTest(i=i):
+                # Call the API endpoint
+                response = self.call_api_endpoint(
+                    "GET",
+                    self.get_route_url_with_id(instance),
+                    anonymized=False,
+                    **config,
+                )
                 # Assert response content
                 if scenario == "HTTPS Authenticated":
                     self.assertEqual(response.status_code, 200)
@@ -100,11 +103,11 @@ class FhirCrudApiControllerTestCase(ApiControllerTestMixin, TestCase):
         for i, (instance, schema, model) in enumerate(
             zip(self.instances, self.schemas, self.models)
         ):
-            # Call the API endpoint
-            response = self.call_api_endpoint(
-                "DELETE", self.get_route_url_with_id(instance), **config
-            )
             with self.subTest(i=i):
+                # Call the API endpoint
+                response = self.call_api_endpoint(
+                    "DELETE", self.get_route_url_with_id(instance), **config
+                )
                 # Assert response content
                 if scenario == "HTTPS Authenticated":
                     self.assertEqual(response.status_code, 204)
@@ -122,12 +125,12 @@ class FhirCrudApiControllerTestCase(ApiControllerTestMixin, TestCase):
         for i, (instance, payload, model) in enumerate(
             zip(self.instances, self.create_payloads, self.models)
         ):
-            instance.delete()
-            # Call the API endpoint.
-            response = self.call_api_endpoint(
-                "POST", self.get_route_url(instance), data=payload, **config
-            )
             with self.subTest(i=i):
+                instance.delete()
+                # Call the API endpoint.
+                response = self.call_api_endpoint(
+                    "POST", self.get_route_url(instance), data=payload, **config
+                )
                 # Assert response content
                 if scenario == "HTTPS Authenticated":
                     created_id = response.json()["id"]
@@ -224,20 +227,22 @@ class TestConditionsController(FhirCrudApiControllerTestCase):
     ]
 
 
-
 class TestObservationsController(FhirCrudApiControllerTestCase):
     controller_path = "/api/fhir/Observation"
     FACTORY = [
         factories.TumorMarkerTestFactory,
         factories.RiskAssessmentFactory,
+        factories.GenomicVariantFactory,
     ]
     MODEL = [
         models.TumorMarker,
         models.RiskAssessment,
+        models.GenomicVariant,
     ]
     SCHEMA = [
         schemas.TumorMarkerProfile,
         schemas.CancerRiskAssessmentProfile,
+        schemas.GenomicVariantProfile,
     ]
 
     @classmethod
@@ -248,11 +253,11 @@ class TestObservationsController(FhirCrudApiControllerTestCase):
                 code="9811-1",
                 system="http://loinc.org",
                 display="Chromogranin A [Mass/volume] in Serum or Plasma",
-            )
+            ),
         )
         cls.mock_to_fhir = cls.patcher.start()
         super().setUpTestData()
-        
+
     @classmethod
     def tearDownClass(cls):
         cls.patcher.stop()

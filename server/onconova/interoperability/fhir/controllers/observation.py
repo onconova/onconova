@@ -3,9 +3,10 @@ from onconova.core.auth import permissions as perms
 from onconova.core.auth.token import XSessionTokenAuth
 from onconova.interoperability.fhir.schemas import (
     TumorMarkerProfile,
-    CancerRiskAssessmentProfile
+    CancerRiskAssessmentProfile,
+    GenomicVariantProfile,
 )
-from onconova.oncology.models import TumorMarker, RiskAssessment
+from onconova.oncology.models import TumorMarker, RiskAssessment, GenomicVariant
 from fhircraft.fhir.resources.datatypes.R4.core.operation_outcome import (
     OperationOutcome,
 )
@@ -26,7 +27,9 @@ class ObservationController(FhirBaseController):
     @route.get(
         path="{rid}",
         response={
-            200: TumorMarkerProfile | CancerRiskAssessmentProfile,
+            200: GenomicVariantProfile
+            | TumorMarkerProfile
+            | CancerRiskAssessmentProfile,
             **COMMON_READ_HTTP_ERRORS,
         },
         permissions=[perms.CanManageCases],
@@ -34,12 +37,16 @@ class ObservationController(FhirBaseController):
         exclude_none=True,
     )
     def read_observation(self, rid: str):
-        return self.read_fhir_resource(rid, [TumorMarker, RiskAssessment])
+        return self.read_fhir_resource(
+            rid, [TumorMarker, RiskAssessment, GenomicVariant]
+        )
 
     @route.put(
         path="{rid}",
         response={
-            200: TumorMarkerProfile | CancerRiskAssessmentProfile
+            200: GenomicVariantProfile
+            | TumorMarkerProfile
+            | CancerRiskAssessmentProfile
             | OperationOutcome
             | None,
             **COMMON_UPDATE_HTTP_ERRORS,
@@ -51,7 +58,9 @@ class ObservationController(FhirBaseController):
     def update_observation(
         self,
         rid: str,
-        payload: TumorMarkerProfile | CancerRiskAssessmentProfile,
+        payload: (
+            GenomicVariantProfile | TumorMarkerProfile | CancerRiskAssessmentProfile
+        ),
     ):
         return self.update_fhir_resource(rid, payload)
 
@@ -66,12 +75,16 @@ class ObservationController(FhirBaseController):
         exclude_none=True,
     )
     def delete_observation(self, rid: str):
-        return self.delete_fhir_resource(rid, [TumorMarker, RiskAssessment])
+        return self.delete_fhir_resource(
+            rid, [TumorMarker, RiskAssessment, GenomicVariant]
+        )
 
     @route.post(
         path="",
         response={
-            200: TumorMarkerProfile | CancerRiskAssessmentProfile
+            200: GenomicVariantProfile
+            | TumorMarkerProfile
+            | CancerRiskAssessmentProfile
             | OperationOutcome
             | None,
             400: OperationOutcome,
@@ -82,6 +95,9 @@ class ObservationController(FhirBaseController):
         exclude_none=True,
     )
     def create_observation(
-        self, payload: TumorMarkerProfile | CancerRiskAssessmentProfile
+        self,
+        payload: (
+            GenomicVariantProfile | TumorMarkerProfile | CancerRiskAssessmentProfile
+        ),
     ):
         return self.create_fhir_resource(payload)

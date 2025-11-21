@@ -27,12 +27,15 @@ COMMON_CREATE_HTTP_ERRORS = {
 
 class FhirBaseController(ControllerBase):
 
-    def read_fhir_resource(self, rid: str, models: type[models.Model] | List[type[models.Model]]):
+    def read_fhir_resource(
+        self, rid: str, models: type[models.Model] | List[type[models.Model]]
+    ):
         """Read a FHIR resource by its ID"""
-        if not isinstance(models, list): models = [models]
+        if not isinstance(models, list):
+            models = [models]
         # Get the instance from the database
         for model in models:
-            if instance := model.objects.filter(id=rid).first(): 
+            if instance := model.objects.filter(id=rid).first():
                 break
         else:
             for model in models:
@@ -47,9 +50,7 @@ class FhirBaseController(ControllerBase):
             self.context.response.headers["Last-Modified"] = instance.updated_at.isoformat()  # type: ignore
         return instance
 
-    def update_fhir_resource(
-        self, rid: str, payload: OnconovaFhirBaseSchema
-    ):
+    def update_fhir_resource(self, rid: str, payload: OnconovaFhirBaseSchema):
         """Update a FHIR resource by its ID"""
         assert self.context and self.context.response and self.context.request
         if not (instance := payload.__class__.__model__.objects.filter(id=rid).first()):
@@ -96,9 +97,12 @@ class FhirBaseController(ControllerBase):
                     )
                 ]
             )
-        self.context.response.headers["Location"] = (
-            f"/fhir/{payload.resourceType}/{resource.id}"
-        )
+        if (resourceType := getattr(payload, "resourceType", None)) and (
+            resourceId := getattr(payload, "id", None)
+        ):
+            self.context.response.headers["Location"] = (
+                f"/fhir/{resourceType}/{resourceId}"
+            )
         preference = self.context.request.headers.get("Prefer", "return=representation")
         if preference == "return=representation":
             return 200, resource
@@ -111,9 +115,12 @@ class FhirBaseController(ControllerBase):
         else:
             return 400, None
 
-    def delete_fhir_resource(self, rid: str, models: type[models.Model] | List[type[models.Model]]):
+    def delete_fhir_resource(
+        self, rid: str, models: type[models.Model] | List[type[models.Model]]
+    ):
         """Delete a FHIR resource by its ID"""
-        if not isinstance(models, list): models = [models]
+        if not isinstance(models, list):
+            models = [models]
         assert self.context and self.context.response and self.context.request
         for model in models:
             if instance := model.objects.filter(id=rid).first():
@@ -134,9 +141,15 @@ class FhirBaseController(ControllerBase):
     def create_fhir_resource(self, payload: OnconovaFhirBaseSchema):
         assert self.context and self.context.response and self.context.request
         try:
-            resource = payload.__class__.fhir_to_onconova(  # type: ignore
-                payload
-            ).model_dump_django()
+            print("POSTED FHIR RESOURCS:")
+            print(payload.model_dump_json(indent=2, exclude_none=True))
+            print("MAPPED TO ONCONOVA SCHEMA:")
+            print(
+                payload.__class__.fhir_to_onconova(payload).model_dump_json(
+                    indent=2, exclude_none=True
+                )
+            )
+            resource = payload.__class__.fhir_to_onconova(payload).model_dump_django()
         except ValidationError as ve:
             return 400, OperationOutcome(
                 issue=[
@@ -157,9 +170,10 @@ class FhirBaseController(ControllerBase):
                     )
                 ]
             )
-        self.context.response.headers["Location"] = (
-            f"/fhir/{payload.resourceType}/{resource.id}"
-        )
+        if resourceType := getattr(payload, "resourceType", None):
+            self.context.response.headers["Location"] = (
+                f"/fhir/{resourceType}/{resource.id}"
+            )
         preference = self.context.request.headers.get("Prefer", "return=representation")
         if preference == "return=representation":
             return 200, resource

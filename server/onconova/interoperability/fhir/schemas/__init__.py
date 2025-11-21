@@ -3,6 +3,7 @@ from .primary_cancer_condition import PrimaryCancerConditionProfile
 from .secondary_cancer_condition import SecondaryCancerConditionProfile
 from .tumor_marker import TumorMarkerProfile
 from .cancer_risk_assessment import CancerRiskAssessmentProfile
+from .genomic_variant import GenomicVariantProfile
 
 __all__ = (
     "CancerPatientProfile",
@@ -10,4 +11,5 @@ __all__ = (
     "SecondaryCancerConditionProfile",
     "TumorMarkerProfile",
     "CancerRiskAssessmentProfile",
+    "GenomicVariantProfile",
 )

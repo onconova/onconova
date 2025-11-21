@@ -76,7 +76,7 @@ class OnconovaFhirBaseSchema(BaseSchema):
     __model__: ClassVar[type[Model]]
     __schema__: ClassVar[type[Schema]]
     __registry__: ClassVar[type[MappingRegistry]] = MappingRegistry()
-    
+
     @classmethod
     def map_to_fhir(cls, map: str, value: Any):
         return cls.__registry__.to_fhir(map, value)
@@ -84,17 +84,17 @@ class OnconovaFhirBaseSchema(BaseSchema):
     @classmethod
     def map_to_internal(cls, map: str, value: Any):
         return cls.__registry__.to_internal(map, value)
-    
+
     @classmethod
     def register_mapping(cls, mapping_name: str, rules: List[MappingRule]):
         return cls.__registry__.register(mapping_name, rules)
-    
+
     @classmethod
-    def fhir_to_onconova(cls, obj: FHIRBaseModel) -> Schema:
+    def fhir_to_onconova(cls, obj: "OnconovaFhirBaseSchema") -> BaseSchema:
         raise NotImplementedError("Subclasses must implement fhir_to_onconova method")
 
     @classmethod
-    def onconova_to_fhir(cls, obj: Schema) -> FHIRBaseModel:
+    def onconova_to_fhir(cls, obj: BaseSchema) -> "OnconovaFhirBaseSchema":
         raise NotImplementedError("Subclasses must implement onconova_to_fhir method")
 
     @model_validator(mode="before")
@@ -108,5 +108,6 @@ class OnconovaFhirBaseSchema(BaseSchema):
                 return cls.onconova_to_fhir(obj)
             elif isinstance(obj, cls.__schema__):
                 return cls.onconova_to_fhir(obj)
-        except TemplateSyntaxError: pass
+        except TemplateSyntaxError:
+            pass
         return obj
