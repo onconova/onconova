@@ -55,7 +55,7 @@ class GenomicVariantProfile(OnconovaFhirBaseSchema, fhir.OnconovaGenomicVariant)
                 )
             ],
             assessmentDate=obj.fhirpath_single(
-                "Observation.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-genomic-assessment-date').valueDateTime",
+                "Observation.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-genomic-variant-assessment-date').valueDateTime",
             ),
             genePanel=obj.fhirpath_single(
                 "Observation.component.where(code.coding.code='C165600').valueString",
@@ -193,7 +193,7 @@ class GenomicVariantProfile(OnconovaFhirBaseSchema, fhir.OnconovaGenomicVariant)
         ]
         if obj.assessmentDate:
             resource.extension = [
-                fhir.GenomicAssessmentDate(
+                fhir.GenomicVariantAssessmentDate(
                     valueDateTime=obj.assessmentDate.isoformat(),
                 )
             ]

@@ -14,6 +14,7 @@ from onconova.oncology.models.patient_case import (
     PatientCaseVitalStatusChoices,
 )
 
+
 class CancerPatientProfile(OnconovaFhirBaseSchema, fhir.OnconovaCancerPatient):
 
     __model__ = models.PatientCase
@@ -49,7 +50,7 @@ class CancerPatientProfile(OnconovaFhirBaseSchema, fhir.OnconovaCancerPatient):
             vitalStatus=cls.map_to_internal(
                 "vitalStatus",
                 obj.fhirpath_single(
-                    "Patient.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-vital-status').valueCodeableConcept.coding"
+                    "Patient.deceasedDateTime.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-vital-status').valueCodeableConcept.coding"
                 ),
             ),
             gender=CodedConcept(
@@ -71,16 +72,16 @@ class CancerPatientProfile(OnconovaFhirBaseSchema, fhir.OnconovaCancerPatient):
                 ),
                 system=cls._get_birthsex_codesystem(),
             ),
-            dateOfBirth=obj.fhirpath_single("Patient.birthDate"),
+            dateOfBirth=obj.fhirpath_single("Patient.birthDate.getValue()"),
             endOfRecords=obj.fhirpath_single(
                 "Patient.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-end-of-records').valueDate"
             ),
-            dateOfDeath=obj.fhirpath_single("Patient.deceasedDateTime"),
+            dateOfDeath=obj.fhirpath_single("Patient.deceasedDateTime.getValue()"),
             causeOfDeath=(
                 CodedConcept.model_validate(coding)
                 if (
                     coding := obj.fhirpath_single(
-                        "Patient.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-cause-of-death').valueCodeableConcept.coding"
+                        "Patient.deceasedDateTime.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-cause-of-death').valueCodeableConcept.coding"
                     )
                 )
                 else None
@@ -124,10 +125,14 @@ class CancerPatientProfile(OnconovaFhirBaseSchema, fhir.OnconovaCancerPatient):
                     )
                 )
             )
+        resource.birthDate_ext = fhir.Element()
+        resource.birthDate_ext.extension = []
         if obj.age is not None:
-            resource.extension.append(fhir.AgeExtension(valueInteger=obj.age))
+            resource.birthDate_ext.extension.append(
+                fhir.AgeExtension(valueInteger=obj.age)
+            )
         if obj.ageAtDiagnosis is not None:
-            resource.extension.append(
+            resource.birthDate_ext.extension.append(
                 fhir.AgeAtDiagnosis(valueInteger=obj.ageAtDiagnosis)
             )
         if obj.dataCompletionRate is not None:
@@ -146,23 +151,21 @@ class CancerPatientProfile(OnconovaFhirBaseSchema, fhir.OnconovaCancerPatient):
         if obj.consentStatus is not None:
             resource.extension.append(
                 fhir.ConsentStatus(
-                    valueCode=cls.map_to_fhir(
-                        "consentStatus", obj.consentStatus
-                    )
+                    valueCode=cls.map_to_fhir("consentStatus", obj.consentStatus)
                 )
             )
+        resource.deceasedDateTime_ext = fhir.Element()
+        resource.deceasedDateTime_ext.extension = []
         if obj.vitalStatus is not None:
-            resource.extension.append(
+            resource.deceasedDateTime_ext.extension.append(
                 fhir.VitalStatus(
                     valueCodeableConcept=fhir.CodeableConcept(
-                        coding=[
-                            cls.map_to_fhir("vitalStatus", obj.vitalStatus)
-                        ]
+                        coding=[cls.map_to_fhir("vitalStatus", obj.vitalStatus)]
                     )
                 )
             )
         if obj.causeOfDeath is not None:
-            resource.extension.append(
+            resource.deceasedDateTime_ext.extension.append(
                 fhir.CauseOfDeath(
                     valueCodeableConcept=fhir.CodeableConcept(
                         coding=[fhir.Coding(**obj.causeOfDeath.model_dump())]
@@ -198,7 +201,6 @@ class CancerPatientProfile(OnconovaFhirBaseSchema, fhir.OnconovaCancerPatient):
         assert resource.meta is not None
         resource.meta.lastUpdated = obj.updatedAt
         return resource
-
 
 
 CancerPatientProfile.register_mapping(
@@ -248,4 +250,3 @@ CancerPatientProfile.register_mapping(
         ),
     ],
 )
-

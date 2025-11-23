@@ -32,7 +32,7 @@ class SecondaryCancerConditionProfile(
             differentitation=(
                 CodedConcept.model_validate(
                     obj.fhirpath_single(
-                        "Condition.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-differentiation').valueCodeableConcept.coding"
+                        "Condition.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-histological-differentiation').valueCodeableConcept.coding"
                     )
                 )
             ),
@@ -79,26 +79,22 @@ class SecondaryCancerConditionProfile(
             status="generated",
             div=f'<div xmlns="http://www.w3.org/1999/xhtml">{obj.description}</div>',
         )
-        resource.bodySite = [
-            fhir.OnconovaSecondaryCancerConditionBodySite(
-                coding=[fhir.Coding.model_validate(obj.topography.model_dump())],
-                extension=(
-                    [
-                        fhir.LateralityQualifier(
-                            valueCodeableConcept=fhir.CodeableConcept(
-                                coding=[
-                                    fhir.Coding.model_validate(
-                                        obj.laterality.model_dump()
-                                    )
-                                ]
-                            )
+        resource.bodySite = fhir.OnconovaSecondaryCancerConditionBodySite(
+            coding=[fhir.Coding.model_validate(obj.topography.model_dump())],
+            extension=(
+                [
+                    fhir.LateralityQualifier(
+                        valueCodeableConcept=fhir.CodeableConcept(
+                            coding=[
+                                fhir.Coding.model_validate(obj.laterality.model_dump())
+                            ]
                         )
-                    ]
-                    if obj.laterality
-                    else None
-                ),
+                    )
+                ]
+                if obj.laterality
+                else None
             ),
-        ]
+        )
         resource.extension = [
             fhir.HistologyMorphologyBehavior(
                 valueCodeableConcept=fhir.CodeableConcept(
@@ -109,7 +105,7 @@ class SecondaryCancerConditionProfile(
         ]
         if obj.differentitation:
             resource.extension.append(
-                fhir.Differentiation(
+                fhir.HistologicalDifferentiation(
                     valueCodeableConcept=fhir.CodeableConcept(
                         coding=[
                             fhir.Coding.model_validate(

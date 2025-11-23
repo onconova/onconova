@@ -28,12 +28,12 @@ class PrimaryCancerConditionProfile(
             relationship=(
                 NeoplasticEntityRelationshipChoices.LOCAL_RECURRENCE
                 if obj.fhirpath_single(
-                    "Condition.clinicalStatus.coding.code = 'recurrence' and Condition.clinicalStatus.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-recurrence-type').valueCodeableConcept.coding.code = '255470001'"
+                    "Condition.clinicalStatus.coding.code = 'recurrence' and Condition.clinicalStatus.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-primary-cancer-recurrence-type').valueCodeableConcept.coding.code = '255470001'"
                 )
                 else (
                     NeoplasticEntityRelationshipChoices.REGIONAL_RECURRENCE
                     if obj.fhirpath_single(
-                        "Condition.clinicalStatus.coding.code = 'recurrence' and Condition.clinicalStatus.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-recurrence-type').valueCodeableConcept.coding.code = '410674003'"
+                        "Condition.clinicalStatus.coding.code = 'recurrence' and Condition.clinicalStatus.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-primary-cancer-recurrence-type').valueCodeableConcept.coding.code = '410674003'"
                     )
                     else NeoplasticEntityRelationshipChoices.PRIMARY
                 )
@@ -45,12 +45,12 @@ class PrimaryCancerConditionProfile(
             differentitation=(
                 CodedConcept.model_validate(
                     obj.fhirpath_single(
-                        "Condition.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-differentiation').valueCodeableConcept.coding"
+                        "Condition.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-histological-differentiation').valueCodeableConcept.coding"
                     )
                 )
             ),
             relatedPrimaryId=obj.fhirpath_single(
-                "Condition.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-recurrence-of').valueReference.reference.replace('Condition/', '')"
+                "Condition.clinicalStatus.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-primary-cancer-recurrence-of').valueReference.reference.replace('Condition/', '')"
             ),
             laterality=(
                 CodedConcept.model_validate(coding)
@@ -88,26 +88,22 @@ class PrimaryCancerConditionProfile(
             status="generated",
             div=f'<div xmlns="http://www.w3.org/1999/xhtml">{obj.description}</div>',
         )
-        resource.bodySite = [
-            fhir.OnconovaPrimaryCancerConditionBodySite(
-                coding=[fhir.Coding.model_validate(obj.topography.model_dump())],
-                extension=(
-                    [
-                        fhir.LateralityQualifier(
-                            valueCodeableConcept=fhir.CodeableConcept(
-                                coding=[
-                                    fhir.Coding.model_validate(
-                                        obj.laterality.model_dump()
-                                    )
-                                ]
-                            )
+        resource.bodySite = fhir.OnconovaPrimaryCancerConditionBodySite(
+            coding=[fhir.Coding.model_validate(obj.topography.model_dump())],
+            extension=(
+                [
+                    fhir.LateralityQualifier(
+                        valueCodeableConcept=fhir.CodeableConcept(
+                            coding=[
+                                fhir.Coding.model_validate(obj.laterality.model_dump())
+                            ]
                         )
-                    ]
-                    if obj.laterality
-                    else None
-                ),
+                    )
+                ]
+                if obj.laterality
+                else None
             ),
-        ]
+        )
         resource.extension = [
             fhir.HistologyMorphologyBehavior(
                 valueCodeableConcept=fhir.CodeableConcept(
@@ -118,7 +114,7 @@ class PrimaryCancerConditionProfile(
         ]
         if obj.differentitation:
             resource.extension.append(
-                fhir.Differentiation(
+                fhir.HistologicalDifferentiation(
                     valueCodeableConcept=fhir.CodeableConcept(
                         coding=[
                             fhir.Coding.model_validate(
@@ -145,7 +141,7 @@ class PrimaryCancerConditionProfile(
                     )
                 ],
                 extension=[
-                    fhir.RecurrenceType(
+                    fhir.PrimaryCancerRecurrenceType(
                         valueCodeableConcept=fhir.CodeableConcept(
                             coding=[
                                 (
@@ -164,15 +160,12 @@ class PrimaryCancerConditionProfile(
                                 )
                             ]
                         )
-                    )
+                    ),
+                    fhir.PrimaryCancerRecurrenceOf(
+                        valueReference=Reference(
+                            reference=f"Condition/{obj.relatedPrimaryId}",
+                        )
+                    ),
                 ],
-            )
-            assert resource.extension is not None
-            resource.extension.append(
-                fhir.RecurrenceOf(
-                    valueReference=Reference(
-                        reference=f"Condition/{obj.relatedPrimaryId}",
-                    )
-                )
             )
         return resource
