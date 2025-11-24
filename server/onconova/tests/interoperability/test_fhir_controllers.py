@@ -237,6 +237,7 @@ class TestObservationsController(FhirCrudApiControllerTestCase):
         factories.MicrosatelliteInstabilityFactory,
         factories.LossOfHeterozygosityFactory,
         factories.HomologousRecombinationDeficiencyFactory,
+        factories.TumorNeoantigenBurdenFactory,
     ]
     MODEL = [
         models.TumorMarker,
@@ -246,6 +247,7 @@ class TestObservationsController(FhirCrudApiControllerTestCase):
         models.MicrosatelliteInstability,
         models.LossOfHeterozygosity,
         models.HomologousRecombinationDeficiency,
+        models.TumorNeoantigenBurden,
     ]
     SCHEMA = [
         schemas.TumorMarkerProfile,
@@ -255,6 +257,7 @@ class TestObservationsController(FhirCrudApiControllerTestCase):
         schemas.MicrosatelliteInstabilityProfile,
         schemas.LossOfHeterozygosityProfile,
         schemas.HomologousRecombinationDeficiencyProfile,
+        schemas.TumorNeoantigenBurdenProfile,
     ]
 
     @classmethod

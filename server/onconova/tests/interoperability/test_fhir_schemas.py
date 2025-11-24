@@ -124,3 +124,10 @@ class TestFhirSchemas(TestCase):
             fhir.HomologousRecombinationDeficiencyProfile,
             factories.HomologousRecombinationDeficiencyFactory,
         )
+        
+    def test_tumor_neoantigen_burden_profile_schema_mappings(self, *args, **kwargs):
+        self._test_circular_mapping(
+            schemas.TumorNeoantigenBurden,
+            fhir.TumorNeoantigenBurdenProfile,
+            factories.TumorNeoantigenBurdenFactory,
+        )

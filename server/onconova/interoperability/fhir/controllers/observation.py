@@ -9,6 +9,7 @@ from onconova.interoperability.fhir.schemas import (
     MicrosatelliteInstabilityProfile,
     LossOfHeterozygosityProfile,
     HomologousRecombinationDeficiencyProfile,
+    TumorNeoantigenBurdenProfile,
 )
 from onconova.oncology.models import (
     TumorMarker, 
@@ -18,6 +19,7 @@ from onconova.oncology.models import (
     MicrosatelliteInstability,
     LossOfHeterozygosity,
     HomologousRecombinationDeficiency,
+    TumorNeoantigenBurden,
 )
 from fhircraft.fhir.resources.datatypes.R4.core.operation_outcome import (
     OperationOutcome,
@@ -45,6 +47,7 @@ class ObservationController(FhirBaseController):
             | MicrosatelliteInstabilityProfile
             | LossOfHeterozygosityProfile
             | HomologousRecombinationDeficiencyProfile
+            | TumorNeoantigenBurdenProfile
             | CancerRiskAssessmentProfile,
             **COMMON_READ_HTTP_ERRORS,
         },
@@ -62,6 +65,7 @@ class ObservationController(FhirBaseController):
                 MicrosatelliteInstability,
                 LossOfHeterozygosity,
                 HomologousRecombinationDeficiency,
+                TumorNeoantigenBurden,
             ]
         )
 
@@ -74,6 +78,7 @@ class ObservationController(FhirBaseController):
             | MicrosatelliteInstabilityProfile
             | LossOfHeterozygosityProfile
             | HomologousRecombinationDeficiencyProfile
+            | TumorNeoantigenBurdenProfile
             | CancerRiskAssessmentProfile
             | OperationOutcome
             | None,
@@ -93,6 +98,7 @@ class ObservationController(FhirBaseController):
             | MicrosatelliteInstabilityProfile
             | LossOfHeterozygosityProfile
             | HomologousRecombinationDeficiencyProfile
+            | TumorNeoantigenBurdenProfile
             | CancerRiskAssessmentProfile
         ),
     ):
@@ -118,6 +124,7 @@ class ObservationController(FhirBaseController):
                 MicrosatelliteInstability,
                 LossOfHeterozygosity,
                 HomologousRecombinationDeficiency,
+                TumorNeoantigenBurden,
             ]
         )
 
@@ -130,6 +137,7 @@ class ObservationController(FhirBaseController):
             | MicrosatelliteInstabilityProfile
             | LossOfHeterozygosityProfile
             | HomologousRecombinationDeficiencyProfile
+            | TumorNeoantigenBurdenProfile
             | CancerRiskAssessmentProfile
             | OperationOutcome
             | None,
@@ -149,6 +157,7 @@ class ObservationController(FhirBaseController):
             | MicrosatelliteInstabilityProfile
             | LossOfHeterozygosityProfile
             | HomologousRecombinationDeficiencyProfile
+            | TumorNeoantigenBurdenProfile
             | CancerRiskAssessmentProfile
         ),
     ):

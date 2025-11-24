@@ -8,6 +8,8 @@ from .tumor_mutational_burden import TumorMutationalBurdenProfile
 from .microsatellite_instability import MicrosatelliteInstabilityProfile
 from .loss_of_heterozygosity import LossOfHeterozygosityProfile
 from .homologous_recombination_deficiency import HomologousRecombinationDeficiencyProfile
+from .tumor_neoantigen_burden import TumorNeoantigenBurdenProfile
+
 
 __all__ = (
     "CancerPatientProfile",
@@ -20,4 +22,5 @@ __all__ = (
     "MicrosatelliteInstabilityProfile",
     "LossOfHeterozygosityProfile",
     "HomologousRecombinationDeficiencyProfile",
+    "TumorNeoantigenBurdenProfile",
 )
