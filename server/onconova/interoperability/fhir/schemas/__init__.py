@@ -12,6 +12,7 @@ from .tumor_neoantigen_burden import TumorNeoantigenBurdenProfile
 from .aneuploid_score import AneuploidScoreProfile
 from .comorbidities import ComorbiditiesProfile
 from .lifestyle import LifestyleProfile
+from .performance_status import ECOGPerformanceStatusProfile, KarnofskyPerformanceStatusProfile
 
 
 __all__ = (
@@ -29,4 +30,6 @@ __all__ = (
     "AneuploidScoreProfile",
     "ComorbiditiesProfile",
     "LifestyleProfile",
+    "ECOGPerformanceStatusProfile",
+    "KarnofskyPerformanceStatusProfile",
 )

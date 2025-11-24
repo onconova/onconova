@@ -152,3 +152,17 @@ class TestFhirSchemas(TestCase):
             fhir.LifestyleProfile,
             factories.LifestyleFactory,
         )
+        
+    def test_ecog_performance_status_profile_schema_mappings(self, *args, **kwargs):
+        self._test_circular_mapping(
+            schemas.PerformanceStatus,
+            fhir.ECOGPerformanceStatusProfile,
+            factories.ECOGPerformanceStatusFactory,
+        )
+        
+    def test_karnofsky_performance_status_profile_schema_mappings(self, *args, **kwargs):
+        self._test_circular_mapping(
+            schemas.PerformanceStatus,
+            fhir.KarnofskyPerformanceStatusProfile,
+            factories.KarnofskyPerformanceStatusFactory,
+        )

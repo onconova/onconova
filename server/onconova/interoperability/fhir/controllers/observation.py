@@ -13,6 +13,8 @@ from onconova.interoperability.fhir.schemas import (
     AneuploidScoreProfile,
     ComorbiditiesProfile,
     LifestyleProfile,
+    ECOGPerformanceStatusProfile,
+    KarnofskyPerformanceStatusProfile,
 )
 from onconova.oncology.models import (
     TumorMarker, 
@@ -26,6 +28,7 @@ from onconova.oncology.models import (
     AneuploidScore,
     ComorbiditiesAssessment,
     Lifestyle,
+    PerformanceStatus,
 )
 from fhircraft.fhir.resources.datatypes.R4.core.operation_outcome import (
     OperationOutcome,
@@ -57,6 +60,8 @@ class ObservationController(FhirBaseController):
             | AneuploidScoreProfile
             | ComorbiditiesProfile
             | LifestyleProfile
+            | ECOGPerformanceStatusProfile
+            | KarnofskyPerformanceStatusProfile
             | CancerRiskAssessmentProfile,
             **COMMON_READ_HTTP_ERRORS,
         },
@@ -78,6 +83,7 @@ class ObservationController(FhirBaseController):
                 AneuploidScore,
                 ComorbiditiesAssessment,
                 Lifestyle,
+                PerformanceStatus,
             ]
         )
 
@@ -94,6 +100,8 @@ class ObservationController(FhirBaseController):
             | AneuploidScoreProfile
             | ComorbiditiesProfile
             | LifestyleProfile
+            | ECOGPerformanceStatusProfile
+            | KarnofskyPerformanceStatusProfile
             | CancerRiskAssessmentProfile
             | OperationOutcome
             | None,
@@ -117,6 +125,8 @@ class ObservationController(FhirBaseController):
             | AneuploidScoreProfile
             | ComorbiditiesProfile
             | LifestyleProfile
+            | ECOGPerformanceStatusProfile
+            | KarnofskyPerformanceStatusProfile
             | CancerRiskAssessmentProfile
         ),
     ):
@@ -146,6 +156,7 @@ class ObservationController(FhirBaseController):
                 AneuploidScore,
                 ComorbiditiesAssessment,
                 Lifestyle,
+                PerformanceStatus,
             ]
         )
 
@@ -162,6 +173,8 @@ class ObservationController(FhirBaseController):
             | AneuploidScoreProfile
             | ComorbiditiesProfile
             | LifestyleProfile
+            | ECOGPerformanceStatusProfile
+            | KarnofskyPerformanceStatusProfile
             | CancerRiskAssessmentProfile
             | OperationOutcome
             | None,
@@ -185,6 +198,8 @@ class ObservationController(FhirBaseController):
             | AneuploidScoreProfile
             | ComorbiditiesProfile
             | LifestyleProfile
+            | ECOGPerformanceStatusProfile
+            | KarnofskyPerformanceStatusProfile
             | CancerRiskAssessmentProfile
         ),
     ):

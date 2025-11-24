@@ -515,6 +515,24 @@ class PerformanceStatusFactory(factory.django.DjangoModelFactory):
     karnofsky_score = factory.LazyFunction(lambda: random.randint(0, 100))
 
 
+class ECOGPerformanceStatusFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.PerformanceStatus
+
+    case = factory.SubFactory(PatientCaseFactory)
+    date = factory.LazyFunction(faker.date)
+    ecog_score = factory.LazyFunction(lambda: random.randint(0, 5))
+
+class KarnofskyPerformanceStatusFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.PerformanceStatus
+
+    case = factory.SubFactory(PatientCaseFactory)
+    date = factory.LazyFunction(faker.date)
+    karnofsky_score = factory.LazyFunction(lambda: random.randint(0, 5))
+
+
+
 class LifestyleFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Lifestyle

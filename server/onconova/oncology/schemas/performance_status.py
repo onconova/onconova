@@ -11,12 +11,12 @@ class PerformanceStatusCreate(BaseSchema):
     __orm_model__ = orm.PerformanceStatus 
     
     externalSource: Nullable[str] = Field(
-        None,
+        default=None,
         description='The digital source of the data, relevant for automated data',
         title='External data source',
     )
     externalSourceId: Nullable[str] = Field(
-        None,
+        default=None,
         description='The data identifier at the digital source of the data, relevant for automated data',
         title='External data source Id',
     )
@@ -31,12 +31,12 @@ class PerformanceStatusCreate(BaseSchema):
         title='Assessment date',
     )
     ecogScore: Nullable[int] = Field(
-        None,
+        default=None,
         description='ECOG Performance Status Score',
         title='ECOG Score',
     )
     karnofskyScore: Nullable[int] = Field(
-        None,
+        default=None,
         description='Karnofsky Performance Status Score',
         title='Karnofsky Score',
     )
