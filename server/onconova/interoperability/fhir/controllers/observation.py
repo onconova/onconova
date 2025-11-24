@@ -11,6 +11,7 @@ from onconova.interoperability.fhir.schemas import (
     HomologousRecombinationDeficiencyProfile,
     TumorNeoantigenBurdenProfile,
     AneuploidScoreProfile,
+    ComorbiditiesProfile,
 )
 from onconova.oncology.models import (
     TumorMarker, 
@@ -22,6 +23,7 @@ from onconova.oncology.models import (
     HomologousRecombinationDeficiency,
     TumorNeoantigenBurden,
     AneuploidScore,
+    ComorbiditiesAssessment,
 )
 from fhircraft.fhir.resources.datatypes.R4.core.operation_outcome import (
     OperationOutcome,
@@ -51,6 +53,7 @@ class ObservationController(FhirBaseController):
             | HomologousRecombinationDeficiencyProfile
             | TumorNeoantigenBurdenProfile
             | AneuploidScoreProfile
+            | ComorbiditiesProfile
             | CancerRiskAssessmentProfile,
             **COMMON_READ_HTTP_ERRORS,
         },
@@ -70,6 +73,7 @@ class ObservationController(FhirBaseController):
                 HomologousRecombinationDeficiency,
                 TumorNeoantigenBurden,
                 AneuploidScore,
+                ComorbiditiesAssessment,
             ]
         )
 
@@ -84,6 +88,7 @@ class ObservationController(FhirBaseController):
             | HomologousRecombinationDeficiencyProfile
             | TumorNeoantigenBurdenProfile
             | AneuploidScoreProfile
+            | ComorbiditiesProfile
             | CancerRiskAssessmentProfile
             | OperationOutcome
             | None,
@@ -105,6 +110,7 @@ class ObservationController(FhirBaseController):
             | HomologousRecombinationDeficiencyProfile
             | TumorNeoantigenBurdenProfile
             | AneuploidScoreProfile
+            | ComorbiditiesProfile
             | CancerRiskAssessmentProfile
         ),
     ):
@@ -132,6 +138,7 @@ class ObservationController(FhirBaseController):
                 HomologousRecombinationDeficiency,
                 TumorNeoantigenBurden,
                 AneuploidScore,
+                ComorbiditiesAssessment,
             ]
         )
 
@@ -146,6 +153,7 @@ class ObservationController(FhirBaseController):
             | HomologousRecombinationDeficiencyProfile
             | TumorNeoantigenBurdenProfile
             | AneuploidScoreProfile
+            | ComorbiditiesProfile
             | CancerRiskAssessmentProfile
             | OperationOutcome
             | None,
@@ -167,6 +175,7 @@ class ObservationController(FhirBaseController):
             | HomologousRecombinationDeficiencyProfile
             | TumorNeoantigenBurdenProfile
             | AneuploidScoreProfile
+            | ComorbiditiesProfile
             | CancerRiskAssessmentProfile
         ),
     ):

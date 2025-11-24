@@ -39,6 +39,6 @@ class LossOfHeterozygosityProfile(OnconovaFhirBaseSchema, fhir.OnconovaLossOfHet
         resource.valueQuantity = Quantity(
             value=obj.value, 
             code="%", 
-            system=" http://unitsofmeasure.org"
+            system="http://unitsofmeasure.org"
         )
         return resource

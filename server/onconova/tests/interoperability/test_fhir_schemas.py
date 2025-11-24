@@ -138,3 +138,10 @@ class TestFhirSchemas(TestCase):
             fhir.AneuploidScoreProfile,
             factories.AneuploidScoreFactory,
         )
+        
+    def test_comorbidities_profile_schema_mappings(self, *args, **kwargs):
+        self._test_circular_mapping(
+            schemas.ComorbiditiesAssessment,
+            fhir.ComorbiditiesProfile,
+            factories.ComorbiditiesAssessmentFactory,
+        )

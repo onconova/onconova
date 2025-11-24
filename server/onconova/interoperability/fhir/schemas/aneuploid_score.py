@@ -39,6 +39,6 @@ class AneuploidScoreProfile(OnconovaFhirBaseSchema, fhir.OnconovaAneuploidScore)
         resource.valueQuantity = Quantity(
             value=obj.value, 
             code="1", 
-            system=" http://unitsofmeasure.org"
+            system="http://unitsofmeasure.org"
         )
         return resource

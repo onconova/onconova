@@ -58,7 +58,7 @@ class TumorMutationalBurdenProfile(OnconovaFhirBaseSchema, fhir.OnconovaTumorMut
         resource.valueQuantity = Quantity(
             value=obj.value, 
             code="1/1000000{Base}", 
-            system=" http://unitsofmeasure.org"
+            system="http://unitsofmeasure.org"
         )
         resource.extension = [ 
             fhir.Extension(

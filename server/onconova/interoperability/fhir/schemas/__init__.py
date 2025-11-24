@@ -10,6 +10,7 @@ from .loss_of_heterozygosity import LossOfHeterozygosityProfile
 from .homologous_recombination_deficiency import HomologousRecombinationDeficiencyProfile
 from .tumor_neoantigen_burden import TumorNeoantigenBurdenProfile
 from .aneuploid_score import AneuploidScoreProfile
+from .comorbidities import ComorbiditiesProfile
 
 
 __all__ = (
@@ -25,4 +26,5 @@ __all__ = (
     "HomologousRecombinationDeficiencyProfile",
     "TumorNeoantigenBurdenProfile",
     "AneuploidScoreProfile",
+    "ComorbiditiesProfile",
 )

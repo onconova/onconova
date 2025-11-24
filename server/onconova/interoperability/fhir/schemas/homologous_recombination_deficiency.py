@@ -46,7 +46,7 @@ class HomologousRecombinationDeficiencyProfile(OnconovaFhirBaseSchema, fhir.Onco
         resource.valueQuantity = Quantity(
             value=obj.value, 
             code="1", 
-            system=" http://unitsofmeasure.org"
+            system="http://unitsofmeasure.org"
         )
         resource.extension = [
             fhir.Extension(

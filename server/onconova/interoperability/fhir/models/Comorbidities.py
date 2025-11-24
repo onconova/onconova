@@ -486,7 +486,7 @@ Observation resources representing a generic or panel comorbidities assessment i
         description="(USCDI) Who and/or what the observation is about",
         default=None,
     )
-    focus: Optional[List[Reference]] = Field(
+    focus: Optional[Reference] = Field(
         description="The Index Condition",
         default=None,
     )

@@ -39,6 +39,6 @@ class TumorNeoantigenBurdenProfile(OnconovaFhirBaseSchema, fhir.OnconovaTumorNeo
         resource.valueQuantity = Quantity(
             value=obj.value, 
             code="1/1000000{Neoantigen}", 
-            system=" http://unitsofmeasure.org"
+            system="http://unitsofmeasure.org"
         )
         return resource
