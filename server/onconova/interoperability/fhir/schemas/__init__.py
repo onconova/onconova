@@ -6,6 +6,7 @@ from .cancer_risk_assessment import CancerRiskAssessmentProfile
 from .genomic_variant import GenomicVariantProfile
 from .tumor_mutational_burden import TumorMutationalBurdenProfile
 from .microsatellite_instability import MicrosatelliteInstabilityProfile
+from .loss_of_heterozygosity import LossOfHeterozygosityProfile
 
 __all__ = (
     "CancerPatientProfile",
@@ -16,4 +17,5 @@ __all__ = (
     "GenomicVariantProfile",
     "TumorMutationalBurdenProfile",
     "MicrosatelliteInstabilityProfile",
+    "LossOfHeterozygosityProfile",
 )

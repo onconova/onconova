@@ -7,6 +7,7 @@ from onconova.interoperability.fhir.schemas import (
     GenomicVariantProfile,
     TumorMutationalBurdenProfile,
     MicrosatelliteInstabilityProfile,
+    LossOfHeterozygosityProfile,
 )
 from onconova.oncology.models import (
     TumorMarker, 
@@ -14,6 +15,7 @@ from onconova.oncology.models import (
     GenomicVariant, 
     TumorMutationalBurden,
     MicrosatelliteInstability,
+    LossOfHeterozygosity,
 )
 from fhircraft.fhir.resources.datatypes.R4.core.operation_outcome import (
     OperationOutcome,
@@ -39,6 +41,7 @@ class ObservationController(FhirBaseController):
             | TumorMarkerProfile
             | TumorMutationalBurdenProfile
             | MicrosatelliteInstabilityProfile
+            | LossOfHeterozygosityProfile
             | CancerRiskAssessmentProfile,
             **COMMON_READ_HTTP_ERRORS,
         },
@@ -54,6 +57,7 @@ class ObservationController(FhirBaseController):
                 GenomicVariant,
                 TumorMutationalBurden,
                 MicrosatelliteInstability,
+                LossOfHeterozygosity,
             ]
         )
 
@@ -64,6 +68,7 @@ class ObservationController(FhirBaseController):
             | TumorMarkerProfile
             | TumorMutationalBurdenProfile
             | MicrosatelliteInstabilityProfile
+            | LossOfHeterozygosityProfile
             | CancerRiskAssessmentProfile
             | OperationOutcome
             | None,
@@ -81,6 +86,7 @@ class ObservationController(FhirBaseController):
             | TumorMarkerProfile
             | TumorMutationalBurdenProfile
             | MicrosatelliteInstabilityProfile
+            | LossOfHeterozygosityProfile
             | CancerRiskAssessmentProfile
         ),
     ):
@@ -104,6 +110,7 @@ class ObservationController(FhirBaseController):
                 GenomicVariant, 
                 TumorMutationalBurden,
                 MicrosatelliteInstability,
+                LossOfHeterozygosity
             ]
         )
 
@@ -114,6 +121,7 @@ class ObservationController(FhirBaseController):
             | TumorMarkerProfile
             | TumorMutationalBurdenProfile
             | MicrosatelliteInstabilityProfile
+            | LossOfHeterozygosityProfile
             | CancerRiskAssessmentProfile
             | OperationOutcome
             | None,
@@ -131,6 +139,7 @@ class ObservationController(FhirBaseController):
             | TumorMarkerProfile
             | TumorMutationalBurdenProfile 
             | MicrosatelliteInstabilityProfile
+            | LossOfHeterozygosityProfile
             | CancerRiskAssessmentProfile
         ),
     ):

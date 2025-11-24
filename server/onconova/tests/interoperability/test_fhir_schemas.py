@@ -110,3 +110,10 @@ class TestFhirSchemas(TestCase):
             fhir.MicrosatelliteInstabilityProfile,
             factories.MicrosatelliteInstabilityFactory,
         )
+        
+    def test_loss_of_heterozygosity_profile_schema_mappings(self, *args, **kwargs):
+        self._test_circular_mapping(
+            schemas.LossOfHeterozygosity,
+            fhir.LossOfHeterozygosityProfile,
+            factories.LossOfHeterozygosityFactory,
+        )
