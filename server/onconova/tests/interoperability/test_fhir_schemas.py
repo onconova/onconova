@@ -96,3 +96,10 @@ class TestFhirSchemas(TestCase):
             fhir.GenomicVariantProfile,
             factories.GenomicVariantFactory,
         )
+
+    def test_tumor_mutational_burden_profile_schema_mappings(self, *args, **kwargs):
+        self._test_circular_mapping(
+            schemas.TumorMutationalBurden,
+            fhir.TumorMutationalBurdenProfile,
+            factories.TumorMutationalBurdenFactory,
+        )

@@ -233,16 +233,19 @@ class TestObservationsController(FhirCrudApiControllerTestCase):
         factories.TumorMarkerTestFactory,
         factories.RiskAssessmentFactory,
         factories.GenomicVariantFactory,
+        factories.TumorMutationalBurdenFactory,
     ]
     MODEL = [
         models.TumorMarker,
         models.RiskAssessment,
         models.GenomicVariant,
+        models.TumorMutationalBurden,
     ]
     SCHEMA = [
         schemas.TumorMarkerProfile,
         schemas.CancerRiskAssessmentProfile,
         schemas.GenomicVariantProfile,
+        schemas.TumorMutationalBurdenProfile,
     ]
 
     @classmethod
