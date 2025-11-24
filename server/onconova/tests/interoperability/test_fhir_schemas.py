@@ -131,3 +131,10 @@ class TestFhirSchemas(TestCase):
             fhir.TumorNeoantigenBurdenProfile,
             factories.TumorNeoantigenBurdenFactory,
         )
+        
+    def test_aneuploid_score_profile_schema_mappings(self, *args, **kwargs):
+        self._test_circular_mapping(
+            schemas.AneuploidScore,
+            fhir.AneuploidScoreProfile,
+            factories.AneuploidScoreFactory,
+        )

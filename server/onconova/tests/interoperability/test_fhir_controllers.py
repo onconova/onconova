@@ -238,6 +238,7 @@ class TestObservationsController(FhirCrudApiControllerTestCase):
         factories.LossOfHeterozygosityFactory,
         factories.HomologousRecombinationDeficiencyFactory,
         factories.TumorNeoantigenBurdenFactory,
+        factories.AneuploidScoreFactory,
     ]
     MODEL = [
         models.TumorMarker,
@@ -248,6 +249,7 @@ class TestObservationsController(FhirCrudApiControllerTestCase):
         models.LossOfHeterozygosity,
         models.HomologousRecombinationDeficiency,
         models.TumorNeoantigenBurden,
+        models.AneuploidScore,
     ]
     SCHEMA = [
         schemas.TumorMarkerProfile,
@@ -258,6 +260,7 @@ class TestObservationsController(FhirCrudApiControllerTestCase):
         schemas.LossOfHeterozygosityProfile,
         schemas.HomologousRecombinationDeficiencyProfile,
         schemas.TumorNeoantigenBurdenProfile,
+        schemas.AneuploidScoreProfile,
     ]
 
     @classmethod
