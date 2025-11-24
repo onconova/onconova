@@ -145,3 +145,10 @@ class TestFhirSchemas(TestCase):
             fhir.ComorbiditiesProfile,
             factories.ComorbiditiesAssessmentFactory,
         )
+        
+    def test_lifestyle_profile_schema_mappings(self, *args, **kwargs):
+        self._test_circular_mapping(
+            schemas.Lifestyle,
+            fhir.LifestyleProfile,
+            factories.LifestyleFactory,
+        )

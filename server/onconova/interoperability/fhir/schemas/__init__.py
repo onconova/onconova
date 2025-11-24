@@ -11,6 +11,7 @@ from .homologous_recombination_deficiency import HomologousRecombinationDeficien
 from .tumor_neoantigen_burden import TumorNeoantigenBurdenProfile
 from .aneuploid_score import AneuploidScoreProfile
 from .comorbidities import ComorbiditiesProfile
+from .lifestyle import LifestyleProfile
 
 
 __all__ = (
@@ -27,4 +28,5 @@ __all__ = (
     "TumorNeoantigenBurdenProfile",
     "AneuploidScoreProfile",
     "ComorbiditiesProfile",
+    "LifestyleProfile",
 )

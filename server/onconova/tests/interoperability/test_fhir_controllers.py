@@ -240,6 +240,7 @@ class TestObservationsController(FhirCrudApiControllerTestCase):
         factories.TumorNeoantigenBurdenFactory,
         factories.AneuploidScoreFactory,
         factories.ComorbiditiesAssessmentFactory,
+        factories.LifestyleFactory,
     ]
     MODEL = [
         models.TumorMarker,
@@ -252,6 +253,7 @@ class TestObservationsController(FhirCrudApiControllerTestCase):
         models.TumorNeoantigenBurden,
         models.AneuploidScore,
         models.ComorbiditiesAssessment,
+        models.Lifestyle,
     ]
     SCHEMA = [
         schemas.TumorMarkerProfile,
@@ -264,6 +266,7 @@ class TestObservationsController(FhirCrudApiControllerTestCase):
         schemas.TumorNeoantigenBurdenProfile,
         schemas.AneuploidScoreProfile,
         schemas.ComorbiditiesProfile,
+        schemas.LifestyleProfile,
     ]
 
     @classmethod

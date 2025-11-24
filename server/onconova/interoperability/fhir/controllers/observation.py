@@ -12,6 +12,7 @@ from onconova.interoperability.fhir.schemas import (
     TumorNeoantigenBurdenProfile,
     AneuploidScoreProfile,
     ComorbiditiesProfile,
+    LifestyleProfile,
 )
 from onconova.oncology.models import (
     TumorMarker, 
@@ -24,6 +25,7 @@ from onconova.oncology.models import (
     TumorNeoantigenBurden,
     AneuploidScore,
     ComorbiditiesAssessment,
+    Lifestyle,
 )
 from fhircraft.fhir.resources.datatypes.R4.core.operation_outcome import (
     OperationOutcome,
@@ -54,6 +56,7 @@ class ObservationController(FhirBaseController):
             | TumorNeoantigenBurdenProfile
             | AneuploidScoreProfile
             | ComorbiditiesProfile
+            | LifestyleProfile
             | CancerRiskAssessmentProfile,
             **COMMON_READ_HTTP_ERRORS,
         },
@@ -74,6 +77,7 @@ class ObservationController(FhirBaseController):
                 TumorNeoantigenBurden,
                 AneuploidScore,
                 ComorbiditiesAssessment,
+                Lifestyle,
             ]
         )
 
@@ -89,6 +93,7 @@ class ObservationController(FhirBaseController):
             | TumorNeoantigenBurdenProfile
             | AneuploidScoreProfile
             | ComorbiditiesProfile
+            | LifestyleProfile
             | CancerRiskAssessmentProfile
             | OperationOutcome
             | None,
@@ -111,6 +116,7 @@ class ObservationController(FhirBaseController):
             | TumorNeoantigenBurdenProfile
             | AneuploidScoreProfile
             | ComorbiditiesProfile
+            | LifestyleProfile
             | CancerRiskAssessmentProfile
         ),
     ):
@@ -139,6 +145,7 @@ class ObservationController(FhirBaseController):
                 TumorNeoantigenBurden,
                 AneuploidScore,
                 ComorbiditiesAssessment,
+                Lifestyle,
             ]
         )
 
@@ -154,6 +161,7 @@ class ObservationController(FhirBaseController):
             | TumorNeoantigenBurdenProfile
             | AneuploidScoreProfile
             | ComorbiditiesProfile
+            | LifestyleProfile
             | CancerRiskAssessmentProfile
             | OperationOutcome
             | None,
@@ -176,6 +184,7 @@ class ObservationController(FhirBaseController):
             | TumorNeoantigenBurdenProfile
             | AneuploidScoreProfile
             | ComorbiditiesProfile
+            | LifestyleProfile
             | CancerRiskAssessmentProfile
         ),
     ):

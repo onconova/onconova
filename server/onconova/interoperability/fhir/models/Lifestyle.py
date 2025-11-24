@@ -17,6 +17,7 @@ NoneType = type(None)
 from fhircraft.fhir.resources.base import FHIRBaseModel
 from typing import Optional,List,Annotated,Union,Literal
 from fhircraft.fhir.resources.datatypes.primitives import String,Uri,Code,DateTime,Instant,Boolean,Integer,Time
+from fhircraft.fhir.resources.datatypes.R4.core.observation import ObservationReferenceRange
 from fhircraft.fhir.resources.datatypes.R4.complex.element import Element
 from fhircraft.fhir.resources.datatypes.R4.complex.meta import Meta
 from fhircraft.fhir.resources.datatypes.R4.complex.narrative import Narrative
@@ -41,96 +42,6 @@ class OnconovaLifestyleUsCore(CodeableConcept):
     """
     pass
     
- 
-class OnconovaLifestyleReferenceRange(BackboneElement):
-    """
-    Not used in this profile
-    """
-    low: Optional[Quantity] = Field(
-        description="Low Range, if relevant",
-        default=None,
-    )
-    high: Optional[Quantity] = Field(
-        description="High Range, if relevant",
-        default=None,
-    )
-    type: Optional[CodeableConcept] = Field(
-        description="Reference range qualifier",
-        default=None,
-    )
-    appliesTo: Optional[List[CodeableConcept]] = Field(
-        description="Reference range population",
-        default=None,
-    )
-    age: Optional[Range] = Field(
-        description="Applicable age range, if relevant",
-        default=None,
-    )
-    text: Optional[String] = Field(
-        description="Text based reference range in an observation",
-        default=None,
-    )
-    text_ext: Optional[Element] = Field(
-        description="Placeholder element for text extensions",
-        default=None,
-        alias="_text",
-    )
-    
-    @field_validator(*('text', 'age', 'appliesTo', 'type', 'high', 'low', 'modifierExtension', 'extension', 'modifierExtension', 'extension', 'modifierExtension', 'extension', 'modifierExtension', 'extension', 'modifierExtension', 'extension', 'modifierExtension', 'extension'), mode="after", check_fields=None)
-    @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
-            expression="hasValue() or (children().count() > id.count())",
-            human="All FHIR elements must have a @value or children",
-            key="ele-1",
-            severity="error",
-        )
-        
- 
-class OnconovaLifestyleSmokingStatusComponentReferenceRange(BackboneElement):
-    """
-    Guidance on how to interpret the value by comparison to a normal or recommended range.
-    """
-    low: Optional[Quantity] = Field(
-        description="Low Range, if relevant",
-        default=None,
-    )
-    high: Optional[Quantity] = Field(
-        description="High Range, if relevant",
-        default=None,
-    )
-    type: Optional[CodeableConcept] = Field(
-        description="Reference range qualifier",
-        default=None,
-    )
-    appliesTo: Optional[List[CodeableConcept]] = Field(
-        description="Reference range population",
-        default=None,
-    )
-    age: Optional[Range] = Field(
-        description="Applicable age range, if relevant",
-        default=None,
-    )
-    text: Optional[String] = Field(
-        description="Text based reference range in an observation",
-        default=None,
-    )
-    text_ext: Optional[Element] = Field(
-        description="Placeholder element for text extensions",
-        default=None,
-        alias="_text",
-    )
-    
-    @field_validator(*('text', 'age', 'appliesTo', 'type', 'high', 'low', 'modifierExtension', 'extension', 'modifierExtension', 'extension', 'modifierExtension', 'extension', 'modifierExtension', 'extension', 'modifierExtension', 'extension', 'modifierExtension', 'extension'), mode="after", check_fields=None)
-    @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
-            expression="hasValue() or (children().count() > id.count())",
-            human="All FHIR elements must have a @value or children",
-            key="ele-1",
-            severity="error",
-        )
-        
  
 class OnconovaLifestyleSmokingStatus(BackboneElement):
     """
@@ -160,7 +71,7 @@ class OnconovaLifestyleSmokingStatus(BackboneElement):
         description="High, low, normal, etc.",
         default=None,
     )
-    referenceRange: Optional[List[OnconovaLifestyleSmokingStatusComponentReferenceRange]] = Field(
+    referenceRange: Optional[List[ObservationReferenceRange]] = Field(
         description="Provides guide for interpretation of component result",
         default=None,
     )
@@ -236,7 +147,7 @@ class OnconovaLifestyleSmokingPackyears(BackboneElement):
         description="High, low, normal, etc.",
         default=None,
     )
-    referenceRange: Optional[List['OnconovaLifestyleSmokingPackyearsReferenceRange']] = Field(
+    referenceRange: Optional[List['ObservationReferenceRange']] = Field(
         description="Provides guide for interpretation of component result",
         default=None,
     )
@@ -312,7 +223,7 @@ class OnconovaLifestyleSmokingQuited(BackboneElement):
         description="High, low, normal, etc.",
         default=None,
     )
-    referenceRange: Optional[List['OnconovaLifestyleSmokingQuitedReferenceRange']] = Field(
+    referenceRange: Optional[List['ObservationReferenceRange']] = Field(
         description="Provides guide for interpretation of component result",
         default=None,
     )
@@ -388,7 +299,7 @@ class OnconovaLifestyleAlcoholConsumption(BackboneElement):
         description="High, low, normal, etc.",
         default=None,
     )
-    referenceRange: Optional[List['OnconovaLifestyleAlcoholConsumptionReferenceRange']] = Field(
+    referenceRange: Optional[List['ObservationReferenceRange']] = Field(
         description="Provides guide for interpretation of component result",
         default=None,
     )
@@ -464,7 +375,7 @@ class OnconovaLifestyleNightSleep(BackboneElement):
         description="High, low, normal, etc.",
         default=None,
     )
-    referenceRange: Optional[List['OnconovaLifestyleNightSleepReferenceRange']] = Field(
+    referenceRange: Optional[List['ObservationReferenceRange']] = Field(
         description="Provides guide for interpretation of component result",
         default=None,
     )
@@ -540,7 +451,7 @@ class OnconovaLifestyleRecreationalDrug(BackboneElement):
         description="High, low, normal, etc.",
         default=None,
     )
-    referenceRange: Optional[List['OnconovaLifestyleRecreationalDrugReferenceRange']] = Field(
+    referenceRange: Optional[List['ObservationReferenceRange']] = Field(
         description="Provides guide for interpretation of component result",
         default=None,
     )
@@ -616,7 +527,7 @@ class OnconovaLifestyleExposures(BackboneElement):
         description="High, low, normal, etc.",
         default=None,
     )
-    referenceRange: Optional[List['OnconovaLifestyleExposuresReferenceRange']] = Field(
+    referenceRange: Optional[List['ObservationReferenceRange']] = Field(
         description="Provides guide for interpretation of component result",
         default=None,
     )
@@ -852,7 +763,7 @@ Observation resources representing a summary of a patient's lifestyle in the sco
         description="Not used in this profile",
         default=None,
     )
-    referenceRange: Optional[List[OnconovaLifestyleReferenceRange]] = Field(
+    referenceRange: Optional[List[ObservationReferenceRange]] = Field(
         description="Not used in this profile",
         default=None,
     )
@@ -1053,8 +964,7 @@ Observation resources representing a summary of a patient's lifestyle in the sco
         
 
 OnconovaLifestyleUsCore.model_rebuild()
-OnconovaLifestyleReferenceRange.model_rebuild()
-OnconovaLifestyleSmokingStatusComponentReferenceRange.model_rebuild()
+ObservationReferenceRange.model_rebuild()
 OnconovaLifestyleSmokingStatus.model_rebuild()
 OnconovaLifestyleSmokingPackyears.model_rebuild()
 OnconovaLifestyleSmokingQuited.model_rebuild()
