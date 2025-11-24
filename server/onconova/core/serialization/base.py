@@ -453,6 +453,8 @@ class BaseSchema(
 
         # Rollback changes if any exception occurs during the transaction
         with transaction.atomic():
+            from pprint import pprint
+            pprint(instance.__dict__)
             # Save the model instance to the database
             instance.save()
             # Set many-to-many

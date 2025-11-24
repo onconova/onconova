@@ -244,6 +244,18 @@ class TestObservationsController(FhirCrudApiControllerTestCase):
         factories.ECOGPerformanceStatusFactory,
         factories.KarnofskyPerformanceStatusFactory,
         factories.TreatmentResponseFactory,
+        factories.FIGOStagingFactory,
+        factories.RaiStagingFactory,
+        factories.BreslowDepthFactory,
+        factories.BinetStagingFactory,
+        factories.ClarkStagingFactory,
+        factories.ISSStagingFactory,
+        factories.RISSStagingFactory,
+        factories.INSSStagingFactory,
+        factories.INRGSSStagingFactory,
+        factories.GleasonGradeFactory,
+        factories.RhabdomyosarcomaClinicalGroupFactory,
+        factories.WilmsStageFactory,
     ]
     MODEL = [
         models.TumorMarker,
@@ -260,6 +272,18 @@ class TestObservationsController(FhirCrudApiControllerTestCase):
         models.PerformanceStatus,
         models.PerformanceStatus,
         models.TreatmentResponse,
+        models.FIGOStaging,
+        models.RaiStaging,            
+        models.BreslowDepth,            
+        models.BinetStaging,            
+        models.ClarkStaging,            
+        models.ISSStaging,            
+        models.RISSStaging,            
+        models.INSSStage,            
+        models.INRGSSStage,            
+        models.GleasonGrade,            
+        models.RhabdomyosarcomaClinicalGroup,            
+        models.WilmsStage,    
     ]
     SCHEMA = [
         schemas.TumorMarkerProfile,
@@ -276,6 +300,19 @@ class TestObservationsController(FhirCrudApiControllerTestCase):
         schemas.ECOGPerformanceStatusProfile,
         schemas.KarnofskyPerformanceStatusProfile,
         schemas.ImagingDiseaseStatusProfile,
+        schemas.CancerStageProfile,
+        schemas.CancerStageProfile,
+        schemas.CancerStageProfile,
+        schemas.CancerStageProfile,
+        schemas.CancerStageProfile,
+        schemas.CancerStageProfile,
+        schemas.CancerStageProfile,
+        schemas.CancerStageProfile,
+        schemas.CancerStageProfile,
+        schemas.CancerStageProfile,
+        schemas.CancerStageProfile,
+        schemas.CancerStageProfile,
+        schemas.CancerStageProfile,
     ]
 
     @classmethod
@@ -295,3 +332,4 @@ class TestObservationsController(FhirCrudApiControllerTestCase):
     def tearDownClass(cls):
         cls.patcher.stop()
         super().tearDownClass()
+

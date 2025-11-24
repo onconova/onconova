@@ -1,5 +1,5 @@
 from typing import Literal, List
-from pydantic import Field
+from pydantic import Field, field_validator
 from datetime import date as date_aliased
 
 from onconova.core.schemas import BaseSchema, MetadataAnonymizationMixin, CodedConcept, Measure
@@ -56,7 +56,7 @@ class TNMStagingCreate(StagingCreate):
     __orm_model__ = orm.TNMStaging
     
     stagingDomain: Literal[orm.StagingDomain.TNM] = Field(
-        orm.StagingDomain.TNM,
+        default=orm.StagingDomain.TNM,
         title="Staging domain",
         description="Staging domain discriminator category",
     )
@@ -67,36 +67,36 @@ class TNMStagingCreate(StagingCreate):
         json_schema_extra={'x-terminology': 'TNMStage'},
     )
     methodology: Nullable[CodedConcept] = Field(
-        None,
+        default=None,
         description='Methodology used for TNM staging',
         title='TNM Staging methodology',
         json_schema_extra={'x-terminology': 'TNMStagingMethod'},
     )
     pathological: Nullable[bool] = Field(
-        None,
+        default=None,
         description='Whether the staging was based on pathological (true) or clinical (false) evidence.',
         title='Pathological staging',
     )
     primarytumor: Nullable[CodedConcept] = Field(
-        None,
+        default=None,
         description='T stage (extent of the primary tumor)',
         title='T Stage',
         json_schema_extra={'x-terminology': 'TNMPrimaryTumorCategory'},
     )
     regionalnodes: Nullable[CodedConcept] = Field(
-        None,
+        default=None,
         description='N stage (degree of spread to regional lymph nodes)',
         title='N Stage',
         json_schema_extra={'x-terminology': 'TNMRegionalNodesCategory'},
     )
     distantmetastases: Nullable[CodedConcept] = Field(
-        None,
+        default=None,
         description='M stage (presence of distant metastasis)',
         title='M Stage',
         json_schema_extra={'x-terminology': 'TNMDistantMetastasesCategory'},
     )
     grade: Nullable[CodedConcept] = Field(
-        None,
+        default=None,
         description='G stage (grade of the cancer cells)',
         title='G Stage',
         json_schema_extra={'x-terminology': 'TNMGradeCategory'},
@@ -108,25 +108,25 @@ class TNMStagingCreate(StagingCreate):
         json_schema_extra={'x-terminology': 'TNMResidualTumorCategory'},
     )
     lymphaticinvasion: Nullable[CodedConcept] = Field(
-        None,
+        default=None,
         description='L stage (invasion into lymphatic vessels)',
         title='L Stage',
         json_schema_extra={'x-terminology': 'TNMLymphaticInvasionCategory'},
     )
     venousinvasion: Nullable[CodedConcept] = Field(
-        None,
+        default=None,
         description='V stage (invasion into venous vessels)',
         title='V Stage',
         json_schema_extra={'x-terminology': 'TNMVenousInvasionCategory'},
     )
     perineuralinvasion: Nullable[CodedConcept] = Field(
-        None,
+        default=None,
         description='Pn stage (invasion into adjunct nerves)',
         title='Pn Stage',
         json_schema_extra={'x-terminology': 'TNMPerineuralInvasionCategory'},
     )
     serumtumormarkerlevel: Nullable[CodedConcept] = Field(
-        None,
+        default=None,
         description='S stage (serum tumor marker level)',
         title='S Stage',
         json_schema_extra={'x-terminology': 'TNMSerumTumorMarkerLevelCategory'},
@@ -144,7 +144,7 @@ class FIGOStagingCreate(StagingCreate):
     __orm_model__ = orm.FIGOStaging
     
     stagingDomain: Literal[orm.StagingDomain.FIGO] = Field(
-        orm.StagingDomain.FIGO,
+        default=orm.StagingDomain.FIGO,
         title="Staging domain",
         description="Staging domain discriminator category",
     )
@@ -155,7 +155,7 @@ class FIGOStagingCreate(StagingCreate):
         json_schema_extra={'x-terminology': 'FIGOStage'},
     )
     methodology: Nullable[CodedConcept] = Field(
-        None,
+        default=None,
         description='Methodology used for the FIGO staging',
         title='FIGO staging methodology',
         json_schema_extra={'x-terminology': 'FIGOStagingMethod'},
@@ -169,10 +169,10 @@ class FIGOStaging(FIGOStagingCreate, MetadataAnonymizationMixin):
 
 class BinetStagingCreate(StagingCreate):
     
-    __orm_model__ = orm.Staging 
+    __orm_model__ = orm.BinetStaging 
     
     stagingDomain: Literal[orm.StagingDomain.BINET] = Field(
-        orm.StagingDomain.BINET,
+        default=orm.StagingDomain.BINET,
         title="Staging domain",
         description="Staging domain discriminator category",
     )
@@ -195,7 +195,7 @@ class RaiStagingCreate(StagingCreate):
     __orm_model__ = orm.RaiStaging
     
     stagingDomain: Literal[orm.StagingDomain.RAI] = Field(
-        orm.StagingDomain.RAI,
+        default=orm.StagingDomain.RAI,
         title="Staging domain",
         description="Staging domain discriminator category",
     )
@@ -206,7 +206,7 @@ class RaiStagingCreate(StagingCreate):
         json_schema_extra={'x-terminology': 'RaiStage'},
     )
     methodology: Nullable[CodedConcept] = Field(
-        None,
+        default=None,
         description='Methodology used for the Rai staging',
         title='Rai staging methodology',
         json_schema_extra={'x-terminology': 'RaiStagingMethod'},
@@ -222,10 +222,10 @@ class RaiStaging(RaiStagingCreate, MetadataAnonymizationMixin):
 
 class BreslowDepthCreate(StagingCreate):
     
-    __orm_model__ = orm.BinetStaging
+    __orm_model__ = orm.BreslowDepth
 
     stagingDomain: Literal[orm.StagingDomain.BRESLOW] = Field(
-        orm.StagingDomain.BRESLOW,
+        default=orm.StagingDomain.BRESLOW,
         title="Staging domain",
         description="Staging domain discriminator category",
     )
@@ -239,7 +239,7 @@ class BreslowDepthCreate(StagingCreate):
         },
     )
     isUlcered: Nullable[bool] = Field(
-        None,
+        default=None,
         description='Whether the primary tumour presents ulceration',
         title='Ulcered',
     )
@@ -248,10 +248,17 @@ class BreslowDepthCreate(StagingCreate):
 class BreslowDepth(BreslowDepthCreate, MetadataAnonymizationMixin):
     stage: CodedConcept = Field(
         title="Breslow Stage",
-        description="The value of the Binet stage",
+        description="The value of the Breslow stage",
         json_schema_extra={"x-terminology": "BreslowDepthStage"},
     )
     
+    @field_validator('stage', mode='before')
+    @classmethod
+    def ensure_stage(cls, stage) -> CodedConcept:
+        if stage is None:
+            return CodedConcept(code="NAVU", system="http://terminology.hl7.org/CodeSystem/v3-NullFlavor", display="Not available")  
+        return stage  
+      
     __anonymization_fields__ = ("date",)
     __anonymization_key__ = "caseId"
 
@@ -262,7 +269,7 @@ class ClarkStagingCreate(StagingCreate):
     __orm_model__ = orm.ClarkStaging
     
     stagingDomain: Literal[orm.StagingDomain.CLARK] = Field(
-        orm.StagingDomain.CLARK,
+        default=orm.StagingDomain.CLARK,
         title="Staging domain",
         description="Staging domain discriminator category",
     )
@@ -285,7 +292,7 @@ class ISSStagingCreate(StagingCreate):
     __orm_model__ = orm.ISSStaging
     
     stagingDomain: Literal[orm.StagingDomain.ISS] = Field(
-        orm.StagingDomain.ISS,
+        default=orm.StagingDomain.ISS,
         title="Staging domain",
         description="Staging domain discriminator category",
     )
@@ -308,7 +315,7 @@ class RISSStagingCreate(StagingCreate):
     __orm_model__ = orm.RISSStaging
     
     stagingDomain: Literal[orm.StagingDomain.RISS] = Field(
-        orm.StagingDomain.RISS,
+        default=orm.StagingDomain.RISS,
         title="Staging domain",
         description="Staging domain discriminator category",
     )
@@ -321,7 +328,7 @@ class RISSStagingCreate(StagingCreate):
 
 class RISSStaging(RISSStagingCreate, MetadataAnonymizationMixin):
     
-    __anonymization_fields__ = ("date",)
+    __anonymization_fielfds__ = ("date",)
     __anonymization_key__ = "caseId"
     
 
@@ -331,7 +338,7 @@ class GleasonGradeCreate(StagingCreate):
     __orm_model__ = orm.GleasonGrade
     
     stagingDomain: Literal[orm.StagingDomain.GLEASON] = Field(
-        orm.StagingDomain.GLEASON,
+        default=orm.StagingDomain.GLEASON,
         title="Staging domain",
         description="Staging domain discriminator category",
     )
@@ -354,7 +361,7 @@ class INSSStageCreate(StagingCreate):
     __orm_model__ = orm.INSSStage
     
     stagingDomain: Literal[orm.StagingDomain.INSS] = Field(
-        orm.StagingDomain.INSS,
+        default=orm.StagingDomain.INSS,
         title="Staging domain",
         description="Staging domain discriminator category",
     )
@@ -378,7 +385,7 @@ class INRGSSStageCreate(StagingCreate):
     __orm_model__ = orm.INRGSSStage
     
     stagingDomain: Literal[orm.StagingDomain.INRGSS] = Field(
-        orm.StagingDomain.INRGSS,
+        default=orm.StagingDomain.INRGSS,
         title="Staging domain",
         description="Staging domain discriminator category",
     )
@@ -401,7 +408,7 @@ class WilmsStageCreate(StagingCreate):
     __orm_model__ = orm.WilmsStage
     
     stagingDomain: Literal[orm.StagingDomain.WILMS] = Field(
-        orm.StagingDomain.WILMS,
+        default=orm.StagingDomain.WILMS,
         title="Staging domain",
         description="Staging domain discriminator category",
     )
@@ -423,7 +430,7 @@ class RhabdomyosarcomaClinicalGroupCreate(StagingCreate):
     __orm_model__ = orm.RhabdomyosarcomaClinicalGroup
     
     stagingDomain: Literal[orm.StagingDomain.RHABDO] = Field(
-        orm.StagingDomain.RHABDO,
+        default=orm.StagingDomain.RHABDO,
         title="Staging domain",
         description="Staging domain discriminator category",
     )
@@ -445,7 +452,7 @@ class LymphomaStagingCreate(StagingCreate):
     __orm_model__ = orm.LymphomaStaging 
     
     stagingDomain: Literal[orm.StagingDomain.LYMPHOMA] = Field(
-        orm.StagingDomain.LYMPHOMA,
+        default=orm.StagingDomain.LYMPHOMA,
         title="Staging domain",
         description="Staging domain discriminator category",
     )
@@ -456,23 +463,23 @@ class LymphomaStagingCreate(StagingCreate):
         json_schema_extra={'x-terminology': 'LymphomaStage'},
     )
     methodology: Nullable[CodedConcept] = Field(
-        None,
+        default=None,
         description='Methodology used for the Lymphoma staging',
         title='Lymphoma staging methodology',
         json_schema_extra={'x-terminology': 'LymphomaStagingMethod'},
     )
     bulky: Nullable[bool] = Field(
-        None,
+        default=None,
         description='Bulky modifier indicating if the lymphoma has the presence of bulky disease.',
         title='Bulky disease modifier',
     )
     pathological: Nullable[bool] = Field(
-        None,
+        default=None,
         description='Whether the staging was based on clinical or pathologic evidence.',
         title='Pathological staging',
     )
     modifiers: Nullable[List[CodedConcept]] = Field(
-        None,
+        default=None,
         description='Qualifier acting as modifier for the lymphoma stage',
         title='Lymphoma stage modifier',
         json_schema_extra={'x-terminology': 'LymphomaStageValueModifier'},

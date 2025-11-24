@@ -24,13 +24,17 @@ class MappingRegistry:
     def __init__(self):
         self._mappings: Dict[str, List[MappingRule]] = {}
 
+    def get_rules(self, mapping_name: str) -> List[MappingRule]:
+        """Convert internal value to FHIR value."""
+        return self._mappings.get(mapping_name, [])
+        
     def register(self, mapping_name: str, rules: List[MappingRule]):
         """Register a set of mapping rules."""
         self._mappings[mapping_name] = rules
 
     def to_fhir(self, mapping_name: str, internal_value: Any) -> Any:
         """Convert internal value to FHIR value."""
-        rules = self._mappings.get(mapping_name, [])
+        rules = self.get_rules(mapping_name)
         for rule in rules:
             if rule.internal_value == internal_value:
                 return rule.fhir_value
@@ -42,7 +46,7 @@ class MappingRegistry:
 
     def to_internal(self, mapping_name: str, fhir_value: Any) -> Any:
         """Convert FHIR value to internal value."""
-        rules = self._mappings.get(mapping_name, [])
+        rules = self.get_rules(mapping_name)
 
         # Handle None/empty cases
         if fhir_value is None:
@@ -74,8 +78,16 @@ class MappingRegistry:
 class OnconovaFhirBaseSchema(BaseSchema):
 
     __model__: ClassVar[type[Model]]
-    __schema__: ClassVar[type[Schema]]
-    __registry__: ClassVar[type[MappingRegistry]] = MappingRegistry()
+    __schema__: ClassVar[type[BaseSchema]]
+    __registry__: ClassVar[MappingRegistry] = MappingRegistry()
+
+    @classmethod
+    def get_orm_model(cls, obj: FHIRBaseModel):
+        return cls.__model__
+    
+    @classmethod
+    def get_orm_schema(cls, obj):
+        return cls.__schema__
 
     @classmethod
     def map_to_fhir(cls, map: str, value: Any):
@@ -102,11 +114,11 @@ class OnconovaFhirBaseSchema(BaseSchema):
     def pre_validator(cls, obj):
         try:
             if isinstance(obj, cls.__model__):
-                obj = cls.__schema__.model_validate(obj)
+                obj = cls.get_orm_schema(obj).model_validate(obj)
             if isinstance(obj, DjangoGetter) and isinstance(obj._obj, cls.__model__):
-                obj = cls.__schema__.model_validate(obj)
+                obj = cls.get_orm_schema(obj).model_validate(obj)
                 return cls.onconova_to_fhir(obj)
-            elif isinstance(obj, cls.__schema__):
+            elif isinstance(obj, cls.get_orm_schema(obj)):
                 return cls.onconova_to_fhir(obj)
         except TemplateSyntaxError:
             pass

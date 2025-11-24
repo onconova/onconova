@@ -16,6 +16,7 @@ from onconova.interoperability.fhir.schemas import (
     ECOGPerformanceStatusProfile,
     KarnofskyPerformanceStatusProfile,
     ImagingDiseaseStatusProfile,
+    CancerStageProfile,
 )
 from onconova.oncology.models import (
     TumorMarker, 
@@ -31,6 +32,18 @@ from onconova.oncology.models import (
     Lifestyle,
     PerformanceStatus,
     TreatmentResponse,
+    FIGOStaging,
+    BreslowDepth,
+    RaiStaging,
+    BinetStaging,
+    ClarkStaging,
+    ISSStaging,
+    RISSStaging,
+    INSSStage,
+    INRGSSStage,
+    GleasonGrade,
+    RhabdomyosarcomaClinicalGroup,
+    WilmsStage
 )
 from fhircraft.fhir.resources.datatypes.R4.core.operation_outcome import (
     OperationOutcome,
@@ -65,6 +78,7 @@ class ObservationController(FhirBaseController):
             | ECOGPerformanceStatusProfile
             | KarnofskyPerformanceStatusProfile
             | ImagingDiseaseStatusProfile
+            | CancerStageProfile
             | CancerRiskAssessmentProfile,
             **COMMON_READ_HTTP_ERRORS,
         },
@@ -88,6 +102,18 @@ class ObservationController(FhirBaseController):
                 Lifestyle,
                 PerformanceStatus,
                 TreatmentResponse,
+                FIGOStaging,
+                BreslowDepth,
+                RaiStaging,
+                BinetStaging,
+                ClarkStaging,
+                ISSStaging,
+                RISSStaging,
+                INSSStage,
+                INRGSSStage,
+                GleasonGrade,
+                RhabdomyosarcomaClinicalGroup,
+                WilmsStage
             ]
         )
 
@@ -107,6 +133,7 @@ class ObservationController(FhirBaseController):
             | ECOGPerformanceStatusProfile
             | KarnofskyPerformanceStatusProfile
             | ImagingDiseaseStatusProfile
+            | CancerStageProfile
             | CancerRiskAssessmentProfile
             | OperationOutcome
             | None,
@@ -133,6 +160,7 @@ class ObservationController(FhirBaseController):
             | ECOGPerformanceStatusProfile
             | KarnofskyPerformanceStatusProfile
             | ImagingDiseaseStatusProfile
+            | CancerStageProfile
             | CancerRiskAssessmentProfile
         ),
     ):
@@ -164,6 +192,18 @@ class ObservationController(FhirBaseController):
                 Lifestyle,
                 PerformanceStatus,
                 TreatmentResponse,
+                FIGOStaging,
+                BreslowDepth,
+                RaiStaging,
+                BinetStaging,
+                ClarkStaging,
+                ISSStaging,
+                RISSStaging,
+                INSSStage,
+                INRGSSStage,
+                GleasonGrade,
+                RhabdomyosarcomaClinicalGroup,
+                WilmsStage
             ]
         )
 
@@ -183,6 +223,7 @@ class ObservationController(FhirBaseController):
             | ECOGPerformanceStatusProfile
             | KarnofskyPerformanceStatusProfile
             | ImagingDiseaseStatusProfile
+            | CancerStageProfile
             | CancerRiskAssessmentProfile
             | OperationOutcome
             | None,
@@ -209,6 +250,7 @@ class ObservationController(FhirBaseController):
             | ECOGPerformanceStatusProfile
             | KarnofskyPerformanceStatusProfile
             | ImagingDiseaseStatusProfile
+            | CancerStageProfile
             | CancerRiskAssessmentProfile
         ),
     ):

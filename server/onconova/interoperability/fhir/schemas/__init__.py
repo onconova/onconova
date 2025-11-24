@@ -14,6 +14,7 @@ from .comorbidities import ComorbiditiesProfile
 from .lifestyle import LifestyleProfile
 from .performance_status import ECOGPerformanceStatusProfile, KarnofskyPerformanceStatusProfile
 from .imaging_disease_status import ImagingDiseaseStatusProfile
+from .cancer_stage import CancerStageProfile
 
 __all__ = (
     "CancerPatientProfile",
@@ -33,4 +34,5 @@ __all__ = (
     "ECOGPerformanceStatusProfile",
     "KarnofskyPerformanceStatusProfile",
     "ImagingDiseaseStatusProfile",
+    "CancerStageProfile",
 )

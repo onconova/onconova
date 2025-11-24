@@ -27,16 +27,63 @@ class TestStagingController(CrudApiControllerTestCase):
     FACTORY = [
         factories.TNMStagingFactory,
         factories.FIGOStagingFactory,
+        factories.RaiStagingFactory,
+        factories.BreslowDepthFactory,
+        factories.BinetStagingFactory,
+        factories.ClarkStagingFactory,
+        factories.ISSStagingFactory,
+        factories.RISSStagingFactory,
+        factories.INSSStagingFactory,
+        factories.INRGSSStagingFactory,
+        factories.GleasonGradeFactory,
+        factories.RhabdomyosarcomaClinicalGroupFactory,
+        factories.WilmsStageFactory,
     ]
     MODEL = [
         models.TNMStaging,
         models.FIGOStaging,
+        models.RaiStaging,            
+        models.BreslowDepth,            
+        models.BinetStaging,            
+        models.ClarkStaging,            
+        models.ISSStaging,            
+        models.RISSStaging,            
+        models.INSSStage,            
+        models.INRGSSStage,            
+        models.GleasonGrade,            
+        models.RhabdomyosarcomaClinicalGroup,            
+        models.WilmsStage,    
     ]
     SCHEMA = [
         schemas.TNMStaging,
         schemas.FIGOStaging,
+        schemas.RaiStaging,            
+        schemas.BreslowDepth,            
+        schemas.BinetStaging,            
+        schemas.ClarkStaging,            
+        schemas.ISSStaging,            
+        schemas.RISSStaging,            
+        schemas.INSSStage,            
+        schemas.INRGSSStage,            
+        schemas.GleasonGrade,            
+        schemas.RhabdomyosarcomaClinicalGroup,            
+        schemas.WilmsStage,  
     ]
-    CREATE_SCHEMA = [schemas.TNMStagingCreate, schemas.FIGOStagingCreate]
+    CREATE_SCHEMA = [
+        schemas.TNMStagingCreate,
+        schemas.FIGOStagingCreate,
+        schemas.RaiStagingCreate,            
+        schemas.BreslowDepthCreate,            
+        schemas.BinetStagingCreate,            
+        schemas.ClarkStagingCreate,            
+        schemas.ISSStagingCreate,            
+        schemas.RISSStagingCreate,            
+        schemas.INSSStageCreate,            
+        schemas.INRGSSStageCreate,            
+        schemas.GleasonGradeCreate,            
+        schemas.RhabdomyosarcomaClinicalGroupCreate,            
+        schemas.WilmsStageCreate,  
+    ]
 
 
 class TestTumorMarkerController(CrudApiControllerTestCase):

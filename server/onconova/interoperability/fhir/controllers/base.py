@@ -53,7 +53,7 @@ class FhirBaseController(ControllerBase):
     def update_fhir_resource(self, rid: str, payload: OnconovaFhirBaseSchema):
         """Update a FHIR resource by its ID"""
         assert self.context and self.context.response and self.context.request
-        if not (instance := payload.__class__.__model__.objects.filter(id=rid).first()):
+        if not (instance := payload.__class__.get_orm_model(payload).objects.filter(id=rid).first()):
             return 405, OperationOutcome(
                 issue=[
                     OperationOutcomeIssue(

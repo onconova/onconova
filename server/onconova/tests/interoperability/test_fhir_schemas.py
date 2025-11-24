@@ -5,7 +5,7 @@ import json
 from onconova.oncology import schemas
 from onconova.interoperability.fhir import schemas as fhir
 from onconova.tests import factories
-
+from parameterized import parameterized
 from fhircraft.fhir.resources.datatypes.R4.complex import (
     Coding,
 )
@@ -172,4 +172,59 @@ class TestFhirSchemas(TestCase):
             schemas.TreatmentResponse,
             fhir.ImagingDiseaseStatusProfile,
             factories.TreatmentResponseFactory,
+        )
+    
+    @parameterized.expand([
+        (
+            schemas.FIGOStaging,
+            factories.FIGOStagingFactory,
+        ),
+        (
+            schemas.RaiStaging,            
+            factories.RaiStagingFactory,
+        ),
+        (
+            schemas.BreslowDepth,            
+            factories.BreslowDepthFactory,
+        ),
+        (
+            schemas.BinetStaging,            
+            factories.BinetStagingFactory,
+        ),
+        (
+            schemas.ClarkStaging,            
+            factories.ClarkStagingFactory,
+        ),
+        (
+            schemas.ISSStaging,            
+            factories.ISSStagingFactory,
+        ),
+        (
+            schemas.RISSStaging,            
+            factories.RISSStagingFactory,
+        ),
+        (
+            schemas.INSSStage,            
+            factories.INSSStagingFactory,
+        ),
+        (
+            schemas.INRGSSStage,            
+            factories.INRGSSStagingFactory,
+        ),
+        (
+            schemas.GleasonGrade,            
+            factories.GleasonGradeFactory,
+        ),
+        (
+            schemas.RhabdomyosarcomaClinicalGroup,            
+            factories.RhabdomyosarcomaClinicalGroupFactory,
+        ),
+        (
+            schemas.WilmsStage,            
+            factories.WilmsStageFactory,
+        ),
+    ])
+    def test_cancer_stage_profile_schema_mappings(self, schema, factory, *args, **kwargs):
+        self._test_circular_mapping(
+            schema,fhir.CancerStageProfile, factory
         )

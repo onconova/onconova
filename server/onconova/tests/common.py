@@ -261,7 +261,10 @@ class ApiControllerTestMixin:
         # Assert response status code
         assert (
             response.status_code in expected_responses
-        ), f"Endpoint responded with {response.status_code} (expected any of {expected_responses})"
+        ), f"""Endpoint responded with {response.status_code} (expected any of {expected_responses}).
+        
+        {response.json()}
+        """
         return response
 
 
@@ -420,11 +423,11 @@ class CrudApiControllerTestCase(ApiControllerTestMixin, TestCase):
         for i in range(self.subtests):
             can_be_anonymized = hasattr(self.schemas[i], "anonymized")
             instance = self.instances[i]
-            # Call the API endpoint
-            response = self.call_api_endpoint(
-                "GET", self.get_route_url_with_id(instance), anonymized=False, **config
-            )
             with self.subTest(i=i):
+                # Call the API endpoint
+                response = self.call_api_endpoint(
+                    "GET", self.get_route_url_with_id(instance), anonymized=False, **config
+                )
                 # Assert response content
                 if scenario == "HTTPS Authenticated":
                     self.assertEqual(response.status_code, 200)
@@ -464,11 +467,11 @@ class CrudApiControllerTestCase(ApiControllerTestMixin, TestCase):
     def test_delete(self, scenario, config):
         for i in range(self.subtests):
             instance = self.instances[i]
-            # Call the API endpoint
-            response = self.call_api_endpoint(
-                "DELETE", self.get_route_url_with_id(instance), **config
-            )
             with self.subTest(i=i):
+                # Call the API endpoint
+                response = self.call_api_endpoint(
+                    "DELETE", self.get_route_url_with_id(instance), **config
+                )
                 # Assert response content
                 if scenario == "HTTPS Authenticated":
                     self.assertEqual(response.status_code, 204)
@@ -491,11 +494,11 @@ class CrudApiControllerTestCase(ApiControllerTestMixin, TestCase):
             zip(self.instances, self.create_payloads, self.models)
         ):
             instance.delete()
-            # Call the API endpoint.
-            response = self.call_api_endpoint(
-                "POST", self.get_route_url(instance), data=payload, **config
-            )
             with self.subTest(i=i):
+                # Call the API endpoint.
+                response = self.call_api_endpoint(
+                    "POST", self.get_route_url(instance), data=payload, **config
+                )
                 # Assert response content
                 if scenario == "HTTPS Authenticated":
                     created_id = response.json()["id"]
@@ -568,11 +571,11 @@ class CrudApiControllerTestCase(ApiControllerTestMixin, TestCase):
             if not hasattr(self.models[i], "pgh_event_model"):
                 pytest.skip("Non-tracked model")
             instance = self.instances[i]
-            # Call the API endpoint
-            response = self.call_api_endpoint(
-                "GET", self.get_route_url_history(instance), **config
-            )
             with self.subTest(i=i):
+                # Call the API endpoint
+                response = self.call_api_endpoint(
+                    "GET", self.get_route_url_history(instance), **config
+                )
                 # Assert response content
                 if scenario == "HTTPS Authenticated":
                     self.assertEqual(response.status_code, 200)
@@ -592,11 +595,11 @@ class CrudApiControllerTestCase(ApiControllerTestMixin, TestCase):
                 event = instance.parent_events.first()
             else:
                 event = instance.events.first()
-            # Call the API endpoint
-            response = self.call_api_endpoint(
-                "GET", self.get_route_url_history_with_id(instance, event), **config
-            )
             with self.subTest(i=i):
+                # Call the API endpoint
+                response = self.call_api_endpoint(
+                    "GET", self.get_route_url_history_with_id(instance, event), **config
+                )
                 # Assert response content
                 if scenario == "HTTPS Authenticated":
                     self.assertEqual(response.status_code, 200)
@@ -629,12 +632,12 @@ class CrudApiControllerTestCase(ApiControllerTestMixin, TestCase):
                 insert_event = original_instance.events.filter(  # type: ignore
                     pgh_label="create"
                 ).first()
-            response = self.call_api_endpoint(
-                "PUT",
-                self.get_route_url_history_revert(original_instance, insert_event),
-                **config,
-            )
             with self.subTest(i=i):
+                response = self.call_api_endpoint(
+                    "PUT",
+                    self.get_route_url_history_revert(original_instance, insert_event),
+                    **config,
+                )
                 # Assert response content
                 if scenario == "HTTPS Authenticated":
                     updated_id = response.json()["id"]

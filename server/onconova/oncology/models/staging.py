@@ -1,5 +1,4 @@
 import re
-
 import pghistory
 from django.db import models
 from django.db.models import Case, OuterRef, Value, When
@@ -124,7 +123,8 @@ class Staging(BaseModel):
         regex = r"(?i).+(?:Stage| Level| Group Stage| Group )\s*([a-z0-9]+)(?:.*)"
         if not self.staging_domain:
             return None
-        stage_string = getattr(self, self.staging_domain).stage.display
+        staging = getattr(self, self.staging_domain)
+        stage_string = staging.stage.display if staging.stage else 'Stage Unknown'
         matched = re.match(regex, stage_string)
         if matched:
             stage_value = matched.group(1)

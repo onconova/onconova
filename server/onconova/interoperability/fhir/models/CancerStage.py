@@ -16,7 +16,7 @@ NoneType = type(None)
 # Dynamic modules 
 from fhircraft.fhir.resources.base import FHIRBaseModel
 from typing import Optional,List,Annotated,Union,Literal
-from fhircraft.fhir.resources.datatypes.primitives import String,Uri,Code,DateTime,Instant
+from fhircraft.fhir.resources.datatypes.primitives import String,Uri,Code,DateTime,Instant, Boolean
 from fhircraft.fhir.resources.datatypes.R4.complex.element import Element
 from fhircraft.fhir.resources.datatypes.R4.complex.meta import Meta
 from fhircraft.fhir.resources.datatypes.R4.complex.narrative import Narrative
@@ -140,6 +140,14 @@ class OnconovaCancerStageComponent(BackboneElement):
         description="Prognostic factor value",
         default=None,
     )
+    valueQuantity: Optional[Quantity] = Field(
+        description="Prognostic factor value",
+        default=None,
+    )
+    valueBoolean: Optional[Boolean] = Field(
+        description="Prognostic factor value",
+        default=None,
+    )
     dataAbsentReason: Optional[CodeableConcept] = Field(
         description="Why the component result is missing",
         default=None,
@@ -173,7 +181,7 @@ class OnconovaCancerStageComponent(BackboneElement):
     def value_type_choice_validator(self):
         return validate_type_choice_element( 
             self,
-            field_types=[CodeableConcept],
+            field_types=[CodeableConcept, Quantity, Boolean],
             field_name_base="value",
             required=False,
         )
@@ -270,7 +278,7 @@ Observation resources representing a cancer staging in the scope of Onconova SHA
         description="(USCDI) Who and/or what the observation is about",
         default=None,
     )
-    focus: Optional[Reference] = Field(
+    focus: Optional[List[Reference]] = Field(
         description="The cancer condition associated with staging assessment.",
         default=None,
     )

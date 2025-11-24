@@ -235,7 +235,173 @@ class FIGOStagingFactory(factory.django.DjangoModelFactory):
         add_m2m_related("staged_entities", PrimaryNeoplasticEntityFactory, min=1, max=1)
     )
 
+class RaiStagingFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.RaiStaging
+        skip_postgeneration_save = True
 
+    case = factory.SubFactory(PatientCaseFactory)
+    date = factory.LazyFunction(faker.date)
+    stage = make_terminology_factory(
+        terminology.RaiStage,
+        code_iterator=[f"rai-stage-{n+1}-code" for n in range(5)],
+    )
+    methodology = make_terminology_factory(terminology.RaiStagingMethod)
+    staged_entities = factory.post_generation(
+        add_m2m_related("staged_entities", PrimaryNeoplasticEntityFactory, min=1, max=1)
+    )
+
+class BinetStagingFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.BinetStaging
+        skip_postgeneration_save = True
+
+    case = factory.SubFactory(PatientCaseFactory)
+    date = factory.LazyFunction(faker.date)
+    stage = make_terminology_factory(
+        terminology.BinetStage,
+        code_iterator=[f"binet-stage-{n+1}-code" for n in range(5)],
+    )
+    staged_entities = factory.post_generation(
+        add_m2m_related("staged_entities", PrimaryNeoplasticEntityFactory, min=1, max=1)
+    )
+
+class BreslowDepthFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.BreslowDepth
+        skip_postgeneration_save = True
+
+    case = factory.SubFactory(PatientCaseFactory)
+    date = factory.LazyFunction(faker.date)
+    depth = factory.LazyFunction(
+        lambda: measures.Distance(mm=random.randint(0, 55))
+    )
+    is_ulcered = factory.LazyFunction(lambda: random.random() > 0.5)
+    staged_entities = factory.post_generation(
+        add_m2m_related("staged_entities", PrimaryNeoplasticEntityFactory, min=1, max=1)
+    )
+
+class ClarkStagingFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.ClarkStaging
+        skip_postgeneration_save = True
+
+    case = factory.SubFactory(PatientCaseFactory)
+    date = factory.LazyFunction(faker.date)
+    stage = make_terminology_factory(
+        terminology.ClarkLevel,
+        code_iterator=[f"clark-stage-{n+1}-code" for n in range(5)],
+    )
+    staged_entities = factory.post_generation(
+        add_m2m_related("staged_entities", PrimaryNeoplasticEntityFactory, min=1, max=1)
+    )
+
+class ISSStagingFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.ISSStaging
+        skip_postgeneration_save = True
+
+    case = factory.SubFactory(PatientCaseFactory)
+    date = factory.LazyFunction(faker.date)
+    stage = make_terminology_factory(
+        terminology.MyelomaISSStage,
+        code_iterator=[f"iss-stage-{n+1}-code" for n in range(5)],
+    )
+    staged_entities = factory.post_generation(
+        add_m2m_related("staged_entities", PrimaryNeoplasticEntityFactory, min=1, max=1)
+    )
+
+class RISSStagingFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.RISSStaging
+        skip_postgeneration_save = True
+
+    case = factory.SubFactory(PatientCaseFactory)
+    date = factory.LazyFunction(faker.date)
+    stage = make_terminology_factory(
+        terminology.MyelomaRISSStage,
+        code_iterator=[f"riss-stage-{n+1}-code" for n in range(5)],
+    )
+    staged_entities = factory.post_generation(
+        add_m2m_related("staged_entities", PrimaryNeoplasticEntityFactory, min=1, max=1)
+    )
+
+class INSSStagingFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.INSSStage
+        skip_postgeneration_save = True
+
+    case = factory.SubFactory(PatientCaseFactory)
+    date = factory.LazyFunction(faker.date)
+    stage = make_terminology_factory(
+        terminology.NeuroblastomaINSSStage,
+        code_iterator=[f"iniss-stage-{n+1}-code" for n in range(5)],
+    )
+    staged_entities = factory.post_generation(
+        add_m2m_related("staged_entities", PrimaryNeoplasticEntityFactory, min=1, max=1)
+    )
+
+class INRGSSStagingFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.INRGSSStage
+        skip_postgeneration_save = True
+
+    case = factory.SubFactory(PatientCaseFactory)
+    date = factory.LazyFunction(faker.date)
+    stage = make_terminology_factory(
+        terminology.NeuroblastomaINRGSSStage,
+        code_iterator=[f"inrgiss-stage-{n+1}-code" for n in range(5)],
+    )
+    staged_entities = factory.post_generation(
+        add_m2m_related("staged_entities", PrimaryNeoplasticEntityFactory, min=1, max=1)
+    )
+
+class GleasonGradeFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.GleasonGrade
+        skip_postgeneration_save = True
+
+    case = factory.SubFactory(PatientCaseFactory)
+    date = factory.LazyFunction(faker.date)
+    stage = make_terminology_factory(
+        terminology.GleasonGradeGroupStage,
+        code_iterator=[f"gleason-stage-{n+1}-code" for n in range(5)],
+    )
+    staged_entities = factory.post_generation(
+        add_m2m_related("staged_entities", PrimaryNeoplasticEntityFactory, min=1, max=1)
+    )
+    
+class RhabdomyosarcomaClinicalGroupFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.RhabdomyosarcomaClinicalGroup
+        skip_postgeneration_save = True
+
+    case = factory.SubFactory(PatientCaseFactory)
+    date = factory.LazyFunction(faker.date)
+    stage = make_terminology_factory(
+        terminology.RhabdomyosarcomaClinicalGroup,
+        code_iterator=[f"rhabdomyosarcoma-group-{n+1}-code" for n in range(5)],
+    )
+    staged_entities = factory.post_generation(
+        add_m2m_related("staged_entities", PrimaryNeoplasticEntityFactory, min=1, max=1)
+    )
+    
+class WilmsStageFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.WilmsStage
+        skip_postgeneration_save = True
+
+    case = factory.SubFactory(PatientCaseFactory)
+    date = factory.LazyFunction(faker.date)
+    stage = make_terminology_factory(
+        terminology.WilmsTumorStage,
+        code_iterator=[f"wilms-stage-{n+1}-code" for n in range(5)],
+    )
+    staged_entities = factory.post_generation(
+        add_m2m_related("staged_entities", PrimaryNeoplasticEntityFactory, min=1, max=1)
+    )
+    
+    
 class TumorMarkerTestFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.TumorMarker
