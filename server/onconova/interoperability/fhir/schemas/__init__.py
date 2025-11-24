@@ -7,6 +7,7 @@ from .genomic_variant import GenomicVariantProfile
 from .tumor_mutational_burden import TumorMutationalBurdenProfile
 from .microsatellite_instability import MicrosatelliteInstabilityProfile
 from .loss_of_heterozygosity import LossOfHeterozygosityProfile
+from .homologous_recombination_deficiency import HomologousRecombinationDeficiencyProfile
 
 __all__ = (
     "CancerPatientProfile",
@@ -18,4 +19,5 @@ __all__ = (
     "TumorMutationalBurdenProfile",
     "MicrosatelliteInstabilityProfile",
     "LossOfHeterozygosityProfile",
+    "HomologousRecombinationDeficiencyProfile",
 )

@@ -8,6 +8,7 @@ from onconova.interoperability.fhir.schemas import (
     TumorMutationalBurdenProfile,
     MicrosatelliteInstabilityProfile,
     LossOfHeterozygosityProfile,
+    HomologousRecombinationDeficiencyProfile,
 )
 from onconova.oncology.models import (
     TumorMarker, 
@@ -16,6 +17,7 @@ from onconova.oncology.models import (
     TumorMutationalBurden,
     MicrosatelliteInstability,
     LossOfHeterozygosity,
+    HomologousRecombinationDeficiency,
 )
 from fhircraft.fhir.resources.datatypes.R4.core.operation_outcome import (
     OperationOutcome,
@@ -42,6 +44,7 @@ class ObservationController(FhirBaseController):
             | TumorMutationalBurdenProfile
             | MicrosatelliteInstabilityProfile
             | LossOfHeterozygosityProfile
+            | HomologousRecombinationDeficiencyProfile
             | CancerRiskAssessmentProfile,
             **COMMON_READ_HTTP_ERRORS,
         },
@@ -58,6 +61,7 @@ class ObservationController(FhirBaseController):
                 TumorMutationalBurden,
                 MicrosatelliteInstability,
                 LossOfHeterozygosity,
+                HomologousRecombinationDeficiency,
             ]
         )
 
@@ -69,6 +73,7 @@ class ObservationController(FhirBaseController):
             | TumorMutationalBurdenProfile
             | MicrosatelliteInstabilityProfile
             | LossOfHeterozygosityProfile
+            | HomologousRecombinationDeficiencyProfile
             | CancerRiskAssessmentProfile
             | OperationOutcome
             | None,
@@ -87,6 +92,7 @@ class ObservationController(FhirBaseController):
             | TumorMutationalBurdenProfile
             | MicrosatelliteInstabilityProfile
             | LossOfHeterozygosityProfile
+            | HomologousRecombinationDeficiencyProfile
             | CancerRiskAssessmentProfile
         ),
     ):
@@ -110,7 +116,8 @@ class ObservationController(FhirBaseController):
                 GenomicVariant, 
                 TumorMutationalBurden,
                 MicrosatelliteInstability,
-                LossOfHeterozygosity
+                LossOfHeterozygosity,
+                HomologousRecombinationDeficiency,
             ]
         )
 
@@ -122,6 +129,7 @@ class ObservationController(FhirBaseController):
             | TumorMutationalBurdenProfile
             | MicrosatelliteInstabilityProfile
             | LossOfHeterozygosityProfile
+            | HomologousRecombinationDeficiencyProfile
             | CancerRiskAssessmentProfile
             | OperationOutcome
             | None,
@@ -140,6 +148,7 @@ class ObservationController(FhirBaseController):
             | TumorMutationalBurdenProfile 
             | MicrosatelliteInstabilityProfile
             | LossOfHeterozygosityProfile
+            | HomologousRecombinationDeficiencyProfile
             | CancerRiskAssessmentProfile
         ),
     ):

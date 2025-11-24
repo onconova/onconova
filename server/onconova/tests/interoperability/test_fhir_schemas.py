@@ -117,3 +117,10 @@ class TestFhirSchemas(TestCase):
             fhir.LossOfHeterozygosityProfile,
             factories.LossOfHeterozygosityFactory,
         )
+        
+    def test_homologous_recombination_deficiency_profile_schema_mappings(self, *args, **kwargs):
+        self._test_circular_mapping(
+            schemas.HomologousRecombinationDeficiency,
+            fhir.HomologousRecombinationDeficiencyProfile,
+            factories.HomologousRecombinationDeficiencyFactory,
+        )
