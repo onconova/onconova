@@ -103,3 +103,10 @@ class TestFhirSchemas(TestCase):
             fhir.TumorMutationalBurdenProfile,
             factories.TumorMutationalBurdenFactory,
         )
+        
+    def test_microsatellite_instability_profile_schema_mappings(self, *args, **kwargs):
+        self._test_circular_mapping(
+            schemas.MicrosatelliteInstability,
+            fhir.MicrosatelliteInstabilityProfile,
+            factories.MicrosatelliteInstabilityFactory,
+        )

@@ -6,8 +6,15 @@ from onconova.interoperability.fhir.schemas import (
     CancerRiskAssessmentProfile,
     GenomicVariantProfile,
     TumorMutationalBurdenProfile,
+    MicrosatelliteInstabilityProfile,
 )
-from onconova.oncology.models import TumorMarker, RiskAssessment, GenomicVariant, TumorMutationalBurden
+from onconova.oncology.models import (
+    TumorMarker, 
+    RiskAssessment, 
+    GenomicVariant, 
+    TumorMutationalBurden,
+    MicrosatelliteInstability,
+)
 from fhircraft.fhir.resources.datatypes.R4.core.operation_outcome import (
     OperationOutcome,
 )
@@ -31,6 +38,7 @@ class ObservationController(FhirBaseController):
             200: GenomicVariantProfile
             | TumorMarkerProfile
             | TumorMutationalBurdenProfile
+            | MicrosatelliteInstabilityProfile
             | CancerRiskAssessmentProfile,
             **COMMON_READ_HTTP_ERRORS,
         },
@@ -45,6 +53,7 @@ class ObservationController(FhirBaseController):
                 RiskAssessment, 
                 GenomicVariant,
                 TumorMutationalBurden,
+                MicrosatelliteInstability,
             ]
         )
 
@@ -54,6 +63,7 @@ class ObservationController(FhirBaseController):
             200: GenomicVariantProfile
             | TumorMarkerProfile
             | TumorMutationalBurdenProfile
+            | MicrosatelliteInstabilityProfile
             | CancerRiskAssessmentProfile
             | OperationOutcome
             | None,
@@ -70,6 +80,7 @@ class ObservationController(FhirBaseController):
             GenomicVariantProfile 
             | TumorMarkerProfile
             | TumorMutationalBurdenProfile
+            | MicrosatelliteInstabilityProfile
             | CancerRiskAssessmentProfile
         ),
     ):
@@ -91,7 +102,8 @@ class ObservationController(FhirBaseController):
                 TumorMarker, 
                 RiskAssessment, 
                 GenomicVariant, 
-                TumorMutationalBurden
+                TumorMutationalBurden,
+                MicrosatelliteInstability,
             ]
         )
 
@@ -101,6 +113,7 @@ class ObservationController(FhirBaseController):
             200: GenomicVariantProfile
             | TumorMarkerProfile
             | TumorMutationalBurdenProfile
+            | MicrosatelliteInstabilityProfile
             | CancerRiskAssessmentProfile
             | OperationOutcome
             | None,
@@ -117,6 +130,7 @@ class ObservationController(FhirBaseController):
             GenomicVariantProfile 
             | TumorMarkerProfile
             | TumorMutationalBurdenProfile 
+            | MicrosatelliteInstabilityProfile
             | CancerRiskAssessmentProfile
         ),
     ):

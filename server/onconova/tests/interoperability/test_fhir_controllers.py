@@ -234,18 +234,21 @@ class TestObservationsController(FhirCrudApiControllerTestCase):
         factories.RiskAssessmentFactory,
         factories.GenomicVariantFactory,
         factories.TumorMutationalBurdenFactory,
+        factories.MicrosatelliteInstabilityFactory,
     ]
     MODEL = [
         models.TumorMarker,
         models.RiskAssessment,
         models.GenomicVariant,
         models.TumorMutationalBurden,
+        models.MicrosatelliteInstability,
     ]
     SCHEMA = [
         schemas.TumorMarkerProfile,
         schemas.CancerRiskAssessmentProfile,
         schemas.GenomicVariantProfile,
         schemas.TumorMutationalBurdenProfile,
+        schemas.MicrosatelliteInstabilityProfile,
     ]
 
     @classmethod

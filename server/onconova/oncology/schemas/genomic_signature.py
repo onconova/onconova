@@ -16,12 +16,12 @@ class GenomicSignatureCreate(BaseSchema):
         description="Genomic signature discriminator category"
     )
     externalSource: Nullable[str] = Field(
-        None,
+        default=None,
         description='The digital source of the data, relevant for automated data',
         title='External data source',
     )
     externalSourceId: Nullable[str] = Field(
-        None,
+        default=None,
         description='The data identifier at the digital source of the data, relevant for automated data',
         title='External data source Id',
     )
@@ -57,7 +57,7 @@ class TumorMutationalBurdenCreate(GenomicSignatureCreate):
         title='Value',
     )
     status: Nullable[orm.TumorMutationalBurdenStatusChoices] = Field(
-        None,
+        default=None,
         description='Cclassification of the tumor mutational burden (TMB) status',
         title='Status',
     )
@@ -74,7 +74,7 @@ class MicrosatelliteInstabilityCreate(GenomicSignatureCreate):
     __orm_model__ = orm.MicrosatelliteInstability 
     
     category: Literal[orm.GenomicSignatureTypes.MICROSATELLITE_INSTABILITY] = Field(
-        orm.GenomicSignatureTypes.MICROSATELLITE_INSTABILITY,
+        default=orm.GenomicSignatureTypes.MICROSATELLITE_INSTABILITY,
         title="Category",
         description="Genomic signature discriminator category",
     )
@@ -97,7 +97,7 @@ class LossOfHeterozygosityCreate(GenomicSignatureCreate):
     __orm_model__ = orm.LossOfHeterozygosity
     
     category: Literal[orm.GenomicSignatureTypes.LOSS_OF_HETEROZYGOSITY] = Field(
-        orm.GenomicSignatureTypes.LOSS_OF_HETEROZYGOSITY,
+        default=orm.GenomicSignatureTypes.LOSS_OF_HETEROZYGOSITY,
         title="Category",
         description="Genomic signature discriminator category",
     )
@@ -119,19 +119,19 @@ class HomologousRecombinationDeficiencyCreate(GenomicSignatureCreate):
     
     category: Literal[orm.GenomicSignatureTypes.HOMOLOGOUS_RECOMBINATION_DEFICIENCY] = (
         Field(
-            orm.GenomicSignatureTypes.HOMOLOGOUS_RECOMBINATION_DEFICIENCY,
+            default=orm.GenomicSignatureTypes.HOMOLOGOUS_RECOMBINATION_DEFICIENCY,
             title="Category",
             description="Genomic signature discriminator category",
         )
     )
     value: Nullable[float] = Field(
-        None,
+        default=None,
         description='Homologous recombination deficiency (HRD) score value',
         title='Value',
     )
     interpretation: Nullable[orm.HomologousRecombinationDeficiencyInterpretationChoices] = (
         Field(
-            None,
+            default=None,
             description='Homologous recombination deficiency (HRD) interpretation',
             title='Interpretation',
         )
@@ -149,7 +149,7 @@ class TumorNeoantigenBurdenCreate(GenomicSignatureCreate):
     __orm_model__ = orm.TumorNeoantigenBurden 
     
     category: Literal[orm.GenomicSignatureTypes.TUMOR_NEOANTIGEN_BURDEN] = Field(
-        orm.GenomicSignatureTypes.TUMOR_NEOANTIGEN_BURDEN,
+        default=orm.GenomicSignatureTypes.TUMOR_NEOANTIGEN_BURDEN,
         title="Category",
         description="Genomic signature discriminator category",
     )
@@ -171,7 +171,7 @@ class AneuploidScoreCreate(GenomicSignatureCreate):
     __orm_model__ = orm.AneuploidScore
     
     category: Literal[orm.GenomicSignatureTypes.ANEUPLOID_SCORE] = Field(
-        orm.GenomicSignatureTypes.ANEUPLOID_SCORE,
+        default=orm.GenomicSignatureTypes.ANEUPLOID_SCORE,
         title="Category",
         description="Genomic signature discriminator category",
     )
