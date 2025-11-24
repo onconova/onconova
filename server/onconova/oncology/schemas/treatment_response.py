@@ -12,12 +12,12 @@ class TreatmentResponseCreate(BaseSchema):
     __orm_model__ = orm.TreatmentResponse 
     
     externalSource: Nullable[str] = Field(
-        None,
+        default=None,
         description='The digital source of the data, relevant for automated data',
         title='External data source',
     )
     externalSourceId: Nullable[str] = Field(
-        None,
+        default=None,
         description='The data identifier at the digital source of the data, relevant for automated data',
         title='External data source Id',
     )
@@ -38,7 +38,7 @@ class TreatmentResponseCreate(BaseSchema):
         json_schema_extra={'x-terminology': 'CancerTreatmentResponse'},
     )
     recistInterpreted: Nullable[bool] = Field(
-        None,
+        default=None,
         description='Indicates whether the RECIST value was interpreted or taken from the radiology report',
         title='RECIST Interpreted?',
     )
@@ -49,12 +49,12 @@ class TreatmentResponseCreate(BaseSchema):
         json_schema_extra={'x-terminology': 'CancerTreatmentResponseObservationMethod'},
     )
     assessedEntitiesIds: Nullable[List[UUID]] = Field(
-        None,
+        default=None,
         description='References to the neoplastic entities that were assesed for treatment response',
         title='Assessed neoplastic entities',
     )
     assessedBodysites: Nullable[List[CodedConcept]] = Field(
-        None,
+        default=None,
         description='Anatomical location assessed to determine the treatment response',
         title='Assessed anatomical location',
         json_schema_extra={'x-terminology': 'ObservationBodySite'},

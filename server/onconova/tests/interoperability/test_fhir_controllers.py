@@ -243,6 +243,7 @@ class TestObservationsController(FhirCrudApiControllerTestCase):
         factories.LifestyleFactory,
         factories.ECOGPerformanceStatusFactory,
         factories.KarnofskyPerformanceStatusFactory,
+        factories.TreatmentResponseFactory,
     ]
     MODEL = [
         models.TumorMarker,
@@ -258,6 +259,7 @@ class TestObservationsController(FhirCrudApiControllerTestCase):
         models.Lifestyle,
         models.PerformanceStatus,
         models.PerformanceStatus,
+        models.TreatmentResponse,
     ]
     SCHEMA = [
         schemas.TumorMarkerProfile,
@@ -273,6 +275,7 @@ class TestObservationsController(FhirCrudApiControllerTestCase):
         schemas.LifestyleProfile,
         schemas.ECOGPerformanceStatusProfile,
         schemas.KarnofskyPerformanceStatusProfile,
+        schemas.ImagingDiseaseStatusProfile,
     ]
 
     @classmethod

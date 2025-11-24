@@ -13,7 +13,7 @@ from .aneuploid_score import AneuploidScoreProfile
 from .comorbidities import ComorbiditiesProfile
 from .lifestyle import LifestyleProfile
 from .performance_status import ECOGPerformanceStatusProfile, KarnofskyPerformanceStatusProfile
-
+from .imaging_disease_status import ImagingDiseaseStatusProfile
 
 __all__ = (
     "CancerPatientProfile",
@@ -32,4 +32,5 @@ __all__ = (
     "LifestyleProfile",
     "ECOGPerformanceStatusProfile",
     "KarnofskyPerformanceStatusProfile",
+    "ImagingDiseaseStatusProfile",
 )

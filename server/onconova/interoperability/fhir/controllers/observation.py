@@ -15,6 +15,7 @@ from onconova.interoperability.fhir.schemas import (
     LifestyleProfile,
     ECOGPerformanceStatusProfile,
     KarnofskyPerformanceStatusProfile,
+    ImagingDiseaseStatusProfile,
 )
 from onconova.oncology.models import (
     TumorMarker, 
@@ -29,6 +30,7 @@ from onconova.oncology.models import (
     ComorbiditiesAssessment,
     Lifestyle,
     PerformanceStatus,
+    TreatmentResponse,
 )
 from fhircraft.fhir.resources.datatypes.R4.core.operation_outcome import (
     OperationOutcome,
@@ -62,6 +64,7 @@ class ObservationController(FhirBaseController):
             | LifestyleProfile
             | ECOGPerformanceStatusProfile
             | KarnofskyPerformanceStatusProfile
+            | ImagingDiseaseStatusProfile
             | CancerRiskAssessmentProfile,
             **COMMON_READ_HTTP_ERRORS,
         },
@@ -84,6 +87,7 @@ class ObservationController(FhirBaseController):
                 ComorbiditiesAssessment,
                 Lifestyle,
                 PerformanceStatus,
+                TreatmentResponse,
             ]
         )
 
@@ -102,6 +106,7 @@ class ObservationController(FhirBaseController):
             | LifestyleProfile
             | ECOGPerformanceStatusProfile
             | KarnofskyPerformanceStatusProfile
+            | ImagingDiseaseStatusProfile
             | CancerRiskAssessmentProfile
             | OperationOutcome
             | None,
@@ -127,6 +132,7 @@ class ObservationController(FhirBaseController):
             | LifestyleProfile
             | ECOGPerformanceStatusProfile
             | KarnofskyPerformanceStatusProfile
+            | ImagingDiseaseStatusProfile
             | CancerRiskAssessmentProfile
         ),
     ):
@@ -157,6 +163,7 @@ class ObservationController(FhirBaseController):
                 ComorbiditiesAssessment,
                 Lifestyle,
                 PerformanceStatus,
+                TreatmentResponse,
             ]
         )
 
@@ -175,6 +182,7 @@ class ObservationController(FhirBaseController):
             | LifestyleProfile
             | ECOGPerformanceStatusProfile
             | KarnofskyPerformanceStatusProfile
+            | ImagingDiseaseStatusProfile
             | CancerRiskAssessmentProfile
             | OperationOutcome
             | None,
@@ -200,6 +208,7 @@ class ObservationController(FhirBaseController):
             | LifestyleProfile
             | ECOGPerformanceStatusProfile
             | KarnofskyPerformanceStatusProfile
+            | ImagingDiseaseStatusProfile
             | CancerRiskAssessmentProfile
         ),
     ):

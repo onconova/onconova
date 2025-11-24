@@ -166,3 +166,10 @@ class TestFhirSchemas(TestCase):
             fhir.KarnofskyPerformanceStatusProfile,
             factories.KarnofskyPerformanceStatusFactory,
         )
+        
+    def test_imaging_disease_status_profile_schema_mappings(self, *args, **kwargs):
+        self._test_circular_mapping(
+            schemas.TreatmentResponse,
+            fhir.ImagingDiseaseStatusProfile,
+            factories.TreatmentResponseFactory,
+        )
