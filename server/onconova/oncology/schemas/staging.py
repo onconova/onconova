@@ -77,19 +77,19 @@ class TNMStagingCreate(StagingCreate):
         description='Whether the staging was based on pathological (true) or clinical (false) evidence.',
         title='Pathological staging',
     )
-    primarytumor: Nullable[CodedConcept] = Field(
+    primaryTumor: Nullable[CodedConcept] = Field(
         default=None,
         description='T stage (extent of the primary tumor)',
         title='T Stage',
         json_schema_extra={'x-terminology': 'TNMPrimaryTumorCategory'},
     )
-    regionalnodes: Nullable[CodedConcept] = Field(
+    regionalNodes: Nullable[CodedConcept] = Field(
         default=None,
         description='N stage (degree of spread to regional lymph nodes)',
         title='N Stage',
         json_schema_extra={'x-terminology': 'TNMRegionalNodesCategory'},
     )
-    distantmetastases: Nullable[CodedConcept] = Field(
+    distantMetastases: Nullable[CodedConcept] = Field(
         default=None,
         description='M stage (presence of distant metastasis)',
         title='M Stage',
@@ -101,31 +101,31 @@ class TNMStagingCreate(StagingCreate):
         title='G Stage',
         json_schema_extra={'x-terminology': 'TNMGradeCategory'},
     )
-    residualtumor: Nullable[CodedConcept] = Field(
-        None,
+    residualTumor: Nullable[CodedConcept] = Field(
+        default=None,
         description='R stage (extent of residual tumor cells after operation)',
         title='R Stage',
         json_schema_extra={'x-terminology': 'TNMResidualTumorCategory'},
     )
-    lymphaticinvasion: Nullable[CodedConcept] = Field(
+    lymphaticInvasion: Nullable[CodedConcept] = Field(
         default=None,
         description='L stage (invasion into lymphatic vessels)',
         title='L Stage',
         json_schema_extra={'x-terminology': 'TNMLymphaticInvasionCategory'},
     )
-    venousinvasion: Nullable[CodedConcept] = Field(
+    venousInvasion: Nullable[CodedConcept] = Field(
         default=None,
         description='V stage (invasion into venous vessels)',
         title='V Stage',
         json_schema_extra={'x-terminology': 'TNMVenousInvasionCategory'},
     )
-    perineuralinvasion: Nullable[CodedConcept] = Field(
+    perineuralInvasion: Nullable[CodedConcept] = Field(
         default=None,
         description='Pn stage (invasion into adjunct nerves)',
         title='Pn Stage',
         json_schema_extra={'x-terminology': 'TNMPerineuralInvasionCategory'},
     )
-    serumtumormarkerlevel: Nullable[CodedConcept] = Field(
+    serumTumorMarkerLevel: Nullable[CodedConcept] = Field(
         default=None,
         description='S stage (serum tumor marker level)',
         title='S Stage',

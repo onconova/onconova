@@ -374,8 +374,10 @@ class CrudApiControllerTestCase(ApiControllerTestMixin, TestCase):
                                 item
                                 for item in response.json()["items"]
                                 if str(instance.id) == item["id"]
-                            )
+                            ), None
                         )
+                        if entry is None:
+                            raise ValueError(f'Could not find ID "{str(instance.id)}" in response: \n\n {response.json()}')
                     else:
                         entry = response.json()[0]
                     expected = self.schemas[i].model_validate(instance).model_dump()

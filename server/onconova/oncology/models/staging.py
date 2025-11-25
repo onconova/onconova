@@ -196,21 +196,21 @@ class TNMStaging(Staging):
         null=True,
         blank=True,
     )
-    primaryTumor = termfields.CodedConceptField(
+    primary_tumor = termfields.CodedConceptField(
         verbose_name=_("T Stage"),
         help_text=_("T stage (extent of the primary tumor)"),
         terminology=terminologies.TNMPrimaryTumorCategory,
         blank=True,
         null=True,
     )
-    regionalNodes = termfields.CodedConceptField(
+    regional_nodes = termfields.CodedConceptField(
         verbose_name=_("N Stage"),
         help_text=_("N stage (degree of spread to regional lymph nodes)"),
         terminology=terminologies.TNMRegionalNodesCategory,
         blank=True,
         null=True,
     )
-    distantMetastases = termfields.CodedConceptField(
+    distant_metastases = termfields.CodedConceptField(
         verbose_name=_("M Stage"),
         help_text=_("M stage (presence of distant metastasis)"),
         terminology=terminologies.TNMDistantMetastasesCategory,
@@ -224,35 +224,35 @@ class TNMStaging(Staging):
         blank=True,
         null=True,
     )
-    residualTumor = termfields.CodedConceptField(
+    residual_tumor = termfields.CodedConceptField(
         verbose_name=_("R Stage"),
         help_text=_("R stage (extent of residual tumor cells after operation)"),
         terminology=terminologies.TNMResidualTumorCategory,
         blank=True,
         null=True,
     )
-    lymphaticInvasion = termfields.CodedConceptField(
+    lymphatic_invasion = termfields.CodedConceptField(
         verbose_name=_("L Stage"),
         help_text=_("L stage (invasion into lymphatic vessels)"),
         terminology=terminologies.TNMLymphaticInvasionCategory,
         blank=True,
         null=True,
     )
-    venousInvasion = termfields.CodedConceptField(
+    venous_invasion = termfields.CodedConceptField(
         verbose_name=_("V Stage"),
         help_text=_("V stage (invasion into venous vessels)"),
         terminology=terminologies.TNMVenousInvasionCategory,
         blank=True,
         null=True,
     )
-    perineuralInvasion = termfields.CodedConceptField(
+    perineural_invasion = termfields.CodedConceptField(
         verbose_name=_("Pn Stage"),
         help_text=_("Pn stage (invasion into adjunct nerves)"),
         terminology=terminologies.TNMPerineuralInvasionCategory,
         blank=True,
         null=True,
     )
-    serumTumorMarkerLevel = termfields.CodedConceptField(
+    serum_tumor_marker_level = termfields.CodedConceptField(
         verbose_name=_("S Stage"),
         help_text=_("S stage (serum tumor marker level)"),
         terminology=terminologies.TNMSerumTumorMarkerLevelCategory,

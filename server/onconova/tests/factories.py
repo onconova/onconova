@@ -217,8 +217,20 @@ class TNMStagingFactory(factory.django.DjangoModelFactory):
     staged_entities = factory.post_generation(
         add_m2m_related("staged_entities", PrimaryNeoplasticEntityFactory, min=1, max=1)
     )
-
-
+    pathological = factory.LazyFunction(lambda: random.random() > 0.5)
+    primary_tumor = make_terminology_factory(
+        terminology.TNMPrimaryTumorCategory, code_iterator=[f"T{n}" for n in range(5)]
+    )
+    regional_nodes = make_terminology_factory(
+        terminology.TNMRegionalNodesCategory, code_iterator=[f"N{n}" for n in range(5)]
+    )
+    distant_metastases = make_terminology_factory(
+        terminology.TNMDistantMetastasesCategory, code_iterator=[f"M{n}" for n in range(5)]
+    )
+    lymphatic_invasion = make_terminology_factory(
+        terminology.TNMLymphaticInvasionCategory, code_iterator=[f"L{n}" for n in range(5)]
+    )
+        
 class FIGOStagingFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.FIGOStaging
