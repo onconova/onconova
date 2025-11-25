@@ -335,3 +335,16 @@ class TestObservationsController(FhirCrudApiControllerTestCase):
         cls.patcher.stop()
         super().tearDownClass()
 
+
+
+class TestProceduresController(FhirCrudApiControllerTestCase):
+    controller_path = "/api/fhir/Procedure"
+    FACTORY = [
+        factories.SurgeryFactory,
+    ]
+    MODEL = [
+        models.Surgery,
+    ]
+    SCHEMA = [
+        schemas.SurgicalProcedureProfile,
+    ]

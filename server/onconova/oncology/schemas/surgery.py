@@ -10,12 +10,12 @@ class SurgeryCreate(BaseSchema):
     
     __orm_model__ = orm.Surgery
     externalSource: Nullable[str] = Field(
-        None,
+        default=None,
         description='The digital source of the data, relevant for automated data',
         title='External data source',
     )
     externalSourceId: Nullable[str] = Field(
-        None,
+        default=None,
         description='The data identifier at the digital source of the data, relevant for automated data',
         title='External data source Id',
     )
@@ -41,36 +41,36 @@ class SurgeryCreate(BaseSchema):
         title='Intent',
     )
     bodysite: Nullable[CodedConcept] = Field(
-        None,
+        default=None,
         description='Anatomical location of the surgery',
         title='Anatomical location',
         json_schema_extra={'x-terminology': 'CancerTopography'},
     )
     bodysiteQualifier: Nullable[CodedConcept] = Field(
-        None,
+        default=None,
         description='General qualifier for the anatomical location of the surgery',
         title='Anatomical location qualifier',
         json_schema_extra={'x-terminology': 'BodyLocationQualifier'},
     )
     bodysiteLaterality: Nullable[CodedConcept] = Field(
-        None,
+        default=None,
         description='Laterality for the anatomical location of the surgery',
         title='Anatomical location laterality',
         json_schema_extra={'x-terminology': 'LateralityQualifier'},
     )
     outcome: Nullable[CodedConcept] = Field(
-        None,
+        default=None,
         description='The outcome of the surgery',
         title='Outcome',
         json_schema_extra={'x-terminology': 'ProcedureOutcome'},
     )
     therapyLineId: Nullable[UUID] = Field(
-        None,
+        default=None,
         description='Therapy line to which the surgery is assigned to',
         title='Therapy line',
     )
     targetedEntitiesIds: Nullable[List[UUID]] = Field(
-        None,
+        default=None,
         description='References to the neoplastic entities that were targeted by the surgery',
         title='Targeted neoplastic entities',
     )

@@ -236,3 +236,10 @@ class TestFhirSchemas(TestCase):
             fhir.TNMStageGroupProfile,
             factories.TNMStagingFactory,
         )
+        
+    def test_surgery_profile_schema_mappings(self, *args, **kwargs):
+        self._test_circular_mapping(
+            schemas.Surgery,
+            fhir.SurgicalProcedureProfile,
+            factories.SurgeryFactory,
+        )

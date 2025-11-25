@@ -3,10 +3,11 @@ from onconova.core.utils import COMMON_HTTP_ERRORS
 from onconova.core.auth import permissions as perms
 from onconova.core.auth.token import XSessionTokenAuth
 from onconova.interoperability.fhir.schemas import (
-    PrimaryCancerConditionProfile,
-    SecondaryCancerConditionProfile,
+    SurgicalProcedureProfile,
 )
-from onconova.oncology.models import NeoplasticEntity
+from onconova.oncology.models import (
+    Surgery,
+)
 from fhircraft.fhir.resources.datatypes.R4.core.operation_outcome import (
     OperationOutcome,
 )
@@ -18,44 +19,43 @@ from onconova.interoperability.fhir.controllers.base import (
 
 
 @api_controller(
-    "Condition",
+    "Procedure",
     auth=[XSessionTokenAuth()],
-    tags=["Conditions"],
+    tags=["Procedures"],
 )
-class ConditionController(FhirBaseController):
+class ProcedureController(FhirBaseController):
 
     @route.get(
         path="{rid}",
         response={
-            200: PrimaryCancerConditionProfile | SecondaryCancerConditionProfile,
+            200: SurgicalProcedureProfile,
             **COMMON_READ_HTTP_ERRORS,
         },
         permissions=[perms.CanManageCases],
-        operation_id="readCondition",
+        operation_id="readProcedure",
         exclude_none=True,
         summary="Read the current state of the resource",
     )
     def read_patient(self, rid: str):
-        return self.read_fhir_resource(rid, NeoplasticEntity)
+        return self.read_fhir_resource(rid, Surgery)
 
     @route.put(
         path="{rid}",
         response={
-            200: PrimaryCancerConditionProfile
-            | SecondaryCancerConditionProfile
+            200: SurgicalProcedureProfile
             | OperationOutcome
             | None,
             **COMMON_UPDATE_HTTP_ERRORS,
         },
         permissions=[perms.CanManageCases],
-        operation_id="updateCondition",
+        operation_id="updateProcedure",
         exclude_none=True,
         summary="Update the current state of the resource",
     )
     def update_patient(
         self,
         rid: str,
-        payload: PrimaryCancerConditionProfile | SecondaryCancerConditionProfile,
+        payload: SurgicalProcedureProfile,
     ):
         return self.update_fhir_resource(rid, payload)
 
@@ -66,29 +66,28 @@ class ConditionController(FhirBaseController):
             404: OperationOutcome,
         },
         permissions=[perms.CanManageCases],
-        operation_id="deleteCondition",
+        operation_id="deleteProcedure",
         exclude_none=True,
         summary="Delete the resource so that it no exists (no read, search etc)",
     )
     def delete_patient(self, rid: str):
-        return self.delete_fhir_resource(rid, NeoplasticEntity)
+        return self.delete_fhir_resource(rid, Surgery)
 
     @route.post(
         path="",
         response={
-            200: PrimaryCancerConditionProfile
-            | SecondaryCancerConditionProfile
+            200: SurgicalProcedureProfile
             | OperationOutcome
             | None,
             400: OperationOutcome,
             409: OperationOutcome,
         },
         permissions=[perms.CanManageCases],
-        operation_id="createCondition",
+        operation_id="createProcedure",
         exclude_none=True,
         summary="Create a new resource",
     )
     def create_patient(
-        self, payload: PrimaryCancerConditionProfile | SecondaryCancerConditionProfile
+        self, payload: SurgicalProcedureProfile
     ):
         return self.create_fhir_resource(payload)
