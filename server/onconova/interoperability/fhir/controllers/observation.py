@@ -88,6 +88,7 @@ class ObservationController(FhirBaseController):
         permissions=[perms.CanManageCases],
         operation_id="readObservation",
         exclude_none=True,
+        summary="Read the current state of the resource",
     )
     def read_observation(self, rid: str):
         return self.read_fhir_resource(
@@ -147,6 +148,7 @@ class ObservationController(FhirBaseController):
         permissions=[perms.CanManageCases],
         operation_id="updateObservation",
         exclude_none=True,
+        summary="Update the current state of the resource",
     )
     def update_observation(
         self,
@@ -181,6 +183,7 @@ class ObservationController(FhirBaseController):
         permissions=[perms.CanManageCases],
         operation_id="deleteObservation",
         exclude_none=True,
+        summary="Delete the resource so that it no exists (no read, search etc)",
     )
     def delete_observation(self, rid: str):
         return self.delete_fhir_resource(
@@ -241,6 +244,7 @@ class ObservationController(FhirBaseController):
         permissions=[perms.CanManageCases],
         operation_id="createObservation",
         exclude_none=True,
+        summary="Create a new resource",
     )
     def create_observation(
         self,

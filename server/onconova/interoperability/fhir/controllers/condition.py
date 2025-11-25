@@ -33,6 +33,7 @@ class ConditionController(FhirBaseController):
         permissions=[perms.CanManageCases],
         operation_id="readPatient",
         exclude_none=True,
+        summary="Read the current state of the resource",
     )
     def read_patient(self, rid: str):
         return self.read_fhir_resource(rid, NeoplasticEntity)
@@ -49,6 +50,7 @@ class ConditionController(FhirBaseController):
         permissions=[perms.CanManageCases],
         operation_id="updatePatient",
         exclude_none=True,
+        summary="Update the current state of the resource",
     )
     def update_patient(
         self,
@@ -66,6 +68,7 @@ class ConditionController(FhirBaseController):
         permissions=[perms.CanManageCases],
         operation_id="deletePatient",
         exclude_none=True,
+        summary="Delete the resource so that it no exists (no read, search etc)",
     )
     def delete_patient(self, rid: str):
         return self.delete_fhir_resource(rid, NeoplasticEntity)
@@ -83,6 +86,7 @@ class ConditionController(FhirBaseController):
         permissions=[perms.CanManageCases],
         operation_id="createPatient",
         exclude_none=True,
+        summary="Create a new resource",
     )
     def create_patient(
         self, payload: PrimaryCancerConditionProfile | SecondaryCancerConditionProfile
