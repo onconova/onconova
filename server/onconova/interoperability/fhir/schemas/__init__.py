@@ -15,6 +15,7 @@ from .lifestyle import LifestyleProfile
 from .performance_status import ECOGPerformanceStatusProfile, KarnofskyPerformanceStatusProfile
 from .imaging_disease_status import ImagingDiseaseStatusProfile
 from .cancer_stage import CancerStageProfile
+from .tnm_stage_group import TNMStageGroupProfile
 
 __all__ = (
     "CancerPatientProfile",
@@ -35,4 +36,5 @@ __all__ = (
     "KarnofskyPerformanceStatusProfile",
     "ImagingDiseaseStatusProfile",
     "CancerStageProfile",
+    "TNMStageGroupProfile",
 )

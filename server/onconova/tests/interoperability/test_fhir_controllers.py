@@ -256,6 +256,7 @@ class TestObservationsController(FhirCrudApiControllerTestCase):
         factories.GleasonGradeFactory,
         factories.RhabdomyosarcomaClinicalGroupFactory,
         factories.WilmsStageFactory,
+        factories.TNMStagingFactory,
     ]
     MODEL = [
         models.TumorMarker,
@@ -284,6 +285,7 @@ class TestObservationsController(FhirCrudApiControllerTestCase):
         models.GleasonGrade,            
         models.RhabdomyosarcomaClinicalGroup,            
         models.WilmsStage,    
+        models.TNMStaging,
     ]
     SCHEMA = [
         schemas.TumorMarkerProfile,
@@ -312,7 +314,7 @@ class TestObservationsController(FhirCrudApiControllerTestCase):
         schemas.CancerStageProfile,
         schemas.CancerStageProfile,
         schemas.CancerStageProfile,
-        schemas.CancerStageProfile,
+        schemas.TNMStageGroupProfile,
     ]
 
     @classmethod

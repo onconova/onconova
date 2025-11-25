@@ -17,6 +17,7 @@ from onconova.interoperability.fhir.schemas import (
     KarnofskyPerformanceStatusProfile,
     ImagingDiseaseStatusProfile,
     CancerStageProfile,
+    TNMStageGroupProfile,
 )
 from onconova.oncology.models import (
     TumorMarker, 
@@ -43,7 +44,8 @@ from onconova.oncology.models import (
     INRGSSStage,
     GleasonGrade,
     RhabdomyosarcomaClinicalGroup,
-    WilmsStage
+    WilmsStage,
+    TNMStaging
 )
 from fhircraft.fhir.resources.datatypes.R4.core.operation_outcome import (
     OperationOutcome,
@@ -78,6 +80,7 @@ class ObservationController(FhirBaseController):
             | ECOGPerformanceStatusProfile
             | KarnofskyPerformanceStatusProfile
             | ImagingDiseaseStatusProfile
+            | TNMStageGroupProfile
             | CancerStageProfile
             | CancerRiskAssessmentProfile,
             **COMMON_READ_HTTP_ERRORS,
@@ -113,7 +116,8 @@ class ObservationController(FhirBaseController):
                 INRGSSStage,
                 GleasonGrade,
                 RhabdomyosarcomaClinicalGroup,
-                WilmsStage
+                WilmsStage,
+                TNMStaging,
             ]
         )
 
@@ -133,6 +137,7 @@ class ObservationController(FhirBaseController):
             | ECOGPerformanceStatusProfile
             | KarnofskyPerformanceStatusProfile
             | ImagingDiseaseStatusProfile
+            | TNMStageGroupProfile
             | CancerStageProfile
             | CancerRiskAssessmentProfile
             | OperationOutcome
@@ -160,6 +165,7 @@ class ObservationController(FhirBaseController):
             | ECOGPerformanceStatusProfile
             | KarnofskyPerformanceStatusProfile
             | ImagingDiseaseStatusProfile
+            | TNMStageGroupProfile
             | CancerStageProfile
             | CancerRiskAssessmentProfile
         ),
@@ -203,7 +209,8 @@ class ObservationController(FhirBaseController):
                 INRGSSStage,
                 GleasonGrade,
                 RhabdomyosarcomaClinicalGroup,
-                WilmsStage
+                WilmsStage,
+                TNMStaging,
             ]
         )
 
@@ -223,6 +230,7 @@ class ObservationController(FhirBaseController):
             | ECOGPerformanceStatusProfile
             | KarnofskyPerformanceStatusProfile
             | ImagingDiseaseStatusProfile
+            | TNMStageGroupProfile
             | CancerStageProfile
             | CancerRiskAssessmentProfile
             | OperationOutcome
@@ -250,6 +258,7 @@ class ObservationController(FhirBaseController):
             | ECOGPerformanceStatusProfile
             | KarnofskyPerformanceStatusProfile
             | ImagingDiseaseStatusProfile
+            | TNMStageGroupProfile
             | CancerStageProfile
             | CancerRiskAssessmentProfile
         ),

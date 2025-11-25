@@ -141,14 +141,6 @@ class FhirBaseController(ControllerBase):
     def create_fhir_resource(self, payload: OnconovaFhirBaseSchema):
         assert self.context and self.context.response and self.context.request
         try:
-            print("POSTED FHIR RESOURCS:")
-            print(payload.model_dump_json(indent=2, exclude_none=True))
-            print("MAPPED TO ONCONOVA SCHEMA:")
-            print(
-                payload.__class__.fhir_to_onconova(payload).model_dump_json(
-                    indent=2, exclude_none=True
-                )
-            )
             resource = payload.__class__.fhir_to_onconova(payload).model_dump_django()
         except ValidationError as ve:
             return 400, OperationOutcome(

@@ -15,6 +15,7 @@ NoneType = type(None)
 
 # Dynamic modules 
 from fhircraft.fhir.resources.base import FHIRBaseModel
+from fhircraft.fhir.resources.datatypes.R4.core import Observation
 from typing import Optional,List,Annotated,Union,Literal
 from fhircraft.fhir.resources.datatypes.primitives import String,Uri,Code,DateTime,Instant
 from fhircraft.fhir.resources.datatypes.R4.complex.element import Element
@@ -274,7 +275,7 @@ Observation resources representing a cancer TNM staging in the scope of Onconova
         description="Text summary of the resource, for human interpretation",
         default=None,
     )
-    contained: Optional[List[Resource]] = Field(
+    contained: Optional[List[Observation | Resource]] = Field(
         description="Contained, inline Resources",
         default=None,
     )
@@ -459,7 +460,7 @@ Observation resources representing a cancer TNM staging in the scope of Onconova
         return validate_contained_resource(cls, value, 
             release="R4",
         )
-        
+    
     @model_validator(mode="after")
     def effective_type_choice_validator(self):
         return validate_type_choice_element( 

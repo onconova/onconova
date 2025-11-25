@@ -17,6 +17,7 @@ class TestFhirSchemas(TestCase):
         instance = factory.create()
         original_schema = schema.model_validate(instance)
         fhir_resource = fhir_schema.onconova_to_fhir(original_schema)
+        
         new_schema = fhir_schema.fhir_to_onconova(fhir_resource)
         new_instance = new_schema.model_dump_django(instance=instance)
         resulting_schema = schema.model_validate(new_instance)
@@ -227,4 +228,11 @@ class TestFhirSchemas(TestCase):
     def test_cancer_stage_profile_schema_mappings(self, schema, factory, *args, **kwargs):
         self._test_circular_mapping(
             schema,fhir.CancerStageProfile, factory
+        )
+        
+    def test_tnm_stage_group_profile_schema_mappings(self, *args, **kwargs):
+        self._test_circular_mapping(
+            schemas.TNMStaging,
+            fhir.TNMStageGroupProfile,
+            factories.TNMStagingFactory,
         )

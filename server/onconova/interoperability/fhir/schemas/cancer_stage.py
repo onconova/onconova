@@ -69,7 +69,7 @@ class CancerStageProfile(OnconovaFhirBaseSchema, fhir.OnconovaCancerStage):
             domain = obj.stagingDomain
         if hasattr(obj, "staging_domain"):
             domain = obj.staging_domain
-        return cls.__schemas__[domain] if domain else schemas.Staging
+        return cls.__schemas__.get(domain, schemas.Staging) if domain else schemas.Staging
         
     @classmethod
     def fhir_to_onconova(
@@ -132,8 +132,6 @@ class CancerStageProfile(OnconovaFhirBaseSchema, fhir.OnconovaCancerStage):
         | schemas.WilmsStage
         | schemas.RhabdomyosarcomaClinicalGroup
     ) -> fhir.OnconovaCancerStage:
-    
-        print('CONVERTING')
         if obj.stagingDomain in [StagingDomain.TNM, StagingDomain.LYMPHOMA]:
             raise TypeError('Lymphoma and TNM staging are handled separately in Lymphoma Stage Profile and TNM Stage Group Profile, respectively.')
         
