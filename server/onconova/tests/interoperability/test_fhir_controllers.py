@@ -100,8 +100,8 @@ class FhirCrudApiControllerTestCase(ApiControllerTestMixin, TestCase):
 
     @parameterized.expand(HTTP_SCENARIOS)
     def test_delete_operation(self, scenario, config):
-        for i, (instance, schema, model) in enumerate(
-            zip(self.instances, self.schemas, self.models)
+        for i, (instance, model) in enumerate(
+            zip(self.instances, self.models)
         ):
             with self.subTest(i=i):
                 # Call the API endpoint
@@ -341,13 +341,16 @@ class TestProceduresController(FhirCrudApiControllerTestCase):
     controller_path = "/api/fhir/Procedure"
     FACTORY = [
         factories.SurgeryFactory,
-        factories.RadiotherapyFactory
+        factories.RadiotherapyFactory,
+        factories.TumorBoardFactory,
     ]
     MODEL = [
         models.Surgery,
         models.Radiotherapy,
+        models.UnspecifiedTumorBoard,
     ]
     SCHEMA = [
         schemas.SurgicalProcedureProfile,
         schemas.RadiotherapyCourseSummaryProfile,
+        schemas.TumorBoardReviewProfile,
     ]

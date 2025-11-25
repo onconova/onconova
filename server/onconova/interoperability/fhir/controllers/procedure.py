@@ -5,10 +5,12 @@ from onconova.core.auth.token import XSessionTokenAuth
 from onconova.interoperability.fhir.schemas import (
     SurgicalProcedureProfile,
     RadiotherapyCourseSummaryProfile,
+    TumorBoardReviewProfile,
 )
 from onconova.oncology.models import (
     Surgery,
     Radiotherapy,
+    UnspecifiedTumorBoard,
 )
 from fhircraft.fhir.resources.datatypes.R4.core.operation_outcome import (
     OperationOutcome,
@@ -31,7 +33,8 @@ class ProcedureController(FhirBaseController):
         path="{rid}",
         response={
             200: RadiotherapyCourseSummaryProfile
-            | SurgicalProcedureProfile,
+            | SurgicalProcedureProfile
+            | TumorBoardReviewProfile,
             **COMMON_READ_HTTP_ERRORS,
         },
         permissions=[perms.CanManageCases],
@@ -43,6 +46,7 @@ class ProcedureController(FhirBaseController):
         return self.read_fhir_resource(rid, [
             Surgery, 
             Radiotherapy,
+            UnspecifiedTumorBoard,
         ])
 
     @route.put(
@@ -50,6 +54,7 @@ class ProcedureController(FhirBaseController):
         response={
             200: RadiotherapyCourseSummaryProfile
             | SurgicalProcedureProfile
+            | TumorBoardReviewProfile
             | OperationOutcome
             | None,
             **COMMON_UPDATE_HTTP_ERRORS,
@@ -63,7 +68,8 @@ class ProcedureController(FhirBaseController):
         self,
         rid: str,
         payload: RadiotherapyCourseSummaryProfile
-            | SurgicalProcedureProfile,
+            | SurgicalProcedureProfile
+            | TumorBoardReviewProfile,
     ):
         return self.update_fhir_resource(rid, payload)
 
@@ -82,6 +88,7 @@ class ProcedureController(FhirBaseController):
         return self.delete_fhir_resource(rid, [
             Surgery,
             Radiotherapy, 
+            UnspecifiedTumorBoard,
         ])
 
     @route.post(
@@ -89,6 +96,7 @@ class ProcedureController(FhirBaseController):
         response={
             200: RadiotherapyCourseSummaryProfile
             | SurgicalProcedureProfile
+            | TumorBoardReviewProfile
             | OperationOutcome
             | None,
             400: OperationOutcome,
@@ -102,5 +110,6 @@ class ProcedureController(FhirBaseController):
     def create_patient(
         self, payload: RadiotherapyCourseSummaryProfile
             | SurgicalProcedureProfile
+            | TumorBoardReviewProfile
     ):
         return self.create_fhir_resource(payload)

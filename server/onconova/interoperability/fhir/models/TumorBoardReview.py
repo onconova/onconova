@@ -288,7 +288,7 @@ Procedure resources representing a tumor board review in the scope of Onconova S
         description="Classification of the procedure",
         default_factory=lambda: CodeableConcept(coding=[Coding(code="103693007", display="Diagnostic procedure", system="http://snomed.info/sct")]),
     )
-    code: OnconovaTumorBoardReviewCode = Field(
+    code: CodeableConcept = Field(
         description="Identification of the procedure",
         default_factory=lambda: CodeableConcept(coding=[Coding(code="C93304", display="Tumor Board Review", system="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl")]),
     )

@@ -14,17 +14,17 @@ class UnspecifiedTumorBoardCreate(BaseSchema):
     __orm_model__ = orm.UnspecifiedTumorBoard 
     
     category: Literal[orm.TumorBoardSpecialties.UNSPECIFIED] = Field(
-        orm.TumorBoardSpecialties.UNSPECIFIED,
+        default=orm.TumorBoardSpecialties.UNSPECIFIED,
         title="Category",
         description="Tumor board discriminator category",
     )
     externalSource: Nullable[str] = Field(
-        None,
+        default=None,
         description='The digital source of the data, relevant for automated data',
         title='External data source',
     )
     externalSourceId: Nullable[str] = Field(
-        None,
+        default=None,
         description='The data identifier at the digital source of the data, relevant for automated data',
         title='External data source Id',
     )
@@ -39,12 +39,12 @@ class UnspecifiedTumorBoardCreate(BaseSchema):
         title='Date',
     )
     relatedEntitiesIds: Nullable[List[UUID]] = Field(
-        None,
+        default=None,
         description='References to the neoplastic entities that were the focus of the tumor board.',
         title='Related neoplastic entities',
     )
     recommendations: Nullable[List[CodedConcept]] = Field(
-        None,
+        default=None,
         description="Recommendation(s) provided by the board regarding the patient's care",
         title='Recommendations',
         json_schema_extra={'x-terminology': 'TumorBoardRecommendation'},
@@ -54,7 +54,7 @@ class UnspecifiedTumorBoardCreate(BaseSchema):
 class UnspecifiedTumorBoard(UnspecifiedTumorBoardCreate, MetadataAnonymizationMixin):
     
     category: Literal[orm.TumorBoardSpecialties.UNSPECIFIED] = Field(
-        orm.TumorBoardSpecialties.UNSPECIFIED,
+        default=orm.TumorBoardSpecialties.UNSPECIFIED,
         title="Category",
         description="Tumor board discriminator category",
     )
@@ -68,55 +68,55 @@ class MolecularTherapeuticRecommendationCreate(BaseSchema):
     __orm_model__ = orm.MolecularTherapeuticRecommendation 
     
     externalSource: Nullable[str] = Field(
-        None,
+        default=None,
         description='The digital source of the data, relevant for automated data',
         title='External data source',
     )
     externalSourceId: Nullable[str] = Field(
-        None,
+        default=None,
         description='The data identifier at the digital source of the data, relevant for automated data',
         title='External data source Id',
     )
     expectedEffect: Nullable[CodedConcept] = Field(
-        None,
+        default=None,
         description='Classification of the expected effect of the drug',
         title='Expected medication action',
         json_schema_extra={'x-terminology': 'ExpectedDrugAction'},
     )
     clinicalTrial: Nullable[str] = Field(
-        None,
+        default=None,
         description='Clinical trial (NCT-Iddentifier) recommended by the board for enrollment',
         title='Recommended clinical trial',
         max_length=15,
     )
     offLabelUse: Nullable[bool] = Field(
-        None,
+        default=None,
         description='Whether the medication(s) recommended were off-label',
         title='Off-label use',
     )
     withinSoc: Nullable[bool] = Field(
-        None,
+        default=None,
         description='Whether the medication(s) recommended were within standard of care',
         title='Within SOC',
     )
     drugs: Nullable[List[CodedConcept]] = Field(
-        None,
+        default=None,
         description='Drugs(s) being recommended',
         title='Drug(s)',
         json_schema_extra={'x-terminology': 'AntineoplasticAgent'},
     )
     supportingGenomicVariantsIds: Nullable[List[UUID]] = Field(
-        None,
+        default=None,
         description='Genomic variants that support the recommendation',
         title='Supporting genomic variants',
     )
     supportingGenomicSignaturesIds: Nullable[List[UUID]] = Field(
-        None,
+        default=None,
         description='Genomic signatures that support the recommendation',
         title='Supporting genomic signatures',
     )
     supportingTumorMarkersIds: Nullable[List[UUID]] = Field(
-        None,
+        default=None,
         description='Tumor markers that support the recommendation',
         title='Supporting tumor markers',
     )
@@ -136,12 +136,12 @@ class MolecularTumorBoardCreate(BaseSchema):
         description="Tumor board discriminator category",
     )
     externalSource: Nullable[str] = Field(
-        None,
+        default=None,
         description='The digital source of the data, relevant for automated data',
         title='External data source',
     )
     externalSourceId: Nullable[str] = Field(
-        None,
+        default=None,
         description='The data identifier at the digital source of the data, relevant for automated data',
         title='External data source Id',
     )
@@ -156,33 +156,33 @@ class MolecularTumorBoardCreate(BaseSchema):
         title='Date',
     )
     relatedEntitiesIds: Nullable[List[UUID]] = Field(
-        None,
+        default=None,
         description='References to the neoplastic entities that were the focus of the tumor board.',
         title='Related neoplastic entities',
     )
     recommendations: Nullable[List[CodedConcept]] = Field(
-        None,
+        default=None,
         description="Recommendation(s) provided by the board regarding the patient's care",
         title='Recommendations',
         json_schema_extra={'x-terminology': 'TumorBoardRecommendation'},
     )
     conductedMolecularComparison: Nullable[bool] = Field(
-        None,
+        default=None,
         description='Indicates whether a molecular comparison was conducted during the molecular tumor board',
         title='Conducted molecular comparison?',
     )
     molecularComparisonMatchId: Nullable[UUID] = Field(
-        None,
+        default=None,
         description='The neoplastic entity that was matched during the molecular comparison',
         title='Molecular comparison match',
     )
     conductedCupCharacterization: Nullable[bool] = Field(
-        None,
+        default=None,
         description='Whether there was a cancer of unknown primary (CUP) characterization during the molecular tumor board.',
         title='Conducted CUP characterization?',
     )
     characterizedCup: Nullable[bool] = Field(
-        None,
+        default=None,
         description='Whether the cancer of unknown primary (CUP) characterization was successful.',
         title='Successful CUP characterization?',
     )

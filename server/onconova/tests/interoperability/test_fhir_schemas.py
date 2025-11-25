@@ -252,3 +252,10 @@ class TestFhirSchemas(TestCase):
             fhir.RadiotherapyCourseSummaryProfile,
             factories.RadiotherapyFactory,
         )
+        
+    def test_tumor_board_review_profile_schema_mappings(self, *args, **kwargs):
+        self._test_circular_mapping(
+            schemas.UnspecifiedTumorBoard,
+            fhir.TumorBoardReviewProfile,
+            factories.TumorBoardFactory,
+        )
