@@ -518,7 +518,6 @@ class SurgeryFactory(factory.django.DjangoModelFactory):
 class RadiotherapyFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Radiotherapy
-        skip_postgeneration_save = True
 
     case = factory.SubFactory(PatientCaseFactory)
     period = factory.LazyFunction(
@@ -530,16 +529,21 @@ class RadiotherapyFactory(factory.django.DjangoModelFactory):
     sessions = factory.LazyFunction(lambda: random.randint(2, 25))
     intent = FuzzyChoice(RadiotherapyIntentChoices)
     therapy_line = factory.SubFactory(TherapyLineFactory)
-    targeted_entities = factory.post_generation(
-        add_m2m_related(
-            "targeted_entities", PrimaryNeoplasticEntityFactory, min=1, max=1
-        )
+
+    dosages = factory.RelatedFactory(
+        "onconova.tests.factories.RadiotherapyDosageFactory",
+        factory_related_name='radiotherapy',
+    )
+    settings = factory.RelatedFactory(
+        "onconova.tests.factories.RadiotherapySettingFactory",
+        factory_related_name='radiotherapy',
     )
 
 
 class RadiotherapyDosageFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.RadiotherapyDosage
+        skip_postgeneration_save = True
 
     radiotherapy = factory.SubFactory(RadiotherapyFactory)
     fractions = factory.LazyFunction(lambda: random.randint(2, 25))

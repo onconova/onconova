@@ -11,22 +11,22 @@ class RadiotherapyDosageCreate(BaseSchema):
     __orm_model__ = orm.RadiotherapyDosage
     
     externalSource: Nullable[str] = Field(
-        None,
+        default=None,
         description='The digital source of the data, relevant for automated data',
         title='External data source',
     )
     externalSourceId: Nullable[str] = Field(
-        None,
+        default=None,
         description='The data identifier at the digital source of the data, relevant for automated data',
         title='External data source Id',
     )
     fractions: Nullable[int] = Field(
-        None,
+        default=None,
         description='The total number of radiotherapy fractions delivered over the treatment period.',
         title='Total fractions',
     )
     dose: Nullable[Measure] = Field(
-        None,
+        default=None,
         description='Total radiation dose delivered over the full radiotherapy course',
         title='Total radiation dose',
         json_schema_extra={
@@ -41,13 +41,13 @@ class RadiotherapyDosageCreate(BaseSchema):
         json_schema_extra={'x-terminology': 'RadiotherapyTreatmentLocation'},
     )
     irradiatedVolumeMorphology: Nullable[CodedConcept] = Field(
-        None,
+        default=None,
         description='Morphology of the anatomical location of the irradiated volume',
         title='Irradiated volume morphology',
         json_schema_extra={'x-terminology': 'RadiotherapyVolumeType'},
     )
     irradiatedVolumeQualifier: Nullable[CodedConcept] = Field(
-        None,
+        default=None,
         description='General qualifier for the anatomical location of the irradiated volume',
         title='Irradiated volume qualifier',
         json_schema_extra={'x-terminology': 'RadiotherapyTreatmentLocationQualifier'},
@@ -63,12 +63,12 @@ class RadiotherapySettingCreate(BaseSchema):
     __orm_model__ = orm.RadiotherapySetting 
     
     externalSource: Nullable[str] = Field(
-        None,
+        default=None,
         description='The digital source of the data, relevant for automated data',
         title='External data source',
     )
     externalSourceId: Nullable[str] = Field(
-        None,
+        default=None,
         description='The data identifier at the digital source of the data, relevant for automated data',
         title='External data source Id',
     )
@@ -95,12 +95,12 @@ class RadiotherapyCreate(BaseSchema):
     __orm_model__ = orm.Radiotherapy 
     
     externalSource: Nullable[str] = Field(
-        None,
+        default=None,
         description='The digital source of the data, relevant for automated data',
         title='External data source',
     )
     externalSourceId: Nullable[str] = Field(
-        None,
+        default=None,
         description='The data identifier at the digital source of the data, relevant for automated data',
         title='External data source Id',
     )
@@ -125,18 +125,18 @@ class RadiotherapyCreate(BaseSchema):
         title='Intent',
     )
     terminationReason: Nullable[CodedConcept] = Field(
-        None,
+        default=None,
         description='Explanation for the premature or planned termination of the radiotherapy',
         title='Termination reason',
         json_schema_extra={'x-terminology': 'TreatmentTerminationReason'},
     )
     therapyLineId: Nullable[UUID] = Field(
-        None,
+        default=None,
         description='Therapy line to which the radiotherapy is assigned to',
         title='Therapy line',
     )
     targetedEntitiesIds: Nullable[List[UUID]] = Field(
-        None,
+        default=None,
         description='References to the neoplastic entities that were targeted by the radiotherapy',
         title='Targeted neoplastic entities',
     )

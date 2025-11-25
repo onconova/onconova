@@ -682,13 +682,13 @@ class RadiotherapyModalityAndTechnique(FHIRSliceModel):
     def FHIR_TechniquesForNeutronBeamModality_constraint_model_validator(self):
         return validate_model_constraint( 
             self,
-            expression="extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-modality').exists() and
+            expression="""extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-modality').exists() and
       extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-modality').value.exists() and
       extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-modality').value.coding.exists(system = 'http://snomed.info/sct' and code = '80347004')
    implies
       extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-technique').exists() and
       extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-technique').value.exists() and
-      extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-technique').value.coding.exists(code = 'UNC' or code = '169317000' or code = '1162782007')",
+      extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-technique').value.coding.exists(code = 'UNC' or code = '169317000' or code = '1162782007')""",
             human="Allowed Techniques for Neutron Beam Modality",
             key="TechniquesForNeutronBeamModality",
             severity="error",
@@ -698,13 +698,13 @@ class RadiotherapyModalityAndTechnique(FHIRSliceModel):
     def FHIR_TechniquesForPhotonBeamModality_constraint_model_validator(self):
         return validate_model_constraint( 
             self,
-            expression="extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-modality').exists() and
+            expression="""extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-modality').exists() and
       extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-modality').value.exists() and
       extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-modality').value.coding.exists(system = 'http://snomed.info/sct' and code = '1156506007')
    implies
       extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-technique').exists() and
       extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-technique').value.exists() and
-      extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-technique').value.coding.exists(code = 'UNC' or code = '441799006' or code = '1156530009' or code = '1162782007' or code = '1156526006' or code = '168524008' or code = '1156530009' or code = '1163157007')",
+      extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-technique').value.coding.exists(code = 'UNC' or code = '441799006' or code = '1156530009' or code = '1162782007' or code = '1156526006' or code = '168524008' or code = '1156530009' or code = '1163157007')""",
             human="Allowed Techniques for Photon Beam Modality",
             key="TechniquesForPhotonBeamModality",
             severity="error",
@@ -714,13 +714,13 @@ class RadiotherapyModalityAndTechnique(FHIRSliceModel):
     def FHIR_TechniquesForElectronBeamModality_constraint_model_validator(self):
         return validate_model_constraint( 
             self,
-            expression="extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-modality').exists() and
+            expression="""extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-modality').exists() and
       extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-modality').value.exists() and
       extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-modality').value.coding.exists(system = 'http://snomed.info/sct' and code = '45643008')
    implies
       extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-technique').exists() and
       extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-technique').value.exists() and
-      extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-technique').value.coding.exists(code = 'UNC' or code = '1162782007' or code = '1156526006' or code = '168524008' or code = '1163157007')",
+      extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-technique').value.coding.exists(code = 'UNC' or code = '1162782007' or code = '1156526006' or code = '168524008' or code = '1163157007')""",
             human="Allowed Techniques for Electron Beam Modality",
             key="TechniquesForElectronBeamModality",
             severity="error",
@@ -730,13 +730,13 @@ class RadiotherapyModalityAndTechnique(FHIRSliceModel):
     def FHIR_TechniquesForCarbonIonBeamModality_constraint_model_validator(self):
         return validate_model_constraint( 
             self,
-            expression="extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-modality').exists() and
+            expression="""extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-modality').exists() and
       extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-modality').value.exists() and
       extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-modality').value.coding.exists(system = 'http://snomed.info/sct' and code = '1156505006')
    implies
       extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-technique').exists() and
       extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-technique').value.exists() and
-      extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-technique').value.coding.exists(code = 'UNC' or code = '1156529004' or code = '1156528007' or code='1204242009')",
+      extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-technique').value.coding.exists(code = 'UNC' or code = '1156529004' or code = '1156528007' or code='1204242009')""",
             human="Allowed Techniques for Carbon Ion Beam Modality",
             key="TechniquesForCarbonIonBeamModality",
             severity="error",
@@ -746,13 +746,13 @@ class RadiotherapyModalityAndTechnique(FHIRSliceModel):
     def FHIR_TechniquesForProtonBeamModality_constraint_model_validator(self):
         return validate_model_constraint( 
             self,
-            expression="extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-modality').exists() and
+            expression="""extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-modality').exists() and
       extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-modality').value.exists() and
       extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-modality').value.coding.exists(system = 'http://snomed.info/sct' and code = '10611004')
    implies
       extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-technique').exists() and
       extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-technique').value.exists() and
-      extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-technique').value.coding.exists(code = 'UNC' or code = '1156529004' or code = '1156528007' or code = '1204242009' or code = '1163157007')",
+      extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-technique').value.coding.exists(code = 'UNC' or code = '1156529004' or code = '1156528007' or code = '1204242009' or code = '1163157007')""",
             human="Allowed Techniques for Proton Beam Modality",
             key="TechniquesForProtonBeamModality",
             severity="error",
@@ -762,13 +762,13 @@ class RadiotherapyModalityAndTechnique(FHIRSliceModel):
     def FHIR_TechniquesForInternalRadiotherapyPermanentSeeds_constraint_model_validator(self):
         return validate_model_constraint( 
             self,
-            expression="extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-modality').exists() and
+            expression="""extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-modality').exists() and
       extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-modality').value.exists() and
       extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-modality').value.coding.exists(system = 'http://snomed.info/sct' and code = '169359004')
    implies
       extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-technique').exists() and
       extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-technique').value.exists() and
-      extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-technique').value.coding.exists(code = 'UNC' or code = '113120007')",
+      extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-technique').value.coding.exists(code = 'UNC' or code = '113120007')""",
             human="Allowed Techniques for Internal Radiotherapy - Permanent Seeds",
             key="TechniquesForInternalRadiotherapyPermanentSeeds",
             severity="error",
@@ -778,13 +778,13 @@ class RadiotherapyModalityAndTechnique(FHIRSliceModel):
     def FHIR_TechniquesForLowDoseRateUsingTempRadSource_constraint_model_validator(self):
         return validate_model_constraint( 
             self,
-            expression="extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-modality').exists() and
+            expression="""extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-modality').exists() and
       extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-modality').value.exists() and
       extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-modality').value.coding.exists(system = 'http://snomed.info/sct' and code = '1156708005')
    implies
       extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-technique').exists() and
       extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-technique').value.exists() and
-      extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-technique').value.coding.exists(code = 'UNC' or code = '384692006' or code = '113120007' or code = '14473006')",
+      extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-technique').value.coding.exists(code = 'UNC' or code = '384692006' or code = '113120007' or code = '14473006')""",
             human="Allowed Techniques for Low Dose Rate Using Temp Radiation Source",
             key="TechniquesForLowDoseRateUsingTempRadSource",
             severity="error",
@@ -794,13 +794,13 @@ class RadiotherapyModalityAndTechnique(FHIRSliceModel):
     def FHIR_TechniquesForPulsedDoseRate_constraint_model_validator(self):
         return validate_model_constraint( 
             self,
-            expression="extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-modality').exists() and
+            expression="""extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-modality').exists() and
       extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-modality').value.exists() and
       extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-modality').value.coding.exists(system = 'http://snomed.info/sct' and code = '1156384006')
    implies
       extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-technique').exists() and
       extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-technique').value.exists() and
-      extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-technique').value.coding.exists(code = 'UNC' or code = '384692006' or code = '113120007')",
+      extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-technique').value.coding.exists(code = 'UNC' or code = '384692006' or code = '113120007')""",
             human="Allowed Techniques for Pulsed Dose Rate",
             key="TechniquesForPulsedDoseRate",
             severity="error",
@@ -810,13 +810,13 @@ class RadiotherapyModalityAndTechnique(FHIRSliceModel):
     def FHIR_TechniquesForHighDoseRate_constraint_model_validator(self):
         return validate_model_constraint( 
             self,
-            expression="extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-modality').exists() and
+            expression="""extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-modality').exists() and
       extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-modality').value.exists() and
       extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-modality').value.coding.exists(system = 'http://snomed.info/sct' and code = '394902000')
    implies
       extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-technique').exists() and
       extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-technique').value.exists() and
-      extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-technique').value.coding.exists(code = 'UNC' or code = '384692006' or code = '1156382005' or code = '113120007' or code = ' 1156383000' or code = '384691004' or code = '168524008' or code = '14473006')",
+      extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-technique').value.coding.exists(code = 'UNC' or code = '384692006' or code = '1156382005' or code = '113120007' or code = ' 1156383000' or code = '384691004' or code = '168524008' or code = '14473006')""",
             human="Allowed Techniques for High Dose Rate",
             key="TechniquesForHighDoseRate",
             severity="error",
@@ -826,13 +826,13 @@ class RadiotherapyModalityAndTechnique(FHIRSliceModel):
     def FHIR_TechniquesForHighDoseRateElectronic_constraint_model_validator(self):
         return validate_model_constraint( 
             self,
-            expression="extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-modality').exists() and
+            expression="""extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-modality').exists() and
       extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-modality').value.exists() and
       extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-modality').value.coding.exists(system = 'http://snomed.info/sct' and code = '438629002')
    implies
       extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-technique').exists() and
       extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-technique').value.exists() and
-      extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-technique').value.coding.exists(code = 'UNC' or code = '384692006' or code = '1156382005' or code = '113120007' or code = '384691004' or code = '168524008' or code = '14473006')",
+      extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-technique').value.coding.exists(code = 'UNC' or code = '384692006' or code = '1156382005' or code = '113120007' or code = '384691004' or code = '168524008' or code = '14473006')""",
             human="Allowed Techniques for High Dose Rate Electronic",
             key="TechniquesForHighDoseRateElectronic",
             severity="error",
@@ -842,13 +842,13 @@ class RadiotherapyModalityAndTechnique(FHIRSliceModel):
     def FHIR_TechniquesForRadioPharmaceutical_constraint_model_validator(self):
         return validate_model_constraint( 
             self,
-            expression="extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-modality').exists() and
+            expression="""extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-modality').exists() and
       extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-modality').value.exists() and
       extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-modality').value.coding.exists(system = 'http://snomed.info/sct' and code = '440252007')
    implies
       extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-technique').exists() and
       extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-technique').value.exists() and
-      extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-technique').value.coding.exists(code = 'UNC' or code = '16560241000119104' or code = '1156383000' or code = '384692006' or code = '113120007')",
+      extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-technique').value.coding.exists(code = 'UNC' or code = '16560241000119104' or code = '1156383000' or code = '384692006' or code = '113120007')""",
             human="Allowed Techniques for Radiopharmaceutical",
             key="TechniquesForRadioPharmaceutical",
             severity="error",
@@ -858,11 +858,11 @@ class RadiotherapyModalityAndTechnique(FHIRSliceModel):
     def FHIR_ModalityTextRequiredForOther_constraint_model_validator(self):
         return validate_model_constraint( 
             self,
-            expression="extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-modality').exists() and
+            expression="""extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-modality').exists() and
       extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-modality').value.exists() and
       extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-modality').value.coding.exists(system = 'http://terminology.hl7.org/CodeSystem/v3-NullFlavor' and code = 'UNC')
    implies
-      extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-modality').value.text.exists()",
+      extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-modality').value.text.exists()""",
             human="Require a text literal for code other",
             key="ModalityTextRequiredForOther",
             severity="error",
@@ -872,11 +872,11 @@ class RadiotherapyModalityAndTechnique(FHIRSliceModel):
     def FHIR_TechniqueTextRequiredForOther_constraint_model_validator(self):
         return validate_model_constraint( 
             self,
-            expression="extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-technique').exists() and
+            expression="""extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-technique').exists() and
       extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-technique').value.exists() and
       extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-technique').value.coding.exists(system = 'http://terminology.hl7.org/CodeSystem/v3-NullFlavor' and code = 'UNC')
    implies
-      extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-technique').value.text.exists()",
+      extension.where(url = 'http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-technique').value.text.exists()""",
             human="Require a text literal for code other",
             key="TechniqueTextRequiredForOther",
             severity="error",
@@ -2042,9 +2042,9 @@ Procedure resources representing a radiotherapy in the scope of Onconova SHALL c
     def FHIR_termination_reason_invariant_constraint_model_validator(self):
         return validate_model_constraint( 
             self,
-            expression="statusReason.exists() and statusReason.coding.exists(
+            expression="""statusReason.exists() and statusReason.coding.exists(
       system = 'http://snomed.info/sct' and (code = '182992009' or code = '266721009' or code = '407563006' or code = '160932005' or
- code = '105480006' or code = '184081006' or code = '309846006' or code = '399307001' or  code = '419620001' or code = '7058009' or code = '443729008' or code = '77386006')) implies status = 'stopped'",
+ code = '105480006' or code = '184081006' or code = '309846006' or code = '399307001' or  code = '419620001' or code = '7058009' or code = '443729008' or code = '77386006')) implies status = 'stopped'""",
             human="Certain statusReason values are allowed only when status is stopped",
             key="termination-reason-invariant",
             severity="error",

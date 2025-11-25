@@ -4,9 +4,11 @@ from onconova.core.auth import permissions as perms
 from onconova.core.auth.token import XSessionTokenAuth
 from onconova.interoperability.fhir.schemas import (
     SurgicalProcedureProfile,
+    RadiotherapyCourseSummaryProfile,
 )
 from onconova.oncology.models import (
     Surgery,
+    Radiotherapy,
 )
 from fhircraft.fhir.resources.datatypes.R4.core.operation_outcome import (
     OperationOutcome,
@@ -28,7 +30,8 @@ class ProcedureController(FhirBaseController):
     @route.get(
         path="{rid}",
         response={
-            200: SurgicalProcedureProfile,
+            200: RadiotherapyCourseSummaryProfile
+            | SurgicalProcedureProfile,
             **COMMON_READ_HTTP_ERRORS,
         },
         permissions=[perms.CanManageCases],
@@ -37,12 +40,16 @@ class ProcedureController(FhirBaseController):
         summary="Read the current state of the resource",
     )
     def read_patient(self, rid: str):
-        return self.read_fhir_resource(rid, Surgery)
+        return self.read_fhir_resource(rid, [
+            Surgery, 
+            Radiotherapy,
+        ])
 
     @route.put(
         path="{rid}",
         response={
-            200: SurgicalProcedureProfile
+            200: RadiotherapyCourseSummaryProfile
+            | SurgicalProcedureProfile
             | OperationOutcome
             | None,
             **COMMON_UPDATE_HTTP_ERRORS,
@@ -55,7 +62,8 @@ class ProcedureController(FhirBaseController):
     def update_patient(
         self,
         rid: str,
-        payload: SurgicalProcedureProfile,
+        payload: RadiotherapyCourseSummaryProfile
+            | SurgicalProcedureProfile,
     ):
         return self.update_fhir_resource(rid, payload)
 
@@ -71,12 +79,16 @@ class ProcedureController(FhirBaseController):
         summary="Delete the resource so that it no exists (no read, search etc)",
     )
     def delete_patient(self, rid: str):
-        return self.delete_fhir_resource(rid, Surgery)
+        return self.delete_fhir_resource(rid, [
+            Surgery,
+            Radiotherapy, 
+        ])
 
     @route.post(
         path="",
         response={
-            200: SurgicalProcedureProfile
+            200: RadiotherapyCourseSummaryProfile
+            | SurgicalProcedureProfile
             | OperationOutcome
             | None,
             400: OperationOutcome,
@@ -88,6 +100,7 @@ class ProcedureController(FhirBaseController):
         summary="Create a new resource",
     )
     def create_patient(
-        self, payload: SurgicalProcedureProfile
+        self, payload: RadiotherapyCourseSummaryProfile
+            | SurgicalProcedureProfile
     ):
         return self.create_fhir_resource(payload)

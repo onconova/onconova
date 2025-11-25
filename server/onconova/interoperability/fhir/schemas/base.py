@@ -108,6 +108,10 @@ class OnconovaFhirBaseSchema(BaseSchema):
     @classmethod
     def onconova_to_fhir(cls, obj: BaseSchema) -> "OnconovaFhirBaseSchema":
         raise NotImplementedError("Subclasses must implement onconova_to_fhir method")
+    
+    @classmethod
+    def fhir_to_onconova_related(cls, obj: "OnconovaFhirBaseSchema") -> list[tuple[Model, BaseSchema]] :
+        return []
 
     @model_validator(mode="before")
     @classmethod

@@ -17,6 +17,7 @@ from .imaging_disease_status import ImagingDiseaseStatusProfile
 from .cancer_stage import CancerStageProfile
 from .tnm_stage_group import TNMStageGroupProfile
 from .surgical_procedure import SurgicalProcedureProfile
+from .radiotherapy_course import RadiotherapyCourseSummaryProfile
 
 __all__ = (
     "CancerPatientProfile",
@@ -39,4 +40,5 @@ __all__ = (
     "CancerStageProfile",
     "TNMStageGroupProfile",
     "SurgicalProcedureProfile",
+    "RadiotherapyCourseSummaryProfile",
 )

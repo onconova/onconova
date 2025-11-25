@@ -74,7 +74,7 @@ class FhirBaseController(ControllerBase):
                 ]
             )
         try:
-            resource = payload.__class__.fhir_to_onconova(  # type: ignore
+            resource = payload.fhir_to_onconova(  # type: ignore
                 payload
             ).model_dump_django(instance=instance)
         except ValidationError as ve:
@@ -97,6 +97,43 @@ class FhirBaseController(ControllerBase):
                     )
                 ]
             )
+            
+        for (child_instance, new_child_schema) in payload.fhir_to_onconova_related(
+            payload
+        ):
+            if not child_instance.pk:
+                return 400, OperationOutcome(
+                    issue=[
+                        OperationOutcomeIssue(
+                            severity="error",
+                            code="invalid",
+                            diagnostics="ID mismatch for child resource.",
+                        )
+                    ]
+                )
+            try:
+                new_child_schema.model_dump_django(instance=child_instance)        
+            except ValidationError as ve:
+                return 400, OperationOutcome(
+                    issue=[
+                        OperationOutcomeIssue(
+                            severity="error",
+                            code="invalid",
+                            diagnostics=str(ve),
+                        )
+                    ]
+                )
+            except IntegrityError as ie:
+                return 409, OperationOutcome(
+                    issue=[
+                        OperationOutcomeIssue(
+                            severity="error",
+                            code="conflict",
+                            diagnostics="One of the unique fields conflicts with an existing record.",
+                        )
+                    ]
+                )
+            
         if (resourceType := getattr(payload, "resourceType", None)) and (
             resourceId := getattr(payload, "id", None)
         ):
@@ -162,6 +199,32 @@ class FhirBaseController(ControllerBase):
                     )
                 ]
             )
+        payload.id = str(resource.id) # type: ignore 
+        for (instance, new_child_schema) in payload.fhir_to_onconova_related(
+            payload
+        ):
+            try:
+                new_child_schema.model_dump_django(instance=instance)        
+            except ValidationError as ve:
+                return 400, OperationOutcome(
+                    issue=[
+                        OperationOutcomeIssue(
+                            severity="error",
+                            code="invalid",
+                            diagnostics=str(ve),
+                        )
+                    ]
+                )
+            except IntegrityError as ie:
+                return 409, OperationOutcome(
+                    issue=[
+                        OperationOutcomeIssue(
+                            severity="error",
+                            code="conflict",
+                            diagnostics=str(ie),
+                        )
+                    ]
+                )            
         if resourceType := getattr(payload, "resourceType", None):
             self.context.response.headers["Location"] = (
                 f"/fhir/{resourceType}/{resource.id}"

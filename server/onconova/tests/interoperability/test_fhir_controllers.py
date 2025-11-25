@@ -341,10 +341,13 @@ class TestProceduresController(FhirCrudApiControllerTestCase):
     controller_path = "/api/fhir/Procedure"
     FACTORY = [
         factories.SurgeryFactory,
+        factories.RadiotherapyFactory
     ]
     MODEL = [
         models.Surgery,
+        models.Radiotherapy,
     ]
     SCHEMA = [
         schemas.SurgicalProcedureProfile,
+        schemas.RadiotherapyCourseSummaryProfile,
     ]
