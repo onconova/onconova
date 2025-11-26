@@ -4,6 +4,7 @@
 import fhircraft
 from fhircraft.fhir.resources.base import FHIRBaseModel
 import fhircraft.fhir.resources.validators as fhir_validators
+
 # Pydantic modules
 from pydantic import Field, field_validator, model_validator, BaseModel
 from pydantic.fields import FieldInfo
@@ -11,12 +12,19 @@ from pydantic.fields import FieldInfo
 # Standard modules
 from typing import Optional, Literal, Union, ClassVar
 from enum import Enum
+
 NoneType = type(None)
 
-# Dynamic modules 
-from fhircraft.fhir.resources.base import FHIRBaseModel,FHIRSliceModel
-from typing import Optional,List,Annotated,Union,Literal
-from fhircraft.fhir.resources.datatypes.primitives import String,Uri,Code,Canonical,DateTime
+# Dynamic modules
+from fhircraft.fhir.resources.base import FHIRBaseModel, FHIRSliceModel
+from typing import Optional, List, Annotated, Union, Literal
+from fhircraft.fhir.resources.datatypes.primitives import (
+    String,
+    Uri,
+    Code,
+    Canonical,
+    DateTime,
+)
 from fhircraft.fhir.resources.datatypes.R4.complex.element import Element
 from fhircraft.fhir.resources.datatypes.R4.complex.meta import Meta
 from fhircraft.fhir.resources.datatypes.R4.complex.narrative import Narrative
@@ -24,16 +32,30 @@ from fhircraft.fhir.resources.datatypes.R4.complex.resource import Resource
 from fhircraft.fhir.resources.datatypes.R4.complex.extension import Extension
 from fhircraft.fhir.resources.datatypes.R4.complex.identifier import Identifier
 from fhircraft.fhir.resources.datatypes.R4.complex.reference import Reference
-from fhircraft.fhir.resources.datatypes.R4.complex.codeable_concept import CodeableConcept
+from fhircraft.fhir.resources.datatypes.R4.complex.codeable_concept import (
+    CodeableConcept,
+)
 from fhircraft.fhir.resources.datatypes.R4.complex.coding import Coding
-from fhircraft.fhir.resources.validators import get_type_choice_value_by_base,validate_element_constraint,validate_type_choice_element,validate_model_constraint,validate_slicing_cardinalities,validate_FHIR_element_pattern,validate_contained_resource
-from fhircraft.fhir.resources.datatypes.R4.complex.backbone_element import BackboneElement
+from fhircraft.fhir.resources.validators import (
+    get_type_choice_value_by_base,
+    validate_element_constraint,
+    validate_type_choice_element,
+    validate_model_constraint,
+    validate_slicing_cardinalities,
+    validate_FHIR_element_pattern,
+    validate_contained_resource,
+)
+from fhircraft.fhir.resources.datatypes.R4.complex.backbone_element import (
+    BackboneElement,
+)
 from fhircraft.fhir.resources.datatypes.R4.complex.annotation import Annotation
- 
+
+
 class TumorBoardSpecialization(FHIRSliceModel):
     """
     The specialization or focus area of the tumor board conducting the review, such as hematologic malignancies or solid tumors.
     """
+
     min_cardinality: ClassVar[int] = 0
     max_cardinality: ClassVar[int] = 1
     id: Optional[String] = Field(
@@ -49,7 +71,9 @@ class TumorBoardSpecialization(FHIRSliceModel):
         description="Extension",
         default=None,
     )
-    url: Literal['http://onconova.github.io/fhir/StructureDefinition/onconova-ext-tumor-board-specialization'] = Field(
+    url: Literal[
+        "http://onconova.github.io/fhir/StructureDefinition/onconova-ext-tumor-board-specialization"
+    ] = Field(
         description="identifies the meaning of the extension",
         default="http://onconova.github.io/fhir/StructureDefinition/onconova-ext-tumor-board-specialization",
     )
@@ -57,84 +81,100 @@ class TumorBoardSpecialization(FHIRSliceModel):
         description="Value of extension",
         default=None,
     )
-    
-    @property 
+
+    @property
     def value(self):
-        return get_type_choice_value_by_base(self, 
+        return get_type_choice_value_by_base(
+            self,
             base="value",
         )
-        
-    @field_validator(*('extension',), mode="after", check_fields=None)
+
+    @field_validator(*("extension",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
-    @field_validator(*('extension',), mode="after", check_fields=None)
+
+    @field_validator(*("extension",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_ext_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ext_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
+
     @model_validator(mode="after")
     def value_type_choice_validator(self):
-        return validate_type_choice_element( 
+        return validate_type_choice_element(
             self,
             field_types=[CodeableConcept],
             field_name_base="value",
             required=False,
         )
-        
+
     @model_validator(mode="after")
     def FHIR_ele_1_constraint_model_validator(self):
-        return validate_model_constraint( 
+        return validate_model_constraint(
             self,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
+
     @model_validator(mode="after")
     def FHIR_ext_1_constraint_model_validator(self):
-        return validate_model_constraint( 
+        return validate_model_constraint(
             self,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
- 
+
+
 class OnconovaTumorBoardReviewCode(CodeableConcept):
     """
     The specific procedure that is performed. Use text if the exact nature of the procedure cannot be coded (e.g. "Laparoscopic Appendectomy").
     """
-    extension: Optional[List[Annotated[Union[TumorBoardSpecialization, Extension], Field(union_mode='left_to_right')]]] = Field(
+
+    extension: Optional[
+        List[
+            Annotated[
+                Union[TumorBoardSpecialization, Extension],
+                Field(union_mode="left_to_right"),
+            ]
+        ]
+    ] = Field(
         description=None,
         default=None,
     )
-    
-    @field_validator(*('extension',), mode="after", check_fields=None)
+
+    @field_validator(*("extension",), mode="after", check_fields=None)
     @classmethod
-    def extension_slicing_cardinality_validator(cls, value):    
-        return validate_slicing_cardinalities(cls, value, 
+    def extension_slicing_cardinality_validator(cls, value):
+        return validate_slicing_cardinalities(
+            cls,
+            value,
             field_name="extension",
         )
-        
- 
+
+
 class OnconovaTumorBoardReviewPerformer(BackboneElement):
     """
     Not used in this profile
     """
+
     function: Optional[CodeableConcept] = Field(
         description="Type of performance",
         default=None,
@@ -147,22 +187,39 @@ class OnconovaTumorBoardReviewPerformer(BackboneElement):
         description="Organization the device or practitioner was acting for",
         default=None,
     )
-    
-    @field_validator(*('onBehalfOf', 'actor', 'function', 'modifierExtension', 'extension', 'modifierExtension', 'extension', 'modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *(
+            "onBehalfOf",
+            "actor",
+            "function",
+            "modifierExtension",
+            "extension",
+            "modifierExtension",
+            "extension",
+            "modifierExtension",
+            "extension",
+        ),
+        mode="after",
+        check_fields=None
+    )
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
- 
+
+
 class OnconovaTumorBoardReviewFocalDevice(BackboneElement):
     """
     A device that is implanted, removed or otherwise manipulated (calibration, battery replacement, fitting a prosthesis, attaching a wound-vac, etc.) as a focal portion of the Procedure.
     """
+
     action: Optional[CodeableConcept] = Field(
         description="Kind of change to device",
         default=None,
@@ -171,28 +228,42 @@ class OnconovaTumorBoardReviewFocalDevice(BackboneElement):
         description="Device that was changed",
         default=None,
     )
-    
-    @field_validator(*('manipulated', 'action', 'modifierExtension', 'extension', 'modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *(
+            "manipulated",
+            "action",
+            "modifierExtension",
+            "extension",
+            "modifierExtension",
+            "extension",
+        ),
+        mode="after",
+        check_fields=None
+    )
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
- 
+
+
 class OnconovaTumorBoardReview(FHIRBaseModel):
     """
-    A profile representing a tumor board review for a cancer patient.
+        A profile representing a tumor board review for a cancer patient.
 
-This profile extends the base FHIR `Procedure` resource since there is no equivalent mCODE profile that covers the use case. 
+    This profile extends the base FHIR `Procedure` resource since there is no equivalent mCODE profile that covers the use case.
 
-**Conformance:**
+    **Conformance:**
 
-Procedure resources representing a tumor board review in the scope of Onconova SHALL conform to this profile. Any resource intended to conform to this profile SHOULD populate `meta.profile` accordingly. 
+    Procedure resources representing a tumor board review in the scope of Onconova SHALL conform to this profile. Any resource intended to conform to this profile SHOULD populate `meta.profile` accordingly.
     """
+
     id: Optional[String] = Field(
         description="Logical id of this artifact",
         default=None,
@@ -205,7 +276,11 @@ Procedure resources representing a tumor board review in the scope of Onconova S
     meta: Optional[Meta] = Field(
         title="Meta",
         description="Metadata about the resource.",
-        default_factory=lambda: Meta(profile=['http://onconova.github.io/fhir/StructureDefinition/onconova-tumor-board-review'], versionId="0.2.0"),
+        default_factory=lambda: Meta(
+            profile=[
+                "http://onconova.github.io/fhir/StructureDefinition/onconova-tumor-board-review"
+            ]
+        ),
     )
     implicitRules: Optional[Uri] = Field(
         description="A set of rules under which this content was created",
@@ -286,11 +361,27 @@ Procedure resources representing a tumor board review in the scope of Onconova S
     )
     category: CodeableConcept = Field(
         description="Classification of the procedure",
-        default_factory=lambda: CodeableConcept(coding=[Coding(code="103693007", display="Diagnostic procedure", system="http://snomed.info/sct")]),
+        default_factory=lambda: CodeableConcept(
+            coding=[
+                Coding(
+                    code="103693007",
+                    display="Diagnostic procedure",
+                    system="http://snomed.info/sct",
+                )
+            ]
+        ),
     )
     code: CodeableConcept = Field(
         description="Identification of the procedure",
-        default_factory=lambda: CodeableConcept(coding=[Coding(code="C93304", display="Tumor Board Review", system="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl")]),
+        default_factory=lambda: CodeableConcept(
+            coding=[
+                Coding(
+                    code="C93304",
+                    display="Tumor Board Review",
+                    system="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+                )
+            ]
+        ),
     )
     subject: Optional[Reference] = Field(
         description="Who the procedure was performed on",
@@ -368,137 +459,204 @@ Procedure resources representing a tumor board review in the scope of Onconova S
         description="Coded items used during the procedure",
         default=None,
     )
-    resourceType: Literal['Procedure'] = Field(
+    resourceType: Literal["Procedure"] = Field(
         description=None,
         default="Procedure",
     )
-    
-    @property 
+
+    @property
     def performed(self):
-        return get_type_choice_value_by_base(self, 
+        return get_type_choice_value_by_base(
+            self,
             base="performed",
         )
-        
-    @field_validator(*('usedCode', 'usedReference', 'focalDevice', 'note', 'followUp', 'complicationDetail', 'complication', 'report', 'outcome', 'bodySite', 'reasonReference', 'reasonCode', 'location', 'performer', 'asserter', 'recorder', 'encounter', 'subject', 'code', 'category', 'statusReason', 'status', 'partOf', 'basedOn', 'instantiatesUri', 'instantiatesCanonical', 'identifier', 'modifierExtension', 'extension', 'text', 'language', 'implicitRules', 'meta'), mode="after", check_fields=None)
+
+    @field_validator(
+        *(
+            "usedCode",
+            "usedReference",
+            "focalDevice",
+            "note",
+            "followUp",
+            "complicationDetail",
+            "complication",
+            "report",
+            "outcome",
+            "bodySite",
+            "reasonReference",
+            "reasonCode",
+            "location",
+            "performer",
+            "asserter",
+            "recorder",
+            "encounter",
+            "subject",
+            "code",
+            "category",
+            "statusReason",
+            "status",
+            "partOf",
+            "basedOn",
+            "instantiatesUri",
+            "instantiatesCanonical",
+            "identifier",
+            "modifierExtension",
+            "extension",
+            "text",
+            "language",
+            "implicitRules",
+            "meta",
+        ),
+        mode="after",
+        check_fields=None
+    )
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
-    @field_validator(*('modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *("modifierExtension", "extension"), mode="after", check_fields=None
+    )
     @classmethod
-    def FHIR_ext_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ext_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
-    @field_validator(*('category',), mode="after", check_fields=None)
+
+    @field_validator(*("category",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_category_pattern_constraint(cls, value):    
-        return validate_FHIR_element_pattern(cls, value, 
-            pattern=CodeableConcept(coding=[Coding(code="103693007", display="Diagnostic procedure", system="http://snomed.info/sct")]),
+    def FHIR_category_pattern_constraint(cls, value):
+        return validate_FHIR_element_pattern(
+            cls,
+            value,
+            pattern=CodeableConcept(
+                coding=[
+                    Coding(
+                        code="103693007",
+                        display="Diagnostic procedure",
+                        system="http://snomed.info/sct",
+                    )
+                ]
+            ),
         )
-        
-    @field_validator(*('code',), mode="after", check_fields=None)
+
+    @field_validator(*("code",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_code_pattern_constraint(cls, value):    
-        return validate_FHIR_element_pattern(cls, value, 
-            pattern=CodeableConcept(coding=[Coding(code="C93304", display="Tumor Board Review", system="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl")]),
+    def FHIR_code_pattern_constraint(cls, value):
+        return validate_FHIR_element_pattern(
+            cls,
+            value,
+            pattern=CodeableConcept(
+                coding=[
+                    Coding(
+                        code="C93304",
+                        display="Tumor Board Review",
+                        system="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+                    )
+                ]
+            ),
         )
-        
-    @field_validator(*('contained',), mode="plain", check_fields=None)
+
+    @field_validator(*("contained",), mode="plain", check_fields=None)
     @classmethod
-    def contained_FHIR_resource_validator(cls, value):    
-        return validate_contained_resource(cls, value, 
+    def contained_FHIR_resource_validator(cls, value):
+        return validate_contained_resource(
+            cls,
+            value,
             release="R4",
         )
-        
+
     @model_validator(mode="after")
     def performed_type_choice_validator(self):
-        return validate_type_choice_element( 
+        return validate_type_choice_element(
             self,
             field_types=[DateTime],
             field_name_base="performed",
             required=True,
         )
-        
+
     @model_validator(mode="after")
     def FHIR_dom_2_constraint_model_validator(self):
-        return validate_model_constraint( 
+        return validate_model_constraint(
             self,
             expression="contained.contained.empty()",
             human="If the resource is contained in another resource, it SHALL NOT contain nested Resources",
             key="dom-2",
             severity="error",
         )
-        
+
     @model_validator(mode="after")
     def FHIR_dom_3_constraint_model_validator(self):
-        return validate_model_constraint( 
+        return validate_model_constraint(
             self,
             expression="contained.where((('#'+id in (%resource.descendants().reference | %resource.descendants().as(canonical) | %resource.descendants().as(uri) | %resource.descendants().as(url))) or descendants().where(reference = '#').exists() or descendants().where(as(canonical) = '#').exists() or descendants().where(as(canonical) = '#').exists()).not()).trace('unmatched', id).empty()",
             human="If the resource is contained in another resource, it SHALL be referred to from elsewhere in the resource or SHALL refer to the containing resource",
             key="dom-3",
             severity="error",
         )
-        
+
     @model_validator(mode="after")
     def FHIR_dom_4_constraint_model_validator(self):
-        return validate_model_constraint( 
+        return validate_model_constraint(
             self,
             expression="contained.meta.versionId.empty() and contained.meta.lastUpdated.empty()",
             human="If a resource is contained in another resource, it SHALL NOT have a meta.versionId or a meta.lastUpdated",
             key="dom-4",
             severity="error",
         )
-        
+
     @model_validator(mode="after")
     def FHIR_dom_5_constraint_model_validator(self):
-        return validate_model_constraint( 
+        return validate_model_constraint(
             self,
             expression="contained.meta.security.empty()",
             human="If a resource is contained in another resource, it SHALL NOT have a security label",
             key="dom-5",
             severity="error",
         )
-        
+
     @model_validator(mode="after")
     def FHIR_dom_6_constraint_model_validator(self):
-        return validate_model_constraint( 
+        return validate_model_constraint(
             self,
             expression="text.`div`.exists()",
             human="A resource should have narrative for robust management",
             key="dom-6",
             severity="warning",
         )
-        
+
     @model_validator(mode="after")
     def FHIR_o_tub_req_1_constraint_model_validator(self):
-        return validate_model_constraint( 
+        return validate_model_constraint(
             self,
             expression="subject.exists() and subject.resolve().is(Patient)",
             human="The subject element is required and must be provided.",
             key="o-tub-req-1",
             severity="error",
         )
-        
+
     @model_validator(mode="after")
     def FHIR_o_tub_req_2_constraint_model_validator(self):
-        return validate_model_constraint( 
+        return validate_model_constraint(
             self,
             expression="performedDateTime.exists() and performedDateTime.hasValue()",
             human="The performedDateTime element is required and must be provided.",
             key="o-tub-req-2",
             severity="error",
         )
-        
+
 
 TumorBoardSpecialization.model_rebuild()
 OnconovaTumorBoardReviewCode.model_rebuild()

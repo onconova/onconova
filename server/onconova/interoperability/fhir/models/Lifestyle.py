@@ -4,6 +4,7 @@
 import fhircraft
 from fhircraft.fhir.resources.base import FHIRBaseModel
 import fhircraft.fhir.resources.validators as fhir_validators
+
 # Pydantic modules
 from pydantic import Field, field_validator, model_validator, BaseModel
 from pydantic.fields import FieldInfo
@@ -11,13 +12,25 @@ from pydantic.fields import FieldInfo
 # Standard modules
 from typing import Optional, Literal, Union, ClassVar
 from enum import Enum
+
 NoneType = type(None)
 
-# Dynamic modules 
+# Dynamic modules
 from fhircraft.fhir.resources.base import FHIRBaseModel
-from typing import Optional,List,Annotated,Union,Literal
-from fhircraft.fhir.resources.datatypes.primitives import String,Uri,Code,DateTime,Instant,Boolean,Integer,Time
-from fhircraft.fhir.resources.datatypes.R4.core.observation import ObservationReferenceRange
+from typing import Optional, List, Annotated, Union, Literal
+from fhircraft.fhir.resources.datatypes.primitives import (
+    String,
+    Uri,
+    Code,
+    DateTime,
+    Instant,
+    Boolean,
+    Integer,
+    Time,
+)
+from fhircraft.fhir.resources.datatypes.R4.core.observation import (
+    ObservationReferenceRange,
+)
 from fhircraft.fhir.resources.datatypes.R4.complex.element import Element
 from fhircraft.fhir.resources.datatypes.R4.complex.meta import Meta
 from fhircraft.fhir.resources.datatypes.R4.complex.narrative import Narrative
@@ -25,7 +38,9 @@ from fhircraft.fhir.resources.datatypes.R4.complex.resource import Resource
 from fhircraft.fhir.resources.datatypes.R4.complex.extension import Extension
 from fhircraft.fhir.resources.datatypes.R4.complex.identifier import Identifier
 from fhircraft.fhir.resources.datatypes.R4.complex.reference import Reference
-from fhircraft.fhir.resources.datatypes.R4.complex.codeable_concept import CodeableConcept
+from fhircraft.fhir.resources.datatypes.R4.complex.codeable_concept import (
+    CodeableConcept,
+)
 from fhircraft.fhir.resources.datatypes.R4.complex.coding import Coding
 from fhircraft.fhir.resources.datatypes.R4.complex.quantity import Quantity
 from fhircraft.fhir.resources.datatypes.R4.complex.range import Range
@@ -33,20 +48,33 @@ from fhircraft.fhir.resources.datatypes.R4.complex.ratio import Ratio
 from fhircraft.fhir.resources.datatypes.R4.complex.sampled_data import SampledData
 from fhircraft.fhir.resources.datatypes.R4.complex.period import Period
 from fhircraft.fhir.resources.datatypes.R4.complex.annotation import Annotation
-from fhircraft.fhir.resources.datatypes.R4.complex.backbone_element import BackboneElement
-from fhircraft.fhir.resources.validators import validate_element_constraint,get_type_choice_value_by_base,validate_FHIR_element_pattern,validate_type_choice_element,validate_slicing_cardinalities,validate_contained_resource,validate_model_constraint
- 
+from fhircraft.fhir.resources.datatypes.R4.complex.backbone_element import (
+    BackboneElement,
+)
+from fhircraft.fhir.resources.validators import (
+    validate_element_constraint,
+    get_type_choice_value_by_base,
+    validate_FHIR_element_pattern,
+    validate_type_choice_element,
+    validate_slicing_cardinalities,
+    validate_contained_resource,
+    validate_model_constraint,
+)
+
+
 class OnconovaLifestyleUsCore(CodeableConcept):
     """
     (USCDI) Classification of  type of observation
     """
+
     pass
-    
- 
+
+
 class OnconovaLifestyleSmokingStatus(BackboneElement):
     """
     Component results
     """
+
     extension: Optional[List[Extension]] = Field(
         description="Additional content defined by implementations",
         default=None,
@@ -57,7 +85,15 @@ class OnconovaLifestyleSmokingStatus(BackboneElement):
     )
     code: CodeableConcept = Field(
         description="Type of component observation (code / type)",
-        default_factory=lambda: CodeableConcept(coding=[Coding(code="72166-2", display="Tobacco smoking status", system="http://loinc.org")]),
+        default_factory=lambda: CodeableConcept(
+            coding=[
+                Coding(
+                    code="72166-2",
+                    display="Tobacco smoking status",
+                    system="http://loinc.org",
+                )
+            ]
+        ),
     )
     valueCodeableConcept: Optional[CodeableConcept] = Field(
         description="Actual component result",
@@ -75,54 +111,83 @@ class OnconovaLifestyleSmokingStatus(BackboneElement):
         description="Provides guide for interpretation of component result",
         default=None,
     )
-    
-    @property 
+
+    @property
     def value(self):
-        return get_type_choice_value_by_base(self, 
+        return get_type_choice_value_by_base(
+            self,
             base="value",
         )
-        
-    @field_validator(*('referenceRange', 'interpretation', 'dataAbsentReason', 'code', 'modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *(
+            "referenceRange",
+            "interpretation",
+            "dataAbsentReason",
+            "code",
+            "modifierExtension",
+            "extension",
+        ),
+        mode="after",
+        check_fields=None
+    )
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
-    @field_validator(*('modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *("modifierExtension", "extension"), mode="after", check_fields=None
+    )
     @classmethod
-    def FHIR_ext_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ext_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
-    @field_validator(*('code',), mode="after", check_fields=None)
+
+    @field_validator(*("code",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_code_pattern_constraint(cls, value):    
-        return validate_FHIR_element_pattern(cls, value, 
-            pattern=CodeableConcept(coding=[Coding(code="72166-2", display="Tobacco smoking status", system="http://loinc.org")]),
+    def FHIR_code_pattern_constraint(cls, value):
+        return validate_FHIR_element_pattern(
+            cls,
+            value,
+            pattern=CodeableConcept(
+                coding=[
+                    Coding(
+                        code="72166-2",
+                        display="Tobacco smoking status",
+                        system="http://loinc.org",
+                    )
+                ]
+            ),
         )
-        
+
     @model_validator(mode="after")
     def value_type_choice_validator(self):
-        return validate_type_choice_element( 
+        return validate_type_choice_element(
             self,
             field_types=[CodeableConcept],
             field_name_base="value",
             required=False,
         )
-        
- 
+
+
 class OnconovaLifestyleSmokingPackyears(BackboneElement):
     """
     Component results
     """
+
     extension: Optional[List[Extension]] = Field(
         description="Additional content defined by implementations",
         default=None,
@@ -133,7 +198,15 @@ class OnconovaLifestyleSmokingPackyears(BackboneElement):
     )
     code: CodeableConcept = Field(
         description="Type of component observation (code / type)",
-        default_factory=lambda: CodeableConcept(coding=[Coding(code="8664-5", display="Cigarettes smoked total (pack per year) - Reported", system="http://loinc.org")]),
+        default_factory=lambda: CodeableConcept(
+            coding=[
+                Coding(
+                    code="8664-5",
+                    display="Cigarettes smoked total (pack per year) - Reported",
+                    system="http://loinc.org",
+                )
+            ]
+        ),
     )
     valueQuantity: Optional[Quantity] = Field(
         description="Actual component result",
@@ -147,58 +220,87 @@ class OnconovaLifestyleSmokingPackyears(BackboneElement):
         description="High, low, normal, etc.",
         default=None,
     )
-    referenceRange: Optional[List['ObservationReferenceRange']] = Field(
+    referenceRange: Optional[List["ObservationReferenceRange"]] = Field(
         description="Provides guide for interpretation of component result",
         default=None,
     )
-    
-    @property 
+
+    @property
     def value(self):
-        return get_type_choice_value_by_base(self, 
+        return get_type_choice_value_by_base(
+            self,
             base="value",
         )
-        
-    @field_validator(*('referenceRange', 'interpretation', 'dataAbsentReason', 'code', 'modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *(
+            "referenceRange",
+            "interpretation",
+            "dataAbsentReason",
+            "code",
+            "modifierExtension",
+            "extension",
+        ),
+        mode="after",
+        check_fields=None
+    )
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
-    @field_validator(*('modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *("modifierExtension", "extension"), mode="after", check_fields=None
+    )
     @classmethod
-    def FHIR_ext_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ext_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
-    @field_validator(*('code',), mode="after", check_fields=None)
+
+    @field_validator(*("code",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_code_pattern_constraint(cls, value):    
-        return validate_FHIR_element_pattern(cls, value, 
-            pattern=CodeableConcept(coding=[Coding(code="8664-5", display="Cigarettes smoked total (pack per year) - Reported", system="http://loinc.org")]),
+    def FHIR_code_pattern_constraint(cls, value):
+        return validate_FHIR_element_pattern(
+            cls,
+            value,
+            pattern=CodeableConcept(
+                coding=[
+                    Coding(
+                        code="8664-5",
+                        display="Cigarettes smoked total (pack per year) - Reported",
+                        system="http://loinc.org",
+                    )
+                ]
+            ),
         )
-        
+
     @model_validator(mode="after")
     def value_type_choice_validator(self):
-        return validate_type_choice_element( 
+        return validate_type_choice_element(
             self,
             field_types=[Quantity],
             field_name_base="value",
             required=False,
         )
-        
- 
+
+
 class OnconovaLifestyleSmokingQuited(BackboneElement):
     """
     Component results
     """
+
     extension: Optional[List[Extension]] = Field(
         description="Additional content defined by implementations",
         default=None,
@@ -209,7 +311,15 @@ class OnconovaLifestyleSmokingQuited(BackboneElement):
     )
     code: CodeableConcept = Field(
         description="Type of component observation (code / type)",
-        default_factory=lambda: CodeableConcept(coding=[Coding(code="107339-4", display="Temporary smoking cessation [Time]", system="http://loinc.org")]),
+        default_factory=lambda: CodeableConcept(
+            coding=[
+                Coding(
+                    code="107339-4",
+                    display="Temporary smoking cessation [Time]",
+                    system="http://loinc.org",
+                )
+            ]
+        ),
     )
     valueQuantity: Optional[Quantity] = Field(
         description="Actual component result",
@@ -223,58 +333,87 @@ class OnconovaLifestyleSmokingQuited(BackboneElement):
         description="High, low, normal, etc.",
         default=None,
     )
-    referenceRange: Optional[List['ObservationReferenceRange']] = Field(
+    referenceRange: Optional[List["ObservationReferenceRange"]] = Field(
         description="Provides guide for interpretation of component result",
         default=None,
     )
-    
-    @property 
+
+    @property
     def value(self):
-        return get_type_choice_value_by_base(self, 
+        return get_type_choice_value_by_base(
+            self,
             base="value",
         )
-        
-    @field_validator(*('referenceRange', 'interpretation', 'dataAbsentReason', 'code', 'modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *(
+            "referenceRange",
+            "interpretation",
+            "dataAbsentReason",
+            "code",
+            "modifierExtension",
+            "extension",
+        ),
+        mode="after",
+        check_fields=None
+    )
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
-    @field_validator(*('modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *("modifierExtension", "extension"), mode="after", check_fields=None
+    )
     @classmethod
-    def FHIR_ext_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ext_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
-    @field_validator(*('code',), mode="after", check_fields=None)
+
+    @field_validator(*("code",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_code_pattern_constraint(cls, value):    
-        return validate_FHIR_element_pattern(cls, value, 
-            pattern=CodeableConcept(coding=[Coding(code="107339-4", display="Temporary smoking cessation [Time]", system="http://loinc.org")]),
+    def FHIR_code_pattern_constraint(cls, value):
+        return validate_FHIR_element_pattern(
+            cls,
+            value,
+            pattern=CodeableConcept(
+                coding=[
+                    Coding(
+                        code="107339-4",
+                        display="Temporary smoking cessation [Time]",
+                        system="http://loinc.org",
+                    )
+                ]
+            ),
         )
-        
+
     @model_validator(mode="after")
     def value_type_choice_validator(self):
-        return validate_type_choice_element( 
+        return validate_type_choice_element(
             self,
             field_types=[Quantity],
             field_name_base="value",
             required=False,
         )
-        
- 
+
+
 class OnconovaLifestyleAlcoholConsumption(BackboneElement):
     """
     Component results
     """
+
     extension: Optional[List[Extension]] = Field(
         description="Additional content defined by implementations",
         default=None,
@@ -285,7 +424,15 @@ class OnconovaLifestyleAlcoholConsumption(BackboneElement):
     )
     code: CodeableConcept = Field(
         description="Type of component observation (code / type)",
-        default_factory=lambda: CodeableConcept(coding=[Coding(code="1106630-7", display="Alcohol use pattern", system="http://loinc.org")]),
+        default_factory=lambda: CodeableConcept(
+            coding=[
+                Coding(
+                    code="1106630-7",
+                    display="Alcohol use pattern",
+                    system="http://loinc.org",
+                )
+            ]
+        ),
     )
     valueCodeableConcept: Optional[CodeableConcept] = Field(
         description="Actual component result",
@@ -299,58 +446,87 @@ class OnconovaLifestyleAlcoholConsumption(BackboneElement):
         description="High, low, normal, etc.",
         default=None,
     )
-    referenceRange: Optional[List['ObservationReferenceRange']] = Field(
+    referenceRange: Optional[List["ObservationReferenceRange"]] = Field(
         description="Provides guide for interpretation of component result",
         default=None,
     )
-    
-    @property 
+
+    @property
     def value(self):
-        return get_type_choice_value_by_base(self, 
+        return get_type_choice_value_by_base(
+            self,
             base="value",
         )
-        
-    @field_validator(*('referenceRange', 'interpretation', 'dataAbsentReason', 'code', 'modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *(
+            "referenceRange",
+            "interpretation",
+            "dataAbsentReason",
+            "code",
+            "modifierExtension",
+            "extension",
+        ),
+        mode="after",
+        check_fields=None
+    )
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
-    @field_validator(*('modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *("modifierExtension", "extension"), mode="after", check_fields=None
+    )
     @classmethod
-    def FHIR_ext_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ext_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
-    @field_validator(*('code',), mode="after", check_fields=None)
+
+    @field_validator(*("code",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_code_pattern_constraint(cls, value):    
-        return validate_FHIR_element_pattern(cls, value, 
-            pattern=CodeableConcept(coding=[Coding(code="1106630-7", display="Alcohol use pattern", system="http://loinc.org")]),
+    def FHIR_code_pattern_constraint(cls, value):
+        return validate_FHIR_element_pattern(
+            cls,
+            value,
+            pattern=CodeableConcept(
+                coding=[
+                    Coding(
+                        code="1106630-7",
+                        display="Alcohol use pattern",
+                        system="http://loinc.org",
+                    )
+                ]
+            ),
         )
-        
+
     @model_validator(mode="after")
     def value_type_choice_validator(self):
-        return validate_type_choice_element( 
+        return validate_type_choice_element(
             self,
             field_types=[CodeableConcept],
             field_name_base="value",
             required=False,
         )
-        
- 
+
+
 class OnconovaLifestyleNightSleep(BackboneElement):
     """
     Component results
     """
+
     extension: Optional[List[Extension]] = Field(
         description="Additional content defined by implementations",
         default=None,
@@ -361,7 +537,13 @@ class OnconovaLifestyleNightSleep(BackboneElement):
     )
     code: CodeableConcept = Field(
         description="Type of component observation (code / type)",
-        default_factory=lambda: CodeableConcept(coding=[Coding(code="93832-4", display="Sleep duration", system="http://loinc.org")]),
+        default_factory=lambda: CodeableConcept(
+            coding=[
+                Coding(
+                    code="93832-4", display="Sleep duration", system="http://loinc.org"
+                )
+            ]
+        ),
     )
     valueQuantity: Optional[Quantity] = Field(
         description="Actual component result",
@@ -375,58 +557,87 @@ class OnconovaLifestyleNightSleep(BackboneElement):
         description="High, low, normal, etc.",
         default=None,
     )
-    referenceRange: Optional[List['ObservationReferenceRange']] = Field(
+    referenceRange: Optional[List["ObservationReferenceRange"]] = Field(
         description="Provides guide for interpretation of component result",
         default=None,
     )
-    
-    @property 
+
+    @property
     def value(self):
-        return get_type_choice_value_by_base(self, 
+        return get_type_choice_value_by_base(
+            self,
             base="value",
         )
-        
-    @field_validator(*('referenceRange', 'interpretation', 'dataAbsentReason', 'code', 'modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *(
+            "referenceRange",
+            "interpretation",
+            "dataAbsentReason",
+            "code",
+            "modifierExtension",
+            "extension",
+        ),
+        mode="after",
+        check_fields=None
+    )
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
-    @field_validator(*('modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *("modifierExtension", "extension"), mode="after", check_fields=None
+    )
     @classmethod
-    def FHIR_ext_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ext_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
-    @field_validator(*('code',), mode="after", check_fields=None)
+
+    @field_validator(*("code",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_code_pattern_constraint(cls, value):    
-        return validate_FHIR_element_pattern(cls, value, 
-            pattern=CodeableConcept(coding=[Coding(code="93832-4", display="Sleep duration", system="http://loinc.org")]),
+    def FHIR_code_pattern_constraint(cls, value):
+        return validate_FHIR_element_pattern(
+            cls,
+            value,
+            pattern=CodeableConcept(
+                coding=[
+                    Coding(
+                        code="93832-4",
+                        display="Sleep duration",
+                        system="http://loinc.org",
+                    )
+                ]
+            ),
         )
-        
+
     @model_validator(mode="after")
     def value_type_choice_validator(self):
-        return validate_type_choice_element( 
+        return validate_type_choice_element(
             self,
             field_types=[Quantity],
             field_name_base="value",
             required=False,
         )
-        
- 
+
+
 class OnconovaLifestyleRecreationalDrug(BackboneElement):
     """
     Component results
     """
+
     extension: Optional[List[Extension]] = Field(
         description="Additional content defined by implementations",
         default=None,
@@ -437,7 +648,15 @@ class OnconovaLifestyleRecreationalDrug(BackboneElement):
     )
     code: CodeableConcept = Field(
         description="Type of component observation (code / type)",
-        default_factory=lambda: CodeableConcept(coding=[Coding(code="C84368", display="Recreational Drug", system="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl")]),
+        default_factory=lambda: CodeableConcept(
+            coding=[
+                Coding(
+                    code="C84368",
+                    display="Recreational Drug",
+                    system="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+                )
+            ]
+        ),
     )
     valueCodeableConcept: Optional[CodeableConcept] = Field(
         description="Actual component result",
@@ -451,58 +670,87 @@ class OnconovaLifestyleRecreationalDrug(BackboneElement):
         description="High, low, normal, etc.",
         default=None,
     )
-    referenceRange: Optional[List['ObservationReferenceRange']] = Field(
+    referenceRange: Optional[List["ObservationReferenceRange"]] = Field(
         description="Provides guide for interpretation of component result",
         default=None,
     )
-    
-    @property 
+
+    @property
     def value(self):
-        return get_type_choice_value_by_base(self, 
+        return get_type_choice_value_by_base(
+            self,
             base="value",
         )
-        
-    @field_validator(*('referenceRange', 'interpretation', 'dataAbsentReason', 'code', 'modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *(
+            "referenceRange",
+            "interpretation",
+            "dataAbsentReason",
+            "code",
+            "modifierExtension",
+            "extension",
+        ),
+        mode="after",
+        check_fields=None
+    )
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
-    @field_validator(*('modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *("modifierExtension", "extension"), mode="after", check_fields=None
+    )
     @classmethod
-    def FHIR_ext_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ext_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
-    @field_validator(*('code',), mode="after", check_fields=None)
+
+    @field_validator(*("code",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_code_pattern_constraint(cls, value):    
-        return validate_FHIR_element_pattern(cls, value, 
-            pattern=CodeableConcept(coding=[Coding(code="C84368", display="Recreational Drug", system="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl")]),
+    def FHIR_code_pattern_constraint(cls, value):
+        return validate_FHIR_element_pattern(
+            cls,
+            value,
+            pattern=CodeableConcept(
+                coding=[
+                    Coding(
+                        code="C84368",
+                        display="Recreational Drug",
+                        system="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+                    )
+                ]
+            ),
         )
-        
+
     @model_validator(mode="after")
     def value_type_choice_validator(self):
-        return validate_type_choice_element( 
+        return validate_type_choice_element(
             self,
             field_types=[CodeableConcept],
             field_name_base="value",
             required=False,
         )
-        
- 
+
+
 class OnconovaLifestyleExposures(BackboneElement):
     """
     Component results
     """
+
     extension: Optional[List[Extension]] = Field(
         description="Additional content defined by implementations",
         default=None,
@@ -513,7 +761,15 @@ class OnconovaLifestyleExposures(BackboneElement):
     )
     code: CodeableConcept = Field(
         description="Type of component observation (code / type)",
-        default_factory=lambda: CodeableConcept(coding=[Coding(code="C16552", display="Environmental Exposure", system="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl")]),
+        default_factory=lambda: CodeableConcept(
+            coding=[
+                Coding(
+                    code="C16552",
+                    display="Environmental Exposure",
+                    system="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+                )
+            ]
+        ),
     )
     valueCodeableConcept: Optional[CodeableConcept] = Field(
         description="Actual component result",
@@ -527,64 +783,93 @@ class OnconovaLifestyleExposures(BackboneElement):
         description="High, low, normal, etc.",
         default=None,
     )
-    referenceRange: Optional[List['ObservationReferenceRange']] = Field(
+    referenceRange: Optional[List["ObservationReferenceRange"]] = Field(
         description="Provides guide for interpretation of component result",
         default=None,
     )
-    
-    @property 
+
+    @property
     def value(self):
-        return get_type_choice_value_by_base(self, 
+        return get_type_choice_value_by_base(
+            self,
             base="value",
         )
-        
-    @field_validator(*('referenceRange', 'interpretation', 'dataAbsentReason', 'code', 'modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *(
+            "referenceRange",
+            "interpretation",
+            "dataAbsentReason",
+            "code",
+            "modifierExtension",
+            "extension",
+        ),
+        mode="after",
+        check_fields=None
+    )
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
-    @field_validator(*('modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *("modifierExtension", "extension"), mode="after", check_fields=None
+    )
     @classmethod
-    def FHIR_ext_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ext_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
-    @field_validator(*('code',), mode="after", check_fields=None)
+
+    @field_validator(*("code",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_code_pattern_constraint(cls, value):    
-        return validate_FHIR_element_pattern(cls, value, 
-            pattern=CodeableConcept(coding=[Coding(code="C16552", display="Environmental Exposure", system="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl")]),
+    def FHIR_code_pattern_constraint(cls, value):
+        return validate_FHIR_element_pattern(
+            cls,
+            value,
+            pattern=CodeableConcept(
+                coding=[
+                    Coding(
+                        code="C16552",
+                        display="Environmental Exposure",
+                        system="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+                    )
+                ]
+            ),
         )
-        
+
     @model_validator(mode="after")
     def value_type_choice_validator(self):
-        return validate_type_choice_element( 
+        return validate_type_choice_element(
             self,
             field_types=[CodeableConcept],
             field_name_base="value",
             required=False,
         )
-        
- 
+
+
 class OnconovaLifestyle(FHIRBaseModel):
     """
-    A profile representing a (reported) observation on certain lifestyle characteristics of a cancer patient (e.g. smoking, drinking, and sleeping habits, environmental exposures, etc.). 
+        A profile representing a (reported) observation on certain lifestyle characteristics of a cancer patient (e.g. smoking, drinking, and sleeping habits, environmental exposures, etc.).
 
-It directly profiles the base FHIR `Observation` resource as this resource is not represented in mCODE, to add relevant observation components for the different lifestyle characteristics. 
+    It directly profiles the base FHIR `Observation` resource as this resource is not represented in mCODE, to add relevant observation components for the different lifestyle characteristics.
 
-**Conformance:**
+    **Conformance:**
 
-Observation resources representing a summary of a patient's lifestyle in the scope of Onconova SHALL conform to this profile. Any resource intended to conform to this profile SHOULD populate `meta.profile` accordingly. 
+    Observation resources representing a summary of a patient's lifestyle in the scope of Onconova SHALL conform to this profile. Any resource intended to conform to this profile SHOULD populate `meta.profile` accordingly.
     """
+
     id: Optional[String] = Field(
         description="Logical id of this artifact",
         default=None,
@@ -597,7 +882,11 @@ Observation resources representing a summary of a patient's lifestyle in the sco
     meta: Optional[Meta] = Field(
         title="Meta",
         description="Metadata about the resource.",
-        default_factory=lambda: Meta(profile=['http://onconova.github.io/fhir/StructureDefinition/onconova-lifestyle'], versionId="0.2.0"),
+        default_factory=lambda: Meta(
+            profile=[
+                "http://onconova.github.io/fhir/StructureDefinition/onconova-lifestyle"
+            ]
+        ),
     )
     implicitRules: Optional[Uri] = Field(
         description="A set of rules under which this content was created",
@@ -654,13 +943,24 @@ Observation resources representing a summary of a patient's lifestyle in the sco
         default=None,
         alias="_status",
     )
-    category: Optional[List[Annotated[Union[OnconovaLifestyleUsCore, CodeableConcept], Field(union_mode='left_to_right')]]] = Field(
+    category: Optional[
+        List[
+            Annotated[
+                Union[OnconovaLifestyleUsCore, CodeableConcept],
+                Field(union_mode="left_to_right"),
+            ]
+        ]
+    ] = Field(
         description="(USCDI) Classification of  type of observation",
         default=None,
     )
     code: CodeableConcept = Field(
         description="(USCDI) Type of observation (code / type)",
-        default_factory=lambda: CodeableConcept(coding=[Coding(code="LA32823-9", display="Lifestyle", system="http://loinc.org")]),
+        default_factory=lambda: CodeableConcept(
+            coding=[
+                Coding(code="LA32823-9", display="Lifestyle", system="http://loinc.org")
+            ]
+        ),
     )
     subject: Optional[Reference] = Field(
         description="(USCDI) Who and/or what the observation is about",
@@ -775,193 +1075,278 @@ Observation resources representing a summary of a patient's lifestyle in the sco
         description="(USCDI) US Core Profiles or other resource the observation is made from",
         default=None,
     )
-    component: Optional[List[Annotated[Union[OnconovaLifestyleSmokingStatus, OnconovaLifestyleSmokingPackyears, OnconovaLifestyleSmokingQuited, OnconovaLifestyleAlcoholConsumption, OnconovaLifestyleNightSleep, OnconovaLifestyleRecreationalDrug, OnconovaLifestyleExposures, BackboneElement], Field(union_mode='left_to_right')]]] = Field(
+    component: Optional[
+        List[
+            Annotated[
+                Union[
+                    OnconovaLifestyleSmokingStatus,
+                    OnconovaLifestyleSmokingPackyears,
+                    OnconovaLifestyleSmokingQuited,
+                    OnconovaLifestyleAlcoholConsumption,
+                    OnconovaLifestyleNightSleep,
+                    OnconovaLifestyleRecreationalDrug,
+                    OnconovaLifestyleExposures,
+                    BackboneElement,
+                ],
+                Field(union_mode="left_to_right"),
+            ]
+        ]
+    ] = Field(
         description="Component results",
         default=None,
     )
-    resourceType: Literal['Observation'] = Field(
+    resourceType: Literal["Observation"] = Field(
         description=None,
         default="Observation",
     )
-    
-    @property 
+
+    @property
     def effective(self):
-        return get_type_choice_value_by_base(self, 
+        return get_type_choice_value_by_base(
+            self,
             base="effective",
         )
-        
-    @property 
+
+    @property
     def value(self):
-        return get_type_choice_value_by_base(self, 
+        return get_type_choice_value_by_base(
+            self,
             base="value",
         )
-        
-    @field_validator(*('component', 'derivedFrom', 'hasMember', 'referenceRange', 'device', 'specimen', 'method', 'bodySite', 'note', 'interpretation', 'dataAbsentReason', 'performer', 'issued', 'encounter', 'focus', 'subject', 'code', 'category', 'status', 'partOf', 'basedOn', 'identifier', 'modifierExtension', 'extension', 'text', 'language', 'implicitRules', 'meta'), mode="after", check_fields=None)
+
+    @field_validator(
+        *(
+            "component",
+            "derivedFrom",
+            "hasMember",
+            "referenceRange",
+            "device",
+            "specimen",
+            "method",
+            "bodySite",
+            "note",
+            "interpretation",
+            "dataAbsentReason",
+            "performer",
+            "issued",
+            "encounter",
+            "focus",
+            "subject",
+            "code",
+            "category",
+            "status",
+            "partOf",
+            "basedOn",
+            "identifier",
+            "modifierExtension",
+            "extension",
+            "text",
+            "language",
+            "implicitRules",
+            "meta",
+        ),
+        mode="after",
+        check_fields=None
+    )
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
-    @field_validator(*('modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *("modifierExtension", "extension"), mode="after", check_fields=None
+    )
     @classmethod
-    def FHIR_ext_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ext_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
-    @field_validator(*('category',), mode="after", check_fields=None)
+
+    @field_validator(*("category",), mode="after", check_fields=None)
     @classmethod
-    def category_slicing_cardinality_validator(cls, value):    
-        return validate_slicing_cardinalities(cls, value, 
+    def category_slicing_cardinality_validator(cls, value):
+        return validate_slicing_cardinalities(
+            cls,
+            value,
             field_name="category",
         )
-        
-    @field_validator(*('code',), mode="after", check_fields=None)
+
+    @field_validator(*("code",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_code_pattern_constraint(cls, value):    
-        return validate_FHIR_element_pattern(cls, value, 
-            pattern=CodeableConcept(coding=[Coding(code="LA32823-9", display="Lifestyle", system="http://loinc.org")]),
+    def FHIR_code_pattern_constraint(cls, value):
+        return validate_FHIR_element_pattern(
+            cls,
+            value,
+            pattern=CodeableConcept(
+                coding=[
+                    Coding(
+                        code="LA32823-9", display="Lifestyle", system="http://loinc.org"
+                    )
+                ]
+            ),
         )
-        
-    @field_validator(*('referenceRange',), mode="after", check_fields=None)
+
+    @field_validator(*("referenceRange",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_obs_3_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_obs_3_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="low.exists() or high.exists() or text.exists()",
             human="Must have at least a low or a high or text",
             key="obs-3",
             severity="error",
         )
-        
-    @field_validator(*('component',), mode="after", check_fields=None)
+
+    @field_validator(*("component",), mode="after", check_fields=None)
     @classmethod
-    def component_slicing_cardinality_validator(cls, value):    
-        return validate_slicing_cardinalities(cls, value, 
+    def component_slicing_cardinality_validator(cls, value):
+        return validate_slicing_cardinalities(
+            cls,
+            value,
             field_name="component",
         )
-        
-    @field_validator(*('contained',), mode="plain", check_fields=None)
+
+    @field_validator(*("contained",), mode="plain", check_fields=None)
     @classmethod
-    def contained_FHIR_resource_validator(cls, value):    
-        return validate_contained_resource(cls, value, 
+    def contained_FHIR_resource_validator(cls, value):
+        return validate_contained_resource(
+            cls,
+            value,
             release="R4",
         )
-        
+
     @model_validator(mode="after")
     def effective_type_choice_validator(self):
-        return validate_type_choice_element( 
+        return validate_type_choice_element(
             self,
             field_types=[DateTime],
             field_name_base="effective",
             required=False,
         )
-        
+
     @model_validator(mode="after")
     def value_type_choice_validator(self):
-        return validate_type_choice_element( 
+        return validate_type_choice_element(
             self,
-            field_types=[Quantity, CodeableConcept, String, Boolean, Integer, Range, Ratio, SampledData, Time, DateTime, Period],
+            field_types=[
+                Quantity,
+                CodeableConcept,
+                String,
+                Boolean,
+                Integer,
+                Range,
+                Ratio,
+                SampledData,
+                Time,
+                DateTime,
+                Period,
+            ],
             field_name_base="value",
             required=False,
         )
-        
+
     @model_validator(mode="after")
     def FHIR_dom_2_constraint_model_validator(self):
-        return validate_model_constraint( 
+        return validate_model_constraint(
             self,
             expression="contained.contained.empty()",
             human="If the resource is contained in another resource, it SHALL NOT contain nested Resources",
             key="dom-2",
             severity="error",
         )
-        
+
     @model_validator(mode="after")
     def FHIR_dom_3_constraint_model_validator(self):
-        return validate_model_constraint( 
+        return validate_model_constraint(
             self,
             expression="contained.where((('#'+id in (%resource.descendants().reference | %resource.descendants().as(canonical) | %resource.descendants().as(uri) | %resource.descendants().as(url))) or descendants().where(reference = '#').exists() or descendants().where(as(canonical) = '#').exists() or descendants().where(as(canonical) = '#').exists()).not()).trace('unmatched', id).empty()",
             human="If the resource is contained in another resource, it SHALL be referred to from elsewhere in the resource or SHALL refer to the containing resource",
             key="dom-3",
             severity="error",
         )
-        
+
     @model_validator(mode="after")
     def FHIR_dom_4_constraint_model_validator(self):
-        return validate_model_constraint( 
+        return validate_model_constraint(
             self,
             expression="contained.meta.versionId.empty() and contained.meta.lastUpdated.empty()",
             human="If a resource is contained in another resource, it SHALL NOT have a meta.versionId or a meta.lastUpdated",
             key="dom-4",
             severity="error",
         )
-        
+
     @model_validator(mode="after")
     def FHIR_dom_5_constraint_model_validator(self):
-        return validate_model_constraint( 
+        return validate_model_constraint(
             self,
             expression="contained.meta.security.empty()",
             human="If a resource is contained in another resource, it SHALL NOT have a security label",
             key="dom-5",
             severity="error",
         )
-        
+
     @model_validator(mode="after")
     def FHIR_dom_6_constraint_model_validator(self):
-        return validate_model_constraint( 
+        return validate_model_constraint(
             self,
             expression="text.`div`.exists()",
             human="A resource should have narrative for robust management",
             key="dom-6",
             severity="warning",
         )
-        
+
     @model_validator(mode="after")
     def FHIR_obs_6_constraint_model_validator(self):
-        return validate_model_constraint( 
+        return validate_model_constraint(
             self,
             expression="dataAbsentReason.empty() or value.empty()",
             human="dataAbsentReason SHALL only be present if Observation.value[x] is not present",
             key="obs-6",
             severity="error",
         )
-        
+
     @model_validator(mode="after")
     def FHIR_obs_7_constraint_model_validator(self):
-        return validate_model_constraint( 
+        return validate_model_constraint(
             self,
             expression="value.empty() or component.code.where(coding.intersect(%resource.code.coding).exists()).empty()",
             human="If Observation.code is the same as an Observation.component.code then the value element associated with the code SHALL NOT be present",
             key="obs-7",
             severity="error",
         )
-        
+
     @model_validator(mode="after")
     def FHIR_o_lif_req_1_constraint_model_validator(self):
-        return validate_model_constraint( 
+        return validate_model_constraint(
             self,
             expression="subject.exists() and subject.resolve().is(Patient)",
             human="The subject element is required and must be provided.",
             key="o-lif-req-1",
             severity="error",
         )
-        
+
     @model_validator(mode="after")
     def FHIR_o_lif_req_2_constraint_model_validator(self):
-        return validate_model_constraint( 
+        return validate_model_constraint(
             self,
             expression="effectiveDateTime.exists() and effectiveDateTime.hasValue()",
             human="The effectiveDateTime element is required and must be provided.",
             key="o-lif-req-2",
             severity="error",
         )
-        
+
 
 OnconovaLifestyleUsCore.model_rebuild()
 ObservationReferenceRange.model_rebuild()

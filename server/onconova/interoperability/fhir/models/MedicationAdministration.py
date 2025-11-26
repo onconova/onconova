@@ -732,7 +732,7 @@ MedicationAdministration resources representing a systemic therapy in the scope 
     meta: Optional[Meta] = Field(
         title="Meta",
         description="Metadata about the resource.",
-        default_factory=lambda: Meta(profile=['http://onconova.github.io/fhir/StructureDefinition/onconova-medication-administration'], versionId="0.2.0"),
+        default_factory=lambda: Meta(profile=['http://onconova.github.io/fhir/StructureDefinition/onconova-medication-administration']),
     )
     implicitRules: Optional[Uri] = Field(
         description="A set of rules under which this content was created",

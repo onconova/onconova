@@ -4,6 +4,7 @@
 import fhircraft
 from fhircraft.fhir.resources.base import FHIRBaseModel
 import fhircraft.fhir.resources.validators as fhir_validators
+
 # Pydantic modules
 from pydantic import Field, field_validator, model_validator, BaseModel
 from pydantic.fields import FieldInfo
@@ -11,23 +12,53 @@ from pydantic.fields import FieldInfo
 # Standard modules
 from typing import Optional, Literal, Union, ClassVar
 from enum import Enum
+
 NoneType = type(None)
 
-# Dynamic modules 
-from fhircraft.fhir.resources.base import FHIRBaseModel,FHIRSliceModel
-from typing import Optional,List,Annotated,Union,Literal
-from fhircraft.fhir.resources.datatypes.primitives import String,Uri,Code,Integer,Base64Binary,Boolean,Canonical,Date,DateTime,Decimal,Id,Instant,Markdown,Oid,PositiveInt,Time,UnsignedInt,Url,Uuid
+# Dynamic modules
+from fhircraft.fhir.resources.base import FHIRBaseModel, FHIRSliceModel
+from typing import Optional, List, Annotated, Union, Literal
+from fhircraft.fhir.resources.datatypes.primitives import (
+    String,
+    Uri,
+    Code,
+    Integer,
+    Base64Binary,
+    Boolean,
+    Canonical,
+    Date,
+    DateTime,
+    Decimal,
+    Id,
+    Instant,
+    Markdown,
+    Oid,
+    PositiveInt,
+    Time,
+    UnsignedInt,
+    Url,
+    Uuid,
+)
 from fhircraft.fhir.resources.datatypes.R4.complex.element import Element
 from fhircraft.fhir.resources.datatypes.R4.complex.meta import Meta
 from fhircraft.fhir.resources.datatypes.R4.complex.narrative import Narrative
 from fhircraft.fhir.resources.datatypes.R4.complex.resource import Resource
 from fhircraft.fhir.resources.datatypes.R4.complex.extension import Extension
-from fhircraft.fhir.resources.validators import get_type_choice_value_by_base,validate_element_constraint,validate_type_choice_element,validate_model_constraint,validate_slicing_cardinalities,validate_contained_resource
+from fhircraft.fhir.resources.validators import (
+    get_type_choice_value_by_base,
+    validate_element_constraint,
+    validate_type_choice_element,
+    validate_model_constraint,
+    validate_slicing_cardinalities,
+    validate_contained_resource,
+)
 from fhircraft.fhir.resources.datatypes.R4.complex.address import Address
 from fhircraft.fhir.resources.datatypes.R4.complex.age import Age
 from fhircraft.fhir.resources.datatypes.R4.complex.annotation import Annotation
 from fhircraft.fhir.resources.datatypes.R4.complex.attachment import Attachment
-from fhircraft.fhir.resources.datatypes.R4.complex.codeable_concept import CodeableConcept
+from fhircraft.fhir.resources.datatypes.R4.complex.codeable_concept import (
+    CodeableConcept,
+)
 from fhircraft.fhir.resources.datatypes.R4.complex.coding import Coding
 from fhircraft.fhir.resources.datatypes.R4.complex.contact_point import ContactPoint
 from fhircraft.fhir.resources.datatypes.R4.complex.count import Count
@@ -46,19 +77,31 @@ from fhircraft.fhir.resources.datatypes.R4.complex.signature import Signature
 from fhircraft.fhir.resources.datatypes.R4.complex.timing import Timing
 from fhircraft.fhir.resources.datatypes.R4.complex.contact_detail import ContactDetail
 from fhircraft.fhir.resources.datatypes.R4.complex.contributor import Contributor
-from fhircraft.fhir.resources.datatypes.R4.complex.data_requirement import DataRequirement
+from fhircraft.fhir.resources.datatypes.R4.complex.data_requirement import (
+    DataRequirement,
+)
 from fhircraft.fhir.resources.datatypes.R4.complex.expression import Expression
-from fhircraft.fhir.resources.datatypes.R4.complex.parameter_definition import ParameterDefinition
-from fhircraft.fhir.resources.datatypes.R4.complex.related_artifact import RelatedArtifact
-from fhircraft.fhir.resources.datatypes.R4.complex.trigger_definition import TriggerDefinition
+from fhircraft.fhir.resources.datatypes.R4.complex.parameter_definition import (
+    ParameterDefinition,
+)
+from fhircraft.fhir.resources.datatypes.R4.complex.related_artifact import (
+    RelatedArtifact,
+)
+from fhircraft.fhir.resources.datatypes.R4.complex.trigger_definition import (
+    TriggerDefinition,
+)
 from fhircraft.fhir.resources.datatypes.R4.complex.usage_context import UsageContext
 from fhircraft.fhir.resources.datatypes.R4.complex.dosage import Dosage
-from fhircraft.fhir.resources.datatypes.R4.complex.backbone_element import BackboneElement
- 
+from fhircraft.fhir.resources.datatypes.R4.complex.backbone_element import (
+    BackboneElement,
+)
+
+
 class AdverseEventCTCGrade(FHIRSliceModel):
     """
     The grade of the adverse event as defined by the Common Terminology Criteria for Adverse Events (CTCAE).
     """
+
     min_cardinality: ClassVar[int] = 1
     max_cardinality: ClassVar[int] = 1
     id: Optional[String] = Field(
@@ -74,7 +117,9 @@ class AdverseEventCTCGrade(FHIRSliceModel):
         description="Extension",
         default=None,
     )
-    url: Literal['http://onconova.github.io/fhir/StructureDefinition/onconova-ext-adverse-event-ctc-grade'] = Field(
+    url: Literal[
+        "http://onconova.github.io/fhir/StructureDefinition/onconova-ext-adverse-event-ctc-grade"
+    ] = Field(
         description="identifies the meaning of the extension",
         default="http://onconova.github.io/fhir/StructureDefinition/onconova-ext-adverse-event-ctc-grade",
     )
@@ -82,322 +127,358 @@ class AdverseEventCTCGrade(FHIRSliceModel):
         description="CTCAE Grade",
         default=None,
     )
-    
-    @property 
+
+    @property
     def value(self):
-        return get_type_choice_value_by_base(self, 
+        return get_type_choice_value_by_base(
+            self,
             base="value",
         )
-        
-    @field_validator(*('extension',), mode="after", check_fields=None)
+
+    @field_validator(*("extension",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
-    @field_validator(*('extension',), mode="after", check_fields=None)
+
+    @field_validator(*("extension",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_ext_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ext_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
+
     @model_validator(mode="after")
     def value_type_choice_validator(self):
-        return validate_type_choice_element( 
+        return validate_type_choice_element(
             self,
             field_types=[Integer],
             field_name_base="value",
             required=False,
         )
-        
+
     @model_validator(mode="after")
     def FHIR_ele_1_constraint_model_validator(self):
-        return validate_model_constraint( 
+        return validate_model_constraint(
             self,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
+
     @model_validator(mode="after")
     def FHIR_ext_1_constraint_model_validator(self):
-        return validate_model_constraint( 
+        return validate_model_constraint(
             self,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
+
     @model_validator(mode="after")
     def FHIR_ctcae_grade_constraint_model_validator(self):
-        return validate_model_constraint( 
+        return validate_model_constraint(
             self,
             expression="valueInteger() >= 1 and valueInteger() <= 5",
             human="The CTCAE grade must be between 1 and 5, inclusive.",
             key="ctcae-grade",
             severity="error",
         )
-        
- 
+
+
 class AdverseEventMitigationCategory(Extension):
     """
     Mitigation Category
     """
+
     extension: Optional[Extension] = Field(
         description="Extension",
         default=None,
     )
-    url: Literal['category'] = Field(
+    url: Literal["category"] = Field(
         description="identifies the meaning of the extension",
         default="category",
     )
-    
-    @property 
+
+    @property
     def value(self):
-        return get_type_choice_value_by_base(self, 
+        return get_type_choice_value_by_base(
+            self,
             base="value",
         )
-        
-    @field_validator(*('extension',), mode="after", check_fields=None)
+
+    @field_validator(*("extension",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
-    @field_validator(*('extension',), mode="after", check_fields=None)
+
+    @field_validator(*("extension",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_ext_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ext_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
+
     @model_validator(mode="after")
     def value_type_choice_validator(self):
-        return validate_type_choice_element( 
+        return validate_type_choice_element(
             self,
             field_types=[CodeableConcept],
             field_name_base="value",
             required=False,
         )
-        
- 
+
+
 class AdverseEventMitigationAdjustment(Extension):
     """
     Treatment Adjustment
     """
+
     extension: Optional[Extension] = Field(
         description="Extension",
         default=None,
     )
-    url: Literal['adjustment'] = Field(
+    url: Literal["adjustment"] = Field(
         description="identifies the meaning of the extension",
         default="adjustment",
     )
-    
-    @property 
+
+    @property
     def value(self):
-        return get_type_choice_value_by_base(self, 
+        return get_type_choice_value_by_base(
+            self,
             base="value",
         )
-        
-    @field_validator(*('extension',), mode="after", check_fields=None)
+
+    @field_validator(*("extension",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
-    @field_validator(*('extension',), mode="after", check_fields=None)
+
+    @field_validator(*("extension",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_ext_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ext_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
+
     @model_validator(mode="after")
     def value_type_choice_validator(self):
-        return validate_type_choice_element( 
+        return validate_type_choice_element(
             self,
             field_types=[CodeableConcept],
             field_name_base="value",
             required=False,
         )
-        
- 
+
+
 class AdverseEventMitigationDrug(Extension):
     """
     Mitigation Drug
     """
+
     extension: Optional[Extension] = Field(
         description="Extension",
         default=None,
     )
-    url: Literal['drug'] = Field(
+    url: Literal["drug"] = Field(
         description="identifies the meaning of the extension",
         default="drug",
     )
-    
-    @property 
+
+    @property
     def value(self):
-        return get_type_choice_value_by_base(self, 
+        return get_type_choice_value_by_base(
+            self,
             base="value",
         )
-        
-    @field_validator(*('extension',), mode="after", check_fields=None)
+
+    @field_validator(*("extension",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
-    @field_validator(*('extension',), mode="after", check_fields=None)
+
+    @field_validator(*("extension",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_ext_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ext_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
+
     @model_validator(mode="after")
     def value_type_choice_validator(self):
-        return validate_type_choice_element( 
+        return validate_type_choice_element(
             self,
             field_types=[CodeableConcept],
             field_name_base="value",
             required=False,
         )
-        
- 
+
+
 class AdverseEventMitigationProcedure(Extension):
     """
     Mitigation Procedure
     """
+
     extension: Optional[Extension] = Field(
         description="Extension",
         default=None,
     )
-    url: Literal['procedure'] = Field(
+    url: Literal["procedure"] = Field(
         description="identifies the meaning of the extension",
         default="procedure",
     )
-    
-    @property 
+
+    @property
     def value(self):
-        return get_type_choice_value_by_base(self, 
+        return get_type_choice_value_by_base(
+            self,
             base="value",
         )
-        
-    @field_validator(*('extension',), mode="after", check_fields=None)
+
+    @field_validator(*("extension",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
-    @field_validator(*('extension',), mode="after", check_fields=None)
+
+    @field_validator(*("extension",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_ext_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ext_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
+
     @model_validator(mode="after")
     def value_type_choice_validator(self):
-        return validate_type_choice_element( 
+        return validate_type_choice_element(
             self,
             field_types=[CodeableConcept],
             field_name_base="value",
             required=False,
         )
-        
- 
+
+
 class AdverseEventMitigationManagement(Extension):
     """
     Management
     """
+
     extension: Optional[Extension] = Field(
         description="Extension",
         default=None,
     )
-    url: Literal['management'] = Field(
+    url: Literal["management"] = Field(
         description="identifies the meaning of the extension",
         default="management",
     )
-    
-    @property 
+
+    @property
     def value(self):
-        return get_type_choice_value_by_base(self, 
+        return get_type_choice_value_by_base(
+            self,
             base="value",
         )
-        
-    @field_validator(*('extension',), mode="after", check_fields=None)
+
+    @field_validator(*("extension",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
-    @field_validator(*('extension',), mode="after", check_fields=None)
+
+    @field_validator(*("extension",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_ext_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ext_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
+
     @model_validator(mode="after")
     def value_type_choice_validator(self):
-        return validate_type_choice_element( 
+        return validate_type_choice_element(
             self,
             field_types=[CodeableConcept],
             field_name_base="value",
             required=False,
         )
-        
- 
+
+
 class AdverseEventMitigation(FHIRSliceModel):
     """
     Details about an action taken to mitigate or manage the adverse event.
     """
+
     min_cardinality: ClassVar[int] = 0
     max_cardinality: ClassVar[int] = 99999
     id: Optional[String] = Field(
@@ -409,11 +490,27 @@ class AdverseEventMitigation(FHIRSliceModel):
         default=None,
         alias="_id",
     )
-    extension: Optional[List[Annotated[Union[AdverseEventMitigationCategory, AdverseEventMitigationAdjustment, AdverseEventMitigationDrug, AdverseEventMitigationProcedure, AdverseEventMitigationManagement, Extension], Field(union_mode='left_to_right')]]] = Field(
+    extension: Optional[
+        List[
+            Annotated[
+                Union[
+                    AdverseEventMitigationCategory,
+                    AdverseEventMitigationAdjustment,
+                    AdverseEventMitigationDrug,
+                    AdverseEventMitigationProcedure,
+                    AdverseEventMitigationManagement,
+                    Extension,
+                ],
+                Field(union_mode="left_to_right"),
+            ]
+        ]
+    ] = Field(
         description="Extension",
         default=None,
     )
-    url: Literal['http://onconova.github.io/fhir/StructureDefinition/onconova-ext-adverse-event-mitigation'] = Field(
+    url: Literal[
+        "http://onconova.github.io/fhir/StructureDefinition/onconova-ext-adverse-event-mitigation"
+    ] = Field(
         description="identifies the meaning of the extension",
         default="http://onconova.github.io/fhir/StructureDefinition/onconova-ext-adverse-event-mitigation",
     )
@@ -617,104 +714,163 @@ class AdverseEventMitigation(FHIRSliceModel):
         description="Value of extension",
         default=None,
     )
-    
-    @property 
+
+    @property
     def value(self):
-        return get_type_choice_value_by_base(self, 
+        return get_type_choice_value_by_base(
+            self,
             base="value",
         )
-        
-    @field_validator(*('extension',), mode="after", check_fields=None)
+
+    @field_validator(*("extension",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
-    @field_validator(*('extension',), mode="after", check_fields=None)
+
+    @field_validator(*("extension",), mode="after", check_fields=None)
     @classmethod
-    def FHIR_ext_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ext_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
-    @field_validator(*('extension',), mode="after", check_fields=None)
+
+    @field_validator(*("extension",), mode="after", check_fields=None)
     @classmethod
-    def extension_slicing_cardinality_validator(cls, value):    
-        return validate_slicing_cardinalities(cls, value, 
+    def extension_slicing_cardinality_validator(cls, value):
+        return validate_slicing_cardinalities(
+            cls,
+            value,
             field_name="extension",
         )
-        
+
     @model_validator(mode="after")
     def value_type_choice_validator(self):
-        return validate_type_choice_element( 
+        return validate_type_choice_element(
             self,
-            field_types=[Base64Binary, Boolean, Canonical, Code, Date, DateTime, Decimal, Id, Instant, Integer, Markdown, Oid, PositiveInt, String, Time, UnsignedInt, Uri, Url, Uuid, Address, Age, Annotation, Attachment, CodeableConcept, Coding, ContactPoint, Count, Distance, Duration, HumanName, Identifier, Money, Period, Quantity, Range, Ratio, Reference, SampledData, Signature, Timing, ContactDetail, Contributor, DataRequirement, Expression, ParameterDefinition, RelatedArtifact, TriggerDefinition, UsageContext, Dosage, Meta],
+            field_types=[
+                Base64Binary,
+                Boolean,
+                Canonical,
+                Code,
+                Date,
+                DateTime,
+                Decimal,
+                Id,
+                Instant,
+                Integer,
+                Markdown,
+                Oid,
+                PositiveInt,
+                String,
+                Time,
+                UnsignedInt,
+                Uri,
+                Url,
+                Uuid,
+                Address,
+                Age,
+                Annotation,
+                Attachment,
+                CodeableConcept,
+                Coding,
+                ContactPoint,
+                Count,
+                Distance,
+                Duration,
+                HumanName,
+                Identifier,
+                Money,
+                Period,
+                Quantity,
+                Range,
+                Ratio,
+                Reference,
+                SampledData,
+                Signature,
+                Timing,
+                ContactDetail,
+                Contributor,
+                DataRequirement,
+                Expression,
+                ParameterDefinition,
+                RelatedArtifact,
+                TriggerDefinition,
+                UsageContext,
+                Dosage,
+                Meta,
+            ],
             field_name_base="value",
             required=False,
         )
-        
+
     @model_validator(mode="after")
     def FHIR_ele_1_constraint_model_validator(self):
-        return validate_model_constraint( 
+        return validate_model_constraint(
             self,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
+
     @model_validator(mode="after")
     def FHIR_ext_1_constraint_model_validator(self):
-        return validate_model_constraint( 
+        return validate_model_constraint(
             self,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
+
     @model_validator(mode="after")
     def FHIR_drug_mitigation_constraint_model_validator(self):
-        return validate_model_constraint( 
+        return validate_model_constraint(
             self,
             expression="extension('category').valueCodeableConcept.coding.code = 'C49158' implies (extension('drug').exists() and not extension('procedure').exists() and not extension('adjustment').exists())",
             human="If the mitigation category is 'Drug', then only mitigation drug must be specified.",
             key="drug-mitigation",
             severity="error",
         )
-        
+
     @model_validator(mode="after")
     def FHIR_adjustment_mitigation_constraint_model_validator(self):
-        return validate_model_constraint( 
+        return validate_model_constraint(
             self,
             expression="extension('category').valueCodeableConcept.coding.code = 'C49157' implies (extension('adjustment').exists() and not extension('procedure').exists() and not extension('drug').exists())",
             human="If the mitigation category is 'Adjustment', then only mitigation adjustment must be specified.",
             key="adjustment-mitigation",
             severity="error",
         )
-        
+
     @model_validator(mode="after")
     def FHIR_procedural_mitigation_constraint_model_validator(self):
-        return validate_model_constraint( 
+        return validate_model_constraint(
             self,
             expression="extension('category').valueCodeableConcept.coding.code = 'C49159' implies (extension('procedure').exists() and not extension('adjustment').exists() and not extension('drug').exists())",
             human="If the mitigation category is 'Procedure', then only mitigation procedure must be specified.",
             key="procedural-mitigation",
             severity="error",
         )
-        
- 
+
+
 class OnconovaAdverseEventSuspectEntityCausality(BackboneElement):
     """
     Information on the possible cause of the event.
     """
+
     assessment: Optional[CodeableConcept] = Field(
         description="Assessment of if the entity caused the event",
         default=None,
@@ -736,22 +892,42 @@ class OnconovaAdverseEventSuspectEntityCausality(BackboneElement):
         description="ProbabilityScale | Bayesian | Checklist",
         default=None,
     )
-    
-    @field_validator(*('method', 'author', 'productRelatedness', 'assessment', 'modifierExtension', 'extension', 'modifierExtension', 'extension', 'modifierExtension', 'extension', 'modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *(
+            "method",
+            "author",
+            "productRelatedness",
+            "assessment",
+            "modifierExtension",
+            "extension",
+            "modifierExtension",
+            "extension",
+            "modifierExtension",
+            "extension",
+            "modifierExtension",
+            "extension",
+        ),
+        mode="after",
+        check_fields=None
+    )
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
- 
+
+
 class OnconovaAdverseEventSuspectEntity(BackboneElement):
     """
     Describes the entity that is suspected to have caused the adverse event.
     """
+
     instance: Optional[Reference] = Field(
         description="Refers to the specific entity that caused the adverse event",
         default=None,
@@ -760,28 +936,42 @@ class OnconovaAdverseEventSuspectEntity(BackboneElement):
         description="Information on the possible cause of the event",
         default=None,
     )
-    
-    @field_validator(*('causality', 'instance', 'modifierExtension', 'extension', 'modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *(
+            "causality",
+            "instance",
+            "modifierExtension",
+            "extension",
+            "modifierExtension",
+            "extension",
+        ),
+        mode="after",
+        check_fields=None
+    )
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
- 
+
+
 class OnconovaAdverseEvent(FHIRBaseModel):
     """
-    A profile representing an adverse event experienced by a cancer patient as a result of an antineoplastic treatment, structured according to the Common Terminology Criteria for Adverse Events (CTCAE). This resource is used to capture and standardize the documentation of adverse events occurring during cancer care, including the type of event, its CTCAE grade, and any mitigation actions taken.
+        A profile representing an adverse event experienced by a cancer patient as a result of an antineoplastic treatment, structured according to the Common Terminology Criteria for Adverse Events (CTCAE). This resource is used to capture and standardize the documentation of adverse events occurring during cancer care, including the type of event, its CTCAE grade, and any mitigation actions taken.
 
-The profile constrains the base FHIR `AdverseEvent` resource to ensure consistent use of CTCAE codes and grades, and supports linkage to related treatments such as medications, radiotherapy, or surgical procedures documented in Onconova. The profile also provides extensions for recording mitigation strategies, supporting detailed tracking and management of adverse events in cancer patients.
+    The profile constrains the base FHIR `AdverseEvent` resource to ensure consistent use of CTCAE codes and grades, and supports linkage to related treatments such as medications, radiotherapy, or surgical procedures documented in Onconova. The profile also provides extensions for recording mitigation strategies, supporting detailed tracking and management of adverse events in cancer patients.
 
-**Conformance:**
+    **Conformance:**
 
-AdverseEvent resources representing an adverse event caused by a cancer therapy in the scope of Onconova SHALL conform to this profile. Any resource intended to conform to this profile SHOULD populate `meta.profile` accordingly. 
+    AdverseEvent resources representing an adverse event caused by a cancer therapy in the scope of Onconova SHALL conform to this profile. Any resource intended to conform to this profile SHOULD populate `meta.profile` accordingly.
     """
+
     id: Optional[String] = Field(
         description="Logical id of this artifact",
         default=None,
@@ -794,7 +984,11 @@ AdverseEvent resources representing an adverse event caused by a cancer therapy 
     meta: Optional[Meta] = Field(
         title="Meta",
         description="Metadata about the resource.",
-        default_factory=lambda: Meta(profile=['http://onconova.github.io/fhir/StructureDefinition/onconova-adverse-event'], versionId="0.2.0"),
+        default_factory=lambda: Meta(
+            profile=[
+                "http://onconova.github.io/fhir/StructureDefinition/onconova-adverse-event"
+            ]
+        ),
     )
     implicitRules: Optional[Uri] = Field(
         description="A set of rules under which this content was created",
@@ -822,7 +1016,14 @@ AdverseEvent resources representing an adverse event caused by a cancer therapy 
         description="Contained, inline Resources",
         default=None,
     )
-    extension: Optional[List[Annotated[Union[AdverseEventCTCGrade, AdverseEventMitigation, Extension], Field(union_mode='left_to_right')]]] = Field(
+    extension: Optional[
+        List[
+            Annotated[
+                Union[AdverseEventCTCGrade, AdverseEventMitigation, Extension],
+                Field(union_mode="left_to_right"),
+            ]
+        ]
+    ] = Field(
         description="Extension",
         default=None,
     )
@@ -930,165 +1131,206 @@ AdverseEvent resources representing an adverse event caused by a cancer therapy 
         description="AdverseEvent.study",
         default=None,
     )
-    resourceType: Literal['AdverseEvent'] = Field(
+    resourceType: Literal["AdverseEvent"] = Field(
         description=None,
         default="AdverseEvent",
     )
-    
-    @field_validator(*('study', 'referenceDocument', 'subjectMedicalHistory', 'suspectEntity', 'contributor', 'recorder', 'outcome', 'severity', 'seriousness', 'location', 'resultingCondition', 'recordedDate', 'detected', 'date', 'encounter', 'subject', 'event', 'category', 'actuality', 'identifier', 'modifierExtension', 'extension', 'text', 'language', 'implicitRules', 'meta'), mode="after", check_fields=None)
+
+    @field_validator(
+        *(
+            "study",
+            "referenceDocument",
+            "subjectMedicalHistory",
+            "suspectEntity",
+            "contributor",
+            "recorder",
+            "outcome",
+            "severity",
+            "seriousness",
+            "location",
+            "resultingCondition",
+            "recordedDate",
+            "detected",
+            "date",
+            "encounter",
+            "subject",
+            "event",
+            "category",
+            "actuality",
+            "identifier",
+            "modifierExtension",
+            "extension",
+            "text",
+            "language",
+            "implicitRules",
+            "meta",
+        ),
+        mode="after",
+        check_fields=None
+    )
     @classmethod
-    def FHIR_ele_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="hasValue() or (children().count() > id.count())",
             human="All FHIR elements must have a @value or children",
             key="ele-1",
             severity="error",
         )
-        
-    @field_validator(*('modifierExtension', 'extension'), mode="after", check_fields=None)
+
+    @field_validator(
+        *("modifierExtension", "extension"), mode="after", check_fields=None
+    )
     @classmethod
-    def FHIR_ext_1_constraint_validator(cls, value):    
-        return validate_element_constraint(cls, value, 
+    def FHIR_ext_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
             expression="extension.exists() != value.exists()",
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
         )
-        
-    @field_validator(*('extension',), mode="after", check_fields=None)
+
+    @field_validator(*("extension",), mode="after", check_fields=None)
     @classmethod
-    def extension_slicing_cardinality_validator(cls, value):    
-        return validate_slicing_cardinalities(cls, value, 
+    def extension_slicing_cardinality_validator(cls, value):
+        return validate_slicing_cardinalities(
+            cls,
+            value,
             field_name="extension",
         )
-        
-    @field_validator(*('contained',), mode="plain", check_fields=None)
+
+    @field_validator(*("contained",), mode="plain", check_fields=None)
     @classmethod
-    def contained_FHIR_resource_validator(cls, value):    
-        return validate_contained_resource(cls, value, 
+    def contained_FHIR_resource_validator(cls, value):
+        return validate_contained_resource(
+            cls,
+            value,
             release="R4",
         )
-        
+
     @model_validator(mode="after")
     def FHIR_dom_2_constraint_model_validator(self):
-        return validate_model_constraint( 
+        return validate_model_constraint(
             self,
             expression="contained.contained.empty()",
             human="If the resource is contained in another resource, it SHALL NOT contain nested Resources",
             key="dom-2",
             severity="error",
         )
-        
+
     @model_validator(mode="after")
     def FHIR_dom_3_constraint_model_validator(self):
-        return validate_model_constraint( 
+        return validate_model_constraint(
             self,
             expression="contained.where((('#'+id in (%resource.descendants().reference | %resource.descendants().as(canonical) | %resource.descendants().as(uri) | %resource.descendants().as(url))) or descendants().where(reference = '#').exists() or descendants().where(as(canonical) = '#').exists() or descendants().where(as(canonical) = '#').exists()).not()).trace('unmatched', id).empty()",
             human="If the resource is contained in another resource, it SHALL be referred to from elsewhere in the resource or SHALL refer to the containing resource",
             key="dom-3",
             severity="error",
         )
-        
+
     @model_validator(mode="after")
     def FHIR_dom_4_constraint_model_validator(self):
-        return validate_model_constraint( 
+        return validate_model_constraint(
             self,
             expression="contained.meta.versionId.empty() and contained.meta.lastUpdated.empty()",
             human="If a resource is contained in another resource, it SHALL NOT have a meta.versionId or a meta.lastUpdated",
             key="dom-4",
             severity="error",
         )
-        
+
     @model_validator(mode="after")
     def FHIR_dom_5_constraint_model_validator(self):
-        return validate_model_constraint( 
+        return validate_model_constraint(
             self,
             expression="contained.meta.security.empty()",
             human="If a resource is contained in another resource, it SHALL NOT have a security label",
             key="dom-5",
             severity="error",
         )
-        
+
     @model_validator(mode="after")
     def FHIR_dom_6_constraint_model_validator(self):
-        return validate_model_constraint( 
+        return validate_model_constraint(
             self,
             expression="text.`div`.exists()",
             human="A resource should have narrative for robust management",
             key="dom-6",
             severity="warning",
         )
-        
+
     @model_validator(mode="after")
     def FHIR_ae_req_1_constraint_model_validator(self):
-        return validate_model_constraint( 
+        return validate_model_constraint(
             self,
             expression="subject.exists() and subject.resolve().is(Patient)",
             human="The subject element is required and must be provided.",
             key="ae-req-1",
             severity="error",
         )
-        
+
     @model_validator(mode="after")
     def FHIR_ae_req_2_constraint_model_validator(self):
-        return validate_model_constraint( 
+        return validate_model_constraint(
             self,
             expression="date.exists() and date.hasValue()",
             human="The date element is required and must be provided.",
             key="ae-req-2",
             severity="error",
         )
-        
+
     @model_validator(mode="after")
     def FHIR_ae_req_3_constraint_model_validator(self):
-        return validate_model_constraint( 
+        return validate_model_constraint(
             self,
             expression="event.exists() and event.coding.exists()",
             human="The event element is required and must be provided.",
             key="ae-req-3",
             severity="error",
         )
-        
+
     @model_validator(mode="after")
     def FHIR_ae_req_4_constraint_model_validator(self):
-        return validate_model_constraint( 
+        return validate_model_constraint(
             self,
             expression="extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-ctc-grade').exists()",
             human="The CTC Grade extension is required and must be provided.",
             key="ae-req-4",
             severity="error",
         )
-        
+
     @model_validator(mode="after")
     def FHIR_ae_req_5_constraint_model_validator(self):
-        return validate_model_constraint( 
+        return validate_model_constraint(
             self,
             expression="outcome.exists() and outcome.coding.exists()",
             human="The outcome is required and must be provided.",
             key="ae-req-5",
             severity="error",
         )
-        
+
     @model_validator(mode="after")
     def FHIR_ae_req_6_constraint_model_validator(self):
-        return validate_model_constraint( 
+        return validate_model_constraint(
             self,
             expression="suspectEntity.exists() implies (suspectEntity.count() > 0 and suspectEntity.instance.exists())",
             human="If suspectedEntity is provided, then at least one instance must exist.",
             key="ae-req-6",
             severity="error",
         )
-        
+
     @model_validator(mode="after")
     def FHIR_ae_req_7_constraint_model_validator(self):
-        return validate_model_constraint( 
+        return validate_model_constraint(
             self,
             expression="extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-adverse-event-mitigation').exists() implies extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-adverse-event-mitigation').count() > 0",
             human="If adverseEventMitigation extension is provided, then at least one instance must exist.",
             key="ae-req-7",
             severity="error",
         )
-        
+
 
 AdverseEventCTCGrade.model_rebuild()
 AdverseEventMitigationCategory.model_rebuild()
