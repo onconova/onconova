@@ -2460,7 +2460,7 @@ class OnconovaRadiotherapyCourseSummary(FHIRBaseModel):
     def FHIR_o_rad_req_2_constraint_model_validator(self):
         return validate_model_constraint(
             self,
-            expression="performedPeriod.exists() and performedPeriod.hasValue()",
+            expression="performedPeriod.exists() and performedPeriod",
             human="The performedPeriod element is required and must be provided.",
             key="o-rad-req-2",
             severity="error",
