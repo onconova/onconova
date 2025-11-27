@@ -453,3 +453,9 @@ class TestAdverseEventsController(FhirCrudApiControllerTestCase):
     FACTORY = factories.AdverseEventFactory
     MODEL = models.AdverseEvent
     SCHEMA = schemas.AdverseEventProfile
+    
+class TestFamilyMemberHistoryController(FhirCrudApiControllerTestCase):
+    controller_path = "/api/fhir/FamilyMemberHistory"
+    FACTORY = factories.FamilyHistoryFactory
+    MODEL = models.FamilyHistory
+    SCHEMA = schemas.CancerFamilyMemberHistoryProfile

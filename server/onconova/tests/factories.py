@@ -768,13 +768,25 @@ class FamilyHistoryFactory(factory.django.DjangoModelFactory):
     had_cancer = factory.LazyFunction(lambda: random.randint(0, 10) > 5)
     is_deceased = factory.LazyFunction(lambda: random.randint(0, 10) > 5)
     contributed_to_death = factory.Maybe(
-        factory.LazyAttribute(lambda o: o.is_deceased),
+        factory.LazyAttribute(lambda o: o.is_deceased and o.had_cancer),
         factory.LazyFunction(lambda: random.randint(0, 10) > 5), # type: ignore
         None,  # type: ignore
     )
-    onset_age = factory.LazyFunction(lambda: random.randint(25, 95))
-    topography = make_terminology_factory(terminology.CancerTopography)
-    morphology = make_terminology_factory(terminology.CancerMorphology)
+    onset_age = factory.Maybe(
+        factory.LazyAttribute(lambda o: o.had_cancer),
+        factory.LazyFunction(lambda: random.randint(25, 95)), # type: ignore
+        None,  # type: ignore
+    )
+    topography = factory.Maybe(
+        factory.LazyAttribute(lambda o: o.had_cancer),
+        make_terminology_factory(terminology.CancerTopography), # type: ignore
+        None,  # type: ignore
+    )
+    morphology = factory.Maybe(
+        factory.LazyAttribute(lambda o: o.had_cancer),
+        make_terminology_factory(terminology.CancerMorphology), # type: ignore
+        None,  # type: ignore
+    )
 
 
 class TumorMutationalBurdenFactory(factory.django.DjangoModelFactory):

@@ -17,7 +17,7 @@ class TestFhirSchemas(TestCase):
         instance = factory.create()
         original_schema = schema.model_validate(instance)
         fhir_resource = fhir_schema.onconova_to_fhir(original_schema)
-        
+        print(fhir_resource.model_dump_json(indent=2))
         new_schema = fhir_schema.fhir_to_onconova(fhir_resource)
         for (child_instance, new_child_schema) in fhir_schema.fhir_to_onconova_related(fhir_resource):
             new_child_schema.model_dump_django(instance=child_instance)
@@ -272,4 +272,11 @@ class TestFhirSchemas(TestCase):
             schemas.AdverseEvent,
             fhir.AdverseEventProfile,
             factories.AdverseEventFactory,
+        )
+        
+    def test_cancer_family_member_history_profile_schema_mappings(self, *args, **kwargs):
+        self._test_circular_mapping(
+            schemas.FamilyHistory,
+            fhir.CancerFamilyMemberHistoryProfile,
+            factories.FamilyHistoryFactory,
         )

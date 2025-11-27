@@ -21,6 +21,7 @@ from .radiotherapy_course import RadiotherapyCourseSummaryProfile
 from .tumor_board_review import TumorBoardReviewProfile
 from .molecular_tumor_board import MolecularTumorBoardReviewProfile
 from .adverse_event import AdverseEventProfile
+from .cancer_family_member_history import CancerFamilyMemberHistoryProfile
 
 __all__ = (
     "CancerPatientProfile",
@@ -47,4 +48,5 @@ __all__ = (
     "TumorBoardReviewProfile",
     "MolecularTumorBoardReviewProfile",
     "AdverseEventProfile",
+    "CancerFamilyMemberHistoryProfile",
 )

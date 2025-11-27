@@ -14,6 +14,7 @@ from onconova.interoperability.fhir.controllers import (
     ObservationController,
     ProcedureController,
     AdverseEventController,
+    FamilyMemberHistoryController,
 )
 import json
 from ninja.renderers import JSONRenderer
@@ -169,4 +170,5 @@ api.register_controllers(
     ObservationController,
     ProcedureController,
     AdverseEventController,
+    FamilyMemberHistoryController,
 )

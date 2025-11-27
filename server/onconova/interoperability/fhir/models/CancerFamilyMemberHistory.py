@@ -237,8 +237,100 @@ class FamilyMemberHistoryCancerTopography(FHIRSliceModel):
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
+
         )
 
+
+class FamilyMemberHistoryConditionContributedToDeath(FHIRSliceModel):
+    """
+    Whether the condition contributed to the patient's family member's death
+    """
+
+    min_cardinality: ClassVar[int] = 0
+    max_cardinality: ClassVar[int] = 1
+    id: Optional[String] = Field(
+        description="Unique id for inter-element referencing",
+        default=None,
+    )
+    id_ext: Optional[Element] = Field(
+        description="Placeholder element for id extensions",
+        default=None,
+        alias="_id",
+    )
+    extension: Optional[Extension] = Field(
+        description="Extension",
+        default=None,
+    )
+    url: Literal[
+        "http://onconova.github.io/fhir/StructureDefinition/onconova-ext-family-member-history-condition-contributed-to-death"
+    ] = Field(
+        description="identifies the meaning of the extension",
+        default="http://onconova.github.io/fhir/StructureDefinition/onconova-ext-family-member-history-condition-contributed-to-death",
+    )
+    valueBoolean: Optional[Boolean] = Field(
+        description="Value of extension",
+        default=None,
+    )
+
+    @property
+    def value(self):
+        return get_type_choice_value_by_base(
+            self,
+            base="value",
+        )
+
+    @field_validator(*("extension",), mode="after", check_fields=None)
+    @classmethod
+    def FHIR_ele_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
+            expression="hasValue() or (children().count() > id.count())",
+            human="All FHIR elements must have a @value or children",
+            key="ele-1",
+            severity="error",
+        )
+
+    @field_validator(*("extension",), mode="after", check_fields=None)
+    @classmethod
+    def FHIR_ext_1_constraint_validator(cls, value):
+        return validate_element_constraint(
+            cls,
+            value,
+            expression="extension.exists() != value.exists()",
+            human="Must have either extensions or value[x], not both",
+            key="ext-1",
+            severity="error",
+        )
+
+    @model_validator(mode="after")
+    def value_type_choice_validator(self):
+        return validate_type_choice_element(
+            self,
+            field_types=[Boolean],
+            field_name_base="value",
+            required=False,
+        )
+
+    @model_validator(mode="after")
+    def FHIR_ele_1_constraint_model_validator(self):
+        return validate_model_constraint(
+            self,
+            expression="hasValue() or (children().count() > id.count())",
+            human="All FHIR elements must have a @value or children",
+            key="ele-1",
+            severity="error",
+        )
+
+    @model_validator(mode="after")
+    def FHIR_ext_1_constraint_model_validator(self):
+        return validate_model_constraint(
+            self,
+            expression="extension.exists() != value.exists()",
+            human="Must have either extensions or value[x], not both",
+            key="ext-1",
+            severity="error",
+        )
 
 class OnconovaCancerFamilyMemberHistoryCancerCondition(BackboneElement):
     """
@@ -251,6 +343,7 @@ class OnconovaCancerFamilyMemberHistoryCancerCondition(BackboneElement):
                 Union[
                     FamilyMemberHistoryCancerMorphology,
                     FamilyMemberHistoryCancerTopography,
+                    FamilyMemberHistoryConditionContributedToDeath,
                     Extension,
                 ],
                 Field(union_mode="left_to_right"),
