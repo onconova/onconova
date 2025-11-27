@@ -59,27 +59,33 @@ class FhirCrudApiControllerTestCase(ApiControllerTestMixin, TestCase):
             if not isinstance(cls.SCHEMA, list)
             else cls.SCHEMA
         )
-        cls.instances = []
-        cls.create_payloads = []
-        cls.update_payloads = []
-        for factory, schema in zip(cls.factories, cls.create_schemas):
-            with pghistory.context(username=cls.user.username):
+        
+    def setUp(self):
+        super().setUp()
+        self.instances = []
+        self.create_payloads = []
+        self.update_payloads = []
+        for factory, schema in zip(self.factories, self.create_schemas):
+            with pghistory.context(username=self.user.username):
                 instance1, instance2 = factory.create_batch(2)
-                cls.instances.append(instance1)
-                cls.create_payloads.append(
+                self.instances.append(instance1)
+                self.create_payloads.append(
                     schema.model_validate(instance1).model_dump(mode="json")
                 )
-                cls.update_payloads.append(
+                self.update_payloads.append(
                     schema.model_validate(instance2).model_dump(mode="json")
                 )
                 instance2.delete()
 
-    @parameterized.expand(GET_HTTP_SCENARIOS)
+    @parameterized.expand(
+        GET_HTTP_SCENARIOS, 
+        name_func=lambda testcase_func, _, param: f'{testcase_func.__name__}_{param[0][0].lower().replace(" ","_")}_{"authorized" if param[0][1]["access_level"]>1 else "unauthorized"}',
+    )
     def test_read_operation(self, scenario, config, *args):
         for i, (instance, schema, model) in enumerate(
             zip(self.instances, self.schemas, self.models)
         ):
-            with self.subTest(i=i):
+            with self.subTest(i=i, msg=model.__name__):
                 # Call the API endpoint
                 response = self.call_api_endpoint(
                     "GET",
@@ -98,12 +104,15 @@ class FhirCrudApiControllerTestCase(ApiControllerTestMixin, TestCase):
                         f"Response FHIR data does not match expected for {model.__name__}",
                     )
 
-    @parameterized.expand(HTTP_SCENARIOS)
+    @parameterized.expand(
+        HTTP_SCENARIOS,
+        name_func=lambda testcase_func, _, param: f'{testcase_func.__name__}_{param[0][0].lower().replace(" ","_")}_{"authorized" if param[0][1]["access_level"]>1 else "unauthorized"}',
+    )
     def test_delete_operation(self, scenario, config):
         for i, (instance, model) in enumerate(
             zip(self.instances, self.models)
         ):
-            with self.subTest(i=i):
+            with self.subTest(i=i, msg=model.__name__):
                 # Call the API endpoint
                 response = self.call_api_endpoint(
                     "DELETE", self.get_route_url_with_id(instance), **config
@@ -120,12 +129,15 @@ class FhirCrudApiControllerTestCase(ApiControllerTestMixin, TestCase):
                         "Event not properly registered",
                     )
 
-    @parameterized.expand(HTTP_SCENARIOS)
+    @parameterized.expand(
+        HTTP_SCENARIOS,
+        name_func=lambda testcase_func, _, param: f'{testcase_func.__name__}_{param[0][0].lower().replace(" ","_")}_{"authorized" if param[0][1]["access_level"]>1 else "unauthorized"}',
+    )
     def test_create_operation(self, scenario, config, *args):
         for i, (instance, payload, model) in enumerate(
             zip(self.instances, self.create_payloads, self.models)
         ):
-            with self.subTest(i=i):
+            with self.subTest(i=i, msg=model.__name__):
                 instance.delete()
                 # Call the API endpoint.
                 response = self.call_api_endpoint(
@@ -147,12 +159,15 @@ class FhirCrudApiControllerTestCase(ApiControllerTestMixin, TestCase):
                         "Event not properly registered",
                     )
 
-    @parameterized.expand(HTTP_SCENARIOS)
+    @parameterized.expand(
+        HTTP_SCENARIOS,
+        name_func=lambda testcase_func, _, param: f'{testcase_func.__name__}_{param[0][0].lower().replace(" ","_")}_{"authorized" if param[0][1]["access_level"]>1 else "unauthorized"}',
+    )
     def test_update_operation(self, scenario, config, *args):
         for i, (instance, payload, model) in enumerate(
             zip(self.instances, self.update_payloads, self.models)
         ):
-            with self.subTest(i=i):
+            with self.subTest(i=i, msg=model.__name__):
                 payload["id"] = str(instance.id)
                 # Call the API endpoint
                 response = self.call_api_endpoint(
@@ -198,6 +213,7 @@ class TestPatientsController(FhirCrudApiControllerTestCase):
     SCHEMA = schemas.CancerPatientProfile
 
     def setUp(self):
+        super().setUp()
         self.patcher = patch(
             "onconova.interoperability.fhir.schemas.cancer_patient.CancerPatientProfile._get_birthsex_codesystem",
             autospec=True,
