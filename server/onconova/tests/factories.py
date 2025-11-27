@@ -574,7 +574,14 @@ class AdverseEventFactory(factory.django.DjangoModelFactory):
     grade = factory.LazyFunction(lambda: random.randint(0, 5))
     event = make_terminology_factory(terminology.AdverseEventTerm)
     outcome = FuzzyChoice(AdverseEventOutcomeChoices)
-
+    suspected_causes = factory.RelatedFactory(
+        "onconova.tests.factories.AdverseEventSuspectedCauseFactory",
+        factory_related_name='adverse_event',
+    )
+    mitigations = factory.RelatedFactory(
+        "onconova.tests.factories.AdverseEventMitigationFactory",
+        factory_related_name='adverse_event',
+    )
 
 class AdverseEventSuspectedCauseFactory(factory.django.DjangoModelFactory):
     class Meta:
@@ -591,11 +598,21 @@ class AdverseEventMitigationFactory(factory.django.DjangoModelFactory):
 
     adverse_event = factory.SubFactory(AdverseEventFactory)
     category = FuzzyChoice(AdverseEventMitigationCategoryChoices)
-    adjustment = make_terminology_factory(
-        terminology.AdverseEventMitigationTreatmentAdjustment
+    adjustment = factory.Maybe(
+        factory.LazyAttribute(lambda o: o.category == AdverseEventMitigationCategoryChoices.ADJUSTMENT),
+        make_terminology_factory(terminology.AdverseEventMitigationTreatmentAdjustment), # type: ignore
+        None,  # type: ignore
     )
-    drug = make_terminology_factory(terminology.AdverseEventMitigationDrug)
-    procedure = make_terminology_factory(terminology.AdverseEventMitigationProcedure)
+    drug = factory.Maybe(
+        factory.LazyAttribute(lambda o: o.category == AdverseEventMitigationCategoryChoices.PHARMACOLOGICAL),
+        make_terminology_factory(terminology.AdverseEventMitigationDrug), # type: ignore
+        None,  # type: ignore
+    )
+    procedure = factory.Maybe(
+        factory.LazyAttribute(lambda o: o.category == AdverseEventMitigationCategoryChoices.PROCEDIRE),
+        make_terminology_factory(terminology.AdverseEventMitigationProcedure), # type: ignore
+        None,  # type: ignore
+    )
     management = make_terminology_factory(terminology.AdverseEventMitigationManagement)
 
 

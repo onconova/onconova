@@ -13,6 +13,7 @@ from onconova.interoperability.fhir.controllers import (
     ConditionController,
     ObservationController,
     ProcedureController,
+    AdverseEventController,
 )
 import json
 from ninja.renderers import JSONRenderer
@@ -167,4 +168,5 @@ api.register_controllers(
     ConditionController,
     ObservationController,
     ProcedureController,
+    AdverseEventController,
 )

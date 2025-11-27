@@ -447,3 +447,9 @@ class TestMolecularTumorBoardProceduresController(FhirCrudApiControllerTestCase)
     FACTORY = factories.MolecularTumorBoardFactory
     MODEL = models.MolecularTumorBoard
     SCHEMA = schemas.MolecularTumorBoardReviewProfile
+    
+class TestAdverseEventsController(FhirCrudApiControllerTestCase):
+    controller_path = "/api/fhir/AdverseEvent"
+    FACTORY = factories.AdverseEventFactory
+    MODEL = models.AdverseEvent
+    SCHEMA = schemas.AdverseEventProfile

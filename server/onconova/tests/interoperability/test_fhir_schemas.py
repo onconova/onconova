@@ -266,3 +266,10 @@ class TestFhirSchemas(TestCase):
             fhir.MolecularTumorBoardReviewProfile,
             factories.MolecularTumorBoardFactory,
         )
+        
+    def test_adverse_event_profile_schema_mappings(self, *args, **kwargs):
+        self._test_circular_mapping(
+            schemas.AdverseEvent,
+            fhir.AdverseEventProfile,
+            factories.AdverseEventFactory,
+        )
