@@ -10,12 +10,12 @@ class FamilyHistoryCreate(BaseSchema):
     __orm_model__ = orm.FamilyHistory
     
     externalSource: Nullable[str] = Field(
-        None,
+        default=None,
         description='The digital source of the data, relevant for automated data',
         title='External data source',
     )
     externalSourceId: Nullable[str] = Field(
-        None,
+        default=None,
         description='The data identifier at the digital source of the data, relevant for automated data',
         title='External data source Id',
     )
@@ -40,24 +40,29 @@ class FamilyHistoryCreate(BaseSchema):
         description='Whether the family member has a history of cancer',
         title='Had cancer',
     )
+    isDeceased: Nullable[bool] = Field(
+        default=None,
+        description='Whether the the family member is deceased',
+        title='Is deceased',
+    )
     contributedToDeath: Nullable[bool] = Field(
-        None,
+        default=None,
         description='Whether the cancer contributed to the cause of death of the family member',
         title='Contributed to death',
     )
     onsetAge: Nullable[int] = Field(
-        None,
+        default=None,
         description="Age at which the family member's cancer manifested",
         title='Onset age',
     )
     topography: Nullable[CodedConcept] = Field(
-        None,
+        default=None,
         description="Estimated or actual topography of the family member's cancer",
         title='Topography',
         json_schema_extra={'x-terminology': 'CancerTopography'},
     )
     morphology: Nullable[CodedConcept] = Field(
-        None,
+        default=None,
         description="Morphology of the family member's cancer (if known)",
         title='Morphology',
         json_schema_extra={'x-terminology': 'CancerMorphology'},

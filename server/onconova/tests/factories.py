@@ -766,7 +766,12 @@ class FamilyHistoryFactory(factory.django.DjangoModelFactory):
     date = factory.LazyFunction(faker.date)
     relationship = make_terminology_factory(terminology.FamilyMemberType)
     had_cancer = factory.LazyFunction(lambda: random.randint(0, 10) > 5)
-    contributed_to_death = factory.LazyFunction(lambda: random.randint(0, 10) > 5)
+    is_deceased = factory.LazyFunction(lambda: random.randint(0, 10) > 5)
+    contributed_to_death = factory.Maybe(
+        factory.LazyAttribute(lambda o: o.is_deceased),
+        factory.LazyFunction(lambda: random.randint(0, 10) > 5), # type: ignore
+        None,  # type: ignore
+    )
     onset_age = factory.LazyFunction(lambda: random.randint(25, 95))
     topography = make_terminology_factory(terminology.CancerTopography)
     morphology = make_terminology_factory(terminology.CancerMorphology)

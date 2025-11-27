@@ -48,6 +48,12 @@ class FamilyHistory(BaseModel):
         verbose_name=_("Had cancer"),
         help_text=_("Whether the family member has a history of cancer"),
     )
+    is_deceased = models.BooleanField(
+        verbose_name=_("Is deceased"),
+        help_text=_("Whether the family member is deceased"),
+        null=True,
+        blank=True,
+    )
     contributed_to_death = models.BooleanField(
         verbose_name=_("Contributed to death"),
         help_text=_(
