@@ -17,6 +17,7 @@ NoneType = type(None)
 from fhircraft.fhir.resources.base import FHIRBaseModel,FHIRSliceModel
 from typing import Optional,List,Annotated,Union,Literal
 from fhircraft.fhir.resources.datatypes.primitives import String,Uri,Code,Integer,Boolean
+from fhircraft.fhir.resources.datatypes.R4.complex import DomainResource
 from fhircraft.fhir.resources.datatypes.R4.complex.element import Element
 from fhircraft.fhir.resources.datatypes.R4.complex.meta import Meta
 from fhircraft.fhir.resources.datatypes.R4.complex.narrative import Narrative
@@ -708,7 +709,7 @@ class OnconovaMedicationAdministrationDosage(BackboneElement):
         )
         
  
-class OnconovaMedicationAdministration(FHIRBaseModel):
+class OnconovaMedicationAdministration(DomainResource):
     """
     A profile representing a medication administered to a cancer patient during a systemic therapy (e.g., chemotherapy, immunotherapy), including details about the medication and dosage. 
 
@@ -1007,9 +1008,9 @@ MedicationAdministration resources representing a systemic therapy in the scope 
     def FHIR_termination_reason_invariant_constraint_model_validator(self):
         return validate_model_constraint( 
             self,
-            expression="statusReason.exists() and statusReason.coding.exists(
+            expression="""statusReason.exists() and statusReason.coding.exists(
       system = 'http://snomed.info/sct' and (code = '182992009' or code = '266721009' or code = '407563006' or code = '160932005' or
- code = '105480006' or code = '184081006' or code = '309846006' or code = '399307001' or  code = '419620001' or code = '7058009' or code = '443729008' or code = '77386006')) implies status = 'stopped'",
+ code = '105480006' or code = '184081006' or code = '309846006' or code = '399307001' or  code = '419620001' or code = '7058009' or code = '443729008' or code = '77386006')) implies status = 'stopped'""",
             human="Certain statusReason values are allowed only when status is stopped",
             key="termination-reason-invariant",
             severity="error",

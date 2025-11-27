@@ -8,24 +8,12 @@ from onconova.interoperability.fhir.schemas.base import (
     OnconovaFhirBaseSchema,
 )
 from onconova.interoperability.fhir.models import TumorMarker as fhir
+from onconova.interoperability.fhir.utils import ucum_to_internal, internal_to_ucum
 from onconova.oncology import models, schemas
 from onconova.core.schemas import CodedConcept, Measure
 from onconova.oncology.models.tumor_marker import (
     AnalyteResultType,
 )
-
-
-def internal_to_ucum(unit: str):
-    unit = unit.replace("__", "/")
-    unit = unit.replace("IU", "[iU]")
-    return unit
-
-
-def ucum_to_internal(unit: str):
-    unit = unit.replace("/", "__")
-    unit = unit.replace("[iU]", "IU")
-    return unit
-
 
 class TumorMarkerProfile(OnconovaFhirBaseSchema, fhir.OnconovaTumorMarker):
 

@@ -10,12 +10,12 @@ class SystemicTherapyMedicationCreate(BaseSchema):
     __orm_model__ = orm.SystemicTherapyMedication 
     
     externalSource: Nullable[str] = Field(
-        None,
+        default=None,
         description='The digital source of the data, relevant for automated data',
         title='External data source',
     )
     externalSourceId: Nullable[str] = Field(
-        None,
+        default=None,
         description='The data identifier at the digital source of the data, relevant for automated data',
         title='External data source Id',
     )
@@ -26,23 +26,23 @@ class SystemicTherapyMedicationCreate(BaseSchema):
         json_schema_extra={'x-terminology': 'AntineoplasticAgent'},
     )
     route: Nullable[CodedConcept] = Field(
-        None,
+        default=None,
         description='Drug administration route',
         title='Route',
         json_schema_extra={'x-terminology': 'DosageRoute'},
     )
     usedOfflabel: Nullable[bool] = Field(
-        None,
+        default=None,
         description='Indicates whether a medication was used off-label at the time of administration',
         title='Off-label use',
     )
     withinSoc: Nullable[bool] = Field(
-        None,
+        default=None,
         description='Indicates whether a medication was within standard of care (SOC) at the time of administration.',
         title='Within SOC',
     )
     dosageMassConcentration: Nullable[Measure] = Field(
-        None,
+        default=None,
         description='Dosage of the medication expressed in mass concentration (if revelant/appliccable)',
         title='Dosage - Mass concentration',
         json_schema_extra={
@@ -51,7 +51,7 @@ class SystemicTherapyMedicationCreate(BaseSchema):
         },
     )
     dosageMass: Nullable[Measure] = Field(
-        None,
+        default=None,
         description='Dosage of the medication expressed in a fixed mass (if revelant/appliccable)',
         title='Dosage - Fixed Mass',
         json_schema_extra={
@@ -60,7 +60,7 @@ class SystemicTherapyMedicationCreate(BaseSchema):
         },
     )
     dosageVolume: Nullable[Measure] = Field(
-        None,
+        default=None,
         description='Dosage of the medication expressed in a volume (if revelant/appliccable)',
         title='Dosage - Volume',
         json_schema_extra={
@@ -69,7 +69,7 @@ class SystemicTherapyMedicationCreate(BaseSchema):
         },
     )
     dosageMassSurface: Nullable[Measure] = Field(
-        None,
+        default=None,
         description='Dosage of the medication expressed in a mass per body surface area (if revelant/appliccable)',
         title='Dosage - Mass per body surface',
         json_schema_extra={
@@ -78,7 +78,7 @@ class SystemicTherapyMedicationCreate(BaseSchema):
         },
     )
     dosageRateMassConcentration: Nullable[Measure] = Field(
-        None,
+        default=None,
         description='Dosage rate of the medication expressed in mass concentration (if revelant/appliccable)',
         title='Dosage rate - Mass concentration',
         json_schema_extra={
@@ -87,7 +87,7 @@ class SystemicTherapyMedicationCreate(BaseSchema):
         },
     )
     dosageRateMass: Nullable[Measure] = Field(
-        None,
+        default=None,
         description='Dosage rate of the medication expressed in a fixed mass (if revelant/appliccable)',
         title='Dosage rate - Fixed Mass',
         json_schema_extra={
@@ -96,7 +96,7 @@ class SystemicTherapyMedicationCreate(BaseSchema):
         },
     )
     dosageRateVolume: Nullable[Measure] = Field(
-        None,
+        default=None,
         description='Dosage rate of the medication expressed in a volume (if revelant/appliccable)',
         title='Dosage rate - Volume',
         json_schema_extra={
@@ -105,7 +105,7 @@ class SystemicTherapyMedicationCreate(BaseSchema):
         },
     )
     dosageRateMassSurface: Nullable[Measure] = Field(
-        None,
+        default=None,
         description='Dosage rate of the medication expressed in a mass per body surface area (if revelant/appliccable)',
         title='Dosage rate - Mass per body surface',
         json_schema_extra={
@@ -125,12 +125,12 @@ class SystemicTherapyCreate(BaseSchema):
     __orm_model__ = orm.SystemicTherapy 
     
     externalSource: Nullable[str] = Field(
-        None,
+        default=None,
         description='The digital source of the data, relevant for automated data',
         title='External data source',
     )
     externalSourceId: Nullable[str] = Field(
-        None,
+        default=None,
         description='The data identifier at the digital source of the data, relevant for automated data',
         title='External data source Id',
     )
@@ -145,7 +145,7 @@ class SystemicTherapyCreate(BaseSchema):
         title='Treatment period',
     )
     cycles: Nullable[int] = Field(
-        None,
+        default=None,
         description='The total number of treatment cycles during the treatment period.',
         title='Cycles',
     )
@@ -155,24 +155,24 @@ class SystemicTherapyCreate(BaseSchema):
         title='Intent',
     )
     adjunctiveRole: Nullable[CodedConcept] = Field(
-        None,
+        default=None,
         description='Indicates the role of the adjunctive therapy (if applicable).',
         title='Treatment Role',
         json_schema_extra={'x-terminology': 'AdjunctiveTherapyRole'},
     )
     terminationReason: Nullable[CodedConcept] = Field(
-        None,
+        default=None,
         description='Explanation for the premature or planned termination of the systemic therapy',
         title='Termination reason',
         json_schema_extra={'x-terminology': 'TreatmentTerminationReason'},
     )
     therapyLineId: Nullable[UUID] = Field(
-        None,
+        default=None,
         description='Therapy line to which the systemic therapy is assigned to',
         title='Therapy line',
     )
     targetedEntitiesIds: Nullable[List[UUID]] = Field(
-        None,
+        default=None,
         description='References to the neoplastic entities that were targeted by the systemic therapy',
         title='Targeted neoplastic entities',
     )

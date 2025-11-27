@@ -477,6 +477,14 @@ class SystemicTherapyFactory(factory.django.DjangoModelFactory):
             "targeted_entities", PrimaryNeoplasticEntityFactory, min=1, max=1
         )
     )
+    medication1 = factory.RelatedFactory(
+        "onconova.tests.factories.SystemicTherapyMedicationFactory",
+        factory_related_name='systemic_therapy',
+    )
+    medication2 = factory.RelatedFactory(
+        "onconova.tests.factories.SystemicTherapyMedicationFactory",
+        factory_related_name='systemic_therapy',
+    )
 
 
 class SystemicTherapyMedicationFactory(factory.django.DjangoModelFactory):

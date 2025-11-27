@@ -2,8 +2,9 @@ from .patient import PatientController
 from .condition import ConditionController
 from .observation import ObservationController
 from .procedure import ProcedureController 
+from .medication_administration import MedicationAdministrationController
 from .adverse_event import AdverseEventController
-from.family_member_history import FamilyMemberHistoryController
+from .family_member_history import FamilyMemberHistoryController
 from .metadata import MetadataController
 
 __all__ = (
@@ -14,4 +15,5 @@ __all__ = (
     "ObservationController",
     "ProcedureController",
     "FamilyMemberHistoryController",
+    "MedicationAdministrationController",
 )

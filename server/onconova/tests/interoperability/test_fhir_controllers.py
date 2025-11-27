@@ -459,3 +459,9 @@ class TestFamilyMemberHistoryController(FhirCrudApiControllerTestCase):
     FACTORY = factories.FamilyHistoryFactory
     MODEL = models.FamilyHistory
     SCHEMA = schemas.CancerFamilyMemberHistoryProfile
+    
+class TestMedicationAdministrationController(FhirCrudApiControllerTestCase):
+    controller_path = "/api/fhir/MedicationAdministration"
+    FACTORY = factories.SystemicTherapyFactory
+    MODEL = models.SystemicTherapy
+    SCHEMA = schemas.MedicationAdministration

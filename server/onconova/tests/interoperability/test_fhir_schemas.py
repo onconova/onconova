@@ -280,3 +280,9 @@ class TestFhirSchemas(TestCase):
             fhir.CancerFamilyMemberHistoryProfile,
             factories.FamilyHistoryFactory,
         )
+    def test_medication_administration_profile_schema_mappings(self, *args, **kwargs):
+        self._test_circular_mapping(
+            schemas.SystemicTherapy,
+            fhir.MedicationAdministrationProfile,
+            factories.SystemicTherapyFactory,
+        )
