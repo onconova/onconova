@@ -17,6 +17,7 @@ NoneType = type(None)
 
 # Dynamic modules
 from typing import Optional, List, Annotated, Union, Literal
+from .TumorBoardReview import OnconovaTumorBoardReview
 from fhircraft.fhir.resources.datatypes.R4.complex.meta import Meta
 from fhircraft.fhir.resources.base import FHIRSliceModel
 from fhircraft.fhir.resources.datatypes.primitives import (
@@ -1737,7 +1738,7 @@ class MolecularTumorBoardCUPCharacterization(FHIRSliceModel):
         )
 
 
-class TumorBoardSpecialization(FHIRSliceModel):
+class TumorBoardSpecialization(FHIRSliceModel, Extension):
     """
     The specialization or focus area of the tumor board conducting the review, such as hematologic malignancies or solid tumors.
     """
@@ -1765,7 +1766,15 @@ class TumorBoardSpecialization(FHIRSliceModel):
     )
     valueCodeableConcept: Optional[CodeableConcept] = Field(
         description="Value of extension",
-        default=None,
+        default_factory= lambda: CodeableConcept(
+            coding=[
+                Coding(
+                    code="C20826",
+                    display="Molecular Diagnosis",
+                    system="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+                )
+            ]
+        ),
     )
 
     @property
@@ -1773,6 +1782,23 @@ class TumorBoardSpecialization(FHIRSliceModel):
         return get_type_choice_value_by_base(
             self,
             base="value",
+        )
+        
+    @field_validator(*("valueCodeableConcept",), mode="after", check_fields=None)
+    @classmethod
+    def FHIR_code_pattern_constraint(cls, value):
+        return validate_FHIR_element_pattern(
+            cls,
+            value,
+            pattern=CodeableConcept(
+                coding=[
+                    Coding(
+                        code="C20826",
+                        display="Molecular Diagnosis",
+                        system="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+                    )
+                ]
+            ),
         )
 
     @field_validator(*("extension",), mode="after", check_fields=None)
@@ -1975,7 +2001,7 @@ class OnconovaMolecularTumorBoardReview(OnconovaTumorBoardReview):
     )
     code: OnconovaMolecularTumorBoardReviewCode = Field(
         description="Identification of the procedure",
-        default_factory=lambda: CodeableConcept(
+        default_factory=lambda: OnconovaMolecularTumorBoardReviewCode(
             coding=[
                 Coding(
                     code="C93304",

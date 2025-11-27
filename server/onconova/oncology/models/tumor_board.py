@@ -120,6 +120,10 @@ class UnspecifiedTumorBoard(TumorBoard):
         parent_link=True,
         primary_key=True,
     )
+    
+    @property
+    def description(self):
+        return f"Tumor board with {self.recommendations.count()} recommendations"
 
 
 @pghistory.track()

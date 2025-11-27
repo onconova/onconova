@@ -131,7 +131,7 @@ class MolecularTumorBoardCreate(BaseSchema):
     __orm_model__ = orm.MolecularTumorBoard 
     
     category: Literal[orm.TumorBoardSpecialties.MOLECULAR] = Field(
-        orm.TumorBoardSpecialties.MOLECULAR,
+        default=orm.TumorBoardSpecialties.MOLECULAR,
         title="Category",
         description="Tumor board discriminator category",
     )
@@ -187,7 +187,7 @@ class MolecularTumorBoardCreate(BaseSchema):
         title='Successful CUP characterization?',
     )
     reviewedReports: List[str] = Field(
-        ...,
+        default_factory=list,
         description='List of genomic reports reviewed during the board meeting.',
         title='Reviewed Reports',
     )

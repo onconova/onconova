@@ -258,12 +258,16 @@ class ApiControllerTestMixin:
                 f"An error ocurred during the API call (returned 500): {response.content}"
             )
 
+        try:
+            content = response.json()
+        except: 
+            content = None
         # Assert response status code
         assert (
             response.status_code in expected_responses
         ), f"""Endpoint responded with {response.status_code} (expected any of {expected_responses}).
         
-        {response.json()}
+        {content or ''}
         """
         return response
 

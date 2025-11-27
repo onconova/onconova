@@ -230,108 +230,24 @@ class TestPatientsController(FhirCrudApiControllerTestCase):
         self.addCleanup(self.patcher.stop)
 
 
-class TestConditionsController(FhirCrudApiControllerTestCase):
+class TestPrimaryNeoplasticEntityConditionController(FhirCrudApiControllerTestCase):
     controller_path = "/api/fhir/Condition"
-    FACTORY = [
-        factories.PrimaryNeoplasticEntityFactory,
-        factories.MetastaticNeoplasticEntityFactory,
-    ]
-    MODEL = [models.NeoplasticEntity, models.NeoplasticEntity]
-    SCHEMA = [
-        schemas.PrimaryCancerConditionProfile,
-        schemas.SecondaryCancerConditionProfile,
-    ]
+    FACTORY = factories.PrimaryNeoplasticEntityFactory
+    MODEL = models.NeoplasticEntity
+    SCHEMA = schemas.PrimaryCancerConditionProfile
+
+class TestMetastaticNeoplasticEntityConditionController(FhirCrudApiControllerTestCase):
+    controller_path = "/api/fhir/Condition"
+    FACTORY = factories.MetastaticNeoplasticEntityFactory
+    MODEL = models.NeoplasticEntity
+    SCHEMA = schemas.SecondaryCancerConditionProfile
 
 
-class TestObservationsController(FhirCrudApiControllerTestCase):
+class TestTumorMarkerObservationController(FhirCrudApiControllerTestCase):
     controller_path = "/api/fhir/Observation"
-    FACTORY = [
-        factories.TumorMarkerTestFactory,
-        factories.RiskAssessmentFactory,
-        factories.GenomicVariantFactory,
-        factories.TumorMutationalBurdenFactory,
-        factories.MicrosatelliteInstabilityFactory,
-        factories.LossOfHeterozygosityFactory,
-        factories.HomologousRecombinationDeficiencyFactory,
-        factories.TumorNeoantigenBurdenFactory,
-        factories.AneuploidScoreFactory,
-        factories.ComorbiditiesAssessmentFactory,
-        factories.LifestyleFactory,
-        factories.ECOGPerformanceStatusFactory,
-        factories.KarnofskyPerformanceStatusFactory,
-        factories.TreatmentResponseFactory,
-        factories.FIGOStagingFactory,
-        factories.RaiStagingFactory,
-        factories.BreslowDepthFactory,
-        factories.BinetStagingFactory,
-        factories.ClarkStagingFactory,
-        factories.ISSStagingFactory,
-        factories.RISSStagingFactory,
-        factories.INSSStagingFactory,
-        factories.INRGSSStagingFactory,
-        factories.GleasonGradeFactory,
-        factories.RhabdomyosarcomaClinicalGroupFactory,
-        factories.WilmsStageFactory,
-        factories.TNMStagingFactory,
-    ]
-    MODEL = [
-        models.TumorMarker,
-        models.RiskAssessment,
-        models.GenomicVariant,
-        models.TumorMutationalBurden,
-        models.MicrosatelliteInstability,
-        models.LossOfHeterozygosity,
-        models.HomologousRecombinationDeficiency,
-        models.TumorNeoantigenBurden,
-        models.AneuploidScore,
-        models.ComorbiditiesAssessment,
-        models.Lifestyle,
-        models.PerformanceStatus,
-        models.PerformanceStatus,
-        models.TreatmentResponse,
-        models.FIGOStaging,
-        models.RaiStaging,            
-        models.BreslowDepth,            
-        models.BinetStaging,            
-        models.ClarkStaging,            
-        models.ISSStaging,            
-        models.RISSStaging,            
-        models.INSSStage,            
-        models.INRGSSStage,            
-        models.GleasonGrade,            
-        models.RhabdomyosarcomaClinicalGroup,            
-        models.WilmsStage,    
-        models.TNMStaging,
-    ]
-    SCHEMA = [
-        schemas.TumorMarkerProfile,
-        schemas.CancerRiskAssessmentProfile,
-        schemas.GenomicVariantProfile,
-        schemas.TumorMutationalBurdenProfile,
-        schemas.MicrosatelliteInstabilityProfile,
-        schemas.LossOfHeterozygosityProfile,
-        schemas.HomologousRecombinationDeficiencyProfile,
-        schemas.TumorNeoantigenBurdenProfile,
-        schemas.AneuploidScoreProfile,
-        schemas.ComorbiditiesProfile,
-        schemas.LifestyleProfile,
-        schemas.ECOGPerformanceStatusProfile,
-        schemas.KarnofskyPerformanceStatusProfile,
-        schemas.ImagingDiseaseStatusProfile,
-        schemas.CancerStageProfile,
-        schemas.CancerStageProfile,
-        schemas.CancerStageProfile,
-        schemas.CancerStageProfile,
-        schemas.CancerStageProfile,
-        schemas.CancerStageProfile,
-        schemas.CancerStageProfile,
-        schemas.CancerStageProfile,
-        schemas.CancerStageProfile,
-        schemas.CancerStageProfile,
-        schemas.CancerStageProfile,
-        schemas.CancerStageProfile,
-        schemas.TNMStageGroupProfile,
-    ]
+    FACTORY = factories.TumorMarkerTestFactory
+    MODEL = models.TumorMarker
+    SCHEMA = schemas.TumorMarkerProfile
 
     @classmethod
     def setUpTestData(cls):
@@ -350,23 +266,184 @@ class TestObservationsController(FhirCrudApiControllerTestCase):
     def tearDownClass(cls):
         cls.patcher.stop()
         super().tearDownClass()
+        
+class TestRiskAssessmentObservationController(FhirCrudApiControllerTestCase):
+    controller_path = "/api/fhir/Observation"
+    FACTORY = factories.RiskAssessmentFactory
+    MODEL = models.RiskAssessment
+    SCHEMA = schemas.CancerRiskAssessmentProfile
+
+class TestGenomicVariantObservationController(FhirCrudApiControllerTestCase):
+    controller_path = "/api/fhir/Observation"
+    FACTORY = factories.GenomicVariantFactory
+    MODEL = models.GenomicVariant
+    SCHEMA = schemas.GenomicVariantProfile
+
+class TestTumorMutationalBurdenObservationController(FhirCrudApiControllerTestCase):
+    controller_path = "/api/fhir/Observation"
+    FACTORY = factories.TumorMutationalBurdenFactory
+    MODEL = models.TumorMutationalBurden
+    SCHEMA = schemas.TumorMutationalBurdenProfile
+
+class TestMicrosatelliteInstabilityObservationController(FhirCrudApiControllerTestCase):
+    controller_path = "/api/fhir/Observation"
+    FACTORY = factories.MicrosatelliteInstabilityFactory
+    MODEL = models.MicrosatelliteInstability
+    SCHEMA = schemas.MicrosatelliteInstabilityProfile
+
+class TestLossOfHeterozygosityObservationController(FhirCrudApiControllerTestCase):
+    controller_path = "/api/fhir/Observation"
+    FACTORY = factories.LossOfHeterozygosityFactory
+    MODEL = models.LossOfHeterozygosity
+    SCHEMA = schemas.LossOfHeterozygosityProfile
+
+class TestHomologousRecombinationDeficiencyObservationController(FhirCrudApiControllerTestCase):
+    controller_path = "/api/fhir/Observation"
+    FACTORY = factories.HomologousRecombinationDeficiencyFactory
+    MODEL = models.HomologousRecombinationDeficiency
+    SCHEMA = schemas.HomologousRecombinationDeficiencyProfile
+
+class TestTumorNeoantigenBurdenObservationController(FhirCrudApiControllerTestCase):
+    controller_path = "/api/fhir/Observation"
+    FACTORY = factories.TumorNeoantigenBurdenFactory
+    MODEL = models.TumorNeoantigenBurden
+    SCHEMA = schemas.TumorNeoantigenBurdenProfile
+
+class TestAneuploidScoreObservationController(FhirCrudApiControllerTestCase):
+    controller_path = "/api/fhir/Observation"
+    FACTORY = factories.AneuploidScoreFactory
+    MODEL = models.AneuploidScore
+    SCHEMA = schemas.AneuploidScoreProfile
+
+class TestComorbiditiesAssessmentObservationController(FhirCrudApiControllerTestCase):
+    controller_path = "/api/fhir/Observation"
+    FACTORY = factories.ComorbiditiesAssessmentFactory
+    MODEL = models.ComorbiditiesAssessment
+    SCHEMA = schemas.ComorbiditiesProfile
+
+class TestLifestyleObservationController(FhirCrudApiControllerTestCase):
+    controller_path = "/api/fhir/Observation"
+    FACTORY = factories.LifestyleFactory
+    MODEL = models.Lifestyle
+    SCHEMA = schemas.LifestyleProfile
+
+class TestECOGPerformanceStatusObservationController(FhirCrudApiControllerTestCase):
+    controller_path = "/api/fhir/Observation"
+    FACTORY = factories.ECOGPerformanceStatusFactory
+    MODEL = models.PerformanceStatus
+    SCHEMA = schemas.ECOGPerformanceStatusProfile
+
+class TestKarnofskyPerformanceStatusObservationController(FhirCrudApiControllerTestCase):
+    controller_path = "/api/fhir/Observation"
+    FACTORY = factories.KarnofskyPerformanceStatusFactory
+    MODEL = models.PerformanceStatus
+    SCHEMA = schemas.KarnofskyPerformanceStatusProfile
+
+class TestTreatmentResponseObservationController(FhirCrudApiControllerTestCase):
+    controller_path = "/api/fhir/Observation"
+    FACTORY = factories.TreatmentResponseFactory
+    MODEL = models.TreatmentResponse
+    SCHEMA = schemas.ImagingDiseaseStatusProfile
+
+class TestFIGOStagingObservationController(FhirCrudApiControllerTestCase):
+    controller_path = "/api/fhir/Observation"
+    FACTORY = factories.FIGOStagingFactory
+    MODEL = models.FIGOStaging
+    SCHEMA = schemas.CancerStageProfile
+
+class TestRaiStagingObservationController(FhirCrudApiControllerTestCase):
+    controller_path = "/api/fhir/Observation"
+    FACTORY = factories.RaiStagingFactory
+    MODEL = models.RaiStaging
+    SCHEMA = schemas.CancerStageProfile
+
+class TestBreslowDepthObservationController(FhirCrudApiControllerTestCase):
+    controller_path = "/api/fhir/Observation"
+    FACTORY = factories.BreslowDepthFactory
+    MODEL = models.BreslowDepth
+    SCHEMA = schemas.CancerStageProfile
+
+class TestBinetStagingObservationController(FhirCrudApiControllerTestCase):
+    controller_path = "/api/fhir/Observation"
+    FACTORY = factories.BinetStagingFactory
+    MODEL = models.BinetStaging
+    SCHEMA = schemas.CancerStageProfile
+
+class TestClarkStagingObservationController(FhirCrudApiControllerTestCase):
+    controller_path = "/api/fhir/Observation"
+    FACTORY = factories.ClarkStagingFactory
+    MODEL = models.ClarkStaging
+    SCHEMA = schemas.CancerStageProfile
+
+class TestISSStagingObservationController(FhirCrudApiControllerTestCase):
+    controller_path = "/api/fhir/Observation"
+    FACTORY = factories.ISSStagingFactory
+    MODEL = models.ISSStaging
+    SCHEMA = schemas.CancerStageProfile
+
+class TestRISSStagingObservationController(FhirCrudApiControllerTestCase):
+    controller_path = "/api/fhir/Observation"
+    FACTORY = factories.RISSStagingFactory
+    MODEL = models.RISSStaging
+    SCHEMA = schemas.CancerStageProfile
+
+class TestINSSStagingObservationController(FhirCrudApiControllerTestCase):
+    controller_path = "/api/fhir/Observation"
+    FACTORY = factories.INSSStagingFactory
+    MODEL = models.INSSStage
+    SCHEMA = schemas.CancerStageProfile
+
+class TestINRGSSStagingObservationController(FhirCrudApiControllerTestCase):
+    controller_path = "/api/fhir/Observation"
+    FACTORY = factories.INRGSSStagingFactory
+    MODEL = models.INRGSSStage
+    SCHEMA = schemas.CancerStageProfile
+
+class TestGleasonGradeObservationController(FhirCrudApiControllerTestCase):
+    controller_path = "/api/fhir/Observation"
+    FACTORY = factories.GleasonGradeFactory
+    MODEL = models.GleasonGrade
+    SCHEMA = schemas.CancerStageProfile
+
+class TestRhabdomyosarcomaClinicalGroupObservationController(FhirCrudApiControllerTestCase):
+    controller_path = "/api/fhir/Observation"
+    FACTORY = factories.RhabdomyosarcomaClinicalGroupFactory
+    MODEL = models.RhabdomyosarcomaClinicalGroup
+    SCHEMA = schemas.CancerStageProfile
+
+class TestWilmsStageObservationController(FhirCrudApiControllerTestCase):
+    controller_path = "/api/fhir/Observation"
+    FACTORY = factories.WilmsStageFactory
+    MODEL = models.WilmsStage
+    SCHEMA = schemas.CancerStageProfile
+
+class TestTNMStagingObservationController(FhirCrudApiControllerTestCase):
+    controller_path = "/api/fhir/Observation"
+    FACTORY = factories.TNMStagingFactory
+    MODEL = models.TNMStaging
+    SCHEMA = schemas.TNMStageGroupProfile
 
 
-
-class TestProceduresController(FhirCrudApiControllerTestCase):
+class TestSurgeryProceduresController(FhirCrudApiControllerTestCase):
     controller_path = "/api/fhir/Procedure"
-    FACTORY = [
-        factories.SurgeryFactory,
-        factories.RadiotherapyFactory,
-        factories.TumorBoardFactory,
-    ]
-    MODEL = [
-        models.Surgery,
-        models.Radiotherapy,
-        models.UnspecifiedTumorBoard,
-    ]
-    SCHEMA = [
-        schemas.SurgicalProcedureProfile,
-        schemas.RadiotherapyCourseSummaryProfile,
-        schemas.TumorBoardReviewProfile,
-    ]
+    FACTORY = factories.SurgeryFactory
+    MODEL = models.Surgery
+    SCHEMA = schemas.SurgicalProcedureProfile
+
+class TestRadiotherapyProceduresController(FhirCrudApiControllerTestCase):
+    controller_path = "/api/fhir/Procedure"
+    FACTORY = factories.RadiotherapyFactory
+    MODEL = models.Radiotherapy
+    SCHEMA = schemas.RadiotherapyCourseSummaryProfile
+
+class TestUnspecifiedTumorBoardProceduresController(FhirCrudApiControllerTestCase):
+    controller_path = "/api/fhir/Procedure"
+    FACTORY = factories.TumorBoardFactory
+    MODEL = models.UnspecifiedTumorBoard
+    SCHEMA = schemas.TumorBoardReviewProfile
+
+class TestMolecularTumorBoardProceduresController(FhirCrudApiControllerTestCase):
+    controller_path = "/api/fhir/Procedure"
+    FACTORY = factories.MolecularTumorBoardFactory
+    MODEL = models.MolecularTumorBoard
+    SCHEMA = schemas.MolecularTumorBoardReviewProfile

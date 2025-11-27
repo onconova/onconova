@@ -851,6 +851,10 @@ class MolecularTumorBoardFactory(factory.django.DjangoModelFactory):
             "related_entities", PrimaryNeoplasticEntityFactory, min=1, max=1
         )
     )
+    therapeutic_recommendations = factory.RelatedFactory(
+        "onconova.tests.factories.MolecularTherapeuticRecommendationFactory",
+        factory_related_name='molecular_tumor_board',
+    )
 
 
 class MolecularTherapeuticRecommendationFactory(factory.django.DjangoModelFactory):

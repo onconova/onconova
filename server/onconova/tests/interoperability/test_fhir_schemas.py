@@ -259,3 +259,10 @@ class TestFhirSchemas(TestCase):
             fhir.TumorBoardReviewProfile,
             factories.TumorBoardFactory,
         )
+        
+    def test_molecular_tumor_board_review_profile_schema_mappings(self, *args, **kwargs):
+        self._test_circular_mapping(
+            schemas.MolecularTumorBoard,
+            fhir.MolecularTumorBoardReviewProfile,
+            factories.MolecularTumorBoardFactory,
+        )

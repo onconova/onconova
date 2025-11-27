@@ -19,6 +19,7 @@ from .tnm_stage_group import TNMStageGroupProfile
 from .surgical_procedure import SurgicalProcedureProfile
 from .radiotherapy_course import RadiotherapyCourseSummaryProfile
 from .tumor_board_review import TumorBoardReviewProfile
+from .molecular_tumor_board import MolecularTumorBoardReviewProfile
 
 __all__ = (
     "CancerPatientProfile",
@@ -43,4 +44,5 @@ __all__ = (
     "SurgicalProcedureProfile",
     "RadiotherapyCourseSummaryProfile",
     "TumorBoardReviewProfile",
+    "MolecularTumorBoardReviewProfile",
 )
