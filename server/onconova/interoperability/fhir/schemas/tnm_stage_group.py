@@ -42,7 +42,7 @@ class TNMStageGroupProfile(OnconovaFhirBaseSchema, fhir.OnconovaTNMStageGroup):
             methodology=CodedConcept.model_validate(obj.fhirpath_single("Observation.method.coding")),
             stagedEntitiesIds=obj.fhirpath_values("Observation.focus.reference.replace('Condition/', '')"),
             stage=CodedConcept.model_validate(obj.fhirpath_single("Observation.valueCodeableConcept.coding")),
-            pathological=True if (code:= obj.fhirpath_single("Observation.code.coding.code")) == "399588009" else False if code == "399588009" else None,
+            pathological=True if (code:= obj.fhirpath_single("Observation.code.coding.code")) == "399588009" else False if code == "399537006" else None,
         )
         for member in obj.hasMember or []:
             if not member.reference or not '#' in member.reference:
