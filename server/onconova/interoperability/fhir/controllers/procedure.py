@@ -42,7 +42,7 @@ class ProcedureController(FhirBaseController):
         exclude_none=True,
         summary="Read the current state of the resource",
     )
-    def read_patient(self, rid: str):
+    def read_procedure(self, rid: str):
         return self.read_fhir_resource(rid, [
             Surgery, 
             Radiotherapy,
@@ -64,7 +64,7 @@ class ProcedureController(FhirBaseController):
         exclude_none=True,
         summary="Update the current state of the resource",
     )
-    def update_patient(
+    def update_procedure(
         self,
         rid: str,
         payload: RadiotherapyCourseSummaryProfile
@@ -84,7 +84,7 @@ class ProcedureController(FhirBaseController):
         exclude_none=True,
         summary="Delete the resource so that it no exists (no read, search etc)",
     )
-    def delete_patient(self, rid: str):
+    def delete_procedure(self, rid: str):
         return self.delete_fhir_resource(rid, [
             Surgery,
             Radiotherapy, 
@@ -107,7 +107,7 @@ class ProcedureController(FhirBaseController):
         exclude_none=True,
         summary="Create a new resource",
     )
-    def create_patient(
+    def create_procedure(
         self, payload: RadiotherapyCourseSummaryProfile
             | SurgicalProcedureProfile
             | TumorBoardReviewProfile
