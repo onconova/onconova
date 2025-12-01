@@ -31,7 +31,6 @@ from fhircraft.fhir.resources.validators import (
     validate_model_constraint,
     validate_slicing_cardinalities,
     validate_FHIR_element_pattern,
-    validate_contained_resource,
 )
 from fhircraft.fhir.resources.datatypes.R4.complex.codeable_concept import (
     CodeableConcept,
@@ -1177,15 +1176,6 @@ class OnconovaPrimaryCancerCondition(FHIRBaseModel):
             human="evidence SHALL have code or details",
             key="con-2",
             severity="error",
-        )
-
-    @field_validator(*("contained",), mode="plain", check_fields=None)
-    @classmethod
-    def contained_FHIR_resource_validator(cls, value):
-        return validate_contained_resource(
-            cls,
-            value,
-            release="R4",
         )
 
     @model_validator(mode="after")

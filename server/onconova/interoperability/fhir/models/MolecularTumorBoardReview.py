@@ -50,7 +50,6 @@ from fhircraft.fhir.resources.validators import (
     validate_slicing_cardinalities,
     validate_model_constraint,
     validate_FHIR_element_pattern,
-    validate_contained_resource,
 )
 from fhircraft.fhir.resources.datatypes.R4.complex.address import Address
 from fhircraft.fhir.resources.datatypes.R4.complex.age import Age
@@ -2123,15 +2122,6 @@ class OnconovaMolecularTumorBoardReview(OnconovaTumorBoardReview):
                     )
                 ]
             ),
-        )
-
-    @field_validator(*("contained",), mode="plain", check_fields=None)
-    @classmethod
-    def contained_FHIR_resource_validator(cls, value):
-        return validate_contained_resource(
-            cls,
-            value,
-            release="R4",
         )
 
     @field_validator(*("extension",), mode="after", check_fields=None)

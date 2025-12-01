@@ -43,7 +43,6 @@ from fhircraft.fhir.resources.validators import (
     validate_type_choice_element,
     validate_model_constraint,
     validate_slicing_cardinalities,
-    validate_contained_resource,
 )
 from fhircraft.fhir.resources.datatypes.R4.complex.identifier import Identifier
 from fhircraft.fhir.resources.datatypes.R4.complex.quantity import Quantity
@@ -848,15 +847,6 @@ class OnconovaTumorMarker(FHIRBaseModel):
             human="Must have at least a low or a high or text",
             key="obs-3",
             severity="error",
-        )
-
-    @field_validator(*("contained",), mode="plain", check_fields=None)
-    @classmethod
-    def contained_FHIR_resource_validator(cls, value):
-        return validate_contained_resource(
-            cls,
-            value,
-            release="R4",
         )
 
     @model_validator(mode="after")

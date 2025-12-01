@@ -47,7 +47,6 @@ from fhircraft.fhir.resources.validators import (
     get_type_choice_value_by_base,
     validate_type_choice_element,
     validate_slicing_cardinalities,
-    validate_contained_resource,
     validate_model_constraint,
 )
 
@@ -632,15 +631,6 @@ class OnconovaTNMStageGroup(FHIRBaseModel):
             field_name="hasMember",
         )
 
-    @field_validator(*("contained",), mode="plain", check_fields=None)
-    @classmethod
-    def contained_FHIR_resource_validator(cls, value):
-        return validate_contained_resource(
-            cls,
-            value,
-            release="R4",
-        )
-
     @model_validator(mode="after")
     def effective_type_choice_validator(self):
         return validate_type_choice_element(
@@ -669,15 +659,15 @@ class OnconovaTNMStageGroup(FHIRBaseModel):
             severity="error",
         )
 
-    @model_validator(mode="after")
-    def FHIR_dom_3_constraint_model_validator(self):
-        return validate_model_constraint(
-            self,
-            expression="contained.where((('#'+id in (%resource.descendants().reference | %resource.descendants().as(canonical) | %resource.descendants().as(uri) | %resource.descendants().as(url))) or descendants().where(reference = '#').exists() or descendants().where(as(canonical) = '#').exists() or descendants().where(as(canonical) = '#').exists()).not()).trace('unmatched', id).empty()",
-            human="If the resource is contained in another resource, it SHALL be referred to from elsewhere in the resource or SHALL refer to the containing resource",
-            key="dom-3",
-            severity="error",
-        )
+    # @model_validator(mode="after")
+    # def FHIR_dom_3_constraint_model_validator(self):
+    #     return validate_model_constraint(
+    #         self,
+    #         expression="contained.where((('#'+id in (%resource.descendants().reference | %resource.descendants().as(canonical) | %resource.descendants().as(uri) | %resource.descendants().as(url))) or descendants().where(reference = '#').exists() or descendants().where(as(canonical) = '#').exists() or descendants().where(as(canonical) = '#').exists()).not()).trace('unmatched', id).empty()",
+    #         human="If the resource is contained in another resource, it SHALL be referred to from elsewhere in the resource or SHALL refer to the containing resource",
+    #         key="dom-3",
+    #         severity="error",
+    #     )
 
     @model_validator(mode="after")
     def FHIR_dom_4_constraint_model_validator(self):

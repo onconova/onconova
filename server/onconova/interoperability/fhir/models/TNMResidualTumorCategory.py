@@ -51,7 +51,6 @@ from fhircraft.fhir.resources.validators import (
     validate_type_choice_element,
     validate_slicing_cardinalities,
     validate_FHIR_element_pattern,
-    validate_contained_resource,
     validate_model_constraint,
 )
 from fhircraft.fhir.resources.datatypes.R4.complex.ratio import Ratio
@@ -635,15 +634,6 @@ class OnconovaTNMResidualTumorCategory(FHIRBaseModel):
             human="Must have at least a low or a high or text",
             key="obs-3",
             severity="error",
-        )
-
-    @field_validator(*("contained",), mode="plain", check_fields=None)
-    @classmethod
-    def contained_FHIR_resource_validator(cls, value):
-        return validate_contained_resource(
-            cls,
-            value,
-            release="R4",
         )
 
     @model_validator(mode="after")
