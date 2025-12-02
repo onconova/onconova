@@ -27,7 +27,10 @@ from fhircraft.fhir.resources.datatypes.primitives import (
     Date,
     Boolean,
 )
+
 from fhircraft.fhir.resources.datatypes.R4.complex.element import Element
+from fhircraft.fhir.resources.datatypes.R4.complex import DomainResource
+
 from fhircraft.fhir.resources.datatypes.R4.complex.meta import Meta
 from fhircraft.fhir.resources.datatypes.R4.complex.narrative import Narrative
 from fhircraft.fhir.resources.datatypes.R4.complex.resource import Resource
@@ -470,7 +473,7 @@ class OnconovaCancerFamilyMemberHistoryCancerCondition(BackboneElement):
         )
 
 
-class OnconovaCancerFamilyMemberHistory(FHIRBaseModel):
+class OnconovaCancerFamilyMemberHistory(DomainResource):
     """
         A profile recording of a patient's family member's history of cancer.
 

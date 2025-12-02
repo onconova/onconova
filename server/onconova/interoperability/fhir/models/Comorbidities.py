@@ -28,7 +28,10 @@ from fhircraft.fhir.resources.datatypes.primitives import (
     Integer,
     Time,
 )
+
 from fhircraft.fhir.resources.datatypes.R4.complex.element import Element
+from fhircraft.fhir.resources.datatypes.R4.complex import DomainResource
+
 from fhircraft.fhir.resources.datatypes.R4.complex.meta import Meta
 from fhircraft.fhir.resources.datatypes.R4.complex.narrative import Narrative
 from fhircraft.fhir.resources.datatypes.R4.complex.resource import Resource
@@ -522,7 +525,7 @@ class OnconovaComorbiditiesComponent(BackboneElement):
         )
 
 
-class OnconovaComorbidities(FHIRBaseModel):
+class OnconovaComorbidities(DomainResource):
     """
         A profile representing comorbidities for a cancer patient, i.e. other health conditions that exist alongside the primary cancer diagnosis. Supports existing comorbidity panels such as the Charlson Comorbidity Index (CCI) and Elixhauser Comorbidity Index (ECI) with comorbidity indexes.
 

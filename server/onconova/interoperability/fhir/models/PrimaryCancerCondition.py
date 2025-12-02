@@ -19,7 +19,10 @@ NoneType = type(None)
 from fhircraft.fhir.resources.base import FHIRBaseModel, FHIRSliceModel
 from typing import Optional, List, Annotated, Union, Literal
 from fhircraft.fhir.resources.datatypes.primitives import String, Uri, Code, DateTime
+
 from fhircraft.fhir.resources.datatypes.R4.complex.element import Element
+from fhircraft.fhir.resources.datatypes.R4.complex import DomainResource
+
 from fhircraft.fhir.resources.datatypes.R4.complex.meta import Meta
 from fhircraft.fhir.resources.datatypes.R4.complex.narrative import Narrative
 from fhircraft.fhir.resources.datatypes.R4.complex.resource import Resource
@@ -846,7 +849,7 @@ class OnconovaPrimaryCancerConditionEvidence(BackboneElement):
         )
 
 
-class OnconovaPrimaryCancerCondition(FHIRBaseModel):
+class OnconovaPrimaryCancerCondition(DomainResource):
     """
         A profile that records the primary cancer condition, the original or first neoplasm in the body (Definition from: [NCI Dictionary of Cancer Terms](https://www.cancer.gov/publications/dictionaries/cancer-terms/def/primary-tumor)). Cancers that are not clearly secondary (i.e., of uncertain origin or behavior) should be documented as primary.
 

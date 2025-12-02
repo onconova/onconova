@@ -27,7 +27,10 @@ from fhircraft.fhir.resources.datatypes.primitives import (
     DateTime,
     Boolean,
 )
+
 from fhircraft.fhir.resources.datatypes.R4.complex.element import Element
+from fhircraft.fhir.resources.datatypes.R4.complex import DomainResource
+
 from fhircraft.fhir.resources.datatypes.R4.complex.meta import Meta
 from fhircraft.fhir.resources.datatypes.R4.complex.narrative import Narrative
 from fhircraft.fhir.resources.datatypes.R4.complex.resource import Resource
@@ -576,7 +579,7 @@ class OnconovaTherapyLineEntry(BackboneElement):
         )
 
 
-class OnconovaTherapyLine(FHIRBaseModel):
+class OnconovaTherapyLine(DomainResource):
     """
         A profile representing a line of therapy in a cancer treatment regimen, including details about the therapy line number, associated treatments, and relevant dates.
 

@@ -26,7 +26,10 @@ from fhircraft.fhir.resources.datatypes.primitives import (
     Instant,
     Integer,
 )
+
 from fhircraft.fhir.resources.datatypes.R4.complex.element import Element
+from fhircraft.fhir.resources.datatypes.R4.complex import DomainResource
+
 from fhircraft.fhir.resources.datatypes.R4.complex.meta import Meta
 from fhircraft.fhir.resources.datatypes.R4.complex.narrative import Narrative
 from fhircraft.fhir.resources.datatypes.R4.complex.resource import Resource
@@ -4001,7 +4004,7 @@ class OnconovaGenomicVariantRnaHgvs(BackboneElement):
         )
 
 
-class OnconovaGenomicVariant(FHIRBaseModel):
+class OnconovaGenomicVariant(DomainResource):
     """
         A profile representing a genomic variant identified for a cancer patient.
 

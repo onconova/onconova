@@ -41,7 +41,10 @@ from fhircraft.fhir.resources.datatypes.primitives import (
     Url,
     Uuid,
 )
+
 from fhircraft.fhir.resources.datatypes.R4.complex.element import Element
+from fhircraft.fhir.resources.datatypes.R4.complex import DomainResource
+
 from fhircraft.fhir.resources.datatypes.R4.complex.extension import Extension
 from fhircraft.fhir.resources.validators import (
     get_type_choice_value_by_base,

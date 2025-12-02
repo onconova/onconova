@@ -19,7 +19,10 @@ NoneType = type(None)
 from fhircraft.fhir.resources.base import FHIRBaseModel, FHIRSliceModel
 from typing import Optional, List, Annotated, Union, Literal
 from fhircraft.fhir.resources.datatypes.primitives import String, Uri, Code, DateTime
+
 from fhircraft.fhir.resources.datatypes.R4.complex.element import Element
+from fhircraft.fhir.resources.datatypes.R4.complex import DomainResource
+
 from fhircraft.fhir.resources.datatypes.R4.complex.meta import Meta
 from fhircraft.fhir.resources.datatypes.R4.complex.narrative import Narrative
 from fhircraft.fhir.resources.datatypes.R4.complex.resource import Resource
@@ -723,7 +726,7 @@ class OnconovaSecondaryCancerConditionEvidence(BackboneElement):
         )
 
 
-class OnconovaSecondaryCancerCondition(FHIRBaseModel):
+class OnconovaSecondaryCancerCondition(DomainResource):
     """
         A profile recording the a secondary neoplasm, including location and the date of onset of metastases. A secondary cancer results from the spread (metastasization) of cancer from its original site (Definition from: NCI Dictionary of Cancer Terms).
 

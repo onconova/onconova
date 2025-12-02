@@ -28,7 +28,10 @@ from fhircraft.fhir.resources.datatypes.primitives import (
     Integer,
     Time,
 )
+
 from fhircraft.fhir.resources.datatypes.R4.complex.element import Element
+from fhircraft.fhir.resources.datatypes.R4.complex import DomainResource
+
 from fhircraft.fhir.resources.datatypes.R4.complex.meta import Meta
 from fhircraft.fhir.resources.datatypes.R4.complex.narrative import Narrative
 from fhircraft.fhir.resources.datatypes.R4.complex.resource import Resource
@@ -332,7 +335,7 @@ class OnconovaTNMGradeCategoryComponent(BackboneElement):
         )
 
 
-class OnconovaTNMGradeCategory(FHIRBaseModel):
+class OnconovaTNMGradeCategory(DomainResource):
     """
         A profile representing the TNM grade category for a cancer patient.
 

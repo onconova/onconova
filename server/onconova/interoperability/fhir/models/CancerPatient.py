@@ -39,7 +39,10 @@ from fhircraft.fhir.resources.datatypes.primitives import (
     Url,
     Uuid,
 )
+
 from fhircraft.fhir.resources.datatypes.R4.complex.element import Element
+from fhircraft.fhir.resources.datatypes.R4.complex import DomainResource
+
 from fhircraft.fhir.resources.datatypes.R4.complex.meta import Meta
 from fhircraft.fhir.resources.datatypes.R4.complex.narrative import Narrative
 from fhircraft.fhir.resources.datatypes.R4.complex.resource import Resource
@@ -3188,7 +3191,7 @@ class OnconovaCancerPatientLink(BackboneElement):
         )
 
 
-class OnconovaCancerPatient(FHIRBaseModel):
+class OnconovaCancerPatient(DomainResource):
     """
         A profile representing a cancer patient with specific extensions and constraints for the Onconova use case.
 

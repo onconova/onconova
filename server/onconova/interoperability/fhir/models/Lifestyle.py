@@ -31,7 +31,10 @@ from fhircraft.fhir.resources.datatypes.primitives import (
 from fhircraft.fhir.resources.datatypes.R4.core.observation import (
     ObservationReferenceRange,
 )
+
 from fhircraft.fhir.resources.datatypes.R4.complex.element import Element
+from fhircraft.fhir.resources.datatypes.R4.complex import DomainResource
+
 from fhircraft.fhir.resources.datatypes.R4.complex.meta import Meta
 from fhircraft.fhir.resources.datatypes.R4.complex.narrative import Narrative
 from fhircraft.fhir.resources.datatypes.R4.complex.resource import Resource
@@ -858,7 +861,7 @@ class OnconovaLifestyleExposures(BackboneElement):
         )
 
 
-class OnconovaLifestyle(FHIRBaseModel):
+class OnconovaLifestyle(DomainResource):
     """
         A profile representing a (reported) observation on certain lifestyle characteristics of a cancer patient (e.g. smoking, drinking, and sleeping habits, environmental exposures, etc.).
 

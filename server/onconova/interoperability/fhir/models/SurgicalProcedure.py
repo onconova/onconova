@@ -25,7 +25,10 @@ from fhircraft.fhir.resources.datatypes.primitives import (
     Canonical,
     DateTime,
 )
+
 from fhircraft.fhir.resources.datatypes.R4.complex.element import Element
+from fhircraft.fhir.resources.datatypes.R4.complex import DomainResource
+
 from fhircraft.fhir.resources.datatypes.R4.complex.meta import Meta
 from fhircraft.fhir.resources.datatypes.R4.complex.narrative import Narrative
 from fhircraft.fhir.resources.datatypes.R4.complex.resource import Resource
@@ -526,7 +529,7 @@ class OnconovaSurgicalProcedureFocalDevice(BackboneElement):
         )
 
 
-class OnconovaSurgicalProcedure(FHIRBaseModel):
+class OnconovaSurgicalProcedure(DomainResource):
     """
         A profile representing a surgical procedure performed on a cancer patient, including details about the procedure, its intent, and relevant dates.
 

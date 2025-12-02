@@ -25,7 +25,10 @@ from fhircraft.fhir.resources.datatypes.primitives import (
     Canonical,
     DateTime,
 )
+
 from fhircraft.fhir.resources.datatypes.R4.complex.element import Element
+from fhircraft.fhir.resources.datatypes.R4.complex import DomainResource
+
 from fhircraft.fhir.resources.datatypes.R4.complex.meta import Meta
 from fhircraft.fhir.resources.datatypes.R4.complex.narrative import Narrative
 from fhircraft.fhir.resources.datatypes.R4.complex.resource import Resource
@@ -252,7 +255,7 @@ class OnconovaTumorBoardReviewFocalDevice(BackboneElement):
         )
 
 
-class OnconovaTumorBoardReview(FHIRBaseModel):
+class OnconovaTumorBoardReview(DomainResource):
     """
         A profile representing a tumor board review for a cancer patient.
 

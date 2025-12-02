@@ -25,7 +25,10 @@ from fhircraft.fhir.resources.datatypes.primitives import (
     DateTime,
     Instant,
 )
+
 from fhircraft.fhir.resources.datatypes.R4.complex.element import Element
+from fhircraft.fhir.resources.datatypes.R4.complex import DomainResource
+
 from fhircraft.fhir.resources.datatypes.R4.complex.meta import Meta
 from fhircraft.fhir.resources.datatypes.R4.complex.narrative import Narrative
 from fhircraft.fhir.resources.datatypes.R4.complex.resource import Resource
@@ -550,7 +553,7 @@ class OnconovaMicrosatelliteInstabilityConclusionString(BackboneElement):
         )
 
 
-class OnconovaMicrosatelliteInstability(FHIRBaseModel):
+class OnconovaMicrosatelliteInstability(DomainResource):
     """
         A profile representing microsatellite instability for a cancer patient.
 

@@ -39,7 +39,10 @@ from fhircraft.fhir.resources.datatypes.primitives import (
     Url,
     Uuid,
 )
+
 from fhircraft.fhir.resources.datatypes.R4.complex.element import Element
+from fhircraft.fhir.resources.datatypes.R4.complex import DomainResource
+
 from fhircraft.fhir.resources.datatypes.R4.complex.meta import Meta
 from fhircraft.fhir.resources.datatypes.R4.complex.narrative import Narrative
 from fhircraft.fhir.resources.datatypes.R4.complex.resource import Resource
@@ -1052,7 +1055,7 @@ class OnconovaAdverseEventSuspectEntity(BackboneElement):
         )
 
 
-class OnconovaAdverseEvent(FHIRBaseModel):
+class OnconovaAdverseEvent(DomainResource):
     """
         A profile representing an adverse event experienced by a cancer patient as a result of an antineoplastic treatment, structured according to the Common Terminology Criteria for Adverse Events (CTCAE). This resource is used to capture and standardize the documentation of adverse events occurring during cancer care, including the type of event, its CTCAE grade, and any mitigation actions taken.
 

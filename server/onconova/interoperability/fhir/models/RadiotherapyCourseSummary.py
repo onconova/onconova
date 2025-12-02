@@ -39,7 +39,10 @@ from fhircraft.fhir.resources.datatypes.primitives import (
     Url,
     Uuid,
 )
+
 from fhircraft.fhir.resources.datatypes.R4.complex.element import Element
+from fhircraft.fhir.resources.datatypes.R4.complex import DomainResource
+
 from fhircraft.fhir.resources.datatypes.R4.complex.meta import Meta
 from fhircraft.fhir.resources.datatypes.R4.complex.narrative import Narrative
 from fhircraft.fhir.resources.datatypes.R4.complex.resource import Resource
@@ -2032,7 +2035,7 @@ class OnconovaRadiotherapyCourseSummaryFocalDevice(BackboneElement):
         )
 
 
-class OnconovaRadiotherapyCourseSummary(FHIRBaseModel):
+class OnconovaRadiotherapyCourseSummary(DomainResource):
     """
         A profile representing a summary of a course of radiotherapy delivered to a patient. It records the treatment intent, termination reason, modalities, techniques, number of sessions, and doses delivered to one or more body volumes. Whether the course has been fully delivered or stopped is indicated in the status element.
 
