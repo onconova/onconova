@@ -909,13 +909,6 @@ MedicationAdministration resources representing a systemic therapy in the scope 
             severity="error",
         )
         
-    @field_validator(*('contained',), mode="plain", check_fields=None)
-    @classmethod
-    def contained_FHIR_resource_validator(cls, value):    
-        return validate_contained_resource(cls, value, 
-            release="R4",
-        )
-        
     @model_validator(mode="after")
     def medication_type_choice_validator(self):
         return validate_type_choice_element( 

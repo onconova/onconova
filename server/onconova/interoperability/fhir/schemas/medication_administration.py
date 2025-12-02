@@ -17,8 +17,8 @@ def get_unit_comparison_fhirpath(element: str, measure):
 
 class MedicationAdministrationProfile(OnconovaFhirBaseSchema, fhir.OnconovaMedicationAdministration):
 
-    __model__ = models.SystemicTherapyMedication
-    __schema__ = schemas.SystemicTherapyMedication
+    __model__ = models.SystemicTherapy
+    __schema__ = schemas.SystemicTherapy
 
     @classmethod
     def fhir_to_onconova(
