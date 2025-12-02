@@ -699,7 +699,7 @@ class OnconovaTNMGradeCategory(FHIRBaseModel):
     def FHIR_o_stg_req_1_constraint_model_validator(self):
         return validate_model_constraint(
             self,
-            expression="subject.exists() and subject.resolve().is(Patient)",
+            expression="subject.exists()",
             human="The subject element is required and must be provided.",
             key="o-stg-req-1",
             severity="error",

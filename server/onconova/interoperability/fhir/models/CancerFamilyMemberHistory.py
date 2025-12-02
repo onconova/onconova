@@ -236,7 +236,6 @@ class FamilyMemberHistoryCancerTopography(FHIRSliceModel):
             human="Must have either extensions or value[x], not both",
             key="ext-1",
             severity="error",
-
         )
 
 
@@ -330,6 +329,7 @@ class FamilyMemberHistoryConditionContributedToDeath(FHIRSliceModel):
             key="ext-1",
             severity="error",
         )
+
 
 class OnconovaCancerFamilyMemberHistoryCancerCondition(BackboneElement):
     """
@@ -848,7 +848,7 @@ class OnconovaCancerFamilyMemberHistory(FHIRBaseModel):
     def FHIR_o_fam_req_1_constraint_model_validator(self):
         return validate_model_constraint(
             self,
-            expression="patient.exists() and patient.resolve().is(Patient)",
+            expression="patient.exists()",
             human="The patient element is required and must be provided.",
             key="o-fam-req-1",
             severity="error",

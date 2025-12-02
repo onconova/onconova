@@ -1765,7 +1765,7 @@ class TumorBoardSpecialization(FHIRSliceModel, Extension):
     )
     valueCodeableConcept: Optional[CodeableConcept] = Field(
         description="Value of extension",
-        default_factory= lambda: CodeableConcept(
+        default_factory=lambda: CodeableConcept(
             coding=[
                 Coding(
                     code="C20826",
@@ -1782,7 +1782,7 @@ class TumorBoardSpecialization(FHIRSliceModel, Extension):
             self,
             base="value",
         )
-        
+
     @field_validator(*("valueCodeableConcept",), mode="after", check_fields=None)
     @classmethod
     def FHIR_code_pattern_constraint(cls, value):
@@ -2196,7 +2196,7 @@ class OnconovaMolecularTumorBoardReview(OnconovaTumorBoardReview):
     def FHIR_o_tub_req_1_constraint_model_validator(self):
         return validate_model_constraint(
             self,
-            expression="subject.exists() and subject.resolve().is(Patient)",
+            expression="subject.exists()",
             human="The subject element is required and must be provided.",
             key="o-tub-req-1",
             severity="error",

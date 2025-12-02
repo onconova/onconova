@@ -59,7 +59,7 @@ class FhirCrudApiControllerTestCase(ApiControllerTestMixin, TestCase):
             if not isinstance(cls.SCHEMA, list)
             else cls.SCHEMA
         )
-        
+
     def setUp(self):
         super().setUp()
         self.instances = []
@@ -78,56 +78,52 @@ class FhirCrudApiControllerTestCase(ApiControllerTestMixin, TestCase):
                 instance2.delete()
 
     @parameterized.expand(
-        GET_HTTP_SCENARIOS, 
+        GET_HTTP_SCENARIOS,
         name_func=lambda testcase_func, _, param: f'{testcase_func.__name__}_{param[0][0].lower().replace(" ","_")}_{"authorized" if param[0][1]["access_level"]>1 else "unauthorized"}',
     )
     def test_read_operation(self, scenario, config, *args):
         for i, (instance, schema, model) in enumerate(
             zip(self.instances, self.schemas, self.models)
         ):
-            with self.subTest(i=i, msg=model.__name__):
-                # Call the API endpoint
-                response = self.call_api_endpoint(
-                    "GET",
-                    self.get_route_url_with_id(instance),
-                    anonymized=False,
-                    **config,
+            # Call the API endpoint
+            response = self.call_api_endpoint(
+                "GET",
+                self.get_route_url_with_id(instance),
+                anonymized=False,
+                **config,
+            )
+            # Assert response content
+            if scenario == "HTTPS Authenticated":
+                self.assertEqual(response.status_code, 200)
+                expected = schema.model_validate(instance).model_dump()
+                result = schema.model_validate(response.json()).model_dump()
+                self.assertEqual(
+                    result,
+                    expected,
+                    f"Response FHIR data does not match expected for {model.__name__}",
                 )
-                # Assert response content
-                if scenario == "HTTPS Authenticated":
-                    self.assertEqual(response.status_code, 200)
-                    expected = schema.model_validate(instance).model_dump()
-                    result = schema.model_validate(response.json()).model_dump()
-                    self.assertEqual(
-                        result,
-                        expected,
-                        f"Response FHIR data does not match expected for {model.__name__}",
-                    )
 
     @parameterized.expand(
         HTTP_SCENARIOS,
         name_func=lambda testcase_func, _, param: f'{testcase_func.__name__}_{param[0][0].lower().replace(" ","_")}_{"authorized" if param[0][1]["access_level"]>1 else "unauthorized"}',
     )
     def test_delete_operation(self, scenario, config):
-        for i, (instance, model) in enumerate(
-            zip(self.instances, self.models)
-        ):
-            with self.subTest(i=i, msg=model.__name__):
-                # Call the API endpoint
-                response = self.call_api_endpoint(
-                    "DELETE", self.get_route_url_with_id(instance), **config
+        for i, (instance, model) in enumerate(zip(self.instances, self.models)):
+            # Call the API endpoint
+            response = self.call_api_endpoint(
+                "DELETE", self.get_route_url_with_id(instance), **config
+            )
+            # Assert response content
+            if scenario == "HTTPS Authenticated":
+                self.assertEqual(response.status_code, 204)
+                self.assertFalse(model.objects.filter(id=instance.id).exists())
+                # Assert audit trail
+                self.assertTrue(
+                    pghistory.models.Events.objects.filter(  # type: ignore
+                        pgh_obj_id=instance.id, pgh_label="delete"
+                    ).exists(),
+                    "Event not properly registered",
                 )
-                # Assert response content
-                if scenario == "HTTPS Authenticated":
-                    self.assertEqual(response.status_code, 204)
-                    self.assertFalse(model.objects.filter(id=instance.id).exists())
-                    # Assert audit trail
-                    self.assertTrue(
-                        pghistory.models.Events.objects.filter(  # type: ignore
-                            pgh_obj_id=instance.id, pgh_label="delete"
-                        ).exists(),
-                        "Event not properly registered",
-                    )
 
     @parameterized.expand(
         HTTP_SCENARIOS,
@@ -137,27 +133,26 @@ class FhirCrudApiControllerTestCase(ApiControllerTestMixin, TestCase):
         for i, (instance, payload, model) in enumerate(
             zip(self.instances, self.create_payloads, self.models)
         ):
-            with self.subTest(i=i, msg=model.__name__):
-                instance.delete()
-                # Call the API endpoint.
-                response = self.call_api_endpoint(
-                    "POST", self.get_route_url(instance), data=payload, **config
+            instance.delete()
+            # Call the API endpoint.
+            response = self.call_api_endpoint(
+                "POST", self.get_route_url(instance), data=payload, **config
+            )
+            # Assert response content
+            if scenario == "HTTPS Authenticated":
+                created_id = response.json()["id"]
+                created_instance = model.objects.filter(id=created_id).first()
+                assert created_instance is not None, "Resource has not been created"
+                # Assert audit trail
+                self.assertEqual(
+                    self.user.username,
+                    created_instance.created_by,
+                    "Unexpected creator user.",
                 )
-                # Assert response content
-                if scenario == "HTTPS Authenticated":
-                    created_id = response.json()["id"]
-                    created_instance = model.objects.filter(id=created_id).first()
-                    assert created_instance is not None, "Resource has not been created"
-                    # Assert audit trail
-                    self.assertEqual(
-                        self.user.username,
-                        created_instance.created_by,
-                        "Unexpected creator user.",
-                    )
-                    self.assertTrue(
-                        created_instance.events.filter(pgh_label="create").exists(),  # type: ignore
-                        "Event not properly registered",
-                    )
+                self.assertTrue(
+                    created_instance.events.filter(pgh_label="create").exists(),  # type: ignore
+                    "Event not properly registered",
+                )
 
     @parameterized.expand(
         HTTP_SCENARIOS,
@@ -167,43 +162,42 @@ class FhirCrudApiControllerTestCase(ApiControllerTestMixin, TestCase):
         for i, (instance, payload, model) in enumerate(
             zip(self.instances, self.update_payloads, self.models)
         ):
-            with self.subTest(i=i, msg=model.__name__):
-                payload["id"] = str(instance.id)
-                # Call the API endpoint
-                response = self.call_api_endpoint(
-                    "PUT", self.get_route_url_with_id(instance), data=payload, **config
+            payload["id"] = str(instance.id)
+            # Call the API endpoint
+            response = self.call_api_endpoint(
+                "PUT", self.get_route_url_with_id(instance), data=payload, **config
+            )
+            # Assert response content
+            if scenario == "HTTPS Authenticated":
+                updated_id = response.json()["id"]
+                self.assertEqual(response.status_code, 200)
+                updated_instance = model.objects.filter(id=updated_id).first()
+                assert (
+                    updated_instance is not None
+                ), "The updated instance does not exist"
+                self.assertNotEqual(
+                    [
+                        getattr(instance, field.name)
+                        for field in model._meta.concrete_fields
+                    ],
+                    [
+                        getattr(updated_instance, field.name)
+                        for field in model._meta.concrete_fields
+                    ],
                 )
-                # Assert response content
-                if scenario == "HTTPS Authenticated":
-                    updated_id = response.json()["id"]
-                    self.assertEqual(response.status_code, 200)
-                    updated_instance = model.objects.filter(id=updated_id).first()
-                    assert (
-                        updated_instance is not None
-                    ), "The updated instance does not exist"
-                    self.assertNotEqual(
-                        [
-                            getattr(instance, field.name)
-                            for field in model._meta.concrete_fields
-                        ],
-                        [
-                            getattr(updated_instance, field.name)
-                            for field in model._meta.concrete_fields
-                        ],
+                # Assert audit trail
+                if updated_instance.updated_by:
+                    self.assertIn(
+                        self.user.username,
+                        updated_instance.updated_by,  # type: ignore
+                        "The updating user is not registered",
                     )
-                    # Assert audit trail
-                    if updated_instance.updated_by:
-                        self.assertIn(
-                            self.user.username,
-                            updated_instance.updated_by,  # type: ignore
-                            "The updating user is not registered",
-                        )
-                    self.assertTrue(
-                        pghistory.models.Events.objects.filter(  # type: ignore
-                            pgh_obj_id=instance.id, pgh_label="update"
-                        ).exists(),
-                        "Event not properly registered",
-                    )
+                self.assertTrue(
+                    pghistory.models.Events.objects.filter(  # type: ignore
+                        pgh_obj_id=instance.id, pgh_label="update"
+                    ).exists(),
+                    "Event not properly registered",
+                )
 
 
 class TestPatientsController(FhirCrudApiControllerTestCase):
@@ -236,6 +230,7 @@ class TestPrimaryNeoplasticEntityConditionController(FhirCrudApiControllerTestCa
     MODEL = models.NeoplasticEntity
     SCHEMA = schemas.PrimaryCancerConditionProfile
 
+
 class TestMetastaticNeoplasticEntityConditionController(FhirCrudApiControllerTestCase):
     controller_path = "/api/fhir/Condition"
     FACTORY = factories.MetastaticNeoplasticEntityFactory
@@ -266,12 +261,14 @@ class TestTumorMarkerObservationController(FhirCrudApiControllerTestCase):
     def tearDownClass(cls):
         cls.patcher.stop()
         super().tearDownClass()
-        
+
+
 class TestRiskAssessmentObservationController(FhirCrudApiControllerTestCase):
     controller_path = "/api/fhir/Observation"
     FACTORY = factories.RiskAssessmentFactory
     MODEL = models.RiskAssessment
     SCHEMA = schemas.CancerRiskAssessmentProfile
+
 
 class TestGenomicVariantObservationController(FhirCrudApiControllerTestCase):
     controller_path = "/api/fhir/Observation"
@@ -279,11 +276,13 @@ class TestGenomicVariantObservationController(FhirCrudApiControllerTestCase):
     MODEL = models.GenomicVariant
     SCHEMA = schemas.GenomicVariantProfile
 
+
 class TestTumorMutationalBurdenObservationController(FhirCrudApiControllerTestCase):
     controller_path = "/api/fhir/Observation"
     FACTORY = factories.TumorMutationalBurdenFactory
     MODEL = models.TumorMutationalBurden
     SCHEMA = schemas.TumorMutationalBurdenProfile
+
 
 class TestMicrosatelliteInstabilityObservationController(FhirCrudApiControllerTestCase):
     controller_path = "/api/fhir/Observation"
@@ -291,17 +290,22 @@ class TestMicrosatelliteInstabilityObservationController(FhirCrudApiControllerTe
     MODEL = models.MicrosatelliteInstability
     SCHEMA = schemas.MicrosatelliteInstabilityProfile
 
+
 class TestLossOfHeterozygosityObservationController(FhirCrudApiControllerTestCase):
     controller_path = "/api/fhir/Observation"
     FACTORY = factories.LossOfHeterozygosityFactory
     MODEL = models.LossOfHeterozygosity
     SCHEMA = schemas.LossOfHeterozygosityProfile
 
-class TestHomologousRecombinationDeficiencyObservationController(FhirCrudApiControllerTestCase):
+
+class TestHomologousRecombinationDeficiencyObservationController(
+    FhirCrudApiControllerTestCase
+):
     controller_path = "/api/fhir/Observation"
     FACTORY = factories.HomologousRecombinationDeficiencyFactory
     MODEL = models.HomologousRecombinationDeficiency
     SCHEMA = schemas.HomologousRecombinationDeficiencyProfile
+
 
 class TestTumorNeoantigenBurdenObservationController(FhirCrudApiControllerTestCase):
     controller_path = "/api/fhir/Observation"
@@ -309,11 +313,13 @@ class TestTumorNeoantigenBurdenObservationController(FhirCrudApiControllerTestCa
     MODEL = models.TumorNeoantigenBurden
     SCHEMA = schemas.TumorNeoantigenBurdenProfile
 
+
 class TestAneuploidScoreObservationController(FhirCrudApiControllerTestCase):
     controller_path = "/api/fhir/Observation"
     FACTORY = factories.AneuploidScoreFactory
     MODEL = models.AneuploidScore
     SCHEMA = schemas.AneuploidScoreProfile
+
 
 class TestComorbiditiesAssessmentObservationController(FhirCrudApiControllerTestCase):
     controller_path = "/api/fhir/Observation"
@@ -321,11 +327,13 @@ class TestComorbiditiesAssessmentObservationController(FhirCrudApiControllerTest
     MODEL = models.ComorbiditiesAssessment
     SCHEMA = schemas.ComorbiditiesProfile
 
+
 class TestLifestyleObservationController(FhirCrudApiControllerTestCase):
     controller_path = "/api/fhir/Observation"
     FACTORY = factories.LifestyleFactory
     MODEL = models.Lifestyle
     SCHEMA = schemas.LifestyleProfile
+
 
 class TestECOGPerformanceStatusObservationController(FhirCrudApiControllerTestCase):
     controller_path = "/api/fhir/Observation"
@@ -333,11 +341,15 @@ class TestECOGPerformanceStatusObservationController(FhirCrudApiControllerTestCa
     MODEL = models.PerformanceStatus
     SCHEMA = schemas.ECOGPerformanceStatusProfile
 
-class TestKarnofskyPerformanceStatusObservationController(FhirCrudApiControllerTestCase):
+
+class TestKarnofskyPerformanceStatusObservationController(
+    FhirCrudApiControllerTestCase
+):
     controller_path = "/api/fhir/Observation"
     FACTORY = factories.KarnofskyPerformanceStatusFactory
     MODEL = models.PerformanceStatus
     SCHEMA = schemas.KarnofskyPerformanceStatusProfile
+
 
 class TestTreatmentResponseObservationController(FhirCrudApiControllerTestCase):
     controller_path = "/api/fhir/Observation"
@@ -345,11 +357,13 @@ class TestTreatmentResponseObservationController(FhirCrudApiControllerTestCase):
     MODEL = models.TreatmentResponse
     SCHEMA = schemas.ImagingDiseaseStatusProfile
 
+
 class TestFIGOStagingObservationController(FhirCrudApiControllerTestCase):
     controller_path = "/api/fhir/Observation"
     FACTORY = factories.FIGOStagingFactory
     MODEL = models.FIGOStaging
     SCHEMA = schemas.CancerStageProfile
+
 
 class TestRaiStagingObservationController(FhirCrudApiControllerTestCase):
     controller_path = "/api/fhir/Observation"
@@ -357,11 +371,13 @@ class TestRaiStagingObservationController(FhirCrudApiControllerTestCase):
     MODEL = models.RaiStaging
     SCHEMA = schemas.CancerStageProfile
 
+
 class TestBreslowDepthObservationController(FhirCrudApiControllerTestCase):
     controller_path = "/api/fhir/Observation"
     FACTORY = factories.BreslowDepthFactory
     MODEL = models.BreslowDepth
     SCHEMA = schemas.CancerStageProfile
+
 
 class TestBinetStagingObservationController(FhirCrudApiControllerTestCase):
     controller_path = "/api/fhir/Observation"
@@ -369,11 +385,13 @@ class TestBinetStagingObservationController(FhirCrudApiControllerTestCase):
     MODEL = models.BinetStaging
     SCHEMA = schemas.CancerStageProfile
 
+
 class TestClarkStagingObservationController(FhirCrudApiControllerTestCase):
     controller_path = "/api/fhir/Observation"
     FACTORY = factories.ClarkStagingFactory
     MODEL = models.ClarkStaging
     SCHEMA = schemas.CancerStageProfile
+
 
 class TestISSStagingObservationController(FhirCrudApiControllerTestCase):
     controller_path = "/api/fhir/Observation"
@@ -381,11 +399,13 @@ class TestISSStagingObservationController(FhirCrudApiControllerTestCase):
     MODEL = models.ISSStaging
     SCHEMA = schemas.CancerStageProfile
 
+
 class TestRISSStagingObservationController(FhirCrudApiControllerTestCase):
     controller_path = "/api/fhir/Observation"
     FACTORY = factories.RISSStagingFactory
     MODEL = models.RISSStaging
     SCHEMA = schemas.CancerStageProfile
+
 
 class TestINSSStagingObservationController(FhirCrudApiControllerTestCase):
     controller_path = "/api/fhir/Observation"
@@ -393,11 +413,13 @@ class TestINSSStagingObservationController(FhirCrudApiControllerTestCase):
     MODEL = models.INSSStage
     SCHEMA = schemas.CancerStageProfile
 
+
 class TestINRGSSStagingObservationController(FhirCrudApiControllerTestCase):
     controller_path = "/api/fhir/Observation"
     FACTORY = factories.INRGSSStagingFactory
     MODEL = models.INRGSSStage
     SCHEMA = schemas.CancerStageProfile
+
 
 class TestGleasonGradeObservationController(FhirCrudApiControllerTestCase):
     controller_path = "/api/fhir/Observation"
@@ -405,17 +427,22 @@ class TestGleasonGradeObservationController(FhirCrudApiControllerTestCase):
     MODEL = models.GleasonGrade
     SCHEMA = schemas.CancerStageProfile
 
-class TestRhabdomyosarcomaClinicalGroupObservationController(FhirCrudApiControllerTestCase):
+
+class TestRhabdomyosarcomaClinicalGroupObservationController(
+    FhirCrudApiControllerTestCase
+):
     controller_path = "/api/fhir/Observation"
     FACTORY = factories.RhabdomyosarcomaClinicalGroupFactory
     MODEL = models.RhabdomyosarcomaClinicalGroup
     SCHEMA = schemas.CancerStageProfile
+
 
 class TestWilmsStageObservationController(FhirCrudApiControllerTestCase):
     controller_path = "/api/fhir/Observation"
     FACTORY = factories.WilmsStageFactory
     MODEL = models.WilmsStage
     SCHEMA = schemas.CancerStageProfile
+
 
 class TestTNMStagingObservationController(FhirCrudApiControllerTestCase):
     controller_path = "/api/fhir/Observation"
@@ -430,11 +457,13 @@ class TestSurgeryProceduresController(FhirCrudApiControllerTestCase):
     MODEL = models.Surgery
     SCHEMA = schemas.SurgicalProcedureProfile
 
+
 class TestRadiotherapyProceduresController(FhirCrudApiControllerTestCase):
     controller_path = "/api/fhir/Procedure"
     FACTORY = factories.RadiotherapyFactory
     MODEL = models.Radiotherapy
     SCHEMA = schemas.RadiotherapyCourseSummaryProfile
+
 
 class TestUnspecifiedTumorBoardProceduresController(FhirCrudApiControllerTestCase):
     controller_path = "/api/fhir/Procedure"
@@ -442,24 +471,28 @@ class TestUnspecifiedTumorBoardProceduresController(FhirCrudApiControllerTestCas
     MODEL = models.UnspecifiedTumorBoard
     SCHEMA = schemas.TumorBoardReviewProfile
 
+
 class TestMolecularTumorBoardProceduresController(FhirCrudApiControllerTestCase):
     controller_path = "/api/fhir/Procedure"
     FACTORY = factories.MolecularTumorBoardFactory
     MODEL = models.MolecularTumorBoard
     SCHEMA = schemas.MolecularTumorBoardReviewProfile
-    
+
+
 class TestAdverseEventsController(FhirCrudApiControllerTestCase):
     controller_path = "/api/fhir/AdverseEvent"
     FACTORY = factories.AdverseEventFactory
     MODEL = models.AdverseEvent
     SCHEMA = schemas.AdverseEventProfile
-    
+
+
 class TestFamilyMemberHistoryController(FhirCrudApiControllerTestCase):
     controller_path = "/api/fhir/FamilyMemberHistory"
     FACTORY = factories.FamilyHistoryFactory
     MODEL = models.FamilyHistory
     SCHEMA = schemas.CancerFamilyMemberHistoryProfile
-    
+
+
 class TestMedicationAdministrationController(FhirCrudApiControllerTestCase):
     controller_path = "/api/fhir/MedicationAdministration"
     FACTORY = factories.SystemicTherapyFactory

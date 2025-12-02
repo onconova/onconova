@@ -290,7 +290,6 @@ class AdverseEventResolvedDate(FHIRSliceModel):
         )
 
 
-
 class AdverseEventMitigationCategory(Extension):
     """
     Mitigation Category
@@ -1111,7 +1110,12 @@ class OnconovaAdverseEvent(FHIRBaseModel):
     extension: Optional[
         List[
             Annotated[
-                Union[AdverseEventCTCGrade, AdverseEventMitigation, AdverseEventResolvedDate, Extension],
+                Union[
+                    AdverseEventCTCGrade,
+                    AdverseEventMitigation,
+                    AdverseEventResolvedDate,
+                    Extension,
+                ],
                 Field(union_mode="left_to_right"),
             ]
         ]
@@ -1348,7 +1352,7 @@ class OnconovaAdverseEvent(FHIRBaseModel):
     def FHIR_ae_req_1_constraint_model_validator(self):
         return validate_model_constraint(
             self,
-            expression="subject.exists() and subject.resolve().is(Patient)",
+            expression="subject.exists()",
             human="The subject element is required and must be provided.",
             key="ae-req-1",
             severity="error",

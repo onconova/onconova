@@ -928,7 +928,7 @@ class OnconovaComorbidities(FHIRBaseModel):
     def FHIR_com_req_1_constraint_model_validator(self):
         return validate_model_constraint(
             self,
-            expression="subject.exists() and subject.resolve().is(Patient)",
+            expression="subject.exists()",
             human="The subject element is required and must be provided.",
             key="com-req-1",
             severity="error",
@@ -948,7 +948,7 @@ class OnconovaComorbidities(FHIRBaseModel):
     def FHIR_com_req_3_constraint_model_validator(self):
         return validate_model_constraint(
             self,
-            expression="focus.exists() and focus.resolve().is(Condition)",
+            expression="focus.exists()",
             human="The focus element is required and must be provided.",
             key="com-req-3",
             severity="error",

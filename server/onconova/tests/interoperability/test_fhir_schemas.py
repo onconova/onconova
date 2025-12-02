@@ -19,7 +19,10 @@ class TestFhirSchemas(TestCase):
         fhir_resource = fhir_schema.onconova_to_fhir(original_schema)
         print(fhir_resource.model_dump_json(indent=2))
         new_schema = fhir_schema.fhir_to_onconova(fhir_resource)
-        for (child_instance, new_child_schema) in fhir_schema.fhir_to_onconova_related(fhir_resource):
+        for child_instance, new_child_schema in fhir_schema.fhir_to_onconova_related(
+            fhir_resource
+        ):
+            print(new_child_schema.model_dump_json(indent=2))
             new_child_schema.model_dump_django(instance=child_instance)
         new_instance = new_schema.model_dump_django(instance=instance)
         resulting_schema = schema.model_validate(new_instance)
@@ -106,180 +109,191 @@ class TestFhirSchemas(TestCase):
             fhir.TumorMutationalBurdenProfile,
             factories.TumorMutationalBurdenFactory,
         )
-        
+
     def test_microsatellite_instability_profile_schema_mappings(self, *args, **kwargs):
         self._test_circular_mapping(
             schemas.MicrosatelliteInstability,
             fhir.MicrosatelliteInstabilityProfile,
             factories.MicrosatelliteInstabilityFactory,
         )
-        
+
     def test_loss_of_heterozygosity_profile_schema_mappings(self, *args, **kwargs):
         self._test_circular_mapping(
             schemas.LossOfHeterozygosity,
             fhir.LossOfHeterozygosityProfile,
             factories.LossOfHeterozygosityFactory,
         )
-        
-    def test_homologous_recombination_deficiency_profile_schema_mappings(self, *args, **kwargs):
+
+    def test_homologous_recombination_deficiency_profile_schema_mappings(
+        self, *args, **kwargs
+    ):
         self._test_circular_mapping(
             schemas.HomologousRecombinationDeficiency,
             fhir.HomologousRecombinationDeficiencyProfile,
             factories.HomologousRecombinationDeficiencyFactory,
         )
-        
+
     def test_tumor_neoantigen_burden_profile_schema_mappings(self, *args, **kwargs):
         self._test_circular_mapping(
             schemas.TumorNeoantigenBurden,
             fhir.TumorNeoantigenBurdenProfile,
             factories.TumorNeoantigenBurdenFactory,
         )
-        
+
     def test_aneuploid_score_profile_schema_mappings(self, *args, **kwargs):
         self._test_circular_mapping(
             schemas.AneuploidScore,
             fhir.AneuploidScoreProfile,
             factories.AneuploidScoreFactory,
         )
-        
+
     def test_comorbidities_profile_schema_mappings(self, *args, **kwargs):
         self._test_circular_mapping(
             schemas.ComorbiditiesAssessment,
             fhir.ComorbiditiesProfile,
             factories.ComorbiditiesAssessmentFactory,
         )
-        
+
     def test_lifestyle_profile_schema_mappings(self, *args, **kwargs):
         self._test_circular_mapping(
             schemas.Lifestyle,
             fhir.LifestyleProfile,
             factories.LifestyleFactory,
         )
-        
+
     def test_ecog_performance_status_profile_schema_mappings(self, *args, **kwargs):
         self._test_circular_mapping(
             schemas.PerformanceStatus,
             fhir.ECOGPerformanceStatusProfile,
             factories.ECOGPerformanceStatusFactory,
         )
-        
-    def test_karnofsky_performance_status_profile_schema_mappings(self, *args, **kwargs):
+
+    def test_karnofsky_performance_status_profile_schema_mappings(
+        self, *args, **kwargs
+    ):
         self._test_circular_mapping(
             schemas.PerformanceStatus,
             fhir.KarnofskyPerformanceStatusProfile,
             factories.KarnofskyPerformanceStatusFactory,
         )
-        
+
     def test_imaging_disease_status_profile_schema_mappings(self, *args, **kwargs):
         self._test_circular_mapping(
             schemas.TreatmentResponse,
             fhir.ImagingDiseaseStatusProfile,
             factories.TreatmentResponseFactory,
         )
-    
-    @parameterized.expand([
-        (
-            schemas.FIGOStaging,
-            factories.FIGOStagingFactory,
-        ),
-        (
-            schemas.RaiStaging,            
-            factories.RaiStagingFactory,
-        ),
-        (
-            schemas.BreslowDepth,            
-            factories.BreslowDepthFactory,
-        ),
-        (
-            schemas.BinetStaging,            
-            factories.BinetStagingFactory,
-        ),
-        (
-            schemas.ClarkStaging,            
-            factories.ClarkStagingFactory,
-        ),
-        (
-            schemas.ISSStaging,            
-            factories.ISSStagingFactory,
-        ),
-        (
-            schemas.RISSStaging,            
-            factories.RISSStagingFactory,
-        ),
-        (
-            schemas.INSSStage,            
-            factories.INSSStagingFactory,
-        ),
-        (
-            schemas.INRGSSStage,            
-            factories.INRGSSStagingFactory,
-        ),
-        (
-            schemas.GleasonGrade,            
-            factories.GleasonGradeFactory,
-        ),
-        (
-            schemas.RhabdomyosarcomaClinicalGroup,            
-            factories.RhabdomyosarcomaClinicalGroupFactory,
-        ),
-        (
-            schemas.WilmsStage,            
-            factories.WilmsStageFactory,
-        ),
-    ])
-    def test_cancer_stage_profile_schema_mappings(self, schema, factory, *args, **kwargs):
-        self._test_circular_mapping(
-            schema,fhir.CancerStageProfile, factory
-        )
-        
+
+    @parameterized.expand(
+        [
+            (
+                schemas.FIGOStaging,
+                factories.FIGOStagingFactory,
+            ),
+            (
+                schemas.RaiStaging,
+                factories.RaiStagingFactory,
+            ),
+            (
+                schemas.BreslowDepth,
+                factories.BreslowDepthFactory,
+            ),
+            (
+                schemas.BinetStaging,
+                factories.BinetStagingFactory,
+            ),
+            (
+                schemas.ClarkStaging,
+                factories.ClarkStagingFactory,
+            ),
+            (
+                schemas.ISSStaging,
+                factories.ISSStagingFactory,
+            ),
+            (
+                schemas.RISSStaging,
+                factories.RISSStagingFactory,
+            ),
+            (
+                schemas.INSSStage,
+                factories.INSSStagingFactory,
+            ),
+            (
+                schemas.INRGSSStage,
+                factories.INRGSSStagingFactory,
+            ),
+            (
+                schemas.GleasonGrade,
+                factories.GleasonGradeFactory,
+            ),
+            (
+                schemas.RhabdomyosarcomaClinicalGroup,
+                factories.RhabdomyosarcomaClinicalGroupFactory,
+            ),
+            (
+                schemas.WilmsStage,
+                factories.WilmsStageFactory,
+            ),
+        ]
+    )
+    def test_cancer_stage_profile_schema_mappings(
+        self, schema, factory, *args, **kwargs
+    ):
+        self._test_circular_mapping(schema, fhir.CancerStageProfile, factory)
+
     def test_tnm_stage_group_profile_schema_mappings(self, *args, **kwargs):
         self._test_circular_mapping(
             schemas.TNMStaging,
             fhir.TNMStageGroupProfile,
             factories.TNMStagingFactory,
         )
-        
+
     def test_surgery_profile_schema_mappings(self, *args, **kwargs):
         self._test_circular_mapping(
             schemas.Surgery,
             fhir.SurgicalProcedureProfile,
             factories.SurgeryFactory,
         )
-        
+
     def test_radiotherapy_course_summary_profile_schema_mappings(self, *args, **kwargs):
         self._test_circular_mapping(
             schemas.Radiotherapy,
             fhir.RadiotherapyCourseSummaryProfile,
             factories.RadiotherapyFactory,
         )
-        
+
     def test_tumor_board_review_profile_schema_mappings(self, *args, **kwargs):
         self._test_circular_mapping(
             schemas.UnspecifiedTumorBoard,
             fhir.TumorBoardReviewProfile,
             factories.TumorBoardFactory,
         )
-        
-    def test_molecular_tumor_board_review_profile_schema_mappings(self, *args, **kwargs):
+
+    def test_molecular_tumor_board_review_profile_schema_mappings(
+        self, *args, **kwargs
+    ):
         self._test_circular_mapping(
             schemas.MolecularTumorBoard,
             fhir.MolecularTumorBoardReviewProfile,
             factories.MolecularTumorBoardFactory,
         )
-        
+
     def test_adverse_event_profile_schema_mappings(self, *args, **kwargs):
         self._test_circular_mapping(
             schemas.AdverseEvent,
             fhir.AdverseEventProfile,
             factories.AdverseEventFactory,
         )
-        
-    def test_cancer_family_member_history_profile_schema_mappings(self, *args, **kwargs):
+
+    def test_cancer_family_member_history_profile_schema_mappings(
+        self, *args, **kwargs
+    ):
         self._test_circular_mapping(
             schemas.FamilyHistory,
             fhir.CancerFamilyMemberHistoryProfile,
             factories.FamilyHistoryFactory,
         )
+
     def test_medication_administration_profile_schema_mappings(self, *args, **kwargs):
         self._test_circular_mapping(
             schemas.SystemicTherapy,
