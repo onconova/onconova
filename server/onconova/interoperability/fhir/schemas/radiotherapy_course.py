@@ -182,9 +182,9 @@ class RadiotherapyCourseSummaryProfile(
                     valueReference=Reference(reference=f"List/{obj.therapyLineId}")
                 )
             )
-        for _obj in obj.dosages:
+        for _index, _obj in enumerate(obj.dosages):
 
-            internal_id = str(uuid4())
+            internal_id = f"volume-{_index}"
             volume = BodyStructure(
                 id=internal_id,
                 location=construct_fhir_codeable_concept(_obj.irradiatedVolume),

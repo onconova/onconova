@@ -313,16 +313,18 @@ class MedicationAdministrationProfile(
             contained_resource = cls.construct_medication_administration(
                 obj, medication
             )
-            contained_resource.id = f"combined-administration-{n}"
-            ref = Reference.model_construct()
-            ref.reference = f"#{contained_resource.id}"
-
-            combined = fhir.MedicationAdministrationCombinedWith.model_construct()
-            combined.valueReference = ref
-
+            # Insert dummy local id to reference contained resource
+            contained_resource.id = f"combined-administration-{n+1}"
             resource.contained.append(contained_resource)
-            resource.extension = resource.extension or []
-            resource.extension.append(combined)
+            resource.extension.append(
+                fhir.MedicationAdministrationCombinedWith(
+                    valueReference=Reference(reference=f"")
+                )
+            )
+            resource.extension[-1].valueReference.reference = (
+                f"#{contained_resource.id}"
+            )
+
         return resource
 
 
