@@ -1230,15 +1230,3 @@ class OnconovaMedicationAdministration(DomainResource):
             key="o-med-req-4",
             severity="error",
         )
-
-
-ProcedureIntent.model_rebuild()
-NormalizationBasis.model_rebuild()
-MedicationAdministrationCombinedWith.model_rebuild()
-MedicationAdministrationCycles.model_rebuild()
-TherapyLineReference.model_rebuild()
-MedicationAdministrationAdjunctiveRole.model_rebuild()
-MedicationAdministrationIsPrimaryTherapy.model_rebuild()
-OnconovaMedicationAdministrationPerformer.model_rebuild()
-OnconovaMedicationAdministrationDosage.model_rebuild()
-OnconovaMedicationAdministration.model_rebuild()

@@ -1123,13 +1123,3 @@ class OnconovaHomologousRecombinationDeficiency(DomainResource):
             key="o-sig-req-3",
             severity="error",
         )
-
-
-ObsSecondaryFinding.model_rebuild()
-BodyStructureReference.model_rebuild()
-HomologousRecombinationDeficiencyInterpretation.model_rebuild()
-OnconovaHomologousRecombinationDeficiencyLabCategory.model_rebuild()
-OnconovaHomologousRecombinationDeficiencyReferenceRange.model_rebuild()
-OnconovaHomologousRecombinationDeficiencyConclusionStringComponentReferenceRange.model_rebuild()
-OnconovaHomologousRecombinationDeficiencyConclusionString.model_rebuild()
-OnconovaHomologousRecombinationDeficiency.model_rebuild()

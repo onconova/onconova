@@ -756,10 +756,3 @@ class OnconovaTNMPrimaryTumorCategory(DomainResource):
             key="o-stg-req-3",
             severity="error",
         )
-
-
-OnconovaTNMPrimaryTumorCategoryUsCore.model_rebuild()
-OnconovaTNMPrimaryTumorCategoryReferenceRange.model_rebuild()
-OnconovaTNMPrimaryTumorCategoryComponentReferenceRange.model_rebuild()
-OnconovaTNMPrimaryTumorCategoryComponent.model_rebuild()
-OnconovaTNMPrimaryTumorCategory.model_rebuild()

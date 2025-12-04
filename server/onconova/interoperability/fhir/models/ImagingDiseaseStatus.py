@@ -888,10 +888,3 @@ class OnconovaImagingDiseaseStatus(DomainResource):
             key="o-res-req-4",
             severity="error",
         )
-
-
-CancerDiseaseStatusEvidenceType.model_rebuild()
-OnconovaImagingDiseaseStatusReferenceRange.model_rebuild()
-OnconovaImagingDiseaseStatusComponentReferenceRange.model_rebuild()
-OnconovaImagingDiseaseStatusComponent.model_rebuild()
-OnconovaImagingDiseaseStatus.model_rebuild()

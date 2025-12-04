@@ -1096,13 +1096,3 @@ class OnconovaTumorMutationalBurden(DomainResource):
             key="o-sig-req-3",
             severity="error",
         )
-
-
-ObsSecondaryFinding.model_rebuild()
-BodyStructureReference.model_rebuild()
-TumorMutationalBurdenStatus.model_rebuild()
-OnconovaTumorMutationalBurdenLabCategory.model_rebuild()
-OnconovaTumorMutationalBurdenReferenceRange.model_rebuild()
-OnconovaTumorMutationalBurdenConclusionStringComponentReferenceRange.model_rebuild()
-OnconovaTumorMutationalBurdenConclusionString.model_rebuild()
-OnconovaTumorMutationalBurden.model_rebuild()

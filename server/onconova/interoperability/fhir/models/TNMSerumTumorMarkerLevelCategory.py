@@ -785,10 +785,3 @@ class OnconovaTNMSerumTumorMarkerLevelCategory(DomainResource):
             key="o-stg-req-3",
             severity="error",
         )
-
-
-OnconovaTNMSerumTumorMarkerLevelCategoryUsCore.model_rebuild()
-OnconovaTNMSerumTumorMarkerLevelCategoryReferenceRange.model_rebuild()
-OnconovaTNMSerumTumorMarkerLevelCategoryComponentReferenceRange.model_rebuild()
-OnconovaTNMSerumTumorMarkerLevelCategoryComponent.model_rebuild()
-OnconovaTNMSerumTumorMarkerLevelCategory.model_rebuild()

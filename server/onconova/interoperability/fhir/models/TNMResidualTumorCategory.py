@@ -783,10 +783,3 @@ class OnconovaTNMResidualTumorCategory(DomainResource):
             key="o-stg-req-3",
             severity="error",
         )
-
-
-OnconovaTNMResidualTumorCategoryUsCore.model_rebuild()
-OnconovaTNMResidualTumorCategoryReferenceRange.model_rebuild()
-OnconovaTNMResidualTumorCategoryComponentReferenceRange.model_rebuild()
-OnconovaTNMResidualTumorCategoryComponent.model_rebuild()
-OnconovaTNMResidualTumorCategory.model_rebuild()

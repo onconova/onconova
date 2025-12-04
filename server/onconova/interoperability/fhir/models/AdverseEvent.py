@@ -1457,16 +1457,3 @@ class OnconovaAdverseEvent(AdverseEvent):
             key="ae-req-7",
             severity="error",
         )
-
-
-AdverseEventCTCGrade.model_rebuild()
-AdverseEventResolvedDate.model_rebuild()
-AdverseEventMitigationCategory.model_rebuild()
-AdverseEventMitigationAdjustment.model_rebuild()
-AdverseEventMitigationDrug.model_rebuild()
-AdverseEventMitigationProcedure.model_rebuild()
-AdverseEventMitigationManagement.model_rebuild()
-AdverseEventMitigation.model_rebuild()
-OnconovaAdverseEventSuspectEntityCausality.model_rebuild()
-OnconovaAdverseEventSuspectEntity.model_rebuild()
-OnconovaAdverseEvent.model_rebuild()

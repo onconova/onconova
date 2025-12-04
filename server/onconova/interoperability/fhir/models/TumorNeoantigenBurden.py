@@ -1011,12 +1011,3 @@ class OnconovaTumorNeoantigenBurden(DomainResource):
             key="o-sig-req-3",
             severity="error",
         )
-
-
-ObsSecondaryFinding.model_rebuild()
-BodyStructureReference.model_rebuild()
-OnconovaTumorNeoantigenBurdenLabCategory.model_rebuild()
-OnconovaTumorNeoantigenBurdenReferenceRange.model_rebuild()
-OnconovaTumorNeoantigenBurdenConclusionStringComponentReferenceRange.model_rebuild()
-OnconovaTumorNeoantigenBurdenConclusionString.model_rebuild()
-OnconovaTumorNeoantigenBurden.model_rebuild()

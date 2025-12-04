@@ -774,10 +774,3 @@ class OnconovaECOGPerformanceStatus(DomainResource):
             key="o-obs-req-2",
             severity="error",
         )
-
-
-OnconovaECOGPerformanceStatusUsCore.model_rebuild()
-OnconovaECOGPerformanceStatusReferenceRange.model_rebuild()
-OnconovaECOGPerformanceStatusComponentReferenceRange.model_rebuild()
-OnconovaECOGPerformanceStatusComponent.model_rebuild()
-OnconovaECOGPerformanceStatus.model_rebuild()

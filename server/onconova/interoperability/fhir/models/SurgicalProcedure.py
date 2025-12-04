@@ -929,13 +929,3 @@ class OnconovaSurgicalProcedure(DomainResource):
             key="o-sur-req-4",
             severity="error",
         )
-
-
-ProcedureIntent.model_rebuild()
-TherapyLineReference.model_rebuild()
-OnconovaSurgicalProcedurePerformer.model_rebuild()
-BodyLocationQualifier.model_rebuild()
-LateralityQualifier.model_rebuild()
-OnconovaSurgicalProcedureBodySite.model_rebuild()
-OnconovaSurgicalProcedureFocalDevice.model_rebuild()
-OnconovaSurgicalProcedure.model_rebuild()

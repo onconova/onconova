@@ -1011,12 +1011,3 @@ class OnconovaLossOfHeterozygosity(DomainResource):
             key="o-sig-req-3",
             severity="error",
         )
-
-
-ObsSecondaryFinding.model_rebuild()
-BodyStructureReference.model_rebuild()
-OnconovaLossOfHeterozygosityLabCategory.model_rebuild()
-OnconovaLossOfHeterozygosityReferenceRange.model_rebuild()
-OnconovaLossOfHeterozygosityConclusionStringComponentReferenceRange.model_rebuild()
-OnconovaLossOfHeterozygosityConclusionString.model_rebuild()
-OnconovaLossOfHeterozygosity.model_rebuild()

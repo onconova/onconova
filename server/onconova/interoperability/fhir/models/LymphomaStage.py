@@ -981,12 +981,3 @@ class OnconovaLymphomaStage(DomainResource):
             key="o-stg-req-3",
             severity="error",
         )
-
-
-OnconovaLymphomaStageUsCore.model_rebuild()
-OnconovaLymphomaStageReferenceRange.model_rebuild()
-OnconovaLymphomaStageStageModifierComponentReferenceRange.model_rebuild()
-OnconovaLymphomaStageStageModifier.model_rebuild()
-OnconovaLymphomaStageClinOrPathModifier.model_rebuild()
-OnconovaLymphomaStageBulkyModifier.model_rebuild()
-OnconovaLymphomaStage.model_rebuild()

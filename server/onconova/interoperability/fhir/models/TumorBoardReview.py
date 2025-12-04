@@ -573,10 +573,3 @@ class OnconovaTumorBoardReview(Procedure):
             key="o-tub-req-2",
             severity="error",
         )
-
-
-TumorBoardSpecialization.model_rebuild()
-OnconovaTumorBoardReviewCode.model_rebuild()
-OnconovaTumorBoardReviewPerformer.model_rebuild()
-OnconovaTumorBoardReviewFocalDevice.model_rebuild()
-OnconovaTumorBoardReview.model_rebuild()

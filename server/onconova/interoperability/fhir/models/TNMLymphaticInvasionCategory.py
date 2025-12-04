@@ -783,10 +783,3 @@ class OnconovaTNMLymphaticInvasionCategory(DomainResource):
             key="o-stg-req-3",
             severity="error",
         )
-
-
-OnconovaTNMLymphaticInvasionCategoryUsCore.model_rebuild()
-OnconovaTNMLymphaticInvasionCategoryReferenceRange.model_rebuild()
-OnconovaTNMLymphaticInvasionCategoryComponentReferenceRange.model_rebuild()
-OnconovaTNMLymphaticInvasionCategoryComponent.model_rebuild()
-OnconovaTNMLymphaticInvasionCategory.model_rebuild()

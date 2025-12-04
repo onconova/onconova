@@ -756,10 +756,3 @@ class OnconovaTNMRegionalNodesCategory(DomainResource):
             key="o-stg-req-3",
             severity="error",
         )
-
-
-OnconovaTNMRegionalNodesCategoryUsCore.model_rebuild()
-OnconovaTNMRegionalNodesCategoryReferenceRange.model_rebuild()
-OnconovaTNMRegionalNodesCategoryComponentReferenceRange.model_rebuild()
-OnconovaTNMRegionalNodesCategoryComponent.model_rebuild()
-OnconovaTNMRegionalNodesCategory.model_rebuild()

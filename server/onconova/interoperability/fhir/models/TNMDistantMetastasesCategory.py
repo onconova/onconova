@@ -756,10 +756,3 @@ class OnconovaTNMDistantMetastasesCategory(DomainResource):
             key="o-stg-req-3",
             severity="error",
         )
-
-
-OnconovaTNMDistantMetastasesCategoryUsCore.model_rebuild()
-OnconovaTNMDistantMetastasesCategoryReferenceRange.model_rebuild()
-OnconovaTNMDistantMetastasesCategoryComponentReferenceRange.model_rebuild()
-OnconovaTNMDistantMetastasesCategoryComponent.model_rebuild()
-OnconovaTNMDistantMetastasesCategory.model_rebuild()

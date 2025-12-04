@@ -983,12 +983,3 @@ class OnconovaComorbidities(DomainResource):
             key="com-req-3",
             severity="error",
         )
-
-
-RelatedCondition.model_rebuild()
-RelatedConditionAbsent.model_rebuild()
-OnconovaComorbiditiesUsCore.model_rebuild()
-OnconovaComorbiditiesReferenceRange.model_rebuild()
-OnconovaComorbiditiesComponentReferenceRange.model_rebuild()
-OnconovaComorbiditiesComponent.model_rebuild()
-OnconovaComorbidities.model_rebuild()

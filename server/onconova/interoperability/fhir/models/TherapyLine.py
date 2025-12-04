@@ -881,12 +881,3 @@ class OnconovaTherapyLine(FhirList):
             key="o-lin-req-3",
             severity="error",
         )
-
-
-TherapyLinePeriod.model_rebuild()
-TherapyLineNumber.model_rebuild()
-TherapyLineIntent.model_rebuild()
-TherapyLineProgressionFreeSurvival.model_rebuild()
-TherapyLineProgressionDate.model_rebuild()
-OnconovaTherapyLineEntry.model_rebuild()
-OnconovaTherapyLine.model_rebuild()

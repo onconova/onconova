@@ -1524,16 +1524,3 @@ class OnconovaLifestyle(DomainResource):
             key="o-lif-req-2",
             severity="error",
         )
-
-
-OnconovaLifestyleUsCore.model_rebuild()
-OnconovaLifestyleReferenceRange.model_rebuild()
-OnconovaLifestyleSmokingStatusComponentReferenceRange.model_rebuild()
-OnconovaLifestyleSmokingStatus.model_rebuild()
-OnconovaLifestyleSmokingPackyears.model_rebuild()
-OnconovaLifestyleSmokingQuited.model_rebuild()
-OnconovaLifestyleAlcoholConsumption.model_rebuild()
-OnconovaLifestyleNightSleep.model_rebuild()
-OnconovaLifestyleRecreationalDrug.model_rebuild()
-OnconovaLifestyleExposures.model_rebuild()
-OnconovaLifestyle.model_rebuild()

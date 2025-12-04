@@ -1219,17 +1219,3 @@ class OnconovaSecondaryCancerCondition(DomainResource):
             key="o-con-req-4",
             severity="error",
         )
-
-
-ConditionAssertedDate.model_rebuild()
-HistologyMorphologyBehavior.model_rebuild()
-ConditionRelated.model_rebuild()
-HistologicalDifferentiation.model_rebuild()
-OnconovaSecondaryCancerConditionUsCore.model_rebuild()
-OnconovaSecondaryCancerConditionScreeningAssessment.model_rebuild()
-BodyLocationQualifier.model_rebuild()
-LateralityQualifier.model_rebuild()
-OnconovaSecondaryCancerConditionBodySite.model_rebuild()
-OnconovaSecondaryCancerConditionStage.model_rebuild()
-OnconovaSecondaryCancerConditionEvidence.model_rebuild()
-OnconovaSecondaryCancerCondition.model_rebuild()

@@ -680,10 +680,3 @@ class OnconovaTNMStageGroup(DomainResource):
             key="o-stg-req-3",
             severity="error",
         )
-
-
-OnconovaTNMStageGroupUsCore.model_rebuild()
-OnconovaTNMStageGroupReferenceRange.model_rebuild()
-OnconovaTNMStageGroupComponentReferenceRange.model_rebuild()
-OnconovaTNMStageGroupComponent.model_rebuild()
-OnconovaTNMStageGroup.model_rebuild()

@@ -754,10 +754,3 @@ class OnconovaTNMGradeCategory(DomainResource):
             key="o-stg-req-3",
             severity="error",
         )
-
-
-OnconovaTNMGradeCategoryUsCore.model_rebuild()
-OnconovaTNMGradeCategoryReferenceRange.model_rebuild()
-OnconovaTNMGradeCategoryComponentReferenceRange.model_rebuild()
-OnconovaTNMGradeCategoryComponent.model_rebuild()
-OnconovaTNMGradeCategory.model_rebuild()

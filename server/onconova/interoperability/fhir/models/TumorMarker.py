@@ -1010,13 +1010,3 @@ class OnconovaTumorMarker(DomainResource):
             key="o-tma-req-3",
             severity="error",
         )
-
-
-RelatedCondition.model_rebuild()
-OnconovaTumorMarkerUsCore.model_rebuild()
-TumorMarkerAnalyte.model_rebuild()
-OnconovaTumorMarkerCode.model_rebuild()
-OnconovaTumorMarkerReferenceRange.model_rebuild()
-OnconovaTumorMarkerComponentReferenceRange.model_rebuild()
-OnconovaTumorMarkerComponent.model_rebuild()
-OnconovaTumorMarker.model_rebuild()

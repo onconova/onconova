@@ -911,11 +911,3 @@ class OnconovaCancerRiskAssessment(DomainResource):
             key="o-ria-req-4",
             severity="error",
         )
-
-
-RiskAssessmentScore.model_rebuild()
-OnconovaCancerRiskAssessmentUsCore.model_rebuild()
-OnconovaCancerRiskAssessmentReferenceRange.model_rebuild()
-OnconovaCancerRiskAssessmentComponentReferenceRange.model_rebuild()
-OnconovaCancerRiskAssessmentComponent.model_rebuild()
-OnconovaCancerRiskAssessment.model_rebuild()

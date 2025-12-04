@@ -1005,12 +1005,3 @@ class OnconovaMicrosatelliteInstability(DomainResource):
             key="o-sig-req-4",
             severity="error",
         )
-
-
-ObsSecondaryFinding.model_rebuild()
-BodyStructureReference.model_rebuild()
-OnconovaMicrosatelliteInstabilityLabCategory.model_rebuild()
-OnconovaMicrosatelliteInstabilityReferenceRange.model_rebuild()
-OnconovaMicrosatelliteInstabilityConclusionStringComponentReferenceRange.model_rebuild()
-OnconovaMicrosatelliteInstabilityConclusionString.model_rebuild()
-OnconovaMicrosatelliteInstability.model_rebuild()

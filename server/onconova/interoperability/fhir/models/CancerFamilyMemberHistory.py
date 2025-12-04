@@ -795,10 +795,3 @@ class OnconovaCancerFamilyMemberHistory(FamilyMemberHistory):
             key="o-fam-req-3",
             severity="error",
         )
-
-
-FamilyMemberHistoryCancerMorphology.model_rebuild()
-FamilyMemberHistoryCancerTopography.model_rebuild()
-FamilyMemberConditionContributedToDeath.model_rebuild()
-OnconovaCancerFamilyMemberHistoryCancerCondition.model_rebuild()
-OnconovaCancerFamilyMemberHistory.model_rebuild()

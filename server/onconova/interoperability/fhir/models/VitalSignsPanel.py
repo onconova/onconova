@@ -999,17 +999,3 @@ class OnconovaVitalSignsPanel(DomainResource):
             key="o-vit-req-4",
             severity="error",
         )
-
-
-OnconovaVitalSignsPanelVSCatCategoryCoding.model_rebuild()
-OnconovaVitalSignsPanelVSCat.model_rebuild()
-OnconovaVitalSignsPanelCode.model_rebuild()
-OnconovaVitalSignsPanelReferenceRange.model_rebuild()
-OnconovaVitalSignsPanelBodyTemperature.model_rebuild()
-OnconovaVitalSignsPanelBodyHeight.model_rebuild()
-OnconovaVitalSignsPanelBodyWeight.model_rebuild()
-OnconovaVitalSignsPanelBmi.model_rebuild()
-OnconovaVitalSignsPanelBloodPressure.model_rebuild()
-OnconovaVitalSignsPanelComponentReferenceRange.model_rebuild()
-OnconovaVitalSignsPanelComponent.model_rebuild()
-OnconovaVitalSignsPanel.model_rebuild()

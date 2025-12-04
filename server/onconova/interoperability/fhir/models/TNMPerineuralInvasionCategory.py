@@ -783,10 +783,3 @@ class OnconovaTNMPerineuralInvasionCategory(DomainResource):
             key="o-stg-req-3",
             severity="error",
         )
-
-
-OnconovaTNMPerineuralInvasionCategoryUsCore.model_rebuild()
-OnconovaTNMPerineuralInvasionCategoryReferenceRange.model_rebuild()
-OnconovaTNMPerineuralInvasionCategoryComponentReferenceRange.model_rebuild()
-OnconovaTNMPerineuralInvasionCategoryComponent.model_rebuild()
-OnconovaTNMPerineuralInvasionCategory.model_rebuild()

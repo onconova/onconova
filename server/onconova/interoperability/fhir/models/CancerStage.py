@@ -743,10 +743,3 @@ class OnconovaCancerStage(DomainResource):
             key="o-stg-breslow",
             severity="error",
         )
-
-
-OnconovaCancerStageUsCore.model_rebuild()
-OnconovaCancerStageReferenceRange.model_rebuild()
-OnconovaCancerStageUlcerationComponentReferenceRange.model_rebuild()
-OnconovaCancerStageUlceration.model_rebuild()
-OnconovaCancerStage.model_rebuild()

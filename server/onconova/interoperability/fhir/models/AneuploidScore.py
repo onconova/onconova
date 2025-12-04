@@ -1009,12 +1009,3 @@ class OnconovaAneuploidScore(DomainResource):
             key="o-sig-req-3",
             severity="error",
         )
-
-
-ObsSecondaryFinding.model_rebuild()
-BodyStructureReference.model_rebuild()
-OnconovaAneuploidScoreLabCategory.model_rebuild()
-OnconovaAneuploidScoreReferenceRange.model_rebuild()
-OnconovaAneuploidScoreConclusionStringComponentReferenceRange.model_rebuild()
-OnconovaAneuploidScoreConclusionString.model_rebuild()
-OnconovaAneuploidScore.model_rebuild()

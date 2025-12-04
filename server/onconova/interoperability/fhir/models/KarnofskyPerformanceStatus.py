@@ -776,10 +776,3 @@ class OnconovaKarnofskyPerformanceStatus(DomainResource):
             key="o-obs-req-2",
             severity="error",
         )
-
-
-OnconovaKarnofskyPerformanceStatusUsCore.model_rebuild()
-OnconovaKarnofskyPerformanceStatusReferenceRange.model_rebuild()
-OnconovaKarnofskyPerformanceStatusComponentReferenceRange.model_rebuild()
-OnconovaKarnofskyPerformanceStatusComponent.model_rebuild()
-OnconovaKarnofskyPerformanceStatus.model_rebuild()

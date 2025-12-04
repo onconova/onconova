@@ -783,10 +783,3 @@ class OnconovaTNMVenousInvasionCategory(DomainResource):
             key="o-stg-req-3",
             severity="error",
         )
-
-
-OnconovaTNMVenousInvasionCategoryUsCore.model_rebuild()
-OnconovaTNMVenousInvasionCategoryReferenceRange.model_rebuild()
-OnconovaTNMVenousInvasionCategoryComponentReferenceRange.model_rebuild()
-OnconovaTNMVenousInvasionCategoryComponent.model_rebuild()
-OnconovaTNMVenousInvasionCategory.model_rebuild()
