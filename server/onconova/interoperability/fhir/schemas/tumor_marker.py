@@ -1,4 +1,5 @@
 from fhircraft.fhir.resources.datatypes.R4.complex import (
+    Narrative,
     Reference,
     Coding,
     CodeableConcept,
@@ -14,6 +15,7 @@ from onconova.core.schemas import CodedConcept, Measure
 from onconova.oncology.models.tumor_marker import (
     AnalyteResultType,
 )
+
 
 class TumorMarkerProfile(OnconovaFhirBaseSchema, fhir.OnconovaTumorMarker):
 
@@ -137,7 +139,7 @@ class TumorMarkerProfile(OnconovaFhirBaseSchema, fhir.OnconovaTumorMarker):
     def onconova_to_fhir(cls, obj: schemas.TumorMarker) -> fhir.OnconovaTumorMarker:
         resource: fhir.OnconovaTumorMarker = fhir.OnconovaTumorMarker.model_construct()
         resource.id = str(obj.id)
-        resource.text = fhir.Narrative(
+        resource.text = Narrative(
             status="generated",
             div=f'<div xmlns="http://www.w3.org/1999/xhtml">{obj.description}</div>',
         )

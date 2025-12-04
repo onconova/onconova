@@ -1,4 +1,4 @@
-from fhircraft.fhir.resources.datatypes.R4.complex import Reference, Coding
+from fhircraft.fhir.resources.datatypes.R4.complex import Narrative, Reference, Coding
 from django.shortcuts import get_object_or_404
 from onconova.interoperability.fhir.schemas.base import (
     OnconovaFhirBaseSchema,
@@ -204,7 +204,7 @@ class MedicationAdministrationProfile(
     ) -> fhir.OnconovaMedicationAdministration:
         resource = fhir.OnconovaMedicationAdministration.model_construct()
         resource.id = str(obj.id)
-        resource.text = fhir.Narrative(
+        resource.text = Narrative(
             status="generated",
             div=f'<div xmlns="http://www.w3.org/1999/xhtml">{obj.description}</div>',
         )

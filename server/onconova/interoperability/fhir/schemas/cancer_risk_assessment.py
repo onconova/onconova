@@ -1,7 +1,8 @@
 from fhircraft.fhir.resources.datatypes.R4.complex import (
     Reference,
     Coding,
-    CodeableConcept
+    CodeableConcept,
+    Narrative,
 )
 from onconova.interoperability.fhir.schemas.base import (
     OnconovaFhirBaseSchema,
@@ -30,11 +31,18 @@ class CancerRiskAssessmentProfile(
             ),
             date=obj.fhirpath_single("Observation.effectiveDateTime"),
             assessedEntitiesIds=[
-                ref.replace('Condition/', '') for ref in obj.fhirpath_values("Observation.focus.reference")
+                ref.replace("Condition/", "")
+                for ref in obj.fhirpath_values("Observation.focus.reference")
             ],
-            methodology=CodedConcept.model_validate(obj.fhirpath_single("Observation.code.coding")),
-            risk=CodedConcept.model_validate(obj.fhirpath_single("Observation.valueCodeableConcept.coding")),
-            score=obj.fhirpath_single("Observation.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-risk-assessment-score').value")
+            methodology=CodedConcept.model_validate(
+                obj.fhirpath_single("Observation.code.coding")
+            ),
+            risk=CodedConcept.model_validate(
+                obj.fhirpath_single("Observation.valueCodeableConcept.coding")
+            ),
+            score=obj.fhirpath_single(
+                "Observation.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-risk-assessment-score').value"
+            ),
         )
 
     @classmethod
@@ -43,7 +51,7 @@ class CancerRiskAssessmentProfile(
     ) -> fhir.OnconovaCancerRiskAssessment:
         resource = fhir.OnconovaCancerRiskAssessment.model_construct()
         resource.id = str(obj.id)
-        resource.text = fhir.Narrative(
+        resource.text = Narrative(
             status="generated",
             div=f'<div xmlns="http://www.w3.org/1999/xhtml">{obj.description}</div>',
         )
@@ -52,11 +60,15 @@ class CancerRiskAssessmentProfile(
         )
         resource.effectiveDateTime = obj.date.isoformat()
         resource.focus = [
-            Reference(reference=f'Condition/{cond_id}')
+            Reference(reference=f"Condition/{cond_id}")
             for cond_id in obj.assessedEntitiesIds or []
         ]
-        resource.code = CodeableConcept(coding=[Coding.model_validate(obj.methodology.model_dump())])
-        resource.valueCodeableConcept = CodeableConcept(coding=[Coding.model_validate(obj.risk.model_dump())])
+        resource.code = CodeableConcept(
+            coding=[Coding.model_validate(obj.methodology.model_dump())]
+        )
+        resource.valueCodeableConcept = CodeableConcept(
+            coding=[Coding.model_validate(obj.risk.model_dump())]
+        )
         if obj.score:
             resource.extension = [
                 fhir.RiskAssessmentScore(
@@ -64,5 +76,5 @@ class CancerRiskAssessmentProfile(
                     valueInteger=obj.score if isinstance(obj.score, int) else None,
                 )
             ]
-        
+
         return resource

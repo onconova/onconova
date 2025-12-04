@@ -1,10 +1,19 @@
-from fhircraft.fhir.resources.datatypes.R4.complex import Reference, Quantity, Coding
-from onconova.interoperability.fhir.schemas.base import OnconovaFhirBaseSchema, MappingRule
+from fhircraft.fhir.resources.datatypes.R4.complex import (
+    Narrative,
+    Reference,
+    Quantity,
+    Coding,
+)
+from onconova.interoperability.fhir.schemas.base import (
+    OnconovaFhirBaseSchema,
+    MappingRule,
+)
 from onconova.interoperability.fhir.models import Comorbidities as fhir
 from onconova.interoperability.fhir.utils import construct_fhir_codeable_concept
 from onconova.oncology import models, schemas
 from onconova.core.schemas import CodedConcept
 from onconova.oncology.models.comorbidities import ComorbiditiesAssessmentPanelChoices
+
 
 class ComorbiditiesProfile(OnconovaFhirBaseSchema, fhir.OnconovaComorbidities):
 
@@ -25,13 +34,29 @@ class ComorbiditiesProfile(OnconovaFhirBaseSchema, fhir.OnconovaComorbidities):
             indexConditionId=obj.fhirpath_single("Observation.focus.reference").replace(
                 "Condition/", ""
             ),
-            panel=cls.map_to_internal("panel", panel) if (panel:=obj.fhirpath_single("Observation.method.coding")) else None,
-            presentConditions=[
-                CodedConcept.model_validate(condition) for condition in conditions
-            ] if (conditions := obj.fhirpath_values("Observation.extension('http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-related-condition').valueCodeableConcept.coding")) else None,
-            absentConditions=[
-                CodedConcept.model_validate(condition) for condition in conditions
-            ] if (conditions := obj.fhirpath_values("Observation.extension('http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-related-condition-absent').valueCodeableConcept.coding")) else None,
+            panel=(
+                cls.map_to_internal("panel", panel)
+                if (panel := obj.fhirpath_single("Observation.method.coding"))
+                else None
+            ),
+            presentConditions=(
+                [CodedConcept.model_validate(condition) for condition in conditions]
+                if (
+                    conditions := obj.fhirpath_values(
+                        "Observation.extension('http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-related-condition').valueCodeableConcept.coding"
+                    )
+                )
+                else None
+            ),
+            absentConditions=(
+                [CodedConcept.model_validate(condition) for condition in conditions]
+                if (
+                    conditions := obj.fhirpath_values(
+                        "Observation.extension('http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-related-condition-absent').valueCodeableConcept.coding"
+                    )
+                )
+                else None
+            ),
         )
 
     @classmethod
@@ -41,7 +66,7 @@ class ComorbiditiesProfile(OnconovaFhirBaseSchema, fhir.OnconovaComorbidities):
         resource = fhir.OnconovaComorbidities.model_construct()
         resource.extension = resource.extension or []
         resource.id = str(obj.id)
-        resource.text = fhir.Narrative(
+        resource.text = Narrative(
             status="generated",
             div=f'<div xmlns="http://www.w3.org/1999/xhtml">{obj.description}</div>',
         )
@@ -53,9 +78,13 @@ class ComorbiditiesProfile(OnconovaFhirBaseSchema, fhir.OnconovaComorbidities):
             reference=f"Condition/{obj.indexConditionId}",
         )
         if obj.panel:
-            resource.method = construct_fhir_codeable_concept(cls.map_to_fhir("panel", obj.panel))
+            resource.method = construct_fhir_codeable_concept(
+                cls.map_to_fhir("panel", obj.panel)
+            )
         if obj.score is not None:
-            resource.valueQuantity = Quantity(value=obj.score, code='1', system="http://unitsofmeasure.org")
+            resource.valueQuantity = Quantity(
+                value=obj.score, code="1", system="http://unitsofmeasure.org"
+            )
         for condition in obj.presentConditions or []:
             resource.extension.append(
                 fhir.RelatedCondition(
@@ -98,5 +127,5 @@ ComorbiditiesProfile.register_mapping(
                 display="NCI Comorbidity Panel",
             ),
         ),
-    ]
+    ],
 )

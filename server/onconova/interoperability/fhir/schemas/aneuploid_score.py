@@ -1,7 +1,8 @@
-from fhircraft.fhir.resources.datatypes.R4.complex import Reference, Quantity
+from fhircraft.fhir.resources.datatypes.R4.complex import Narrative, Reference, Quantity
 from onconova.interoperability.fhir.schemas.base import OnconovaFhirBaseSchema
 from onconova.interoperability.fhir.models import AneuploidScore as fhir
 from onconova.oncology import models, schemas
+
 
 class AneuploidScoreProfile(OnconovaFhirBaseSchema, fhir.OnconovaAneuploidScore):
 
@@ -28,7 +29,7 @@ class AneuploidScoreProfile(OnconovaFhirBaseSchema, fhir.OnconovaAneuploidScore)
     ) -> fhir.OnconovaAneuploidScore:
         resource = fhir.OnconovaAneuploidScore.model_construct()
         resource.id = str(obj.id)
-        resource.text = fhir.Narrative(
+        resource.text = Narrative(
             status="generated",
             div=f'<div xmlns="http://www.w3.org/1999/xhtml">{obj.description}</div>',
         )
@@ -37,8 +38,6 @@ class AneuploidScoreProfile(OnconovaFhirBaseSchema, fhir.OnconovaAneuploidScore)
             reference=f"Patient/{obj.caseId}",
         )
         resource.valueQuantity = Quantity(
-            value=obj.value, 
-            code="1", 
-            system="http://unitsofmeasure.org"
+            value=obj.value, code="1", system="http://unitsofmeasure.org"
         )
         return resource

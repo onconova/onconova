@@ -53,7 +53,11 @@ class FhirBaseController(ControllerBase):
     def update_fhir_resource(self, rid: str, payload: OnconovaFhirBaseSchema):
         """Update a FHIR resource by its ID"""
         assert self.context and self.context.response and self.context.request
-        if not (instance := payload.__class__.get_orm_model(payload).objects.filter(id=rid).first()):
+        if not (
+            instance := payload.__class__.get_orm_model(payload)  # type: ignore
+            .objects.filter(id=rid)
+            .first()
+        ):
             return 405, OperationOutcome(
                 issue=[
                     OperationOutcomeIssue(
@@ -97,8 +101,8 @@ class FhirBaseController(ControllerBase):
                     )
                 ]
             )
-            
-        for (child_instance, new_child_schema) in payload.fhir_to_onconova_related(
+
+        for child_instance, new_child_schema in payload.fhir_to_onconova_related(
             payload
         ):
             if not child_instance.pk:
@@ -112,7 +116,7 @@ class FhirBaseController(ControllerBase):
                     ]
                 )
             try:
-                new_child_schema.model_dump_django(instance=child_instance)        
+                new_child_schema.model_dump_django(instance=child_instance)
             except ValidationError as ve:
                 return 400, OperationOutcome(
                     issue=[
@@ -133,7 +137,7 @@ class FhirBaseController(ControllerBase):
                         )
                     ]
                 )
-            
+
         if (resourceType := getattr(payload, "resourceType", None)) and (
             resourceId := getattr(payload, "id", None)
         ):
@@ -199,12 +203,10 @@ class FhirBaseController(ControllerBase):
                     )
                 ]
             )
-        payload.id = str(resource.id) # type: ignore 
-        for (instance, new_child_schema) in payload.fhir_to_onconova_related(
-            payload
-        ):
+        payload.id = str(resource.id)  # type: ignore
+        for instance, new_child_schema in payload.fhir_to_onconova_related(payload):
             try:
-                new_child_schema.model_dump_django(instance=instance)        
+                new_child_schema.model_dump_django(instance=instance)
             except ValidationError as ve:
                 return 400, OperationOutcome(
                     issue=[
@@ -224,7 +226,7 @@ class FhirBaseController(ControllerBase):
                             diagnostics=str(ie),
                         )
                     ]
-                )            
+                )
         if resourceType := getattr(payload, "resourceType", None):
             self.context.response.headers["Location"] = (
                 f"/fhir/{resourceType}/{resource.id}"

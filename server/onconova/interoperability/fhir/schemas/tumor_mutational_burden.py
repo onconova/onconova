@@ -1,4 +1,5 @@
 from fhircraft.fhir.resources.datatypes.R4.complex import (
+    Narrative,
     Reference,
     Quantity,
     Coding,
@@ -17,7 +18,9 @@ from onconova.oncology.models.genomic_signature import (
 )
 
 
-class TumorMutationalBurdenProfile(OnconovaFhirBaseSchema, fhir.OnconovaTumorMutationalBurden):
+class TumorMutationalBurdenProfile(
+    OnconovaFhirBaseSchema, fhir.OnconovaTumorMutationalBurden
+):
 
     __model__ = models.TumorMutationalBurden
     __schema__ = schemas.TumorMutationalBurden
@@ -36,9 +39,13 @@ class TumorMutationalBurdenProfile(OnconovaFhirBaseSchema, fhir.OnconovaTumorMut
             value=obj.fhirpath_single("Observation.valueQuantity.value"),
             status=(
                 cls.map_to_internal("statusInterpretation", status)
-                if (status := obj.fhirpath_single("Observation.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-vs-tumor-mutational-burden-status').valueCodeableConcept.coding"))            
-                    else None
-            )
+                if (
+                    status := obj.fhirpath_single(
+                        "Observation.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-vs-tumor-mutational-burden-status').valueCodeableConcept.coding"
+                    )
+                )
+                else None
+            ),
         )
 
     @classmethod
@@ -47,7 +54,7 @@ class TumorMutationalBurdenProfile(OnconovaFhirBaseSchema, fhir.OnconovaTumorMut
     ) -> fhir.OnconovaTumorMutationalBurden:
         resource = fhir.OnconovaTumorMutationalBurden.model_construct()
         resource.id = str(obj.id)
-        resource.text = fhir.Narrative(
+        resource.text = Narrative(
             status="generated",
             div=f'<div xmlns="http://www.w3.org/1999/xhtml">{obj.description}</div>',
         )
@@ -56,16 +63,14 @@ class TumorMutationalBurdenProfile(OnconovaFhirBaseSchema, fhir.OnconovaTumorMut
             reference=f"Patient/{obj.caseId}",
         )
         resource.valueQuantity = Quantity(
-            value=obj.value, 
-            code="1/1000000{Base}", 
-            system="http://unitsofmeasure.org"
+            value=obj.value, code="1/1000000{Base}", system="http://unitsofmeasure.org"
         )
-        resource.extension = [ 
+        resource.extension = [
             fhir.Extension(
                 url="http://onconova.github.io/fhir/StructureDefinition/onconova-vs-tumor-mutational-burden-status",
                 valueCodeableConcept=construct_fhir_codeable_concept(
                     cls.map_to_fhir("statusInterpretation", obj.status)
-                )
+                ),
             )
         ]
         return resource
@@ -106,5 +111,5 @@ TumorMutationalBurdenProfile.register_mapping(
                 display="Indetermediate",
             ),
         ),
-    ]
+    ],
 )

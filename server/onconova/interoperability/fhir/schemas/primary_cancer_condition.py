@@ -1,6 +1,4 @@
-from fhircraft.fhir.resources.datatypes.R4.complex import (
-    Reference,
-)
+from fhircraft.fhir.resources.datatypes.R4.complex import Reference, Narrative
 from onconova.core.serialization.base import DjangoGetter
 from onconova.interoperability.fhir.schemas.base import OnconovaFhirBaseSchema
 from onconova.interoperability.fhir.models import PrimaryCancerCondition as fhir
@@ -84,7 +82,7 @@ class PrimaryCancerConditionProfile(
         resource.subject = Reference(
             reference=f"Patient/{obj.caseId}",
         )
-        resource.text = fhir.Narrative(
+        resource.text = Narrative(
             status="generated",
             div=f'<div xmlns="http://www.w3.org/1999/xhtml">{obj.description}</div>',
         )

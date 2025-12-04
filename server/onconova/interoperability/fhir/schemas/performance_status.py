@@ -1,11 +1,14 @@
-from fhircraft.fhir.resources.datatypes.R4.complex import Reference
+from fhircraft.fhir.resources.datatypes.R4.complex import Narrative, Reference
 from onconova.interoperability.fhir.schemas.base import OnconovaFhirBaseSchema
 from onconova.interoperability.fhir.models import ECOGPerformanceStatus as fhir
 from onconova.interoperability.fhir.models import KarnofskyPerformanceStatus as fhir_
 from onconova.interoperability.fhir.utils import construct_fhir_codeable_concept
 from onconova.oncology import models, schemas
 
-class ECOGPerformanceStatusProfile(OnconovaFhirBaseSchema, fhir.OnconovaECOGPerformanceStatus):
+
+class ECOGPerformanceStatusProfile(
+    OnconovaFhirBaseSchema, fhir.OnconovaECOGPerformanceStatus
+):
 
     __model__ = models.PerformanceStatus
     __schema__ = schemas.PerformanceStatus
@@ -30,7 +33,7 @@ class ECOGPerformanceStatusProfile(OnconovaFhirBaseSchema, fhir.OnconovaECOGPerf
     ) -> fhir.OnconovaECOGPerformanceStatus:
         resource = fhir.OnconovaECOGPerformanceStatus.model_construct()
         resource.id = str(obj.id)
-        resource.text = fhir.Narrative(
+        resource.text = Narrative(
             status="generated",
             div=f'<div xmlns="http://www.w3.org/1999/xhtml">{obj.description}</div>',
         )
@@ -40,12 +43,15 @@ class ECOGPerformanceStatusProfile(OnconovaFhirBaseSchema, fhir.OnconovaECOGPerf
         )
         resource.valueInteger = obj.ecogScore
         if obj.ecogInterpretation:
-            resource.interpretation = construct_fhir_codeable_concept(obj.ecogInterpretation)
+            resource.interpretation = construct_fhir_codeable_concept(
+                obj.ecogInterpretation
+            )
         return resource
 
 
-
-class KarnofskyPerformanceStatusProfile(OnconovaFhirBaseSchema, fhir_.OnconovaKarnofskyPerformanceStatus):
+class KarnofskyPerformanceStatusProfile(
+    OnconovaFhirBaseSchema, fhir_.OnconovaKarnofskyPerformanceStatus
+):
 
     __model__ = models.PerformanceStatus
     __schema__ = schemas.PerformanceStatus
@@ -70,7 +76,7 @@ class KarnofskyPerformanceStatusProfile(OnconovaFhirBaseSchema, fhir_.OnconovaKa
     ) -> fhir_.OnconovaKarnofskyPerformanceStatus:
         resource = fhir_.OnconovaKarnofskyPerformanceStatus.model_construct()
         resource.id = str(obj.id)
-        resource.text = fhir.Narrative(
+        resource.text = Narrative(
             status="generated",
             div=f'<div xmlns="http://www.w3.org/1999/xhtml">{obj.description}</div>',
         )
@@ -80,5 +86,7 @@ class KarnofskyPerformanceStatusProfile(OnconovaFhirBaseSchema, fhir_.OnconovaKa
         )
         resource.valueInteger = obj.karnofskyScore
         if obj.karnofskyInterpretation:
-            resource.interpretation = construct_fhir_codeable_concept(obj.karnofskyInterpretation)
+            resource.interpretation = construct_fhir_codeable_concept(
+                obj.karnofskyInterpretation
+            )
         return resource

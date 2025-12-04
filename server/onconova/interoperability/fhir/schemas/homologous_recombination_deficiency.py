@@ -1,11 +1,26 @@
-from fhircraft.fhir.resources.datatypes.R4.complex import Reference, Quantity, Coding
-from onconova.interoperability.fhir.schemas.base import OnconovaFhirBaseSchema, MappingRule
-from onconova.interoperability.fhir.models import HomologousRecombinationDeficiency as fhir
+from fhircraft.fhir.resources.datatypes.R4.complex import (
+    Narrative,
+    Reference,
+    Quantity,
+    Coding,
+)
+from onconova.interoperability.fhir.schemas.base import (
+    OnconovaFhirBaseSchema,
+    MappingRule,
+)
+from onconova.interoperability.fhir.models import (
+    HomologousRecombinationDeficiency as fhir,
+)
 from onconova.interoperability.fhir.utils import construct_fhir_codeable_concept
 from onconova.oncology import models, schemas
-from onconova.oncology.models.genomic_signature import HomologousRecombinationDeficiencyInterpretationChoices
+from onconova.oncology.models.genomic_signature import (
+    HomologousRecombinationDeficiencyInterpretationChoices,
+)
 
-class HomologousRecombinationDeficiencyProfile(OnconovaFhirBaseSchema, fhir.OnconovaHomologousRecombinationDeficiency):
+
+class HomologousRecombinationDeficiencyProfile(
+    OnconovaFhirBaseSchema, fhir.OnconovaHomologousRecombinationDeficiency
+):
 
     __model__ = models.HomologousRecombinationDeficiency
     __schema__ = schemas.HomologousRecombinationDeficiency
@@ -24,9 +39,13 @@ class HomologousRecombinationDeficiencyProfile(OnconovaFhirBaseSchema, fhir.Onco
             value=obj.fhirpath_single("Observation.valueQuantity.value"),
             interpretation=(
                 cls.map_to_internal("interpretation", interpretation)
-                if (interpretation := obj.fhirpath_single("Observation.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-homologous-recombination-deficiency-interpretation').valueCodeableConcept.coding"))            
-                    else None
-            )
+                if (
+                    interpretation := obj.fhirpath_single(
+                        "Observation.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-homologous-recombination-deficiency-interpretation').valueCodeableConcept.coding"
+                    )
+                )
+                else None
+            ),
         )
 
     @classmethod
@@ -35,7 +54,7 @@ class HomologousRecombinationDeficiencyProfile(OnconovaFhirBaseSchema, fhir.Onco
     ) -> fhir.OnconovaHomologousRecombinationDeficiency:
         resource = fhir.OnconovaHomologousRecombinationDeficiency.model_construct()
         resource.id = str(obj.id)
-        resource.text = fhir.Narrative(
+        resource.text = Narrative(
             status="generated",
             div=f'<div xmlns="http://www.w3.org/1999/xhtml">{obj.description}</div>',
         )
@@ -44,16 +63,14 @@ class HomologousRecombinationDeficiencyProfile(OnconovaFhirBaseSchema, fhir.Onco
             reference=f"Patient/{obj.caseId}",
         )
         resource.valueQuantity = Quantity(
-            value=obj.value, 
-            code="1", 
-            system="http://unitsofmeasure.org"
+            value=obj.value, code="1", system="http://unitsofmeasure.org"
         )
         resource.extension = [
             fhir.Extension(
                 url="http://onconova.github.io/fhir/StructureDefinition/onconova-ext-homologous-recombination-deficiency-interpretation",
                 valueCodeableConcept=construct_fhir_codeable_concept(
                     cls.map_to_fhir("interpretation", obj.interpretation)
-                )
+                ),
             )
         ]
         return resource
@@ -86,5 +103,5 @@ HomologousRecombinationDeficiencyProfile.register_mapping(
                 display="Indetermediate",
             ),
         ),
-    ]
+    ],
 )

@@ -1,11 +1,14 @@
-from fhircraft.fhir.resources.datatypes.R4.complex import Reference
+from fhircraft.fhir.resources.datatypes.R4.complex import Narrative, Reference
 from onconova.interoperability.fhir.schemas.base import OnconovaFhirBaseSchema
 from onconova.interoperability.fhir.models import MicrosatelliteInstability as fhir
 from onconova.interoperability.fhir.utils import construct_fhir_codeable_concept
 from onconova.oncology import models, schemas
 from onconova.core.schemas import CodedConcept
 
-class MicrosatelliteInstabilityProfile(OnconovaFhirBaseSchema, fhir.OnconovaMicrosatelliteInstability):
+
+class MicrosatelliteInstabilityProfile(
+    OnconovaFhirBaseSchema, fhir.OnconovaMicrosatelliteInstability
+):
 
     __model__ = models.MicrosatelliteInstability
     __schema__ = schemas.MicrosatelliteInstability
@@ -21,7 +24,9 @@ class MicrosatelliteInstabilityProfile(OnconovaFhirBaseSchema, fhir.OnconovaMicr
                 "Patient/", ""
             ),
             date=obj.fhirpath_single("Observation.effectiveDateTime"),
-            value=CodedConcept.model_validate(obj.fhirpath_single("Observation.valueCodeableConcept.coding")),
+            value=CodedConcept.model_validate(
+                obj.fhirpath_single("Observation.valueCodeableConcept.coding")
+            ),
         )
 
     @classmethod
@@ -30,7 +35,7 @@ class MicrosatelliteInstabilityProfile(OnconovaFhirBaseSchema, fhir.OnconovaMicr
     ) -> fhir.OnconovaMicrosatelliteInstability:
         resource = fhir.OnconovaMicrosatelliteInstability.model_construct()
         resource.id = str(obj.id)
-        resource.text = fhir.Narrative(
+        resource.text = Narrative(
             status="generated",
             div=f'<div xmlns="http://www.w3.org/1999/xhtml">{obj.description}</div>',
         )

@@ -1,4 +1,9 @@
-from fhircraft.fhir.resources.datatypes.R4.complex import Reference, Coding, Quantity
+from fhircraft.fhir.resources.datatypes.R4.complex import (
+    Narrative,
+    Reference,
+    Coding,
+    Quantity,
+)
 from fhircraft.fhir.resources.datatypes.R4.core import BodyStructure
 from django.shortcuts import get_object_or_404
 from onconova.interoperability.fhir.schemas.base import (
@@ -17,9 +22,7 @@ from onconova.oncology.models.adverse_event import (
 )
 
 
-class AdverseEventProfile(
-    OnconovaFhirBaseSchema, fhir.OnconovaAdverseEvent
-):
+class AdverseEventProfile(OnconovaFhirBaseSchema, fhir.OnconovaAdverseEvent):
 
     __model__ = models.AdverseEvent
     __schema__ = schemas.AdverseEvent
@@ -33,10 +36,18 @@ class AdverseEventProfile(
                 "Patient/", ""
             ),
             date=obj.fhirpath_single("AdverseEvent.date"),
-            event=CodedConcept.model_validate(obj.fhirpath_single("AdverseEvent.event.coding")),
-            grade=obj.fhirpath_single("AdverseEvent.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-adverse-event-ctc-grade').valueInteger"),
-            outcome=cls.map_to_internal("outcome", obj.fhirpath_single("AdverseEvent.outcome.coding")),
-            dateResolved=obj.fhirpath_single("AdverseEvent.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-adverse-event-resolved-date').valueDate"),
+            event=CodedConcept.model_validate(
+                obj.fhirpath_single("AdverseEvent.event.coding")
+            ),
+            grade=obj.fhirpath_single(
+                "AdverseEvent.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-adverse-event-ctc-grade').valueInteger"
+            ),
+            outcome=cls.map_to_internal(
+                "outcome", obj.fhirpath_single("AdverseEvent.outcome.coding")
+            ),
+            dateResolved=obj.fhirpath_single(
+                "AdverseEvent.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-adverse-event-resolved-date').valueDate"
+            ),
         )
 
     @classmethod
@@ -44,7 +55,9 @@ class AdverseEventProfile(
         cls, obj: fhir.OnconovaAdverseEvent
     ) -> list[
         tuple[models.AdverseEventMitigation, schemas.AdverseEventMitigationCreate]
-        | tuple[models.AdverseEventSuspectedCause, schemas.AdverseEventSuspectedCauseCreate]
+        | tuple[
+            models.AdverseEventSuspectedCause, schemas.AdverseEventSuspectedCauseCreate
+        ]
     ]:
         data = []
         mitigations: list[fhir.AdverseEventMitigation] = obj.fhirpath_values(
@@ -52,11 +65,48 @@ class AdverseEventProfile(
         )
         for mitigation in mitigations:
             payload = schemas.AdverseEventMitigationCreate(
-                category=cls.map_to_internal("mitigationCategory",mitigation.fhirpath_single("extension('category').valueCodeableConcept.coding")),
-                adjustment=CodedConcept.model_validate(coding) if (coding:=mitigation.fhirpath_single("extension('adjustment').valueCodeableConcept.coding")) else None,
-                drug=CodedConcept.model_validate(coding) if (coding:=mitigation.fhirpath_single("extension('drug').valueCodeableConcept.coding")) else None,
-                procedure=CodedConcept.model_validate(coding) if (coding:=mitigation.fhirpath_single("extension('procedure').valueCodeableConcept.coding")) else None,
-                management=CodedConcept.model_validate(coding) if (coding:=mitigation.fhirpath_single("extension('management').valueCodeableConcept.coding")) else None,
+                category=cls.map_to_internal(
+                    "mitigationCategory",
+                    mitigation.fhirpath_single(
+                        "extension('category').valueCodeableConcept.coding"
+                    ),
+                ),
+                adjustment=(
+                    CodedConcept.model_validate(coding)
+                    if (
+                        coding := mitigation.fhirpath_single(
+                            "extension('adjustment').valueCodeableConcept.coding"
+                        )
+                    )
+                    else None
+                ),
+                drug=(
+                    CodedConcept.model_validate(coding)
+                    if (
+                        coding := mitigation.fhirpath_single(
+                            "extension('drug').valueCodeableConcept.coding"
+                        )
+                    )
+                    else None
+                ),
+                procedure=(
+                    CodedConcept.model_validate(coding)
+                    if (
+                        coding := mitigation.fhirpath_single(
+                            "extension('procedure').valueCodeableConcept.coding"
+                        )
+                    )
+                    else None
+                ),
+                management=(
+                    CodedConcept.model_validate(coding)
+                    if (
+                        coding := mitigation.fhirpath_single(
+                            "extension('management').valueCodeableConcept.coding"
+                        )
+                    )
+                    else None
+                ),
             )
             data.append(
                 (
@@ -74,10 +124,42 @@ class AdverseEventProfile(
         )
         for suspect in suspects:
             payload = schemas.AdverseEventSuspectedCauseCreate(
-                causality=cls.map_to_internal("causality",suspect.fhirpath_single("causality.assessment.coding")),
-                radiotherapyId= id if models.Radiotherapy.objects.filter(id=(id:=suspect.fhirpath_single("instance.reference.replace('Procedure','')"))).exists() else None,
-                systemicTherapyId= id if models.SystemicTherapy.objects.filter(id=(id:=suspect.fhirpath_single("instance.reference.replace('MedicationAdministration','')"))).exists() else None,
-                surgeryId= id if models.Surgery.objects.filter(id=(id:=suspect.fhirpath_single("instance.reference.replace('Procedure','')"))).exists() else None,
+                causality=cls.map_to_internal(
+                    "causality", suspect.fhirpath_single("causality.assessment.coding")
+                ),
+                radiotherapyId=(
+                    id
+                    if models.Radiotherapy.objects.filter(
+                        id=(
+                            id := suspect.fhirpath_single(
+                                "instance.reference.replace('Procedure','')"
+                            )
+                        )
+                    ).exists()
+                    else None
+                ),
+                systemicTherapyId=(
+                    id
+                    if models.SystemicTherapy.objects.filter(
+                        id=(
+                            id := suspect.fhirpath_single(
+                                "instance.reference.replace('MedicationAdministration','')"
+                            )
+                        )
+                    ).exists()
+                    else None
+                ),
+                surgeryId=(
+                    id
+                    if models.Surgery.objects.filter(
+                        id=(
+                            id := suspect.fhirpath_single(
+                                "instance.reference.replace('Procedure','')"
+                            )
+                        )
+                    ).exists()
+                    else None
+                ),
             )
             data.append(
                 (
@@ -90,16 +172,14 @@ class AdverseEventProfile(
                     payload,
                 )
             )
-            
+
         return data
 
     @classmethod
-    def onconova_to_fhir(
-        cls, obj: schemas.AdverseEvent
-    ) -> fhir.OnconovaAdverseEvent:
+    def onconova_to_fhir(cls, obj: schemas.AdverseEvent) -> fhir.OnconovaAdverseEvent:
         resource = fhir.OnconovaAdverseEvent.model_construct()
         resource.id = str(obj.id)
-        resource.text = fhir.Narrative(
+        resource.text = Narrative(
             status="generated",
             div=f'<div xmlns="http://www.w3.org/1999/xhtml">{obj.description}</div>',
         )
@@ -108,74 +188,90 @@ class AdverseEventProfile(
             reference=f"Patient/{obj.caseId}",
         )
         resource.event = construct_fhir_codeable_concept(obj.event)
-        resource.outcome = construct_fhir_codeable_concept(cls.map_to_fhir("outcome", obj.outcome))
+        resource.outcome = construct_fhir_codeable_concept(
+            cls.map_to_fhir("outcome", obj.outcome)
+        )
         resource.extension = [
             fhir.AdverseEventCTCGrade(valueInteger=obj.grade),
         ]
         assert resource.extension
         if obj.dateResolved:
             resource.extension.append(
-                fhir.AdverseEventResolvedDate(
-                    valueDate=obj.dateResolved.isoformat()
-                )
+                fhir.AdverseEventResolvedDate(valueDate=obj.dateResolved.isoformat())
             )
         resource.suspectEntity = []
         for cause in obj.suspectedCauses:
             if cause.systemicTherapyId:
-                ref = f'MedicationAdministration/{cause.systemicTherapyId}'
+                ref = f"MedicationAdministration/{cause.systemicTherapyId}"
             elif cause.radiotherapyId:
-                ref = f'Procedure/{cause.radiotherapyId}'
+                ref = f"Procedure/{cause.radiotherapyId}"
             elif cause.surgeryId:
-                ref = f'Procedure/{cause.surgeryId}'
+                ref = f"Procedure/{cause.surgeryId}"
             elif cause.medicationId:
                 continue
             resource.suspectEntity.append(
                 fhir.OnconovaAdverseEventSuspectEntity(
                     id=str(cause.id),
                     instance=Reference(reference=ref),
-                    causality = [
-                        fhir.OnconovaAdverseEventSuspectEntityCausality(
-                            assessment=construct_fhir_codeable_concept(cls.map_to_fhir('causality', cause.causality))
-                        )
-                    ] if cause.causality else None
+                    causality=(
+                        [
+                            fhir.OnconovaAdverseEventSuspectEntityCausality(
+                                assessment=construct_fhir_codeable_concept(
+                                    cls.map_to_fhir("causality", cause.causality)
+                                )
+                            )
+                        ]
+                        if cause.causality
+                        else None
+                    ),
                 )
             )
         for mitigation in obj.mitigations:
             mit = fhir.AdverseEventMitigation(
-                    id=str(mitigation.id),
-                    extension=[
-                        fhir.AdverseEventMitigationCategory(
-                            valueCodeableConcept=construct_fhir_codeable_concept(cls.map_to_fhir("mitigationCategory", mitigation.category))
+                id=str(mitigation.id),
+                extension=[
+                    fhir.AdverseEventMitigationCategory(
+                        valueCodeableConcept=construct_fhir_codeable_concept(
+                            cls.map_to_fhir("mitigationCategory", mitigation.category)
                         )
-                    ]
-                )
+                    )
+                ],
+            )
             assert mit.extension
             if mitigation.adjustment:
                 mit.extension.append(
                     fhir.AdverseEventMitigationAdjustment(
-                        valueCodeableConcept=construct_fhir_codeable_concept(mitigation.adjustment)
+                        valueCodeableConcept=construct_fhir_codeable_concept(
+                            mitigation.adjustment
+                        )
                     )
                 )
             if mitigation.drug:
                 mit.extension.append(
                     fhir.AdverseEventMitigationDrug(
-                        valueCodeableConcept=construct_fhir_codeable_concept(mitigation.drug)
+                        valueCodeableConcept=construct_fhir_codeable_concept(
+                            mitigation.drug
+                        )
                     )
                 )
             if mitigation.procedure:
                 mit.extension.append(
                     fhir.AdverseEventMitigationProcedure(
-                        valueCodeableConcept=construct_fhir_codeable_concept(mitigation.procedure)
+                        valueCodeableConcept=construct_fhir_codeable_concept(
+                            mitigation.procedure
+                        )
                     )
                 )
             if mitigation.management:
                 mit.extension.append(
                     fhir.AdverseEventMitigationManagement(
-                        valueCodeableConcept=construct_fhir_codeable_concept(mitigation.management)
+                        valueCodeableConcept=construct_fhir_codeable_concept(
+                            mitigation.management
+                        )
                     )
                 )
             resource.extension.append(mit)
-                
+
         return resource
 
 
@@ -255,7 +351,7 @@ AdverseEventProfile.register_mapping(
                 display="Procedure",
             ),
         ),
-    ]
+    ],
 )
 
 AdverseEventProfile.register_mapping(

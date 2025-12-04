@@ -1,9 +1,12 @@
-from fhircraft.fhir.resources.datatypes.R4.complex import Reference, Quantity
+from fhircraft.fhir.resources.datatypes.R4.complex import Narrative, Reference, Quantity
 from onconova.interoperability.fhir.schemas.base import OnconovaFhirBaseSchema
 from onconova.interoperability.fhir.models import TumorNeoantigenBurden as fhir
 from onconova.oncology import models, schemas
 
-class TumorNeoantigenBurdenProfile(OnconovaFhirBaseSchema, fhir.OnconovaTumorNeoantigenBurden):
+
+class TumorNeoantigenBurdenProfile(
+    OnconovaFhirBaseSchema, fhir.OnconovaTumorNeoantigenBurden
+):
 
     __model__ = models.TumorNeoantigenBurden
     __schema__ = schemas.TumorNeoantigenBurden
@@ -28,7 +31,7 @@ class TumorNeoantigenBurdenProfile(OnconovaFhirBaseSchema, fhir.OnconovaTumorNeo
     ) -> fhir.OnconovaTumorNeoantigenBurden:
         resource = fhir.OnconovaTumorNeoantigenBurden.model_construct()
         resource.id = str(obj.id)
-        resource.text = fhir.Narrative(
+        resource.text = Narrative(
             status="generated",
             div=f'<div xmlns="http://www.w3.org/1999/xhtml">{obj.description}</div>',
         )
@@ -37,8 +40,8 @@ class TumorNeoantigenBurdenProfile(OnconovaFhirBaseSchema, fhir.OnconovaTumorNeo
             reference=f"Patient/{obj.caseId}",
         )
         resource.valueQuantity = Quantity(
-            value=obj.value, 
-            code="1/1000000{Neoantigen}", 
-            system="http://unitsofmeasure.org"
+            value=obj.value,
+            code="1/1000000{Neoantigen}",
+            system="http://unitsofmeasure.org",
         )
         return resource

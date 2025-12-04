@@ -41,7 +41,7 @@ from fhircraft.fhir.resources.datatypes.primitives import (
 )
 
 from fhircraft.fhir.resources.datatypes.R4.complex.element import Element
-from fhircraft.fhir.resources.datatypes.R4.complex import DomainResource
+from fhircraft.fhir.resources.datatypes.R4.complex import Narrative, DomainResource
 
 from fhircraft.fhir.resources.datatypes.R4.complex.meta import Meta
 from fhircraft.fhir.resources.datatypes.R4.complex.narrative import Narrative

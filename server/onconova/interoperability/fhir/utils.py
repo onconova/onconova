@@ -12,6 +12,7 @@ def construct_fhir_codeable_concept(concept: CodedConcept | Coding) -> CodeableC
     elif isinstance(concept, Coding):
         return CodeableConcept(coding=[concept])
 
+
 def internal_to_ucum(unit: str):
     unit = unit.replace("__", "/")
     unit = unit.replace("IU", "[iU]")

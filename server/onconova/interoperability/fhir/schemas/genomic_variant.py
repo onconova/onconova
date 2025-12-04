@@ -1,4 +1,5 @@
 from fhircraft.fhir.resources.datatypes.R4.complex import (
+    Narrative,
     Reference,
     Quantity,
     Coding,
@@ -178,7 +179,7 @@ class GenomicVariantProfile(OnconovaFhirBaseSchema, fhir.OnconovaGenomicVariant)
     ) -> fhir.OnconovaGenomicVariant:
         resource = fhir.OnconovaGenomicVariant.model_construct()
         resource.id = str(obj.id)
-        resource.text = fhir.Narrative(
+        resource.text = Narrative(
             status="generated",
             div=f'<div xmlns="http://www.w3.org/1999/xhtml">{obj.description}</div>',
         )

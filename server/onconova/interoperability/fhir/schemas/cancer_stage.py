@@ -1,6 +1,12 @@
+import resource
 from typing import ClassVar
 from pydantic import field_validator
-from fhircraft.fhir.resources.datatypes.R4.complex import Reference, Coding, Quantity
+from fhircraft.fhir.resources.datatypes.R4.complex import (
+    Narrative,
+    Reference,
+    Coding,
+    Quantity,
+)
 from fhircraft.fhir.resources.base import FHIRBaseModel
 from onconova.interoperability.fhir.schemas.base import (
     OnconovaFhirBaseSchema,
@@ -50,8 +56,11 @@ class CancerStageProfile(OnconovaFhirBaseSchema, fhir.OnconovaCancerStage):
     @classmethod
     def discriminator(cls, concept: fhir.CodeableConcept) -> fhir.CodeableConcept:
         rules = cls.__registry__.get_rules("stagingDomain")
-        allowed_codes = [rule.fhir_value for rule in rules]
-        if not concept.coding or (coding := concept.coding[0]) not in allowed_codes:
+        allowed_codes = [rule.fhir_value.code for rule in rules]
+        if (
+            not concept.coding
+            or (coding := concept.coding[0]).code not in allowed_codes
+        ):
             raise ValueError(
                 f"The code {coding.system}#{coding.code} is not a valid staging code discriminator"
             )
@@ -120,12 +129,14 @@ class CancerStageProfile(OnconovaFhirBaseSchema, fhir.OnconovaCancerStage):
                 **common,
                 depth=Measure(
                     value=obj.fhirpath_single(
-                        "Observation.component.where(code.coding.code='92839-0').valueQuantity.value"
+                        "value.extension('https://onconova.github.io/fhir/StructureDefinition/onconova-ext-cancer-stage-breslow-depth').valueQuantity.value"
                     ),
-                    unit="mm",
+                    unit=obj.fhirpath_single(
+                        "value.extension('https://onconova.github.io/fhir/StructureDefinition/onconova-ext-cancer-stage-breslow-depth').valueQuantity.code"
+                    ),
                 ),
                 isUlcered=obj.fhirpath_single(
-                    "Observation.component.where(code.coding.code='105600-1').valueBoolean"
+                    "Observation.component.where(code.coding.code='105600-1').valueCodeableConcept.coding.code='LA9633-4'"
                 ),
             )
         elif (
@@ -174,7 +185,7 @@ class CancerStageProfile(OnconovaFhirBaseSchema, fhir.OnconovaCancerStage):
 
         resource = fhir.OnconovaCancerStage.model_construct()
         resource.id = str(obj.id)
-        resource.text = fhir.Narrative(
+        resource.text = Narrative(
             status="generated",
             div=f'<div xmlns="http://www.w3.org/1999/xhtml">{obj.description}</div>',
         )
@@ -192,30 +203,40 @@ class CancerStageProfile(OnconovaFhirBaseSchema, fhir.OnconovaCancerStage):
             )
             for conditionId in obj.stagedEntitiesIds or []
         ]
-        if obj.stage:
-            resource.valueCodeableConcept = construct_fhir_codeable_concept(obj.stage)
+        resource.valueCodeableConcept = construct_fhir_codeable_concept(obj.stage)
         if methodology := getattr(obj, "methodology", None):
             resource.method = construct_fhir_codeable_concept(methodology)
 
         if obj.stagingDomain == StagingDomain.BRESLOW:
             resource.component = [
-                # TODO: replace by specialized component one models are regenerated
-                fhir.OnconovaCancerStageComponent(
-                    code=fhir.CodeableConcept(
-                        coding=[Coding(code="92839-0", system="http://loinc.org")]
+                fhir.OnconovaCancerStageUlceration(
+                    valueCodeableConcept=(
+                        construct_fhir_codeable_concept(
+                            Coding(
+                                code="LA9633-4",
+                                system="http://loinc.org",
+                                display="Present",
+                            )
+                        )
+                        if obj.isUlcered
+                        else construct_fhir_codeable_concept(
+                            Coding(
+                                code="LA11902-6",
+                                system="http://loinc.org",
+                                display="Not identified",
+                            )
+                        )
                     ),
+                ),
+            ]
+            resource.valueCodeableConcept.extension = [
+                fhir.Extension(
+                    url="https://onconova.github.io/fhir/StructureDefinition/onconova-ext-cancer-stage-breslow-depth",
                     valueQuantity=Quantity(
                         value=obj.depth.value,
                         code="mm",
                         system="http://unitsofmeasure.org",
                     ),
-                ),
-                # TODO: replace by specialized component one models are regenerated
-                fhir.OnconovaCancerStageComponent(
-                    code=fhir.CodeableConcept(
-                        coding=[Coding(code="105600-1", system="http://loinc.org")]
-                    ),
-                    valueBoolean=obj.isUlcered,
                 ),
             ]
         return resource

@@ -1,10 +1,14 @@
-from fhircraft.fhir.resources.datatypes.R4.complex import Reference, Coding
-from onconova.interoperability.fhir.schemas.base import OnconovaFhirBaseSchema, MappingRule
+from fhircraft.fhir.resources.datatypes.R4.complex import Narrative, Reference, Coding
+from onconova.interoperability.fhir.schemas.base import (
+    OnconovaFhirBaseSchema,
+    MappingRule,
+)
 from onconova.interoperability.fhir.models import SurgicalProcedure as fhir
 from onconova.interoperability.fhir.utils import construct_fhir_codeable_concept
 from onconova.oncology import models, schemas
 from onconova.oncology.models.surgery import SurgeryIntentChoices
 from onconova.core.schemas import CodedConcept
+
 
 class SurgicalProcedureProfile(OnconovaFhirBaseSchema, fhir.OnconovaSurgicalProcedure):
 
@@ -22,23 +26,56 @@ class SurgicalProcedureProfile(OnconovaFhirBaseSchema, fhir.OnconovaSurgicalProc
                 "Patient/", ""
             ),
             date=obj.fhirpath_single("Procedure.performedDateTime"),
-            procedure=CodedConcept.model_validate(obj.fhirpath_single("Procedure.code.coding")),
-            intent=cls.map_to_internal("TreatmentIntents",obj.fhirpath_single("Procedure.extension('http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-procedure-intent').valueCodeableConcept.coding")),
-            bodysite=CodedConcept.model_validate(coding) if (coding:=obj.fhirpath_single("Procedure.bodySite.coding")) else None,
-            outcome=CodedConcept.model_validate(coding) if (coding:=obj.fhirpath_single("Procedure.outcome.coding")) else None,
-            bodysiteQualifier=CodedConcept.model_validate(coding) if (coding:=obj.fhirpath_single("Procedure.bodySite.extension('http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-body-location-qualifier').valueCodeableConcept.coding")) else None,
-            bodysiteLaterality=CodedConcept.model_validate(coding) if (coding:=obj.fhirpath_single("Procedure.bodySite.extension('http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-laterality-qualifier').valueCodeableConcept.coding")) else None,
-            targetedEntitiesIds=obj.fhirpath_values("Procedure.reasonReference.reference.replace('Condition/','')"),
-            therapyLineId=obj.fhirpath_single("Procedure.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-therapy-line-reference').valueReference.reference.replace('List/','')"),
+            procedure=CodedConcept.model_validate(
+                obj.fhirpath_single("Procedure.code.coding")
+            ),
+            intent=cls.map_to_internal(
+                "TreatmentIntents",
+                obj.fhirpath_single(
+                    "Procedure.extension('http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-procedure-intent').valueCodeableConcept.coding"
+                ),
+            ),
+            bodysite=(
+                CodedConcept.model_validate(coding)
+                if (coding := obj.fhirpath_single("Procedure.bodySite.coding"))
+                else None
+            ),
+            outcome=(
+                CodedConcept.model_validate(coding)
+                if (coding := obj.fhirpath_single("Procedure.outcome.coding"))
+                else None
+            ),
+            bodysiteQualifier=(
+                CodedConcept.model_validate(coding)
+                if (
+                    coding := obj.fhirpath_single(
+                        "Procedure.bodySite.extension('http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-body-location-qualifier').valueCodeableConcept.coding"
+                    )
+                )
+                else None
+            ),
+            bodysiteLaterality=(
+                CodedConcept.model_validate(coding)
+                if (
+                    coding := obj.fhirpath_single(
+                        "Procedure.bodySite.extension('http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-laterality-qualifier').valueCodeableConcept.coding"
+                    )
+                )
+                else None
+            ),
+            targetedEntitiesIds=obj.fhirpath_values(
+                "Procedure.reasonReference.reference.replace('Condition/','')"
+            ),
+            therapyLineId=obj.fhirpath_single(
+                "Procedure.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-therapy-line-reference').valueReference.reference.replace('List/','')"
+            ),
         )
 
     @classmethod
-    def onconova_to_fhir(
-        cls, obj: schemas.Surgery
-    ) -> fhir.OnconovaSurgicalProcedure:
+    def onconova_to_fhir(cls, obj: schemas.Surgery) -> fhir.OnconovaSurgicalProcedure:
         resource = fhir.OnconovaSurgicalProcedure.model_construct()
         resource.id = str(obj.id)
-        resource.text = fhir.Narrative(
+        resource.text = Narrative(
             status="generated",
             div=f'<div xmlns="http://www.w3.org/1999/xhtml">{obj.description}</div>',
         )
@@ -55,30 +92,42 @@ class SurgicalProcedureProfile(OnconovaFhirBaseSchema, fhir.OnconovaSurgicalProc
         resource.code = construct_fhir_codeable_concept(obj.procedure)
         resource.extension = [
             fhir.ProcedureIntent(
-                valueCodeableConcept=construct_fhir_codeable_concept(cls.map_to_fhir("TreatmentIntents", obj.intent))
+                valueCodeableConcept=construct_fhir_codeable_concept(
+                    cls.map_to_fhir("TreatmentIntents", obj.intent)
+                )
             )
-        ] 
+        ]
         if obj.therapyLineId:
             resource.extension.append(
                 fhir.TherapyLineReference(
-                    valueReference=Reference(reference=f'List/{obj.therapyLineId}')
+                    valueReference=Reference(reference=f"List/{obj.therapyLineId}")
                 )
-            )       
+            )
         if obj.bodysite:
             bodySite = fhir.OnconovaSurgicalProcedureBodySite(
-                coding=[Coding(code=obj.bodysite.code, system=obj.bodysite.system, display=obj.bodysite.display)],
+                coding=[
+                    Coding(
+                        code=obj.bodysite.code,
+                        system=obj.bodysite.system,
+                        display=obj.bodysite.display,
+                    )
+                ],
             )
             bodySite.extension = []
             if obj.bodysiteQualifier:
                 bodySite.extension.append(
                     fhir.BodyLocationQualifier(
-                        valueCodeableConcept=construct_fhir_codeable_concept(obj.bodysiteQualifier)
+                        valueCodeableConcept=construct_fhir_codeable_concept(
+                            obj.bodysiteQualifier
+                        )
                     )
                 )
             if obj.bodysiteLaterality:
                 bodySite.extension.append(
                     fhir.LateralityQualifier(
-                        valueCodeableConcept=construct_fhir_codeable_concept(obj.bodysiteLaterality)
+                        valueCodeableConcept=construct_fhir_codeable_concept(
+                            obj.bodysiteLaterality
+                        )
                     )
                 )
             resource.bodySite = [bodySite]
@@ -88,14 +137,15 @@ class SurgicalProcedureProfile(OnconovaFhirBaseSchema, fhir.OnconovaSurgicalProc
 
 
 SurgicalProcedureProfile.register_mapping(
-    "TreatmentIntents", [
+    "TreatmentIntents",
+    [
         MappingRule(
             SurgeryIntentChoices.CURATIVE,
             Coding(
                 code="373808002",
                 system="http://snomed.info/sct",
                 display="Curative - procedure intent",
-            )
+            ),
         ),
         MappingRule(
             SurgeryIntentChoices.PALLIATIVE,
@@ -103,7 +153,7 @@ SurgicalProcedureProfile.register_mapping(
                 code="363676003",
                 system="http://snomed.info/sct",
                 display="Palliative  - procedure intent",
-            )
-        )
-    ]
+            ),
+        ),
+    ],
 )

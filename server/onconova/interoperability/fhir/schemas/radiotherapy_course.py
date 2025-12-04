@@ -1,4 +1,9 @@
-from fhircraft.fhir.resources.datatypes.R4.complex import Reference, Coding, Quantity
+from fhircraft.fhir.resources.datatypes.R4.complex import (
+    Narrative,
+    Reference,
+    Coding,
+    Quantity,
+)
 from fhircraft.fhir.resources.datatypes.R4.core import BodyStructure
 from django.shortcuts import get_object_or_404
 from onconova.interoperability.fhir.schemas.base import (
@@ -143,7 +148,7 @@ class RadiotherapyCourseSummaryProfile(
     ) -> fhir.OnconovaRadiotherapyCourseSummary:
         resource = fhir.OnconovaRadiotherapyCourseSummary.model_construct()
         resource.id = str(obj.id)
-        resource.text = fhir.Narrative(
+        resource.text = Narrative(
             status="generated",
             div=f'<div xmlns="http://www.w3.org/1999/xhtml">{obj.description}</div>',
         )

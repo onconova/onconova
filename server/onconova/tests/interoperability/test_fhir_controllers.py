@@ -10,7 +10,7 @@ from onconova.tests.common import (
     ApiControllerTestMixin,
 )
 from typing import List, Type
-from fhircraft.fhir.resources.datatypes.R4.complex import Coding
+from fhircraft.fhir.resources.datatypes.R4.complex import Narrative, Coding
 from factory.django import DjangoModelFactory
 from ninja import Schema
 import pghistory

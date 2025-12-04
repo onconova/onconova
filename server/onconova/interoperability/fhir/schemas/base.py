@@ -4,7 +4,7 @@ from django.template.exceptions import TemplateSyntaxError
 from typing import Any, ClassVar, Dict, List, Optional
 from onconova.core.serialization.base import BaseSchema, DjangoGetter
 from fhircraft.fhir.resources.base import FHIRBaseModel
-from fhircraft.fhir.resources.datatypes.R4.complex import Coding
+from fhircraft.fhir.resources.datatypes.R4.complex import Narrative, Coding
 from pydantic import model_validator
 from dataclasses import dataclass
 
@@ -27,7 +27,7 @@ class MappingRegistry:
     def get_rules(self, mapping_name: str) -> List[MappingRule]:
         """Convert internal value to FHIR value."""
         return self._mappings.get(mapping_name, [])
-        
+
     def register(self, mapping_name: str, rules: List[MappingRule]):
         """Register a set of mapping rules."""
         self._mappings[mapping_name] = rules
@@ -84,7 +84,7 @@ class OnconovaFhirBaseSchema(BaseSchema):
     @classmethod
     def get_orm_model(cls, obj: FHIRBaseModel):
         return cls.__model__
-    
+
     @classmethod
     def get_orm_schema(cls, obj):
         return cls.__schema__
@@ -108,9 +108,11 @@ class OnconovaFhirBaseSchema(BaseSchema):
     @classmethod
     def onconova_to_fhir(cls, obj: BaseSchema) -> "OnconovaFhirBaseSchema":
         raise NotImplementedError("Subclasses must implement onconova_to_fhir method")
-    
+
     @classmethod
-    def fhir_to_onconova_related(cls, obj: "OnconovaFhirBaseSchema") -> list[tuple[Model, BaseSchema]] :
+    def fhir_to_onconova_related(
+        cls, obj: "OnconovaFhirBaseSchema"
+    ) -> list[tuple[Model, BaseSchema]]:
         return []
 
     @model_validator(mode="before")
