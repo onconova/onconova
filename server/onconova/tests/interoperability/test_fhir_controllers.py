@@ -451,6 +451,13 @@ class TestTNMStagingObservationController(FhirCrudApiControllerTestCase):
     SCHEMA = schemas.TNMStageGroupProfile
 
 
+class TestVitalsObservationController(FhirCrudApiControllerTestCase):
+    controller_path = "/api/fhir/Observation"
+    FACTORY = factories.VitalsFactory
+    MODEL = models.Vitals
+    SCHEMA = schemas.VitalsPanelProfile
+
+
 class TestSurgeryProceduresController(FhirCrudApiControllerTestCase):
     controller_path = "/api/fhir/Procedure"
     FACTORY = factories.SurgeryFactory

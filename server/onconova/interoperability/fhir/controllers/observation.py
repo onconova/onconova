@@ -18,11 +18,12 @@ from onconova.interoperability.fhir.schemas import (
     ImagingDiseaseStatusProfile,
     CancerStageProfile,
     TNMStageGroupProfile,
+    VitalsPanelProfile,
 )
 from onconova.oncology.models import (
-    TumorMarker, 
-    RiskAssessment, 
-    GenomicVariant, 
+    TumorMarker,
+    RiskAssessment,
+    GenomicVariant,
     TumorMutationalBurden,
     MicrosatelliteInstability,
     LossOfHeterozygosity,
@@ -45,7 +46,8 @@ from onconova.oncology.models import (
     GleasonGrade,
     RhabdomyosarcomaClinicalGroup,
     WilmsStage,
-    TNMStaging
+    TNMStaging,
+    Vitals,
 )
 from fhircraft.fhir.resources.datatypes.R4.core.operation_outcome import (
     OperationOutcome,
@@ -77,6 +79,7 @@ class ObservationController(FhirBaseController):
             | AneuploidScoreProfile
             | ComorbiditiesProfile
             | LifestyleProfile
+            | VitalsPanelProfile
             | ECOGPerformanceStatusProfile
             | KarnofskyPerformanceStatusProfile
             | ImagingDiseaseStatusProfile
@@ -92,9 +95,10 @@ class ObservationController(FhirBaseController):
     )
     def read_observation(self, rid: str):
         return self.read_fhir_resource(
-            rid, [
-                TumorMarker, 
-                RiskAssessment, 
+            rid,
+            [
+                TumorMarker,
+                RiskAssessment,
                 GenomicVariant,
                 TumorMutationalBurden,
                 MicrosatelliteInstability,
@@ -119,7 +123,8 @@ class ObservationController(FhirBaseController):
                 RhabdomyosarcomaClinicalGroup,
                 WilmsStage,
                 TNMStaging,
-            ]
+                Vitals,
+            ],
         )
 
     @route.put(
@@ -135,6 +140,7 @@ class ObservationController(FhirBaseController):
             | AneuploidScoreProfile
             | ComorbiditiesProfile
             | LifestyleProfile
+            | VitalsPanelProfile
             | ECOGPerformanceStatusProfile
             | KarnofskyPerformanceStatusProfile
             | ImagingDiseaseStatusProfile
@@ -154,7 +160,7 @@ class ObservationController(FhirBaseController):
         self,
         rid: str,
         payload: (
-            GenomicVariantProfile 
+            GenomicVariantProfile
             | TumorMarkerProfile
             | TumorMutationalBurdenProfile
             | MicrosatelliteInstabilityProfile
@@ -164,6 +170,7 @@ class ObservationController(FhirBaseController):
             | AneuploidScoreProfile
             | ComorbiditiesProfile
             | LifestyleProfile
+            | VitalsPanelProfile
             | ECOGPerformanceStatusProfile
             | KarnofskyPerformanceStatusProfile
             | ImagingDiseaseStatusProfile
@@ -187,10 +194,11 @@ class ObservationController(FhirBaseController):
     )
     def delete_observation(self, rid: str):
         return self.delete_fhir_resource(
-            rid, [
-                TumorMarker, 
-                RiskAssessment, 
-                GenomicVariant, 
+            rid,
+            [
+                TumorMarker,
+                RiskAssessment,
+                GenomicVariant,
                 TumorMutationalBurden,
                 MicrosatelliteInstability,
                 LossOfHeterozygosity,
@@ -214,7 +222,8 @@ class ObservationController(FhirBaseController):
                 RhabdomyosarcomaClinicalGroup,
                 WilmsStage,
                 TNMStaging,
-            ]
+                Vitals,
+            ],
         )
 
     @route.post(
@@ -230,6 +239,7 @@ class ObservationController(FhirBaseController):
             | AneuploidScoreProfile
             | ComorbiditiesProfile
             | LifestyleProfile
+            | VitalsPanelProfile
             | ECOGPerformanceStatusProfile
             | KarnofskyPerformanceStatusProfile
             | ImagingDiseaseStatusProfile
@@ -249,9 +259,9 @@ class ObservationController(FhirBaseController):
     def create_observation(
         self,
         payload: (
-            GenomicVariantProfile 
+            GenomicVariantProfile
             | TumorMarkerProfile
-            | TumorMutationalBurdenProfile 
+            | TumorMutationalBurdenProfile
             | MicrosatelliteInstabilityProfile
             | LossOfHeterozygosityProfile
             | HomologousRecombinationDeficiencyProfile
@@ -259,6 +269,7 @@ class ObservationController(FhirBaseController):
             | AneuploidScoreProfile
             | ComorbiditiesProfile
             | LifestyleProfile
+            | VitalsPanelProfile
             | ECOGPerformanceStatusProfile
             | KarnofskyPerformanceStatusProfile
             | ImagingDiseaseStatusProfile

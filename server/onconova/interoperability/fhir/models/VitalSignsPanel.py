@@ -184,56 +184,6 @@ class OnconovaVitalSignsPanelReferenceRange(BackboneElement):
         )
 
 
-class OnconovaVitalSignsPanelBodyTemperature(Reference, FHIRSliceModel):
-    """
-    Used when reporting vital signs panel components
-    """
-
-    min_cardinality: ClassVar[int] = 0
-    max_cardinality: ClassVar[int] = 1
-    pass
-
-
-class OnconovaVitalSignsPanelBodyHeight(Reference, FHIRSliceModel):
-    """
-    Used when reporting vital signs panel components
-    """
-
-    min_cardinality: ClassVar[int] = 0
-    max_cardinality: ClassVar[int] = 1
-    pass
-
-
-class OnconovaVitalSignsPanelBodyWeight(Reference, FHIRSliceModel):
-    """
-    Used when reporting vital signs panel components
-    """
-
-    min_cardinality: ClassVar[int] = 0
-    max_cardinality: ClassVar[int] = 1
-    pass
-
-
-class OnconovaVitalSignsPanelBmi(Reference, FHIRSliceModel):
-    """
-    Used when reporting vital signs panel components
-    """
-
-    min_cardinality: ClassVar[int] = 0
-    max_cardinality: ClassVar[int] = 1
-    pass
-
-
-class OnconovaVitalSignsPanelBloodPressure(Reference, FHIRSliceModel):
-    """
-    Used when reporting vital signs panel components
-    """
-
-    min_cardinality: ClassVar[int] = 0
-    max_cardinality: ClassVar[int] = 1
-    pass
-
-
 class OnconovaVitalSignsPanelComponentReferenceRange(BackboneElement):
     """
     Guidance on how to interpret the value by comparison to a normal or recommended range.
@@ -693,21 +643,7 @@ class OnconovaVitalSignsPanel(DomainResource):
         description="Not used in this profile",
         default=None,
     )
-    hasMember: Optional[
-        List[
-            Annotated[
-                Union[
-                    OnconovaVitalSignsPanelBodyTemperature,
-                    OnconovaVitalSignsPanelBodyHeight,
-                    OnconovaVitalSignsPanelBodyWeight,
-                    OnconovaVitalSignsPanelBmi,
-                    OnconovaVitalSignsPanelBloodPressure,
-                    Reference,
-                ],
-                Field(union_mode="left_to_right"),
-            ]
-        ]
-    ] = Field(
+    hasMember: Optional[List[Reference]] = Field(
         description="Used when reporting vital signs panel components",
         default=None,
     )

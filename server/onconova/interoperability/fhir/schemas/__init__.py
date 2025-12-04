@@ -7,12 +7,17 @@ from .genomic_variant import GenomicVariantProfile
 from .tumor_mutational_burden import TumorMutationalBurdenProfile
 from .microsatellite_instability import MicrosatelliteInstabilityProfile
 from .loss_of_heterozygosity import LossOfHeterozygosityProfile
-from .homologous_recombination_deficiency import HomologousRecombinationDeficiencyProfile
+from .homologous_recombination_deficiency import (
+    HomologousRecombinationDeficiencyProfile,
+)
 from .tumor_neoantigen_burden import TumorNeoantigenBurdenProfile
 from .aneuploid_score import AneuploidScoreProfile
 from .comorbidities import ComorbiditiesProfile
 from .lifestyle import LifestyleProfile
-from .performance_status import ECOGPerformanceStatusProfile, KarnofskyPerformanceStatusProfile
+from .performance_status import (
+    ECOGPerformanceStatusProfile,
+    KarnofskyPerformanceStatusProfile,
+)
 from .imaging_disease_status import ImagingDiseaseStatusProfile
 from .cancer_stage import CancerStageProfile
 from .tnm_stage_group import TNMStageGroupProfile
@@ -23,6 +28,7 @@ from .molecular_tumor_board import MolecularTumorBoardReviewProfile
 from .adverse_event import AdverseEventProfile
 from .cancer_family_member_history import CancerFamilyMemberHistoryProfile
 from .medication_administration import MedicationAdministrationProfile
+from .vitals_panel import VitalsPanelProfile
 
 __all__ = (
     "CancerPatientProfile",
@@ -51,4 +57,5 @@ __all__ = (
     "AdverseEventProfile",
     "CancerFamilyMemberHistoryProfile",
     "MedicationAdministrationProfile",
+    "VitalsPanelProfile",
 )
