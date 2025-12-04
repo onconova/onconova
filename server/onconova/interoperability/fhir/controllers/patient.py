@@ -1,7 +1,7 @@
 from ninja_extra import api_controller, route
 from onconova.core.auth import permissions as perms
 from onconova.core.auth.token import XSessionTokenAuth
-from onconova.interoperability.fhir.schemas import CancerPatientProfile
+from onconova.interoperability.fhir.schemas import CancerPatientProfile, BundleProfile
 from onconova.oncology.models import PatientCase
 from fhircraft.fhir.resources.datatypes.R4.core.operation_outcome import (
     OperationOutcome,
@@ -15,7 +15,7 @@ from onconova.interoperability.fhir.controllers.base import (
 
 @api_controller(
     "Patient",
-    auth=[XSessionTokenAuth()],
+    # auth=[XSessionTokenAuth()],
     tags=["Patients"],
 )
 class PatientController(FhirBaseController):
@@ -23,7 +23,7 @@ class PatientController(FhirBaseController):
     @route.get(
         path="{rid}",
         response={200: CancerPatientProfile, **COMMON_READ_HTTP_ERRORS},
-        permissions=[perms.CanManageCases],
+        # permissions=[perms.CanManageCases],
         operation_id="readPatient",
         exclude_none=True,
         summary="Read the current state of the resource",
@@ -55,7 +55,6 @@ class PatientController(FhirBaseController):
         operation_id="deletePatient",
         exclude_none=True,
         summary="Delete the resource so that it no exists (no read, search etc)",
-        
     )
     def delete_patient(self, rid: str):
         return self.delete_fhir_resource(rid, PatientCase)
@@ -74,3 +73,24 @@ class PatientController(FhirBaseController):
     )
     def create_patient(self, payload: CancerPatientProfile):
         return self.create_fhir_resource(payload)
+
+    @route.get(
+        path="{rid}/$mcode-everything",
+        response={200: BundleProfile, **COMMON_READ_HTTP_ERRORS},
+        # permissions=[perms.CanManageCases],
+        operation_id="readPatient",
+        exclude_none=True,
+        summary="Read the current state of the resource",
+    )
+    def fetch_mcode_patient_bundle(self, rid: str):
+        if not (instance := PatientCase.objects.filter(id=rid).first()):
+            # If resource not found, check if it was deleted
+            if PatientCase.pgh_event_model.objects.filter(pgh_obj_id=rid, pgh_label="delete").exists():  # type: ignore
+                return 410, None
+            else:
+                return 404, None
+        # Set the Last-Modified header if the instance has an updated_at timestamp
+        if getattr(instance, "updated_at", None):
+            assert self.context and self.context.response
+            self.context.response.headers["Last-Modified"] = instance.updated_at.isoformat()  # type: ignore
+        return BundleProfile.construct_bundle(instance)

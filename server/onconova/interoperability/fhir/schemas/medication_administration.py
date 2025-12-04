@@ -261,45 +261,56 @@ class MedicationAdministrationProfile(
         resource.medicationCodeableConcept = construct_fhir_codeable_concept(
             medication.drug
         )
-        resource.dosage = fhir.OnconovaMedicationAdministrationDosage(
-            route=(
-                construct_fhir_codeable_concept(medication.route)
-                if medication.route
-                else None
-            ),
-            dose=(
-                fhir.Quantity(
-                    value=dose.value,
-                    code=internal_to_ucum(dose.unit),
-                    system="http://unitsofmeasure.org",
-                )
-                if (
-                    dose := (
-                        medication.dosageMassConcentration
-                        or medication.dosageMass
-                        or medication.dosageVolume
-                        or medication.dosageMassSurface
+        if (
+            medication.dosageMassConcentration
+            or medication.dosageMass
+            or medication.dosageVolume
+            or medication.dosageMassSurface
+        ) or (
+            medication.dosageRateMassConcentration
+            or medication.dosageRateMass
+            or medication.dosageRateVolume
+            or medication.dosageRateMassSurface
+        ):
+            resource.dosage = fhir.OnconovaMedicationAdministrationDosage(
+                route=(
+                    construct_fhir_codeable_concept(medication.route)
+                    if medication.route
+                    else None
+                ),
+                dose=(
+                    fhir.Quantity(
+                        value=dose.value,
+                        code=internal_to_ucum(dose.unit),
+                        system="http://unitsofmeasure.org",
                     )
-                )
-                else None
-            ),
-            rateQuantity=(
-                fhir.Quantity(
-                    value=dose.value,
-                    code=internal_to_ucum(dose.unit),
-                    system="http://unitsofmeasure.org",
-                )
-                if (
-                    dose := (
-                        medication.dosageRateMassConcentration
-                        or medication.dosageRateMass
-                        or medication.dosageRateVolume
-                        or medication.dosageRateMassSurface
+                    if (
+                        dose := (
+                            medication.dosageMassConcentration
+                            or medication.dosageMass
+                            or medication.dosageVolume
+                            or medication.dosageMassSurface
+                        )
                     )
-                )
-                else None
-            ),
-        )
+                    else None
+                ),
+                rateQuantity=(
+                    fhir.Quantity(
+                        value=rate.value,
+                        code=internal_to_ucum(rate.unit),
+                        system="http://unitsofmeasure.org",
+                    )
+                    if (
+                        rate := (
+                            medication.dosageRateMassConcentration
+                            or medication.dosageRateMass
+                            or medication.dosageRateVolume
+                            or medication.dosageRateMassSurface
+                        )
+                    )
+                    else None
+                ),
+            )
         return resource
 
     @classmethod

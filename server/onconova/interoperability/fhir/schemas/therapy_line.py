@@ -82,6 +82,7 @@ class TherapyLineProfile(OnconovaFhirBaseSchema, fhir.OnconovaTherapyLine):
                     valueDuration=Duration(
                         value=obj.progressionFreeSurvival,
                         code="mo",
+                        system="http://unitsofmeasure.org",
                     )
                 )
             )

@@ -31,6 +31,7 @@ from .medication_administration import MedicationAdministrationProfile
 from .vitals_panel import VitalsPanelProfile
 from .lymphoma_stage import LymphomaStageProfile
 from .therapy_line import TherapyLineProfile
+from .mcode_bundle import BundleProfile
 
 __all__ = (
     "CancerPatientProfile",
@@ -62,4 +63,5 @@ __all__ = (
     "MedicationAdministrationProfile",
     "VitalsPanelProfile",
     "TherapyLineProfile",
+    "BundleProfile",
 )
