@@ -30,6 +30,7 @@ from .cancer_family_member_history import CancerFamilyMemberHistoryProfile
 from .medication_administration import MedicationAdministrationProfile
 from .vitals_panel import VitalsPanelProfile
 from .lymphoma_stage import LymphomaStageProfile
+from .therapy_line import TherapyLineProfile
 
 __all__ = (
     "CancerPatientProfile",
@@ -60,4 +61,5 @@ __all__ = (
     "CancerFamilyMemberHistoryProfile",
     "MedicationAdministrationProfile",
     "VitalsPanelProfile",
+    "TherapyLineProfile",
 )

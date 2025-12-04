@@ -512,3 +512,10 @@ class TestMedicationAdministrationController(FhirCrudApiControllerTestCase):
     FACTORY = factories.SystemicTherapyFactory
     MODEL = models.SystemicTherapy
     SCHEMA = schemas.MedicationAdministrationProfile
+
+
+class TestEpisodeOfCareController(FhirCrudApiControllerTestCase):
+    controller_path = "/api/fhir/EpisodeOfCare"
+    FACTORY = factories.TherapyLineFactory
+    MODEL = models.TherapyLine
+    SCHEMA = schemas.TherapyLineProfile

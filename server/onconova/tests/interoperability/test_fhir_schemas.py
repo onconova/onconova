@@ -314,3 +314,10 @@ class TestFhirSchemas(TestCase):
             fhir.VitalsPanelProfile,
             factories.VitalsFactory,
         )
+
+    def test_therapy_line_profile_schema_mappings(self, *args, **kwargs):
+        self._test_circular_mapping(
+            schemas.TherapyLine,
+            fhir.TherapyLineProfile,
+            factories.TherapyLineFactory,
+        )
