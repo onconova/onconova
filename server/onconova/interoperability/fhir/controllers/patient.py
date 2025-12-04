@@ -15,7 +15,7 @@ from onconova.interoperability.fhir.controllers.base import (
 
 @api_controller(
     "Patient",
-    # auth=[XSessionTokenAuth()],
+    auth=[XSessionTokenAuth()],
     tags=["Patients"],
 )
 class PatientController(FhirBaseController):
@@ -23,7 +23,7 @@ class PatientController(FhirBaseController):
     @route.get(
         path="{rid}",
         response={200: CancerPatientProfile, **COMMON_READ_HTTP_ERRORS},
-        # permissions=[perms.CanManageCases],
+        permissions=[perms.CanManageCases],
         operation_id="readPatient",
         exclude_none=True,
         summary="Read the current state of the resource",
@@ -77,8 +77,8 @@ class PatientController(FhirBaseController):
     @route.get(
         path="{rid}/$mcode-everything",
         response={200: BundleProfile, **COMMON_READ_HTTP_ERRORS},
-        # permissions=[perms.CanManageCases],
-        operation_id="readPatient",
+        permissions=[perms.CanManageCases],
+        operation_id="FetchmCODEPatientBundle",
         exclude_none=True,
         summary="Read the current state of the resource",
     )
