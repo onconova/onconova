@@ -1,3 +1,4 @@
+from typing import Any
 from django.test import TestCase
 from ninja import Schema
 from unittest.mock import patch
@@ -34,6 +35,27 @@ class TestFhirSchemas(TestCase):
         resulting_schema_dict = resulting_schema.model_dump(
             mode="json",
             exclude={"id", "createdAt", "updatedAt", "createdBy", "updatedBy"},
+        )
+
+        def _normalize_dict(data) -> Any:
+            """Recursively remove audit fields and round floats to avoid precision errors."""
+            if isinstance(data, dict):
+                return {
+                    k: _normalize_dict(v)
+                    for k, v in data.items()
+                    if k
+                    not in {"id", "createdAt", "updatedAt", "createdBy", "updatedBy"}
+                }
+            elif isinstance(data, list):
+                return [_normalize_dict(item) for item in data]
+            elif isinstance(data, float):
+                return round(data, 7)
+            else:
+                return data
+
+        original_schema_dict = _normalize_dict(original_schema.model_dump(mode="json"))
+        resulting_schema_dict = _normalize_dict(
+            resulting_schema.model_dump(mode="json")
         )
         if original_schema_dict != resulting_schema_dict:
             print("Original Schema:")

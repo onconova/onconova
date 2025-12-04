@@ -534,13 +534,10 @@ class SystemicTherapyFactory(factory.django.DjangoModelFactory):
             "targeted_entities", PrimaryNeoplasticEntityFactory, min=1, max=1
         )
     )
-    medication1 = factory.RelatedFactory(
+    medications = factory.RelatedFactoryList(
         "onconova.tests.factories.SystemicTherapyMedicationFactory",
         factory_related_name="systemic_therapy",
-    )
-    medication2 = factory.RelatedFactory(
-        "onconova.tests.factories.SystemicTherapyMedicationFactory",
-        factory_related_name="systemic_therapy",
+        size=lambda: random.randint(1, 3),  # type: ignore
     )
 
 
@@ -594,14 +591,20 @@ class RadiotherapyFactory(factory.django.DjangoModelFactory):
     sessions = factory.LazyFunction(lambda: random.randint(2, 25))
     intent = FuzzyChoice(RadiotherapyIntentChoices)
     therapy_line = factory.SubFactory(TherapyLineFactory)
-
-    dosages = factory.RelatedFactory(
+    targeted_entities = factory.post_generation(
+        add_m2m_related(
+            "targeted_entities", PrimaryNeoplasticEntityFactory, min=1, max=1
+        )
+    )
+    dosages = factory.RelatedFactoryList(
         "onconova.tests.factories.RadiotherapyDosageFactory",
         factory_related_name="radiotherapy",
+        size=lambda: random.randint(1, 3),  # type: ignore
     )
-    settings = factory.RelatedFactory(
+    settings = factory.RelatedFactoryList(
         "onconova.tests.factories.RadiotherapySettingFactory",
         factory_related_name="radiotherapy",
+        size=lambda: random.randint(1, 2),  # type: ignore
     )
 
 
@@ -639,13 +642,15 @@ class AdverseEventFactory(factory.django.DjangoModelFactory):
     grade = factory.LazyFunction(lambda: random.randint(0, 5))
     event = make_terminology_factory(terminology.AdverseEventTerm)
     outcome = FuzzyChoice(AdverseEventOutcomeChoices)
-    suspected_causes = factory.RelatedFactory(
+    suspected_causes = factory.RelatedFactoryList(
         "onconova.tests.factories.AdverseEventSuspectedCauseFactory",
         factory_related_name="adverse_event",
+        size=lambda: random.randint(1, 2),  # type: ignore
     )
-    mitigations = factory.RelatedFactory(
+    mitigations = factory.RelatedFactoryList(
         "onconova.tests.factories.AdverseEventMitigationFactory",
         factory_related_name="adverse_event",
+        size=lambda: random.randint(1, 2),  # type: ignore
     )
 
 
@@ -954,9 +959,10 @@ class MolecularTumorBoardFactory(factory.django.DjangoModelFactory):
             "related_entities", PrimaryNeoplasticEntityFactory, min=1, max=1
         )
     )
-    therapeutic_recommendations = factory.RelatedFactory(
+    therapeutic_recommendations = factory.RelatedFactoryList(
         "onconova.tests.factories.MolecularTherapeuticRecommendationFactory",
         factory_related_name="molecular_tumor_board",
+        size=lambda: random.randint(1, 2),  # type: ignore
     )
 
 
@@ -1157,6 +1163,7 @@ def fake_complete_case():
                 therapy_line=None,
                 targeted_entities=conditions,
                 period=(therapy_start, therapy_end),
+                medications=[],
             )
             for _ in range(random.randint(1, 3)):
                 SystemicTherapyMedicationFactory.create(
@@ -1171,10 +1178,6 @@ def fake_complete_case():
                     targeted_entities=conditions,
                     period=(therapy_start, therapy_end),
                 )
-                for _ in range(random.randint(1, 3)):
-                    RadiotherapyDosageFactory.create(
-                        radiotherapy=radiotherapy,
-                    )
 
             # For curative therapy, add surgery with 50% probability
             if systemic_therapy.intent == "curative" and random.randint(0, 100) > 50:
@@ -1203,10 +1206,6 @@ def fake_complete_case():
                     systemic_therapy=systemic_therapy,
                     radiotherapy=None,
                 )
-                for _ in range(random.randint(0, 2)):
-                    AdverseEventMitigationFactory.create(
-                        adverse_event=adverse_event,
-                    )
 
         # Add observations and lab results
         during_cancer_treatment = lambda: faker.date_between(

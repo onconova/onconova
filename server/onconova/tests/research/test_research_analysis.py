@@ -99,7 +99,7 @@ class TestGetProgressionFreeSurvivalForTherapyLine(TestCase):
             case=case, intent="curative", ordinal=1
         )
         systemic_therapy_1 = factories.SystemicTherapyFactory.create(
-            case=case, therapy_line=therapy_line_1
+            case=case, therapy_line=therapy_line_1, medications=[]
         )
         factories.SystemicTherapyMedicationFactory.create(
             systemic_therapy=systemic_therapy_1
@@ -111,7 +111,7 @@ class TestGetProgressionFreeSurvivalForTherapyLine(TestCase):
             case=case, intent="palliative", ordinal=1
         )
         systemic_therapy_2 = factories.SystemicTherapyFactory.create(
-            case=case, therapy_line=therapy_line_2
+            case=case, therapy_line=therapy_line_2, medications=[]
         )
         factories.SystemicTherapyMedicationFactory.create(
             systemic_therapy=systemic_therapy_2
@@ -172,7 +172,7 @@ class TestCalculatePFSByTherapyClassification(TestCase):
             case=case, intent="curative", ordinal=1
         )
         systemic_therapy_1 = factories.SystemicTherapyFactory.create(
-            case=case, therapy_line=therapy_line_1
+            case=case, therapy_line=therapy_line_1, medications=[]
         )
         factories.SystemicTherapyMedicationFactory.create(
             systemic_therapy=systemic_therapy_1,
@@ -194,7 +194,7 @@ class TestCalculatePFSByTherapyClassification(TestCase):
             case=case, intent="palliative", ordinal=1
         )
         systemic_therapy_2 = factories.SystemicTherapyFactory.create(
-            case=case, therapy_line=therapy_line_2
+            case=case, therapy_line=therapy_line_2, medications=[]
         )
         factories.SystemicTherapyMedicationFactory.create(
             systemic_therapy=systemic_therapy_2,

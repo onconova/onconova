@@ -53,7 +53,10 @@ class BundleParserTest(TestCase):
                 **basic, index_condition=cls.original_primary_entity
             )
             cls.original_systemic_therapy = factories.SystemicTherapyFactory(
-                **basic, targeted_entities=related_entities, therapy_line=None
+                **basic,
+                targeted_entities=related_entities,
+                therapy_line=None,
+                medications=[],
             )
             cls.original_systemic_therapy_medication = (
                 factories.SystemicTherapyMedicationFactory(
@@ -61,7 +64,11 @@ class BundleParserTest(TestCase):
                 )
             )
             cls.original_radiotherapy = factories.RadiotherapyFactory(
-                **basic, targeted_entities=related_entities, therapy_line=None
+                **basic,
+                targeted_entities=related_entities,
+                therapy_line=None,
+                settings=[],
+                dosages=[],
             )
             cls.original_radiotherapy_dosage = factories.RadiotherapyDosageFactory(
                 radiotherapy=cls.original_radiotherapy
@@ -69,7 +76,11 @@ class BundleParserTest(TestCase):
             cls.original_radiotherapy_setting = factories.RadiotherapySettingFactory(
                 radiotherapy=cls.original_radiotherapy
             )
-            cls.original_adverse_event = factories.AdverseEventFactory(**basic)
+            cls.original_adverse_event = factories.AdverseEventFactory(
+                **basic,
+                suspected_causes=[],
+                mitigations=[],
+            )
             cls.original_adverse_event_cause = (
                 factories.AdverseEventSuspectedCauseFactory(
                     adverse_event=cls.original_adverse_event,
@@ -89,7 +100,9 @@ class BundleParserTest(TestCase):
                 factories.TumorMutationalBurdenFactory.create(**basic)
             )
             cls.original_tumor_board = factories.MolecularTumorBoardFactory(
-                **basic, related_entities=related_entities
+                **basic,
+                related_entities=related_entities,
+                therapeutic_recommendations=[],
             )
             cls.original_tumor_board_recommendation = (
                 factories.MolecularTherapeuticRecommendationFactory(
@@ -112,11 +125,11 @@ class BundleParserTest(TestCase):
                 schemas.FamilyHistory.model_validate(cls.original_family_history)
             ]
             cls.bundle.tumorBoards = [
-                schemas.MolecularTumorBoard.model_validate(
-                    cls.original_tumor_board
-                )
+                schemas.MolecularTumorBoard.model_validate(cls.original_tumor_board)
             ]
-            cls.bundle.contributorsDetails = [UserExport.model_validate(cls.original_user)]
+            cls.bundle.contributorsDetails = [
+                UserExport.model_validate(cls.original_user)
+            ]
             # Add a custom event to the case
             pghistory.create_event(cls.original_case, label="update")
             pghistory.create_event(cls.original_case, label="export")
@@ -419,7 +432,8 @@ class BundleParserTest(TestCase):
         for original_event, event in zip(self.original_events, imported_case_events):
             self.assertEqual(original_event.pgh_label, event.pgh_label)
             self.assertEqual(
-                f"{original_event.pgh_context['username']}-ext", event.pgh_context["username"]
+                f"{original_event.pgh_context['username']}-ext",
+                event.pgh_context["username"],
             )
             self.assertEqual(original_event.pgh_created_at, event.pgh_created_at)
 
@@ -437,6 +451,7 @@ class BundleParserTest(TestCase):
         ):
             self.assertEqual(original_event.pgh_label, event.pgh_label)
             self.assertEqual(
-                f"{original_event.pgh_context['username']}-ext", event.pgh_context["username"]
+                f"{original_event.pgh_context['username']}-ext",
+                event.pgh_context["username"],
             )
             self.assertEqual(original_event.pgh_created_at, event.pgh_created_at)

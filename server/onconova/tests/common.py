@@ -260,7 +260,7 @@ class ApiControllerTestMixin:
 
         try:
             content = response.json()
-        except: 
+        except:
             content = None
         # Assert response status code
         assert (
@@ -278,8 +278,18 @@ class CrudApiControllerTestCase(ApiControllerTestMixin, TestCase):
     FACTORY: type[DjangoModelFactory] | List[type[DjangoModelFactory]]
     factories: List[type[DjangoModelFactory]]
     MODEL: Type[BaseModel] | List[Type[BaseModel]]
-    SCHEMA: Type[ModelGetSchema] | List[Type[ModelGetSchema]] | Type[Schema] | List[Type[Schema]]
-    CREATE_SCHEMA: Type[ModelCreateSchema] | List[Type[ModelCreateSchema]]  | Type[Schema] | List[Type[Schema]]
+    SCHEMA: (
+        Type[ModelGetSchema]
+        | List[Type[ModelGetSchema]]
+        | Type[Schema]
+        | List[Type[Schema]]
+    )
+    CREATE_SCHEMA: (
+        Type[ModelCreateSchema]
+        | List[Type[ModelCreateSchema]]
+        | Type[Schema]
+        | List[Type[Schema]]
+    )
     history_tracked: bool = True
 
     # Internal state
@@ -378,19 +388,43 @@ class CrudApiControllerTestCase(ApiControllerTestMixin, TestCase):
                                 item
                                 for item in response.json()["items"]
                                 if str(instance.id) == item["id"]
-                            ), None
+                            ),
+                            None,
                         )
                         if entry is None:
-                            raise ValueError(f'Could not find ID "{str(instance.id)}" in response: \n\n {response.json()}')
+                            raise ValueError(
+                                f'Could not find ID "{str(instance.id)}" in response: \n\n {response.json()}'
+                            )
                     else:
-                        entry = response.json()[0]
+                        entry = next(
+                            (
+                                item
+                                for item in response.json()
+                                if str(instance.id) == item["id"]
+                            ),
+                            None,
+                        )
+                        if entry is None:
+                            raise ValueError(
+                                f'Could not find ID "{str(instance.id)}" in response: \n\n {response.json()}'
+                            )
                     expected = self.schemas[i].model_validate(instance).model_dump()
                     result = self.schemas[i].model_validate(entry).model_dump()
                     if self.history_tracked:
-                        expected["createdAt"] = expected["createdAt"].replace(
-                            microsecond=0
-                        )
-                        result["createdAt"] = result["createdAt"].replace(microsecond=0)
+
+                        def remove_microseconds(d):
+                            if isinstance(d, dict):
+                                for key, value in d.items():
+                                    if key == "createdAt" and hasattr(value, "replace"):
+                                        d[key] = value.replace(microsecond=0)
+                                    else:
+                                        remove_microseconds(value)
+                            elif isinstance(d, list):
+                                for item in d:
+                                    remove_microseconds(item)
+
+                        remove_microseconds(expected)
+                        remove_microseconds(result)
                     self.assertDictEqual(expected, result)
 
                     if can_be_anonymized:
@@ -432,7 +466,10 @@ class CrudApiControllerTestCase(ApiControllerTestMixin, TestCase):
             with self.subTest(i=i):
                 # Call the API endpoint
                 response = self.call_api_endpoint(
-                    "GET", self.get_route_url_with_id(instance), anonymized=False, **config
+                    "GET",
+                    self.get_route_url_with_id(instance),
+                    anonymized=False,
+                    **config,
                 )
                 # Assert response content
                 if scenario == "HTTPS Authenticated":
@@ -442,10 +479,20 @@ class CrudApiControllerTestCase(ApiControllerTestMixin, TestCase):
                         self.schemas[i].model_validate(response.json()).model_dump()
                     )
                     if self.history_tracked:
-                        expected["createdAt"] = expected["createdAt"].replace(
-                            microsecond=0
-                        )
-                        result["createdAt"] = result["createdAt"].replace(microsecond=0)
+
+                        def remove_microseconds(d):
+                            if isinstance(d, dict):
+                                for key, value in d.items():
+                                    if key == "createdAt" and hasattr(value, "replace"):
+                                        d[key] = value.replace(microsecond=0)
+                                    else:
+                                        remove_microseconds(value)
+                            elif isinstance(d, list):
+                                for item in d:
+                                    remove_microseconds(item)
+
+                        remove_microseconds(expected)
+                        remove_microseconds(result)
                     self.assertDictEqual(result, expected)
 
                     if can_be_anonymized:

@@ -55,7 +55,9 @@ class PatientCaseModelTest(TestCase):
         self.assertRaises(IntegrityError, patient.save)
 
     def test_age_calculated_based_on_date_of_birth_and_today(self):
-        patient = factories.PatientCaseFactory(vital_status=PatientCaseVitalStatusChoices.ALIVE)
+        patient = factories.PatientCaseFactory(
+            vital_status=PatientCaseVitalStatusChoices.ALIVE
+        )
         delta = date.today() - patient.date_of_birth
         self.assertLess(patient.age - delta.days / 365, 1)
 
@@ -100,7 +102,8 @@ class PatientCaseModelTest(TestCase):
 
     def test_overall_survival_calculated_based_on_date_of_death(self):
         patient = factories.PatientCaseFactory(
-            vital_status=PatientCaseVitalStatusChoices.DECEASED, date_of_death=datetime(2010, 1, 1).date()
+            vital_status=PatientCaseVitalStatusChoices.DECEASED,
+            date_of_death=datetime(2010, 1, 1).date(),
         )
         factories.PrimaryNeoplasticEntityFactory.create(case=patient)
         delta = (
@@ -112,7 +115,8 @@ class PatientCaseModelTest(TestCase):
 
     def test_overall_survival_calculated_based_on_end_of_records(self):
         patient = factories.PatientCaseFactory(
-            vital_status=PatientCaseVitalStatusChoices.UNKNOWN, end_of_records=datetime(2010, 1, 1).date()
+            vital_status=PatientCaseVitalStatusChoices.UNKNOWN,
+            end_of_records=datetime(2010, 1, 1).date(),
         )
         factories.PrimaryNeoplasticEntityFactory.create(case=patient)
         delta = (
@@ -123,7 +127,9 @@ class PatientCaseModelTest(TestCase):
         )
 
     def test_overall_survival_calculated_based_on_current_time(self):
-        patient = factories.PatientCaseFactory(vital_status=PatientCaseVitalStatusChoices.ALIVE)
+        patient = factories.PatientCaseFactory(
+            vital_status=PatientCaseVitalStatusChoices.ALIVE
+        )
         factories.PrimaryNeoplasticEntityFactory.create(case=patient)
         delta = date.today() - patient.neoplastic_entities.first().assertion_date
         self.assertAlmostEqual(
@@ -267,7 +273,7 @@ class SystemicTherapyModelTest(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        cls.therapy = factories.SystemicTherapyFactory()
+        cls.therapy = factories.SystemicTherapyFactory(medications=[])
 
     def test_therapy_duration_is_correctly_annotated(self):
         expected_duration = self.therapy.period.upper - self.therapy.period.lower
@@ -278,17 +284,17 @@ class SystemicTherapyModelTest(TestCase):
     def test_therapy_duration_ongoing(self):
         self.therapy.period = PostgresRange(self.therapy.period.lower, None)
         self.therapy.save()
-        expected_duration = datetime.now().date() - self.therapy.period.lower
+        expected_duration = datetime.now().date() - self.therapy.period.lower  # type: ignore
         self.assertEqual(
             self.therapy.duration, measures.Time(day=expected_duration.days)
         )
 
     def test_therapy_drugs_combination_is_correctly_annotated(self):
         self.med1 = factories.SystemicTherapyMedicationFactory.create(
-            systemic_therapy=self.therapy
+            systemic_therapy=self.therapy,
         )
         self.med2 = factories.SystemicTherapyMedicationFactory.create(
-            systemic_therapy=self.therapy
+            systemic_therapy=self.therapy,
         )
         expected_combination = f"{self.med1.drug}/{self.med2.drug}"
         self.assertEqual(self.therapy.drug_combination, expected_combination)
@@ -309,7 +315,7 @@ class RadiotherapyModelTest(TestCase):
     def test_radiotherapy_duration_ongoing(self):
         self.therapy.period = PostgresRange(self.therapy.period.lower, None)
         self.therapy.save()
-        expected_duration = datetime.now().date() - self.therapy.period.lower
+        expected_duration = datetime.now().date() - self.therapy.period.lower  # type: ignore
         self.assertEqual(
             self.therapy.duration, measures.Time(day=expected_duration.days)
         )
@@ -439,10 +445,12 @@ class TherapyLineModelTest(TestCase):
         self.systemic_therapy1 = factories.SystemicTherapyFactory.create(
             case=self.case,
             intent="curative",
+            medications=[],
         )
         self.systemic_therapy2 = factories.SystemicTherapyFactory.create(
             case=self.case,
             intent="curative",
+            medications=[],
         )
         TherapyLine.assign_therapy_lines(self.case)
 
@@ -456,10 +464,12 @@ class TherapyLineModelTest(TestCase):
         self.systemic_therapy1 = factories.SystemicTherapyFactory.create(
             case=self.case,
             intent="curative",
+            medications=[],
         )
         self.systemic_therapy2 = factories.SystemicTherapyFactory.create(
             case=self.case,
             intent="palliative",
+            medications=[],
         )
         TherapyLine.assign_therapy_lines(self.case)
 
@@ -471,10 +481,16 @@ class TherapyLineModelTest(TestCase):
 
     def test_therapy_line_assignment__same_line_for_overlapping_therapies(self):
         self.systemic_therapy1 = factories.SystemicTherapyFactory.create(
-            case=self.case, intent="curative", period=("2023-1-1", "2023-3-1")
+            case=self.case,
+            intent="curative",
+            period=("2023-1-1", "2023-3-1"),
+            medications=[],
         )
         self.systemic_therapy2 = factories.SystemicTherapyFactory.create(
-            case=self.case, intent="curative", period=("2023-2-1", "2023-4-1")
+            case=self.case,
+            intent="curative",
+            period=("2023-2-1", "2023-4-1"),
+            medications=[],
         )
         TherapyLine.assign_therapy_lines(self.case)
 
@@ -519,6 +535,7 @@ class TherapyLineModelTest(TestCase):
             case=self.case,
             intent="palliative",
             period=("2023-1-1", "2023-3-1"),
+            medications=[],
         )
         self.treatment_response = factories.TreatmentResponseFactory.create(
             case=self.case,
@@ -528,6 +545,7 @@ class TherapyLineModelTest(TestCase):
             case=self.case,
             intent="palliative",
             period=("2023-4-1", "2023-5-1"),
+            medications=[],
         )
         TherapyLine.assign_therapy_lines(self.case)
 
