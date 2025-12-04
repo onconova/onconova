@@ -248,6 +248,13 @@ class TestFhirSchemas(TestCase):
             factories.TNMStagingFactory,
         )
 
+    def test_lymphoma_stage_profile_schema_mappings(self, *args, **kwargs):
+        self._test_circular_mapping(
+            schemas.LymphomaStaging,
+            fhir.LymphomaStageProfile,
+            factories.LymphomaStagingFactory,
+        )
+
     def test_surgery_profile_schema_mappings(self, *args, **kwargs):
         self._test_circular_mapping(
             schemas.Surgery,

@@ -29,6 +29,7 @@ from .adverse_event import AdverseEventProfile
 from .cancer_family_member_history import CancerFamilyMemberHistoryProfile
 from .medication_administration import MedicationAdministrationProfile
 from .vitals_panel import VitalsPanelProfile
+from .lymphoma_stage import LymphomaStageProfile
 
 __all__ = (
     "CancerPatientProfile",
@@ -50,6 +51,7 @@ __all__ = (
     "ImagingDiseaseStatusProfile",
     "CancerStageProfile",
     "TNMStageGroupProfile",
+    "LymphomaStageProfile",
     "SurgicalProcedureProfile",
     "RadiotherapyCourseSummaryProfile",
     "TumorBoardReviewProfile",

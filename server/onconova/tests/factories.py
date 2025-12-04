@@ -255,6 +255,30 @@ class TNMStagingFactory(factory.django.DjangoModelFactory):
     )
 
 
+class LymphomaStagingFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.LymphomaStaging
+        skip_postgeneration_save = True
+
+    case = factory.SubFactory(PatientCaseFactory)
+    date = factory.LazyFunction(faker.date)
+    stage = make_terminology_factory(
+        terminology.LymphomaStage,
+        code_iterator=[f"lymphoma-stage-{n+1}-code" for n in range(5)],
+    )
+    methodology = make_terminology_factory(terminology.LymphomaStagingMethod)
+    staged_entities = factory.post_generation(
+        add_m2m_related("staged_entities", PrimaryNeoplasticEntityFactory, min=1, max=1)
+    )
+    bulky = factory.LazyFunction(lambda: random.random() > 0.5)
+    pathological = factory.LazyFunction(lambda: random.random() > 0.5)
+    modifiers = factory.post_generation(
+        make_m2m_terminology_factory(
+            "modifiers", terminology.LymphomaStageValueModifier, min=1, max=2
+        )
+    )
+
+
 class FIGOStagingFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.FIGOStaging
