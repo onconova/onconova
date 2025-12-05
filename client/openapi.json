@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Onconova API",
-    "version": "1.0.0",
+    "version": "1.2.1",
     "description": "\nWelcome to the Onconova API — a secure, standards-based interface designed to facilitate the exchange, management, and \nanalysis of research data related to cancer genomics, clinical records, and associated metadata. This API provides an extensive set of RESTful endpoints enabling authorized users to perform full CRUD (Create, Read, Update, Delete) operations on various resources within the platform’s data ecosystem.\n\nThe primary objective of this API is to support precision oncology research by enabling interoperability between data systems, promoting data sharing among research institutions, and streamlining workflows for clinical and genomic data management in a secure, authenticated environment.\n\n### Authentication\nTo ensure the security and integrity of cancer research data, **all API requests require proper authentication**.\n\nA valid session token must be obtained prior to accessing any protected endpoint. This token must be included in the request header `X-Session-Token`.\n\nThe authentication and authorization flows for obtaining and managing session tokens are provided through the AllAuth authentication service. \nThis includes endpoints for user login, logout, password management, and token renewal. For complete details on implementing authentication and \nmanaging session tokens, please refer to the [AllAuth API documentation](https://docs.allauth.org/en/latest/headless/openapi-specification/).\n\n**Important:** Unauthorized requests or those missing valid authentication tokens will receive an `HTTP 401 Unauthorized` response.\n\n### Terminologies \nMany resources take objects of the type `CodedConcept` to represent concepts from coded terminologies. Each property of the type `CodedConcept` in a schema will have an associated `x-terminology` attribute. The full list of `CodedConcept` objects allowed for specific resource properties can be retrieved through the [terminology endpoint](#tag/Terminology/operation/getTerminologyConcepts) by passing the `x-terminology` value as the `terminologyName` parameter. \n\n### Terms and Conditions\nBy accessing and using this website, you agree to comply with and be bound by the following terms and conditions. The content provided on this API is \nintended solely for general informational and research purposes. While we strive to ensure the information is accurate and reliable, we do not make \nany express or implied warranties about the accuracy, adequacy, validity, reliability, availability, or completeness of the content.\n\nThe information presented on this platform is provided in good faith. However, we do not accept any liability for any loss or damage incurred as a \nresult of using the site or relying on the information provided. Your use of this site and any reliance on the content is solely at your own risk.\n\nThese terms and conditions may be updated from time to time, and it is your responsibility to review them regularly to ensure compliance.\n\n### License \nThe Onconova API specification is made available under the MIT License, a permissive open-source license that allows users to freely use, copy,\nmodify, merge, publish, distribute, sublicense, and/or sell copies of the software, subject to the inclusion of the original copyright and license.\n    ",
     "license": {
       "name": "MIT",
@@ -41121,6 +41121,89 @@
           },
           {
             "in": "query",
+            "name": "source.not.exists",
+            "schema": {
+              "description": "Source - Filter for entries without a value",
+              "title": "not.exists",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "Source - Filter for entries without a value"
+          },
+          {
+            "in": "query",
+            "name": "source.exists",
+            "schema": {
+              "description": "Source - Filter for entries with a value",
+              "title": "exists",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "Source - Filter for entries with a value"
+          },
+          {
+            "in": "query",
+            "name": "source",
+            "schema": {
+              "description": "Source - Filter for a matching concept code",
+              "title": "EqualsConceptFilter",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Source - Filter for a matching concept code"
+          },
+          {
+            "in": "query",
+            "name": "source.not",
+            "schema": {
+              "description": "Source - Filter for a mismatching concept code",
+              "title": "not",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Source - Filter for a mismatching concept code"
+          },
+          {
+            "in": "query",
+            "name": "source.anyOf",
+            "schema": {
+              "description": "Source - Filter for a matching set of concept codes",
+              "items": {
+                "type": "string"
+              },
+              "title": "anyOf",
+              "type": "array"
+            },
+            "required": false,
+            "description": "Source - Filter for a matching set of concept codes"
+          },
+          {
+            "in": "query",
+            "name": "source.not.anyOf",
+            "schema": {
+              "description": "Source - Filter for a mismmatching set of concept codes",
+              "items": {
+                "type": "string"
+              },
+              "title": "not.anyOf",
+              "type": "array"
+            },
+            "required": false,
+            "description": "Source - Filter for a mismmatching set of concept codes"
+          },
+          {
+            "in": "query",
+            "name": "source.descendantsOf",
+            "schema": {
+              "description": "Source - Filter for all child concepts of a given concepts code",
+              "title": "descendantsOf",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Source - Filter for all child concepts of a given concepts code"
+          },
+          {
+            "in": "query",
             "name": "inheritance.not.exists",
             "schema": {
               "description": "Inheritance - Filter for entries without a value",
@@ -41425,6 +41508,122 @@
           },
           {
             "in": "query",
+            "name": "hgvsVersion",
+            "schema": {
+              "description": "HGVS Version - Filter for full text matches",
+              "title": "ExactStringFilter",
+              "type": "string"
+            },
+            "required": false,
+            "description": "HGVS Version - Filter for full text matches"
+          },
+          {
+            "in": "query",
+            "name": "hgvsVersion.not",
+            "schema": {
+              "description": "HGVS Version - Filter for full text mismatches",
+              "title": "not",
+              "type": "string"
+            },
+            "required": false,
+            "description": "HGVS Version - Filter for full text mismatches"
+          },
+          {
+            "in": "query",
+            "name": "hgvsVersion.contains",
+            "schema": {
+              "description": "HGVS Version - Filter for partial text matches",
+              "title": "contains",
+              "type": "string"
+            },
+            "required": false,
+            "description": "HGVS Version - Filter for partial text matches"
+          },
+          {
+            "in": "query",
+            "name": "hgvsVersion.not.contains",
+            "schema": {
+              "description": "HGVS Version - Filter for partial text mismatches",
+              "title": "not.contains",
+              "type": "string"
+            },
+            "required": false,
+            "description": "HGVS Version - Filter for partial text mismatches"
+          },
+          {
+            "in": "query",
+            "name": "hgvsVersion.beginsWith",
+            "schema": {
+              "description": "HGVS Version - Filter for entries starting with the text",
+              "title": "beginsWith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "HGVS Version - Filter for entries starting with the text"
+          },
+          {
+            "in": "query",
+            "name": "hgvsVersion.not.beginsWith",
+            "schema": {
+              "description": "HGVS Version - Filter for entries not starting with the text",
+              "title": "not.beginsWith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "HGVS Version - Filter for entries not starting with the text"
+          },
+          {
+            "in": "query",
+            "name": "hgvsVersion.endsWith",
+            "schema": {
+              "description": "HGVS Version - Filter for entries ending with the text",
+              "title": "endsWith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "HGVS Version - Filter for entries ending with the text"
+          },
+          {
+            "in": "query",
+            "name": "hgvsVersion.not.endsWith",
+            "schema": {
+              "description": "HGVS Version - Filter for entries not ending with the text",
+              "title": "not.endsWith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "HGVS Version - Filter for entries not ending with the text"
+          },
+          {
+            "in": "query",
+            "name": "hgvsVersion.anyOf",
+            "schema": {
+              "description": "HGVS Version - Filter for entries where at least one reference matches the query",
+              "items": {
+                "type": "string"
+              },
+              "title": "anyOf",
+              "type": "array"
+            },
+            "required": false,
+            "description": "HGVS Version - Filter for entries where at least one reference matches the query"
+          },
+          {
+            "in": "query",
+            "name": "hgvsVersion.not.anyOf",
+            "schema": {
+              "description": "HGVS Version - Filter for entries where at least one reference mismatches the query",
+              "items": {
+                "type": "string"
+              },
+              "title": "not.anyOf",
+              "type": "array"
+            },
+            "required": false,
+            "description": "HGVS Version - Filter for entries where at least one reference mismatches the query"
+          },
+          {
+            "in": "query",
             "name": "isPathogenic.not.exists",
             "schema": {
               "description": "Is Pathogenic - Filter for entries without a value",
@@ -41488,6 +41687,282 @@
             },
             "required": false,
             "description": "Is VUS - Filter for yes/no statement"
+          },
+          {
+            "in": "query",
+            "name": "cytogeneticLocation.not.exists",
+            "schema": {
+              "description": "Cytogenetic Location - Filter for entries without a value",
+              "title": "not.exists",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "Cytogenetic Location - Filter for entries without a value"
+          },
+          {
+            "in": "query",
+            "name": "cytogeneticLocation.exists",
+            "schema": {
+              "description": "Cytogenetic Location - Filter for entries with a value",
+              "title": "exists",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "Cytogenetic Location - Filter for entries with a value"
+          },
+          {
+            "in": "query",
+            "name": "cytogeneticLocation",
+            "schema": {
+              "description": "Cytogenetic Location - Filter for full text matches",
+              "title": "ExactStringFilter",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Cytogenetic Location - Filter for full text matches"
+          },
+          {
+            "in": "query",
+            "name": "cytogeneticLocation.not",
+            "schema": {
+              "description": "Cytogenetic Location - Filter for full text mismatches",
+              "title": "not",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Cytogenetic Location - Filter for full text mismatches"
+          },
+          {
+            "in": "query",
+            "name": "cytogeneticLocation.contains",
+            "schema": {
+              "description": "Cytogenetic Location - Filter for partial text matches",
+              "title": "contains",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Cytogenetic Location - Filter for partial text matches"
+          },
+          {
+            "in": "query",
+            "name": "cytogeneticLocation.not.contains",
+            "schema": {
+              "description": "Cytogenetic Location - Filter for partial text mismatches",
+              "title": "not.contains",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Cytogenetic Location - Filter for partial text mismatches"
+          },
+          {
+            "in": "query",
+            "name": "cytogeneticLocation.beginsWith",
+            "schema": {
+              "description": "Cytogenetic Location - Filter for entries starting with the text",
+              "title": "beginsWith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Cytogenetic Location - Filter for entries starting with the text"
+          },
+          {
+            "in": "query",
+            "name": "cytogeneticLocation.not.beginsWith",
+            "schema": {
+              "description": "Cytogenetic Location - Filter for entries not starting with the text",
+              "title": "not.beginsWith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Cytogenetic Location - Filter for entries not starting with the text"
+          },
+          {
+            "in": "query",
+            "name": "cytogeneticLocation.endsWith",
+            "schema": {
+              "description": "Cytogenetic Location - Filter for entries ending with the text",
+              "title": "endsWith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Cytogenetic Location - Filter for entries ending with the text"
+          },
+          {
+            "in": "query",
+            "name": "cytogeneticLocation.not.endsWith",
+            "schema": {
+              "description": "Cytogenetic Location - Filter for entries not ending with the text",
+              "title": "not.endsWith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Cytogenetic Location - Filter for entries not ending with the text"
+          },
+          {
+            "in": "query",
+            "name": "cytogeneticLocation.anyOf",
+            "schema": {
+              "description": "Cytogenetic Location - Filter for entries where at least one reference matches the query",
+              "items": {
+                "type": "string"
+              },
+              "title": "anyOf",
+              "type": "array"
+            },
+            "required": false,
+            "description": "Cytogenetic Location - Filter for entries where at least one reference matches the query"
+          },
+          {
+            "in": "query",
+            "name": "cytogeneticLocation.not.anyOf",
+            "schema": {
+              "description": "Cytogenetic Location - Filter for entries where at least one reference mismatches the query",
+              "items": {
+                "type": "string"
+              },
+              "title": "not.anyOf",
+              "type": "array"
+            },
+            "required": false,
+            "description": "Cytogenetic Location - Filter for entries where at least one reference mismatches the query"
+          },
+          {
+            "in": "query",
+            "name": "chromosomes.not.exists",
+            "schema": {
+              "description": "Chromosomes - Filter for entries without a value",
+              "title": "not.exists",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "Chromosomes - Filter for entries without a value"
+          },
+          {
+            "in": "query",
+            "name": "chromosomes.exists",
+            "schema": {
+              "description": "Chromosomes - Filter for entries with a value",
+              "title": "exists",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "Chromosomes - Filter for entries with a value"
+          },
+          {
+            "in": "query",
+            "name": "chromosomes",
+            "schema": {
+              "description": "Chromosomes - Filter for full text matches",
+              "title": "ExactStringFilter",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Chromosomes - Filter for full text matches"
+          },
+          {
+            "in": "query",
+            "name": "chromosomes.not",
+            "schema": {
+              "description": "Chromosomes - Filter for full text mismatches",
+              "title": "not",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Chromosomes - Filter for full text mismatches"
+          },
+          {
+            "in": "query",
+            "name": "chromosomes.contains",
+            "schema": {
+              "description": "Chromosomes - Filter for partial text matches",
+              "title": "contains",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Chromosomes - Filter for partial text matches"
+          },
+          {
+            "in": "query",
+            "name": "chromosomes.not.contains",
+            "schema": {
+              "description": "Chromosomes - Filter for partial text mismatches",
+              "title": "not.contains",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Chromosomes - Filter for partial text mismatches"
+          },
+          {
+            "in": "query",
+            "name": "chromosomes.beginsWith",
+            "schema": {
+              "description": "Chromosomes - Filter for entries starting with the text",
+              "title": "beginsWith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Chromosomes - Filter for entries starting with the text"
+          },
+          {
+            "in": "query",
+            "name": "chromosomes.not.beginsWith",
+            "schema": {
+              "description": "Chromosomes - Filter for entries not starting with the text",
+              "title": "not.beginsWith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Chromosomes - Filter for entries not starting with the text"
+          },
+          {
+            "in": "query",
+            "name": "chromosomes.endsWith",
+            "schema": {
+              "description": "Chromosomes - Filter for entries ending with the text",
+              "title": "endsWith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Chromosomes - Filter for entries ending with the text"
+          },
+          {
+            "in": "query",
+            "name": "chromosomes.not.endsWith",
+            "schema": {
+              "description": "Chromosomes - Filter for entries not ending with the text",
+              "title": "not.endsWith",
+              "type": "string"
+            },
+            "required": false,
+            "description": "Chromosomes - Filter for entries not ending with the text"
+          },
+          {
+            "in": "query",
+            "name": "chromosomes.anyOf",
+            "schema": {
+              "description": "Chromosomes - Filter for entries where at least one reference matches the query",
+              "items": {
+                "type": "string"
+              },
+              "title": "anyOf",
+              "type": "array"
+            },
+            "required": false,
+            "description": "Chromosomes - Filter for entries where at least one reference matches the query"
+          },
+          {
+            "in": "query",
+            "name": "chromosomes.not.anyOf",
+            "schema": {
+              "description": "Chromosomes - Filter for entries where at least one reference mismatches the query",
+              "items": {
+                "type": "string"
+              },
+              "title": "not.anyOf",
+              "type": "array"
+            },
+            "required": false,
+            "description": "Chromosomes - Filter for entries where at least one reference mismatches the query"
           },
           {
             "in": "query",
@@ -47795,6 +48270,39 @@
             },
             "required": false,
             "description": "Had cancer - Filter for yes/no statement"
+          },
+          {
+            "in": "query",
+            "name": "isDeceased.not.exists",
+            "schema": {
+              "description": "Is deceased - Filter for entries without a value",
+              "title": "not.exists",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "Is deceased - Filter for entries without a value"
+          },
+          {
+            "in": "query",
+            "name": "isDeceased.exists",
+            "schema": {
+              "description": "Is deceased - Filter for entries with a value",
+              "title": "exists",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "Is deceased - Filter for entries with a value"
+          },
+          {
+            "in": "query",
+            "name": "isDeceased",
+            "schema": {
+              "description": "Is deceased - Filter for yes/no statement",
+              "title": "EqualsBooleanFilter",
+              "type": "boolean"
+            },
+            "required": false,
+            "description": "Is deceased - Filter for yes/no statement"
           },
           {
             "in": "query",
@@ -61312,7 +61820,7 @@
           },
           "stage": {
             "$ref": "#/components/schemas/CodedConcept",
-            "description": "The value of the Binet stage",
+            "description": "The value of the Breslow stage",
             "title": "Breslow Stage",
             "x-terminology": "BreslowDepthStage"
           }
@@ -61810,6 +62318,11 @@
             "title": "Had cancer",
             "type": "boolean"
           },
+          "isDeceased": {
+            "description": "Whether the the family member is deceased",
+            "title": "Is deceased",
+            "type": "boolean"
+          },
           "contributedToDeath": {
             "description": "Whether the cancer contributed to the cause of death of the family member",
             "title": "Contributed to death",
@@ -62039,6 +62552,16 @@
             "title": "Zygosity",
             "x-terminology": "Zygosity"
           },
+          "source": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CodedConcept"
+              }
+            ],
+            "description": "Variant genomic source (if known).",
+            "title": "Source",
+            "x-terminology": "GeneticVariantSource"
+          },
           "inheritance": {
             "allOf": [
               {
@@ -62064,6 +62587,12 @@
             "title": "ClinVar accession number",
             "type": "string"
           },
+          "hgvsVersion": {
+            "default": "21.1.2",
+            "description": "Version of the HGVS nomenclature used for the HGVS expressions",
+            "title": "HGVS Version",
+            "type": "string"
+          },
           "isPathogenic": {
             "description": "Whether the genomic variant is considered pathogenic in a clinical setting",
             "title": "Is Pathogenic",
@@ -62073,6 +62602,19 @@
             "description": "Whether the genomic variant is considered a variant of unknown signifiance (VUS)",
             "title": "Is VUS",
             "type": "boolean"
+          },
+          "cytogeneticLocation": {
+            "description": "Cytogenetic location of the variant (e.g. 17q21.31)",
+            "title": "Cytogenetic Location",
+            "type": "string"
+          },
+          "chromosomes": {
+            "description": "Chromosomes involved in the variant (e.g. 17, X)",
+            "items": {
+              "type": "string"
+            },
+            "title": "Chromosomes",
+            "type": "array"
           },
           "dnaReferenceSequence": {
             "description": "DNA reference sequence identifier used as dna HGVS reference.",
@@ -63420,7 +63962,6 @@
           "description",
           "caseId",
           "date",
-          "reviewedReports",
           "therapeuticRecommendations"
         ],
         "title": "MolecularTumorBoard",
@@ -65580,7 +66121,7 @@
             "title": "Pathological staging",
             "type": "boolean"
           },
-          "primarytumor": {
+          "primaryTumor": {
             "allOf": [
               {
                 "$ref": "#/components/schemas/CodedConcept"
@@ -65590,7 +66131,7 @@
             "title": "T Stage",
             "x-terminology": "TNMPrimaryTumorCategory"
           },
-          "regionalnodes": {
+          "regionalNodes": {
             "allOf": [
               {
                 "$ref": "#/components/schemas/CodedConcept"
@@ -65600,7 +66141,7 @@
             "title": "N Stage",
             "x-terminology": "TNMRegionalNodesCategory"
           },
-          "distantmetastases": {
+          "distantMetastases": {
             "allOf": [
               {
                 "$ref": "#/components/schemas/CodedConcept"
@@ -65620,7 +66161,7 @@
             "title": "G Stage",
             "x-terminology": "TNMGradeCategory"
           },
-          "residualtumor": {
+          "residualTumor": {
             "allOf": [
               {
                 "$ref": "#/components/schemas/CodedConcept"
@@ -65630,7 +66171,7 @@
             "title": "R Stage",
             "x-terminology": "TNMResidualTumorCategory"
           },
-          "lymphaticinvasion": {
+          "lymphaticInvasion": {
             "allOf": [
               {
                 "$ref": "#/components/schemas/CodedConcept"
@@ -65640,7 +66181,7 @@
             "title": "L Stage",
             "x-terminology": "TNMLymphaticInvasionCategory"
           },
-          "venousinvasion": {
+          "venousInvasion": {
             "allOf": [
               {
                 "$ref": "#/components/schemas/CodedConcept"
@@ -65650,7 +66191,7 @@
             "title": "V Stage",
             "x-terminology": "TNMVenousInvasionCategory"
           },
-          "perineuralinvasion": {
+          "perineuralInvasion": {
             "allOf": [
               {
                 "$ref": "#/components/schemas/CodedConcept"
@@ -65660,7 +66201,7 @@
             "title": "Pn Stage",
             "x-terminology": "TNMPerineuralInvasionCategory"
           },
-          "serumtumormarkerlevel": {
+          "serumTumorMarkerLevel": {
             "allOf": [
               {
                 "$ref": "#/components/schemas/CodedConcept"
@@ -70477,7 +71018,7 @@
             "title": "Pathological staging",
             "type": "boolean"
           },
-          "primarytumor": {
+          "primaryTumor": {
             "allOf": [
               {
                 "$ref": "#/components/schemas/CodedConcept"
@@ -70487,7 +71028,7 @@
             "title": "T Stage",
             "x-terminology": "TNMPrimaryTumorCategory"
           },
-          "regionalnodes": {
+          "regionalNodes": {
             "allOf": [
               {
                 "$ref": "#/components/schemas/CodedConcept"
@@ -70497,7 +71038,7 @@
             "title": "N Stage",
             "x-terminology": "TNMRegionalNodesCategory"
           },
-          "distantmetastases": {
+          "distantMetastases": {
             "allOf": [
               {
                 "$ref": "#/components/schemas/CodedConcept"
@@ -70517,7 +71058,7 @@
             "title": "G Stage",
             "x-terminology": "TNMGradeCategory"
           },
-          "residualtumor": {
+          "residualTumor": {
             "allOf": [
               {
                 "$ref": "#/components/schemas/CodedConcept"
@@ -70527,7 +71068,7 @@
             "title": "R Stage",
             "x-terminology": "TNMResidualTumorCategory"
           },
-          "lymphaticinvasion": {
+          "lymphaticInvasion": {
             "allOf": [
               {
                 "$ref": "#/components/schemas/CodedConcept"
@@ -70537,7 +71078,7 @@
             "title": "L Stage",
             "x-terminology": "TNMLymphaticInvasionCategory"
           },
-          "venousinvasion": {
+          "venousInvasion": {
             "allOf": [
               {
                 "$ref": "#/components/schemas/CodedConcept"
@@ -70547,7 +71088,7 @@
             "title": "V Stage",
             "x-terminology": "TNMVenousInvasionCategory"
           },
-          "perineuralinvasion": {
+          "perineuralInvasion": {
             "allOf": [
               {
                 "$ref": "#/components/schemas/CodedConcept"
@@ -70557,7 +71098,7 @@
             "title": "Pn Stage",
             "x-terminology": "TNMPerineuralInvasionCategory"
           },
-          "serumtumormarkerlevel": {
+          "serumTumorMarkerLevel": {
             "allOf": [
               {
                 "$ref": "#/components/schemas/CodedConcept"
@@ -81646,8 +82187,7 @@
         },
         "required": [
           "caseId",
-          "date",
-          "reviewedReports"
+          "date"
         ],
         "title": "MolecularTumorBoardCreate",
         "type": "object"
@@ -83844,6 +84384,47 @@
             "title": "descendantsOf",
             "type": "string"
           },
+          "source.not.exists": {
+            "description": "Source - Filter for entries without a value",
+            "title": "not.exists",
+            "type": "boolean"
+          },
+          "source.exists": {
+            "description": "Source - Filter for entries with a value",
+            "title": "exists",
+            "type": "boolean"
+          },
+          "source": {
+            "description": "Source - Filter for a matching concept code",
+            "title": "EqualsConceptFilter",
+            "type": "string"
+          },
+          "source.not": {
+            "description": "Source - Filter for a mismatching concept code",
+            "title": "not",
+            "type": "string"
+          },
+          "source.anyOf": {
+            "description": "Source - Filter for a matching set of concept codes",
+            "items": {
+              "type": "string"
+            },
+            "title": "anyOf",
+            "type": "array"
+          },
+          "source.not.anyOf": {
+            "description": "Source - Filter for a mismmatching set of concept codes",
+            "items": {
+              "type": "string"
+            },
+            "title": "not.anyOf",
+            "type": "array"
+          },
+          "source.descendantsOf": {
+            "description": "Source - Filter for all child concepts of a given concepts code",
+            "title": "descendantsOf",
+            "type": "string"
+          },
           "inheritance.not.exists": {
             "description": "Inheritance - Filter for entries without a value",
             "title": "not.exists",
@@ -83992,6 +84573,62 @@
             "title": "not.anyOf",
             "type": "array"
           },
+          "hgvsVersion": {
+            "description": "HGVS Version - Filter for full text matches",
+            "title": "ExactStringFilter",
+            "type": "string"
+          },
+          "hgvsVersion.not": {
+            "description": "HGVS Version - Filter for full text mismatches",
+            "title": "not",
+            "type": "string"
+          },
+          "hgvsVersion.contains": {
+            "description": "HGVS Version - Filter for partial text matches",
+            "title": "contains",
+            "type": "string"
+          },
+          "hgvsVersion.not.contains": {
+            "description": "HGVS Version - Filter for partial text mismatches",
+            "title": "not.contains",
+            "type": "string"
+          },
+          "hgvsVersion.beginsWith": {
+            "description": "HGVS Version - Filter for entries starting with the text",
+            "title": "beginsWith",
+            "type": "string"
+          },
+          "hgvsVersion.not.beginsWith": {
+            "description": "HGVS Version - Filter for entries not starting with the text",
+            "title": "not.beginsWith",
+            "type": "string"
+          },
+          "hgvsVersion.endsWith": {
+            "description": "HGVS Version - Filter for entries ending with the text",
+            "title": "endsWith",
+            "type": "string"
+          },
+          "hgvsVersion.not.endsWith": {
+            "description": "HGVS Version - Filter for entries not ending with the text",
+            "title": "not.endsWith",
+            "type": "string"
+          },
+          "hgvsVersion.anyOf": {
+            "description": "HGVS Version - Filter for entries where at least one reference matches the query",
+            "items": {
+              "type": "string"
+            },
+            "title": "anyOf",
+            "type": "array"
+          },
+          "hgvsVersion.not.anyOf": {
+            "description": "HGVS Version - Filter for entries where at least one reference mismatches the query",
+            "items": {
+              "type": "string"
+            },
+            "title": "not.anyOf",
+            "type": "array"
+          },
           "isPathogenic.not.exists": {
             "description": "Is Pathogenic - Filter for entries without a value",
             "title": "not.exists",
@@ -84021,6 +84658,138 @@
             "description": "Is VUS - Filter for yes/no statement",
             "title": "EqualsBooleanFilter",
             "type": "boolean"
+          },
+          "cytogeneticLocation.not.exists": {
+            "description": "Cytogenetic Location - Filter for entries without a value",
+            "title": "not.exists",
+            "type": "boolean"
+          },
+          "cytogeneticLocation.exists": {
+            "description": "Cytogenetic Location - Filter for entries with a value",
+            "title": "exists",
+            "type": "boolean"
+          },
+          "cytogeneticLocation": {
+            "description": "Cytogenetic Location - Filter for full text matches",
+            "title": "ExactStringFilter",
+            "type": "string"
+          },
+          "cytogeneticLocation.not": {
+            "description": "Cytogenetic Location - Filter for full text mismatches",
+            "title": "not",
+            "type": "string"
+          },
+          "cytogeneticLocation.contains": {
+            "description": "Cytogenetic Location - Filter for partial text matches",
+            "title": "contains",
+            "type": "string"
+          },
+          "cytogeneticLocation.not.contains": {
+            "description": "Cytogenetic Location - Filter for partial text mismatches",
+            "title": "not.contains",
+            "type": "string"
+          },
+          "cytogeneticLocation.beginsWith": {
+            "description": "Cytogenetic Location - Filter for entries starting with the text",
+            "title": "beginsWith",
+            "type": "string"
+          },
+          "cytogeneticLocation.not.beginsWith": {
+            "description": "Cytogenetic Location - Filter for entries not starting with the text",
+            "title": "not.beginsWith",
+            "type": "string"
+          },
+          "cytogeneticLocation.endsWith": {
+            "description": "Cytogenetic Location - Filter for entries ending with the text",
+            "title": "endsWith",
+            "type": "string"
+          },
+          "cytogeneticLocation.not.endsWith": {
+            "description": "Cytogenetic Location - Filter for entries not ending with the text",
+            "title": "not.endsWith",
+            "type": "string"
+          },
+          "cytogeneticLocation.anyOf": {
+            "description": "Cytogenetic Location - Filter for entries where at least one reference matches the query",
+            "items": {
+              "type": "string"
+            },
+            "title": "anyOf",
+            "type": "array"
+          },
+          "cytogeneticLocation.not.anyOf": {
+            "description": "Cytogenetic Location - Filter for entries where at least one reference mismatches the query",
+            "items": {
+              "type": "string"
+            },
+            "title": "not.anyOf",
+            "type": "array"
+          },
+          "chromosomes.not.exists": {
+            "description": "Chromosomes - Filter for entries without a value",
+            "title": "not.exists",
+            "type": "boolean"
+          },
+          "chromosomes.exists": {
+            "description": "Chromosomes - Filter for entries with a value",
+            "title": "exists",
+            "type": "boolean"
+          },
+          "chromosomes": {
+            "description": "Chromosomes - Filter for full text matches",
+            "title": "ExactStringFilter",
+            "type": "string"
+          },
+          "chromosomes.not": {
+            "description": "Chromosomes - Filter for full text mismatches",
+            "title": "not",
+            "type": "string"
+          },
+          "chromosomes.contains": {
+            "description": "Chromosomes - Filter for partial text matches",
+            "title": "contains",
+            "type": "string"
+          },
+          "chromosomes.not.contains": {
+            "description": "Chromosomes - Filter for partial text mismatches",
+            "title": "not.contains",
+            "type": "string"
+          },
+          "chromosomes.beginsWith": {
+            "description": "Chromosomes - Filter for entries starting with the text",
+            "title": "beginsWith",
+            "type": "string"
+          },
+          "chromosomes.not.beginsWith": {
+            "description": "Chromosomes - Filter for entries not starting with the text",
+            "title": "not.beginsWith",
+            "type": "string"
+          },
+          "chromosomes.endsWith": {
+            "description": "Chromosomes - Filter for entries ending with the text",
+            "title": "endsWith",
+            "type": "string"
+          },
+          "chromosomes.not.endsWith": {
+            "description": "Chromosomes - Filter for entries not ending with the text",
+            "title": "not.endsWith",
+            "type": "string"
+          },
+          "chromosomes.anyOf": {
+            "description": "Chromosomes - Filter for entries where at least one reference matches the query",
+            "items": {
+              "type": "string"
+            },
+            "title": "anyOf",
+            "type": "array"
+          },
+          "chromosomes.not.anyOf": {
+            "description": "Chromosomes - Filter for entries where at least one reference mismatches the query",
+            "items": {
+              "type": "string"
+            },
+            "title": "not.anyOf",
+            "type": "array"
           },
           "dnaReferenceSequence.not.exists": {
             "description": "DNA HGVS RefSeq - Filter for entries without a value",
@@ -85088,6 +85857,16 @@
             "description": "The observed level of occurrence of the variant in the set of chromosomes.",
             "title": "Zygosity",
             "x-terminology": "Zygosity"
+          },
+          "source": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CodedConcept"
+              }
+            ],
+            "description": "Variant genomic source (if known).",
+            "title": "Source",
+            "x-terminology": "GeneticVariantSource"
           },
           "inheritance": {
             "allOf": [
@@ -87321,6 +88100,21 @@
             "title": "EqualsBooleanFilter",
             "type": "boolean"
           },
+          "isDeceased.not.exists": {
+            "description": "Is deceased - Filter for entries without a value",
+            "title": "not.exists",
+            "type": "boolean"
+          },
+          "isDeceased.exists": {
+            "description": "Is deceased - Filter for entries with a value",
+            "title": "exists",
+            "type": "boolean"
+          },
+          "isDeceased": {
+            "description": "Is deceased - Filter for yes/no statement",
+            "title": "EqualsBooleanFilter",
+            "type": "boolean"
+          },
           "contributedToDeath.not.exists": {
             "description": "Contributed to death - Filter for entries without a value",
             "title": "not.exists",
@@ -87546,6 +88340,11 @@
           "hadCancer": {
             "description": "Whether the family member has a history of cancer",
             "title": "Had cancer",
+            "type": "boolean"
+          },
+          "isDeceased": {
+            "description": "Whether the the family member is deceased",
+            "title": "Is deceased",
             "type": "boolean"
           },
           "contributedToDeath": {
@@ -91265,7 +92064,7 @@
                 "type": "array"
               }
             ],
-            "description": "The value of the Binet stage",
+            "description": "The value of the Breslow stage",
             "title": "Dataset Breslow Stage"
           }
         },
@@ -91612,6 +92411,11 @@
             "title": "Dataset Had cancer",
             "type": "boolean"
           },
+          "isDeceased": {
+            "description": "Whether the the family member is deceased",
+            "title": "Dataset Is deceased",
+            "type": "boolean"
+          },
           "contributedToDeath": {
             "description": "Whether the cancer contributed to the cause of death of the family member",
             "title": "Dataset Contributed to death",
@@ -91860,6 +92664,21 @@
             "description": "The observed level of occurrence of the variant in the set of chromosomes.",
             "title": "Dataset Zygosity"
           },
+          "source": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              }
+            ],
+            "description": "Variant genomic source (if known).",
+            "title": "Dataset Source"
+          },
           "inheritance": {
             "anyOf": [
               {
@@ -91895,6 +92714,11 @@
             "title": "Dataset ClinVar accession number",
             "type": "string"
           },
+          "hgvsVersion": {
+            "description": "Version of the HGVS nomenclature used for the HGVS expressions",
+            "title": "Dataset HGVS Version",
+            "type": "string"
+          },
           "isPathogenic": {
             "description": "Whether the genomic variant is considered pathogenic in a clinical setting",
             "title": "Dataset Is Pathogenic",
@@ -91904,6 +92728,19 @@
             "description": "Whether the genomic variant is considered a variant of unknown signifiance (VUS)",
             "title": "Dataset Is VUS",
             "type": "boolean"
+          },
+          "cytogeneticLocation": {
+            "description": "Cytogenetic location of the variant (e.g. 17q21.31)",
+            "title": "Dataset Cytogenetic Location",
+            "type": "string"
+          },
+          "chromosomes": {
+            "description": "Chromosomes involved in the variant (e.g. 17, X)",
+            "items": {
+              "type": "string"
+            },
+            "title": "Dataset Chromosomes",
+            "type": "array"
           },
           "dnaReferenceSequence": {
             "description": "DNA reference sequence identifier used as dna HGVS reference.",
@@ -95004,7 +95841,7 @@
             "title": "Dataset Pathological staging",
             "type": "boolean"
           },
-          "primarytumor": {
+          "primaryTumor": {
             "anyOf": [
               {
                 "type": "string"
@@ -95019,7 +95856,7 @@
             "description": "T stage (extent of the primary tumor)",
             "title": "Dataset T Stage"
           },
-          "regionalnodes": {
+          "regionalNodes": {
             "anyOf": [
               {
                 "type": "string"
@@ -95034,7 +95871,7 @@
             "description": "N stage (degree of spread to regional lymph nodes)",
             "title": "Dataset N Stage"
           },
-          "distantmetastases": {
+          "distantMetastases": {
             "anyOf": [
               {
                 "type": "string"
@@ -95064,7 +95901,7 @@
             "description": "G stage (grade of the cancer cells)",
             "title": "Dataset G Stage"
           },
-          "residualtumor": {
+          "residualTumor": {
             "anyOf": [
               {
                 "type": "string"
@@ -95079,7 +95916,7 @@
             "description": "R stage (extent of residual tumor cells after operation)",
             "title": "Dataset R Stage"
           },
-          "lymphaticinvasion": {
+          "lymphaticInvasion": {
             "anyOf": [
               {
                 "type": "string"
@@ -95094,7 +95931,7 @@
             "description": "L stage (invasion into lymphatic vessels)",
             "title": "Dataset L Stage"
           },
-          "venousinvasion": {
+          "venousInvasion": {
             "anyOf": [
               {
                 "type": "string"
@@ -95109,7 +95946,7 @@
             "description": "V stage (invasion into venous vessels)",
             "title": "Dataset V Stage"
           },
-          "perineuralinvasion": {
+          "perineuralInvasion": {
             "anyOf": [
               {
                 "type": "string"
@@ -95124,7 +95961,7 @@
             "description": "Pn stage (invasion into adjunct nerves)",
             "title": "Dataset Pn Stage"
           },
-          "serumtumormarkerlevel": {
+          "serumTumorMarkerLevel": {
             "anyOf": [
               {
                 "type": "string"
