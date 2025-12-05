@@ -14,6 +14,7 @@
     - API
         - [Overview](guide/api/overview.md)
         - [Specification](guide/api/specification.md)
+        - [FHIR Interface](guide/api/fhir.md)
     - Database
         - [Schema](guide/database/db_schema.md)
         - [Migrations](guide/database/migrations.md)

@@ -16,7 +16,7 @@ hide:
       Open <span class="gradient-text">Oncology Research</span> Data Platform
     </h1>
     <p class="paragraph">
-      Onconova is an open-source web application for capturing and exploring data to support research and scientific collaboration.
+      Onconova is an open-source web application for capturing and exploring data to support research and scientific collaboration, featuring both traditional REST APIs and FHIR-compliant interoperability interfaces.
     </p>
     <p>
       <a class="md-button md-button--primary" href="./get-started/installation/">Get Started</a>

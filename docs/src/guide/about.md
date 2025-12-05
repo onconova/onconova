@@ -10,12 +10,14 @@ The primary aim of Onconova is to simplify and help standardize how clinical onc
 - Aggregate and analyze data interactively through a modern web interface.
 - Facilitate cohort-building and outcome studies based on real-world data.
 - Support precision medicine initiatives by surfacing actionable insights from clinical practice data.
+- Enable FHIR-compliant interoperability with external healthcare systems and Electronic Health Records (EHRs).
 
 ## How It Works
 Onconova consists of two main components:
 
 - A Django-based API server that manages clinical data models, authentication, and API endpoints.
 - An Angular web client that provides interactive data entry, cohort selection, and data visualization tools.
+- A FHIR-compliant interoperability interface that enables standards-based data exchange with external healthcare systems.
 
 Both components are containerized using Docker and orchestrated via Docker Compose, making deployment flexible and reproducible across local and production environments.
 
@@ -38,35 +40,41 @@ flowchart RL
         server[Onconova server]
         client[Onconova client]
         db[(Onconova Database)]
-    api[Onconova API] 
+        api[Onconova REST API] 
+        fhir[Onconova FHIR Interface]
     end
     user[User]
+    healthcare[Healthcare Systems]
     subgraph "Customization (optional)" 
         microservices@{ shape: processes, label: "Microservices" }
         plugins@{ shape: processes, label: "Client Plugins" }
     end
 
     user <--> client
+    healthcare <--> fhir
 
     client <-----> api
     server <---> api
+    server <---> fhir
     db <--> server
 
     microservices <.-> api
+    microservices <.-> fhir
     plugins <.-> client
     plugins <.-> microservices
 ```
 
 #### Core Components
 
-- **Onconova Server** - The backend service responsible for handling business logic, API processing, and database interactions. It exposes the Onconova API to facilitate communication with the client and optional microservices.
-- **Onconova Client** - A frontend application, a single-page application (SPA), that provides the user interface. It communicates with the Onconova API to fetch or send data and display dynamic content to the user.
-- **Onconova API** - An API layer that acts as the communication bridge between the client and the server. It provides endpoints for retrieving data, submitting forms, managing user actions, and invoking server-side business logic.
-- **Onconova Database** - A relational database responsible for persistent data storage. It is accessed by the Onconova Server to read and write application data.
+- **Onconova Server** - The backend service responsible for handling business logic, API processing, and database interactions. It exposes both the REST API and FHIR interface to facilitate communication with clients, healthcare systems, and optional microservices.
+- **Onconova Client** - A frontend application, a single-page application (SPA), that provides the user interface. It communicates with the Onconova REST API to fetch or send data and display dynamic content to the user.
+- **Onconova REST API** - An API layer that provides endpoints for research and analytical workflows. It serves anonymized data and supports general application integration, data retrieval, form submission, and server-side business logic.
+- **FHIR Interface** - A standards-compliant FHIR API that enables healthcare system integration. It provides pseudonymized data access for authorized clinical workflows and supports HL7 FHIR R4 resource interactions.
+- **Onconova Database** - A relational database responsible for persistent data storage. It is accessed by the Onconova Server to read and write application data for both API interfaces.
 
 #### Customization Components
 
-- **Microservices** - Independent, decoupled services that can extend or augment the core API functionality. These may handle specific business domains, integrations, or asynchronous processes. They communicate bidirectionally with the **Onconova API** and, optionally, with **Client Plugins**.
+- **Microservices** - Independent, decoupled services that can extend or augment the core functionality. These may handle specific business domains, integrations, or asynchronous processes. They can communicate bidirectionally with both the **Onconova REST API** and **FHIR Interface**, as well as optionally with **Client Plugins**.
 - **Client Plugins** - Custom client-side extensions or modules that enhance or modify the behavior of the Onconova Client. These plugins can also interact directly with microservices for advanced client-side features like live data feeds, third-party integrations, or UI customizations.
 
 ## Component Orchestration
@@ -113,10 +121,11 @@ User Interaction
 Nginx Reverse Proxy (`reverse-proxy`)
 
 - Acts as a secure entry point for all incoming HTTPS traffic.
-- Based on the URL path of the request, Nginx routes the traffic to one of three destinations:
+- Based on the URL path of the request, Nginx routes the traffic to different destinations:
 
    + `/` → the Client Application (`client`).
-   + `/api` → the API service (`server`).
+   + `/api/vX` → the REST API service (`server`).
+   + `/api/fhir` → the FHIR API service (`server`).
 
 Client Application (`client`)
 
@@ -124,11 +133,11 @@ Client Application (`client`)
 - This server serves static frontend assets like JavaScript, CSS, and HTML files for the single-page application (SPA).
 - The actual application files reside in a directory labeled Client JS Files in the diagram.
 
-API Service (`server`)
+API Services (`server`)
 
-- Requests sent to `/api` are proxied to the Gunicorn WSGI Server within the `server` container.
+- Requests sent to `/api` and `/api/fhir` are proxied to the Gunicorn WSGI Server within the `server` container.
 - Gunicorn handles these requests by distributing them to multiple Django worker processes.
-- Each worker runs a Django application instance capable of processing API requests.
+- Each worker runs a Django application instance capable of processing both REST API and FHIR interface requests.
 
 PostgreSQL Database (`database`)
 

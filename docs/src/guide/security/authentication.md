@@ -10,6 +10,10 @@ A session token is issued by *Django-AllAuth* upon successful user authenticatio
 
     Onconova does not support anonymous or unauthenticated API access.
 
+!!! note "FHIR Interface Requirements"
+
+    The FHIR interface requires **elevated data management permissions** in addition to standard authentication. Users accessing the FHIR interface must be explicitly authorized for pseudonymized data access.
+
 #### How to Authenticate
 
 === "Username/password Sign-in"

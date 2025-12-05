@@ -17,19 +17,44 @@ APIs are commonly used to:
 
 ## Purpose
 
-The Onconova API serves as a controlled gateway for interacting with the Onconova platform’s database. It enables in a controlled and supervised manner to users and integrated applications to:
+The Onconova platform provides **two complementary API interfaces** for different interoperability needs:
+
+### REST API (This Interface)
+
+The Onconova REST API serves as a controlled gateway for general application integration and research workflows. It enables users and integrated applications to:
 
 - **Query data sources** and obtain both raw and aggregated clinical and genomic data
 - **Create new records** within the system such as patients, reports, or terminology entries
 - **Retrieve aggregated insights** from processed data sets
-- **Integrate third-party clinical systems** or research tools with Onconova, enabling seamless data exchange without compromising security or data integrity
+- **Integrate research tools** and analytical pipelines with Onconova's anonymized datasets
 
-This is particularly useful for:
+This interface provides **fully anonymized data** and is particularly useful for:
+
+- Research data extraction pipelines
+- Analytics and reporting applications
+- Custom research applications
+- Third-party research tool integrations
+
+### FHIR Interface
+
+In addition, Onconova offers a **[FHIR-compliant interface](fhir.md)** designed specifically for healthcare system integration:
+
+- **Standards-based interoperability** using HL7 FHIR R4
+- **Healthcare system integration** with EHRs and clinical systems
+- **Pseudonymized data access** for authorized clinical workflows
+- **FHIR resource profiles** tailored for oncology research
+
+The FHIR interface requires **elevated permissions** and is intended for:
 
 - Electronic Health Record (EHR) integrations
-- Microservice integrations
-- Research data extraction pipelines
-- Terminology synchronization tools
+- Clinical decision support systems
+- Healthcare workflow automation
+- Multi-institutional research collaborations
+
+!!! tip "Choosing the Right Interface"
+
+    - **Use the REST API** for research applications, analytics, and general data access with anonymized data
+    - **Use the FHIR Interface** for healthcare system integrations and clinical workflows requiring pseudonymized data
 
 ## Specification
 
