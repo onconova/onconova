@@ -3,12 +3,14 @@ import uuid
 import pghistory
 from django.contrib.postgres import fields as postgres
 from django.db import models
+from django.db.models.functions import Now
 from django.utils.translation import gettext_lazy as _
 from queryable_properties.managers import QueryablePropertiesManager
 from queryable_properties.properties import AnnotationProperty
 
 from onconova.core.auth.models import User
 from onconova.core.models import BaseModel
+
 
 class ProjectStatusChoices(models.TextChoices):
     """
@@ -20,10 +22,12 @@ class ProjectStatusChoices(models.TextChoices):
         COMPLETED: Indicates the project has been finished.
         ABORTED: Indicates the project was stopped before completion.
     """
+
     PLANNED = "planned"
     ONGOING = "ongoing"
     COMPLETED = "completed"
     ABORTED = "aborted"
+
 
 @pghistory.track()
 class Project(BaseModel):
@@ -40,8 +44,8 @@ class Project(BaseModel):
         ethics_approval_number (models.CharField): Ethics approval number for the project.
         status (models.CharField): Current status of the project, chosen from ProjectStatusChoices.
         data_constraints (models.JSONField): Data constraints associated with the project.
-    """ 
-    
+    """
+
     objects = QueryablePropertiesManager()
 
     leader = models.ForeignKey(
@@ -130,6 +134,7 @@ class ProjectMembership(models.Model):
     Constraints:
         Ensures that each user can only be a member of a project once (unique combination of project and member).
     """
+
     member = models.ForeignKey(
         verbose_name=_("User"),
         help_text=_("User that is part of a project"),
@@ -200,8 +205,8 @@ class ProjectDataManagerGrant(BaseModel):
                 then=False,
             ),
             models.When(
-                validity_period__startswith__lte=models.functions.Now(),
-                validity_period__endswith__gte=models.functions.Now(),
+                validity_period__startswith__lte=Now(),
+                validity_period__endswith__gte=Now(),
                 then=True,
             ),
             default=False,

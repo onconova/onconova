@@ -126,7 +126,8 @@ export class CohortQueryBuilderComponent implements ControlValueAccessor {
   getEntityFields(entity: DataResource): Field[] {
     const IGNORED_FIELDS: string[] = [
         'description', 'caseId', 'id', 'createdAt', 'updatedAt',
-        'createdBy', 'updatedBy', 'externalSourceId', 'anonymized'
+        'createdBy', 'updatedBy', 'externalSourceId', 'anonymized',
+        'clinicalIdentifier', 
     ];
     const NESTED_RESOURCES: DataResource[] = [
       DataResource.SystemicTherapyMedication,
