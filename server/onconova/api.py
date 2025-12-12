@@ -1,6 +1,6 @@
 """
-This module defines and configures the main Onconova API using NinjaExtraAPI, providing a secure, 
-standards-based interface for cancer genomics and clinical research data management. It registers all core, 
+This module defines and configures the main Onconova API using NinjaExtraAPI, providing a secure,
+standards-based interface for cancer genomics and clinical research data management. It registers all core,
 oncology, research, and interoperability controllers, and sets up OpenAPI documentation with custom settings and license information.
 """
 
@@ -42,7 +42,7 @@ from onconova.research.controllers.dataset import DatasetsController
 from onconova.research.controllers.project import ProjectController
 from onconova.terminology.controllers import TerminologyController
 
-api:NinjaExtraAPI 
+api: NinjaExtraAPI
 """The main Onconova API instance, configured with custom OpenAPI documentation, authentication requirements,
 and registered controllers for health checks, authentication, user management, oncology, research, interoperability,
 terminology, and analytics. This API serves as the entry point for all RESTful endpoints related to cancer genomics
@@ -50,7 +50,7 @@ and clinical research data management."""
 
 api = NinjaExtraAPI(
     title="Onconova API",
-    version="1.2.1",
+    version="1.3.0",
     urls_namespace="onconova",
     servers=[
         dict(
