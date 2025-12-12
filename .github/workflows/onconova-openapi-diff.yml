@@ -11,6 +11,8 @@ env:
 jobs:
   build-oas-artefacts:
     runs-on: ubuntu-latest
+    outputs:
+      files-different: ${{ steps.compare-files.outputs.different }}
     steps:
       - uses: actions/setup-node@v1
         with:
@@ -53,11 +55,23 @@ jobs:
           name: modified-spec
           path: modified/client/openapi.json
 
+      - name: Compare OpenAPI files
+        id: compare-files
+        run: |
+          if cmp -s original/client/openapi.json modified/client/openapi.json; then
+            echo "different=false" >> $GITHUB_OUTPUT
+            echo "OpenAPI files are identical - no changes detected"
+          else
+            echo "different=true" >> $GITHUB_OUTPUT
+            echo "OpenAPI files differ - changes detected"
+          fi
+
   build-report:
     permissions:
       contents: read
       pull-requests: write
     needs: build-oas-artefacts
+    if: needs.build-oas-artefacts.outputs.files-different == 'true'
     runs-on: ubuntu-latest
     env:
       GH_COMMENT_FILE: "Github-comment.md"
