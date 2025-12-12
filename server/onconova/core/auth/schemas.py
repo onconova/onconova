@@ -1,12 +1,18 @@
 """
 This module defines Pydantic schemas for user authentication and profile management within the Onconova system.
 """
+
 from typing import Literal
 from ninja import Field, Schema
 from datetime import datetime
 
 from onconova.core.serialization.factory import create_filters_schema
-from onconova.core.schemas import BaseSchema, MetadataAnonymizationMixin, MetadataMixin, AnonymizationMixin
+from onconova.core.schemas import (
+    BaseSchema,
+    MetadataAnonymizationMixin,
+    MetadataMixin,
+    AnonymizationMixin,
+)
 from onconova.core.types import Nullable, UUID
 from onconova.core.auth import models as orm
 
@@ -29,89 +35,94 @@ class UserPasswordReset(Schema):
 
 
 class UserCreate(BaseSchema):
-    
-    __orm_model__ = orm.User #type: ignore
-    
+
+    __orm_model__ = orm.User  # type: ignore
+
     lastLogin: Nullable[datetime] = Field(
-        None, description='', 
-        title='Last Login',
+        None,
+        description="",
+        title="Last Login",
     )
     username: str = Field(
         ...,
-        description='Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.',
-        title='Username',
+        description="Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.",
+        title="Username",
         max_length=150,
     )
     firstName: Nullable[str] = Field(
-        None, description='', title='First Name',
+        None,
+        description="",
+        title="First Name",
         max_length=150,
     )
     lastName: Nullable[str] = Field(
-        None, description='', title='Last Name',
+        None,
+        description="",
+        title="Last Name",
         max_length=150,
     )
     email: Nullable[str] = Field(
-        None, description='', title='Email Address',
+        None,
+        description="",
+        title="Email Address",
         max_length=254,
     )
     isActive: bool = Field(
         True,
-        description='Designates whether this user should be treated as active. Unselect this instead of deleting accounts.',
-        title='Active',
+        description="Designates whether this user should be treated as active. Unselect this instead of deleting accounts.",
+        title="Active",
     )
     externalSource: Nullable[str] = Field(
         None,
-        description='Name of the source from which the user originated, if imported',
-        title='External source',
+        description="Name of the source from which the user originated, if imported",
+        title="External source",
         max_length=500,
     )
     externalSourceId: Nullable[str] = Field(
         None,
-        description='Unique identifier within the source from which the user originated, if imported',
-        title='External source ID',
+        description="Unique identifier within the source from which the user originated, if imported",
+        title="External source ID",
         max_length=500,
     )
     isServiceAccount: bool = Field(
         False,
-        description='Whether the user is a technical service account',
-        title='Is service account?',
+        description="Whether the user is a technical service account",
+        title="Is service account?",
     )
     title: Nullable[str] = Field(
-        None, 
-        description='Personal title of the user', 
-        title='Title',
+        None,
+        description="Personal title of the user",
+        title="Title",
         max_length=100,
     )
     organization: Nullable[str] = Field(
         None,
-        description='Organization to which the user belongs to',
-        title='Organization',
+        description="Organization to which the user belongs to",
+        title="Organization",
         max_length=100,
     )
     department: Nullable[str] = Field(
         None,
-        description='Department within an organization to which the user belongs to',
-        title='Department',
+        description="Department within an organization to which the user belongs to",
+        title="Department",
         max_length=100,
     )
     accessLevel: int = Field(
         0,
-        description='Level of access of the user in terms of permissions',
-        title='Access level',
+        description="Level of access of the user in terms of permissions",
+        title="Access level",
     )
     shareable: Nullable[bool] = Field(
         None,
-        description='Whether user has consented to its data to be shared with other Onconova instances',
-        title='Shareable',
+        description="Whether user has consented to its data to be shared with other Onconova instances",
+        title="Shareable",
     )
 
 
 class User(UserCreate):
 
     id: UUID = Field(
-        ..., 
-        description='Unique identifier of the resource (UUID v4).', 
-        title='Id'
+        ..., description="Unique identifier of the resource (UUID v4).", title="Id"
     )
     fullName: str = Field(
         title="Full Name",
@@ -169,34 +180,32 @@ class User(UserCreate):
         title="Provider",
         description="The external authentication provider, if applicable.",
     )
-    
+
 
 class UserExport(BaseSchema, AnonymizationMixin):
     """User information to be exported for acreditation purposes"""
-    
-    __orm_model__ = orm.User # type: ignore 
-    
+
+    __orm_model__ = orm.User  # type: ignore
+
     id: UUID = Field(
-        ..., 
-        description='Unique identifier of the resource (UUID v4).', 
-        title='Id'
+        ..., description="Unique identifier of the resource (UUID v4).", title="Id"
     )
     externalSource: Nullable[str] = Field(
         None,
-        description='Name of the source from which the user originated, if imported',
-        title='External source',
+        description="Name of the source from which the user originated, if imported",
+        title="External source",
         max_length=500,
     )
     externalSourceId: Nullable[str] = Field(
         None,
-        description='Unique identifier within the source from which the user originated, if imported',
-        title='External source ID',
+        description="Unique identifier within the source from which the user originated, if imported",
+        title="External source ID",
         max_length=500,
     )
     username: str = Field(
         ...,
-        description='Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.',
-        title='Username',
+        description="Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.",
+        title="Username",
         max_length=150,
     )
     firstName: Nullable[str] = Field(
@@ -219,16 +228,15 @@ class UserExport(BaseSchema, AnonymizationMixin):
     )
     email: Nullable[str] = Field(
         default=None,
-        title="Email Address", 
-        description="The user's primary email address.",        
+        title="Email Address",
+        description="The user's primary email address.",
         max_length=254,
     )
-    
-    @staticmethod 
+
+    @staticmethod
     def resolve_anonymized(user):
         return not user.shareable
-    
-    
+
 
 class UserProfile(BaseSchema):
     """
@@ -242,6 +250,8 @@ class UserProfile(BaseSchema):
         title (Optional[str]): The user's job title or position.
         email (str): The user's primary email address.
     """
+
+    __orm_model__ = orm.User  # type: ignore
 
     firstName: Nullable[str] = Field(
         title="First Name",
@@ -273,7 +283,6 @@ UserFilters = create_filters_schema(schema=User, name="UserFilters")
 """Dynamically generated schema for filtering users, based on User schema."""
 
 
-
 class UserCredentials(Schema):
     """
     Schema representing user credentials required for authentication.
@@ -282,13 +291,10 @@ class UserCredentials(Schema):
         username (str): The username of the user.
         password (str): The password associated with the username.
     """
-    username: str = Field(
-        title="Username",
-        description="The username of the user."
-    )
+
+    username: str = Field(title="Username", description="The username of the user.")
     password: str = Field(
-        title="Password",
-        description="The password associated with the username."
+        title="Password", description="The password associated with the username."
     )
 
 
@@ -301,19 +307,20 @@ class UserProviderClientToken(Schema):
         id_token (Optional[str]): The ID token issued by the authentication provider, if available.
         access_token (Optional[str]): The access token issued by the authentication provider, if available.
     """
+
     client_id: str = Field(
         title="Client ID",
-        description="The unique identifier for the client application."
+        description="The unique identifier for the client application.",
     )
     id_token: Nullable[str] = Field(
         default=None,
         title="ID Token",
-        description="The ID token issued by the authentication provider, if available."
+        description="The ID token issued by the authentication provider, if available.",
     )
     access_token: Nullable[str] = Field(
         default=None,
         title="Access Token",
-        description="The access token issued by the authentication provider, if available."
+        description="The access token issued by the authentication provider, if available.",
     )
 
 
@@ -326,17 +333,18 @@ class UserProviderToken(Schema):
         process (Literal["login"] | Literal["connect"]): The process type, either 'login' or 'connect'.
         token (UserProviderClientToken): The token object containing provider-specific authentication details.
     """
+
     provider: str = Field(
         title="Provider",
-        description="The name of the authentication provider (e.g., 'google', 'facebook')."
+        description="The name of the authentication provider (e.g., 'google', 'facebook').",
     )
     process: Literal["login"] | Literal["connect"] = Field(
         title="Process Type",
-        description="The process type, either 'login' or 'connect'."
+        description="The process type, either 'login' or 'connect'.",
     )
     token: UserProviderClientToken = Field(
         title="Provider Token",
-        description="The token object containing provider-specific authentication details."
+        description="The token object containing provider-specific authentication details.",
     )
 
 
@@ -349,6 +357,7 @@ class AuthenticationMeta(BaseSchema):
         accessToken (Optional[str]): The access token for the authenticated session, if available.
         isAuthenticated (bool): Indicates whether the user is authenticated.
     """
+
     sessionToken: Nullable[str] = Field(
         default=None,
         title="Session Token",
