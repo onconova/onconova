@@ -2,6 +2,8 @@ name: API Breaking Changes
 
 on:
   pull_request:
+    paths:
+      - 'server/**'
 
 
 env:
