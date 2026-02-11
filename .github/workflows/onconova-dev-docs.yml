@@ -68,5 +68,5 @@ jobs:
         working-directory: ./docs-repo
         run: |
           npx @compodoc/compodoc@1.1.26 -p ../client/tsconfig.doc.json -d ../docs/src/compodoc/ -y ../docs/src/assets/css/compodoc/ --hideGenerator --theme material
-          git fetch origin main --depth=1
+          git fetch origin main
           mike deploy --push -b main --config-file ../docs/mkdocs.yml dev
