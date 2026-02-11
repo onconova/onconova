@@ -3,7 +3,7 @@
 
         <div class="field flex flex-column">
             <p-selectbutton 
-            [options]="relationshipOptions" 
+            [options]="relationshipOptions"
             formControlName="relationship"
             optionLabel="name" 
             optionValue="code"
@@ -28,6 +28,7 @@
                 formControlName="assertionDate"
             />
             <onconova-form-control-error controlName="assertionDate"></onconova-form-control-error>
+            <small class="help-text">The asserted date represents when a clinician began following the neoplasm, not necessarily when it was recorded.</small>
         </div>
 
         @if (requiresPrimary()) {
@@ -40,6 +41,13 @@
                 optionValue="id"
                 placeholder="Select an option" />
                 <onconova-form-control-error controlName="relatedPrimary"></onconova-form-control-error>
+                <small class="help-text">
+                    @if (form.value.relationship == 'metastatic') {
+                        The primary neoplasm from which this neoplasm metastatized.
+                    } @else {
+                        The primary neoplasm which recurred.
+                    }
+                </small>
             </div>    
         }
 
@@ -50,6 +58,7 @@
                 [showCodes]="true"
                 formControlName="topography"/>
             <onconova-form-control-error controlName="topography"></onconova-form-control-error>
+            <small class="help-text">The anatomical location of the neoplasm according to the ICD-O-3 classification rules.</small>
         </div>
         <div class="field">
             <label for="morphology" class="form-label required">Morphology</label>
@@ -57,7 +66,8 @@
                 [terminology]="morphologyTerminology()"
                 [showCodes]="true"
                 formControlName="morphology"/>
-            <onconova-form-control-error controlName="morphology"></onconova-form-control-error>
+            <onconova-form-control-error controlName="morphology"></onconova-form-control-error>            
+            <small class="help-text">The histologic/morphologic and behavioral characteristics of the neoplasm according to the ICD-O-3 classification rules.</small>
         </div>
 
         <div class="field flex flex-column">
