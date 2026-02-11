@@ -2,6 +2,7 @@ import { Component, computed, effect, inject, input, OnInit } from '@angular/cor
 import { FormBuilder, Validators } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { InlineSVGModule } from 'ng-inline-svg-2';
 
 
 import { 
@@ -43,7 +44,8 @@ import { SelectButton } from "primeng/selectbutton";
       ButtonModule,
       ConceptSelectorComponent,
       FormControlErrorComponent,
-      SelectButton
+      SelectButton,
+      InlineSVGModule,
   ]
 })
 export class NeoplasticEntityFormComponent extends AbstractFormBase{
@@ -149,9 +151,32 @@ export class NeoplasticEntityFormComponent extends AbstractFormBase{
   // Define options for UI elements
   public relationshipOptions = [
     { name: 'Primary', code: NeoplasticEntityRelationshipChoices.Primary },
-    { name: 'Metastatic', code: NeoplasticEntityRelationshipChoices.Metastatic },
+    { name: 'Metastasis', code: NeoplasticEntityRelationshipChoices.Metastatic },
     { name: 'Local recurrence', code: NeoplasticEntityRelationshipChoices.LocalRecurrence },
     { name: 'Regional recurrence', code: NeoplasticEntityRelationshipChoices.RegionalRecurrence },
   ]
+
+  public getIcon(category: string)  {
+    let icon: string = '' 
+      switch(category) {
+          case 'primary': {
+            icon='primary.svg';
+            break;
+          }
+          case 'metastatic': {
+            icon='metastasis.svg';
+            break;
+          }
+          case 'local_recurrence': {
+            icon='local-recurrence.svg';
+            break;
+          }
+          case 'regional_recurrence': {
+            icon='regional-recurrence.svg';
+            break;
+          }
+      }
+      return `assets/images/body/${icon}`
+  }
 
 }

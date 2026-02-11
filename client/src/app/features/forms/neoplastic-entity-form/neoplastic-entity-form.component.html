@@ -2,13 +2,23 @@
     <form  [formGroup]="form" (ngSubmit)="submitFormData()">
 
         <div class="field flex flex-column">
-            <label for="relationship" class="form-label required">Neoplastic relation category</label>
             <p-selectbutton 
             [options]="relationshipOptions" 
             formControlName="relationship"
             optionLabel="name" 
             optionValue="code"
-            placeholder="Select an option" />
+            class="cancer-category-selectbutton"
+            placeholder="Select an option">
+                <ng-template #item let-item>
+                    <div class="flex flex-column">
+                        <div class="text-center">{{item.name}}</div>
+                        <div 
+                            [inlineSVG]="getIcon(item.code)" 
+                            [setSVGAttributes]="{height: '3.5rem'}">
+                        </div>
+                    </div>
+                </ng-template>
+            </p-selectbutton>
             <onconova-form-control-error controlName="relationship"></onconova-form-control-error>
         </div>
 
