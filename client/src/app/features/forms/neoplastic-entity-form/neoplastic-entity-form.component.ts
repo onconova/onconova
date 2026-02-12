@@ -142,6 +142,7 @@ export class NeoplasticEntityFormComponent extends AbstractFormBase{
     const relatedPrimaryControl = this.form.get('relatedPrimary')
     if (this.#currentNeoplasticRelationship() === NeoplasticEntityRelationshipChoices.Primary) {
       relatedPrimaryControl?.removeValidators(Validators.required);
+      relatedPrimaryControl?.setValue(null);
     } else {
       relatedPrimaryControl?.addValidators(Validators.required);
     }  
