@@ -67,6 +67,7 @@ RUN $VIRTUAL_ENV/bin/pip install poetry==$POETRY_VERSION --trusted-host pypi.org
 # Install Python dependencies
 WORKDIR /app/src		
 COPY ./pyproject.toml .
+COPY ./poetry.lock .
 RUN --mount=type=cache,target=/root/.cache \
     $VIRTUAL_ENV/bin/poetry install -v --without dev --no-root --no-interaction --no-ansi --no-cache
 

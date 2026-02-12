@@ -106,5 +106,4 @@ etc/
 *.log
 
 # Git-specific files
-*.lock
 !.gitkeep
