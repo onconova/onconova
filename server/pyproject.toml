@@ -19,10 +19,10 @@ build-backend = "poetry.core.masonry.api"
 [tool.poetry.dependencies]
 # Core dependencies
 python = "~=3.11"
-django = "5.1"
-psycopg = "3.2.3"
-psycopg2 = "2.9.10"
-pydantic = "2.11.9"
+django = "^5.1"
+psycopg = "^3.2"
+psycopg2 = "^2.9"
+pydantic = "^2.11"
 # Django extensions/apps
 django_extensions = "3.2.1"
 django-allauth = "65.8.0"
@@ -34,25 +34,29 @@ django-pghistory = "3.5.5"
 django-stubs = "5.2.2"
 django-stubs-ext = "5.2.2"
 # Tools
-fhircraft = "0.4.2"
-measurement = "3.2.2"
-requests = "2.32.0"
-requests-oauthlib = "2.0.0"
-cachetools = "5.5.0"
-tqdm = "4.67.0"
-pyjwt = "2.0"
-xlsx2csv = "0.8.4"
-pyyaml = "6.0.2"
-# Testing
-pytest-django = "4.5.2"
-factory_boy = "3.3.1"
-parameterized = "0.9.0"
-coverage = "7.2.3"
+fhircraft = "0.4"
+measurement = "3.2"
+requests = "^2.32"
+requests-oauthlib = "^2.0"
+cachetools = "^5.5"
+tqdm = "^4.67"
+pyjwt = "^2.0"
+xlsx2csv = "^0.8"
+pyyaml = "^6.0"
 # WSGI server for production
-gunicorn = "21.2.0"
+gunicorn = "^21.2"
+
+[tool.poetry.group.dev.dependencies]
+# Testing
+pytest = "*"
+pytest-django = "^4.5"
+factory_boy = "^3.3"
+parameterized = "^0.9"
+coverage = "^7.2"
 # Serve dev-instance via HTTPS
-Werkzeug = "3.0.0"
-pyOpenSSL = "23.2.0"
+Werkzeug = "^3.0"
+pyOpenSSL = "^23.2"
+
 
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "onconova.tests.settings"

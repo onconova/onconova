@@ -68,7 +68,7 @@ RUN $VIRTUAL_ENV/bin/pip install poetry==$POETRY_VERSION --trusted-host pypi.org
 WORKDIR /app/src		
 COPY ./pyproject.toml .
 RUN --mount=type=cache,target=/root/.cache \
-    $VIRTUAL_ENV/bin/poetry install -v --no-root --no-interaction --no-ansi --no-cache
+    $VIRTUAL_ENV/bin/poetry install -v --without dev --no-root --no-interaction --no-ansi --no-cache
 
 
 ################################
@@ -82,7 +82,7 @@ ENV ENVIRONMENT=development
 
 # Quicker install as runtime dependencies are already installed
 RUN --mount=type=cache,target=/root/.cache \
-    poetry install --no-root --no-interaction --no-ansi --no-cache
+    poetry install  --with dev --no-root --no-interaction --no-ansi --no-cache
 
 WORKDIR /app/src
 
