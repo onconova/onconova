@@ -13,6 +13,7 @@ import { Fieldset } from 'primeng/fieldset';
 
 import { NeoplasticEntityEventComponent } from './components/case-manager-panel/components/neoplastic-entity-event.component';
 import { MultilineEventComponent } from './components/case-manager-panel/components/multiline-event.component';
+import { TherapyLineEventComponent } from './components/case-manager-panel/components/therapy-line-event.component';
 
 import { 
     Ribbon, HeartPulse, Tags, TestTubeDiagonal, Dna, 
@@ -238,6 +239,7 @@ export class CaseManagerComponent {
     public NeoplasticEntityFormComponent = NeoplasticEntityFormComponent;
     public NeoplasticEntityEventComponent = NeoplasticEntityEventComponent;
     public MultilineEventComponent = MultilineEventComponent;
+    public TherapyLineEventComponent = TherapyLineEventComponent;
     public StagingFormComponent = StagingFormComponent;
     public TumorMarkerFormComponent = TumorMarkerFormComponent;
     public RiskAssessmentFormComponent = RiskAssessmentFormComponent;
