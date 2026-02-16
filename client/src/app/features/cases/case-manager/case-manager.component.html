@@ -375,6 +375,7 @@
                         (onCompletionChange)="updateCompletion($event)"
                         [formComponent]="LifestyleFormComponent"
                         [service]="lifestyleService"
+                        [customEventComponent]="MultilineEventComponent"
                         [category]="PatientCaseDataCategoryChoices.Lifestyles"/>
                         
                     <p-divider></p-divider>
@@ -411,6 +412,7 @@
                         (onCompletionChange)="updateCompletion($event)"
                         [formComponent]="VitalsFormComponent"
                         [service]="vitalsService"
+                        [customEventComponent]="MultilineEventComponent"
                         [category]="PatientCaseDataCategoryChoices.Vitals"/> 
                 </p-fieldset>
             </div>
