@@ -12,6 +12,7 @@ import { Divider } from 'primeng/divider';
 import { Fieldset } from 'primeng/fieldset';
 
 import { NeoplasticEntityEventComponent } from './components/case-manager-panel/components/neoplastic-entity-event.component';
+import { TumorMarkerEventComponent } from './components/case-manager-panel/components/tumor-marker-event.component';
 import { MultilineEventComponent } from './components/case-manager-panel/components/multiline-event.component';
 import { TherapyLineEventComponent } from './components/case-manager-panel/components/therapy-line-event.component';
 
@@ -240,6 +241,7 @@ export class CaseManagerComponent {
     public NeoplasticEntityEventComponent = NeoplasticEntityEventComponent;
     public MultilineEventComponent = MultilineEventComponent;
     public TherapyLineEventComponent = TherapyLineEventComponent;
+    public TumorMarkerEventComponent = TumorMarkerEventComponent;
     public StagingFormComponent = StagingFormComponent;
     public TumorMarkerFormComponent = TumorMarkerFormComponent;
     public RiskAssessmentFormComponent = RiskAssessmentFormComponent;
