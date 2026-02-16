@@ -23,6 +23,7 @@ import { Popover } from "primeng/popover";
 import { UserSelectorComponent } from "src/app/shared/components/user-selector/user-selector.component";
 import { Divider } from "primeng/divider";
 import { Card } from "primeng/card";
+import { Chip } from "primeng/chip";
 
 interface ProjectMember extends User {
     authorization: ProjectDataManagerGrant
@@ -35,25 +36,26 @@ interface ProjectMember extends User {
         ConfirmationService
     ],
     imports: [
-        Fluid,
-        FormsModule,
-        CommonModule,
-        Skeleton,
-        UserBadgeComponent,
-        Divider,
-        Popover,
-        Card,
-        ConfirmDialog,
-        ToggleSwitch,
-        TagModule,
-        DataView,
-        TableModule,
-        DatePicker,
-        Menu,
-        Button,
-        UserSelectorComponent,
-        CohortSearchItemComponent,
-    ]
+    Fluid,
+    FormsModule,
+    CommonModule,
+    Skeleton,
+    UserBadgeComponent,
+    Divider,
+    Popover,
+    Card,
+    ConfirmDialog,
+    ToggleSwitch,
+    TagModule,
+    DataView,
+    TableModule,
+    DatePicker,
+    Menu,
+    Button,
+    UserSelectorComponent,
+    CohortSearchItemComponent,
+    Chip
+]
 })
 export class ProjectManagementComponent {
     

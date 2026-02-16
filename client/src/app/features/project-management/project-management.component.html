@@ -172,9 +172,9 @@
                     <td><span class="text-muted"><i class="pi pi-lock"></i> {{member.accessLevel}}</span> - {{member.role}}</td>
                     <td>
                         @if (member.canManageCases) {
-                            <p-tag value="Authorized" severity="success"/>
+                            <p-chip label="Authorized" styleClass="tag tag-primary-outline"/>
                         } @else {
-                            <p-tag value="Unauthorized" severity="danger"/>   
+                            <p-chip label="Unauthorized" styleClass="tag tag-secondary-outline"/>   
                         }
                     </td>
                     <td>
