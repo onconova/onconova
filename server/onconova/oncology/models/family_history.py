@@ -92,7 +92,7 @@ class FamilyHistory(BaseModel):
             if self.topography and self.topography.display:
                 condition = f" with {self.topography.display.lower().replace(', nos','')} cancer"
             else:
-                condition = "with history of cancer"
+                condition = " with history of cancer"
         else:
-            condition = "without history of cancer"
+            condition = " without history of cancer"
         return f"{relationship}{condition}"
