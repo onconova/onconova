@@ -52,6 +52,7 @@
                 <onconova-case-manager-panel-timeline 
                     [events]="events" 
                     [icon]="icon()"
+                    [customEventComponent]="customEventComponent()"
                     (onEventClick)="showDrawer($event)"/>
             } @else {
                 <div class="text-muted">

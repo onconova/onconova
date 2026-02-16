@@ -1,4 +1,4 @@
-import { Component, Input,inject, Output, EventEmitter, input, computed } from '@angular/core';
+import { Component, Input, Type, inject, Output, EventEmitter, input, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EMPTY, Observable, expand, first, map, reduce} from 'rxjs';
 import { rxResource } from '@angular/core/rxjs-interop';
@@ -70,6 +70,7 @@ export class CaseManagerPanelComponent {
     public service = input.required<DataService>();
     public title = input<string>();
     public icon = input.required<LucideIconData>();
+    public customEventComponent = input<Type<any>>();
 
     protected dataCompletionStatus = rxResource({
         request: () => ({caseId: this.caseId(), category: this.category()}),
