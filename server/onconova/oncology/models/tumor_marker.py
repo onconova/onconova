@@ -410,7 +410,7 @@ ANALYTES_DATA = {
         display="Fibroblast growth factor 23",
         valueTypes=[
             AnalyteResultType.arbitary_concentration,
-            AnalyteResultType.substance_concentration,
+            AnalyteResultType.mass_concentration,
             AnalyteResultType.presence,
         ],
     ),
