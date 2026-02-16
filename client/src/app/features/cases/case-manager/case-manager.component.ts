@@ -11,6 +11,8 @@ import { Knob, KnobModule } from 'primeng/knob';
 import { Divider } from 'primeng/divider';
 import { Fieldset } from 'primeng/fieldset';
 
+import { NeoplasticEntityEventComponent } from './components/case-manager-panel/components/neoplastic-entity-event.component';
+
 import { 
     Ribbon, HeartPulse, Tags, TestTubeDiagonal, Dna, 
     Fingerprint, Tablets, Slice, Radiation, Cigarette, 
@@ -233,6 +235,7 @@ export class CaseManagerComponent {
 
     // Form components
     public NeoplasticEntityFormComponent = NeoplasticEntityFormComponent;
+    public NeoplasticEntityEventComponent = NeoplasticEntityEventComponent;
     public StagingFormComponent = StagingFormComponent;
     public TumorMarkerFormComponent = TumorMarkerFormComponent;
     public RiskAssessmentFormComponent = RiskAssessmentFormComponent;
