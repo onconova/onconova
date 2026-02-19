@@ -116,9 +116,9 @@ class Radiotherapy(BaseModel):
 
     @property
     def description(self):
-        dosages = f"{' and '.join([dosage.description for dosage in self.dosages.all()])}"  # type: ignore
+        dosages = f"{' and '.join([f'{dosage.description[0].lower() + dosage.description[1:]}' for dosage in self.dosages.all()])}"  # type: ignore
         settings = (
-            f"{' and '.join([dosage.description for dosage in self.settings.all()])}"  # type: ignore
+            f"{' and '.join([f'{setting.description[0].lower() + setting.description[1:]}' for setting in self.settings.all()])}"  # type: ignore
             or "Radiotherapy"
         )
         return f"{self.therapy_line.label if self.therapy_line else self.intent.capitalize()} - {settings} {dosages}"
@@ -203,7 +203,7 @@ class RadiotherapyDosage(BaseModel):
         fractions_text = (
             f" over {self.fractions} fractions" if self.fractions is not None else ""
         )
-        return f'{self.dose or "Unknown dose"}{fractions_text} to {self.irradiated_volume.display}'
+        return f'{self.dose or "Unknown dose"}{fractions_text} to {self.irradiated_volume.display.lower()}'
 
 
 @pghistory.track()
