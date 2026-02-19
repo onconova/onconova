@@ -70,6 +70,7 @@
     [historyService]="service().history" 
     [icon]="icon()"
     [editable]="!isCompleted() && !anonymized()"
+    [exportable]="canExportData() && anonymized()"
     (delete)="deleteEntry($event)"
     (update)="updateEntry($event)"/>
 
