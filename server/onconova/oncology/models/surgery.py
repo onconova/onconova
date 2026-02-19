@@ -110,7 +110,7 @@ class Surgery(BaseModel):
 
     @property
     def description(self):
-        return f"{self.therapy_line.label if self.therapy_line else self.intent.capitalize()} - {self.procedure}"
+        return f"{self.therapy_line.label if self.therapy_line else self.intent.capitalize()} - {self.procedure.display[0].upper() + self.procedure.display[1:].lower()}"
 
     def assign_therapy_line(self):
         TherapyLine.assign_therapy_lines(self.case)

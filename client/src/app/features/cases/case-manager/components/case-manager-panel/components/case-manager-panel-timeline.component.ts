@@ -1,4 +1,4 @@
-import { Component, Output, Signal, computed, inject, input } from '@angular/core';
+import { Component, Output, Signal, Type, computed, inject, input } from '@angular/core';
 import { EventEmitter } from '@angular/core';
 import { CommonModule} from '@angular/common';
 import { TimelineModule } from 'primeng/timeline';
@@ -36,12 +36,15 @@ export interface RadioChoice {
                     <div class="flex flex-column gap-3">
                         @for (event of groupedEvents.events; track event.id) {
                             <div (click)="onEventClick.emit(event)" class="onconova-case-manager-panel-timeline-event-entry cursor-pointer">
-                                @if (icon()) {
-                                    <lucide-angular class="onconova-case-manager-panel-timeline-event-icon" [img]="icon()"/>
+                                <div class="onconova-case-manager-panel-timeline-event-icon"></div>
+                                @let component = customEventComponent();
+                                @if (component) {
+                                    <ng-container [ngComponentOutlet]="component" [ngComponentOutletInputs]="{ event: event }" style="width: 100%"/>
                                 } @else {
-                                    <i class="onconova-case-manager-panel-timeline-event-icon pi pi-box"></i>
+                                    <div class="onconova-case-manager-panel-timeline-event-description">
+                                    {{ event.description }}
+                                    </div>
                                 }
-                                {{ event.description }}
                             </div>                        
                         }
                     </div>
@@ -62,6 +65,7 @@ export class CaseManagerPanelTimelineComponent {
     @Output() public onEventClick = new EventEmitter<any>();
     public events = input.required<any[]>()
     public icon = input<LucideIconData>()
+    public customEventComponent = input<Type<any>>()
     public groupedEvents: Signal<{timestamp: Date | Period, events: any[]}[]> = computed(
         () => {
             let eventMap = this.events().map((event) => {

@@ -124,7 +124,7 @@ export class NeoplasticEntityFormComponent extends AbstractFormBase{
 
   // Primary neoplastic entities that could be related to a new entry 
   relatedPrimaries = rxResource({
-    request: () => ({caseId: this.caseId(), relationship: NeoplasticEntityRelationshipChoices.Primary}),
+    request: () => ({caseId: this.caseId(), relationship: NeoplasticEntityRelationshipChoices.Primary, idNot: this.initialData()?.id}),
     loader: ({request}) => this.#neoplasticEntitiesService.getNeoplasticEntities(request).pipe(map((data: PaginatedNeoplasticEntity) => data.items))
   })
 
@@ -142,6 +142,7 @@ export class NeoplasticEntityFormComponent extends AbstractFormBase{
     const relatedPrimaryControl = this.form.get('relatedPrimary')
     if (this.#currentNeoplasticRelationship() === NeoplasticEntityRelationshipChoices.Primary) {
       relatedPrimaryControl?.removeValidators(Validators.required);
+      relatedPrimaryControl?.setValue(null);
     } else {
       relatedPrimaryControl?.addValidators(Validators.required);
     }  

@@ -4,12 +4,19 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { map, tap } from 'rxjs'; 
 
+import { RatingModule  } from 'primeng/rating';
 import { AvatarModule } from 'primeng/avatar';
 import { SkeletonModule } from 'primeng/skeleton';
 import { Button } from 'primeng/button';
 import { Knob, KnobModule } from 'primeng/knob';
 import { Divider } from 'primeng/divider';
 import { Fieldset } from 'primeng/fieldset';
+import { TooltipModule } from 'primeng/tooltip';
+
+import { NeoplasticEntityEventComponent } from './components/case-manager-panel/components/neoplastic-entity-event.component';
+import { TumorMarkerEventComponent } from './components/case-manager-panel/components/tumor-marker-event.component';
+import { MultilineEventComponent } from './components/case-manager-panel/components/multiline-event.component';
+import { TherapyLineEventComponent } from './components/case-manager-panel/components/therapy-line-event.component';
 
 import { 
     Ribbon, HeartPulse, Tags, TestTubeDiagonal, Dna, 
@@ -99,7 +106,8 @@ import { ConfirmationService, MessageService } from 'primeng/api';
         UserBadgeComponent,
         CancerIconComponent,
         ConfirmDialog,
-        KnobModule,
+        RatingModule,
+        TooltipModule,
         Divider,
         Knob,
         SkeletonModule,
@@ -233,6 +241,10 @@ export class CaseManagerComponent {
 
     // Form components
     public NeoplasticEntityFormComponent = NeoplasticEntityFormComponent;
+    public NeoplasticEntityEventComponent = NeoplasticEntityEventComponent;
+    public MultilineEventComponent = MultilineEventComponent;
+    public TherapyLineEventComponent = TherapyLineEventComponent;
+    public TumorMarkerEventComponent = TumorMarkerEventComponent;
     public StagingFormComponent = StagingFormComponent;
     public TumorMarkerFormComponent = TumorMarkerFormComponent;
     public RiskAssessmentFormComponent = RiskAssessmentFormComponent;
@@ -275,6 +287,7 @@ export class CaseManagerComponent {
     protected readonly tour = TourDriverConfig;
     public exportLoading: boolean = false;
     public totalCompletion!: number; 
+    public rating!: number; 
     readonly currentUser = computed(() => this.#authService.user());
     protected anonymized = signal<boolean>(true); 
     
