@@ -333,5 +333,12 @@ onconova-cohort-query-builder {
             margin-left: -0.75rem;
             margin-right: -0.5rem;
         }
+        & .p-inputwrapper {
+           height: 100%;
+        }
+        & .p-select {
+           height: 100%;
+           margin: auto;
+        }
     }
 }
