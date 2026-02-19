@@ -26,7 +26,7 @@ def construct_fhir_codeable_concept(concept: CodedConcept | Coding) -> CodeableC
         >>> codeable = construct_fhir_codeable_concept(coding)
     """
     if isinstance(concept, CodedConcept):
-        return CodeableConcept(coding=[Coding.model_validate(concept.model_dump())])
+        return CodeableConcept(coding=[Coding(code=concept.code, system=concept.system, version=concept.version, display=concept.display)])
     elif isinstance(concept, Coding):
         return CodeableConcept(coding=[concept])
 
