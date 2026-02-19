@@ -331,7 +331,7 @@ AdverseEventProfile.register_mapping(
             AdverseEventMitigationCategoryChoices.ADJUSTMENT,
             Coding(
                 code="C49157",
-                system=" http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+                system="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
                 display="Adjustment",
             ),
         ),
