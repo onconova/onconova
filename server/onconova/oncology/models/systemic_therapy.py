@@ -159,7 +159,9 @@ class SystemicTherapy(BaseModel):
 
     @property
     def description(self):
-        return f'{self.therapy_line.label if self.therapy_line else self.intent.capitalize()} - {"/".join([drug.display for drug in self.drugs])}'
+        return f'{self.therapy_line.label if self.therapy_line else self.intent.capitalize()} - {"/".join([drug.display for drug in self.drugs])}' + (
+            f" ({self.adjunctive_role.display})" if self.adjunctive_role else ""
+        )
 
     def assign_therapy_line(self):
         TherapyLine.assign_therapy_lines(self.case)
