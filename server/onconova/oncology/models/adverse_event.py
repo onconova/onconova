@@ -121,10 +121,7 @@ class AdverseEvent(BaseModel):
 
     @property
     def description(self):
-        causes = " and ".join(
-            [cause.description[0].lower() + cause.description[1:] for cause in self.suspected_causes.all()]  # type: ignore
-        )
-        return " ".join([self.event.display or "", f"(grade {self.grade})", causes])
+        return " ".join([self.event.display or "", f"(grade {self.grade})"])
 
 
 @pghistory.track()
