@@ -11,7 +11,7 @@ permissions:
   contents: write
 
 jobs:
-  build-and-deploy-docs:
+  build-and-deploy-dev-docs:
     runs-on: ubuntu-latest
     steps:
       - name: Generate GitHub App Token

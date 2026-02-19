@@ -255,6 +255,7 @@
                         [anonymized]="anonymized()"
                         (onCompletionChange)="updateCompletion($event)"
                         [formComponent]="NeoplasticEntityFormComponent"
+                        [customEventComponent]="NeoplasticEntityEventComponent"
                         [service]="neoplasticEntityService"
                         [category]="PatientCaseDataCategoryChoices.NeoplasticEntities"/>
                         
@@ -292,7 +293,8 @@
                         (onCompletionChange)="updateCompletion($event)"
                         [formComponent]="TumorMarkerFormComponent"
                         [service]="tumorMarkerService"
-                        [category]="PatientCaseDataCategoryChoices.TumorMarkers"/>
+                        [category]="PatientCaseDataCategoryChoices.TumorMarkers"
+                        [customEventComponent]="TumorMarkerEventComponent"/>
     
                 </p-fieldset>
     
@@ -337,6 +339,7 @@
                         (onCompletionChange)="updateCompletion($event)"
                         [formComponent]="SystemicTherapyFormComponent"
                         [service]="systemicTherapyService"
+                        [customEventComponent]="TherapyLineEventComponent"
                         [category]="PatientCaseDataCategoryChoices.SystemicTherapies"/>
                         
                     <p-divider></p-divider>
@@ -349,6 +352,7 @@
                         (onCompletionChange)="updateCompletion($event)"
                         [formComponent]="SurgeryFormComponent"
                         [service]="surgeryService"
+                        [customEventComponent]="TherapyLineEventComponent"
                         [category]="PatientCaseDataCategoryChoices.Surgeries"/>
     
                     <p-divider></p-divider>
@@ -361,6 +365,7 @@
                         (onCompletionChange)="updateCompletion($event)"
                         [formComponent]="RadiotherapyFormComponent"
                         [service]="radiotherapyService"
+                        [customEventComponent]="TherapyLineEventComponent"
                         [category]="PatientCaseDataCategoryChoices.Radiotherapies"/>
                 </p-fieldset>
     
@@ -374,6 +379,7 @@
                         (onCompletionChange)="updateCompletion($event)"
                         [formComponent]="LifestyleFormComponent"
                         [service]="lifestyleService"
+                        [customEventComponent]="MultilineEventComponent"
                         [category]="PatientCaseDataCategoryChoices.Lifestyles"/>
                         
                     <p-divider></p-divider>
@@ -410,6 +416,7 @@
                         (onCompletionChange)="updateCompletion($event)"
                         [formComponent]="VitalsFormComponent"
                         [service]="vitalsService"
+                        [customEventComponent]="MultilineEventComponent"
                         [category]="PatientCaseDataCategoryChoices.Vitals"/> 
                 </p-fieldset>
             </div>

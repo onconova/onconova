@@ -45,6 +45,7 @@
     }
 }
 
+
 onconova-case-manager-panel {
 
     & .p-panel {
@@ -115,16 +116,30 @@ onconova-case-manager-panel {
                 &:hover {
                     color: var(--p-primary-color) !important;
                     & .onconova-case-manager-panel-timeline-event-icon{
-                        color: var(--p-primary-color) !important;
+                        background: var(--p-primary-color) !important;
                     }
                 }
             }
             & .onconova-case-manager-panel-timeline-event-date {
                 color: var(--p-text-muted-color) !important;
+                font-weight: 550;
+                text-transform: uppercase;
+                line-height: 1.2;
+            }
+            & .onconova-case-manager-panel-timeline-event-description,
+              onconova-tumor-marker-event,
+              onconova-therapy-line-event,
+              onconova-multiline-event,
+              onconova-neoplastic-entity-event {
+                width: 100%;
             }
             & .onconova-case-manager-panel-timeline-event-icon {
-                color: var(--p-divider-text-color) !important;
-                margin-right: .15rem;
+                background: var(--p-divider-border-color);
+                height: stretch;
+                color: var(--p-primary-color);
+                width: .5rem;
+                border-radius: 4rem;
+                margin-right: 0.5rem;
             }
             & lucide-angular.onconova-case-manager-panel-timeline-event-icon svg {
                 height: 1rem;
@@ -132,8 +147,6 @@ onconova-case-manager-panel {
             }
         }
     }
-
-
 
 }
 
@@ -260,5 +273,75 @@ onconova-case-manager-panel {
         height: 7rem;
         width: 7rem;
         margin-top: -4rem;
+    }
+}
+
+
+
+onconova-tumor-marker-event {
+    width: 100%;
+    & .onconova-tumor-marker-event {
+        display: flex;
+        gap: 0.75rem;
+        width: 100%;
+    }
+
+    & .label {
+        display: flex;
+        gap: .5rem;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    & .label-text {
+        font-weight: 500;
+        color: var(--text-color);
+    }
+
+    & .bar-container {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+
+    & .bar {
+        position: relative;
+        display: flex;
+        width: 8rem;
+        height: 0.6rem;
+        border-radius: 4px;
+        overflow: hidden;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+
+    & .bar-segment.bad-segment {
+        background-color: var(--p-divider-border-color);
+    }
+
+    & .bar-segment.good-segment {
+        background-color: color-mix(in srgb, var(--p-primary-400), transparent 50%) !important;
+    }
+
+    & .bar-indicator {
+        position: absolute;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 10;
+    }
+
+    & .bar-circle {
+        width: .5rem;
+        height: .5rem;
+        border-radius: 50%;
+        background-color: color-mix(in srgb, var(--p-primary-400), transparent 10%) !important;
+    }
+
+    & .bar-labels {
+        display: flex;
+        color: var(--p-divider-border-color);
+        justify-content: space-between;
+        font-size: 0.75rem;
+        padding: 0 4px;
     }
 }
