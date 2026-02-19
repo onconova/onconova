@@ -34,7 +34,7 @@ django-pghistory = "3.5.5"
 django-stubs = "5.2.2"
 django-stubs-ext = "5.2.2"
 # Tools
-fhircraft = "0.4"
+fhircraft = "0.4.2"
 measurement = "3.2"
 requests = "^2.32"
 requests-oauthlib = "^2.0"
