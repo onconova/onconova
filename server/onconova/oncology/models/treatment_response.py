@@ -99,9 +99,9 @@ class TreatmentResponse(BaseModel):
             "77477000": "CAT scan",
         }
         methodology = (
-            f' by {acronyms.get(self.methodology.code, str(self.methodology).lower()).split(" - ")[0]}'
+            f' by {acronyms.get(self.methodology.code, str(self.methodology).lower())}'
             if self.methodology.code != "1287211007"
             else ""
         )
-        recist_acronym = "".join([word[0].upper() for word in self.recist.display.split(" ")])
+        recist_acronym = "".join([word[0].upper() for word in self.recist.display.split(" ") if word])
         return f"{recist_acronym}{methodology}"
