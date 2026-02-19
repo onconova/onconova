@@ -40,7 +40,7 @@ requests = "^2.32"
 requests-oauthlib = "^2.0"
 cachetools = "^5.5"
 tqdm = "^4.67"
-pyjwt = "^2.0"
+pyjwt = { version = "^2.0", extras = ["crypto"] }
 xlsx2csv = "^0.8"
 pyyaml = "^6.0"
 # WSGI server for production
