@@ -75,7 +75,7 @@ class MappingRegistry:
         raise KeyError(f"No internal mapping found for {mapping_name}: {fhir_value}")
 
 
-class OnconovaFhirBaseSchema(BaseSchema):
+class OnconovaFhirBaseSchema(BaseSchema, alias_generator=None):
 
     __model__: ClassVar[type[Model]]
     __schema__: ClassVar[type[BaseSchema]]
