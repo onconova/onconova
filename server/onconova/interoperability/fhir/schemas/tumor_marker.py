@@ -9,7 +9,11 @@ from onconova.interoperability.fhir.schemas.base import (
     OnconovaFhirBaseSchema,
 )
 from onconova.interoperability.fhir.models import TumorMarker as fhir
-from onconova.interoperability.fhir.utils import ucum_to_internal, internal_to_ucum
+from onconova.interoperability.fhir.utils import (
+    construct_fhir_codeable_concept,
+    ucum_to_internal,
+    internal_to_ucum,
+)
 from onconova.oncology import models, schemas
 from onconova.core.schemas import CodedConcept, Measure
 from onconova.oncology.models.tumor_marker import (
@@ -233,9 +237,7 @@ class TumorMarkerProfile(OnconovaFhirBaseSchema, fhir.OnconovaTumorMarker):
         )
         resource.code.extension = [
             fhir.TumorMarkerAnalyte(
-                valueCodeableConcept=CodeableConcept(
-                    coding=[Coding.model_validate(obj.analyte.model_dump())]
-                )
+                valueCodeableConcept=construct_fhir_codeable_concept(obj.analyte)
             )
         ]
 

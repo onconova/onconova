@@ -7,6 +7,7 @@ from onconova.core.schemas import CodedConcept
 from onconova.oncology.models.neoplastic_entity import (
     NeoplasticEntityRelationshipChoices,
 )
+from onconova.interoperability.fhir.utils import construct_fhir_codeable_concept
 
 
 class PrimaryCancerConditionProfile(
@@ -91,10 +92,8 @@ class PrimaryCancerConditionProfile(
             extension=(
                 [
                     fhir.LateralityQualifier(
-                        valueCodeableConcept=fhir.CodeableConcept(
-                            coding=[
-                                fhir.Coding.model_validate(obj.laterality.model_dump())
-                            ]
+                        valueCodeableConcept=construct_fhir_codeable_concept(
+                            obj.laterality
                         )
                     )
                 ]
@@ -104,21 +103,15 @@ class PrimaryCancerConditionProfile(
         )
         resource.extension = [
             fhir.HistologyMorphologyBehavior(
-                valueCodeableConcept=fhir.CodeableConcept(
-                    coding=[fhir.Coding.model_validate(obj.morphology.model_dump())]
-                )
+                valueCodeableConcept=construct_fhir_codeable_concept(obj.morphology)
             ),
             fhir.ConditionAssertedDate(valueDateTime=obj.assertionDate.isoformat()),
         ]
         if obj.differentitation:
             resource.extension.append(
                 fhir.HistologicalDifferentiation(
-                    valueCodeableConcept=fhir.CodeableConcept(
-                        coding=[
-                            fhir.Coding.model_validate(
-                                obj.differentitation.model_dump()
-                            )
-                        ]
+                    valueCodeableConcept=construct_fhir_codeable_concept(
+                        obj.differentitation
                     )
                 )
             )
@@ -131,7 +124,7 @@ class PrimaryCancerConditionProfile(
             or obj.relationship
             == NeoplasticEntityRelationshipChoices.REGIONAL_RECURRENCE
         ):
-            resource.clinicalStatus = fhir.OnconovaPrimaryCancerConditionClinicalStatus(
+            resource.clinicalStatus = fhir.CodeableConcept(
                 coding=[
                     fhir.Coding(
                         code="recurrence",

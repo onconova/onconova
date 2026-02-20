@@ -6,6 +6,7 @@ from onconova.oncology import models, schemas
 from onconova.oncology.models.neoplastic_entity import (
     NeoplasticEntityRelationshipChoices,
 )
+from onconova.interoperability.fhir.utils import construct_fhir_codeable_concept
 
 
 class SecondaryCancerConditionProfile(
@@ -82,10 +83,8 @@ class SecondaryCancerConditionProfile(
             extension=(
                 [
                     fhir.LateralityQualifier(
-                        valueCodeableConcept=fhir.CodeableConcept(
-                            coding=[
-                                fhir.Coding.model_validate(obj.laterality.model_dump())
-                            ]
+                        valueCodeableConcept=construct_fhir_codeable_concept(
+                            obj.laterality
                         )
                     )
                 ]
@@ -95,21 +94,15 @@ class SecondaryCancerConditionProfile(
         )
         resource.extension = [
             fhir.HistologyMorphologyBehavior(
-                valueCodeableConcept=fhir.CodeableConcept(
-                    coding=[fhir.Coding.model_validate(obj.morphology.model_dump())]
-                )
+                valueCodeableConcept=construct_fhir_codeable_concept(obj.morphology)
             ),
             fhir.ConditionAssertedDate(valueDateTime=obj.assertionDate.isoformat()),
         ]
         if obj.differentitation:
             resource.extension.append(
                 fhir.HistologicalDifferentiation(
-                    valueCodeableConcept=fhir.CodeableConcept(
-                        coding=[
-                            fhir.Coding.model_validate(
-                                obj.differentitation.model_dump()
-                            )
-                        ]
+                    valueCodeableConcept=construct_fhir_codeable_concept(
+                        obj.differentitation
                     )
                 )
             )

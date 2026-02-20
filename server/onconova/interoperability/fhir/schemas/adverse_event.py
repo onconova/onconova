@@ -215,7 +215,7 @@ class AdverseEventProfile(OnconovaFhirBaseSchema, fhir.OnconovaAdverseEvent):
                     instance=Reference(reference=ref),
                     causality=(
                         [
-                            fhir.OnconovaAdverseEventSuspectEntityCausality(
+                            fhir.AdverseEventSuspectEntityCausality(
                                 assessment=construct_fhir_codeable_concept(
                                     cls.map_to_fhir("causality", cause.causality)
                                 )

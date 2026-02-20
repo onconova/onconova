@@ -1,7 +1,4 @@
-from fhircraft.fhir.resources.datatypes.R4.complex import (
-    Duration,
-    Reference,
-)
+from fhircraft.fhir.resources.datatypes.R4.complex import Duration, Reference, Narrative
 from onconova.interoperability.fhir.schemas.base import (
     MappingRule,
     OnconovaFhirBaseSchema,
@@ -13,6 +10,7 @@ from onconova.oncology.models.patient_case import (
     PatientCaseConsentStatusChoices,
     PatientCaseVitalStatusChoices,
 )
+from onconova.interoperability.fhir.utils import construct_fhir_codeable_concept
 
 
 class CancerPatientProfile(OnconovaFhirBaseSchema, fhir.OnconovaCancerPatient):
@@ -106,7 +104,7 @@ class CancerPatientProfile(OnconovaFhirBaseSchema, fhir.OnconovaCancerPatient):
                     value=obj.clinicalIdentifier, system=obj.clinicalCenter
                 ),
             ],
-            text=fhir.Narrative(
+            text=Narrative(
                 status="generated",
                 div=f'<div xmlns="http://www.w3.org/1999/xhtml">{obj.description}</div>',
             ),
@@ -120,8 +118,8 @@ class CancerPatientProfile(OnconovaFhirBaseSchema, fhir.OnconovaCancerPatient):
         if obj.genderIdentity is not None:
             resource.extension.append(
                 fhir.USCoreGenderIdentityExtension(
-                    valueCodeableConcept=fhir.CodeableConcept(
-                        coding=[fhir.Coding(**obj.genderIdentity.model_dump())]
+                    valueCodeableConcept=construct_fhir_codeable_concept(
+                        obj.genderIdentity
                     )
                 )
             )
@@ -167,8 +165,8 @@ class CancerPatientProfile(OnconovaFhirBaseSchema, fhir.OnconovaCancerPatient):
         if obj.causeOfDeath is not None:
             resource.deceasedDateTime_ext.extension.append(
                 fhir.CauseOfDeath(
-                    valueCodeableConcept=fhir.CodeableConcept(
-                        coding=[fhir.Coding(**obj.causeOfDeath.model_dump())]
+                    valueCodeableConcept=construct_fhir_codeable_concept(
+                        obj.causeOfDeath
                     )
                 )
             )
