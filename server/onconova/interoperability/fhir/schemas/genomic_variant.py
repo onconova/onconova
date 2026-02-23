@@ -213,7 +213,7 @@ class GenomicVariantProfile(OnconovaFhirBaseSchema, fhir.OnconovaGenomicVariant)
             )
         for gene in obj.genes:
             resource.component.append(
-                fhir.OnconovaGenomicVariantGeneStudied(
+                fhir.GenomicVariantGeneStudied(
                     valueCodeableConcept=construct_fhir_codeable_concept(gene),
                 )
             )
@@ -226,18 +226,7 @@ class GenomicVariantProfile(OnconovaFhirBaseSchema, fhir.OnconovaGenomicVariant)
                 )
         if obj.cytogeneticLocation is not None:
             resource.component.append(
-                fhir.OnconovaGenomicVariantCytogeneticLocation(
-                    valueCodeableConcept=construct_fhir_codeable_concept(
-                        Coding(
-                            code=obj.cytogeneticLocation,
-                            system="https://iscn.karger.com",
-                        )
-                    )
-                )
-            )
-        if obj.cytogeneticLocation is not None:
-            resource.component.append(
-                fhir.OnconovaGenomicVariantCytogeneticLocation(
+                fhir.GenomicVariantCytogeneticLocation(
                     valueCodeableConcept=construct_fhir_codeable_concept(
                         Coding(
                             code=obj.cytogeneticLocation,
@@ -249,7 +238,7 @@ class GenomicVariantProfile(OnconovaFhirBaseSchema, fhir.OnconovaGenomicVariant)
         if obj.chromosomes is not None:
             resource.component.extend(
                 [
-                    fhir.OnconovaGenomicVariantChromosomeIdentifier(
+                    fhir.VariantChromosomeIdentifier(
                         valueCodeableConcept=construct_fhir_codeable_concept(
                             cls.map_to_fhir("Chromosomes", chr)
                         )
@@ -259,7 +248,7 @@ class GenomicVariantProfile(OnconovaFhirBaseSchema, fhir.OnconovaGenomicVariant)
             )
         if obj.genomeAssemblyVersion is not None:
             resource.component.append(
-                fhir.OnconovaGenomicVariantReferenceSequenceAssembly(
+                fhir.GenomicFindingReferenceSequenceAssembly(
                     valueCodeableConcept=construct_fhir_codeable_concept(
                         obj.genomeAssemblyVersion
                     )
@@ -302,9 +291,9 @@ class GenomicVariantProfile(OnconovaFhirBaseSchema, fhir.OnconovaGenomicVariant)
                 rf"{HGVSRegex.GENOMIC_REFSEQ}",
                 obj.dnaReferenceSequence,
             ):
-                component = fhir.OnconovaGenomicVariantGenomicRefSeq
+                component = fhir.VariantGenomicRefSeq
             else:
-                component = fhir.OnconovaGenomicVariantTranscriptRefSeq
+                component = fhir.VariantTranscriptRefSeq
             resource.component.append(
                 component(
                     valueCodeableConcept=construct_fhir_codeable_concept(
@@ -317,7 +306,7 @@ class GenomicVariantProfile(OnconovaFhirBaseSchema, fhir.OnconovaGenomicVariant)
             )
         if obj.coordinateSystem is not None:
             resource.component.append(
-                fhir.OnconovaGenomicVariantCoordinateSystem(
+                fhir.VariantCoordinateSystem(
                     valueCodeableConcept=construct_fhir_codeable_concept(
                         obj.coordinateSystem
                     )
@@ -345,7 +334,7 @@ class GenomicVariantProfile(OnconovaFhirBaseSchema, fhir.OnconovaGenomicVariant)
                 )
         if obj.molecularConsequence is not None:
             resource.component.append(
-                fhir.OnconovaGenomicVariantMolecularConsequence(
+                fhir.GenomicVariantMolecularConsequence(
                     valueCodeableConcept=construct_fhir_codeable_concept(
                         obj.molecularConsequence
                     )
@@ -353,7 +342,7 @@ class GenomicVariantProfile(OnconovaFhirBaseSchema, fhir.OnconovaGenomicVariant)
             )
         if obj.confidence is not None:
             resource.component.append(
-                fhir.OnconovaGenomicVariantVariantConfidenceStatus(
+                fhir.VariantVariantConfidenceStatus(
                     valueCodeableConcept=construct_fhir_codeable_concept(
                         cls.map_to_fhir("Confidence", obj.confidence)
                     )
@@ -361,13 +350,13 @@ class GenomicVariantProfile(OnconovaFhirBaseSchema, fhir.OnconovaGenomicVariant)
             )
         if obj.zygosity is not None:
             resource.component.append(
-                fhir.OnconovaGenomicVariantAllelicState(
+                fhir.GenomicVariantAllelicState(
                     valueCodeableConcept=construct_fhir_codeable_concept(obj.zygosity)
                 )
             )
         if obj.inheritance is not None:
             resource.component.append(
-                fhir.OnconovaGenomicVariantVariantInheritance(
+                fhir.VariantVariantInheritance(
                     valueCodeableConcept=construct_fhir_codeable_concept(
                         obj.inheritance
                     )
@@ -375,7 +364,7 @@ class GenomicVariantProfile(OnconovaFhirBaseSchema, fhir.OnconovaGenomicVariant)
             )
         if obj.alleleDepth is not None:
             resource.component.append(
-                fhir.OnconovaGenomicVariantAllelicReadDepth(
+                fhir.VariantAllelicReadDepth(
                     valueQuantity=Quantity(
                         value=obj.alleleDepth,
                         code="{reads}",
@@ -386,7 +375,7 @@ class GenomicVariantProfile(OnconovaFhirBaseSchema, fhir.OnconovaGenomicVariant)
             )
         if obj.alleleFrequency is not None:
             resource.component.append(
-                fhir.OnconovaGenomicVariantSampleAllelicFrequency(
+                fhir.GenomicVariantSampleAllelicFrequency(
                     valueQuantity=Quantity(
                         value=obj.alleleFrequency * 100,
                         code="%",
@@ -396,13 +385,13 @@ class GenomicVariantProfile(OnconovaFhirBaseSchema, fhir.OnconovaGenomicVariant)
             )
         if obj.source is not None:
             resource.component.append(
-                fhir.OnconovaGenomicVariantGenomicSourceClass(
+                fhir.GenomicVariantGenomicSourceClass(
                     valueCodeableConcept=construct_fhir_codeable_concept(obj.source)
                 )
             )
         if obj.copyNumber is not None:
             resource.component.append(
-                fhir.OnconovaGenomicVariantCopyNumber(
+                fhir.GenomicVariantCopyNumber(
                     valueQuantity=Quantity(
                         value=obj.copyNumber,
                         code="{copies}",
@@ -426,7 +415,7 @@ class GenomicVariantProfile(OnconovaFhirBaseSchema, fhir.OnconovaGenomicVariant)
             )
         if obj.clinvar is not None:
             resource.component.append(
-                fhir.OnconovaGenomicVariantVariationCode(
+                fhir.GenomicVariantVariationCode(
                     valueCodeableConcept=construct_fhir_codeable_concept(
                         Coding(
                             code=obj.clinvar,

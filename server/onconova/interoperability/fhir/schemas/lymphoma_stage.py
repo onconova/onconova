@@ -79,7 +79,7 @@ class LymphomaStageProfile(OnconovaFhirBaseSchema, fhir.OnconovaLymphomaStage):
         if obj.bulky is not None:
             resource.component = resource.component or []
             resource.component.append(
-                fhir.OnconovaLymphomaStageBulkyModifier(
+                fhir.LymphomaStageBulkyModifier(
                     valueCodeableConcept=(
                         construct_fhir_codeable_concept(
                             Coding(
@@ -102,7 +102,7 @@ class LymphomaStageProfile(OnconovaFhirBaseSchema, fhir.OnconovaLymphomaStage):
         if obj.pathological is not None:
             resource.component = resource.component or []
             resource.component.append(
-                fhir.OnconovaLymphomaStageClinOrPathModifier(
+                fhir.LymphomaStageClinOrPathModifier(
                     valueCodeableConcept=(
                         construct_fhir_codeable_concept(
                             Coding(
@@ -125,7 +125,7 @@ class LymphomaStageProfile(OnconovaFhirBaseSchema, fhir.OnconovaLymphomaStage):
         for modifier in obj.modifiers or []:
             resource.component = resource.component or []
             resource.component.append(
-                fhir.OnconovaLymphomaStageStageModifier(
+                fhir.LymphomaStageStageModifier(
                     valueCodeableConcept=(construct_fhir_codeable_concept(modifier))
                 )
             )

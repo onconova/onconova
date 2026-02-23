@@ -4,7 +4,10 @@ from fhircraft.fhir.resources.datatypes.R4.complex import (
     Coding,
     Quantity,
 )
-from fhircraft.fhir.resources.datatypes.R4.core import BodyStructure
+from fhircraft.fhir.resources.datatypes.R4.core import (
+    AdverseEventSuspectEntityCausality,
+    BodyStructure,
+)
 from django.shortcuts import get_object_or_404
 from onconova.interoperability.fhir.schemas.base import (
     OnconovaFhirBaseSchema,
@@ -215,7 +218,7 @@ class AdverseEventProfile(OnconovaFhirBaseSchema, fhir.OnconovaAdverseEvent):
                     instance=Reference(reference=ref),
                     causality=(
                         [
-                            fhir.AdverseEventSuspectEntityCausality(
+                            AdverseEventSuspectEntityCausality(
                                 assessment=construct_fhir_codeable_concept(
                                     cls.map_to_fhir("causality", cause.causality)
                                 )

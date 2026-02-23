@@ -1252,7 +1252,7 @@ class CancerPatientOverallSurvival(Extension, FHIRSliceModel):
     url: Optional[String] = Field(
         default="http://onconova.github.io/fhir/StructureDefinition/onconova-ext-cancer-patient-overall-survival",
     )
-    valueDuration: Optional[List[Duration]] = Field(
+    valueDuration: Optional[Duration] = Field(
         default=None,
     )
 

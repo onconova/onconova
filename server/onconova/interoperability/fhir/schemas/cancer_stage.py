@@ -6,6 +6,7 @@ from fhircraft.fhir.resources.datatypes.R4.complex import (
     Reference,
     Coding,
     Quantity,
+    Extension,
 )
 from fhircraft.fhir.resources.base import FHIRBaseModel
 from onconova.interoperability.fhir.schemas.base import (
@@ -230,7 +231,7 @@ class CancerStageProfile(OnconovaFhirBaseSchema, fhir.OnconovaCancerStage):
                 ),
             ]
             resource.valueCodeableConcept.extension = [
-                fhir.Extension(
+                Extension(
                     url="https://onconova.github.io/fhir/StructureDefinition/onconova-ext-cancer-stage-breslow-depth",
                     valueQuantity=Quantity(
                         value=obj.depth.value,
