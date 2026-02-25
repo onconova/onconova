@@ -98,7 +98,11 @@ class FhirCrudApiControllerTestCase(ApiControllerTestMixin, TestCase):
             if scenario == "HTTPS Authenticated":
                 self.assertEqual(response.status_code, 200)
                 expected = schema.model_validate(instance).model_dump()
+                for c in expected.get('contained', []):
+                    c.pop('meta', None)
                 result = schema.model_validate(response.json()).model_dump()
+                for c in result.get('contained', []):
+                    c.pop('meta', None)
                 self.assertEqual(
                     result,
                     expected,

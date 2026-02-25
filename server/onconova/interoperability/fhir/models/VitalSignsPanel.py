@@ -384,46 +384,6 @@ Observation resources representing a collection of vital signs in the scope of O
         description="Vital Signs Panel",
         default_factory=lambda: CodeableConcept(coding=[Coding(code="85353-1", system="http://loinc.org")]),
     )
-    focus: Optional[List[Reference]] = Field(
-        description="Not used in this profile",
-        default=None,
-    )
-    encounter: Optional[Reference] = Field(
-        description="Not used in this profile",
-        default=None,
-    )
-    issued: Optional[Instant] = Field(
-        description="Not used in this profile",
-        default=None,
-    )
-    performer: Optional[List[Reference]] = Field(
-        description="Not used in this profile",
-        default=None,
-    )
-    interpretation: Optional[List[CodeableConcept]] = Field(
-        description="Not used in this profile",
-        default=None,
-    )
-    bodySite: Optional[CodeableConcept] = Field(
-        description="Not used in this profile",
-        default=None,
-    )
-    specimen: Optional[Reference] = Field(
-        description="Not used in this profile",
-        default=None,
-    )
-    device: Optional[Reference] = Field(
-        description="Not used in this profile",
-        default=None,
-    )
-    referenceRange: Optional[List[BackboneElement]] = Field(
-        description="Not used in this profile",
-        default=None,
-    )
-    component: Optional[List[BackboneElement]] = Field(
-        description="Not used in this profile",
-        default=None,
-    )
     
     @property 
     def effective(self):
