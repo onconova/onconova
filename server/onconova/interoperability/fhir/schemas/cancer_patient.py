@@ -34,7 +34,7 @@ class CancerPatientProfile(OnconovaFhirBaseSchema, fhir.OnconovaCancerPatient):
             externalSource=None,
             externalSourceId=None,
             clinicalCenter=obj.fhirpath_single(
-                "Patient.identifier.where(type.coding.code='MR').system"
+                "Patient.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-cancer-patient-clinical-center').valueString"
             ),
             clinicalIdentifier=obj.fhirpath_single(
                 "Patient.identifier.where(type.coding.code='MR').value"
@@ -89,28 +89,28 @@ class CancerPatientProfile(OnconovaFhirBaseSchema, fhir.OnconovaCancerPatient):
 
     @classmethod
     def onconova_to_fhir(cls, obj: schemas.PatientCase) -> fhir.OnconovaCancerPatient:
-        data = obj.model_dump()
-        data.update(
-            id=str(obj.id),
-            _name=[fhir.OnconovaCancerPatientName()],
-            gender=obj.gender.code,
-            birthDate=obj.dateOfBirth,
-            deceasedDateTime=obj.dateOfDeath,
-            identifier=[
-                fhir.OnconovaCancerPatientOnconovaIdentifier(
-                    value=obj.pseudoidentifier
-                ),
-                fhir.OnconovaCancerPatientClinicalIdentifier(
-                    value=obj.clinicalIdentifier, system=obj.clinicalCenter
-                ),
-            ],
-            text=Narrative(
-                status="generated",
-                div=f'<div xmlns="http://www.w3.org/1999/xhtml">{obj.description}</div>',
+        resource = CancerPatientProfile.model_construct()
+        resource.id=str(obj.id)
+        resource.gender=obj.gender.code
+        resource.birthDate=obj.dateOfBirth
+        resource.deceasedDateTime=obj.dateOfDeath
+        resource.identifier=[
+            fhir.OnconovaCancerPatientOnconovaIdentifier(
+                value=obj.pseudoidentifier
             ),
+            fhir.OnconovaCancerPatientClinicalIdentifier(
+                value=obj.clinicalIdentifier, system=obj.clinicalCenter.replace(' ', '-')
+            ),
+        ]
+        resource.text=Narrative(
+            status="generated",
+            div=f'<div xmlns="http://www.w3.org/1999/xhtml">{obj.description}</div>',
         )
-        resource = fhir.OnconovaCancerPatient.model_validate(data)
-        resource.extension = []
+        resource.extension = [
+            fhir.CancerPatientClinicalCenter(
+                valueString=obj.clinicalCenter
+            )
+        ]
         if obj.sexAtBirth is not None:
             resource.extension.append(
                 fhir.USCoreBirthSexExtension(valueCode=obj.sexAtBirth.code)
@@ -127,11 +127,11 @@ class CancerPatientProfile(OnconovaFhirBaseSchema, fhir.OnconovaCancerPatient):
         resource.birthDate_ext.extension = []
         if obj.age is not None:
             resource.birthDate_ext.extension.append(
-                fhir.CancerPatientAge(valueInteger=obj.age)
+                fhir.CancerPatientAge(valueInteger=int(obj.age))
             )
         if obj.ageAtDiagnosis is not None:
             resource.birthDate_ext.extension.append(
-                fhir.CancerPatientAgeAtDiagnosis(valueInteger=obj.ageAtDiagnosis)
+                fhir.CancerPatientAgeAtDiagnosis(valueInteger=int(obj.ageAtDiagnosis))
             )
         if obj.dataCompletionRate is not None:
             resource.extension.append(
@@ -142,7 +142,7 @@ class CancerPatientProfile(OnconovaFhirBaseSchema, fhir.OnconovaCancerPatient):
         if obj.contributors is not None and len(obj.contributors) > 0:
             resource.extension.extend(
                 [
-                    fhir.CancerPatientContributors(
+                    fhir.CancerPatientDataContributors(
                         valueReference=Reference(type="Person", display=contributor)
                     )
                     for contributor in obj.contributors
@@ -156,14 +156,13 @@ class CancerPatientProfile(OnconovaFhirBaseSchema, fhir.OnconovaCancerPatient):
             )
         resource.deceasedDateTime_ext = fhir.Element()
         resource.deceasedDateTime_ext.extension = []
-        if obj.vitalStatus is not None:
-            resource.deceasedDateTime_ext.extension.append(
-                fhir.CancerPatientVitalStatus(
-                    valueCodeableConcept=fhir.CodeableConcept(
-                        coding=[cls.map_to_fhir("vitalStatus", obj.vitalStatus)]
-                    )
+        resource.deceasedDateTime_ext.extension.append(
+            fhir.CancerPatientVitalStatus(
+                valueCodeableConcept=fhir.CodeableConcept(
+                    coding=[cls.map_to_fhir("vitalStatus", obj.vitalStatus)]
                 )
             )
+        )
         if obj.causeOfDeath is not None:
             resource.deceasedDateTime_ext.extension.append(
                 fhir.CancerPatientCauseOfDeath(
@@ -226,6 +225,14 @@ CancerPatientProfile.register_mapping(
         ),
         MappingRule(
             PatientCaseVitalStatusChoices.UNKNOWN,
+            fhir.Coding(
+                code="261665006",
+                system="http://snomed.info/sct",
+                display="Unknown",
+            ),
+        ),
+        MappingRule(
+            None,
             fhir.Coding(
                 code="261665006",
                 system="http://snomed.info/sct",

@@ -3,6 +3,7 @@ from fhircraft.fhir.resources.datatypes.R4.complex import (
     Reference,
     Duration,
     Coding,
+    Period,
 )
 from onconova.interoperability.fhir.schemas.base import (
     OnconovaFhirBaseSchema,
@@ -55,11 +56,12 @@ class TherapyLineProfile(OnconovaFhirBaseSchema, fhir.OnconovaTherapyLine):
         resource.patient = Reference(
             reference=f"Patient/{obj.caseId}",
         )
-        if obj.period:
-            resource.period = fhir.Period(
-                start=(obj.period.start.isoformat() if obj.period.start else None),
+        if obj.period and (obj.period.start or obj.period.end):
+            resource.period = Period(
+                start=obj.period.start.isoformat() if obj.period.start else None,
                 end=obj.period.end.isoformat() if obj.period.end else None,
             )
+            
         resource.extension = [
             fhir.TherapyLineNumber(
                 valuePositiveInt=obj.ordinal,

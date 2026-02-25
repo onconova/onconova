@@ -1404,18 +1404,13 @@ class GenomicVariantLabCategory(CodeableConcept, FHIRSliceModel):
         )
         
  
-class GenomicVariantGeneStudied(BackboneElement, FHIRSliceModel):
+class GenomicVariantGeneStudied(GenomicFindingGeneStudied, FHIRSliceModel):
     """
     Gene Studied
     """
     min_cardinality: ClassVar[int] = 0
     max_cardinality: ClassVar[int] = 99999
 
-
-    code: Optional[CodeableConcept] = Field(
-        description="48018-6",
-        default=None,
-    )
     valueCodeableConcept: Optional[CodeableConcept] = Field(
         description="The HGNC gene symbol is to be used as display text and the HGNC gene ID used as the code. If no HGNC code issued for this gene yet, NCBI gene IDs SHALL be used.",
         default=None,
@@ -1438,18 +1433,13 @@ class GenomicVariantGeneStudied(BackboneElement, FHIRSliceModel):
         )
         
  
-class GenomicVariantCytogeneticLocation(BackboneElement, FHIRSliceModel):
+class GenomicVariantCytogeneticLocation(VariantCytogenomicNomenclature, FHIRSliceModel):
     """
     Cytogenetic (Chromosome) Location
     """
     min_cardinality: ClassVar[int] = 0
     max_cardinality: ClassVar[int] = 99999
 
-
-    code: Optional[CodeableConcept] = Field(
-        description="48001-2",
-        default=None,
-    )
     valueCodeableConcept: Optional[CodeableConcept] = Field(
         description="Example: 1q21.1",
         default=None,
@@ -1472,18 +1462,13 @@ class GenomicVariantCytogeneticLocation(BackboneElement, FHIRSliceModel):
         )
         
  
-class GenomicVariantGenomicHgvs(BackboneElement, FHIRSliceModel):
+class GenomicVariantGenomicHgvs(VariantGenomicHgvs, FHIRSliceModel):
     """
     Genomic (gDNA) Change - gHGVS
     """
     min_cardinality: ClassVar[int] = 0
     max_cardinality: ClassVar[int] = 1
 
-
-    code: Optional[CodeableConcept] = Field(
-        description="81290-9",
-        default=None,
-    )
     valueCodeableConcept: Optional[CodeableConcept] = Field(
         description="A valid HGVS-formatted \u0027g.\u0027 string, e.g. NC_000016.9:g.2124200_2138612dup",
         default=None,
@@ -1506,18 +1491,13 @@ class GenomicVariantGenomicHgvs(BackboneElement, FHIRSliceModel):
         )
         
  
-class GenomicVariantCytogenomicNomenclature(BackboneElement, FHIRSliceModel):
+class GenomicVariantCytogenomicNomenclature(VariantCytogenomicNomenclature, FHIRSliceModel):
     """
     Cytogenomic Nomenclature (ISCN)
     """
     min_cardinality: ClassVar[int] = 0
     max_cardinality: ClassVar[int] = 1
 
-
-    code: Optional[CodeableConcept] = Field(
-        description="81291-7",
-        default=None,
-    )
     valueCodeableConcept: Optional[CodeableConcept] = Field(
         description="Actual component result",
         default=None,
@@ -1540,18 +1520,13 @@ class GenomicVariantCytogenomicNomenclature(BackboneElement, FHIRSliceModel):
         )
         
  
-class GenomicVariantCodingChangeType(BackboneElement, FHIRSliceModel):
+class GenomicVariantCodingChangeType(VariantCodingChangeType, FHIRSliceModel):
     """
     Coding DNA Change Type
     """
     min_cardinality: ClassVar[int] = 0
     max_cardinality: ClassVar[int] = 1
 
-
-    code: Optional[CodeableConcept] = Field(
-        description="48019-4",
-        default=None,
-    )
     valueCodeableConcept: Optional[CodeableConcept] = Field(
         description="deletion | insertion | delins | SNV | copy_number_gain | copy_number_loss | ... (many)",
         default=None,
@@ -1574,18 +1549,13 @@ class GenomicVariantCodingChangeType(BackboneElement, FHIRSliceModel):
         )
         
  
-class GenomicVariantGenomicSourceClass(BackboneElement, FHIRSliceModel):
+class GenomicVariantGenomicSourceClass(VariantGenomicSourceClass, FHIRSliceModel):
     """
     Genomic Source Class
     """
     min_cardinality: ClassVar[int] = 0
     max_cardinality: ClassVar[int] = 1
 
-
-    code: Optional[CodeableConcept] = Field(
-        description="48002-0",
-        default=None,
-    )
     valueCodeableConcept: Optional[CodeableConcept] = Field(
         description="Germline | Somatic | Fetal | Likely germline | Likely somatic | Likely fetal | Unknown genomic origin | De novo",
         default=None,
@@ -1608,18 +1578,13 @@ class GenomicVariantGenomicSourceClass(BackboneElement, FHIRSliceModel):
         )
         
  
-class GenomicVariantSampleAllelicFrequency(BackboneElement, FHIRSliceModel):
+class GenomicVariantSampleAllelicFrequency(VariantSampleAllelicFrequency, FHIRSliceModel):
     """
     Sample Allelic Frequency
     """
     min_cardinality: ClassVar[int] = 0
     max_cardinality: ClassVar[int] = 1
 
-
-    code: Optional[CodeableConcept] = Field(
-        description="81258-6",
-        default=None,
-    )
     valueQuantity: Optional[Quantity] = Field(
         description="Relative frequency in the sample",
         default=None,
@@ -1642,18 +1607,13 @@ class GenomicVariantSampleAllelicFrequency(BackboneElement, FHIRSliceModel):
         )
         
  
-class GenomicVariantAllelicState(BackboneElement, FHIRSliceModel):
+class GenomicVariantAllelicState(VariantAllelicState, FHIRSliceModel):
     """
     Allelic State
     """
     min_cardinality: ClassVar[int] = 0
     max_cardinality: ClassVar[int] = 1
 
-
-    code: Optional[CodeableConcept] = Field(
-        description="53034-5",
-        default=None,
-    )
     valueCodeableConcept: Optional[CodeableConcept] = Field(
         description="Heteroplasmic | Homoplasmic | Homozygous | Heterozygous | Hemizygous",
         default=None,
@@ -1676,18 +1636,13 @@ class GenomicVariantAllelicState(BackboneElement, FHIRSliceModel):
         )
         
  
-class GenomicVariantVariationCode(BackboneElement, FHIRSliceModel):
+class GenomicVariantVariationCode(VariantVariationCode, FHIRSliceModel):
     """
     Variation Code
     """
     min_cardinality: ClassVar[int] = 0
     max_cardinality: ClassVar[int] = 99999
 
-
-    code: Optional[CodeableConcept] = Field(
-        description="81252-9",
-        default=None,
-    )
     valueCodeableConcept: Optional[CodeableConcept] = Field(
         description="ClinVar ID or similar",
         default=None,
@@ -1710,18 +1665,13 @@ class GenomicVariantVariationCode(BackboneElement, FHIRSliceModel):
         )
         
  
-class GenomicVariantProteinHgvs(BackboneElement, FHIRSliceModel):
+class GenomicVariantProteinHgvs(VariantProteinHgvs, FHIRSliceModel):
     """
     Protein (Amino Acid) Change - pHGVS
     """
     min_cardinality: ClassVar[int] = 0
     max_cardinality: ClassVar[int] = 1
 
-
-    code: Optional[CodeableConcept] = Field(
-        description="48005-3",
-        default=None,
-    )
     valueCodeableConcept: Optional[CodeableConcept] = Field(
         description="A valid HGVS-formatted \u0027p.\u0027 string, e.g. NP_000050.2:p.(Asn1836Lys)",
         default=None,
@@ -1744,18 +1694,13 @@ class GenomicVariantProteinHgvs(BackboneElement, FHIRSliceModel):
         )
         
  
-class GenomicVariantAminoAcidChangeType(BackboneElement, FHIRSliceModel):
+class GenomicVariantAminoAcidChangeType(VariantAminoAcidChangeType, FHIRSliceModel):
     """
     Amino Acid Change Type
     """
     min_cardinality: ClassVar[int] = 0
     max_cardinality: ClassVar[int] = 1
 
-
-    code: Optional[CodeableConcept] = Field(
-        description="48006-1",
-        default=None,
-    )
     valueCodeableConcept: Optional[CodeableConcept] = Field(
         description="Wild type | Deletion | Duplication | Frameshift | Initiating Methionine | Insertion | Insertion and Deletion | Missense | Nonsense | Silent",
         default=None,
@@ -1778,18 +1723,13 @@ class GenomicVariantAminoAcidChangeType(BackboneElement, FHIRSliceModel):
         )
         
  
-class GenomicVariantMolecularConsequence(BackboneElement, FHIRSliceModel):
+class GenomicVariantMolecularConsequence(VariantMolecularConsequence, FHIRSliceModel):
     """
     Molecular Consequence
     """
     min_cardinality: ClassVar[int] = 0
     max_cardinality: ClassVar[int] = 1
 
-
-    code: Optional[CodeableConcept] = Field(
-        description="molecular-consequence",
-        default=None,
-    )
     valueCodeableConcept: Optional[CodeableConcept] = Field(
         description="stop_lost | stop_gained | inframe_insertion | frameshift_variant | ... (many)",
         default=None,
@@ -1812,18 +1752,13 @@ class GenomicVariantMolecularConsequence(BackboneElement, FHIRSliceModel):
         )
         
  
-class GenomicVariantCopyNumber(BackboneElement, FHIRSliceModel):
+class GenomicVariantCopyNumber(VariantCopyNumber, FHIRSliceModel):
     """
     Genomic Structural Variant Copy Number
     """
     min_cardinality: ClassVar[int] = 0
     max_cardinality: ClassVar[int] = 1
 
-
-    code: Optional[CodeableConcept] = Field(
-        description="82155-3",
-        default=None,
-    )
     valueQuantity: Optional[Quantity] = Field(
         description="Actual component result",
         default=None,
@@ -1860,10 +1795,6 @@ class GenomicVariant(Variant):
     )
     category: Optional[List[Annotated[Union[GenomicVariantLabCategory, CodeableConcept], Field(union_mode='left_to_right')]]] = Field(
         description="Classification of  type of observation",
-        default=None,
-    )
-    code: Optional[CodeableConcept] = Field(
-        description="69548-6",
         default=None,
     )
     referenceRange: Optional[List[BackboneElement]] = Field(
@@ -1968,7 +1899,7 @@ class GenomicVariantAssessmentDate(Extension, FHIRSliceModel):
         )
         
  
-class OnconovaGenomicVariantCodingHgvs(BackboneElement, FHIRSliceModel):
+class OnconovaGenomicVariantCodingHgvs(VariantCodingHgvs, FHIRSliceModel):
     """
     Coding (cDNA) Change - cHGVS
     """
@@ -1998,7 +1929,7 @@ class OnconovaGenomicVariantCodingHgvs(BackboneElement, FHIRSliceModel):
         )
         
  
-class OnconovaGenomicVariantGenomicHgvs(BackboneElement, FHIRSliceModel):
+class OnconovaGenomicVariantGenomicHgvs(GenomicVariantGenomicHgvs, FHIRSliceModel):
     """
     Genomic (gDNA) Change - gHGVS
     """
@@ -2028,7 +1959,7 @@ class OnconovaGenomicVariantGenomicHgvs(BackboneElement, FHIRSliceModel):
         )
         
  
-class OnconovaGenomicVariantCodingChangeType(BackboneElement, FHIRSliceModel):
+class OnconovaGenomicVariantCodingChangeType(GenomicVariantCodingChangeType, FHIRSliceModel):
     """
     Coding DNA Change Type
     """
@@ -2058,7 +1989,7 @@ class OnconovaGenomicVariantCodingChangeType(BackboneElement, FHIRSliceModel):
         )
         
  
-class OnconovaGenomicVariantProteinHgvs(BackboneElement, FHIRSliceModel):
+class OnconovaGenomicVariantProteinHgvs(GenomicVariantProteinHgvs, FHIRSliceModel):
     """
     Protein (Amino Acid) Change - pHGVS
     """
@@ -2088,7 +2019,7 @@ class OnconovaGenomicVariantProteinHgvs(BackboneElement, FHIRSliceModel):
         )
         
  
-class OnconovaGenomicVariantAminoAcidChangeType(BackboneElement, FHIRSliceModel):
+class OnconovaGenomicVariantAminoAcidChangeType(GenomicVariantAminoAcidChangeType, FHIRSliceModel):
     """
     Amino Acid Change Type
     """
@@ -2426,7 +2357,7 @@ Observation resources representing a genomic variant in the scope of Onconova SH
         description="Not used in this profile",
         default=None,
     )
-    component: Optional[List[Annotated[Union[OnconovaGenomicVariantCodingHgvs, OnconovaGenomicVariantGenomicHgvs, OnconovaGenomicVariantCodingChangeType, OnconovaGenomicVariantProteinHgvs, OnconovaGenomicVariantAminoAcidChangeType, OnconovaGenomicVariantClinicalRelevance, OnconovaGenomicVariantNucleotidesCount, OnconovaGenomicVariantGeneRegion, OnconovaGenomicVariantGenePanelSequencing, OnconovaGenomicVariantHgvsVersion, OnconovaGenomicVariantRnaHgvs, BackboneElement], Field(union_mode='left_to_right')]]] = Field(
+    component: Optional[List[Annotated[Union[GenomicVariantGeneStudied, OnconovaGenomicVariantCodingHgvs, OnconovaGenomicVariantGenomicHgvs, OnconovaGenomicVariantCodingChangeType, OnconovaGenomicVariantProteinHgvs, OnconovaGenomicVariantAminoAcidChangeType, OnconovaGenomicVariantClinicalRelevance, OnconovaGenomicVariantNucleotidesCount, OnconovaGenomicVariantGeneRegion, OnconovaGenomicVariantGenePanelSequencing, OnconovaGenomicVariantHgvsVersion, OnconovaGenomicVariantRnaHgvs, VariantCodingHgvs, VariantGenomicHgvs, VariantCytogenomicNomenclature, VariantGenomicRefSeq, VariantTranscriptRefSeq, VariantExactStartEnd, VariantInnerStartEnd, VariantOuterStartEnd, VariantCoordinateSystem, VariantRefAllele, VariantAltAllele, VariantCodingChangeType, VariantGenomicSourceClass, VariantSampleAllelicFrequency, VariantAllelicReadDepth, VariantAllelicState, VariantVariantInheritance, VariantVariationCode, VariantChromosomeIdentifier, VariantProteinHgvs, VariantAminoAcidChangeType, VariantMolecularConsequence, VariantCopyNumber, VariantVariantConfidenceStatus, BackboneElement], Field(union_mode='left_to_right')]]] = Field(
         description="Component results",
         default=None,
     )

@@ -104,15 +104,7 @@ class SurgicalProcedureProfile(OnconovaFhirBaseSchema, fhir.OnconovaSurgicalProc
                 )
             )
         if obj.bodysite:
-            bodySite = fhir.OnconovaSurgicalProcedureBodySite(
-                coding=[
-                    Coding(
-                        code=obj.bodysite.code,
-                        system=obj.bodysite.system,
-                        display=obj.bodysite.display,
-                    )
-                ],
-            )
+            bodySite = construct_fhir_codeable_concept(obj.bodysite)
             bodySite.extension = []
             if obj.bodysiteQualifier:
                 bodySite.extension.append(

@@ -125,6 +125,7 @@ class OnconovaFhirBaseSchema(BaseSchema, alias_generator=None):
                 obj = cls.get_orm_schema(obj).model_validate(obj)
                 return cls.onconova_to_fhir(obj)
             elif isinstance(obj, cls.get_orm_schema(obj)):
+                print(cls.onconova_to_fhir(obj).model_dump_json())
                 return cls.onconova_to_fhir(obj)
         except TemplateSyntaxError:
             pass

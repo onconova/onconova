@@ -68,6 +68,8 @@ class FhirCrudApiControllerTestCase(ApiControllerTestMixin, TestCase):
         for factory, schema in zip(self.factories, self.create_schemas):
             with pghistory.context(username=self.user.username):
                 instance1, instance2 = factory.create_batch(2)
+                if hasattr(self, 'post_factory_hook'):
+                    instance1, instance2 = self.post_factory_hook(instance1, instance2)
                 self.instances.append(instance1)
                 self.create_payloads.append(
                     schema.model_validate(instance1).model_dump(mode="json")

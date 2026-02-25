@@ -1,4 +1,4 @@
-from fhircraft.fhir.resources.datatypes.R4.complex import Narrative, Reference, Coding
+from fhircraft.fhir.resources.datatypes.R4.complex import Narrative, Reference, Coding, Quantity
 from django.shortcuts import get_object_or_404
 from onconova.interoperability.fhir.schemas.base import (
     OnconovaFhirBaseSchema,
@@ -272,14 +272,14 @@ class MedicationAdministrationProfile(
             or medication.dosageRateVolume
             or medication.dosageRateMassSurface
         ):
-            resource.dosage = fhir.OnconovaMedicationAdministrationDosage(
+            resource.dosage = fhir.MedicationAdministrationDosage(
                 route=(
                     construct_fhir_codeable_concept(medication.route)
                     if medication.route
                     else None
                 ),
                 dose=(
-                    fhir.Quantity(
+                    Quantity(
                         value=dose.value,
                         code=internal_to_ucum(dose.unit),
                         system="http://unitsofmeasure.org",
@@ -295,7 +295,7 @@ class MedicationAdministrationProfile(
                     else None
                 ),
                 rateQuantity=(
-                    fhir.Quantity(
+                    Quantity(
                         value=rate.value,
                         code=internal_to_ucum(rate.unit),
                         system="http://unitsofmeasure.org",

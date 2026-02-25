@@ -79,7 +79,7 @@ class SecondaryCancerConditionProfile(
             div=f'<div xmlns="http://www.w3.org/1999/xhtml">{obj.description}</div>',
         )
         resource.bodySite = fhir.OnconovaSecondaryCancerConditionBodySite(
-            coding=[fhir.Coding.model_validate(obj.topography.model_dump())],
+            coding=construct_fhir_codeable_concept(obj.topography).coding,
             extension=(
                 [
                     fhir.LateralityQualifier(

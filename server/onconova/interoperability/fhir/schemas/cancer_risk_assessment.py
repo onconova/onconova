@@ -1,7 +1,5 @@
 from fhircraft.fhir.resources.datatypes.R4.complex import (
     Reference,
-    Coding,
-    CodeableConcept,
     Narrative,
 )
 from onconova.interoperability.fhir.schemas.base import (
@@ -10,6 +8,7 @@ from onconova.interoperability.fhir.schemas.base import (
 from onconova.interoperability.fhir.models import CancerRiskAssessment as fhir
 from onconova.oncology import models, schemas
 from onconova.core.schemas import CodedConcept
+from onconova.interoperability.fhir.utils import construct_fhir_codeable_concept
 
 
 class CancerRiskAssessmentProfile(
@@ -63,12 +62,8 @@ class CancerRiskAssessmentProfile(
             Reference(reference=f"Condition/{cond_id}")
             for cond_id in obj.assessedEntitiesIds or []
         ]
-        resource.code = CodeableConcept(
-            coding=[Coding.model_validate(obj.methodology.model_dump())]
-        )
-        resource.valueCodeableConcept = CodeableConcept(
-            coding=[Coding.model_validate(obj.risk.model_dump())]
-        )
+        resource.code = construct_fhir_codeable_concept(obj.methodology)
+        resource.valueCodeableConcept = construct_fhir_codeable_concept(obj.risk)
         if obj.score:
             resource.extension = [
                 fhir.RiskAssessmentScore(

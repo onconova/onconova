@@ -92,7 +92,7 @@ class TNMStageGroupProfile(OnconovaFhirBaseSchema, fhir.OnconovaTNMStageGroup):
                 )
             internal_id = member.reference.lstrip("#")
             contained_resource = obj.fhirpath_single(
-                f"Observation.contained.where(id='{internal_id}' and resourceType='Observation')"
+                f"Observation.contained.where(id='{internal_id}')"
             )
             if not contained_resource:
                 raise RuntimeError(

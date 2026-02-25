@@ -262,8 +262,8 @@ EpisodeOfCare resources representing a therapy line in the scope of Onconova SHA
     def FHIR_o_lin_req_1_constraint_model_validator(self):
         return validate_model_constraint( 
             self,
-            expression="subject.exists()",
-            human="The subject element is required and must be provided.",
+            expression="patient.exists()",
+            human="The patient element is required and must be provided.",
             key="o-lin-req-1",
             severity="error",
         )
@@ -273,9 +273,9 @@ EpisodeOfCare resources representing a therapy line in the scope of Onconova SHA
         return validate_model_constraint( 
             self,
             expression="period.exists()",
-            human="The period element is required and must be provided.",
+            human="The period element is required and should provided.",
             key="o-lin-req-2",
-            severity="error",
+            severity="warning",
         )
         
     @model_validator(mode="after")

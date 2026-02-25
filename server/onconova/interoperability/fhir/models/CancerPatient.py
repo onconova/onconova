@@ -1058,7 +1058,7 @@ class USCoreGenderIdentityExtension(Extension, FHIRSliceModel):
     url: Optional[String] = Field(
         default="http://hl7.org/fhir/us/core/StructureDefinition/us-core-genderIdentity",
     )
-    valueCodeableConcept: Optional[List[CodeableConcept]] = Field(
+    valueCodeableConcept: Optional[CodeableConcept] = Field(
         default=None,
     )
 
@@ -1155,7 +1155,7 @@ class CancerPatientConsentStatus(Extension, FHIRSliceModel):
     url: Optional[String] = Field(
         default="http://onconova.github.io/fhir/StructureDefinition/onconova-ext-cancer-patient-consent-status",
     )
-    valueCode: Optional[List[Code]] = Field(
+    valueCode: Optional[Code] = Field(
         default=None,
     )
 
@@ -1349,7 +1349,7 @@ class CancerPatientDataCompletionRate(Extension, FHIRSliceModel):
     url: Optional[String] = Field(
         default="http://onconova.github.io/fhir/StructureDefinition/onconova-ext-cancer-patient-data-completion-rate",
     )
-    valueDecimal: Optional[List[Decimal]] = Field(
+    valueDecimal: Optional[Decimal] = Field(
         default=None,
     )
 
@@ -1446,7 +1446,7 @@ class CancerPatientDataContributors(Extension, FHIRSliceModel):
     url: Optional[String] = Field(
         default="http://onconova.github.io/fhir/StructureDefinition/onconova-ext-cancer-patient-data-contributors",
     )
-    valueReference: Optional[List[Reference]] = Field(
+    valueReference: Optional[Reference] = Field(
         default=None,
     )
 
@@ -1543,7 +1543,7 @@ class CancerPatientEndOfRecords(Extension, FHIRSliceModel):
     url: Optional[String] = Field(
         default="http://onconova.github.io/fhir/StructureDefinition/onconova-ext-cancer-patient-end-of-records",
     )
-    valueDate: Optional[List[Date]] = Field(
+    valueDate: Optional[Date] = Field(
         default=None,
     )
 
@@ -1735,7 +1735,7 @@ class DataAbsentReason(Extension, FHIRSliceModel):
     url: Optional[String] = Field(
         default="http://hl7.org/fhir/StructureDefinition/data-absent-reason",
     )
-    valueCode: Optional[List[Code]] = Field(
+    valueCode: Optional[Code] = Field(
         default=None,
     )
 
@@ -1857,7 +1857,7 @@ class CancerPatientAge(Extension, FHIRSliceModel):
     url: Optional[String] = Field(
         default="http://onconova.github.io/fhir/StructureDefinition/onconova-ext-cancer-patient-age",
     )
-    valueInteger: Optional[List[Integer]] = Field(
+    valueInteger: Optional[Integer] = Field(
         default=None,
     )
 
@@ -1954,16 +1954,9 @@ class CancerPatientAgeAtDiagnosis(Extension, FHIRSliceModel):
     url: Optional[String] = Field(
         default="http://onconova.github.io/fhir/StructureDefinition/onconova-ext-cancer-patient-age-at-diagnosis",
     )
-    valueInteger: Optional[List[Integer]] = Field(
+    valueInteger: Optional[Integer] = Field(
         default=None,
     )
-
-    @property
-    def value(self):
-        return get_type_choice_value_by_base(
-            self,
-            base="value",
-        )
 
     @field_validator(*("url",), mode="after", check_fields=None)
     @classmethod
@@ -2035,6 +2028,302 @@ class CancerPatientAgeAtDiagnosis(Extension, FHIRSliceModel):
         )
 
 
+class CancerPatientClinicalCenter(Extension, FHIRSliceModel):
+    """
+    The center or hospital where the patient case original records were recorded.
+    """
+
+    min_cardinality: ClassVar[int] = 1
+    max_cardinality: ClassVar[int] = 1
+
+    _canonical_url = "http://onconova.github.io/fhir/StructureDefinition/onconova-ext-cancer-patient-clinical-center"
+
+    extension: Optional[List[Extension]] = Field(
+        default=None,
+    )
+    url: Optional[String] = Field(
+        default="http://onconova.github.io/fhir/StructureDefinition/onconova-ext-cancer-patient-clinical-center",
+    )
+    valueString: Optional[String] = Field(
+        description="Value of extension",
+        default=None,
+    )
+
+    @field_validator(*("url",), mode="after", check_fields=None)
+    @classmethod
+    def FHIR_url_fixed_value_constraint(cls, value):
+        return validate_FHIR_element_fixed_value(
+            cls,
+            value,
+            constant="http://onconova.github.io/fhir/StructureDefinition/onconova-ext-cancer-patient-clinical-center",
+        )
+
+    @model_validator(mode="after")
+    def value_type_choice_validator(self):
+        return validate_type_choice_element(
+            self,
+            field_types=["String"],
+            field_name_base="value",
+            required=False,
+            non_allowed_types=[
+                "Base64Binary",
+                "Boolean",
+                "Canonical",
+                "Code",
+                "Date",
+                "DateTime",
+                "Decimal",
+                "Id",
+                "Instant",
+                "Markdown",
+                "Oid",
+                "PositiveInt",
+                "CodeableConcept",
+                "Time",
+                "UnsignedInt",
+                "Uri",
+                "Url",
+                "Uuid",
+                "Address",
+                "Age",
+                "Annotation",
+                "Attachment",
+                "Integer",
+                "Coding",
+                "ContactPoint",
+                "Count",
+                "Distance",
+                "Duration",
+                "HumanName",
+                "Identifier",
+                "Money",
+                "Period",
+                "Quantity",
+                "Range",
+                "Ratio",
+                "Reference",
+                "SampledData",
+                "Signature",
+                "Timing",
+                "ContactDetail",
+                "Contributor",
+                "DataRequirement",
+                "Expression",
+                "ParameterDefinition",
+                "RelatedArtifact",
+                "TriggerDefinition",
+                "UsageContext",
+                "Dosage",
+                "Meta",
+            ],
+        )
+
+
+class CancerPatientVitalStatus(Extension, FHIRSliceModel):
+    """
+    The status of whether the patient is alive or deceased or unknown.
+    """
+
+    min_cardinality: ClassVar[int] = 1
+    max_cardinality: ClassVar[int] = 1
+
+    _canonical_url = "http://onconova.github.io/fhir/StructureDefinition/onconova-ext-cancer-patient-vital-status"
+
+    extension: Optional[List[Extension]] = Field(
+        default=None,
+    )
+    url: Optional[String] = Field(
+        default="http://onconova.github.io/fhir/StructureDefinition/onconova-ext-cancer-patient-vital-status",
+    )
+    valueCodeableConcept: Optional[CodeableConcept] = Field(
+        description="Value of extension",
+        default=None,
+    )
+
+    @field_validator(*("url",), mode="after", check_fields=None)
+    @classmethod
+    def FHIR_url_fixed_value_constraint(cls, value):
+        return validate_FHIR_element_fixed_value(
+            cls,
+            value,
+            constant="http://onconova.github.io/fhir/StructureDefinition/onconova-ext-cancer-patient-vital-status",
+        )
+
+    @model_validator(mode="after")
+    def value_type_choice_validator(self):
+        return validate_type_choice_element(
+            self,
+            field_types=["CodeableConcept"],
+            field_name_base="value",
+            required=False,
+            non_allowed_types=[
+                "Base64Binary",
+                "Boolean",
+                "Canonical",
+                "Code",
+                "Date",
+                "DateTime",
+                "Decimal",
+                "Id",
+                "Instant",
+                "Markdown",
+                "Oid",
+                "PositiveInt",
+                "String",
+                "Time",
+                "UnsignedInt",
+                "Uri",
+                "Url",
+                "Uuid",
+                "Address",
+                "Age",
+                "Annotation",
+                "Attachment",
+                "Integer",
+                "Coding",
+                "ContactPoint",
+                "Count",
+                "Distance",
+                "Duration",
+                "HumanName",
+                "Identifier",
+                "Money",
+                "Period",
+                "Quantity",
+                "Range",
+                "Ratio",
+                "Reference",
+                "SampledData",
+                "Signature",
+                "Timing",
+                "ContactDetail",
+                "Contributor",
+                "DataRequirement",
+                "Expression",
+                "ParameterDefinition",
+                "RelatedArtifact",
+                "TriggerDefinition",
+                "UsageContext",
+                "Dosage",
+                "Meta",
+            ],
+        )
+
+
+class CancerPatientCauseOfDeath(Extension, FHIRSliceModel):
+    """
+    The cause of death for the patient.
+    """
+
+    min_cardinality: ClassVar[int] = 0
+    max_cardinality: ClassVar[int] = 1
+
+    _canonical_url = "http://onconova.github.io/fhir/StructureDefinition/onconova-ext-cancer-patient-cause-of-death"
+
+    extension: Optional[List[Extension]] = Field(
+        default=None,
+    )
+    url: Optional[String] = Field(
+        default="http://onconova.github.io/fhir/StructureDefinition/onconova-ext-cancer-patient-cause-of-death",
+    )
+    valueCodeableConcept: Optional[CodeableConcept] = Field(
+        description="Value of extension",
+        default=None,
+    )
+
+    @field_validator(*("url",), mode="after", check_fields=None)
+    @classmethod
+    def FHIR_url_fixed_value_constraint(cls, value):
+        return validate_FHIR_element_fixed_value(
+            cls,
+            value,
+            constant="http://onconova.github.io/fhir/StructureDefinition/onconova-ext-cancer-patient-cause-of-death",
+        )
+
+    @model_validator(mode="after")
+    def value_type_choice_validator(self):
+        return validate_type_choice_element(
+            self,
+            field_types=["CodeableConcept"],
+            field_name_base="value",
+            required=False,
+            non_allowed_types=[
+                "Base64Binary",
+                "Boolean",
+                "Canonical",
+                "Code",
+                "Date",
+                "DateTime",
+                "Decimal",
+                "Id",
+                "Instant",
+                "Markdown",
+                "Oid",
+                "PositiveInt",
+                "String",
+                "Time",
+                "UnsignedInt",
+                "Uri",
+                "Url",
+                "Uuid",
+                "Address",
+                "Age",
+                "Annotation",
+                "Attachment",
+                "Integer",
+                "Coding",
+                "ContactPoint",
+                "Count",
+                "Distance",
+                "Duration",
+                "HumanName",
+                "Identifier",
+                "Money",
+                "Period",
+                "Quantity",
+                "Range",
+                "Ratio",
+                "Reference",
+                "SampledData",
+                "Signature",
+                "Timing",
+                "ContactDetail",
+                "Contributor",
+                "DataRequirement",
+                "Expression",
+                "ParameterDefinition",
+                "RelatedArtifact",
+                "TriggerDefinition",
+                "UsageContext",
+                "Dosage",
+                "Meta",
+            ],
+        )
+
+class OnconovaDeceasedDateTimeExt(Element):
+    """
+    The date/time of death of the invidual
+    """
+    extension: Optional[
+        List[
+            Annotated[
+                Union[CancerPatientVitalStatus, CancerPatientCauseOfDeath, Extension],
+                Field(union_mode="left_to_right"),
+            ]
+        ]
+    ] = Field(
+        default=None,
+    )
+
+    @field_validator(*("extension",), mode="after", check_fields=None)
+    @classmethod
+    def extension_slicing_cardinality_validator(cls, value):
+        return validate_slicing_cardinalities(
+            cls,
+            value,
+            field_name="extension",
+        )
+
 class OnconovaCancerPatientBirthDateExt(Element):
     """
     The date of birth for the individual.
@@ -2097,6 +2386,7 @@ class OnconovaCancerPatient(CancerPatient):
                     CancerPatientConsentStatus,
                     CancerPatientOverallSurvival,
                     CancerPatientDataCompletionRate,
+                    CancerPatientClinicalCenter,
                     CancerPatientDataContributors,
                     CancerPatientEndOfRecords,
                     Extension,
@@ -2137,6 +2427,10 @@ class OnconovaCancerPatient(CancerPatient):
     )
     deceasedDateTime: Optional[DateTime] = Field(
         description="Date of death of the patient, if applicable",
+        default=None,
+    )
+    deceasedDateTime_ext: Optional[OnconovaDeceasedDateTimeExt] = Field(
+        description="Placeholder for deceasedDateTime extension",
         default=None,
     )
     address: Optional[List[Address]] = Field(
@@ -2195,7 +2489,7 @@ class OnconovaCancerPatient(CancerPatient):
             self,
             field_types=["DateTime"],
             field_name_base="deceased",
-            required=True,
+            required=False,
             non_allowed_types=["Boolean"],
         )
 
@@ -2239,42 +2533,32 @@ class OnconovaCancerPatient(CancerPatient):
             severity="error",
         )
 
-    @model_validator(mode="after")
-    def FHIR_o_pat_req_5_constraint_model_validator(self):
-        return validate_model_constraint(
-            self,
-            expression="birthDate.extension('http://hl7.org/fhir/StructureDefinition/onconova-ext-cancer-patient-vital-status').valueCodeableConcept.exists()",
-            human="The vital status extension is required and must be provided.",
-            key="o-pat-req-5",
-            severity="error",
-        )
+    # @model_validator(mode="after")
+    # def FHIR_o_pat_req_5_constraint_model_validator(self):
+    #     return validate_model_constraint(
+    #         self,
+    #         expression="deceasedDateTime.extension('http://hl7.org/fhir/StructureDefinition/onconova-ext-cancer-patient-vital-status').valueCodeableConcept.exists()",
+    #         human="The vital status extension is required and must be provided.",
+    #         key="o-pat-req-5",
+    #         severity="error",
+    #     )
 
-    @model_validator(mode="after")
-    def FHIR_o_pat_req_6_constraint_model_validator(self):
-        return validate_model_constraint(
-            self,
-            expression="deceased.extension('http://hl7.org/fhir/StructureDefinition/onconova-ext-cancer-patient-vital-status').valueCodeableConcept.exists()",
-            human="The vital status extension is required and must be provided.",
-            key="o-pat-req-6",
-            severity="error",
-        )
+    # @model_validator(mode="after")
+    # def FHIR_o_pat_req_6_constraint_model_validator(self):
+    #     return validate_model_constraint(
+    #         self,
+    #         expression="deceasedDateTime.extension('http://hl7.org/fhir/StructureDefinition/onconova-ext-cancer-patient-vital-status').valueCodeableConcept.coding.code = '419099009' implies (deceasedDateTime.hasValue() and deceasedDateTime.extension('http://hl7.org/fhir/StructureDefinition/onconova-ext-cancer-patient-cause-of-death').valueCodeableConcept.exists())",
+    #         human="If the patient is deceased, the date of death and cause of death must be provided.",
+    #         key="o-pat-req-6",
+    #         severity="error",
+    #     )
 
     @model_validator(mode="after")
     def FHIR_o_pat_req_7_constraint_model_validator(self):
         return validate_model_constraint(
             self,
-            expression="deceasedDateTime.extension('http://hl7.org/fhir/StructureDefinition/onconova-ext-cancer-patient-vital-status').valueCodeableConcept.coding.code = '419099009' implies (deceasedDateTime.hasValue() and deceasedDateTime.extension('http://hl7.org/fhir/StructureDefinition/onconova-ext-cancer-patient-cause-of-death').valueCodeableConcept.exists())",
-            human="If the patient is deceased, the date of death and cause of death must be provided.",
-            key="o-pat-req-7",
-            severity="error",
-        )
-
-    @model_validator(mode="after")
-    def FHIR_o_pat_req_8_constraint_model_validator(self):
-        return validate_model_constraint(
-            self,
             expression="deceasedDateTime.extension('http://hl7.org/fhir/StructureDefinition/onconova-ext-cancer-patient-vital-status').valueCodeableConcept.coding.code = '261665006' implies extension('http://hl7.org/fhir/StructureDefinition/onconova-ext-cancer-patient-end-of-records').valueDate.hasValue()",
             human="If the patient vital status is unknown, the end of records must be provided.",
-            key="o-pat-req-8",
+            key="o-pat-req-7",
             severity="error",
         )
