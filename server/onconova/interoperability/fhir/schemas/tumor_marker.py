@@ -280,7 +280,7 @@ TumorMarkerProfile.register_mapping(
                 code="LP14543-0", result_type=AnalyteResultType.arbitary_concentration
             ),
             Coding(
-                code="40618-1",
+                code="10334-1",
                 system="http://loinc.org",
                 display="Cancer Ag 125 [Units/volume] in Serum or Plasma",
             ),
@@ -291,7 +291,7 @@ TumorMarkerProfile.register_mapping(
                 code="LP15461-4", result_type=AnalyteResultType.arbitary_concentration
             ),
             Coding(
-                code="10334-1",
+                code="6875-9",
                 system="http://loinc.org",
                 display="Cancer Ag 15-3 [Units/volume] in Serum or Plasma",
             ),
