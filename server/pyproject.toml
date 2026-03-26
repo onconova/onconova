@@ -50,6 +50,7 @@ gunicorn = "^21.2"
 # Testing
 pytest = "*"
 pytest-django = "^4.5"
+pytest-profiling = "^1.8"
 factory_boy = "^3.3"
 parameterized = "^0.9"
 coverage = "^7.2"
