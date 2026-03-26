@@ -45,11 +45,12 @@ class PatientCaseConsentStatusChoices(models.TextChoices):
         REVOKED: Indicates that consent has been revoked.
         UNKNOWN: Indicates that the consent status is unknown.
     """
+
     VALID = "valid"
     REVOKED = "revoked"
     UNKNOWN = "unknown"
-        
-        
+
+
 class PatientCaseDataCategoryChoices(models.TextChoices):
     """
     Enumeration of data categories associated with a patient case in oncology.
@@ -74,6 +75,7 @@ class PatientCaseDataCategoryChoices(models.TextChoices):
         ADVERSE_EVENTS: Category for adverse events.
         THERAPY_RESPONSES: Category for therapy responses.
     """
+
     COMORBIDITIES_ASSESSMENTS = "comorbidities-assessments"
     FAMILY_HISTORIES = "family-histories"
     GENOMIC_SIGNATURES = "genomic-signatures"
@@ -92,7 +94,7 @@ class PatientCaseDataCategoryChoices(models.TextChoices):
     TUMOR_BOARD_REVIEWS = "tumor-board-reviews"
     ADVERSE_EVENTS = "adverse-events"
     THERAPY_RESPONSES = "therapy-responses"
-    
+
 
 class PatientCaseVitalStatusChoices(models.TextChoices):
     """
@@ -103,6 +105,7 @@ class PatientCaseVitalStatusChoices(models.TextChoices):
         DECEASED: Indicates the patient is deceased.
         UNKNOWN: Indicates the vital status of the patient is unknown.
     """
+
     ALIVE = "alive"
     DECEASED = "deceased"
     UNKNOWN = "unknown"
@@ -219,8 +222,9 @@ class PatientCase(BaseModel):
     Constraints:
         - Enforces uniqueness of clinical identifier per center.
         - Ensures dates are anonymized (first day of month).
-        - Validates logical combinations of vital status, date of death, end of records, and cause of death. 
+        - Validates logical combinations of vital status, date of death, end of records, and cause of death.
     """
+
     objects = QueryablePropertiesManager()
 
     pseudoidentifier = models.CharField(
@@ -448,7 +452,7 @@ class PatientCase(BaseModel):
             models.CheckConstraint(
                 condition=Q(date_of_death__day=1),
                 name="date_of_death_must_be_first_of_month",
-                violation_error_message="Birthdate must be the first day of the month",
+                violation_error_message="Date of death must be the first day of the month",
             ),
             models.CheckConstraint(
                 condition=Q(end_of_records__day=1),
