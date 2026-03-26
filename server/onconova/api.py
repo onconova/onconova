@@ -41,6 +41,7 @@ from onconova.research.controllers.cohort import CohortsController
 from onconova.research.controllers.dataset import DatasetsController
 from onconova.research.controllers.project import ProjectController
 from onconova.terminology.controllers import TerminologyController
+from onconova.terminology.models import CodedConceptDoesNotExist
 
 api: NinjaExtraAPI
 """The main Onconova API instance, configured with custom OpenAPI documentation, authentication requirements,
@@ -143,3 +144,9 @@ api.register_controllers(
     DatasetsController,
     OthersController,
 )
+
+
+# Handle terminology exceptions as HTTP errors with a user-friendly message
+@api.exception_handler(CodedConceptDoesNotExist)
+def terminology_exception_handler(request, exc):
+    return api.create_response(request, {"message": str(exc)}, status=422)

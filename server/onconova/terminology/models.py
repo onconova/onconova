@@ -1,7 +1,8 @@
-from typing import ClassVar, List
+from typing import ClassVar
 
 from django.contrib.postgres import fields as postgres
 from django.contrib.postgres.fields import IntegerRangeField
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.db.models.functions import Concat
 from django.utils.translation import gettext_lazy as _
@@ -10,6 +11,10 @@ from queryable_properties.properties import AnnotationProperty
 
 from onconova.core.models import BaseModel
 from onconova.terminology.utils import CodedConcept as CodedConceptSchema
+
+
+class CodedConceptDoesNotExist(ObjectDoesNotExist):
+    pass
 
 
 class CodedConcept(BaseModel):
@@ -31,10 +36,11 @@ class CodedConcept(BaseModel):
 
 
     Constraints:
-        
+
         - unique_together: Ensures uniqueness for code and system pairs.
 
     """
+
     code = models.CharField(
         verbose_name="Code",
         help_text=_("Code as defined in the code system"),
@@ -91,7 +97,7 @@ class CodedConcept(BaseModel):
     def _concept_postprocessing(cls, concept: CodedConceptSchema) -> CodedConceptSchema:
         return concept
 
-    class Meta:
+    class Meta(BaseModel.Meta):
         unique_together = ["code", "system"]
         abstract = True
 
@@ -113,6 +119,7 @@ class FamilyMemberType(CodedConcept):
         _concept_display_postprocessing(display: str) -> str:
             Post-processes the display string for a concept by converting it to title case.
     """
+
     valueset = "http://terminology.hl7.org/ValueSet/v3-FamilyMember"
 
     @classmethod
@@ -135,6 +142,7 @@ class AlcoholConsumptionFrequency(CodedConcept):
         _concept_display_postprocessing(display: str) -> str:
             Converts the display string to title case.
     """
+
     valueset = "https://loinc.org/LL2179-1/"
 
     @classmethod
@@ -149,6 +157,7 @@ class AdministrativeGender(CodedConcept):
     Attributes:
         valueset (str): The URI for the administrative gender ValueSet.
     """
+
     valueset = "http://hl7.org/fhir/ValueSet/administrative-gender"
 
 
@@ -159,6 +168,7 @@ class ProcedureOutcome(CodedConcept):
     Attributes:
         valueset (str): The URI for the procedure outcome ValueSet.
     """
+
     valueset = "http://hl7.org/fhir/ValueSet/procedure-outcome"
 
 
@@ -173,6 +183,7 @@ class LateralityQualifier(CodedConcept):
         _concept_display_postprocessing(display: str) -> str:
             Removes the suffix " (qualifier value)" from the concept display string for cleaner presentation.
     """
+
     valueset = "http://hl7.org/fhir/us/mcode/ValueSet/mcode-laterality-qualifier-vs"
 
     @classmethod
@@ -187,6 +198,7 @@ class CancerTopography(CodedConcept):
     Attributes:
         codesystem (str): The URI for the ICD-O-3 topography code system.
     """
+
     codesystem = "http://terminology.hl7.org/CodeSystem/icd-o-3-topography"
 
 
@@ -197,6 +209,7 @@ class CancerTopographyGroup(CancerTopography):
     Attributes:
         objects (Manager): Custom manager to filter topography groups.
     """
+
     class QuerysetManager(models.Manager):
         def get_queryset(self):
             return super().get_queryset().exclude(code__contains=".")
@@ -214,6 +227,7 @@ class CancerMorphology(CodedConcept):
     Attributes:
         codesystem (str): The URI for the ICD-O-3 morphology code system.
     """
+
     codesystem = "http://terminology.hl7.org/CodeSystem/icd-o-3-morphology"
 
 
@@ -224,6 +238,7 @@ class CancerMorphologyPrimary(CancerMorphology):
     Attributes:
         objects (Manager): Custom manager to filter primary morphologies.
     """
+
     class QuerysetManager(models.Manager):
         def get_queryset(self):
             return super().get_queryset().filter(code__endswith="/3")
@@ -241,6 +256,7 @@ class CancerMorphologyMetastatic(CancerMorphology):
     Attributes:
         objects (Manager): Custom manager to filter metastatic morphologies.
     """
+
     class QuerysetManager(models.Manager):
         def get_queryset(self):
             return super().get_queryset().filter(code__endswith="/6")
@@ -258,6 +274,7 @@ class HistologyDifferentiation(CodedConcept):
     Attributes:
         codesystem (str): The URI for the ICD-O-3 differentiation code system.
     """
+
     codesystem = "http://terminology.hl7.org/CodeSystem/icd-o-3-differentiation"
 
 
@@ -268,6 +285,7 @@ class BodyLocationQualifier(CodedConcept):
     Attributes:
         valueset (str): The URI for the body location qualifier ValueSet.
     """
+
     valueset = "http://hl7.org/fhir/us/mcode/ValueSet/mcode-body-location-qualifier-vs"
 
 
@@ -278,6 +296,7 @@ class GenderIdentity(CodedConcept):
     Attributes:
         valueset (str): The URI for the gender identity ValueSet.
     """
+
     valueset = "https://loinc.org/LL3322-6/"
 
 
@@ -288,6 +307,7 @@ class ECOGPerformanceStatusInterpretation(CodedConcept):
     Attributes:
         valueset (str): The URI for the ECOG performance status ValueSet.
     """
+
     valueset = "https://loinc.org/LL529-9/"
 
 
@@ -298,6 +318,7 @@ class KarnofskyPerformanceStatusInterpretation(CodedConcept):
     Attributes:
         valueset (str): The URI for the Karnofsky performance status ValueSet.
     """
+
     valueset = "https://loinc.org/LL4986-7/"
 
 
@@ -312,6 +333,7 @@ class TreatmentTerminationReason(CodedConcept):
         _concept_display_postprocessing(display: str) -> str:
             Processes the display string for a concept by removing any text following ' ('.
     """
+
     valueset = "https://simplifier.net/onconova/ValueSets/onconova-treatment-termination-reason"
 
     @classmethod
@@ -326,6 +348,7 @@ class AntineoplasticAgent(CodedConcept):
     Attributes:
         therapy_category (CharField): Classification of therapy.
     """
+
     class TherapyCategory(models.TextChoices):
         CHEMOTHERAPY = "chemotherapy"
         IMMUNOTHERAPY = "immunotherapy"
@@ -358,6 +381,7 @@ class DosageRoute(CodedConcept):
     Attributes:
         valueset (str): The URI for the route codes ValueSet.
     """
+
     valueset = "http://hl7.org/fhir/ValueSet/route-codes"
 
 
@@ -368,8 +392,8 @@ class SurgicalProcedure(CodedConcept):
     Attributes:
         valueset (str): The URI for the surgical procedures ValueSet.
     """
-    valueset = "https://simplifier.net/onconova/ValueSets/onconova-surgical-procedures"
 
+    valueset = "https://simplifier.net/onconova/ValueSets/onconova-surgical-procedures"
 
 
 class RadiotherapyModality(CodedConcept):
@@ -383,6 +407,7 @@ class RadiotherapyModality(CodedConcept):
         _concept_display_postprocessing(display: str) -> str:
             Removes the " (procedure)" suffix from the display name of the concept.
     """
+
     valueset = "http://hl7.org/fhir/us/mcode/ValueSet/mcode-radiotherapy-modality-vs"
 
     @classmethod
@@ -395,13 +420,14 @@ class RadiotherapyTechnique(CodedConcept):
     Represents a coded concept for a radiotherapy technique.
 
     Attributes:
-        valueset (str): The canonical URL for the radiotherapy technique value set, 
+        valueset (str): The canonical URL for the radiotherapy technique value set,
             as defined by HL7 FHIR mCODE.
 
     Methods:
         _concept_display_postprocessing(display: str) -> str:
             Removes the suffix " (procedure)" from the concept display string.
     """
+
     valueset = "http://hl7.org/fhir/us/mcode/ValueSet/mcode-radiotherapy-technique-vs"
 
     @classmethod
@@ -420,6 +446,7 @@ class RadiotherapyVolumeType(CodedConcept):
         _concept_display_postprocessing(display: str) -> str:
             Removes the suffix " (observable entity)" from the display string for improved readability.
     """
+
     valueset = "http://hl7.org/fhir/us/mcode/ValueSet/mcode-radiotherapy-volume-type-vs"
 
     @classmethod
@@ -434,6 +461,7 @@ class ObservationBodySite(CodedConcept):
     Attributes:
         valueset (str): URL pointing to the FHIR ValueSet that defines the allowed body site codes for observations.
     """
+
     valueset = (
         "https://simplifier.net/onconova/ValueSets/onconova-observation-bodysites"
     )
@@ -450,6 +478,7 @@ class RadiotherapyTreatmentLocation(CodedConcept):
         _concept_display_postprocessing(display: str) -> str:
             Removes the suffix " (body structure)" from the display string for improved readability.
     """
+
     valueset = (
         "http://hl7.org/fhir/us/mcode/ValueSet/mcode-radiotherapy-treatment-location-vs"
     )
@@ -470,6 +499,7 @@ class RadiotherapyTreatmentLocationQualifier(CodedConcept):
         _concept_display_postprocessing(display: str) -> str:
             Removes the suffix " (qualifier value)" from the display string for improved readability.
     """
+
     valueset = "http://hl7.org/fhir/us/mcode/ValueSet/mcode-radiotherapy-treatment-location-qualifier-vs"
 
     @classmethod
@@ -488,6 +518,7 @@ class TNMStage(CodedConcept):
         _concept_display_postprocessing(display: str) -> str:
             Cleans and formats the display string for AJCC stage representation.
     """
+
     valueset = "https://build.fhir.org/ig/HL7/fhir-mCODE-ig/ValueSet-mcode-tnm-stage-group-vs.json"
 
     @classmethod
@@ -529,6 +560,7 @@ class TNMStagingMethod(CodedConcept):
         _concept_display_postprocessing(display: str) -> str:
             Cleans and formats the display string for TNM staging method representation.
     """
+
     valueset = "https://build.fhir.org/ig/HL7/fhir-mCODE-ig/ValueSet-mcode-tnm-staging-method-vs.json"
     extension_concepts = [
         CodedConceptSchema(
@@ -565,6 +597,7 @@ class TNMPrimaryTumorCategory(CodedConcept):
         _concept_display_postprocessing(display: str) -> str:
             Cleans and formats the display string for TNM primary tumor category.
     """
+
     valueset = (
         "https://simplifier.net/onconova/ValueSets/onconova-tnm-primary-tumor-category"
     )
@@ -587,6 +620,7 @@ class TNMPrimaryTumorStagingType(CodedConcept):
     Attributes:
         valueset (str): The URI for the TNM primary tumor staging type ValueSet.
     """
+
     valueset = "https://build.fhir.org/ig/HL7/fhir-mCODE-ig/ValueSet-mcode-tnm-primary-tumor-staging-type-vs.json"
 
 
@@ -601,6 +635,7 @@ class TNMDistantMetastasesCategory(CodedConcept):
         _concept_display_postprocessing(display: str) -> str:
             Cleans and formats the display string for TNM distant metastases category.
     """
+
     valueset = "https://simplifier.net/onconova/ValueSets/onconova-tnm-distant-metastases-category"
 
     @classmethod
@@ -621,6 +656,7 @@ class TNMDistantMetastasesStagingType(CodedConcept):
     Attributes:
         valueset (str): The URI for the TNM distant metastases staging type ValueSet.
     """
+
     valueset = "https://build.fhir.org/ig/HL7/fhir-mCODE-ig/ValueSet-mcode-tnm-distant-metastases-staging-type-vs.json"
 
 
@@ -635,6 +671,7 @@ class TNMRegionalNodesCategory(CodedConcept):
         _concept_display_postprocessing(display: str) -> str:
             Cleans and formats the display string for TNM regional nodes category.
     """
+
     valueset = (
         "https://simplifier.net/onconova/ValueSets/onconova-tnm-regional-nodes-category"
     )
@@ -657,6 +694,7 @@ class TNMRegionalNodesStagingType(CodedConcept):
     Attributes:
         valueset (str): The URI for the TNM regional nodes staging type ValueSet.
     """
+
     valueset = "https://build.fhir.org/ig/HL7/fhir-mCODE-ig/ValueSet-mcode-tnm-regional-nodes-staging-type-vs.json"
 
 
@@ -671,6 +709,7 @@ class TNMGradeCategory(CodedConcept):
         _concept_display_postprocessing(display: str) -> str:
             Cleans and formats the display string for TNM grade category.
     """
+
     valueset = "https://simplifier.net/onconova/ValueSets/onconova-tnm-grade-category"
 
     @classmethod
@@ -695,6 +734,7 @@ class TNMResidualTumorCategory(CodedConcept):
         _concept_display_postprocessing(display: str) -> str:
             Cleans and formats the display string for TNM residual tumor category.
     """
+
     valueset = (
         "https://simplifier.net/onconova/ValueSets/onconova-tnm-residual-tumor-category"
     )
@@ -721,6 +761,7 @@ class TNMLymphaticInvasionCategory(CodedConcept):
         _concept_display_postprocessing(display: str) -> str:
             Cleans and formats the display string for TNM lymphatic invasion category.
     """
+
     valueset = "https://simplifier.net/onconova/ValueSets/onconova-tnm-lymphatic-invasion-category"
 
     @classmethod
@@ -745,6 +786,7 @@ class TNMVenousInvasionCategory(CodedConcept):
         _concept_display_postprocessing(display: str) -> str:
             Cleans and formats the display string for TNM venous invasion category.
     """
+
     valueset = "https://simplifier.net/onconova/ValueSets/onconova-tnm-venous-invasion-category"
 
     @classmethod
@@ -769,6 +811,7 @@ class TNMPerineuralInvasionCategory(CodedConcept):
         _concept_display_postprocessing(display: str) -> str:
             Converts display string to Pn0 or Pn1 for perineural invasion status.
     """
+
     valueset = "https://simplifier.net/onconova/ValueSets/onconova-tnm-perineural-invasion-category"
 
     @classmethod
@@ -789,6 +832,7 @@ class TNMSerumTumorMarkerLevelCategory(CodedConcept):
         _concept_display_postprocessing(display: str) -> str:
             Cleans the display string by removing redundant text.
     """
+
     valueset = "https://simplifier.net/onconova/ValueSets/onconova-tnm-serum-tumor-marker-level-category"
 
     @classmethod
@@ -805,6 +849,7 @@ class FIGOStage(CodedConcept):
     Attributes:
         valueset (str): The URL of the HL7 FHIR ValueSet defining valid FIGO stage codes.
     """
+
     valueset = "http://hl7.org/fhir/us/mcode/ValueSet/mcode-figo-stage-value-vs"
 
 
@@ -820,6 +865,7 @@ class FIGOStagingMethod(CodedConcept):
             Post-processes the display string by replacing 'Federation of Gynecology and Obstetrics'
             with 'FIGO' and removing ' (tumor staging)' for concise representation.
     """
+
     valueset = "http://hl7.org/fhir/us/mcode/ValueSet/mcode-figo-staging-method-vs"
 
     @classmethod
@@ -836,6 +882,7 @@ class BinetStage(CodedConcept):
     Attributes:
         valueset (str): URL of the FHIR ValueSet for Binet stages.
     """
+
     valueset = "http://hl7.org/fhir/us/mcode/ValueSet/mcode-binet-stage-value-vs"
 
 
@@ -846,6 +893,7 @@ class RaiStage(CodedConcept):
     Attributes:
         valueset (str): The URL of the HL7 FHIR ValueSet defining valid Rai stage codes.
     """
+
     valueset = "http://hl7.org/fhir/us/mcode/ValueSet/mcode-rai-stage-value-vs"
 
 
@@ -856,6 +904,7 @@ class RaiStagingMethod(CodedConcept):
     Attributes:
         valueset (str): The URL of the HL7 FHIR ValueSet for Rai staging method.
     """
+
     valueset = "http://hl7.org/fhir/us/mcode/ValueSet/mcode-rai-staging-method-vs"
 
 
@@ -866,6 +915,7 @@ class LymphomaStage(CodedConcept):
     Attributes:
         valueset (str): The URL of the HL7 FHIR mCODE value set for lymphoma stage values.
     """
+
     valueset = "http://hl7.org/fhir/us/mcode/ValueSet/mcode-lymphoma-stage-value-vs"
 
 
@@ -876,6 +926,7 @@ class LymphomaStagingMethod(CodedConcept):
     Attributes:
         valueset (str): The URI of the HL7 FHIR mCODE value set for lymphoma staging methods.
     """
+
     valueset = "http://hl7.org/fhir/us/mcode/ValueSet/mcode-lymphoma-staging-method-vs"
 
 
@@ -886,6 +937,7 @@ class LymphomaStageValueModifier(CodedConcept):
     Attributes:
         valueset (str): The URI of the value set defining valid lymphoma stage value modifiers.
     """
+
     valueset = (
         "http://hl7.org/fhir/us/mcode/ValueSet/mcode-lymphoma-stage-value-modifier-vs"
     )
@@ -902,6 +954,7 @@ class ClinOrPathModifier(CodedConcept):
         _concept_display_postprocessing(display: str) -> str:
             Removes the substring "staging (qualifier value)" from the provided display string.
     """
+
     valueset = "http://hl7.org/fhir/us/mcode/ValueSet/mcode-clin-or-path-modifier-vs"
 
     @classmethod
@@ -916,6 +969,7 @@ class BreslowDepthStage(CodedConcept):
     Attributes:
         valueset (str): The canonical URL of the Breslow Depth Stage ValueSet.
     """
+
     valueset = (
         "http://hl7.org/fhir/us/mcode/ValueSet/mcode-breslow-depth-stage-value-vs"
     )
@@ -929,6 +983,7 @@ class ClarkLevel(CodedConcept):
         valueset (str): The URL of the HL7 FHIR ValueSet for Clark Level values,
             used to standardize the representation of Clark Level in clinical data.
     """
+
     valueset = "http://hl7.org/fhir/us/mcode/ValueSet/mcode-clark-level-value-vs"
 
 
@@ -939,6 +994,7 @@ class MyelomaISSStage(CodedConcept):
     Attributes:
         valueset (str): The canonical URL of the value set defining valid ISS stage codes.
     """
+
     valueset = "http://hl7.org/fhir/us/mcode/ValueSet/mcode-myeloma-iss-stage-value-vs"
 
 
@@ -949,6 +1005,7 @@ class MyelomaRISSStage(CodedConcept):
     Attributes:
         valueset (str): The canonical URL of the value set defining valid RISS stage codes.
     """
+
     valueset = "http://hl7.org/fhir/us/mcode/ValueSet/mcode-myeloma-riss-stage-value-vs"
 
 
@@ -964,6 +1021,7 @@ class NeuroblastomaINSSStage(CodedConcept):
             Post-processes the display string by replacing 'International neuroblastoma staging system'
             with 'IN' for concise representation.
     """
+
     valueset = "http://hl7.org/fhir/us/mcode/ValueSet/mcode-neuroblastoma-inss-value-vs"
 
     @classmethod
@@ -978,6 +1036,7 @@ class NeuroblastomaINRGSSStage(CodedConcept):
     Attributes:
         valueset (str): The URL of the FHIR ValueSet defining valid INRGSS stage codes for neuroblastoma.
     """
+
     valueset = (
         "http://hl7.org/fhir/us/mcode/ValueSet/mcode-neuroblastoma-INRGSS-value-vs"
     )
@@ -990,6 +1049,7 @@ class GleasonGradeGroupStage(CodedConcept):
     Attributes:
         valueset (str): The URI of the HL7 FHIR mCODE value set for Gleason Grade Group.
     """
+
     valueset = (
         "http://hl7.org/fhir/us/mcode/ValueSet/mcode-gleason-grade-group-value-vs"
     )
@@ -1002,6 +1062,7 @@ class WilmsTumorStage(CodedConcept):
     Attributes:
         valueset (str): The URL of the HL7 FHIR ValueSet defining valid Wilms Tumor stages.
     """
+
     valueset = "http://hl7.org/fhir/us/mcode/ValueSet/mcode-wilms-tumor-stage-value-vs"
 
 
@@ -1016,6 +1077,7 @@ class RhabdomyosarcomaClinicalGroup(CodedConcept):
         _concept_display_postprocessing(display: str) -> str:
             Processes the display string to extract and format the clinical group label as 'Group <group>'.
     """
+
     valueset = "http://hl7.org/fhir/us/mcode/ValueSet/mcode-rhabdomyosarcoma-clinical-group-value-vs"
 
     @classmethod
@@ -1039,6 +1101,7 @@ class TumorMarkerAnalyte(CodedConcept):
             Class method that enriches the given concept with additional properties from analyte data,
             if available, by looking up the concept code in ANALYTES_DATA and serializing the result.
     """
+
     valueset = (
         "https://simplifier.net/onconova/ValueSets/onconova-tumor-marker-analytes"
     )
@@ -1065,6 +1128,7 @@ class Race(CodedConcept):
         _concept_display_postprocessing(display: str) -> str:
             Post-processes the display string for a race concept by converting it to title case.
     """
+
     valueset = "http://hl7.org/fhir/us/core/ValueSet/omb-race-category"
 
     @classmethod
@@ -1079,6 +1143,7 @@ class BirthSex(CodedConcept):
     Attributes:
         valueset (str): The URI of the HL7 FHIR ValueSet for administrative gender.
     """
+
     valueset = "http://hl7.org/fhir/ValueSet/administrative-gender"
 
 
@@ -1093,6 +1158,7 @@ class SmokingStatus(CodedConcept):
         _concept_display_postprocessing(display: str) -> str:
             Removes the substring " (finding)" from the concept display string.
     """
+
     valueset = "https://simplifier.net/onconova/ValueSets/onconova-smoking-status"
 
     @classmethod
@@ -1110,6 +1176,7 @@ class CauseOfDeath(CodedConcept):
     Inherits from:
         CodedConcept: Base class for coded terminology concepts.
     """
+
     valueset = "https://simplifier.net/onconova/ValueSets/onconova-causes-of-death"
 
 
@@ -1117,6 +1184,7 @@ class AdverseEventTerm(CodedConcept):
     """
     Represents a coded concept for adverse event terms.
     """
+
     pass
 
 
@@ -1127,6 +1195,7 @@ class StructuralVariantAnalysisMethod(CodedConcept):
     Attributes:
         valueset (str): The URI for the structural variant analysis method ValueSet.
     """
+
     valueset = "https://loinc.org/LL4048-6/"
 
 
@@ -1137,6 +1206,7 @@ class Gene(CodedConcept):
     Attributes:
         valueset (str): The URI for the HGNC gene ValueSet.
     """
+
     valueset = "http://hl7.org/fhir/uv/genomics-reporting/ValueSet/hgnc-vs"
 
 
@@ -1151,6 +1221,7 @@ class GeneExon(BaseModel):
         coding_dna_region (IntegerRangeField): Coding DNA region.
         coding_genomic_region (IntegerRangeField): Coding genomic region.
     """
+
     objects = QueryablePropertiesManager()
     gene = models.ForeignKey(
         to=Gene,
@@ -1178,6 +1249,7 @@ class ReferenceGenomeBuild(CodedConcept):
     Attributes:
         valueset (str): The URI for the reference genome build ValueSet.
     """
+
     valueset = "https://loinc.org/LL1040-6/"
 
 
@@ -1189,7 +1261,6 @@ class DnaChangeType(CodedConcept):
         return display.replace("_", " ").capitalize()
 
 
-
 class GeneticVariantSource(CodedConcept):
     """
     Represents a coded concept for genetic variant sources.
@@ -1197,6 +1268,7 @@ class GeneticVariantSource(CodedConcept):
     Attributes:
         valueset (str): The URI for the genetic variant source ValueSet.
     """
+
     valueset = "https://loinc.org/LL378-1/"
 
 
@@ -1207,6 +1279,7 @@ class Zygosity(CodedConcept):
     Attributes:
         valueset (str): The URI for the zygosity ValueSet.
     """
+
     valueset = "https://loinc.org/LL381-5/"
 
 
@@ -1217,6 +1290,7 @@ class VariantInheritance(CodedConcept):
     Attributes:
         valueset (str): The URI for the variant inheritance ValueSet.
     """
+
     valueset = (
         "http://hl7.org/fhir/uv/genomics-reporting/ValueSet/variant-inheritance-vs"
     )
@@ -1229,6 +1303,7 @@ class ChromosomeIdentifier(CodedConcept):
     Attributes:
         valueset (str): The URI for the chromosome identifier ValueSet.
     """
+
     valueset = "https://loinc.org/LL2938-0/"
 
 
@@ -1239,6 +1314,7 @@ class AminoAcidChangeType(CodedConcept):
     Attributes:
         valueset (str): The URI for the amino acid change type ValueSet.
     """
+
     valueset = "https://loinc.org/LL380-7/"
 
 
@@ -1253,6 +1329,7 @@ class MolecularConsequence(CodedConcept):
         _concept_display_postprocessing(display: str) -> str:
             Post-processes the display string by replacing underscores with spaces and capitalizing it.
     """
+
     valueset = (
         "http://hl7.org/fhir/uv/genomics-reporting/ValueSet/molecular-consequence-vs"
     )
@@ -1262,7 +1339,6 @@ class MolecularConsequence(CodedConcept):
         return display.replace("_", " ").capitalize()
 
 
-
 class GenomicCoordinateSystem(CodedConcept):
     """
     Represents a coded concept for genomic coordinate systems.
@@ -1270,6 +1346,7 @@ class GenomicCoordinateSystem(CodedConcept):
     Attributes:
         valueset (str): The URI for the genomic coordinate system ValueSet.
     """
+
     valueset = "https://loinc.org/LL5323-2/"
 
 
@@ -1280,6 +1357,7 @@ class MicrosatelliteInstabilityState(CodedConcept):
     Attributes:
         valueset (str): The URI for the microsatellite instability state ValueSet.
     """
+
     valueset = "https://loinc.org/LL3994-2/"
 
 
@@ -1295,6 +1373,7 @@ class AdjunctiveTherapyRole(CodedConcept):
         _concept_display_postprocessing(display: str) -> str:
             Cleans up the display string by removing keywords such as 'therapy', 'care', 'treatment', 'drug', and 'antineoplastic'.
     """
+
     valueset = (
         "https://simplifier.net/onconova/ValueSets/onconova-adjunctive-therapy-roles"
     )
@@ -1331,6 +1410,7 @@ class CancerTreatmentResponseObservationMethod(CodedConcept):
     Inherits from:
         CodedConcept
     """
+
     valueset = "https://simplifier.net/onconova/ValueSets/onconova-cancer-treatment-response-observation-methods"
     extension_concepts = [
         CodedConceptSchema(
@@ -1342,7 +1422,6 @@ class CancerTreatmentResponseObservationMethod(CodedConcept):
     ]
 
 
-
 class CancerTreatmentResponse(CodedConcept):
     """
     Represents a coded concept for cancer treatment response.
@@ -1350,6 +1429,7 @@ class CancerTreatmentResponse(CodedConcept):
     Attributes:
         valueset (str): The URI for the cancer treatment response ValueSet.
     """
+
     valueset = "https://loinc.org/LL4721-8/"
 
 
@@ -1360,6 +1440,7 @@ class TumorBoardRecommendation(CodedConcept):
     Attributes:
         valueset (str): The URI for the tumor board recommendations ValueSet.
     """
+
     valueset = (
         "https://simplifier.net/onconova/ValueSets/onconova-tumor-board-recommendations"
     )
@@ -1378,6 +1459,7 @@ class MolecularTumorBoardRecommendation(TumorBoardRecommendation):
     Meta:
         proxy (bool): Indicates that this is a proxy model and does not create a new database table.
     """
+
     class MolecularTumorBoardRecommendationManager(models.Manager):
         def get_queryset(self):
             return (
@@ -1392,7 +1474,6 @@ class MolecularTumorBoardRecommendation(TumorBoardRecommendation):
         proxy = True
 
 
-
 class ICD10Condition(CodedConcept):
     """
     Represents a coded concept for ICD-10 conditions.
@@ -1400,6 +1481,7 @@ class ICD10Condition(CodedConcept):
     Attributes:
         valueset (str): The URI for the ICD-10 ValueSet.
     """
+
     valueset = "http://hl7.org/fhir/ValueSet/icd-10"
 
 
@@ -1410,6 +1492,7 @@ class ExpectedDrugAction(CodedConcept):
     Attributes:
         valueset (str): The URI for the expected drug action ValueSet.
     """
+
     valueset = "https://simplifier.net/onconova/ValueSets/onconova-expected-drug-action"
 
 
@@ -1420,6 +1503,7 @@ class RecreationalDrug(CodedConcept):
     Attributes:
         valueset (str): The URI for the recreational drugs ValueSet.
     """
+
     valueset = "https://simplifier.net/onconova/ValueSets/onconova-recreational-drugs"
 
 
@@ -1430,6 +1514,7 @@ class ExposureAgent(CodedConcept):
     Attributes:
         valueset (str): The URI for the exposure agents ValueSet.
     """
+
     valueset = "https://simplifier.net/onconova/ValueSets/onconova-exposure-agents"
 
 

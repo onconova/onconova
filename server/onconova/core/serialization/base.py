@@ -13,7 +13,6 @@ from typing import (
 
 from django.contrib.postgres.fields import BigIntegerRangeField, DateRangeField
 from django.db import transaction
-from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Field as DjangoField
 from django.db.models import Model as DjangoModel
 from ninja import Schema
@@ -35,7 +34,7 @@ from onconova.core.auth.models import User
 from onconova.core.measures.fields import MeasurementField
 from onconova.core.models import BaseModel, UntrackedBaseModel
 from onconova.core.utils import to_camel_case
-from onconova.terminology.models import CodedConcept
+from onconova.terminology.models import CodedConcept, CodedConceptDoesNotExist
 
 from onconova.core.utils import camel_to_snake
 
@@ -412,8 +411,8 @@ class BaseSchema(
                                     code=data.get("code"), system=data.get("system")
                                 ).first()
                                 if not related_instance:
-                                    raise ObjectDoesNotExist(
-                                        f"CodedConcept with code {data.get('code')} and system {data.get('system')} does not exist."
+                                    raise CodedConceptDoesNotExist(
+                                        f"Got a unsupported or invalid CodedConcept with code '{data.get('code')}' and system '{data.get('system')}' for {camel_to_snake(related_model.__name__).replace('_', ' ')} valueset."
                                     )
                             elif issubclass(related_model, User):
                                 # For users. query the database via the username
