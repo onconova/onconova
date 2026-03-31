@@ -15,6 +15,7 @@ from django.contrib.postgres.fields import BigIntegerRangeField, DateRangeField
 from django.db import transaction
 from django.db.models import Field as DjangoField
 from django.db.models import Model as DjangoModel
+from django.core.exceptions import ObjectDoesNotExist
 from ninja import Schema
 from ninja.schema import DjangoGetter as BaseDjangoGetter
 from pydantic import BaseModel as PydanticBaseModel, ValidationError
@@ -361,13 +362,19 @@ class BaseSchema(
                 related_model: Type[DjangoModel] = orm_field.related_model
                 if orm_field.many_to_many:
                     if issubclass(related_model, CodedConcept):
+                        m2m_relations[orm_field.name] = []
                         # Collect all related instances
-                        m2m_relations[orm_field.name] = [
-                            related_model.objects.get(
-                                code=concept.get("code"), system=concept.get("system")
-                            )
-                            for concept in data or []
-                        ]
+                        for concept in data or []:
+                            try:
+                                m2m_relations[orm_field.name].append(
+                                    related_model.objects.get(
+                                        code=concept.get("code"), system=concept.get("system")
+                                    )
+                                )
+                            except related_model.DoesNotExist:
+                                raise CodedConceptDoesNotExist(
+                                    f"Got a unsupported or invalid CodedConcept with code '{concept.get('code')}' and system '{concept.get('system')}' for {camel_to_snake(related_model.__name__).replace('_', ' ')} valueset."
+                                )
                     elif issubclass(related_model, User):
                         # For users. query the database via the username
                         m2m_relations[orm_field.name] = [
