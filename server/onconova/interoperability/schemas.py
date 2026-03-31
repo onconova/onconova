@@ -203,11 +203,15 @@ class PatientCaseBundle(sc.PatientCase):
             RESPONSE_SCHEMAS,
             cast_to_model_schema,
         )
-
-        return [
-            cast_to_model_schema(staging.get_domain_staging(), RESPONSE_SCHEMAS)
-            for staging in obj.stagings.all()
-        ]
+        if isinstance(obj, dict):
+            return obj.get("stagings", [])
+        elif isinstance(obj, PatientCaseBundle):
+            return obj.stagings
+        else:
+            return [
+                cast_to_model_schema(staging.get_domain_staging(), RESPONSE_SCHEMAS)
+                for staging in obj.stagings.all()
+            ]
 
     @staticmethod
     def resolve_genomicSignatures(obj):
@@ -216,12 +220,17 @@ class PatientCaseBundle(sc.PatientCase):
             cast_to_model_schema,
         )
 
-        return [
-            cast_to_model_schema(
-                staging.get_discriminated_genomic_signature(), RESPONSE_SCHEMAS
-            )
-            for staging in obj.genomic_signatures.all()
-        ]
+        if isinstance(obj, dict):
+            return obj.get("genomicSignatures", [])
+        elif isinstance(obj, PatientCaseBundle):
+            return obj.genomicSignatures
+        else:
+            return [
+                cast_to_model_schema(
+                    staging.get_discriminated_genomic_signature(), RESPONSE_SCHEMAS
+                )
+                for staging in obj.genomic_signatures.all()
+            ]
 
     @staticmethod
     def resolve_tumorBoards(obj):
@@ -230,36 +239,48 @@ class PatientCaseBundle(sc.PatientCase):
             cast_to_model_schema,
         )
 
-        return [
-            cast_to_model_schema(staging.specialized_tumor_board, RESPONSE_SCHEMAS)
-            for staging in obj.tumor_boards.all()
-        ]
+        if isinstance(obj, dict):
+            return obj.get("tumorBoards", [])
+        elif isinstance(obj, PatientCaseBundle):
+            return obj.tumorBoards
+        else:
+            return [
+                cast_to_model_schema(staging.specialized_tumor_board, RESPONSE_SCHEMAS)
+                for staging in obj.tumor_boards.all()
+            ]
 
     @staticmethod
     def resolve_completedDataCategories(obj):
         from onconova.oncology.models.patient_case import PatientCase
 
-        return {
-            category: sc.PatientCaseDataCompletionStatus(
-                status=completion is not None,
-                username=completion.created_by if completion else None,
-                timestamp=completion.created_at if completion else None,
-            )
-            for category in PatientCaseDataCategoryChoices.values
-            for completion in (
-                (
-                    list(obj.completed_data_categories.filter(category=category)) # type: ignore
-                    if isinstance(obj, PatientCase)
-                    else obj.get("completed_data_categories")
+        if isinstance(obj, dict):
+            return obj.get("completedDataCategories", [])
+        elif isinstance(obj, PatientCaseBundle):
+            return obj.completedDataCategories
+        else:
+            return {
+                category: sc.PatientCaseDataCompletionStatus(
+                    status=completion is not None,
+                    username=completion.created_by if completion else None,
+                    timestamp=completion.created_at if completion else None,
                 )
-                or [None]
-            )
-        }
+                for category in PatientCaseDataCategoryChoices.values
+                for completion in (
+                    (
+                        list(obj.completed_data_categories.filter(category=category)) # type: ignore
+                        if isinstance(obj, PatientCase)
+                        else obj.get("completed_data_categories")
+                    )
+                    or [None]
+                )
+            }
 
     @staticmethod
     def resolve_history(obj):
         if isinstance(obj, dict):
             return obj.get("history")
+        elif isinstance(obj, PatientCaseBundle):
+            return obj.history
         else:
             return (
                 pghistory.models.Events.objects.tracks(obj) # type: ignore
@@ -275,6 +296,8 @@ class PatientCaseBundle(sc.PatientCase):
     def resolve_contributorsDetails(obj):
         if isinstance(obj, dict):
             return obj.get("contributorsDetails")
+        elif isinstance(obj, PatientCaseBundle):
+            return obj.contributorsDetails
         else:
             return [
                 UserExport.model_validate(user)
