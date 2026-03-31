@@ -268,7 +268,7 @@ class BundleParser:
         orm_instance = CreateSchema.model_validate(resource).model_dump_django(
             instance=instance,
             **fields,
-            external_source="Onconova",
+            external_source=resource.externalSource or "Onconova", # type: ignore 
             external_source_id=resourceId,
         )
         # Delete the create event that just happened
