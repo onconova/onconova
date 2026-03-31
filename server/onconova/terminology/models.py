@@ -188,7 +188,7 @@ class LateralityQualifier(CodedConcept):
 
     @classmethod
     def _concept_display_postprocessing(cls, display: str) -> str:
-        return display.replace(" (qualifier value)", "")
+        return display.replace(" (qualifier value)", "").replace("Right and left", "Bilateral")
 
 
 class CancerTopography(CodedConcept):

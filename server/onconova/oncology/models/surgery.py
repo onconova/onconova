@@ -110,7 +110,14 @@ class Surgery(BaseModel):
 
     @property
     def description(self):
-        return f"{self.therapy_line.label if self.therapy_line else self.intent.capitalize()} - {self.procedure.display[0].upper() + self.procedure.display[1:].lower()}"
+        procedure = str(self.procedure.display)
+        if ("Excision" in procedure or "Resection" in procedure) and (not "of" in procedure) and self.bodysite and self.bodysite.display:
+             procedure = f"{procedure} ({self.bodysite.display.replace(', NOS','').lower()})"
+        if self.bodysite_qualifier:
+            procedure = f"{self.bodysite_qualifier.display} {procedure}"
+        if self.bodysite_laterality:
+            procedure = f"{self.bodysite_laterality.display} {procedure}"
+        return f"{self.therapy_line.label if self.therapy_line else self.intent.capitalize()} - {procedure.capitalize()}"
 
     def assign_therapy_line(self):
         TherapyLine.assign_therapy_lines(self.case)
