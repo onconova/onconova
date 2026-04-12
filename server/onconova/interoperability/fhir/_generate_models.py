@@ -177,7 +177,7 @@ def process_structure_definition(
             canonical_url = structure_definition["url"]
             logger.debug(f"Constructing model for: {canonical_url}")
 
-            model = factory.build(canonical_url=canonical_url, mode="snapshot")
+            model = factory.build(canonical_url=canonical_url, mode="differential")
             source_code = generate_resource_model_code(model)
 
             # Determine output filename

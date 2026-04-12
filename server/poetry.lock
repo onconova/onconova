@@ -657,14 +657,14 @@ tzdata = ["tzdata"]
 
 [[package]]
 name = "fhircraft"
-version = "0.7.0"
+version = "0.8.0"
 description = "Fhircraft transforms FHIR (Fast Healthcare Interoperability Resources) specifications into type-safe Python models using Pydantic. Build healthcare applications with automatic validation, intelligent code completion, and seamless integration with Python's ecosystem."
 optional = false
 python-versions = ">=3.10"
 groups = ["main"]
 files = [
-    {file = "fhircraft-0.7.0-py3-none-any.whl", hash = "sha256:1c1236b32fd5409b48e689b38aff6862784454d96bc6e8073931e12ec3248d4f"},
-    {file = "fhircraft-0.7.0.tar.gz", hash = "sha256:ca6db7457da214326dc1f07b67afea4b0e71178210ae79067f2f99ad35587948"},
+    {file = "fhircraft-0.8.0-py3-none-any.whl", hash = "sha256:5380a7df873795bafae459656ff5118cdc8709ee79844a2c381e0a69fa4f6dfa"},
+    {file = "fhircraft-0.8.0.tar.gz", hash = "sha256:a76021f76548749a4c6bf8307a0cf5e3ac63d19822bf2f3bbed9a06a2be178a2"},
 ]
 
 [package.dependencies]
@@ -1853,4 +1853,4 @@ files = [
 [metadata]
 lock-version = "2.1"
 python-versions = "~=3.11"
-content-hash = "75c4d1aaa6319ed0cf7b30c5afebef162beab4737a80fd51896e55b1b0825259"
+content-hash = "70e59f2fca16bc74030c33c6c8ee9cc9ea05984980c0aa46da703c994e04d05b"

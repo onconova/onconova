@@ -105,7 +105,7 @@ class PrimaryCancerConditionProfile(
             fhir.HistologyMorphologyBehavior(
                 valueCodeableConcept=construct_fhir_codeable_concept(obj.morphology)
             ),
-            fhir.ConditionAssertedDate(valueDateTime=obj.assertionDate.isoformat()),
+            fhir.AssertedDate(valueDateTime=obj.assertionDate.isoformat()),
         ]
         if obj.differentitation:
             resource.extension.append(
@@ -124,7 +124,7 @@ class PrimaryCancerConditionProfile(
             or obj.relationship
             == NeoplasticEntityRelationshipChoices.REGIONAL_RECURRENCE
         ):
-            resource.clinicalStatus = fhir.CodeableConcept(
+            resource.clinicalStatus = fhir.OnconovaPrimaryCancerConditionClinicalStatus(
                 coding=[
                     fhir.Coding(
                         code="recurrence",

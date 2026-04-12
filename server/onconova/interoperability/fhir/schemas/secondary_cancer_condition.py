@@ -96,7 +96,7 @@ class SecondaryCancerConditionProfile(
             fhir.HistologyMorphologyBehavior(
                 valueCodeableConcept=construct_fhir_codeable_concept(obj.morphology)
             ),
-            fhir.ConditionAssertedDate(valueDateTime=obj.assertionDate.isoformat()),
+            fhir.AssertedDate(valueDateTime=obj.assertionDate.isoformat()),
         ]
         if obj.differentitation:
             resource.extension.append(
@@ -109,7 +109,7 @@ class SecondaryCancerConditionProfile(
         assert resource.extension is not None
         if obj.relatedPrimaryId:
             resource.extension.append(
-                fhir.ConditionRelated(
+                fhir.Related(
                     valueReference=Reference(
                         reference=f"Condition/{obj.relatedPrimaryId}",
                     )
