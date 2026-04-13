@@ -269,7 +269,7 @@ class BundleParser:
             instance=instance,
             **fields,
             external_source=resource.externalSource or "Onconova", # type: ignore 
-            external_source_id=resourceId,
+            external_source_id=resource.externalSourceId or resourceId, # type: ignore 
         )
         # Delete the create event that just happened
         orm_instance.events.latest("pgh_created_at").delete()
