@@ -15,6 +15,7 @@ from django.contrib.postgres.fields import BigIntegerRangeField, DateRangeField
 from django.db import transaction
 from django.db.models import Field as DjangoField
 from django.db.models import Model as DjangoModel
+from psycopg.types.range import Range as PostgresRange
 from django.core.exceptions import ObjectDoesNotExist
 from ninja import Schema
 from ninja.schema import DjangoGetter as BaseDjangoGetter
@@ -446,10 +447,15 @@ class BaseSchema(
                         orm_field.measurement(**{data.get("unit"): data.get("value")}),
                     )
                 elif (
-                    isinstance(orm_field, (DateRangeField, BigIntegerRangeField))
+                    isinstance(orm_field, BigIntegerRangeField)
                     and data is not None
                 ):
-                    setattr(instance, orm_field.name, (data["start"], data["end"]))
+                    setattr(instance, orm_field.name, PostgresRange(data["start"], data["end"], bounds="[)"))
+                elif (
+                    isinstance(orm_field, DateRangeField)
+                    and data is not None
+                ):
+                    setattr(instance, orm_field.name, PostgresRange(data["start"], data["end"], bounds="[]"))
                 else:
                     # Otherwise simply handle all other non-relational fields
                     setattr(instance, orm_field.name, data)

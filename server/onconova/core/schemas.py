@@ -1,4 +1,4 @@
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from typing import Any, Dict, Generic, List, TypeVar, Union
 
 from ninja import Schema
@@ -169,7 +169,7 @@ class Range(Schema):
         """
         Converts this Range schema into a Python tuple.
         """
-        return (self.start, self.end)
+        return PostgresRange(self.start, self.end, bounds="[)")
 
 class Period(Schema):
     """
@@ -199,11 +199,14 @@ class Period(Schema):
         elif isinstance(period_obj, tuple):
             return {"start": period_obj[0], "end": period_obj[1]}
         elif isinstance(period_obj, PostgresRange):
-            return {"start": period_obj.lower, "end": period_obj.upper}
+            upper = period_obj.upper
+            if upper is not None and not period_obj.upper_inc:
+                upper = upper - timedelta(days=1)
+            return {"start": period_obj.lower, "end": upper}
         return obj
 
-    def to_range(self) -> tuple:
+    def to_range(self) -> PostgresRange:
         """
         Converts this Period schema into a Python tuple of dates.
         """
-        return (self.start, self.end)
+        return PostgresRange(self.start, self.end, bounds="[]")
