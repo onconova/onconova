@@ -32,11 +32,11 @@ class HomologousRecombinationDeficiencyProfile(
         return schemas.HomologousRecombinationDeficiencyCreate(
             externalSource=None,
             externalSourceId=None,
-            caseId=obj.fhirpath_single("Observation.subject.reference").replace(
-                "Patient/", ""
-            ),
-            date=obj.fhirpath_single("Observation.effectiveDateTime"),
-            value=obj.fhirpath_single("Observation.valueQuantity.value"),
+            caseId=obj.fhirpath_single(
+                "Observation.subject.reference.getValue()"
+            ).replace("Patient/", ""),
+            date=obj.fhirpath_single("Observation.effectiveDateTime.getValue()"),
+            value=obj.fhirpath_single("Observation.valueQuantity.value.getValue()"),
             interpretation=(
                 cls.map_to_internal("interpretation", interpretation)
                 if (
@@ -62,8 +62,8 @@ class HomologousRecombinationDeficiencyProfile(
         resource.subject = Reference(
             reference=f"Patient/{obj.caseId}",
         )
-        resource.valueQuantity = Quantity(
-            value=obj.value, code="1", system="http://unitsofmeasure.org"
+        resource.valueQuantity = (
+            fhir.OnconovaHomologousRecombinationDeficiencyValueQuantity(value=obj.value)
         )
         resource.extension = [
             fhir.Extension(

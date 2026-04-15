@@ -25,22 +25,24 @@ class CancerRiskAssessmentProfile(
         return schemas.RiskAssessmentCreate(
             externalSource=None,
             externalSourceId=None,
-            caseId=obj.fhirpath_single("Observation.subject.reference").replace(
-                "Patient/", ""
-            ),
-            date=obj.fhirpath_single("Observation.effectiveDateTime"),
+            caseId=obj.fhirpath_single(
+                "Observation.subject.reference.getValue()"
+            ).replace("Patient/", ""),
+            date=obj.fhirpath_single("Observation.effectiveDateTime.getValue()"),
             assessedEntitiesIds=[
                 ref.replace("Condition/", "")
-                for ref in obj.fhirpath_values("Observation.focus.reference")
+                for ref in obj.fhirpath_values("Observation.focus.reference.getValue()")
             ],
             methodology=CodedConcept.model_validate(
-                obj.fhirpath_single("Observation.code.coding")
+                obj.fhirpath_single("Observation.code.coding").model_dump()
             ),
             risk=CodedConcept.model_validate(
-                obj.fhirpath_single("Observation.valueCodeableConcept.coding")
+                obj.fhirpath_single(
+                    "Observation.valueCodeableConcept.coding"
+                ).model_dump()
             ),
             score=obj.fhirpath_single(
-                "Observation.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-risk-assessment-score').value"
+                "Observation.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-risk-assessment-score').value.getValue()"
             ),
         )
 

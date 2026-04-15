@@ -1,12 +1,14 @@
 from ninja import Schema
 from django.db.models import Model
 from django.template.exceptions import TemplateSyntaxError
-from typing import Any, ClassVar, Dict, List, Optional
+from typing import Any, ClassVar, Dict, Generic, List, Optional, Sequence, TypeVar
 from onconova.core.serialization.base import BaseSchema, DjangoGetter
 from fhircraft.fhir.resources.base import FHIRBaseModel
 from fhircraft.fhir.resources.datatypes.R4.complex import Narrative, Coding
 from pydantic import model_validator
 from dataclasses import dataclass
+
+from onconova.core.models import UntrackedBaseModel
 
 
 @dataclass
@@ -77,12 +79,12 @@ class MappingRegistry:
 
 class OnconovaFhirBaseSchema(BaseSchema, alias_generator=None):
 
-    __model__: ClassVar[type[Model]]
+    __model__: ClassVar[type[UntrackedBaseModel]]
     __schema__: ClassVar[type[BaseSchema]]
     __registry__: ClassVar[MappingRegistry] = MappingRegistry()
 
     @classmethod
-    def get_orm_model(cls, obj: FHIRBaseModel):
+    def get_orm_model(cls, obj):  # type: ignore[override]
         return cls.__model__
 
     @classmethod
@@ -102,17 +104,15 @@ class OnconovaFhirBaseSchema(BaseSchema, alias_generator=None):
         return cls.__registry__.register(mapping_name, rules)
 
     @classmethod
-    def fhir_to_onconova(cls, obj: "OnconovaFhirBaseSchema") -> BaseSchema:
+    def fhir_to_onconova(cls, obj: Any) -> BaseSchema:
         raise NotImplementedError("Subclasses must implement fhir_to_onconova method")
 
     @classmethod
-    def onconova_to_fhir(cls, obj: BaseSchema) -> "OnconovaFhirBaseSchema":
+    def onconova_to_fhir(cls, obj: Any) -> Any:
         raise NotImplementedError("Subclasses must implement onconova_to_fhir method")
 
     @classmethod
-    def fhir_to_onconova_related(
-        cls, obj: "OnconovaFhirBaseSchema"
-    ) -> list[tuple[Model, BaseSchema]]:
+    def fhir_to_onconova_related(cls, obj: Any) -> Sequence[tuple[Model, BaseSchema]]:
         return []
 
     @model_validator(mode="before")
@@ -125,7 +125,6 @@ class OnconovaFhirBaseSchema(BaseSchema, alias_generator=None):
                 obj = cls.get_orm_schema(obj).model_validate(obj)
                 return cls.onconova_to_fhir(obj)
             elif isinstance(obj, cls.get_orm_schema(obj)):
-                print(cls.onconova_to_fhir(obj).model_dump_json())
                 return cls.onconova_to_fhir(obj)
         except TemplateSyntaxError:
             pass

@@ -21,23 +21,28 @@ class ImagingDiseaseStatusProfile(
             externalSource=None,
             externalSourceId=None,
             caseId=obj.fhirpath_single(
-                "Observation.subject.reference.replace('Patient/', '')"
+                "Observation.subject.reference.getValue().replace('Patient/', '')"
             ),
-            date=obj.fhirpath_single("Observation.effectiveDateTime"),
+            date=obj.fhirpath_single("Observation.effectiveDateTime.getValue()"),
             methodology=CodedConcept.model_validate(
-                obj.fhirpath_single("Observation.method.coding")
+                obj.fhirpath_single("Observation.method.coding").model_dump()
             ),
             recist=CodedConcept.model_validate(
-                obj.fhirpath_single("Observation.valueCodeableConcept.coding")
+                obj.fhirpath_single(
+                    "Observation.valueCodeableConcept.coding"
+                ).model_dump()
             ),
             recistInterpreted=obj.fhirpath_single(
-                "Observation.valueCodeableConcept.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-treatment-response-recist-is-interpreted').valueBoolean"
+                "Observation.valueCodeableConcept.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-treatment-response-recist-is-interpreted').valueBoolean.getValue()"
             ),
             assessedEntitiesIds=obj.fhirpath_values(
-                "Observation.focus.reference.replace('Condition/', '')"
+                "Observation.focus.reference.getValue().replace('Condition/', '')"
             ),
             assessedBodysites=(
-                [CodedConcept.model_validate(bodysite) for bodysite in bodysites]
+                [
+                    CodedConcept.model_validate(bodysite.model_dump())
+                    for bodysite in bodysites
+                ]
                 if (bodysites := obj.fhirpath_values("Observation.bodySite.coding"))
                 else None
             ),
@@ -58,7 +63,11 @@ class ImagingDiseaseStatusProfile(
             reference=f"Patient/{obj.caseId}",
         )
         resource.method = construct_fhir_codeable_concept(obj.methodology)
-        resource.valueCodeableConcept = construct_fhir_codeable_concept(obj.recist)
+        resource.valueCodeableConcept = (
+            fhir.OnconovaImagingDiseaseStatusValueCodeableConcept(
+                **construct_fhir_codeable_concept(obj.recist).model_dump()
+            )
+        )
 
         resource.bodySite = (
             construct_fhir_codeable_concept(obj.assessedBodysites[0])
@@ -78,8 +87,7 @@ class ImagingDiseaseStatusProfile(
 
         if obj.recistInterpreted is not None:
             resource.valueCodeableConcept.extension = [
-                fhir.Extension(
-                    url="http://onconova.github.io/fhir/StructureDefinition/onconova-ext-treatment-response-recist-is-interpreted",
+                fhir.TreatmentResponseRecistIsInterpreted(
                     valueBoolean=obj.recistInterpreted,
                 )
             ]

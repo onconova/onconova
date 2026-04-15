@@ -28,11 +28,11 @@ class TherapyLineProfile(OnconovaFhirBaseSchema, fhir.OnconovaTherapyLine):
         return schemas.TherapyLineCreate(
             externalSource=None,
             externalSourceId=None,
-            caseId=obj.fhirpath_single("EpisodeOfCare.patient.reference").replace(
-                "Patient/", ""
-            ),
+            caseId=obj.fhirpath_single(
+                "EpisodeOfCare.patient.reference.getValue()"
+            ).replace("Patient/", ""),
             ordinal=obj.fhirpath_single(
-                "EpisodeOfCare.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-therapy-line-number').valuePositiveInt"
+                "EpisodeOfCare.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-therapy-line-number').valuePositiveInt.getValue()"
             ),
             intent=cls.map_to_internal(
                 "intent",
@@ -41,7 +41,7 @@ class TherapyLineProfile(OnconovaFhirBaseSchema, fhir.OnconovaTherapyLine):
                 ),
             ),
             progressionDate=obj.fhirpath_single(
-                "EpisodeOfCare.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-therapy-line-progression-date').valueDate"
+                "EpisodeOfCare.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-therapy-line-progression-date').valueDate.getValue()"
             ),
         )
 
@@ -61,7 +61,7 @@ class TherapyLineProfile(OnconovaFhirBaseSchema, fhir.OnconovaTherapyLine):
                 start=obj.period.start.isoformat() if obj.period.start else None,
                 end=obj.period.end.isoformat() if obj.period.end else None,
             )
-            
+
         resource.extension = [
             fhir.TherapyLineNumber(
                 valuePositiveInt=obj.ordinal,

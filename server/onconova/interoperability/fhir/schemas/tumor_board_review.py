@@ -13,7 +13,7 @@ class TumorBoardReviewProfile(OnconovaFhirBaseSchema, fhir.OnconovaTumorBoardRev
     __model__ = models.UnspecifiedTumorBoard
     __schema__ = schemas.UnspecifiedTumorBoard
 
-    @field_validator("code", mode="after")
+    @field_validator("code", mode="after", check_fields=False)
     @classmethod
     def discriminator(cls, concept: fhir.CodeableConcept) -> fhir.CodeableConcept:
         if not concept.fhirpath_single(
@@ -34,16 +34,16 @@ class TumorBoardReviewProfile(OnconovaFhirBaseSchema, fhir.OnconovaTumorBoardRev
         return schemas.UnspecifiedTumorBoardCreate(
             externalSource=None,
             externalSourceId=None,
-            caseId=obj.fhirpath_single("Procedure.subject.reference").replace(
-                "Patient/", ""
-            ),
-            date=obj.fhirpath_single("Procedure.performedDateTime"),
+            caseId=obj.fhirpath_single(
+                "Procedure.subject.reference.getValue()"
+            ).replace("Patient/", ""),
+            date=obj.fhirpath_single("Procedure.performedDateTime.getValue()"),
             recommendations=[
-                CodedConcept.model_validate(coding)
+                CodedConcept.model_validate(coding.model_dump())
                 for coding in obj.fhirpath_values("Procedure.followUp.coding")
             ],
             relatedEntitiesIds=obj.fhirpath_values(
-                "Procedure.reasonReference.reference.replace('Condition/','')"
+                "Procedure.reasonReference.reference.getValue().replace('Condition/','')"
             ),
         )
 

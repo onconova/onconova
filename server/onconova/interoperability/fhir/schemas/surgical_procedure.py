@@ -22,12 +22,12 @@ class SurgicalProcedureProfile(OnconovaFhirBaseSchema, fhir.OnconovaSurgicalProc
         return schemas.SurgeryCreate(
             externalSource=None,
             externalSourceId=None,
-            caseId=obj.fhirpath_single("Procedure.subject.reference").replace(
-                "Patient/", ""
-            ),
-            date=obj.fhirpath_single("Procedure.performedDateTime"),
+            caseId=obj.fhirpath_single(
+                "Procedure.subject.reference.getValue()"
+            ).replace("Patient/", ""),
+            date=obj.fhirpath_single("Procedure.performedDateTime.getValue()"),
             procedure=CodedConcept.model_validate(
-                obj.fhirpath_single("Procedure.code.coding")
+                obj.fhirpath_single("Procedure.code.coding").model_dump()
             ),
             intent=cls.map_to_internal(
                 "TreatmentIntents",
@@ -36,17 +36,17 @@ class SurgicalProcedureProfile(OnconovaFhirBaseSchema, fhir.OnconovaSurgicalProc
                 ),
             ),
             bodysite=(
-                CodedConcept.model_validate(coding)
+                CodedConcept.model_validate(coding.model_dump())
                 if (coding := obj.fhirpath_single("Procedure.bodySite.coding"))
                 else None
             ),
             outcome=(
-                CodedConcept.model_validate(coding)
+                CodedConcept.model_validate(coding.model_dump())
                 if (coding := obj.fhirpath_single("Procedure.outcome.coding"))
                 else None
             ),
             bodysiteQualifier=(
-                CodedConcept.model_validate(coding)
+                CodedConcept.model_validate(coding.model_dump())
                 if (
                     coding := obj.fhirpath_single(
                         "Procedure.bodySite.extension('http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-body-location-qualifier').valueCodeableConcept.coding"
@@ -55,7 +55,7 @@ class SurgicalProcedureProfile(OnconovaFhirBaseSchema, fhir.OnconovaSurgicalProc
                 else None
             ),
             bodysiteLaterality=(
-                CodedConcept.model_validate(coding)
+                CodedConcept.model_validate(coding.model_dump())
                 if (
                     coding := obj.fhirpath_single(
                         "Procedure.bodySite.extension('http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-laterality-qualifier').valueCodeableConcept.coding"
@@ -104,25 +104,35 @@ class SurgicalProcedureProfile(OnconovaFhirBaseSchema, fhir.OnconovaSurgicalProc
                 )
             )
         if obj.bodysite:
-            bodySite = construct_fhir_codeable_concept(obj.bodysite)
-            bodySite.extension = []
-            if obj.bodysiteQualifier:
-                bodySite.extension.append(
-                    fhir.BodyLocationQualifier(
-                        valueCodeableConcept=construct_fhir_codeable_concept(
-                            obj.bodysiteQualifier
-                        )
-                    )
+            resource.bodySite = [
+                fhir.CancerRelatedSurgicalProcedureBodySite(
+                    **construct_fhir_codeable_concept(obj.bodysite).model_dump(),
+                    extension=[
+                        ext
+                        for ext in [
+                            (
+                                fhir.BodyLocationQualifier(
+                                    valueCodeableConcept=construct_fhir_codeable_concept(
+                                        obj.bodysiteQualifier
+                                    )
+                                )
+                                if obj.bodysiteQualifier
+                                else None
+                            ),
+                            (
+                                fhir.LateralityQualifier(
+                                    valueCodeableConcept=construct_fhir_codeable_concept(
+                                        obj.bodysiteLaterality
+                                    )
+                                )
+                                if obj.bodysiteLaterality
+                                else None
+                            ),
+                        ]
+                        if ext is not None
+                    ],
                 )
-            if obj.bodysiteLaterality:
-                bodySite.extension.append(
-                    fhir.LateralityQualifier(
-                        valueCodeableConcept=construct_fhir_codeable_concept(
-                            obj.bodysiteLaterality
-                        )
-                    )
-                )
-            resource.bodySite = [bodySite]
+            ]
         if obj.outcome:
             resource.outcome = construct_fhir_codeable_concept(obj.outcome)
         return resource

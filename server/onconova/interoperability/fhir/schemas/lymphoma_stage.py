@@ -24,17 +24,19 @@ class LymphomaStageProfile(OnconovaFhirBaseSchema, fhir.OnconovaLymphomaStage):
             externalSource=None,
             externalSourceId=None,
             caseId=obj.fhirpath_single(
-                "Observation.subject.reference.replace('Patient/', '')"
+                "Observation.subject.reference.getValue().replace('Patient/', '')"
             ),
-            date=obj.fhirpath_single("Observation.effectiveDateTime"),
+            date=obj.fhirpath_single("Observation.effectiveDateTime.getValue()"),
             methodology=CodedConcept.model_validate(
-                obj.fhirpath_single("Observation.method.coding")
+                obj.fhirpath_single("Observation.method.coding").model_dump()
             ),
             stagedEntitiesIds=obj.fhirpath_values(
-                "Observation.focus.reference.replace('Condition/', '')"
+                "Observation.focus.reference.getValue().replace('Condition/', '')"
             ),
             stage=CodedConcept.model_validate(
-                obj.fhirpath_single("Observation.valueCodeableConcept.coding")
+                obj.fhirpath_single(
+                    "Observation.valueCodeableConcept.coding"
+                ).model_dump()
             ),
             bulky=obj.fhirpath_single(
                 "Observation.component.where(code.coding.code='260873006').valueCodeableConcept.coding.code='52101004'"
@@ -43,7 +45,7 @@ class LymphomaStageProfile(OnconovaFhirBaseSchema, fhir.OnconovaLymphomaStage):
                 "Observation.component.where(code.coding.code='277366005').valueCodeableConcept.coding.code='261023001'"
             ),
             modifiers=[
-                CodedConcept.model_validate(concept)
+                CodedConcept.model_validate(concept.model_dump())
                 for concept in obj.fhirpath_values(
                     "Observation.component.where(code.coding.code='106252000').valueCodeableConcept.coding"
                 )

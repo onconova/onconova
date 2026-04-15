@@ -37,103 +37,115 @@ class TumorMarkerProfile(OnconovaFhirBaseSchema, fhir.OnconovaTumorMarker):
         return schemas.TumorMarkerCreate(
             externalSource=None,
             externalSourceId=None,
-            caseId=obj.fhirpath_single("Observation.subject.reference").replace(
-                "Patient/", ""
-            ),
-            date=obj.fhirpath_single("Observation.effectiveDateTime"),
+            caseId=obj.fhirpath_single(
+                "Observation.subject.reference.getValue()"
+            ).replace("Patient/", ""),
+            date=obj.fhirpath_single("Observation.effectiveDateTime.getValue()"),
             analyte=CodedConcept.model_validate(
                 obj.fhirpath_single(
                     "Observation.code.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-tumor-marker-analyte').valueCodeableConcept.coding"
-                )
+                ).model_dump()
             ),
             relatedEntitiesIds=[
                 ref.replace("Condition/", "")
                 for ref in obj.fhirpath_values(
-                    "Observation.extension('http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-related-condition').valueReference.reference"
+                    "Observation.extension('http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-related-condition').valueReference.reference.getValue()"
                 )
             ],
             massConcentration=(
                 Measure(
-                    value=(
-                        quantity := obj.fhirpath_single("Observation.valueQuantity")
-                    ).value,
-                    unit=ucum_to_internal(quantity.code),
+                    value=obj.fhirpath_single(
+                        "Observation.valueQuantity.value.getValue()"
+                    ),
+                    unit=ucum_to_internal(
+                        obj.fhirpath_single("Observation.valueQuantity.code.getValue()")
+                    ),
                 )
                 if result_type == AnalyteResultType.mass_concentration
                 else None
             ),
             arbitraryConcentration=(
                 Measure(
-                    value=(
-                        quantity := obj.fhirpath_single("Observation.valueQuantity")
-                    ).value,
-                    unit=ucum_to_internal(quantity.code),
+                    value=obj.fhirpath_single(
+                        "Observation.valueQuantity.value.getValue()"
+                    ),
+                    unit=ucum_to_internal(
+                        obj.fhirpath_single("Observation.valueQuantity.code.getValue()")
+                    ),
                 )
                 if result_type == AnalyteResultType.arbitary_concentration
                 else None
             ),
             substanceConcentration=(
                 Measure(
-                    value=(
-                        quantity := obj.fhirpath_single("Observation.valueQuantity")
-                    ).value,
-                    unit=ucum_to_internal(quantity.code),
+                    value=obj.fhirpath_single(
+                        "Observation.valueQuantity.value.getValue()"
+                    ),
+                    unit=ucum_to_internal(
+                        obj.fhirpath_single("Observation.valueQuantity.code.getValue()")
+                    ),
                 )
                 if result_type == AnalyteResultType.substance_concentration
                 else None
             ),
             fraction=(
                 Measure(
-                    value=(
-                        quantity := obj.fhirpath_single("Observation.valueQuantity")
-                    ).value,
-                    unit=ucum_to_internal(quantity.code),
+                    value=obj.fhirpath_single(
+                        "Observation.valueQuantity.value.getValue()"
+                    ),
+                    unit=ucum_to_internal(
+                        obj.fhirpath_single("Observation.valueQuantity.code.getValue()")
+                    ),
                 )
                 if result_type == AnalyteResultType.fraction
                 else None
             ),
             multipleOfMedian=(
                 Measure(
-                    value=(
-                        quantity := obj.fhirpath_single("Observation.valueQuantity")
-                    ).value,
-                    unit=ucum_to_internal(quantity.code),
+                    value=obj.fhirpath_single(
+                        "Observation.valueQuantity.value.getValue()"
+                    ),
+                    unit=ucum_to_internal(
+                        obj.fhirpath_single("Observation.valueQuantity.code.getValue()")
+                    ),
                 )
                 if result_type == AnalyteResultType.multiple_of_median
                 else None
             ),
             tumorProportionScore=(
-                obj.fhirpath_single("Observation.valueString")
+                obj.fhirpath_single("Observation.valueString.getValue()")
                 if result_type == AnalyteResultType.tumor_proportion_score
                 else None
             ),
             immuneCellScore=(
-                obj.fhirpath_single("Observation.valueString")
+                obj.fhirpath_single("Observation.valueString.getValue()")
                 if result_type == AnalyteResultType.immmune_cells_score
                 else None
             ),
             combinedPositiveScore=(
                 Measure(
-                    value=(
-                        quantity := obj.fhirpath_single("Observation.valueQuantity")
-                    ).value,
-                    unit=ucum_to_internal(quantity.code),
+                    value=obj.fhirpath_single(
+                        "Observation.valueQuantity.value.getValue()"
+                    ),
+                    unit=ucum_to_internal(
+                        obj.fhirpath_single("Observation.valueQuantity.code.getValue()")
+                    ),
                 )
                 if result_type == AnalyteResultType.combined_positive_score
                 else None
             ),
             immunohistochemicalScore=(
-                obj.fhirpath_single("Observation.valueString")
+                obj.fhirpath_single("Observation.valueString.getValue()")
                 if result_type == AnalyteResultType.immunohistochemical_score
                 else None
             ),
             presence=(
-                obj.fhirpath_single("Observation.valueString")
+                obj.fhirpath_single("Observation.valueString.getValue()")
                 if result_type == AnalyteResultType.presence
                 else None
             ),
             nuclearExpressionStatus=(
-                obj.fhirpath_single("Observation.valueString")
+                obj.fhirpath_single("Observation.valueString.getValue()")
                 if result_type == AnalyteResultType.nuclear_expression_status
                 else None
             ),

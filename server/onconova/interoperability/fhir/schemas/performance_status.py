@@ -20,11 +20,11 @@ class ECOGPerformanceStatusProfile(
         return schemas.PerformanceStatusCreate(
             externalSource=None,
             externalSourceId=None,
-            caseId=obj.fhirpath_single("Observation.subject.reference").replace(
-                "Patient/", ""
-            ),
-            date=obj.fhirpath_single("Observation.effectiveDateTime"),
-            ecogScore=obj.fhirpath_single("Observation.valueInteger"),
+            caseId=obj.fhirpath_single(
+                "Observation.subject.reference.getValue()"
+            ).replace("Patient/", ""),
+            date=obj.fhirpath_single("Observation.effectiveDateTime.getValue()"),
+            ecogScore=obj.fhirpath_single("Observation.valueInteger.getValue()"),
         )
 
     @classmethod
@@ -43,9 +43,9 @@ class ECOGPerformanceStatusProfile(
         )
         resource.valueInteger = obj.ecogScore
         if obj.ecogInterpretation:
-            resource.interpretation = construct_fhir_codeable_concept(
-                obj.ecogInterpretation
-            )
+            resource.interpretation = [
+                construct_fhir_codeable_concept(obj.ecogInterpretation)
+            ]
         return resource
 
 
@@ -63,11 +63,11 @@ class KarnofskyPerformanceStatusProfile(
         return schemas.PerformanceStatusCreate(
             externalSource=None,
             externalSourceId=None,
-            caseId=obj.fhirpath_single("Observation.subject.reference").replace(
-                "Patient/", ""
-            ),
-            date=obj.fhirpath_single("Observation.effectiveDateTime"),
-            karnofskyScore=obj.fhirpath_single("Observation.valueInteger"),
+            caseId=obj.fhirpath_single(
+                "Observation.subject.reference.getValue()"
+            ).replace("Patient/", ""),
+            date=obj.fhirpath_single("Observation.effectiveDateTime.getValue()"),
+            karnofskyScore=obj.fhirpath_single("Observation.valueInteger.getValue()"),
         )
 
     @classmethod
@@ -86,7 +86,7 @@ class KarnofskyPerformanceStatusProfile(
         )
         resource.valueInteger = obj.karnofskyScore
         if obj.karnofskyInterpretation:
-            resource.interpretation = construct_fhir_codeable_concept(
-                obj.karnofskyInterpretation
-            )
+            resource.interpretation = [
+                construct_fhir_codeable_concept(obj.karnofskyInterpretation)
+            ]
         return resource

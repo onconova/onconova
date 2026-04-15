@@ -44,15 +44,15 @@ class TNMStageGroupProfile(OnconovaFhirBaseSchema, fhir.OnconovaTNMStageGroup):
     __model__ = models.TNMStaging
     __schema__ = schemas.TNMStaging
 
-    @field_validator("code", mode="after")
+    @field_validator("code", mode="after", check_fields=False)
     @classmethod
     def discriminator(cls, concept: fhir.CodeableConcept) -> fhir.CodeableConcept:
         allowed_codes = ["399390009", "399537006", "399588009"]
-        if (
-            not concept.coding
-            or not (coding := concept.coding[0])
-            or coding.code not in allowed_codes
-        ):
+        if not concept.coding:
+            raise ValueError(
+                "The Observation.code.coding element must be provided and contain a valid staging code discriminator"
+            )
+        if not (coding := concept.coding[0]) or coding.code not in allowed_codes:
             raise ValueError(
                 f"The code {coding.system}#{coding.code} is not a valid staging code discriminator"
             )
@@ -66,31 +66,37 @@ class TNMStageGroupProfile(OnconovaFhirBaseSchema, fhir.OnconovaTNMStageGroup):
             externalSource=None,
             externalSourceId=None,
             caseId=obj.fhirpath_single(
-                "Observation.subject.reference.replace('Patient/', '')"
+                "Observation.subject.reference.getValue().replace('Patient/', '')"
             ),
-            date=obj.fhirpath_single("Observation.effectiveDateTime"),
+            date=obj.fhirpath_single("Observation.effectiveDateTime.getValue()"),
             methodology=CodedConcept.model_validate(
-                obj.fhirpath_single("Observation.method.coding")
+                obj.fhirpath_single("Observation.method.coding").model_dump()
             ),
             stagedEntitiesIds=obj.fhirpath_values(
-                "Observation.focus.reference.replace('Condition/', '')"
+                "Observation.focus.reference.getValue().replace('Condition/', '')"
             ),
             stage=CodedConcept.model_validate(
-                obj.fhirpath_single("Observation.valueCodeableConcept.coding")
+                obj.fhirpath_single(
+                    "Observation.valueCodeableConcept.coding"
+                ).model_dump()
             ),
             pathological=(
                 True
-                if (code := obj.fhirpath_single("Observation.code.coding.code"))
+                if (
+                    code := obj.fhirpath_single(
+                        "Observation.code.coding.code.getValue()"
+                    )
+                )
                 == "399588009"
                 else False if code == "399537006" else None
             ),
         )
         for member in obj.hasMember or []:
-            if not member.reference or not "#" in member.reference:
+            if not member.reference or not "#" in str(member.reference):
                 raise ValueError(
                     'The Observation.hasMember.reference element must be provided and be an internal reference, i.e. "#{internal_id}"'
                 )
-            internal_id = member.reference.lstrip("#")
+            internal_id = str(member.reference).lstrip("#")
             contained_resource = obj.fhirpath_single(
                 f"Observation.contained.where(id='{internal_id}')"
             )
@@ -101,9 +107,11 @@ class TNMStageGroupProfile(OnconovaFhirBaseSchema, fhir.OnconovaTNMStageGroup):
             value = CodedConcept.model_validate(
                 contained_resource.fhirpath_single(
                     "Observation.valueCodeableConcept.coding"
-                )
+                ).model_dump()
             )
-            code = contained_resource.fhirpath_single("Observation.code.coding.code")
+            code = contained_resource.fhirpath_single(
+                "Observation.code.coding.code.getValue()"
+            )
             if code in ("78873005", "399504009", "384625004"):
                 instance.primaryTumor = value
             elif code in ("277206009", "399534004", "371494008"):

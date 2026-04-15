@@ -20,12 +20,14 @@ class MicrosatelliteInstabilityProfile(
         return schemas.MicrosatelliteInstabilityCreate(
             externalSource=None,
             externalSourceId=None,
-            caseId=obj.fhirpath_single("Observation.subject.reference").replace(
-                "Patient/", ""
-            ),
-            date=obj.fhirpath_single("Observation.effectiveDateTime"),
+            caseId=obj.fhirpath_single(
+                "Observation.subject.reference.getValue()"
+            ).replace("Patient/", ""),
+            date=obj.fhirpath_single("Observation.effectiveDateTime.getValue()"),
             value=CodedConcept.model_validate(
-                obj.fhirpath_single("Observation.valueCodeableConcept.coding")
+                obj.fhirpath_single(
+                    "Observation.valueCodeableConcept.coding"
+                ).model_dump()
             ),
         )
 

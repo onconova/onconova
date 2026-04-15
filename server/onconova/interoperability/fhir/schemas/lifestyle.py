@@ -27,12 +27,12 @@ class LifestyleProfile(OnconovaFhirBaseSchema, fhir.OnconovaLifestyle):
         return schemas.LifestyleCreate(
             externalSource=None,
             externalSourceId=None,
-            caseId=obj.fhirpath_single("Observation.subject.reference").replace(
-                "Patient/", ""
-            ),
-            date=obj.fhirpath_single("Observation.effectiveDateTime"),
+            caseId=obj.fhirpath_single(
+                "Observation.subject.reference.getValue()"
+            ).replace("Patient/", ""),
+            date=obj.fhirpath_single("Observation.effectiveDateTime.getValue()"),
             smokingStatus=(
-                CodedConcept.model_validate(coding)
+                CodedConcept.model_validate(coding.model_dump())
                 if (
                     coding := obj.fhirpath_single(
                         "Observation.component.where(code.coding.code='72166-2').valueCodeableConcept.coding"
@@ -41,10 +41,17 @@ class LifestyleProfile(OnconovaFhirBaseSchema, fhir.OnconovaLifestyle):
                 else None
             ),
             smokingPackyears=obj.fhirpath_single(
-                "Observation.component.where(code.coding.code='8664-5').valueQuantity.value"
+                "Observation.component.where(code.coding.code='8664-5').valueQuantity.value.getValue()"
             ),
             smokingQuited=(
-                Measure(value=quantity.value, unit=quantity.code)
+                Measure(
+                    value=obj.fhirpath_single(
+                        "Observation.component.where(code.coding.code='107339-4').valueQuantity.value.getValue()"
+                    ),
+                    unit=obj.fhirpath_single(
+                        "Observation.component.where(code.coding.code='107339-4').valueQuantity.code.getValue()"
+                    ),
+                )
                 if (
                     quantity := obj.fhirpath_single(
                         "Observation.component.where(code.coding.code='107339-4').valueQuantity"
@@ -53,7 +60,7 @@ class LifestyleProfile(OnconovaFhirBaseSchema, fhir.OnconovaLifestyle):
                 else None
             ),
             alcoholConsumption=(
-                CodedConcept.model_validate(coding)
+                CodedConcept.model_validate(coding.model_dump())
                 if (
                     coding := obj.fhirpath_single(
                         "Observation.component.where(code.coding.code='1106630-7').valueCodeableConcept.coding"
@@ -62,7 +69,7 @@ class LifestyleProfile(OnconovaFhirBaseSchema, fhir.OnconovaLifestyle):
                 else None
             ),
             recreationalDrugs=(
-                [CodedConcept.model_validate(drug) for drug in drugs]
+                [CodedConcept.model_validate(drug.model_dump()) for drug in drugs]
                 if (
                     drugs := obj.fhirpath_values(
                         "Observation.component.where(code.coding.code='C84368').valueCodeableConcept.coding"
@@ -71,7 +78,10 @@ class LifestyleProfile(OnconovaFhirBaseSchema, fhir.OnconovaLifestyle):
                 else None
             ),
             exposures=(
-                [CodedConcept.model_validate(exposure) for exposure in exposures]
+                [
+                    CodedConcept.model_validate(exposure.model_dump())
+                    for exposure in exposures
+                ]
                 if (
                     exposures := obj.fhirpath_values(
                         "Observation.component.where(code.coding.code='C16552').valueCodeableConcept.coding"
@@ -80,7 +90,14 @@ class LifestyleProfile(OnconovaFhirBaseSchema, fhir.OnconovaLifestyle):
                 else None
             ),
             nightSleep=(
-                Measure(value=quantity.value, unit=quantity.code)
+                Measure(
+                    value=obj.fhirpath_single(
+                        "Observation.component.where(code.coding.code='93832-4').valueQuantity.value.getValue()"
+                    ),
+                    unit=obj.fhirpath_single(
+                        "Observation.component.where(code.coding.code='93832-4').valueQuantity.code.getValue()"
+                    ),
+                )
                 if (
                     quantity := obj.fhirpath_single(
                         "Observation.component.where(code.coding.code='93832-4').valueQuantity"
@@ -114,7 +131,7 @@ class LifestyleProfile(OnconovaFhirBaseSchema, fhir.OnconovaLifestyle):
         if obj.smokingPackyears is not None:
             resource.component.append(
                 fhir.OnconovaLifestyleSmokingPackyears(
-                    valueQuantity=Quantity(
+                    valueQuantity=fhir.OnconovaLifestyleValueQuantity(
                         value=obj.smokingPackyears,
                         code="{pack-year}",
                         system="http://unitsofmeasure.org",

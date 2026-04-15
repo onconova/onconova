@@ -639,7 +639,7 @@ class AdverseEventFactory(factory.django.DjangoModelFactory):
 
     case = factory.SubFactory(PatientCaseFactory)
     date = factory.LazyFunction(faker.date)
-    grade = factory.LazyFunction(lambda: random.randint(0, 5))
+    grade = factory.LazyFunction(lambda: random.randint(1, 5))
     event = make_terminology_factory(terminology.AdverseEventTerm)
     outcome = FuzzyChoice(AdverseEventOutcomeChoices)
     suspected_causes = factory.RelatedFactoryList(

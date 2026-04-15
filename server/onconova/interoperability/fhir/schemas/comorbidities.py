@@ -27,20 +27,23 @@ class ComorbiditiesProfile(OnconovaFhirBaseSchema, fhir.OnconovaComorbidities):
         return schemas.ComorbiditiesAssessmentCreate(
             externalSource=None,
             externalSourceId=None,
-            caseId=obj.fhirpath_single("Observation.subject.reference").replace(
-                "Patient/", ""
-            ),
-            date=obj.fhirpath_single("Observation.effectiveDateTime"),
-            indexConditionId=obj.fhirpath_single("Observation.focus.reference").replace(
-                "Condition/", ""
-            ),
+            caseId=obj.fhirpath_single(
+                "Observation.subject.reference.getValue()"
+            ).replace("Patient/", ""),
+            date=obj.fhirpath_single("Observation.effectiveDateTime.getValue()"),
+            indexConditionId=obj.fhirpath_single(
+                "Observation.focus.reference.getValue()"
+            ).replace("Condition/", ""),
             panel=(
                 cls.map_to_internal("panel", panel)
                 if (panel := obj.fhirpath_single("Observation.method.coding"))
                 else None
             ),
             presentConditions=(
-                [CodedConcept.model_validate(condition) for condition in conditions]
+                [
+                    CodedConcept.model_validate(condition.model_dump())
+                    for condition in conditions
+                ]
                 if (
                     conditions := obj.fhirpath_values(
                         "Observation.extension('http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-related-condition').valueCodeableConcept.coding"
@@ -49,7 +52,10 @@ class ComorbiditiesProfile(OnconovaFhirBaseSchema, fhir.OnconovaComorbidities):
                 else None
             ),
             absentConditions=(
-                [CodedConcept.model_validate(condition) for condition in conditions]
+                [
+                    CodedConcept.model_validate(condition.model_dump())
+                    for condition in conditions
+                ]
                 if (
                     conditions := obj.fhirpath_values(
                         "Observation.extension('http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-related-condition-absent').valueCodeableConcept.coding"
@@ -74,15 +80,17 @@ class ComorbiditiesProfile(OnconovaFhirBaseSchema, fhir.OnconovaComorbidities):
         resource.subject = Reference(
             reference=f"Patient/{obj.caseId}",
         )
-        resource.focus = Reference(
-            reference=f"Condition/{obj.indexConditionId}",
-        )
+        resource.focus = [
+            Reference(
+                reference=f"Condition/{obj.indexConditionId}",
+            )
+        ]
         if obj.panel:
             resource.method = construct_fhir_codeable_concept(
                 cls.map_to_fhir("panel", obj.panel)
             )
         if obj.score is not None:
-            resource.valueQuantity = Quantity(
+            resource.valueQuantity = fhir.OnconovaComorbiditiesValueQuantity(
                 value=obj.score, code="1", system="http://unitsofmeasure.org"
             )
         for condition in obj.presentConditions or []:

@@ -18,11 +18,11 @@ class TumorNeoantigenBurdenProfile(
         return schemas.TumorNeoantigenBurdenCreate(
             externalSource=None,
             externalSourceId=None,
-            caseId=obj.fhirpath_single("Observation.subject.reference").replace(
-                "Patient/", ""
-            ),
-            date=obj.fhirpath_single("Observation.effectiveDateTime"),
-            value=obj.fhirpath_single("Observation.valueQuantity.value"),
+            caseId=obj.fhirpath_single(
+                "Observation.subject.reference.getValue()"
+            ).replace("Patient/", ""),
+            date=obj.fhirpath_single("Observation.effectiveDateTime.getValue()"),
+            value=obj.fhirpath_single("Observation.valueQuantity.value.getValue()"),
         )
 
     @classmethod
@@ -39,9 +39,7 @@ class TumorNeoantigenBurdenProfile(
         resource.subject = Reference(
             reference=f"Patient/{obj.caseId}",
         )
-        resource.valueQuantity = Quantity(
+        resource.valueQuantity = fhir.OnconovaTumorNeoantigenBurdenValueQuantity(
             value=obj.value,
-            code="1/1000000{Neoantigen}",
-            system="http://unitsofmeasure.org",
         )
         return resource

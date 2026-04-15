@@ -18,12 +18,10 @@ class TestFhirSchemas(TestCase):
         instance = factory.create()
         original_schema = schema.model_validate(instance)
         fhir_resource = fhir_schema.onconova_to_fhir(original_schema)
-        print(fhir_resource.model_dump_json(indent=2))
         new_schema = fhir_schema.fhir_to_onconova(fhir_resource)
         for child_instance, new_child_schema in fhir_schema.fhir_to_onconova_related(
             fhir_resource
         ):
-            print(new_child_schema.model_dump_json(indent=2))
             new_child_schema.model_dump_django(instance=child_instance)
         new_instance = new_schema.model_dump_django(instance=instance)
         resulting_schema = schema.model_validate(new_instance)

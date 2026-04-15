@@ -30,16 +30,16 @@ class VitalsPanelProfile(OnconovaFhirBaseSchema, fhir.OnconovaVitalSignsPanel):
         return schemas.VitalsCreate(
             externalSource=None,
             externalSourceId=None,
-            caseId=obj.fhirpath_single("Observation.subject.reference").replace(
-                "Patient/", ""
-            ),
-            date=obj.fhirpath_single("Observation.effectiveDateTime"),
+            caseId=obj.fhirpath_single(
+                "Observation.subject.reference.getValue()"
+            ).replace("Patient/", ""),
+            date=obj.fhirpath_single("Observation.effectiveDateTime.getValue()"),
             temperature=(
                 Measure(
-                    value=temperature.value,
+                    value=float(str(temperature.value)),
                     unit=(
                         "celsius"
-                        if internal_to_ucum(temperature.code) == "Cel"
+                        if internal_to_ucum(str(temperature.code)) == "Cel"
                         else "fahrenheit"
                     ),
                 )
@@ -52,7 +52,7 @@ class VitalsPanelProfile(OnconovaFhirBaseSchema, fhir.OnconovaVitalSignsPanel):
             ),
             height=(
                 Measure(
-                    value=height.value / 100,
+                    value=float(str(height.value)) / 100,
                     unit="m",
                 )
                 if (
@@ -64,7 +64,7 @@ class VitalsPanelProfile(OnconovaFhirBaseSchema, fhir.OnconovaVitalSignsPanel):
             ),
             weight=(
                 Measure(
-                    value=weight.value,
+                    value=float(str(weight.value)),
                     unit="kg",
                 )
                 if (
@@ -76,7 +76,7 @@ class VitalsPanelProfile(OnconovaFhirBaseSchema, fhir.OnconovaVitalSignsPanel):
             ),
             bloodPressureSystolic=(
                 Measure(
-                    value=bloodPressureSystolic.value,
+                    value=float(str(bloodPressureSystolic.value)),
                     unit="mmHg",
                 )
                 if (
@@ -88,7 +88,7 @@ class VitalsPanelProfile(OnconovaFhirBaseSchema, fhir.OnconovaVitalSignsPanel):
             ),
             bloodPressureDiastolic=(
                 Measure(
-                    value=bloodPressureDiastolic.value,
+                    value=float(str(bloodPressureDiastolic.value)),
                     unit="mmHg",
                 )
                 if (
@@ -228,6 +228,7 @@ class VitalsPanelProfile(OnconovaFhirBaseSchema, fhir.OnconovaVitalSignsPanel):
             )
             resource.contained.append(bp_systolic)
             resource.hasMember.append(Reference(reference=f"#{bp_systolic.id}"))
+
         if obj.bloodPressureDiastolic or obj.bloodPressureSystolic:
             blood_pressure = Observation(
                 **common,

@@ -53,22 +53,21 @@ class CancerStageProfile(OnconovaFhirBaseSchema, fhir.OnconovaCancerStage):
         StagingDomain.WILMS: schemas.WilmsStageCreate,
     }
 
-    @field_validator("code", mode="after")
+    @field_validator("code", mode="after", check_fields=False)
     @classmethod
     def discriminator(cls, concept: fhir.CodeableConcept) -> fhir.CodeableConcept:
         rules = cls.__registry__.get_rules("stagingDomain")
         allowed_codes = [rule.fhir_value.code for rule in rules]
-        if (
-            not concept.coding
-            or (coding := concept.coding[0]).code not in allowed_codes
-        ):
+        if not concept.coding:
+            raise ValueError("The concept has no coding")
+        if (coding := concept.coding[0]).code not in allowed_codes:
             raise ValueError(
                 f"The code {coding.system}#{coding.code} is not a valid staging code discriminator"
             )
         return concept
 
     @classmethod
-    def get_orm_model(cls, obj):
+    def get_orm_model(cls, obj):  # type: ignore[override]
         try:
             domain = cls.map_to_internal(
                 "stagingDomain", obj.fhirpath_single("Observation.code.coding")
@@ -123,17 +122,17 @@ class CancerStageProfile(OnconovaFhirBaseSchema, fhir.OnconovaCancerStage):
             "stagedEntitiesIds": obj.fhirpath_values(
                 "Observation.focus.reference.replace('Condition/', '')"
             ),
-            "date": obj.fhirpath_single("Observation.effectiveDateTime"),
+            "date": obj.fhirpath_single("Observation.effectiveDateTime.getValue()"),
         }
         if create_schema is schemas.BreslowDepthCreate:
             return create_schema(
                 **common,
                 depth=Measure(
                     value=obj.fhirpath_single(
-                        "value.extension('https://onconova.github.io/fhir/StructureDefinition/onconova-ext-cancer-stage-breslow-depth').valueQuantity.value"
+                        "value.extension('https://onconova.github.io/fhir/StructureDefinition/onconova-ext-cancer-stage-breslow-depth').valueQuantity.value.getValue()"
                     ),
                     unit=obj.fhirpath_single(
-                        "value.extension('https://onconova.github.io/fhir/StructureDefinition/onconova-ext-cancer-stage-breslow-depth').valueQuantity.code"
+                        "value.extension('https://onconova.github.io/fhir/StructureDefinition/onconova-ext-cancer-stage-breslow-depth').valueQuantity.code.getValue()"
                     ),
                 ),
                 isUlcered=obj.fhirpath_single(
@@ -147,10 +146,12 @@ class CancerStageProfile(OnconovaFhirBaseSchema, fhir.OnconovaCancerStage):
             return create_schema(
                 **common,
                 stage=CodedConcept.model_validate(
-                    obj.fhirpath_single("Observation.valueCodeableConcept.coding")
+                    obj.fhirpath_single(
+                        "Observation.valueCodeableConcept.coding"
+                    ).model_dump()
                 ),
                 methodology=(
-                    CodedConcept.model_validate(method)
+                    CodedConcept.model_validate(method.model_dump())
                     if (method := obj.fhirpath_single("Observation.method.coding"))
                     else None
                 ),
@@ -158,7 +159,7 @@ class CancerStageProfile(OnconovaFhirBaseSchema, fhir.OnconovaCancerStage):
         else:
             return create_schema(
                 **common,
-                stage=CodedConcept.model_validate(obj.fhirpath_single("Observation.valueCodeableConcept.coding")),  # type: ignore
+                stage=CodedConcept.model_validate(obj.fhirpath_single("Observation.valueCodeableConcept.coding").model_dump()),  # type: ignore
             )
 
     @classmethod
@@ -204,7 +205,11 @@ class CancerStageProfile(OnconovaFhirBaseSchema, fhir.OnconovaCancerStage):
             )
             for conditionId in obj.stagedEntitiesIds or []
         ]
-        resource.valueCodeableConcept = construct_fhir_codeable_concept(obj.stage)
+        resource.valueCodeableConcept = (
+            fhir.OnconovaCancerStageValueCodeableConcept.model_validate(
+                construct_fhir_codeable_concept(obj.stage).model_dump()
+            )
+        )
         if methodology := getattr(obj, "methodology", None):
             resource.method = construct_fhir_codeable_concept(methodology)
 

@@ -32,11 +32,11 @@ class TumorMutationalBurdenProfile(
         return schemas.TumorMutationalBurdenCreate(
             externalSource=None,
             externalSourceId=None,
-            caseId=obj.fhirpath_single("Observation.subject.reference").replace(
-                "Patient/", ""
-            ),
-            date=obj.fhirpath_single("Observation.effectiveDateTime"),
-            value=obj.fhirpath_single("Observation.valueQuantity.value"),
+            caseId=obj.fhirpath_single(
+                "Observation.subject.reference.getValue()"
+            ).replace("Patient/", ""),
+            date=obj.fhirpath_single("Observation.effectiveDateTime.getValue()"),
+            value=obj.fhirpath_single("Observation.valueQuantity.value.getValue()"),
             status=(
                 cls.map_to_internal("statusInterpretation", status)
                 if (

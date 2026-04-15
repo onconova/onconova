@@ -1,4 +1,9 @@
-from fhircraft.fhir.resources.datatypes.R4.complex import Narrative, Reference, Coding, Quantity
+from fhircraft.fhir.resources.datatypes.R4.complex import (
+    Narrative,
+    Reference,
+    Coding,
+    Quantity,
+)
 from django.shortcuts import get_object_or_404
 from onconova.interoperability.fhir.schemas.base import (
     OnconovaFhirBaseSchema,
@@ -23,6 +28,7 @@ from onconova.core.measures import (
     MassPerAreaPerTime,
 )
 from onconova.oncology.models.systemic_therapy import SystemicTherapyIntentChoices
+from onconova.interoperability.fhir.models import MedicationAdministration as fhir
 
 
 def get_units_collection_fhirpath(measure):
@@ -46,15 +52,12 @@ class MedicationAdministrationProfile(
     ) -> schemas.SystemicTherapyCreate:
         return schemas.SystemicTherapyCreate(
             caseId=obj.fhirpath_single(
-                "MedicationAdministration.subject.reference"
+                "MedicationAdministration.subject.reference.getValue()"
             ).replace("Patient/", ""),
-            period=Period(
-                start=(
-                    period := obj.fhirpath_single(
-                        "MedicationAdministration.effectivePeriod"
-                    )
-                ).start,
-                end=period.end,
+            period=Period.model_validate(
+                obj.fhirpath_single(
+                    "MedicationAdministration.effectivePeriod"
+                ).model_dump()
             ),
             intent=cls.map_to_internal(
                 "TreatmentIntents",
@@ -63,16 +66,16 @@ class MedicationAdministrationProfile(
                 ),
             ),
             targetedEntitiesIds=obj.fhirpath_values(
-                "MedicationAdministration.reasonReference.reference.replace('Condition/','')"
+                "MedicationAdministration.reasonReference.reference.getValue().replace('Condition/','')"
             ),
             therapyLineId=obj.fhirpath_single(
-                "MedicationAdministration.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-therapy-line-reference').valueReference.reference.replace('List/','')"
+                "MedicationAdministration.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-therapy-line-reference').valueReference.reference.getValue().replace('List/','')"
             ),
             cycles=obj.fhirpath_single(
-                "MedicationAdministration.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-medication-administration-cycles').valueInteger"
+                "MedicationAdministration.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-medication-administration-cycles').valueInteger.getValue()"
             ),
             adjunctiveRole=(
-                CodedConcept.model_validate(role)
+                CodedConcept.model_validate(role.model_dump())
                 if (
                     role := obj.fhirpath_single(
                         "MedicationAdministration.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-medication-administration-adjunctive-role').valueCodeableConcept.coding"
@@ -81,7 +84,7 @@ class MedicationAdministrationProfile(
                 else None
             ),
             terminationReason=(
-                CodedConcept.model_validate(reason)
+                CodedConcept.model_validate(reason.model_dump())
                 if (
                     reason := obj.fhirpath_single(
                         "MedicationAdministration.statusReason.coding"
@@ -102,13 +105,18 @@ class MedicationAdministrationProfile(
         for medication in medications:
             payload = schemas.SystemicTherapyMedicationCreate(
                 drug=CodedConcept.model_validate(
-                    medication.fhirpath_single("medicationCodeableConcept.coding")
+                    medication.fhirpath_single(
+                        "medicationCodeableConcept.coding"
+                    ).model_dump()
                 ),
                 route=CodedConcept.model_validate(
-                    medication.fhirpath_single("dosage.route.coding")
+                    medication.fhirpath_single("dosage.route.coding").model_dump()
                 ),
                 dosageMassConcentration=(
-                    Measure(value=quantity.value, unit=ucum_to_internal(quantity.code))
+                    Measure(
+                        value=str(quantity.value),
+                        unit=ucum_to_internal(str(quantity.code)),
+                    )
                     if (
                         quantity := medication.fhirpath_single(
                             f"dosage.where(dose.code.matches({get_units_collection_fhirpath(MassConcentration)})).dose"
@@ -117,7 +125,10 @@ class MedicationAdministrationProfile(
                     else None
                 ),
                 dosageMass=(
-                    Measure(value=quantity.value, unit=ucum_to_internal(quantity.code))
+                    Measure(
+                        value=str(quantity.value),
+                        unit=ucum_to_internal(str(quantity.code)),
+                    )
                     if (
                         quantity := medication.fhirpath_single(
                             f"dosage.where(dose.code.matches({get_units_collection_fhirpath(Mass)})).dose"
@@ -126,7 +137,10 @@ class MedicationAdministrationProfile(
                     else None
                 ),
                 dosageVolume=(
-                    Measure(value=quantity.value, unit=ucum_to_internal(quantity.code))
+                    Measure(
+                        value=str(quantity.value),
+                        unit=ucum_to_internal(str(quantity.code)),
+                    )
                     if (
                         quantity := medication.fhirpath_single(
                             f"dosage.where(dose.code.matches({get_units_collection_fhirpath(Volume)})).dose"
@@ -135,7 +149,10 @@ class MedicationAdministrationProfile(
                     else None
                 ),
                 dosageMassSurface=(
-                    Measure(value=quantity.value, unit=ucum_to_internal(quantity.code))
+                    Measure(
+                        value=str(quantity.value),
+                        unit=ucum_to_internal(str(quantity.code)),
+                    )
                     if (
                         quantity := medication.fhirpath_single(
                             f"dosage.where(dose.code.matches({get_units_collection_fhirpath(MassPerArea)})).dose"
@@ -144,7 +161,10 @@ class MedicationAdministrationProfile(
                     else None
                 ),
                 dosageRateMassConcentration=(
-                    Measure(value=quantity.value, unit=ucum_to_internal(quantity.code))
+                    Measure(
+                        value=str(quantity.value),
+                        unit=ucum_to_internal(str(quantity.code)),
+                    )
                     if (
                         quantity := medication.fhirpath_single(
                             f"dosage.where(rateQuantity.code.matches({get_units_collection_fhirpath(MassConcentrationPerTime)})).rateQuantity"
@@ -153,7 +173,10 @@ class MedicationAdministrationProfile(
                     else None
                 ),
                 dosageRateMass=(
-                    Measure(value=quantity.value, unit=ucum_to_internal(quantity.code))
+                    Measure(
+                        value=str(quantity.value),
+                        unit=ucum_to_internal(str(quantity.code)),
+                    )
                     if (
                         quantity := medication.fhirpath_single(
                             f"dosage.where(rateQuantity.code.matches({get_units_collection_fhirpath(MassPerTime)})).rateQuantity"
@@ -162,7 +185,10 @@ class MedicationAdministrationProfile(
                     else None
                 ),
                 dosageRateVolume=(
-                    Measure(value=quantity.value, unit=ucum_to_internal(quantity.code))
+                    Measure(
+                        value=str(quantity.value),
+                        unit=ucum_to_internal(str(quantity.code)),
+                    )
                     if (
                         quantity := medication.fhirpath_single(
                             f"dosage.where(rateQuantity.code.matches({get_units_collection_fhirpath(VolumePerTime)})).rateQuantity"
@@ -171,7 +197,10 @@ class MedicationAdministrationProfile(
                     else None
                 ),
                 dosageRateMassSurface=(
-                    Measure(value=quantity.value, unit=ucum_to_internal(quantity.code))
+                    Measure(
+                        value=str(quantity.value),
+                        unit=ucum_to_internal(str(quantity.code)),
+                    )
                     if (
                         quantity := medication.fhirpath_single(
                             f"dosage.where(rateQuantity.code.matches({get_units_collection_fhirpath(MassPerAreaPerTime)})).rateQuantity"
@@ -185,7 +214,7 @@ class MedicationAdministrationProfile(
                     models.SystemicTherapyMedication.objects.filter(
                         systemic_therapy__id=obj.id,
                         drug__code=medication.fhirpath_single(
-                            "medicationCodeableConcept.coding.code"
+                            "medicationCodeableConcept.coding.code.getValue()"
                         ),
                     ).first()
                     or models.SystemicTherapyMedication(

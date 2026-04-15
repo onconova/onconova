@@ -44,25 +44,25 @@ class MolecularTumorBoardReviewProfile(
             caseId=obj.fhirpath_single(
                 "Procedure.subject.reference.replace('Patient/', '')"
             ),
-            date=obj.fhirpath_single("Procedure.performedDateTime"),
+            date=obj.fhirpath_single("Procedure.performedDateTime.getValue()"),
             recommendations=[
-                CodedConcept.model_validate(coding)
+                CodedConcept.model_validate(coding.model_dump())
                 for coding in obj.fhirpath_values("Procedure.followUp.coding")
             ],
             relatedEntitiesIds=obj.fhirpath_values(
                 "Procedure.reasonReference.reference.replace('Condition/','')"
             ),
             conductedMolecularComparison=obj.fhirpath_single(
-                "Procedure.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-molecular-tumor-board-molecular-comparison').extension('conducted').valueBoolean"
+                "Procedure.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-molecular-tumor-board-molecular-comparison').extension('conducted').valueBoolean.getValue()"
             ),
             molecularComparisonMatchId=obj.fhirpath_single(
-                "Procedure.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-molecular-tumor-board-molecular-comparison').extension('matchedReference').valueReference.reference.replace('Condition/','')"
+                "Procedure.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-molecular-tumor-board-molecular-comparison').extension('matchedReference').valueReference.reference.getValue().replace('Condition/','')"
             ),
             conductedCupCharacterization=obj.fhirpath_single(
-                "Procedure.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-molecular-tumor-board-cup-characterization').extension('conducted').valueBoolean"
+                "Procedure.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-molecular-tumor-board-cup-characterization').extension('conducted').valueBoolean.getValue()"
             ),
             characterizedCup=obj.fhirpath_single(
-                "Procedure.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-molecular-tumor-board-cup-characterization').extension('success').valueBoolean"
+                "Procedure.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-molecular-tumor-board-cup-characterization').extension('success').valueBoolean.getValue()"
             ),
         )
 
@@ -84,10 +84,10 @@ class MolecularTumorBoardReviewProfile(
         for rec in recommendations:
             payload = schemas.MolecularTherapeuticRecommendation(
                 clinicalTrial=rec.fhirpath_single(
-                    "extension('clinicalTrial').valueString"
+                    "extension('clinicalTrial').valueString.getValue()"
                 ),
                 expectedEffect=(
-                    CodedConcept.model_validate(coding)
+                    CodedConcept.model_validate(coding.model_dump())
                     if (
                         coding := rec.fhirpath_single(
                             "extension('expectedEffect').valueCodeableConcept.coding"
@@ -96,11 +96,13 @@ class MolecularTumorBoardReviewProfile(
                     else None
                 ),
                 offLabelUse=rec.fhirpath_single(
-                    "extension('offLabelUse').valueBoolean"
+                    "extension('offLabelUse').valueBoolean.getValue()"
                 ),
-                withinSoc=rec.fhirpath_single("extension('withinSoc').valueBoolean"),
+                withinSoc=rec.fhirpath_single(
+                    "extension('withinSoc').valueBoolean.getValue()"
+                ),
                 drugs=[
-                    CodedConcept.model_validate(drug)
+                    CodedConcept.model_validate(drug.model_dump())
                     for drug in rec.fhirpath_values(
                         "extension('medication').valueCodeableConcept.coding"
                     )
@@ -108,21 +110,21 @@ class MolecularTumorBoardReviewProfile(
                 supportingGenomicVariantsIds=[
                     id
                     for id in rec.fhirpath_values(
-                        "extension('supportingEvidence').valueReference.reference.replace('Observation/','')"
+                        "extension('supportingEvidence').valueReference.reference.getValue().replace('Observation/','')"
                     )
                     if models.GenomicVariant.objects.filter(id=id).exists()
                 ],
                 supportingGenomicSignaturesIds=[
                     id
                     for id in rec.fhirpath_values(
-                        "extension('supportingEvidence').valueReference.reference.replace('Observation/','')"
+                        "extension('supportingEvidence').valueReference.reference.getValue().replace('Observation/','')"
                     )
                     if models.GenomicSignature.objects.filter(id=id).exists()
                 ],
                 supportingTumorMarkersIds=[
                     id
                     for id in rec.fhirpath_values(
-                        "extension('supportingEvidence').valueReference.reference.replace('Observation/','')"
+                        "extension('supportingEvidence').valueReference.reference.getValue().replace('Observation/','')"
                     )
                     if models.TumorMarker.objects.filter(id=id).exists()
                 ],
@@ -162,17 +164,19 @@ class MolecularTumorBoardReviewProfile(
         resource.subject = Reference(
             reference=f"Patient/{obj.caseId}",
         )
-        resource.code.extension = [
-            fhir.TumorBoardSpecialization(
-                valueCodeableConcept=construct_fhir_codeable_concept(
-                    Coding(
-                        code="C20826",
-                        system="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
-                        display="Molecular Diagnosis",
+        resource.code = fhir.OnconovaMolecularTumorBoardReviewCode(
+            extension=[
+                fhir.TumorBoardSpecialization(
+                    valueCodeableConcept=construct_fhir_codeable_concept(
+                        Coding(
+                            code="C20826",
+                            system="http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+                            display="Molecular Diagnosis",
+                        )
                     )
                 )
-            )
-        ]
+            ]
+        )
         resource.reasonReference = [
             Reference(
                 reference=f"Condition/{conditionId}",

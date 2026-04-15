@@ -24,25 +24,33 @@ class CancerFamilyMemberHistoryProfile(
             )
         )
         return schemas.FamilyHistoryCreate(
-            caseId=obj.fhirpath_single("FamilyMemberHistory.patient.reference").replace(
-                "Patient/", ""
+            caseId=obj.fhirpath_single(
+                "FamilyMemberHistory.patient.reference.getValue()"
+            ).replace("Patient/", ""),
+            date=obj.fhirpath_single("FamilyMemberHistory.date.getValue()"),
+            isDeceased=obj.fhirpath_single(
+                "FamilyMemberHistory.deceasedBoolean.getValue()"
             ),
-            date=obj.fhirpath_single("FamilyMemberHistory.date"),
-            isDeceased=obj.fhirpath_single("FamilyMemberHistory.deceasedBoolean"),
             relationship=CodedConcept.model_validate(
-                obj.fhirpath_single("FamilyMemberHistory.relationship.coding")
+                obj.fhirpath_single(
+                    "FamilyMemberHistory.relationship.coding"
+                ).model_dump()
             ),
             hadCancer=condition is not None,
-            onsetAge=condition.fhirpath_single("onsetAge.value") if condition else None,
+            onsetAge=(
+                condition.fhirpath_single("onsetAge.value.getValue()").value
+                if condition
+                else None
+            ),
             contributedToDeath=(
                 condition.fhirpath_single(
-                    "extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-family-member-condition-contributed-to-death').valueBoolean"
+                    "extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-family-member-condition-contributed-to-death').valueBoolean.getValue()"
                 )
                 if condition
                 else None
             ),
             morphology=(
-                CodedConcept.model_validate(coding)
+                CodedConcept.model_validate(coding.model_dump())
                 if condition
                 and (
                     coding := condition.fhirpath_single(
@@ -52,7 +60,7 @@ class CancerFamilyMemberHistoryProfile(
                 else None
             ),
             topography=(
-                CodedConcept.model_validate(coding)
+                CodedConcept.model_validate(coding.model_dump())
                 if condition
                 and (
                     coding := condition.fhirpath_single(
@@ -83,7 +91,7 @@ class CancerFamilyMemberHistoryProfile(
         if obj.hadCancer:
             condition = fhir.OnconovaCancerFamilyMemberHistoryCancerCondition(
                 onsetAge=(
-                    fhir.Age(
+                    fhir.OnconovaCancerFamilyMemberHistoryOnsetAge(
                         value=obj.onsetAge, system="http://unitsofmeasure.org", code="a"
                     )
                     if obj.onsetAge is not None

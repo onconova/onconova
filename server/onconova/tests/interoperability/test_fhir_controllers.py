@@ -68,7 +68,7 @@ class FhirCrudApiControllerTestCase(ApiControllerTestMixin, TestCase):
         for factory, schema in zip(self.factories, self.create_schemas):
             with pghistory.context(username=self.user.username):
                 instance1, instance2 = factory.create_batch(2)
-                if hasattr(self, 'post_factory_hook'):
+                if hasattr(self, "post_factory_hook"):
                     instance1, instance2 = self.post_factory_hook(instance1, instance2)
                 self.instances.append(instance1)
                 self.create_payloads.append(
@@ -98,11 +98,11 @@ class FhirCrudApiControllerTestCase(ApiControllerTestMixin, TestCase):
             if scenario == "HTTPS Authenticated":
                 self.assertEqual(response.status_code, 200)
                 expected = schema.model_validate(instance).model_dump()
-                for c in expected.get('contained', []):
-                    c.pop('meta', None)
-                result = schema.model_validate(response.json()).model_dump()
-                for c in result.get('contained', []):
-                    c.pop('meta', None)
+                for c in expected.get("contained", []):
+                    c.pop("meta", None)
+                result = response.json()
+                for c in result.get("contained", []):
+                    c.pop("meta", None)
                 self.assertEqual(
                     result,
                     expected,

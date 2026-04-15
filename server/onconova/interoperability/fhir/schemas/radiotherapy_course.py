@@ -32,14 +32,11 @@ class RadiotherapyCourseSummaryProfile(
         return schemas.RadiotherapyCreate(
             externalSource=None,
             externalSourceId=None,
-            caseId=obj.fhirpath_single("Procedure.subject.reference").replace(
-                "Patient/", ""
-            ),
-            period=Period(
-                start=(
-                    period := obj.fhirpath_single("Procedure.performedPeriod")
-                ).start,
-                end=period.end,
+            caseId=obj.fhirpath_single(
+                "Procedure.subject.reference.getValue()"
+            ).replace("Patient/", ""),
+            period=Period.model_validate(
+                obj.fhirpath_single("Procedure.performedPeriod").model_dump()
             ),
             intent=cls.map_to_internal(
                 "TreatmentIntents",
@@ -48,13 +45,13 @@ class RadiotherapyCourseSummaryProfile(
                 ),
             ),
             targetedEntitiesIds=obj.fhirpath_values(
-                "Procedure.reasonReference.reference.replace('Condition/','')"
+                "Procedure.reasonReference.reference.getValue().replace('Condition/','')"
             ),
             therapyLineId=obj.fhirpath_single(
-                "Procedure.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-therapy-line-reference').valueReference.reference.replace('List/','')"
+                "Procedure.extension('http://onconova.github.io/fhir/StructureDefinition/onconova-ext-therapy-line-reference').valueReference.reference.getValue().replace('List/','')"
             ),
             sessions=obj.fhirpath_single(
-                "Procedure.extension('http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-sessions').valueUnsignedInt"
+                "Procedure.extension('http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-sessions').valueUnsignedInt.getValue()"
             ),
         )
 
@@ -71,12 +68,12 @@ class RadiotherapyCourseSummaryProfile(
         )
         for dosage in dosages:
             volume_reference = dosage.fhirpath_single(
-                "extension('volume').valueReference.reference.substring(1)"
+                "extension('volume').valueReference.reference.getValue().substring(1)"
             )
             volume = obj.fhirpath_single(f"contained.where(id='{volume_reference}')")
             payload = schemas.RadiotherapyDosageCreate(
                 dose=(
-                    Measure(value=dose.value, unit=dose.code)
+                    Measure(value=str(dose.value), unit=str(dose.code))  # type: ignore
                     if (
                         dose := dosage.fhirpath_single(
                             "extension('totalDoseDelivered').valueQuantity"
@@ -85,18 +82,18 @@ class RadiotherapyCourseSummaryProfile(
                     else None
                 ),
                 fractions=dosage.fhirpath_single(
-                    "extension('fractionsDelivered').valueUnsignedInt"
+                    "extension('fractionsDelivered').valueUnsignedInt.getValue()"
                 ),
                 irradiatedVolume=CodedConcept.model_validate(
-                    volume.fhirpath_single("location.coding")
+                    volume.fhirpath_single("location.coding").model_dump()
                 ),
                 irradiatedVolumeMorphology=(
-                    CodedConcept.model_validate(coding)
+                    CodedConcept.model_validate(coding.model_dump())
                     if (coding := volume.fhirpath_single("morphology.coding"))
                     else None
                 ),
                 irradiatedVolumeQualifier=(
-                    CodedConcept.model_validate(coding)
+                    CodedConcept.model_validate(coding.model_dump())
                     if (coding := volume.fhirpath_single("locationQualifier.coding"))
                     else None
                 ),
@@ -121,12 +118,12 @@ class RadiotherapyCourseSummaryProfile(
                 modality=CodedConcept.model_validate(
                     setting.fhirpath_single(
                         "extension('http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-modality').valueCodeableConcept.coding"
-                    )
+                    ).model_dump()
                 ),
                 technique=CodedConcept.model_validate(
                     setting.fhirpath_single(
                         "extension('http://hl7.org/fhir/us/mcode/StructureDefinition/mcode-radiotherapy-technique').valueCodeableConcept.coding"
-                    )
+                    ).model_dump()
                 ),
             )
             data.append(
