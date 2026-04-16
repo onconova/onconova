@@ -38,7 +38,7 @@ class CancerFamilyMemberHistoryProfile(
             ),
             hadCancer=condition is not None,
             onsetAge=(
-                condition.fhirpath_single("onsetAge.value.getValue()").value
+                condition.fhirpath_single("onsetAge.value.getValue()")
                 if condition
                 else None
             ),
