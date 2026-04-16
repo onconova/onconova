@@ -13,104 +13,105 @@ from onconova.core.anonymization import (
 from onconova.oncology import models as orm
 from onconova.core.schemas import BaseSchema, MetadataAnonymizationMixin, CodedConcept
 from onconova.core.types import Age, AgeBin, Contributors, Nullable
-from onconova.oncology.models.patient_case import PatientCaseConsentStatusChoices, PatientCaseVitalStatusChoices
+from onconova.oncology.models.patient_case import (
+    PatientCaseConsentStatusChoices,
+    PatientCaseVitalStatusChoices,
+)
 
 
 class PatientCaseCreate(BaseSchema):
-    
+
     __orm_model__ = orm.PatientCase
-    
+
     externalSource: Nullable[str] = Field(
         None,
-        description='The digital source of the data, relevant for automated data',
-        title='External data source',
+        description="The digital source of the data, relevant for automated data",
+        title="External data source",
     )
     externalSourceId: Nullable[str] = Field(
         None,
-        description='The data identifier at the digital source of the data, relevant for automated data',
-        title='External data source Id',
+        description="The data identifier at the digital source of the data, relevant for automated data",
+        title="External data source Id",
     )
     clinicalCenter: str = Field(
         ...,
-        description='Medical center where the patient data originally resides',
-        title='Medical center',
+        description="Medical center where the patient data originally resides",
+        title="Medical center",
         max_length=200,
     )
     clinicalIdentifier: str = Field(
         ...,
-        description='Unique clinical identifier (typically the clinical information system identifier) unique for a physical patient',
-        title='Clinical identifier',
+        description="Unique clinical identifier (typically the clinical information system identifier) unique for a physical patient",
+        title="Clinical identifier",
         max_length=100,
     )
     consentStatus: PatientCaseConsentStatusChoices = Field(
         PatientCaseConsentStatusChoices.UNKNOWN,
-        description='Status of the general consent by the patient for the use of their data for research purposes',
-        title='Consent status',
+        description="Status of the general consent by the patient for the use of their data for research purposes",
+        title="Consent status",
     )
     gender: CodedConcept = Field(
         ...,
-        description='Gender of the patient for legal/administrative purposes',
-        title='Gender',
-        json_schema_extra={'x-terminology': 'AdministrativeGender'}
+        description="Gender of the patient for legal/administrative purposes",
+        title="Gender",
+        json_schema_extra={"x-terminology": "AdministrativeGender"},
     )
     race: Nullable[CodedConcept] = Field(
-        None, 
-        description='Race of the patient', 
-        title='Race',        
-        json_schema_extra={'x-terminology': 'Race'},
+        None,
+        description="Race of the patient",
+        title="Race",
+        json_schema_extra={"x-terminology": "Race"},
     )
     sexAtBirth: Nullable[CodedConcept] = Field(
-        None, 
-        description='Sex assigned at birth', 
-        title='Birth sex',
-        json_schema_extra={'x-terminology': 'BirthSex'},
+        None,
+        description="Sex assigned at birth",
+        title="Birth sex",
+        json_schema_extra={"x-terminology": "BirthSex"},
     )
     genderIdentity: Nullable[CodedConcept] = Field(
         None,
         description="The patient's innate sense of their gender as reported",
-        title='Gender identity',
-        json_schema_extra={'x-terminology': 'GenderIdentity'},
+        title="Gender identity",
+        json_schema_extra={"x-terminology": "GenderIdentity"},
     )
     dateOfBirth: date = Field(
         ...,
-        description='Anonymized date of birth (year/month). The day is set to the first day of the month by convention.',
-        title='Date of birth',
+        description="Anonymized date of birth (year/month). The day is set to the first day of the month by convention.",
+        title="Date of birth",
     )
     vitalStatus: PatientCaseVitalStatusChoices = Field(
         PatientCaseVitalStatusChoices.UNKNOWN,
-        description='Whether the patient is known to be alive or decaeased or is unknkown.',
-        title='Vital status',
+        description="Whether the patient is known to be alive or decaeased or is unknkown.",
+        title="Vital status",
     )
     dateOfDeath: Nullable[date] = Field(
         None,
-        description='Anonymized date of death (year/month). The day is set to the first day of the month by convention.',
-        title='Date of death',
+        description="Anonymized date of death (year/month). The day is set to the first day of the month by convention.",
+        title="Date of death",
     )
     causeOfDeath: Nullable[CodedConcept] = Field(
         None,
-        description='Classification of the cause of death.',
-        title='Cause of death',
-        json_schema_extra={'x-terminology': 'CauseOfDeath'},
+        description="Classification of the cause of death.",
+        title="Cause of death",
+        json_schema_extra={"x-terminology": "CauseOfDeath"},
     )
     endOfRecords: Nullable[date] = Field(
         None,
-        description='Date of the last known record about the patient if lost to followup or vital status is unknown.',
-        title='End of records',
+        description="Date of the last known record about the patient if lost to followup or vital status is unknown.",
+        title="End of records",
     )
-
 
 
 class PatientCase(PatientCaseCreate, MetadataAnonymizationMixin):
-        
+
     pseudoidentifier: str = Field(
-        ..., 
-        description='Pseudoidentifier of the patient', 
-        title='Pseudoidentifier',
+        ...,
+        description="Pseudoidentifier of the patient",
+        title="Pseudoidentifier",
         max_length=40,
     )
     age: Union[Age, AgeBin] = Field(
-        title="Age", 
-        description="Approximate age of the patient in years"
+        title="Age", description="Approximate age of the patient in years"
     )
     dateOfBirth: Union[date, Literal[REDACTED_STRING]] = Field(  # type: ignore
         title="Date of birth",
@@ -134,8 +135,15 @@ class PatientCase(PatientCaseCreate, MetadataAnonymizationMixin):
         title="Data contributors",
         description="Users that have contributed to the case by adding, updating or deleting data. Sorted by number of contributions in descending order.",
     )
-    
-    __anonymization_fields__ = ("dateOfBirth", "dateOfDeath", "clinicalIdentifier", "clinicalCenter", "age", "ageAtDiagnosis")
+
+    __anonymization_fields__ = (
+        "dateOfBirth",
+        "dateOfDeath",
+        "clinicalIdentifier",
+        "clinicalCenter",
+        "age",
+        "ageAtDiagnosis",
+    )
     __anonymization_key__ = "id"
     __anonymization_functions__ = {
         "age": anonymize_age,
@@ -143,7 +151,6 @@ class PatientCase(PatientCaseCreate, MetadataAnonymizationMixin):
         "dateOfBirth": anonymize_by_redacting_string,
         "dateOfDeath": anonymize_personal_date,
     }
-    
 
     @field_validator("age", "ageAtDiagnosis", mode="before")
     @classmethod
@@ -162,7 +169,7 @@ class PatientCase(PatientCaseCreate, MetadataAnonymizationMixin):
                 raise ValueError("An alive patient cannot have a cause of death")
             if obj.endOfRecords:
                 raise ValueError(
-                    "If patient is known to be alive, it cannot have an end of records."
+                    f"If patient is known to be alive, it cannot have an end of records, got {obj.endOfRecords}."
                 )
         if obj.vitalStatus == PatientCaseVitalStatusChoices.UNKNOWN:
             if obj.dateOfDeath:
@@ -185,7 +192,6 @@ class PatientCase(PatientCaseCreate, MetadataAnonymizationMixin):
                     "If patient is known to be deceased, it cannot have an end of records."
                 )
         return obj
-
 
 
 class PatientCaseDataCompletionStatus(Schema):

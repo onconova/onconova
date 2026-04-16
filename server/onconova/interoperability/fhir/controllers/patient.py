@@ -11,6 +11,7 @@ from onconova.interoperability.fhir.controllers.base import (
     COMMON_UPDATE_HTTP_ERRORS,
     FhirBaseController,
 )
+from onconova.interoperability.fhir.models.CancerPatient import OnconovaCancerPatient
 
 
 @api_controller(
@@ -42,8 +43,10 @@ class PatientController(FhirBaseController):
         exclude_none=True,
         summary="Update the current state of the resource",
     )
-    def update_patient(self, rid: str, payload: CancerPatientProfile):
-        return self.update_fhir_resource(rid, payload)
+    def update_patient(self, rid: str, payload: OnconovaCancerPatient):
+        return self.update_fhir_resource(
+            rid, CancerPatientProfile.model_validate(payload)
+        )
 
     @route.delete(
         path="{rid}",
@@ -71,8 +74,8 @@ class PatientController(FhirBaseController):
         exclude_none=True,
         summary="Create a new resource",
     )
-    def create_patient(self, payload: CancerPatientProfile):
-        return self.create_fhir_resource(payload)
+    def create_patient(self, payload: OnconovaCancerPatient):
+        return self.create_fhir_resource(CancerPatientProfile.model_validate(payload))
 
     @route.get(
         path="{rid}/$mcode-everything",
