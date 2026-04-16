@@ -49,6 +49,7 @@ gunicorn = "^21.2"
 [tool.poetry.group.dev.dependencies]
 # Testing
 pytest = "*"
+pytest-xdist = "^3.8"
 pytest-django = "^4.5"
 pytest-profiling = "^1.8"
 factory_boy = "^3.3"
@@ -65,7 +66,7 @@ python_files = [
     "onconova/tests/**/test_*.py",
 ]
 testpaths = ['onconova/tests']
-addopts = "--no-migrations --reuse-db"
+addopts = "--no-migrations --reuse-db --dist=loadscope"
 django_find_project = "True"
 django_debug_mode = "True"
 

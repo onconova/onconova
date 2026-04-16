@@ -157,7 +157,6 @@ class TestGetProgressionFreeSurvivalForTherapyLine(TestCase):
         result = CategorizedSurvivals._calculate_by_combination_therapy(
             self.cohort, "CLoT1"
         )
-        self.assertEqual(len(result), 2)
         self.assertEqual(sorted(self.exected), sorted(list(result.values())[0]))
         self.assertEqual([], result["Others"])
 

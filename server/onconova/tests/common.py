@@ -229,8 +229,9 @@ class ApiControllerTestMixin:
         data=None,
     ):
         # Set the user access level for this call
-        self.user.access_level = access_level
-        self.user.save()
+        if self.user.access_level != access_level:
+            self.user.access_level = access_level
+            self.user.save()
         # Prepare the controller
         client = (
             self.authenticated_client if authenticated else self.unauthenticated_client

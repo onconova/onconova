@@ -54,7 +54,8 @@ class AuditLogMiddleware:
         start_time = time.time()
         response = self.get_response(request)
         processing_time = round((time.time() - start_time) * 1000)
-
+        if not audit_logger.isEnabledFor(logging.INFO):
+            return response
         user = getattr(request, "user", None)
         user_id = str(user.id) if user and user.is_authenticated else "anonymous"
         user_access_level = (
@@ -246,6 +247,7 @@ class WSGIRequest(DjangoRequest, DjangoWSGIRequest):
 
     No additional attributes or methods are defined in this subclass.
     """
+
     pass
 
 
@@ -261,6 +263,7 @@ class ASGIRequest(DjangoRequest, DjangoASGIRequest):
         DjangoRequest: Standard Django HTTP request handling.
         DjangoASGIRequest: ASGI-specific request handling for asynchronous support.
     """
+
     pass
 
 

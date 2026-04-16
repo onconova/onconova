@@ -5,7 +5,7 @@ from onconova.settings import *
 import factory.random
 
 # Ensure a consistent factory engine
-factory.random.reseed_random('onconova')
+factory.random.reseed_random("onconova-test")
 
 INSTALLED_APPS += [
     "onconova.tests",
