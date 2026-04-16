@@ -142,10 +142,18 @@ def expand_antineoplastic_agent_concepts() -> List[DrugCodedConcept]:
                 concepts[concept.code].therapy_category = category
                 break
 
-        ancestor = ncit_codesystem.get(concept.parent or "")
-        while ancestor and ancestor.code != "C1909":  # Pharmacologic Substance
-            concepts[ancestor.code] = ancestor
-            ancestor = ncit_codesystem.get(ancestor.parent or "")
+        def _add_parents_recursively(concept):
+            if not concept.parent:
+                return 
+            for parent_code in concept.parent.split("|"):
+                if parent_code == "C1909": # Pharmacological Substance
+                    return 
+                parent = ncit_codesystem.get(parent_code or "")
+                if not parent:
+                    continue
+                concepts[parent_code] = DrugCodedConcept(**parent.model_dump())
+                _add_parents_recursively(parent)
+        _add_parents_recursively(concept)
 
     return list(concepts.values())
 
