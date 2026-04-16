@@ -44,11 +44,13 @@ _DjangoModel = TypeVar("_DjangoModel", bound=DjangoModel)
 
 
 def get_orm_alias(name):
+    EXCEPTIONS = {"external_source_id"}
     name = camel_to_snake(name)
-    if name.endswith("_id"):
-        name = name.replace("_id", "")
-    elif name.endswith("_ids"):
-        name = name.replace("_ids", "")
+    if name not in EXCEPTIONS:
+        if name.endswith("_id"):
+            name = name.replace("_id", "")
+        elif name.endswith("_ids"):
+            name = name.replace("_ids", "")
     return name
 
 
