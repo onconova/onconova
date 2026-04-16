@@ -2,6 +2,10 @@
 import pgtrigger
 
 from onconova.settings import *
+import factory.random
+
+# Ensure a consistent factory engine
+factory.random.reseed_random('onconova')
 
 INSTALLED_APPS += [
     "onconova.tests",
