@@ -169,20 +169,8 @@ export class RiskAssessmentFormComponent extends AbstractFormBase {
       case "C121007": // Child-Pugh Clinical Classification
         return [
           "C113691", // Class A
-          "C146790", // Class A5
-          "C146791", // Class A6
           "C113692", // Class B
-          "C146792", // Class B7
-          "C146793", // Class B8
-          "C146794", // Class B9
           "C113694", // Class C
-          "C146795", // Class C10
-          "C146796", // Class C11
-          "C146797", // Class C12
-          "C146798", // Class C13
-          "C146799", // Class C14
-          "C146801", // Class C15
-          "C148151", // A-B7 Cirrhosis
         ];
 
       case "C181085": // UCSF Cancer of the Prostate Risk Assessment Score
