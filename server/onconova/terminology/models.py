@@ -371,7 +371,7 @@ class AntineoplasticAgent(CodedConcept):
 
     @classmethod
     def _concept_display_postprocessing(cls, display: str) -> str:
-        return display.capitalize()
+        return display[0].upper() + display[1:] 
 
 
 class DosageRoute(CodedConcept):
