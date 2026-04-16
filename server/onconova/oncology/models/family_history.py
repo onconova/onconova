@@ -85,14 +85,14 @@ class FamilyHistory(BaseModel):
 
     @property
     def description(self):
-        if self.relationship.display:
-            relationship = self.relationship.display.title()
+        if relationship := self.relationship.display:
+            relationship = relationship[0].upper() + relationship[1:].lower()
         condition = ""
         if self.had_cancer:
             if self.topography and self.topography.display:
                 condition = f" with {self.topography.display.lower().replace(', nos','')} cancer"
             else:
-                condition = "with history of cancer"
+                condition = " with history of cancer"
         else:
-            condition = "without history of cancer"
+            condition = " without history of cancer"
         return f"{relationship}{condition}"

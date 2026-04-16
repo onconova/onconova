@@ -27,6 +27,29 @@
                     }
                 ]
             }
+        ],
+        "exclude": [
+            {
+                "system": "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+                "concept": [
+                    {
+                        "code": "C49165",
+                        "display": "Surgical Procedure by Method"
+                    },
+                    {
+                        "code": "C49163",
+                        "display": "Surgical Procedure by Site or System"
+                    },
+                    {
+                        "code": "C161601",
+                        "display": "Surgical Procedure by Type"
+                    },
+                    {
+                        "code": "C64982",
+                        "display": "Therapeutic Surgical Procedure"
+                    }
+                ]
+            }
         ]
     }
 }

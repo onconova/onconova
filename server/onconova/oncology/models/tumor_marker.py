@@ -1,11 +1,13 @@
 from enum import Enum
-from typing import List
+from typing import Any, List, Tuple
 
 import pghistory
 from django.db import models
+from django.db.models import Case, When
 from django.utils.translation import gettext_lazy as _
 from pydantic import BaseModel as PydanticBaseModel
 
+from queryable_properties.properties import AnnotationProperty
 import onconova.core.measures as measures
 import onconova.terminology.fields as termfields
 import onconova.terminology.models as terminologies
@@ -23,6 +25,7 @@ class TumorMarkerPresenceChoices(models.TextChoices):
         NEGATIVE: Indicates the analyte is absent.
         INDETERMINATE: Indicates the presence of the analyte could not be determined.
     """
+
     POSITIVE = "positive"
     NEGATIVE = "negative"
     INDETERMINATE = "indeterminate"
@@ -37,6 +40,7 @@ class TumorMarkerNuclearExpressionStatusChoices(models.TextChoices):
         LOSS (str): Indicates a loss of nuclear expression.
         INDETERMINATE (str): Indicates that the nuclear expression status is indeterminate.
     """
+
     INTACT = "intact"
     LOSS = "loss"
     INDETERMINATE = "indeterminate"
@@ -45,13 +49,14 @@ class TumorMarkerNuclearExpressionStatusChoices(models.TextChoices):
 class TumorMarkerTumorProportionScoreChoices(models.TextChoices):
     """
     An enumeration representing tumor proportion score categories.
-    
+
     Attributes:
         TP0: Tumor proportion score 0.
         TC1: Tumor proportion score 1.
         TC2: Tumor proportion score 2.
         TC3: Tumor proportion score 3.
     """
+
     TP0 = "TC0"
     TC1 = "TC1"
     TC2 = "TC2"
@@ -68,6 +73,7 @@ class TumorMarkerImmuneCellScoreChoices(models.TextChoices):
         IC2: Immune cell score 2.
         IC3: Immune cell score 3.
     """
+
     IC0 = "IC0"
     IC1 = "IC1"
     IC2 = "IC2"
@@ -85,208 +91,12 @@ class TumorMarkerImmunohistochemicalScoreChoices(models.TextChoices):
         THREE (str): Score of "3+", indicating strong staining.
         INDETERMINATE (str): Score of "indeterminate", indicating that the result cannot be determined.
     """
+
     ZERO = "0"
     ONE = "1+"
     TWO = "2+"
     THREE = "3+"
     INDETERMINATE = "indeterminate"
-
-
-@pghistory.track()
-class TumorMarker(BaseModel):
-    """
-    Represents a tumor marker result associated with a patient case.
-
-    Attributes:
-        case (models.ForeignKey[PatientCase]): Reference to the related patient case.
-        date (models.DateField): Date when the tumor marker was analyzed.
-        related_entities (models.ManyToManyField[NeoplasticEntity]): Neoplastic entities related to the tumor marker analysis.
-        analyte (termfields.CodedConceptField[terminologies.TumorMarkerAnalyte]): The chemical or biological substance/agent analyzed.
-        mass_concentration (MeasurementField[measures.MassConcentration]): Mass concentration of the analyte (optional).
-        arbitrary_concentration (MeasurementField[measures.ArbitraryConcentration]): Arbitrary concentration of the analyte (optional).
-        substance_concentration (MeasurementField[measures.SubstanceConcentration]): Substance concentration of the analyte (optional).
-        fraction (MeasurementField[measures.Fraction]): Analyte fraction (optional).
-        multiple_of_median (MeasurementField[measures.MultipleOfMedian]): Multiples of the median analyte (optional).
-        tumor_proportion_score (models.CharField[TumorMarkerTumorProportionScoreChoices]): Tumor proportion score (TPS) for PD-L1 expression (optional).
-        immune_cell_score (models.CharField[TumorMarkerImmuneCellScoreChoices]): Immune cell score (ICS) for PD-L1 positive immune cells (optional).
-        combined_positive_score (MeasurementField[measures.Fraction]): Combined positive score (CPS) for PD-L1 (optional).
-        immunohistochemical_score (models.CharField[TumorMarkerImmunohistochemicalScoreChoices]): Immunohistochemical score for analyte-positive cells (optional).
-        presence (models.CharField[TumorMarkerPresenceChoices]): Indicates if the analyte tested positive or negative (optional).
-        nuclear_expression_status (models.CharField[TumorMarkerNuclearExpressionStatusChoices]): Status of nuclear expression of the analyte (optional).
-        value (str): Returns a string representation of the first available value among the measurement and score fields.
-        description (str): Returns a human-readable description combining the analyte and its value.
-
-    Constraints: 
-        Ensures at least one value field is set for each tumor marker instance.
-    """
-
-    case = models.ForeignKey(
-        verbose_name=_("Patient case"),
-        help_text=_(
-            "Indicates the case of the patient related to the tumor marker result"
-        ),
-        to=PatientCase,
-        related_name="tumor_markers",
-        on_delete=models.CASCADE,
-    )
-    date = models.DateField(
-        verbose_name=_("Date"),
-        help_text=_("Clinically-relevant date at which the tumor marker was analyzed."),
-    )
-    related_entities = models.ManyToManyField(
-        verbose_name=_("Related neoplastic entities"),
-        help_text=_(
-            "References to the neoplastic entities that are related or the focus of the tumor marker analysis."
-        ),
-        to=NeoplasticEntity,
-        related_name="tumor_markers",
-    )
-    analyte = termfields.CodedConceptField(
-        verbose_name=_("Analyte"),
-        help_text=_("The chemical or biological substance/agent that is analyzed."),
-        terminology=terminologies.TumorMarkerAnalyte,
-    )
-    mass_concentration = MeasurementField(
-        verbose_name=_("Mass concentration"),
-        help_text=_("Mass concentration of the analyte (if revelant/measured)"),
-        measurement=measures.MassConcentration,
-        null=True,
-        blank=True,
-    )
-    arbitrary_concentration = MeasurementField(
-        verbose_name=_("Arbitrary concentration"),
-        help_text=_("Arbitrary concentration of the analyte (if revelant/measured)"),
-        measurement=measures.ArbitraryConcentration,
-        default_unit="kIU__l",
-        null=True,
-        blank=True,
-    )
-    substance_concentration = MeasurementField(
-        verbose_name=_("Substance concentration"),
-        help_text=_("Substance concentration of the analyte (if revelant/measured)"),
-        measurement=measures.SubstanceConcentration,
-        null=True,
-        blank=True,
-    )
-    fraction = MeasurementField(
-        verbose_name=_("Fraction"),
-        help_text=_("Analyte fraction (if revelant/measured)"),
-        measurement=measures.Fraction,
-        null=True,
-        blank=True,
-    )
-    multiple_of_median = MeasurementField(
-        verbose_name=_("Multiples of the median"),
-        help_text=_("Multiples of the median analyte (if revelant/measured)"),
-        measurement=measures.MultipleOfMedian,
-        null=True,
-        blank=True,
-    )
-    tumor_proportion_score = models.CharField(
-        verbose_name=_("Immune Cells Score (ICS)"),
-        help_text=_(
-            "Categorization of the percentage of cells in a tumor that express PD-L1"
-        ),
-        choices=TumorMarkerTumorProportionScoreChoices,
-        max_length=50,
-        null=True,
-        blank=True,
-    )
-    immune_cell_score = models.CharField(
-        verbose_name=_("Immune Cells Score (ICS)"),
-        help_text=_("Categorization of the percentage of PD-L1 positive immune cells"),
-        choices=TumorMarkerImmuneCellScoreChoices,
-        max_length=50,
-        null=True,
-        blank=True,
-    )
-    combined_positive_score = MeasurementField(
-        verbose_name=_("Combined Positive Score (CPS)"),
-        help_text=_(
-            "The number of PD-L1 positive cells, including tumor cells, lymphocytes, and macrophages divided by the total number of viable tumor cells multiplied by 100"
-        ),
-        measurement=measures.Fraction,
-        null=True,
-        blank=True,
-    )
-    immunohistochemical_score = models.CharField(
-        verbose_name=_("Immunohistochemical Score"),
-        help_text=_(
-            "Categorization of the number of analyte-positive cells in a sample"
-        ),
-        choices=TumorMarkerImmunohistochemicalScoreChoices,
-        max_length=50,
-        null=True,
-        blank=True,
-    )
-    presence = models.CharField(
-        verbose_name=_("Presence"),
-        help_text=_("Whether an analyte has tested positive or negative."),
-        choices=TumorMarkerPresenceChoices,
-        max_length=50,
-        null=True,
-        blank=True,
-    )
-    nuclear_expression_status = models.CharField(
-        verbose_name=_("Nuclear expression status"),
-        help_text=_("Categorization of the status of expression of the analyte"),
-        choices=TumorMarkerNuclearExpressionStatusChoices,
-        max_length=50,
-        null=True,
-        blank=True,
-    )
-
-    @property
-    def value(self):
-        return str(
-            self.mass_concentration
-            or self.arbitrary_concentration
-            or self.substance_concentration
-            or self.fraction
-            or self.multiple_of_median
-            or self.tumor_proportion_score
-            or self.immune_cell_score
-            or self.combined_positive_score
-            or self.immunohistochemical_score
-            or self.presence
-            or self.nuclear_expression_status
-        )
-
-    @property
-    def description(self):
-        if analyte_data := ANALYTES_DATA.get(self.analyte.code):
-            analyte = analyte_data.acronym
-        else:
-            analyte = str(self.analyte)
-        return f"{analyte}: {self.value}"
-
-    class Meta:
-        constraints = [
-            models.CheckConstraint(
-                condition=models.Q(mass_concentration__isnull=False)
-                | models.Q(arbitrary_concentration__isnull=False)
-                | models.Q(substance_concentration__isnull=False)
-                | models.Q(fraction__isnull=False)
-                | models.Q(multiple_of_median__isnull=False)
-                | models.Q(tumor_proportion_score__isnull=False)
-                | models.Q(immune_cell_score__isnull=False)
-                | models.Q(combined_positive_score__isnull=False)
-                | models.Q(immunohistochemical_score__isnull=False)
-                | models.Q(presence__isnull=False)
-                | models.Q(nuclear_expression_status__isnull=False),
-                name="tumor marker must at least have one value",
-            ),
-            # models.CheckConstraint(
-            #     condition = ~models.Q(analyte='PD-L1 ICS') |
-            #                 (models.Q(analyte='PD-L1 ICS') & models.Q(classification__in=IMMUNE_CELL_SCORES)),
-            #     name='PD-L1 ICS can only have ICS classification'
-            # ),
-            # models.CheckConstraint(
-            #     condition = ~models.Q(analyte='PD-L1 TPS') |
-            #                 (models.Q(analyte='PD-L1 TPS') & models.Q(classification__in=TUMOR_PROPORTION_SCORES)),
-            #     name='PD-L1 TPS can only have TPS classification'
-            # )
-        ]
 
 
 class AnalyteResultType(Enum):
@@ -306,6 +116,7 @@ class AnalyteResultType(Enum):
         immunohistochemical_score: Score derived from immunohistochemical staining results.
         nuclear_expression_status: Status indicating expression of a marker in the cell nucleus.
     """
+
     mass_concentration = "MassConcentration"
     arbitary_concentration = "ArbitraryConcentration"
     substance_concentration = "SubstanceConcentration"
@@ -328,9 +139,11 @@ class AnalyteDetails(PydanticBaseModel):
         display (str): The display name or description of the analyte.
         valueTypes (List[AnalyteResultType]): List of possible result types for the analyte.
     """
+
     acronym: str
     display: str
     valueTypes: List[AnalyteResultType]
+
 
 """Structure containing details on tumor marker analytes"""
 ANALYTES_DATA = {
@@ -410,7 +223,7 @@ ANALYTES_DATA = {
         display="Fibroblast growth factor 23",
         valueTypes=[
             AnalyteResultType.arbitary_concentration,
-            AnalyteResultType.substance_concentration,
+            AnalyteResultType.mass_concentration,
             AnalyteResultType.presence,
         ],
     ),
@@ -617,3 +430,191 @@ ANALYTES_DATA = {
         valueTypes=[AnalyteResultType.fraction],
     ),
 }
+
+
+@pghistory.track()
+class TumorMarker(BaseModel):
+    """
+    Represents a tumor marker result associated with a patient case.
+
+    Attributes:
+        case (models.ForeignKey[PatientCase]): Reference to the related patient case.
+        date (models.DateField): Date when the tumor marker was analyzed.
+        related_entities (models.ManyToManyField[NeoplasticEntity]): Neoplastic entities related to the tumor marker analysis.
+        analyte (termfields.CodedConceptField[terminologies.TumorMarkerAnalyte]): The chemical or biological substance/agent analyzed.
+        mass_concentration (MeasurementField[measures.MassConcentration]): Mass concentration of the analyte (optional).
+        arbitrary_concentration (MeasurementField[measures.ArbitraryConcentration]): Arbitrary concentration of the analyte (optional).
+        substance_concentration (MeasurementField[measures.SubstanceConcentration]): Substance concentration of the analyte (optional).
+        fraction (MeasurementField[measures.Fraction]): Analyte fraction (optional).
+        multiple_of_median (MeasurementField[measures.MultipleOfMedian]): Multiples of the median analyte (optional).
+        tumor_proportion_score (models.CharField[TumorMarkerTumorProportionScoreChoices]): Tumor proportion score (TPS) for PD-L1 expression (optional).
+        immune_cell_score (models.CharField[TumorMarkerImmuneCellScoreChoices]): Immune cell score (ICS) for PD-L1 positive immune cells (optional).
+        combined_positive_score (MeasurementField[measures.Fraction]): Combined positive score (CPS) for PD-L1 (optional).
+        immunohistochemical_score (models.CharField[TumorMarkerImmunohistochemicalScoreChoices]): Immunohistochemical score for analyte-positive cells (optional).
+        presence (models.CharField[TumorMarkerPresenceChoices]): Indicates if the analyte tested positive or negative (optional).
+        nuclear_expression_status (models.CharField[TumorMarkerNuclearExpressionStatusChoices]): Status of nuclear expression of the analyte (optional).
+        value (str): Returns a string representation of the first available value among the measurement and score fields.
+        description (str): Returns a human-readable description combining the analyte and its value.
+
+    Constraints:
+        Ensures at least one value field is set for each tumor marker instance.
+    """
+
+    case = models.ForeignKey(
+        verbose_name="Patient case",
+        help_text="Indicates the case of the patient related to the tumor marker result",
+        to=PatientCase,
+        related_name="tumor_markers",
+        on_delete=models.CASCADE,
+    )
+    date = models.DateField(
+        verbose_name="Date",
+        help_text="Clinically-relevant date at which the tumor marker was analyzed.",
+    )
+    related_entities = models.ManyToManyField(
+        verbose_name="Related neoplastic entities",
+        help_text="References to the neoplastic entities that are related or the focus of the tumor marker analysis.",
+        to=NeoplasticEntity,
+        related_name="tumor_markers",
+    )
+    analyte = termfields.CodedConceptField(
+        verbose_name="Analyte",
+        help_text="The chemical or biological substance/agent that is analyzed.",
+        terminology=terminologies.TumorMarkerAnalyte,
+    )
+    mass_concentration = MeasurementField(
+        verbose_name="Mass concentration",
+        help_text="Mass concentration of the analyte (if revelant/measured)",
+        measurement=measures.MassConcentration,
+        default_unit="ng__ml",
+        null=True,
+        blank=True,
+    )
+    arbitrary_concentration = MeasurementField(
+        verbose_name="Arbitrary concentration",
+        help_text="Arbitrary concentration of the analyte (if revelant/measured)",
+        measurement=measures.ArbitraryConcentration,
+        default_unit="kIU__l",
+        null=True,
+        blank=True,
+    )
+    substance_concentration = MeasurementField(
+        verbose_name="Substance concentration",
+        help_text="Substance concentration of the analyte (if revelant/measured)",
+        measurement=measures.SubstanceConcentration,
+        null=True,
+        blank=True,
+    )
+    fraction = MeasurementField(
+        verbose_name="Fraction",
+        help_text="Analyte fraction (if revelant/measured)",
+        measurement=measures.Fraction,
+        null=True,
+        blank=True,
+    )
+    multiple_of_median = MeasurementField(
+        verbose_name="Multiples of the median",
+        help_text="Multiples of the median analyte (if revelant/measured)",
+        measurement=measures.MultipleOfMedian,
+        null=True,
+        blank=True,
+    )
+    tumor_proportion_score = models.CharField(
+        verbose_name="Tumor Proportion Score (TPS)",
+        help_text="Categorization of the percentage of cells in a tumor that express PD-L1",
+        choices=TumorMarkerTumorProportionScoreChoices,
+        max_length=50,
+        null=True,
+        blank=True,
+    )
+    immune_cell_score = models.CharField(
+        verbose_name="Immune Cells Score (ICS)",
+        help_text="Categorization of the percentage of PD-L1 positive immune cells",
+        choices=TumorMarkerImmuneCellScoreChoices,
+        max_length=50,
+        null=True,
+        blank=True,
+    )
+    combined_positive_score = MeasurementField(
+        verbose_name="Combined Positive Score (CPS)",
+        help_text="The number of PD-L1 positive cells, including tumor cells, lymphocytes, and macrophages divided by the total number of viable tumor cells multiplied by 100",
+        measurement=measures.Fraction,
+        null=True,
+        blank=True,
+    )
+    immunohistochemical_score = models.CharField(
+        verbose_name="Immunohistochemical Score",
+        help_text="Categorization of the number of analyte-positive cells in a sample",
+        choices=TumorMarkerImmunohistochemicalScoreChoices,
+        max_length=50,
+        null=True,
+        blank=True,
+    )
+    presence = models.CharField(
+        verbose_name="Presence",
+        help_text="Whether an analyte has tested positive or negative.",
+        choices=TumorMarkerPresenceChoices,
+        max_length=50,
+        null=True,
+        blank=True,
+    )
+    nuclear_expression_status = models.CharField(
+        verbose_name="Nuclear expression status",
+        help_text="Categorization of the status of expression of the analyte",
+        choices=TumorMarkerNuclearExpressionStatusChoices,
+        max_length=50,
+        null=True,
+        blank=True,
+    )
+
+    @property
+    def value(self):
+        return str(
+            self.mass_concentration
+            or self.arbitrary_concentration
+            or self.substance_concentration
+            or self.fraction
+            or self.multiple_of_median
+            or self.tumor_proportion_score
+            or self.immune_cell_score
+            or self.combined_positive_score
+            or self.immunohistochemical_score
+            or self.presence
+            or self.nuclear_expression_status
+        )
+
+    @property
+    def description(self):
+        if analyte_data := ANALYTES_DATA.get(self.analyte.code):
+            analyte = analyte_data.acronym
+        else:
+            analyte = str(self.analyte)
+        return f"{analyte}: {self.value}"
+
+    class Meta:
+        constraints = [
+            models.CheckConstraint(
+                condition=models.Q(mass_concentration__isnull=False)
+                | models.Q(arbitrary_concentration__isnull=False)
+                | models.Q(substance_concentration__isnull=False)
+                | models.Q(fraction__isnull=False)
+                | models.Q(multiple_of_median__isnull=False)
+                | models.Q(tumor_proportion_score__isnull=False)
+                | models.Q(immune_cell_score__isnull=False)
+                | models.Q(combined_positive_score__isnull=False)
+                | models.Q(immunohistochemical_score__isnull=False)
+                | models.Q(presence__isnull=False)
+                | models.Q(nuclear_expression_status__isnull=False),
+                name="tumor marker must at least have one value",
+            ),
+            # models.CheckConstraint(
+            #     condition = ~models.Q(analyte='PD-L1 ICS') |
+            #                 (models.Q(analyte='PD-L1 ICS') & models.Q(classification__in=IMMUNE_CELL_SCORES)),
+            #     name='PD-L1 ICS can only have ICS classification'
+            # ),
+            # models.CheckConstraint(
+            #     condition = ~models.Q(analyte='PD-L1 TPS') |
+            #                 (models.Q(analyte='PD-L1 TPS') & models.Q(classification__in=TUMOR_PROPORTION_SCORES)),
+            #     name='PD-L1 TPS can only have TPS classification'
+            # )
+        ]

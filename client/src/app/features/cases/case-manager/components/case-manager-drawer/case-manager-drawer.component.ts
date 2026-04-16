@@ -55,6 +55,7 @@ export class CaseManagerDrawerComponent {
     public icon = input.required<LucideIconData>();
     public visible = model<boolean>(false);
     public editable = input<boolean>(true);
+    public exportable = input<boolean>(true);
     public anonymized = computed<boolean>(()=> (this.data() as any).anonymized ? true : false);
     public styleClass = input<string>('');
     public historyService = input.required<(resourceId: string) => Observable<PaginatedHistoryEvent>>();
@@ -88,7 +89,7 @@ export class CaseManagerDrawerComponent {
         },
         {
             label: 'Export',
-            disabled: !this.currentUser().canExportData,
+            disabled: !this.exportable(),
             icon: 'pi pi-file-export',
             command: () => this.exportResource(),
         },

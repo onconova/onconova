@@ -480,7 +480,7 @@ class TumorMarkerTestFactory(factory.django.DjangoModelFactory):
     case = factory.SubFactory(PatientCaseFactory)
     date = factory.LazyFunction(faker.date)
     mass_concentration = factory.LazyFunction(
-        lambda: measures.MassConcentration(g__l=random.random())
+        lambda: measures.MassConcentration(ng__ml=random.random())
     )
     related_entities = factory.post_generation(
         add_m2m_related(

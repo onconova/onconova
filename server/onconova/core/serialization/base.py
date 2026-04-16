@@ -13,9 +13,10 @@ from typing import (
 
 from django.contrib.postgres.fields import BigIntegerRangeField, DateRangeField
 from django.db import transaction
-from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Field as DjangoField
 from django.db.models import Model as DjangoModel
+from psycopg.types.range import Range as PostgresRange
+from django.core.exceptions import ObjectDoesNotExist
 from ninja import Schema
 from ninja.schema import DjangoGetter as BaseDjangoGetter
 from pydantic import BaseModel as PydanticBaseModel, ValidationError
@@ -35,7 +36,7 @@ from onconova.core.auth.models import User
 from onconova.core.measures.fields import MeasurementField
 from onconova.core.models import BaseModel, UntrackedBaseModel
 from onconova.core.utils import to_camel_case
-from onconova.terminology.models import CodedConcept
+from onconova.terminology.models import CodedConcept, CodedConceptDoesNotExist
 
 from onconova.core.utils import camel_to_snake
 
@@ -362,13 +363,19 @@ class BaseSchema(
                 related_model: Type[DjangoModel] = orm_field.related_model
                 if orm_field.many_to_many:
                     if issubclass(related_model, CodedConcept):
+                        m2m_relations[orm_field.name] = []
                         # Collect all related instances
-                        m2m_relations[orm_field.name] = [
-                            related_model.objects.get(
-                                code=concept.get("code"), system=concept.get("system")
-                            )
-                            for concept in data or []
-                        ]
+                        for concept in data or []:
+                            try:
+                                m2m_relations[orm_field.name].append(
+                                    related_model.objects.get(
+                                        code=concept.get("code"), system=concept.get("system")
+                                    )
+                                )
+                            except related_model.DoesNotExist:
+                                raise CodedConceptDoesNotExist(
+                                    f"Got a unsupported or invalid CodedConcept with code '{concept.get('code')}' and system '{concept.get('system')}' for {camel_to_snake(related_model.__name__).replace('_', ' ')} valueset."
+                                )
                     elif issubclass(related_model, User):
                         # For users. query the database via the username
                         m2m_relations[orm_field.name] = [
@@ -412,8 +419,8 @@ class BaseSchema(
                                     code=data.get("code"), system=data.get("system")
                                 ).first()
                                 if not related_instance:
-                                    raise ObjectDoesNotExist(
-                                        f"CodedConcept with code {data.get('code')} and system {data.get('system')} does not exist."
+                                    raise CodedConceptDoesNotExist(
+                                        f"Got a unsupported or invalid CodedConcept with code '{data.get('code')}' and system '{data.get('system')}' for {camel_to_snake(related_model.__name__).replace('_', ' ')} valueset."
                                     )
                             elif issubclass(related_model, User):
                                 # For users. query the database via the username
@@ -440,10 +447,15 @@ class BaseSchema(
                         orm_field.measurement(**{data.get("unit"): data.get("value")}),
                     )
                 elif (
-                    isinstance(orm_field, (DateRangeField, BigIntegerRangeField))
+                    isinstance(orm_field, BigIntegerRangeField)
                     and data is not None
                 ):
-                    setattr(instance, orm_field.name, (data["start"], data["end"]))
+                    setattr(instance, orm_field.name, PostgresRange(data["start"], data["end"], bounds="[)"))
+                elif (
+                    isinstance(orm_field, DateRangeField)
+                    and data is not None
+                ):
+                    setattr(instance, orm_field.name, PostgresRange(data["start"], data["end"], bounds="[]"))
                 else:
                     # Otherwise simply handle all other non-relational fields
                     setattr(instance, orm_field.name, data)

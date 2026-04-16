@@ -564,6 +564,14 @@ class ICDO3MorphologyDigestor(TerminologyDigestor):
     FILENAME = "icdo3morph.tsv"
     CANONICAL_URL = "http://terminology.hl7.org/CodeSystem/icd-o-3-morphology"
 
+    def digest(self):
+        """
+        Processes and updates concept relationships and display names.
+        """
+        super().digest()
+        self._digest_matrix()
+        return self.concepts
+    
     def _digest_concept_row(self, row):
         """
         Processes a single concept row and updates the internal concepts dictionary.
@@ -589,6 +597,48 @@ class ICDO3MorphologyDigestor(TerminologyDigestor):
             self.concepts[code].display = display
         elif row["Struct"] == "sub":
             self.concepts[code].synonyms.append(display)
+
+    def _digest_matrix(self):
+        BEHAVIORS = {
+            '0': 'benign',
+            '1': 'uncertain malignancy',
+            '2': 'in situ',
+            '3': 'maglignant',
+            '6': 'metastatic',
+        }
+
+        def clean_display(display: str):
+            new_display = display
+            new_display = new_display.replace(', beningn','')
+            new_display = new_display.replace('in situ','')
+            new_display = new_display.replace(', metastatic','')
+            new_display = new_display.replace(', malignant','')
+            new_display = new_display.replace(', uncertain whether benign or malignant','')
+            return new_display
+
+        codes = list(self.concepts.keys())
+        for code in codes:
+            concept = self.concepts[code]
+            code_base = code.split('/')[0]
+            for behavior_code, qualifier in BEHAVIORS.items():
+                query_code = f"{code_base}/{behavior_code}"
+                if query_code not in self.concepts:     
+                    if behavior_code == '1':
+                        concept = self.concepts.get(f"{code_base}/3", concept)      
+                    elif behavior_code == '3':
+                        concept = self.concepts.get(f"{code_base}/1", concept)    
+                    elif behavior_code == '6':
+                        concept = self.concepts.get(f"{code_base}/3", concept)    
+                    elif behavior_code == '2':
+                        concept = self.concepts.get(f"{code_base}/1", concept)           
+                    self.concepts[query_code] = CodedConcept(
+                        code=query_code,
+                        display=f"{clean_display(concept.display)}, {qualifier}",
+                        system=self.CANONICAL_URL,            
+                        synonyms=[f"{clean_display(syn)}, {qualifier}" for syn in concept.synonyms]
+                    )
+            
+            
 
 
 class ICDO3TopographyDigestor(TerminologyDigestor):

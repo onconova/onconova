@@ -4,6 +4,7 @@ standards-based interface for cancer genomics and clinical research data managem
 oncology, research, and interoperability controllers, and sets up OpenAPI documentation with custom settings and license information.
 """
 
+from django.db import IntegrityError
 from ninja import Redoc
 from ninja_extra import NinjaExtraAPI
 
@@ -41,6 +42,7 @@ from onconova.research.controllers.cohort import CohortsController
 from onconova.research.controllers.dataset import DatasetsController
 from onconova.research.controllers.project import ProjectController
 from onconova.terminology.controllers import TerminologyController
+from onconova.terminology.models import CodedConceptDoesNotExist
 
 api: NinjaExtraAPI
 """The main Onconova API instance, configured with custom OpenAPI documentation, authentication requirements,
@@ -143,3 +145,24 @@ api.register_controllers(
     DatasetsController,
     OthersController,
 )
+
+
+# Handle terminology exceptions as HTTP errors with a user-friendly message
+@api.exception_handler(CodedConceptDoesNotExist)
+def terminology_exception_handler(request, exc):
+    return api.create_response(request, {"message": str(exc)}, status=422)
+
+
+# # Handle database constraint violations as HTTP errors with a user-friendly message
+@api.exception_handler(IntegrityError)
+def database_exception_handler(request, exc):
+    return api.create_response(
+        request,
+        {
+            "message": "The data provided violates a database constraint: "
+            + str(exc.__cause__).split("\n")[
+                0
+            ]  # Include only the first line of the error message for clarity
+        },
+        status=422,
+    )

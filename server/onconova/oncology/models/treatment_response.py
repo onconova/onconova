@@ -90,9 +90,18 @@ class TreatmentResponse(BaseModel):
 
     @property
     def description(self):
+        acronyms = {
+            "113091000": "MRI",
+            "16310003": "US",
+            "82918005": "PET scan",
+            "260222006": "SPECT",
+            "363680008": "X-ray",
+            "77477000": "CAT scan",
+        }
         methodology = (
-            f' asserted by {str(self.methodology).split(" - ")[0]}'
+            f' by {acronyms.get(self.methodology.code, str(self.methodology).lower())}'
             if self.methodology.code != "1287211007"
             else ""
         )
-        return f"{self.recist.display}{methodology}"
+        recist_acronym = "".join([word[0].upper() for word in self.recist.display.split(" ") if word])
+        return f"{recist_acronym}{methodology}"

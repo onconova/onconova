@@ -15,7 +15,7 @@ import { Skeleton } from 'primeng/skeleton';
 
 import { AuthService } from 'src/app/core/auth/services/auth.service';
 import { CaseManagerDrawerComponent } from '../case-manager-drawer/case-manager-drawer.component';
-import { PatientCasesService, PatientCaseDataCategoryChoices } from 'onconova-api-client';
+import { PatientCasesService, PatientCaseDataCategoryChoices, User } from 'onconova-api-client';
 
 import { LucideAngularModule } from 'lucide-angular';
 import { LucideIconData } from 'lucide-angular/icons/types';
@@ -61,6 +61,7 @@ export class CaseManagerPanelComponent {
     readonly #confirmationService = inject(ConfirmationService)
     readonly #dialogservice = inject(DialogService);
 
+    public currentUser = computed((): User => this.#authService.user())
     @Input() formComponent!: any;
     readonly anonymized = input<boolean>(true)
 
@@ -76,7 +77,13 @@ export class CaseManagerPanelComponent {
         request: () => ({caseId: this.caseId(), category: this.category()}),
         loader: ({request}) => this.#patienCaseService.getPatientCaseDataCompletionStatus(request),
     });
-    public currentUser = computed(() => this.#authService.user());
+    protected consentStatus = rxResource({
+        request: () => ({caseId: this.caseId()}),
+        loader: ({request}) => this.#patienCaseService.getPatientCaseById(request).pipe(map(
+            response => response.consentStatus
+        )),
+    });
+    public canExportData = computed(() => this.consentStatus.value() === 'valid' && this.currentUser().canExportData )
     public isCompleted = computed(() => this.dataCompletionStatus.value()?.status);
     public data = rxResource({
         request: () => ({caseId: this.caseId(), anonymized: this.anonymized(), offset: 0, limit: 20}),
