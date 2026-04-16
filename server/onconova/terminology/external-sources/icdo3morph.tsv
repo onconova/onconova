@@ -848,6 +848,7 @@ Code	Struct	Label
 9300/0	sub	Adenoameloblastoma
 9301/0	title	Calcifying odontogenic cyst
 9302/0	title	Odontogenic ghost cell tumor
+9302/3	title	Odontogenic ghost cell carcinoma
 9310/0	title	"Ameloblastoma, NOS"
 9310/0	sub	"Adamantinoma, NOS"
 9310/3	title	"Ameloblastoma, malignant"
@@ -866,6 +867,7 @@ Code	Struct	Label
 9340/0	title	Calcifying epithelial odontogenic tumor
 9340/0	sub	Pindborg tumor
 9341/1	title	Clear cell odontogenic tumor
+9341/3	title	Clear cell odontogenic carcinoma
 9342/3	title	Odontogenic carcinosarcoma
 9350/1	title	Craniopharyngioma
 9350/1	sub	Rathke pouch tumor
@@ -1046,8 +1048,7 @@ Code	Struct	Label
 8633/1	title	"Sertoli-Leydig cell tumor, retiform"
 8634/1	title	"Sertoli-Leydig cell tumor, intermediate differentiation, with heterologous elements"
 8634/1	sub	"Sertoli-Leydig cell tumor, retiform, with heterologous elements"
-"8634/3
-8634/3"	title	"Sertoli-Leydig cell tumor, poorly differentiated, with heterologous elements"
+8634/3	title	"Sertoli-Leydig cell tumor, poorly differentiated, with heterologous elements"
 8640/1	title	"Sertoli cell tumor, NOS"
 8640/1	sub	Pick tubular adenoma
 8640/1	sub	Sertoli cell adenoma
@@ -1106,6 +1107,10 @@ Code	Struct	Label
 8711/3	title	"Glomus tumor, malignant"
 8712/0	title	Glomangioma
 8713/0	title	Glomangiomyoma
+8714/0	title	"Perivascular epithelioid cell tumour"
+8714/0	sub	"PEComa"
+8714/3	title	"Perivascular epithelioid tumour"
+8714/3	sub	"Malignant PEComa"
 8720/0	title	"Pigmented nevus, NOS"
 8720/0	sub	"Nevus, NOS"
 8720/0	sub	Melanocytic nevus
@@ -1178,8 +1183,11 @@ Code	Struct	Label
 8800/3	sub	"Soft tissue tumor, malignant"
 8800/3	sub	"Mesenchymal tumor, malignant"
 8800/9	title	"Sarcomatosis, NOS"
-8801/3	title	Spindle cell sarcoma
-8802/3	title	Giant cell sarcoma
+8801/3	title	Undifferentiated spindle cell sarcoma
+8801/3	sub	Spindle cell sarcoma		
+8802/3	title	Undifferentiated pleomorphic cell sarcoma
+8802/3	sub	Pleomorphic dermal sarcoma
+8802/3	sub	Giant cell sarcoma
 8802/3	sub	Pleomorphic cell sarcoma
 8803/3	title	Small cell sarcoma
 8803/3	sub	Round cell sarcoma
@@ -1193,7 +1201,9 @@ Code	Struct	Label
 8811/0	title	Fibromyxoma
 8811/0	sub	Myxoid fibroma
 8811/0	sub	"Myxofibroma, NOS"
-8811/3	title	Fibromyxosarcoma
+8811/1	title	"Myxoinflammatory fibroblastic sarcoma (MIFS)"
+8811/3	title	Myxofibrosarcoma
+8811/3	sub	Fibromyxosarcoma
 8812/0	title	Periosteal fibroma
 8812/3	title	Periosteal fibrosarcoma
 8812/3	sub	"Periosteal sarcoma, NOS"
@@ -1203,9 +1213,12 @@ Code	Struct	Label
 8814/3	sub	Congenital fibrosarcoma
 8815/0	title	Solitary fibrous tumor
 8815/0	sub	Localized fibrous tumor
+8815/1	title	Solitary fibrous tumor, NOS
+8815/1	sub	Solitary fibrous tumor, uncertain whether benign or malignant
 8815/3	title	"Solitary fibrous tumor, malignant"
 8820/0	title	Elastofibroma
-8821/1	title	Aggressive fibromatosis
+8821/1	title	Desmoid tumor, NOS
+8821/1	sub	Aggressive fibromatosis
 8821/1	sub	Extra-abdominal desmoid
 8821/1	sub	"Desmoid, NOS"
 8821/1	sub	Invasive fibroma
@@ -1219,8 +1232,8 @@ Code	Struct	Label
 8824/1	sub	Congenital generalized fibromatosis
 8824/1	sub	Infantile myofibromatosis
 8825/0	title	Myofibroblastoma
-8825/1	title	"Myofibroblastic tumor, NOS"
-8825/1	sub	Inflammatory myofibroblastic tumor
+8825/1	title	Inflammatory myofibroblastic tumor
+8825/1	sub	"Myofibroblastic tumor, NOS"
 8826/0	title	Angiomyofibroblastoma
 8827/1	title	"Myofibroblastic tumor, peribronchial"
 8827/1	sub	Congenital peribronchial myofibroblastic tumor
@@ -1228,9 +1241,10 @@ Code	Struct	Label
 8830/0	sub	"Fibrous histiocytoma, NOS"
 8830/0	sub	"Fibroxanthoma, NOS"
 8830/0	sub	Xanthofibroma
-8830/1	title	Atypical fibrous histiocytoma
-8830/1	sub	Atypical fibroxanthoma
-8830/3	title	Malignant fibrous histiocytoma
+8830/1	title	Atypical fibroxanthoma
+8830/1	sub	Atypical fibrous histiocytoma
+8830/3	title	Undifferentiated high grade pleomorphic sarcoma of bone
+8830/3	sub	Malignant fibrous histiocytoma
 8830/3	sub	"Fibroxanthoma, malignant"
 8831/0	title	"Histiocytoma, NOS"
 8831/0	sub	Deep histiocytoma
@@ -1241,20 +1255,24 @@ Code	Struct	Label
 8832/0	sub	"Cutaneous histiocytoma, NOS"
 8832/0	sub	Subepidermal nodular fibrosis
 8832/0	sub	Dermatofibroma lenticulare
-8832/3	title	"Dermatofibrosarcoma, NOS"
-8832/3	sub	"Dermatofibrosarcoma protuberans, NOS"
-8833/3	title	Pigmented dermatofibrosarcoma protuberans
-8833/3	sub	Bednar tumor
+8832/1	title	"Dermatofibrosarcoma, NOS"
+8832/1	sub	"Dermatofibrosarcoma protuberans, NOS"
+8832/3	title	"Dermatofibrosarcoma, sarcomatous"
+8833/1	title	Pigmented dermatofibrosarcoma protuberans
+8833/1	sub	Bednar tumor
 8834/1	title	Giant cell fibroblastoma
 8835/1	title	Plexiform fibrohistiocytic tumor
 8836/1	title	Angiomatoid fibrous histiocytoma
 8840/0	title	"Myxoma, NOS"
-8840/3	title	Myxosarcoma
+8840/3	title	Sclerosing epithelioid fibrosarcoma
+8840/3	sub	Myxosarcoma
 8841/1	title	Angiomyxoma
 8841/1	sub	Aggressive angiomyxoma
 8842/0	title	Ossifying fibromyxoid tumor
+8842/3	title	Ossifying fibromyxoid tumor, malignant
 8850/0	title	"Lipoma, NOS"
-8850/1	title	Atypical lipoma/j
+8850/1	title	Atypical lipomatous tumor
+8850/1	sub	Atypical lipoma
 8850/1	sub	Superficial well differentated liposarcoma
 8850/1	sub	Well differentiated liposarcoma of superficial soft tissue
 8850/3	title	"Liposarcoma, NOS"
@@ -1311,6 +1329,7 @@ Code	Struct	Label
 8982/3	title	Malignant myoepithelioma
 8982/3	sub	Myoepithelial carcinoma
 8983/0	title	Adenomyoepithelioma
+8983/3	title	Malignant adenomyoepithelioma
 8990/0	title	"Mesenchymoma, benign"
 8990/1	title	"Mesenchymoma, NOS"
 8990/1	sub	Mixed mesenchymal tumor
@@ -1363,6 +1382,7 @@ Code	Struct	Label
 9044/3	title	"Clear cell sarcoma, NOS"
 9044/3	sub	"Clear cell sarcoma, of tendons and aponeuroses"
 9044/3	sub	"Melanoma, malignant, of soft parts"
+9045/3	title	"Biphenotypic sinonasal sarcoma"
 9050/0	title	"Mesothelioma, benign"
 9050/3	title	"Mesothelioma, malignant"
 9050/3	sub	"Mesothelioma, NOS"
@@ -1465,8 +1485,8 @@ Code	Struct	Label
 9120/0	title	"Hemangioma, NOS"
 9120/0	sub	"Angioma, NOS"
 9120/0	sub	Chorioangioma
-9120/3	title	Hemangiosarcoma
-9120/3	sub	Angiosarcoma
+9120/3	title	Angiosarcoma
+9120/3	sub	Hemangiosarcoma
 9121/0	title	Cavernous hemangioma
 9122/0	title	Venous hemangioma
 9123/0	title	Racemose hemangioma
@@ -1493,6 +1513,7 @@ Code	Struct	Label
 9135/1	sub	Dabska tumor
 9136/1	title	Spindle cell hemangioendothelioma
 9136/1	sub	Spindle cell angioendothelioma
+9137/3	title	Intimal sarcoma
 9140/3	title	Kaposi sarcoma
 9140/3	sub	Multiple hemorrhagic sarcoma
 9141/0	title	Angiokeratoma
@@ -1565,11 +1586,13 @@ Code	Struct	Label
 9221/0	sub	Periosteal chondroma
 9221/3	title	Juxtacortical chondrosarcoma
 9221/3	sub	Periosteal chondrosarcoma
+9222/1	title	Atypical cartilaginous tumor
 9230/0	title	"Chondroblastoma, NOS"
 9230/0	sub	Chondromatous giant cell tumor
 9230/0	sub	Codman tumor
 9230/3	title	"Chondroblastoma, malignant"
-9231/3	title	Myxoid chondrosarcoma
+9231/3	title	Extraskeletal myxoid chondrosarcoma
+9231/3	sub	Myxoid chondrosarcoma
 9240/3	title	Mesenchymal chondrosarcoma
 9241/0	title	Chondromyxoid fibroma
 9242/3	title	Clear cell chondrosarcoma
