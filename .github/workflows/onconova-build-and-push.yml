@@ -114,6 +114,6 @@ jobs:
         working-directory: ./docs-repo
         run: |
           npx @compodoc/compodoc@1.1.26 -p ../client/tsconfig.doc.json -d ../docs/src/compodoc/ -y ../docs/src/assets/css/compodoc/ --hideGenerator --theme material
-          git fetch origin main 
+          git pull origin main
           mike deploy --push -b main --config-file ../docs/mkdocs.yml --update-aliases $(echo "${{ github.event.release.tag_name }}" | grep -oP '^\d+\.\d+') latest
           mike set-default -b main --config-file ../docs/mkdocs.yml latest
