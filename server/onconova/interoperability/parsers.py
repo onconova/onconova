@@ -156,6 +156,33 @@ class BundleParser:
         """
         return self.key_map[external_key]
 
+    def _get_unresolvable_keys(self, schema_instance: Schema) -> list[str]:
+        """
+        Returns a list of external key IDs referenced by the schema instance
+        that are not yet present in the key_map.
+
+        Args:
+            schema_instance (Schema): The schema instance to inspect.
+
+        Returns:
+            list[str]: External key values that cannot currently be resolved.
+        """
+        unresolvable = []
+        for field_name in [
+            field
+            for field in schema_instance.__class__.model_fields
+            if field not in ["externalSourceId"]
+        ]:
+            if field_name.endswith("Id"):
+                external_key = getattr(schema_instance, field_name)
+                if external_key and external_key not in self.key_map:
+                    unresolvable.append(external_key)
+            elif field_name.endswith("Ids"):
+                for key in getattr(schema_instance, field_name) or []:
+                    if key not in self.key_map:
+                        unresolvable.append(key)
+        return unresolvable
+
     def resolve_foreign_keys(self, schema_instance: Schema) -> Schema:
         """
         Resolves foreign key fields in a schema instance by converting external keys to internal keys.
@@ -303,11 +330,33 @@ class BundleParser:
                 instance=case,
                 pseudoidentifier=self.bundle.pseudoidentifier,  # type: ignore
             )
-            # Import all other resources related to the case
-            for list_field in self.list_fields:
-                for resource in getattr(self.bundle, list_field):
+            # Collect all top-level resources to import
+            pending = [
+                (list_field, resource)
+                for list_field in self.list_fields
+                for resource in getattr(self.bundle, list_field)
+            ]
+            # Multi-pass import so that forward references are resolved once the
+            # referenced resource has been imported in a previous iteration.
+            while pending:
+                previously_pending_count = len(pending)
+                deferred = []
+                for list_field, resource in pending:
+                    # Collect unresolvable keys for the resource AND all its nested subresources
+                    # so that a parent is not imported before its children's FK targets exist.
+                    all_unresolvable = self._get_unresolvable_keys(resource)
+                    for nested_resource_details in self.nested_resources.get(list_field, []):
+                        for nested_resource in getattr(
+                            resource, nested_resource_details.schema_related_name, []
+                        ):
+                            all_unresolvable.extend(
+                                self._get_unresolvable_keys(nested_resource)
+                            )
+                    if all_unresolvable:
+                        deferred.append((list_field, resource))
+                        continue
                     orm_resource = self.import_resource(resource)
-                    # Check if the resource has any nested subresources
+                    # Import any nested subresources immediately after their parent
                     for nested_resource_details in self.nested_resources.get(
                         list_field, []
                     ):
@@ -327,6 +376,26 @@ class BundleParser:
                                 )
                             ]
                         )
+                if len(deferred) == previously_pending_count:
+                    # No progress was made — references are either missing or circular
+                    def _all_unresolvable(list_field, r):
+                        keys = self._get_unresolvable_keys(r)
+                        for nrd in self.nested_resources.get(list_field, []):
+                            for nr in getattr(r, nrd.schema_related_name, []):
+                                keys.extend(self._get_unresolvable_keys(nr))
+                        return keys
+
+                    unresolved_details = [
+                        f"{r.__class__.__name__} (id={getattr(r, 'id', 'unknown')}, "
+                        f"unresolved references: {_all_unresolvable(lf, r)})"
+                        for lf, r in deferred
+                    ]
+                    raise ValueError(
+                        f"Cannot resolve external ID references for the following resources: "
+                        f"{'; '.join(unresolved_details)}. "
+                        f"Ensure all referenced resources are included in the bundle."
+                    )
+                pending = deferred
             # Import data completion status
             for category, completion in self.bundle.completedDataCategories.items():
                 if completion.status:

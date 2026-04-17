@@ -520,3 +520,41 @@ class BundleParserTest(TestCase):
                 event.pgh_context["username"],
             )
             self.assertEqual(original_event.pgh_created_at, event.pgh_created_at)
+
+    def test_import_bundle__forward_reference(self):
+        """Import succeeds even when a referencing resource appears before the referenced one in the bundle."""
+        bundle = self.bundle.model_copy(deep=True)
+        # Reverse the list so the metastatic entity (which has relatedPrimaryId) comes first,
+        # creating a forward reference to a resource not yet imported.
+        bundle.neoplasticEntities = list(reversed(bundle.neoplasticEntities))
+
+        parser = BundleParser(bundle)
+        with pghistory.context(username=self.importing_user.username):
+            imported_case = parser.import_bundle()
+
+        primary = models.NeoplasticEntity.objects.get(
+            case=imported_case, relationship="primary"
+        )
+        secondary = models.NeoplasticEntity.objects.get(
+            case=imported_case, relationship="metastatic"
+        )
+        self.assertEqual(secondary.related_primary, primary)
+
+    def test_import_bundle__missing_reference_raises_descriptive_error(self):
+        """Import raises a clear, actionable ValueError when a referenced ID is absent from the bundle."""
+        import uuid
+
+        bundle = self.bundle.model_copy(deep=True)
+        # Replace the metastatic entity's relatedPrimaryId with a UUID not present in the bundle
+        secondary = next(
+            e for e in bundle.neoplasticEntities if e.relatedPrimaryId is not None
+        )
+        nonexistent_id = str(uuid.uuid4())
+        secondary.relatedPrimaryId = nonexistent_id
+
+        parser = BundleParser(bundle)
+        with self.assertRaises(ValueError) as ctx:
+            parser.import_bundle()
+
+        self.assertIn(str(nonexistent_id), str(ctx.exception))
+        self.assertIn("unresolved references", str(ctx.exception))
