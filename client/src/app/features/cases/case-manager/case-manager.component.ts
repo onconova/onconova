@@ -17,6 +17,7 @@ import { NeoplasticEntityEventComponent } from './components/case-manager-panel/
 import { TumorMarkerEventComponent } from './components/case-manager-panel/components/tumor-marker-event.component';
 import { MultilineEventComponent } from './components/case-manager-panel/components/multiline-event.component';
 import { TherapyLineEventComponent } from './components/case-manager-panel/components/therapy-line-event.component';
+import { GenomicVariantEventComponent } from './components/case-manager-panel/components/genomic-variant-event.component';
 
 import { 
     Ribbon, HeartPulse, Tags, TestTubeDiagonal, Dna, 
@@ -246,6 +247,7 @@ export class CaseManagerComponent {
     public MultilineEventComponent = MultilineEventComponent;
     public TherapyLineEventComponent = TherapyLineEventComponent;
     public TumorMarkerEventComponent = TumorMarkerEventComponent;
+    public GenomicVariantEventComponent = GenomicVariantEventComponent;
     public StagingFormComponent = StagingFormComponent;
     public TumorMarkerFormComponent = TumorMarkerFormComponent;
     public RiskAssessmentFormComponent = RiskAssessmentFormComponent;
