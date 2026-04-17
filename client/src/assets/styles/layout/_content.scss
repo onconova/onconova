@@ -5,7 +5,7 @@
     flex-direction: column;
     min-height: 100vh;
     justify-content: space-between;
-    padding: 5.25rem 0rem 1.5rem 2rem;
+    padding: 5.5rem 1.5rem 1.5rem 2rem;
     transition: margin-left vars.$transitionDuration;
 }
 
@@ -21,7 +21,8 @@
 
 
 .p-toast-message {
-    border-left: 6px solid !important;
+    border-left: 4px solid !important;
+    border-radius: vars.$borderRadius !important;
 }
 
 .tag {

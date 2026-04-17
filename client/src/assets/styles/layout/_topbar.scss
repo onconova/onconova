@@ -13,11 +13,24 @@
     transition: left vars.$transitionDuration;
     display: flex;
     align-items: center;
-    box-shadow: 0px 3px 5px rgba(0,0,0,.02), 0px 0px 2px rgba(0,0,0,.05), 0px 1px 4px rgba(0,0,0,.08);
+    border-bottom: 1px solid var(--p-content-border-color);
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03), 0 2px 8px rgba(0, 0, 0, 0.04);
+
+    .layout-topbar-title {
+        font-size: 1.1rem;
+        font-weight: 700;
+        letter-spacing: -0.015em;
+        color: var(--p-text-color);
+        line-height: 1.2;
+    }
 
     .layout-topbar-version {
-        color: color-mix(in srgb, var(--p-text-muted-color), transparent 25%);
-        font-size: .9rem;
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+        color: var(--p-text-muted-color);
+        line-height: 1;
+        margin-top: 0.2rem;
     }
 
     .layout-topbar-logo {
@@ -45,17 +58,17 @@
         align-items: center;
         position: relative;
         color: var(--p-text-color-secondary);
-        background: var(--p-content-background);
+        background: transparent;
         border-radius: 50%;
         border: none;
-        width: 3rem;
-        height: 3rem;
+        width: 2.75rem;
+        height: 2.75rem;
         cursor: pointer;
-        transition: background-color vars.$transitionDuration;
+        transition: background-color vars.$transitionDuration, color vars.$transitionDuration;
 
         &:hover {
-            color: var(--p-text-color);
-            background-color: var(--p-content-hover-background);
+            color: var(--p-primary-color);
+            background-color: var(--p-primary-color-transparent);
         }
 
         &:focus {
@@ -169,6 +182,9 @@
 
 .onconova-profile-menu .p-menu {
     right: 1rem !important;
-    top: 6rem !important;
+    top: 5.5rem !important;
     padding-bottom: .5rem;
+    border-radius: vars.$borderRadius !important;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,.08), 0 10px 15px -3px rgba(0,0,0,.06) !important;
+    min-width: 16rem !important;
 }
