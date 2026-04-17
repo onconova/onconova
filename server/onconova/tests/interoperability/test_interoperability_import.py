@@ -92,7 +92,6 @@ class BundleParserTest(TestCase):
                     adverse_event=cls.original_adverse_event
                 )
             )
-            cls.bundle = PatientCaseBundle.model_validate(cls.original_case)
             cls.original_staging = factories.TNMStagingFactory.create(
                 **basic, staged_entities=related_entities
             )
@@ -112,21 +111,9 @@ class BundleParserTest(TestCase):
                     supporting_genomic_signatures=[],
                 )
             )
-            # TODO: currently bugged in model_validate, can be removed once fixed
-            cls.bundle.stagings = [
-                schemas.TNMStaging.model_validate(cls.original_staging)
-            ]
-            cls.bundle.genomicSignatures = [
-                schemas.TumorMutationalBurden.model_validate(
-                    cls.original_genomic_signature
-                )
-            ]
-            cls.bundle.familyHistory = [
-                schemas.FamilyHistory.model_validate(cls.original_family_history)
-            ]
-            cls.bundle.tumorBoards = [
-                schemas.MolecularTumorBoard.model_validate(cls.original_tumor_board)
-            ]
+
+            # Create bundle
+            cls.bundle = PatientCaseBundle.model_validate(cls.original_case)
             cls.bundle.contributorsDetails = [
                 UserExport.model_validate(cls.original_user)
             ]
@@ -136,7 +123,7 @@ class BundleParserTest(TestCase):
             # Get all events related to the case and delete the original audit trail
             cls.bundle.history = [
                 HistoryEvent.model_validate(event)
-                for event in cls.bundle.resolve_history(cls.original_case)
+                for event in cls.bundle.resolve_history(cls.original_case) or []
             ]
 
             cls.original_events = list(
@@ -167,7 +154,7 @@ class BundleParserTest(TestCase):
     def test_get_or_create_user_creates_external_user(self):
         """Test that a new user is created when not found."""
         self.original_user.save()
-        user_schema = UserSchema.model_validate(self.original_user)
+        user_schema = UserExport.model_validate(self.original_user)
         self.original_user.delete()
         user = self.parser.get_or_create_user(user_schema)
 
@@ -180,7 +167,7 @@ class BundleParserTest(TestCase):
 
     def test_get_or_create_user_retrieves_existing_user(self):
         """Test that an existing user is retrieved and not duplicated."""
-        user_schema = UserSchema.model_validate(self.importing_user)
+        user_schema = UserExport.model_validate(self.importing_user)
         retrieved_user = self.parser.get_or_create_user(user_schema)
         self.assertEqual(retrieved_user.id, self.importing_user.id)
 
@@ -208,6 +195,7 @@ class BundleParserTest(TestCase):
         self.imported_secondary_entity = models.NeoplasticEntity.objects.get(
             case=self.imported_case, relationship="metastatic"
         )
+        self.imported_staging = models.TNMStaging.objects.get(case=self.imported_case)
         self.imported_systemic_therapy = models.SystemicTherapy.objects.get(
             case=self.imported_case
         )
@@ -224,6 +212,9 @@ class BundleParserTest(TestCase):
             self.imported_case.clinical_identifier,
             self.original_case.clinical_identifier,
         )
+        self.assertIsNotNone(
+            self.imported_case.events.filter(pgh_label="import").first()
+        )
 
     def test_import_bundle__neoplastic_entities(self):
         self._import_bundle()
@@ -235,6 +226,9 @@ class BundleParserTest(TestCase):
             imported_primary_entity.description,
             self.original_primary_entity.description,
         )
+        self.assertIsNotNone(
+            self.imported_primary_entity.events.filter(pgh_label="import").first()
+        )
 
         # Ensure the secondary neoplastic entity has been imported properly
         imported_secondary_entity = models.NeoplasticEntity.objects.get(
@@ -244,20 +238,24 @@ class BundleParserTest(TestCase):
             imported_secondary_entity.description,
             self.original_secondary_entity.description,
         )
+        self.assertIsNotNone(
+            self.imported_secondary_entity.events.filter(pgh_label="import").first()
+        )
 
     def test_import_bundle__tnm_stagings(self):
         self._import_bundle()
         # Ensure the staging has been imported properly
         imported_staging = models.TNMStaging.objects.get(case=self.imported_case)
-        self.assertEqual(
-            imported_staging.description, self.original_staging.description
-        )
+        self.assertEqual(imported_staging.stage, self.original_staging.stage)
         # Check resolved references
         self.assertIn(
             self.imported_primary_entity, imported_staging.staged_entities.all()
         )
         self.assertIn(
             self.imported_secondary_entity, imported_staging.staged_entities.all()
+        )
+        self.assertIsNotNone(
+            self.imported_staging.events.filter(pgh_label="import").first()
         )
 
     def test_import_bundle__systemic_therapies(self):
@@ -286,6 +284,9 @@ class BundleParserTest(TestCase):
             self.imported_secondary_entity,
             imported_systemic_therapy.targeted_entities.all(),
         )
+        self.assertIsNotNone(
+            imported_systemic_therapy.events.filter(pgh_label="import").first()
+        )
 
     def test_import_bundle__radiotherapies(self):
         self._import_bundle()
@@ -310,6 +311,9 @@ class BundleParserTest(TestCase):
             self.imported_secondary_entity,
             imported_radiotherapy.targeted_entities.all(),
         )
+        self.assertIsNotNone(
+            imported_radiotherapy.events.filter(pgh_label="import").first()
+        )
 
     def test_import_bundle__genomic_variants(self):
         self._import_bundle()
@@ -321,12 +325,22 @@ class BundleParserTest(TestCase):
             imported_genomic_variant.protein_hgvs,
             self.original_genomic_variant.protein_hgvs,
         )
+        self.assertIsNotNone(
+            imported_genomic_variant.events.filter(pgh_label="import").first()
+        )
 
     def test_import_bundle__risk_assessments(self):
         self._import_bundle()
         # Ensure the risk assessment has been imported properly
         imported_risk_assessment = models.RiskAssessment.objects.get(
             case=self.imported_case
+        )
+        self.assertEqual(
+            imported_risk_assessment.description,
+            self.original_risk_assessment.description,
+        )
+        self.assertIsNotNone(
+            imported_risk_assessment.events.filter(pgh_label="import").first()
         )
 
     def test_import_bundle__family_histories(self):
@@ -335,6 +349,13 @@ class BundleParserTest(TestCase):
         imported_family_history = models.FamilyHistory.objects.get(
             case=self.imported_case
         )
+        self.assertEqual(
+            imported_family_history.description,
+            self.original_family_history.description,
+        )
+        self.assertIsNotNone(
+            imported_family_history.events.filter(pgh_label="import").first()
+        )
 
     def test_import_bundle__comorbidities(self):
         self._import_bundle()
@@ -342,21 +363,39 @@ class BundleParserTest(TestCase):
         imported_comorbidity = models.ComorbiditiesAssessment.objects.get(
             case=self.imported_case
         )
+        self.assertIsNotNone(
+            imported_comorbidity.events.filter(pgh_label="import").first()
+        )
 
     def test_import_bundle__lifestyles(self):
         self._import_bundle()
         # Ensure the lifestyle has been imported properly
         imported_lifestyle = models.Lifestyle.objects.get(case=self.imported_case)
+        self.assertEqual(
+            imported_lifestyle.night_sleep,
+            self.original_lifestyle.night_sleep,
+        )
+        self.assertIsNotNone(
+            imported_lifestyle.events.filter(pgh_label="import").first()
+        )
 
     def test_import_bundle__vitals(self):
         self._import_bundle()
         # Ensure the vitals has been imported properly
         imported_vitals = models.Vitals.objects.get(case=self.imported_case)
+        self.assertIsNotNone(imported_vitals.events.filter(pgh_label="import").first())
 
     def test_import_bundle__tumor_markers(self):
         self._import_bundle()
         # Ensure the tumor marker has been imported properly
         imported_tumor_marker = models.TumorMarker.objects.get(case=self.imported_case)
+        self.assertEqual(
+            imported_tumor_marker.description,
+            self.original_tumor_marker.description,
+        )
+        self.assertIsNotNone(
+            imported_tumor_marker.events.filter(pgh_label="import").first()
+        )
 
     def test_import_bundle__treatment_response(self):
         self._import_bundle()
@@ -364,12 +403,22 @@ class BundleParserTest(TestCase):
         imported_treatment_response = models.TreatmentResponse.objects.get(
             case=self.imported_case
         )
+        self.assertEqual(
+            imported_treatment_response.description,
+            self.original_treatment_response.description,
+        )
+        self.assertIsNotNone(
+            imported_treatment_response.events.filter(pgh_label="import").first()
+        )
 
     def test_import_bundle__adverse_events(self):
         self._import_bundle()
         # Ensure the adverse event has been imported properly
         imported_adverse_event = models.AdverseEvent.objects.get(
             case=self.imported_case
+        )
+        self.assertIsNotNone(
+            imported_adverse_event.events.filter(pgh_label="import").first()
         )
         imported_adverse_event_cause = imported_adverse_event.suspected_causes.first()
         imported_adverse_event_mitigation = imported_adverse_event.mitigations.first()
@@ -382,9 +431,15 @@ class BundleParserTest(TestCase):
             imported_adverse_event_cause.systemic_therapy,
             self.imported_systemic_therapy,
         )
+        self.assertIsNotNone(
+            imported_adverse_event_cause.events.filter(pgh_label="import").first()
+        )
         self.assertEqual(
             imported_adverse_event_mitigation.description,
             self.original_adverse_event_mitigation.description,
+        )
+        self.assertIsNotNone(
+            imported_adverse_event_mitigation.events.filter(pgh_label="import").first()
         )
 
     def test_import_bundle__genomic_signatures(self):
@@ -397,6 +452,9 @@ class BundleParserTest(TestCase):
             imported_genomic_signature.description,
             self.original_genomic_signature.description,
         )
+        self.assertIsNotNone(
+            imported_genomic_signature.events.filter(pgh_label="import").first()
+        )
 
     def test_import_bundle__performance_status(self):
         self._import_bundle()
@@ -408,6 +466,9 @@ class BundleParserTest(TestCase):
             imported_performance_status.description,
             self.original_performance_status.description,
         )
+        self.assertIsNotNone(
+            imported_performance_status.events.filter(pgh_label="import").first()
+        )
 
     def test_import_bundle__molecular_tumor_boards(self):
         self._import_bundle()
@@ -418,7 +479,11 @@ class BundleParserTest(TestCase):
         imported_molecular_tumor_board_recommendation = (
             imported_molecular_tumor_board.therapeutic_recommendations.first()
         )
-        # Check nested resources
+        self.assertIsNotNone(
+            imported_molecular_tumor_board_recommendation.events.filter(
+                pgh_label="import"
+            ).first()
+        )
 
     def test_import_bundle__case_history(self):
         self._import_bundle()

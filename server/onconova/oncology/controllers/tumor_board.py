@@ -128,6 +128,7 @@ class TumorBoardController(ControllerBase):
     @ordering()
     def get_all_tumor_board_history_events(self, tumorBoardId: str):
         instance = get_object_or_404(orm.TumorBoard, id=tumorBoardId)
+        instance = instance.specialized_tumor_board
         return pghistory.models.Events.objects.tracks(instance).all()  # type: ignore
 
     @route.get(
@@ -138,6 +139,7 @@ class TumorBoardController(ControllerBase):
     )
     def get_tumor_board_history_event_by_id(self, tumorBoardId: str, eventId: str):
         instance = get_object_or_404(orm.TumorBoard, id=tumorBoardId)
+        instance = instance.specialized_tumor_board
         event = instance.parent_events.filter(pgh_id=eventId).first()  # type: ignore
         if not event and hasattr(instance, "events"):
             event = instance.events.filter(pgh_id=eventId).first()

@@ -136,7 +136,7 @@ class StagingController(ControllerBase):
         instance = get_object_or_404(orm.Staging, id=stagingId)
         return cast_to_model_schema(
             instance.get_domain_staging(), PAYLOAD_SCHEMAS, payload
-        ).model_dump_django(instance=instance.get_domain_staging()) 
+        ).model_dump_django(instance=instance.get_domain_staging())
 
     @route.delete(
         path="/{stagingId}",
@@ -159,6 +159,7 @@ class StagingController(ControllerBase):
     @ordering()
     def get_all_staging_history_events(self, stagingId: str):
         instance = get_object_or_404(orm.Staging, id=stagingId)
+        instance = instance.get_domain_staging()
         return pghistory.models.Events.objects.tracks(instance).all()  # type: ignore
 
     @route.get(
@@ -169,6 +170,7 @@ class StagingController(ControllerBase):
     )
     def get_staging_history_event_by_id(self, stagingId: str, eventId: str):
         instance = get_object_or_404(orm.Staging, id=stagingId)
+        instance = instance.get_domain_staging()
         event = instance.parent_events.filter(pgh_id=eventId).first()  # type: ignore
         if not event and hasattr(instance, "events"):
             event = instance.events.filter(pgh_id=eventId).first()

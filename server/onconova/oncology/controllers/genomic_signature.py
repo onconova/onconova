@@ -140,6 +140,7 @@ class GenomicSignatureController(ControllerBase):
     @ordering()
     def get_all_genomic_signature_history_events(self, genomicSignatureId: str):
         instance = get_object_or_404(orm.GenomicSignature, id=genomicSignatureId)
+        instance = instance.get_discriminated_genomic_signature()
         return pghistory.models.Events.objects.tracks(instance).all()  # type: ignore
 
     @route.get(
@@ -152,6 +153,7 @@ class GenomicSignatureController(ControllerBase):
         self, genomicSignatureId: str, eventId: str
     ):
         instance = get_object_or_404(orm.GenomicSignature, id=genomicSignatureId)
+        instance = instance.get_discriminated_genomic_signature()
         event = instance.parent_events.filter(pgh_id=eventId).first()  # type: ignore
         if not event and hasattr(instance, "events"):
             event = instance.events.filter(pgh_id=eventId).first()
