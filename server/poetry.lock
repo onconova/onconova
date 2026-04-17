@@ -534,19 +534,19 @@ injector = ">=0.19.0"
 
 [[package]]
 name = "django-pghistory"
-version = "3.5.5"
+version = "3.9.2"
 description = "History tracking for Django and Postgres"
 optional = false
-python-versions = "<4,>=3.9.0"
+python-versions = "<4,>=3.10.0"
 groups = ["main"]
 files = [
-    {file = "django_pghistory-3.5.5-py3-none-any.whl", hash = "sha256:0be9baaa1cfb0c6cf876a95ea4a0f2eebc9087bb6474a07980e4d9f3887eee45"},
-    {file = "django_pghistory-3.5.5.tar.gz", hash = "sha256:05a05448dbb8cec2cc16144d19a9286d99198ea0f07afc773ba473bb11455c5b"},
+    {file = "django_pghistory-3.9.2-py3-none-any.whl", hash = "sha256:1623633af429837567dd11469823b9bb3c3f908cc117d60f097d23f3f0622fa2"},
+    {file = "django_pghistory-3.9.2.tar.gz", hash = "sha256:1d07b75b61501a209330e7fb43fad2b2482f7f0399a36fa91aa7600a03025921"},
 ]
 
 [package.dependencies]
-django = ">=4"
-django-pgtrigger = ">=4.12.0"
+django = ">=4.2"
+django-pgtrigger = ">=4.15.0"
 
 [[package]]
 name = "django-pgtrigger"
@@ -1892,4 +1892,4 @@ files = [
 [metadata]
 lock-version = "2.1"
 python-versions = "~=3.11"
-content-hash = "9f3b31ac7a58aaa342bc598847bd79bfdffa9c2615a18ba2653423cd2641ae05"
+content-hash = "31ef4d533b9e191ccccc67c78a968de8544915dc37ed020627ed00c71ea9c7aa"
