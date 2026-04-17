@@ -177,8 +177,31 @@
                             <label class="form-label ml-2 my-auto required">I hereby confirm that I have the legal and ethical authorization to access and utilize this patient’s clinical data for research purposes in compliance with all applicable laws, regulations, and institutional policies.</label>
                         </div>
                     </div>
+                    @if (importError) {
+                        <p-message styleClass="my-3 w-full" severity="error" icon="pi pi-times-circle">
+                            @if (importError['detail']) {
+                                @if (isValidationErrorArray(importError['detail'])) {
+                                    <ul class="m-0 pl-3">
+                                        @for (err of importError['detail']; track $index) {
+                                            <li>
+                                                <strong>{{ formatErrorLoc(err.loc) }}</strong>: {{ err.msg }}
+                                            </li>
+                                        }
+                                    </ul>
+                                } @else {
+                                    <span>{{ importError['detail'] }}</span>
+                                }
+                            } @else {
+                                <ul class="m-0 pl-3">
+                                    @for (entry of importError | keyvalue; track entry.key) {
+                                        <li><strong>{{ entry.key }}</strong>: {{ formatErrorValue(entry.value) }}</li>
+                                    }
+                                </ul>
+                            }
+                        </p-message>
+                    }
                     <div class="flex pt-4 justify-start gap-2">
-                        <p-button label="Back" severity="secondary" icon="pi pi-arrow-left" (onClick)="activateCallback(3)" />
+                        <p-button label="Back" severity="secondary" icon="pi pi-arrow-left" (onClick)="importError = null; activateCallback(3)" />
                         <p-button label="Import case" styleClass="w-15rem" [disabled]="!consentValid || importLoading"  icon="pi pi-cloud-upload" iconPos="right" (onClick)="onImportBundle()"/>
                     </div>
                 </ng-template>

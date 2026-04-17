@@ -66,6 +66,7 @@ export class CaseImporterComponent {
         // { label: 'FHIR JSON', value: 'fhir+json'  }
     ];
     public conflictResolution!: string;
+    public importError: Record<string, any> | null = null;
 
     
     onFileChange(event: any): void {
@@ -120,7 +121,8 @@ export class CaseImporterComponent {
     }
 
     onImportBundle() {
-        this.importLoading = true
+        this.importLoading = true;
+        this.importError = null;
         this.interoperabilityService.importPatientCaseBundle({patientCaseBundle: this.bundle!, conflict: this.conflictResolution}).subscribe({
             next: (response) => {
                 this.messageService.add({ severity: 'success', summary: 'Import', detail: 'Succesfully imported the file' });
@@ -131,10 +133,24 @@ export class CaseImporterComponent {
                 });
             },
             error: (error: any) => {
-                this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.detail });
+                this.importError = error.error ?? { detail: 'An unexpected error occurred during import.' };
                 this.importLoading = false;
             },
         })    
+    }
+
+    isValidationErrorArray(detail: any): boolean {
+        return Array.isArray(detail) && detail.length > 0 && typeof detail[0] === 'object' && 'msg' in detail[0];
+    }
+
+    formatErrorLoc(loc: any[]): string {
+        return loc.filter(s => s !== 'body').join(' → ');
+    }
+
+    formatErrorValue(value: any): string {
+        if (Array.isArray(value)) return value.join(' ');
+        if (typeof value === 'object' && value !== null) return JSON.stringify(value);
+        return String(value);
     }
 
     private constructBundleTree(bundle: PatientCaseBundle): TreeNode[] {
