@@ -14,7 +14,7 @@
                                 icon="pi pi-check"
                                 variant="text"
                                 [disabled]="!userCanEdit()"
-                                (onClick)="editCohortName = false"/>
+                                (onClick)="editCohortName = false; submitCohort()"/>
                         } @else {
                             @if ( cohortTitle() ) {
                                 {{ cohortTitle() }}
