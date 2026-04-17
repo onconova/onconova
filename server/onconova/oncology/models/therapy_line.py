@@ -26,7 +26,8 @@ from onconova.oncology.models import PatientCase, TreatmentResponse
 class TherapyLineIntentChoices(models.TextChoices):
     CURATIVE = "curative"
     PALLIATIVE = "palliative"
-    
+
+
 @pghistory.track()
 class TherapyLine(BaseModel):
     """
@@ -202,7 +203,7 @@ class TherapyLine(BaseModel):
 
         This function performs the following steps:
         1. Deletes all existing therapy lines for the case to allow reassignment.
-        2. Groups systemic therapies (SACTs) whose treatment periods overlap, considering intent and therapeutic role, 
+        2. Groups systemic therapies (SACTs) whose treatment periods overlap, considering intent and therapeutic role,
            and excluding anti-hormonal treatments from grouping.
         3. Iterates through each group of overlapping systemic therapies to assign them to therapy lines based on:
             - Treatment intent (curative or palliative).
@@ -236,7 +237,8 @@ class TherapyLine(BaseModel):
             uninformative_events = [
                 event.id
                 for event in uninformative_events
-                if list(event.pgh_diff.keys()) == ["therapy_line_id"]
+                if list(event.pgh_diff.keys() if event.pgh_diff else [])
+                == ["therapy_line_id"]
             ]
             object.events.filter(pgh_id__in=uninformative_events).delete()
 
