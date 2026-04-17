@@ -87,6 +87,7 @@ import Board from 'src/assets/images/icons/board';
 import TourDriverConfig from './case-manager.tour';
 import { driver } from 'driver.js';
 import { ExportConfirmDialogComponent } from "../../../shared/components/export-confirm-dialog/export-confirm-dialog.component";
+import { ReplacePipe } from 'src/app/shared/pipes/replace.pipe';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { ConfirmationService, MessageService } from 'primeng/api';
 
@@ -109,10 +110,10 @@ import { ConfirmationService, MessageService } from 'primeng/api';
         RatingModule,
         TooltipModule,
         Divider,
-        Knob,
         SkeletonModule,
         IdenticonComponent,
-        ExportConfirmDialogComponent
+        ExportConfirmDialogComponent,        
+        ReplacePipe,
     ],
     providers: [
         ConfirmationService,

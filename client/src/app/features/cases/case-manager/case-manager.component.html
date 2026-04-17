@@ -3,250 +3,232 @@
         <i class="pi pi-exclamation-triangle"></i>
         <span>{{ pseudoidentifier()}} does not exist or could not be retrieved</span>
     </div>
-} @else { 
-    <div class="mb-3 mr-3 flex flex-wrap gap-2 row-gap-3">
+} @else {
+    <div class="case-manager-action-bar mb-3">
         <p-button label="Return" severity="secondary" icon="pi pi-chevron-left" (click)="location.back()"/>
-        <p-button
-            icon="pi pi-question-circle"
-            label="Tutorial" 
-            class="ml-auto"
-            [outlined]="true"
-            (onClick)="startTour()"/>
-        <p-button
-            id="case-manager-export-case-button"
-            label="Export case"
-            [pTooltip]="!currentUser().canExportData ? 'You do not have permission to export data' : (!(case$.value()?.consentStatus === 'valid') ? 'The case has no valid consent' : '') "
-            [disabled]="!currentUser().canExportData || !(case$.value()?.consentStatus === 'valid')"
-            [icon]="currentUser().canExportData ? 'pi pi-file-export' : 'pi pi-lock'"
-            [loading]="exportLoading"
-            (click)="downloadCaseBundle(case$.value()?.id || '')"/>
-        <p-button
-            id="case-manager-data-management-button"
-            [label]="anonymized() ? 'Enable data management' : 'Disable data management'"
-            [disabled]="!currentUser().canManageCases"
-            [icon]="anonymized() ? 'pi pi-lock' : 'pi pi-lock-open'"
-            (click)="anonymized.set(!anonymized())"/>
-        <ng-container *ngTemplateOutlet="additionalCaseActionButtons() || null"></ng-container>
+        <div class="flex gap-2 align-items-center flex-wrap">
+            <p-button
+                icon="pi pi-question-circle"
+                label="Tutorial"
+                [outlined]="true"
+                (onClick)="startTour()"/>
+            <p-button
+                id="case-manager-export-case-button"
+                label="Export case"
+                [pTooltip]="!currentUser().canExportData ? 'You do not have permission to export data' : (!(case$.value()?.consentStatus === 'valid') ? 'The case has no valid consent' : '') "
+                [disabled]="!currentUser().canExportData || !(case$.value()?.consentStatus === 'valid')"
+                [icon]="currentUser().canExportData ? 'pi pi-file-export' : 'pi pi-lock'"
+                [loading]="exportLoading"
+                (click)="downloadCaseBundle(case$.value()?.id || '')"/>
+            <p-button
+                id="case-manager-data-management-button"
+                [label]="anonymized() ? 'Enable data management' : 'Disable data management'"
+                [disabled]="!currentUser().canManageCases"
+                [icon]="anonymized() ? 'pi pi-lock' : 'pi pi-lock-open'"
+                (click)="anonymized.set(!anonymized())"/>
+            <ng-container *ngTemplateOutlet="additionalCaseActionButtons() || null"></ng-container>
+        </div>
     </div>
-    
+
     <!-- Case summary -->
     <div class="case-manager-header">
-        <div class="case-manager-header-summary flex flex-wrap">
-            <onconova-identicon [value]="pseudoidentifier()" class="m-auto"/>
-            <div class="ml-3 my-auto">
-                <small class="text-muted">Patient case</small>
-                <h2 class="text-monospace my-0">
-                    {{ pseudoidentifier() }}
-                </h2>
-                <div>
-                    @if (case$.value(); as case) {
-                        <i [class]="case.gender.code == 'male' ? 'pi pi-mars' : ( case.gender.code == 'female' ? 'pi pi-venus' : 'pi pi-genderless' )"></i> {{ case.gender.display }}, 
-                        {{ case.age }} years@if(case.vitalStatus == 'deceased'){, deceased}@if(case.vitalStatus == 'unknown'){, <small>EOR</small>}
-                    } @else {
-                        <p-skeleton width="7rem" height="1.2rem" />
-                    }
-                </div>    
-            </div> 
-        </div>
-        <p-divider layout="vertical"></p-divider>
-        <div class="my-auto">
-                <div class="flex">
-                    @if (primaryEntity.value(); as value) {
-                        <onconova-cancer-icon class="my-auto mr-1" [topography]="value.topography.code"/>
-                    }
-                    <div>
-                        <small class="text-muted">Primary site</small>
-                        @if (primaryEntity.isLoading()) {
-                            <p-skeleton width="8rem" height="1.5rem" />
+
+        <!-- Left: Patient identity panel -->
+        <div class="case-manager-header-identity">
+            <div class="case-manager-header-summary">
+                <onconova-identicon [value]="pseudoidentifier()"/>
+                <div class="case-manager-patient-info">
+                    <small class="text-muted">Patient case</small>
+                    <h2 class="text-monospace my-1">{{ pseudoidentifier() }}</h2>
+                    <div class="case-manager-demographics">
+                        @if (case$.value(); as case) {
+                            <i [class]="case.gender.code == 'male' ? 'pi pi-mars' : ( case.gender.code == 'female' ? 'pi pi-venus' : 'pi pi-genderless' )"></i> {{ case.gender.display }},
+                            {{ case.age }} years@if(case.vitalStatus == 'deceased'){, deceased}@if(case.vitalStatus == 'unknown'){, <small>EOR</small>}
                         } @else {
-                            <div>
-                                @if (primaryEntity.value(); as value) {
-                                    {{ value.topography.display }}
-                                } @else {
-                                    -
+                            <p-skeleton width="7rem" height="1.2rem" />
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right: Stats grid -->
+        <div class="case-manager-header-stats">
+
+            <div class="header-stat-group header-stat-group--cancer">
+                <div class="header-cancer-cell">
+                    <div class="header-cancer-labels">
+                        <div class="flex">
+
+                        @if (primaryEntity.value(); as value) {
+                            <onconova-cancer-icon class="header-cancer-icon" [topography]="value.topography.code"/>
+                        } @else if (primaryEntity.isLoading()) {
+                            <p-skeleton width="2.25rem" height="2.25rem" borderRadius="8px" />
+                        }            
+                            <div>    
+                                <div>
+                                    <small class="text-muted">Primary site</small>
+                                </div>
+                                @if (primaryEntity.isLoading()) {
+                                    <p-skeleton width="8rem" height="1.3rem" />
+                                } @else {          
+                                    <div class="header-stat-value">
+                                        @if (primaryEntity.value(); as value) { {{ value.topography.display }} } @else { - }
+                                    </div>
                                 }
                             </div>
-                        }  
-                    </div>
-                </div>
-                <small class="text-muted">Morphology</small>
-                @if (primaryEntity.isLoading()) {
-                    <p-skeleton width="8rem" height="1.5rem" />
-                }  @else {
-                    <div>
-                        @if (primaryEntity.value(); as value) {
-                            {{ value.morphology.display }}
+                        </div>
+
+                        <small class="text-muted mt-1">Morphology</small>
+                        @if (primaryEntity.isLoading()) {
+                            <p-skeleton width="8rem" height="1.3rem" />
                         } @else {
-                            -
+                            <div class="header-stat-value">
+                                @if (primaryEntity.value(); as value) { {{ value.morphology.display }} } @else { - }
+                            </div>
                         }
                     </div>
-                }  
-        </div>
-        <p-divider layout="vertical"></p-divider>
-        <div class="my-auto">
-            <div class="text-left">
+                </div>
+            </div>
+
+            <div class="header-stat-group">
                 <small class="text-muted">Latest staging</small>
-                <div>
+                <div class="header-stat-value">
                     @if (latestStaging.isLoading()) {
-                        <p-skeleton width="8rem" height="1.5rem" />
+                        <p-skeleton width="8rem" height="1.3rem" />
                     } @else {
-                        @if (latestStaging.value(); as value) {
-                            {{ value.description }}
-                        } @else {
-                            -
-                        }
-                    } 
+                        @if (latestStaging.value(); as value) { {{ value.description }} } @else { - }
+                    }
                 </div>
-            </div> 
-    
-            <div class="text-left mt-1">
                 <small class="text-muted">Age at diagnosis</small>
-                <div>
+                <div class="header-stat-value">
                     @if (case$.value(); as case) {
-                        @if (case.overallSurvival !== null) {
-                            {{ case.ageAtDiagnosis }} years
-                        } @else {
-                            -
-                        }
+                        @if (case.overallSurvival !== null) { {{ case.ageAtDiagnosis }} years } @else { - }
                     } @else {
-                        <p-skeleton width="8rem" height="1.5rem" />
-                    }      
+                        <p-skeleton width="8rem" height="1.3rem" />
+                    }
                 </div>
-            </div> 
-        </div>
-        <p-divider layout="vertical"></p-divider>
-        <div class="my-auto">
-            <div class="text-left">
+            </div>
+
+            <div class="header-stat-group">
                 <small class="text-muted">Overall survival</small>
-                <div>
+                <div class="header-stat-value">
                     @if (case$.value(); as case) {
-                        @if (case.overallSurvival !== null) {
-                            {{ case.overallSurvival | number:'1.0-0' }} months
-                        } @else {
-                            -
-                        }
+                        @if (case.overallSurvival !== null) { {{ case.overallSurvival | number:'1.0-0' }} months } @else { - }
                     } @else {
-                        <p-skeleton width="8rem" height="1.5rem" />
-                    }      
+                        <p-skeleton width="8rem" height="1.3rem" />
+                    }
                 </div>
-            </div> 
-    
-            <div class="text-left mt-1">
                 <small class="text-muted">Cause of death</small>
-                <div>
+                <div class="header-stat-value">
                     @if (case$.value(); as case) {
-                        {{ case.causeOfDeath ? case.causeOfDeath.display : '-' }}
+                        {{ case.causeOfDeath ? (case.causeOfDeath.display! | replace:'Death by ':'') : '-' }}
                     } @else {
-                        <p-skeleton width="8rem" height="1.5rem" />
-                    }      
+                        <p-skeleton width="8rem" height="1.3rem" />
+                    }
                 </div>
-            </div> 
-        </div>
-        <p-divider layout="vertical"></p-divider>
-        <div class="my-auto">
-            <div class="text-left">
+            </div>
+
+            <div class="header-stat-group">
                 <small class="text-muted">Clinical center</small>
-                <div>
+                <div class="header-stat-value">
                     @if (case$.value(); as case) {
-                        {{ case.clinicalCenter }}      
-                    } @else {
-                        <p-skeleton width="8rem" height="1.5rem" />
-                    }
-                </div>
-            </div> 
-    
-            <div class="text-left mt-1">
-                <small class="text-muted">Clinical Identifier</small>
-                <div>
-                    @if (case$.value(); as case) {
-                        {{ case.clinicalIdentifier}}
-                    } @else {
-                        <p-skeleton width="8rem" height="1.5rem" />
-                    }
-                </div>
-            </div> 
-        </div>
-        <p-divider layout="vertical"></p-divider>
-        <div class="my-auto text-left case-manager-header-metadata">
-            <small class="text-muted">Anonymization</small>
-            <div class="white-space-nowrap">
-                @if (anonymized()) {
-                    <i class="pi pi-lock" style="scale: 0.8"></i> Anonymized
-                } @else {
-                    <i class="pi pi-lock-open" style="scale: 0.8"></i> Original
-                }
-            </div>
-
-            <div class="flex flex-column">
-                <small class="text-muted mt-1">Consent status</small>
-                    @if (case$.value(); as case) {
-                        {{ case$.value()?.consentStatus | titlecase}}
-                    } @else {
-                        <p-skeleton width="4rem" height="2rem"/>
-                    }
-            </div>    
-        </div>
-        <p-divider layout="vertical"></p-divider>
-        <div class="case-manager-header-data-completion my-auto">
-            <small class="text-muted">Completion</small>
-            @if (case$.value(); as case) {
-                <div class="flex my-auto">
-                    <span>{{ totalCompletion | number:'1.0-0' }}%</span>
-                    <p-rating class="ml-auto" style="scale: 0.9;" title="{{totalCompletion}}% completion" [ngModel]="totalCompletion / 20" [readonly]="true" />
-
-                </div>
-            } @else {
-                <p-skeleton width="4rem" height="4rem" />     
-            }
-            <div class="flex flex-column">
-                <small class="text-muted mt-1">Contributors</small>
-                    <div style="scale: 0.8" class="mr-auto">
-                        <p-avatar-group>
-                            @if (case$.value(); as case) {
-                                @for (contributor of case.contributors; track $index; let index = $index;) {
-                                    @if (index<3) {
-                                        <onconova-user-badge [username]="contributor"/>
-                                    }
-                                }
-                                @if ((case.contributors.length || 0) > 3) {
-                                    <p-avatar class="onconova-other-users-avatar" [label]="'+' + (case.contributors!.length-3).toString()" shape="circle" size="normal" />
-                                }
-                            } @else {
-                                <p-skeleton width="2rem" height="2rem" shape="circle"/>
-                                <p-skeleton width="2rem" height="2rem" shape="circle"/>
-                                <p-skeleton width="2rem" height="2rem" shape="circle"/>
-                            }
-                        </p-avatar-group>
-                    </div>
-            </div>    
-        </div>
-        <p-divider layout="vertical"></p-divider>
-        <div class="my-auto">
-            <div class=flex>
-                <div class="text-left">
-                    <small class="text-muted">Created</small>
-                    <div>
-                        @if (case$.value(); as case) {
-                            {{ case.createdAt | date }}
+                        @if (case.clinicalCenter?.includes('*')) {
+                            <span class="case-redacted-badge"><i class="pi pi-eye-slash"></i> Redacted</span>
                         } @else {
-                            <p-skeleton width="7rem" height="1.5rem" />                    
+                            {{ case.clinicalCenter }}
                         }
-                    </div>
-                </div> 
-            </div>
-    
-            <div class=flex>
-                <div class="text-left mt-1">
-                    <small class="text-muted">Last updated</small>
-                    <div>
-                        @if (case$.value(); as case) {
-                            {{ (case.updatedAt | date) || '-' }}
+                    }
+                    @else { <p-skeleton width="8rem" height="1.3rem" /> }
+                </div>
+                <small class="text-muted">Clinical Identifier</small>
+                <div class="header-stat-value">
+                    @if (case$.value(); as case) {
+                        @if (case.clinicalIdentifier?.includes('*')) {
+                            <span class="case-redacted-badge"><i class="pi pi-eye-slash"></i> Redacted</span>
                         } @else {
-                            <p-skeleton width="7rem" height="1.5rem"/>
-                        }      
-                    </div>
-                </div> 
+                            {{ case.clinicalIdentifier }}
+                        }
+                    }
+                    @else { <p-skeleton width="8rem" height="1.3rem" /> }
+                </div>
             </div>
+
+            <div class="header-stat-group case-manager-header-metadata">
+                <small class="text-muted">Anonymization</small>
+                <div class="header-stat-value">
+                    @if (anonymized()) {
+                        <span class="case-anonymization-badge case-anonymization-anonymized">
+                            <i class="pi pi-lock"></i> Anonymized
+                        </span>
+                    } @else {
+                        <span class="case-anonymization-badge case-anonymization-original">
+                            <i class="pi pi-lock-open"></i> Original
+                        </span>
+                    }
+                </div>
+                <small class="text-muted">Consent status</small>
+                <div class="header-stat-value">
+                    @if (case$.value(); as case) {
+                        <span [class]="'case-consent-badge case-consent-' + case$.value()?.consentStatus">
+                            @switch (case$.value()?.consentStatus) {
+                                @case ('valid') { <i class="pi pi-check-circle"></i> }
+                                @case ('revoked') { <i class="pi pi-ban"></i> }
+                                @case ('unknown') { <i class="pi pi-question-circle"></i> }
+                                @default { <i class="pi pi-question-circle"></i> }
+                            }
+                            {{ case$.value()?.consentStatus | titlecase }}
+                        </span>
+                    } @else {
+                        <p-skeleton width="4rem" height="1.3rem" />
+                    }
+                </div>
+            </div>
+
+            <div class="header-stat-group case-manager-header-data-completion">
+                <small class="text-muted">Completion</small>
+                @if (case$.value(); as case) {
+                    <div class="flex align-items-center gap-2 flex-wrap">
+                        <span class="header-stat-value">{{ totalCompletion | number:'1.0-0' }}%</span>
+                        <p-rating style="scale: 0.9;" title="{{totalCompletion}}% completion" [ngModel]="totalCompletion / 20" [readonly]="true" />
+                    </div>
+                } @else {
+                    <p-skeleton width="4rem" height="2rem" />
+                }
+                <small class="text-muted">Contributors</small>
+                <div class="contributors-avatars">
+                    <p-avatar-group>
+                        @if (case$.value(); as case) {
+                            @for (contributor of case.contributors; track $index; let index = $index;) {
+                                @if (index<3) {
+                                    <onconova-user-badge [username]="contributor"/>
+                                }
+                            }
+                            @if ((case.contributors.length || 0) > 3) {
+                                <p-avatar class="onconova-other-users-avatar" [label]="'+' + (case.contributors!.length-3).toString()" shape="circle" size="normal" />
+                            }
+                        } @else {
+                            <p-skeleton width="2rem" height="2rem" shape="circle"/>
+                            <p-skeleton width="2rem" height="2rem" shape="circle"/>
+                            <p-skeleton width="2rem" height="2rem" shape="circle"/>
+                        }
+                    </p-avatar-group>
+                </div>
+            </div>
+
+            <div class="header-stat-group">
+                <small class="text-muted">Created</small>
+                <div class="header-stat-value">
+                    @if (case$.value(); as case) { {{ case.createdAt | date }} }
+                    @else { <p-skeleton width="7rem" height="1.3rem" /> }
+                </div>
+                <small class="text-muted">Last updated</small>
+                <div class="header-stat-value">
+                    @if (case$.value(); as case) { {{ (case.updatedAt | date) || '-' }} }
+                    @else { <p-skeleton width="7rem" height="1.3rem" /> }
+                </div>
+            </div>
+
         </div>
     </div>
     

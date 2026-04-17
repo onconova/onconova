@@ -1,47 +1,245 @@
+/* ===== Error State ===== */
 .case-manager-error {
     display: flex;
     align-items: center;
     gap: 1rem;
-    background: #ffeaea;
-    color: #c0392b;
+    background: color-mix(in srgb, var(--p-red-500), transparent 90%);
+    color: light-dark(var(--p-red-700), var(--p-red-400));
     padding: 1.5rem;
     border-radius: 1rem;
     font-size: 1.2rem;
     margin-bottom: 2rem;
-    box-shadow: 0 2px 8px rgba(192,57,43,0.08);
+    border: 1px solid color-mix(in srgb, var(--p-red-500), transparent 70%);
 }
 
-
-.case-manager-header {
-    display: flex; 
+/* ===== Action Bar ===== */
+.case-manager-action-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     flex-wrap: wrap;
-    flex-direction: row;    
-    row-gap: 1rem;
-    background: var(--p-content-background); 
-    color: var(--p-text-color); 
-    margin: 1rem inherit;
-    border-radius: 1.5rem;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-    padding: 1rem; 
-    margin-bottom: 2rem;
-    backdrop-filter: blur(6px);
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    background: var(--p-content-background);
+    border-radius: 1rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--p-surface-border);
+}
 
-    & .onconova-cancer-icon {
-        scale: .8;
+/* ===== Header Card ===== */
+.case-manager-header {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    background: var(--p-content-background);
+    border-radius: 1.5rem;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+    border: 1px solid color-mix(in srgb, var(--p-primary-500), transparent 82%);
+    position: relative;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 4px;
+        background: linear-gradient(180deg, var(--p-primary-400), var(--p-primary-600));
+        z-index: 1;
+    }
+
+    & .case-manager-header-identity {
+        min-width: 220px;
+        max-width: 300px;
+        padding: 1.5rem;
+        border-right: 1px solid var(--p-divider-border-color);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    & .case-manager-header-summary {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        & onconova-identicon {
+            flex-shrink: 0;
+        }
+
+        & .case-manager-patient-info {
+            & h2 {
+                font-size: 1.2rem;
+                font-weight: 700;
+                letter-spacing: 0.02em;
+                color: var(--p-primary-color);
+            }
+            & .case-manager-demographics {
+                font-size: 0.875rem;
+                margin-top: 0.25rem;
+            }
+        }
+    }
+
+    & .case-manager-header-stats {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: stretch;
+    }
+
+    & .header-stat-group {
+        padding: 1rem 1.25rem;
+        border-right: 1px solid var(--p-divider-border-color);
+        border-bottom: 1px solid var(--p-divider-border-color);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 0.1rem;
+        flex: 1 1 130px;
+
+        &.header-stat-group--cancer {
+            flex: 2 1 200px;
+        }
+
+        & .header-cancer-icon {
+            height: 2.25rem !important;
+            padding: 0.4rem !important;
+            align-self: flex-start;
+        }
+
+        & .header-cancer-cell {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        & .header-cancer-labels {
+            display: flex;
+            flex-direction: column;
+            gap: 0.1rem;
+            min-width: 0;
+        }
+
+        & .header-stat-title {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        & .header-stat-value {
+            font-weight: 400;
+            font-size: 0.9rem;
+            margin-top: 0.1rem;
+            margin-bottom: 0.6rem;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+
+        & .contributors-avatars {
+            scale: 0.85;
+            transform-origin: left;
+            margin-top: 0.25rem;
+        }
+    }
+
+    & .case-redacted-badge,
+    & .case-anonymization-badge,
+    & .case-consent-badge {
+        & i {
+            line-height: 1;
+            font-size: 0.75rem;
+            vertical-align: middle;
+        }
+    }
+
+    & .case-redacted-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        padding: 0.1rem 0.5rem;
+        border-radius: 1rem;
+        font-size: 0.8rem;
+        font-weight: 500;
+        background: transparent;
+        border: 1px solid var(--p-text-muted-color);
+        color: var(--p-text-muted-color);
+    }
+
+    & .case-anonymization-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        padding: 0.1rem 0.5rem;
+        border-radius: 1rem;
+        font-size: 0.8rem;
+        font-weight: 500;
+        background: transparent;
+        border: 1px solid var(--p-text-muted-color);
+        color: var(--p-text-muted-color);
+
+        &.case-anonymization-original {
+            border-color: var(--p-primary-color);
+            color: var(--p-primary-color);
+        }
+    }
+
+    & .case-consent-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        padding: 0.1rem 0.5rem;
+        border-radius: 1rem;
+        font-size: 0.8rem;
+        font-weight: 500;
+        background: transparent;
+        border: 1px solid var(--p-text-muted-color);
+        color: var(--p-text-muted-color);
+
+        &.case-consent-valid {
+            border-color: var(--p-primary-color);
+            color: var(--p-primary-color);
+        }
+    }
+
+    @media (max-width: 900px) {
+        grid-template-columns: 1fr;
+
+        & .case-manager-header-identity {
+            max-width: unset;
+            border-right: none;
+            border-bottom: 1px solid var(--p-divider-border-color);
+        }
     }
 }
 
+/* ===== Data Category Fieldsets ===== */
 .onconova-case-manager-group-panel {
     background: light-dark(var(--p-surface-0), var(--p-surface-900));
+
     & fieldset {
-        padding-bottom: .0rem !important;
-        margin-bottom: 1rem !important;
+        padding-bottom: 0 !important;
+        margin-bottom: 1.25rem !important;
         border-color: color-mix(in srgb, var(--p-primary-500), transparent 60%) !important;
+        border-radius: 1rem !important;
+        transition: box-shadow 0.2s;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+
+        &:hover {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
     }
+
     & legend {
-        margin-bottom: .25rem;
+        margin-bottom: 0.25rem;
         background: none !important;
         color: var(--p-primary-500) !important;
+        font-weight: 600 !important;
+        letter-spacing: 0.06em !important;
+        text-transform: uppercase;
+        font-size: 0.75rem !important;
     }
 }
 
