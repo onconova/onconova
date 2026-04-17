@@ -35,9 +35,7 @@ class BundleParser:
             if get_origin(field_info.annotation) is list
             and field_name not in ["history", "contributorsDetails"]
         ]
-        self.users_map = {
-            user.username: user for user in bundle.contributorsDetails
-        }
+        self.users_map = {user.username: user for user in bundle.contributorsDetails}
         self.nested_resources = {
             "systemicTherapies": [
                 NestedResourceDetails(
@@ -103,9 +101,11 @@ class BundleParser:
             - If a User is provided, user details are imported and the user is created as inactive and external.
         """
         # CHeck if internal user exist
-        if (internal_user := User.objects.filter(username=user.username, email=user.email).first()):
+        if internal_user := User.objects.filter(
+            username=user.username, email=user.email
+        ).first():
             return internal_user
-        organization_initials = ''.join([word[0].lower() for word in (user.organization).split(' ')]) if user.organization else 'ext' # type: ignore
+        organization_initials = "".join([word[0].lower() for word in (user.organization).split(" ")]) if user.organization else "ext"  # type: ignore
         username = f"{user.username}-{organization_initials}"
         return User.objects.get_or_create(
             username=username,
@@ -216,18 +216,18 @@ class BundleParser:
         for event in events:
             if event.user:
                 user = self.users_map.get(event.user)
-                if not user: 
-                    raise ValueError(f'Unknown user in bundle definition: {event.user}')
+                if not user:
+                    raise ValueError(f"Unknown user in bundle definition: {event.user}")
                 # Import the actor of the event
                 user = self.get_or_create_user(user)
             # Manually import the event metadata
-            event_instance = orm_instance.events.create( # type: ignore
+            event_instance = orm_instance.events.create(  # type: ignore
                 pgh_obj=orm_instance,
                 pgh_label=event.category,
                 pgh_context=dict(username=user.username if event.user else None),
             )
             # Override the automated timestamp on the event
-            orm_instance.events.filter(pk=event_instance.pk).update( # type: ignore
+            orm_instance.events.filter(pk=event_instance.pk).update(  # type: ignore
                 pgh_created_at=event.timestamp
             )
         # Add a manual event for the importing of the data
@@ -260,7 +260,9 @@ class BundleParser:
         if not getattr(resource, "id", None):
             raise ValueError("Resource must have an ID to be imported.")
         # Get the model-create schema for the resource
-        CreateSchema = getattr(schemas, f"{resource.__class__.__name__}CreateSchema", None) or getattr(schemas, f"{resource.__class__.__name__}Create")
+        CreateSchema = getattr(
+            schemas, f"{resource.__class__.__name__}CreateSchema", None
+        ) or getattr(schemas, f"{resource.__class__.__name__}Create")
         # Resolve any foreign keys in the resource
         resource = self.resolve_foreign_keys(resource)
         resourceId = resource.id  # type: ignore
@@ -268,8 +270,8 @@ class BundleParser:
         orm_instance = CreateSchema.model_validate(resource).model_dump_django(
             instance=instance,
             **fields,
-            external_source=resource.externalSource or "Onconova", # type: ignore 
-            external_source_id=resource.externalSourceId or resourceId, # type: ignore 
+            external_source=resource.externalSource or "Onconova",  # type: ignore
+            external_source_id=resource.externalSourceId or resourceId,  # type: ignore
         )
         # Delete the create event that just happened
         orm_instance.events.latest("pgh_created_at").delete()
@@ -332,4 +334,6 @@ class BundleParser:
                         models.PatientCaseDataCompletion.objects.create(
                             case=imported_case, category=category
                         )
+            # Re-assign therapy lines
+            models.TherapyLine.assign_therapy_lines(imported_case)
         return imported_case

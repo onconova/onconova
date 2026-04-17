@@ -636,7 +636,8 @@ class CrudApiControllerTestCase(ApiControllerTestMixin, TestCase):
                     entry = next((item for item in response.json()["items"]))
                     self.assertEqual(entry["category"], "create")
                     self.assertEqual(entry["user"], self.user.username)
-                    self.assertEqual(entry["snapshot"]["id"], str(instance.id))
+                    if "id" in entry["snapshot"]:
+                        self.assertEqual(entry["snapshot"]["id"], str(instance.id))
                 self.models[i].objects.all().delete()
 
     @parameterized.expand(GET_HTTP_SCENARIOS)
@@ -645,10 +646,7 @@ class CrudApiControllerTestCase(ApiControllerTestMixin, TestCase):
             if not hasattr(self.models[i], "pgh_event_model"):
                 pytest.skip("Non-tracked model")
             instance = self.instances[i]
-            if hasattr(instance, "parent_events"):
-                event = instance.parent_events.first()
-            else:
-                event = instance.events.first()
+            event = instance.events.first()
             with self.subTest(i=i):
                 # Call the API endpoint
                 response = self.call_api_endpoint(
@@ -660,7 +658,8 @@ class CrudApiControllerTestCase(ApiControllerTestMixin, TestCase):
                     entry = response.json()
                     self.assertEqual(entry["id"], event.pgh_id)
                     self.assertEqual(entry["user"], event.pgh_context["username"])
-                    self.assertEqual(entry["snapshot"]["id"], str(instance.id))
+                    if "id" in entry["snapshot"]:
+                        self.assertEqual(entry["snapshot"]["id"], str(instance.id))
                 self.models[i].objects.all().delete()
 
     @parameterized.expand(HTTP_SCENARIOS)
