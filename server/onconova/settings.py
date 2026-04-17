@@ -401,6 +401,13 @@ PGHISTORY_DEFAULT_TRACKERS = (
 List of default pghistory event trackers
 """
 
+PGHISTORY_MIDDLEWARE_METHODS = ["POST", "PUT", "PATCH", "DELETE"]
+"""
+Only attach pghistory audit context on mutating requests.
+GET/HEAD/OPTIONS are read-only and do not need a history context,
+avoiding an extra DB round-trip on every read endpoint.
+"""
+
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 """
 Use integers as primary keys for history model tables
