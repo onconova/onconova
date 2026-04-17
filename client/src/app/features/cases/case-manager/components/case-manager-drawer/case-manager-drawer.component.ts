@@ -58,6 +58,7 @@ export class CaseManagerDrawerComponent {
     public exportable = input<boolean>(true);
     public anonymized = computed<boolean>(()=> (this.data() as any).anonymized ? true : false);
     public styleClass = input<string>('');
+    public resourceType = input<string>('');
     public historyService = input.required<(resourceId: string) => Observable<PaginatedHistoryEvent>>();
 
     // Service injections

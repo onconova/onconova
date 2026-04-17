@@ -47,10 +47,13 @@ import { Skeleton } from 'primeng/skeleton';
             @case ('Array') {
                 <div>
                     <ul class="list-property">
-                        @for (item of data(); track $index; let idx = $index; let first = $first;) {
-                            <li [ngClass]="first ? 'mt-2' : ''">
+                        @for (item of data(); track $index; let idx = $index;) {
+                            <li>
                                 @if (label(); as label) {
-                                    <small class="text-muted"><i class="pi pi-box"></i> {{ label | slice:0:-1 | titlecase | replace:'Id':' ' }} #{{idx+1}}</small>
+                                    <div class="list-item-header">
+                                        <span class="list-item-index">{{ idx + 1 }}</span>
+                                        <span class="list-item-label">{{ label | slice:0:-1 | titlecase | replace:'Id':' ' }}</span>
+                                    </div>
                                 }
                                 <div class="nested-properties">
                                     <onconova-drawer-properties [data]="item"/>
@@ -61,13 +64,15 @@ import { Skeleton } from 'primeng/skeleton';
                 </div> 
             }
             @case ('object') {
-                <div>
+                <div class="properties-list">
                     @for (property of subProperties(); track $index;) {
                         <div class="property">             
-                            <div class="property-label text-muted text-sm">
+                            <div class="property-label">
                                 {{ property.label | titlecase | replace:'Ids':' ' | replace:'Id':' '}}
                             </div>
-                            <onconova-drawer-properties [data]="property.value" [label]='property.label'/>
+                            <div class="property-value">
+                                <onconova-drawer-properties [data]="property.value" [label]='property.label'/>
+                            </div>
                         </div>
                     }
                 </div> 

@@ -351,54 +351,300 @@ onconova-case-manager-panel {
 
 
 .onconova-case-manager-drawer {
-    min-width: 25% !important;
+    min-width: 32rem !important;
+    max-width: 48rem !important;
 
+    // ── Header ────────────────────────────────────────────────────
     & .p-drawer-header {
         justify-content: flex-start;
         display: flex !important;
         align-items: center;
-        gap: .5rem;
-        & p-avatar {
-            background: color-mix(in srgb, var(--p-primary-500), transparent 75%);
-            color: var(--p-primary-500);
+        padding: 1.25rem 1.5rem;
+        border-bottom: 1px solid var(--p-content-border-color);
+        background: linear-gradient(
+            135deg,
+            color-mix(in srgb, var(--p-primary-500), transparent 93%) 0%,
+            transparent 60%
+        );
+
+        .dark-mode & {
+            background: linear-gradient(
+                135deg,
+                color-mix(in srgb, var(--p-primary-500), transparent 80%) 0%,
+                transparent 65%
+            );
+        }
+
+        .drawer-header-identity {
+            display: flex;
+            align-items: center;
+            gap: 0.9rem;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .drawer-header-avatar {
+            flex-shrink: 0;
+            background: color-mix(in srgb, var(--p-primary-500), transparent 82%) !important;
+            border: 1.5px solid color-mix(in srgb, var(--p-primary-500), transparent 65%) !important;
+            border-radius: 10px !important;
+
             > lucide-angular {
-                width: var(--p-avatar-lg-width); 
-                text-align: center;
-                scale: 1.2;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: var(--p-avatar-xl-width);
+                height: var(--p-avatar-xl-width);
+                color: var(--p-primary-color);
                 > svg {
-                    margin: auto;
-                    display: flex;
+                    width: 60%;
+                    height: 60%;
                 }
             }
         }
-        .onconova-drawer-title {
-            margin: auto 0;
-            margin-right: auto;
+
+        .drawer-header-text {
+            min-width: 0;
+            flex: 1;
+        }
+
+        .drawer-header-resource-type {
+            font-size: 0.63rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
             color: var(--p-primary-color);
+            opacity: 0.8;
+            margin-bottom: 0.15rem;
+            line-height: 1;
+        }
+
+        .onconova-drawer-title {
+            color: var(--p-text-color);
             font-weight: 600;
-            font-size: 1.1rem;
+            font-size: 1rem;
+            line-height: 1.35;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .drawer-header-subtitle {
+            margin-top: 0rem;
+        }
+
+        .drawer-anon-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-size: 0.68rem;
+            font-weight: 600;
+            padding: 0.15rem 0.55rem;
+            border-radius: 999px;
+            letter-spacing: 0.03em;
+            background: transparent;
+            color: var(--p-text-muted-color);
+            border: 1px solid color-mix(in srgb, var(--p-text-muted-color), transparent 55%);
+
+            &.drawer-anon-badge--pseudo {
+                background: color-mix(in srgb, var(--p-primary-500), transparent 88%);
+                color: var(--p-primary-color);
+                border-color: color-mix(in srgb, var(--p-primary-500), transparent 65%);
+            }
+
+            i {
+                font-size: 0.65rem;
+                line-height: 1;
+                vertical-align: middle;
+            }
         }
     }
+
+    // ── Content area ─────────────────────────────────────────────
+    & .p-drawer-content {
+        padding-top: 1.75rem !important;
+    }
+
+    // Section headers (replacing p-dividers)
+    .drawer-section-header {
+        display: flex;
+        align-items: center;
+        gap: 0.35rem;
+        font-size: 0.67rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.09em;
+        color: var(--p-text-muted-color);
+        margin: 1.5rem 0 0.75rem;
+
+        &:first-child {
+            margin-top: 0;
+        }
+
+        &::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--p-content-border-color);
+            margin-left: 0.25rem;
+        }
+
+        i {
+            font-size: 0.7rem;
+        }
+    }
+
+    // ── Properties ───────────────────────────────────────────────
+    // Base label style (also used in coded-concept tree)
     .property-label {
-        margin-bottom: .25rem;
+        font-size: 0.7rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--p-text-muted-color);
+        line-height: 1.5;
     }
+
     & onconova-drawer-properties {
+        // Card container for the top-level properties list
+        & .properties-list {
+            border: 1px solid var(--p-content-border-color);
+            border-radius: 10px;
+            overflow: hidden;
+            // Use surface-card which correctly maps to dark/light theme
+            background: var(--p-surface-card);
+
+            // Nested properties-list — strip card treatment
+            & .properties-list {
+                border: none;
+                border-radius: 0;
+                background: transparent;
+                overflow: visible;
+            }
+        }
+
+        // Each property row (label | value)
         & .property {
-            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.55rem 1rem;
+            border-bottom: 1px solid color-mix(in srgb, var(--p-content-border-color), transparent 30%);
+
+            &:last-child {
+                border-bottom: none;
+            }
+
+            // Alternating rows — use surface-ground which is a darker tint in both modes
+            &:nth-child(even) {
+                background: color-mix(in srgb, var(--p-surface-ground), transparent 40%);
+            }
+
+            // Label column — fixed width so any slight length difference doesn't shift values
+            & > .property-label {
+                width: 7rem;
+                flex-shrink: 0;
+                padding-top: 0.1rem;
+                margin-bottom: 0;
+                overflow-wrap: anywhere;
+            }
+
+            // Value column
+            & > .property-value {
+                flex: 1;
+                min-width: 0;
+                font-size: 0.875rem;
+                line-height: 1.5;
+                color: var(--p-text-color);
+                word-break: break-word;
+            }
         }
+
+        // Nested object rows inside a value cell — lighter treatment
+        & .property-value > onconova-drawer-properties {
+            & .property {
+                padding: 0.35rem 0.75rem;
+                background: transparent !important;
+                border-bottom-color: color-mix(in srgb, var(--p-content-border-color), transparent 55%);
+            }
+        }
+
+        // List property (array items)
         & ul.list-property {
-            padding-left: .25rem;
-            margin-top: .25rem;
+            padding-left: 0;
+            margin: 0.25rem 0 0.1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
         }
+
         & ul.list-property > li {
             list-style: none;
         }
-        & .nested-properties {
-            margin-left: .45rem;
-            padding-left: .5rem;
-            padding-top: .5rem;
-            border-left: .1rem solid color-mix(in srgb, var(--p-content-color), transparent 55%);
+
+        & .list-item-header {
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+            margin-bottom: 0.4rem;
         }
+
+        & .list-item-index {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 1.35rem;
+            height: 1.35rem;
+            padding: 0 0.3rem;
+            border-radius: 999px;
+            background: color-mix(in srgb, var(--p-primary-500), transparent 85%);
+            color: var(--p-primary-color);
+            font-size: 0.65rem;
+            font-weight: 700;
+            line-height: 1;
+            border: 1px solid color-mix(in srgb, var(--p-primary-500), transparent 68%);
+        }
+
+        & .list-item-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--p-text-muted-color);
+        }
+
+        // Nested properties (inside array items) — stacked layout to fit narrow drawer space
+        & .nested-properties {
+            margin-left: 0.45rem;
+            padding-left: 0.6rem;
+            border-left: 2px solid color-mix(in srgb, var(--p-primary-500), transparent 68%);
+
+            & .properties-list {
+                border: none;
+                border-radius: 0;
+                background: transparent;
+                overflow: visible;
+            }
+
+            & .property {
+                flex-direction: column;
+                gap: 0.15rem;
+                padding: 0.35rem 0.5rem;
+                background: transparent !important;
+                border-bottom-color: color-mix(in srgb, var(--p-content-border-color), transparent 50%);
+
+                // In stacked mode label fills full width
+                & > .property-label {
+                    width: auto;
+                }
+
+                & > .property-value {
+                    font-size: 0.82rem;
+                }
+            }
+        }
+
+        // Coded concept tree overrides
         & onconova-coded-concept-tree {
             & .p-tree-root {
                 margin-left: -1.5rem;
@@ -416,29 +662,139 @@ onconova-case-manager-panel {
         }
     }
 
+    // ── Metadata card ────────────────────────────────────────────
+    .onconova-case-manager-drawer-metadata {
+        border: 1px solid var(--p-content-border-color);
+        border-radius: 10px;
+        padding: 0.75rem 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .drawer-meta-row {
+        display: flex;
+        align-items: baseline;
+        gap: 0.75rem;
+    }
+
+    .drawer-meta-label {
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--p-text-muted-color);
+        white-space: nowrap;
+        flex-shrink: 0;
+        min-width: 8rem;
+    }
+
+    .drawer-meta-value {
+        font-size: 0.8rem;
+        color: var(--p-text-color);
+        word-break: break-all;
+    }
+
+    // ── History timeline ──────────────────────────────────────────
     & .onconova-case-manager-drawer-history {
-        margin-top: 1rem;
-        & .p-timeline-event{
+        margin-top: 0.5rem;
+
+        // Override PrimeNG connector line to a dashed, muted style
+        .p-timeline-event-connector {
+            background: color-mix(in srgb, var(--p-content-border-color), transparent 20%) !important;
+            width: 1px !important;
+        }
+
+        // Replace default marker with a small primary dot
+        .p-timeline-event-marker {
+            width: 0.55rem !important;
+            height: 0.55rem !important;
+            border-radius: 50% !important;
+            background: var(--p-primary-color) !important;
+            border: none !important;
+            box-shadow: 0 0 0 3px color-mix(in srgb, var(--p-primary-500), transparent 80%) !important;
+            margin-top: 0.35rem !important;
+        }
+
+        & .p-timeline-event {
             min-height: fit-content !important;
-            & .timeline-event-category i{
-                scale: .9;
+
+            & .timeline-event-body {
+                display: flex;
+                flex-direction: column;
+                margin-bottom: 1.1rem;
             }
+
             & .timeline-event-date {
-                color: var(--p-primary-faded-color) !important;
+                font-size: 0.7rem;
+                color: var(--p-text-muted-color);
+                line-height: 1.2;
+                letter-spacing: 0.02em;
             }
-            & .p-timeline-event-content {
-                padding-left: .5rem !important;
-                margin-top: -0.5rem !important;
-                display: flex !important;
-                margin-bottom: 1.5rem;
-                & onconova-user-badge {
-                    margin: auto 0;
-                    margin-right: .5rem;
-                    scale: .9;
+
+            & .timeline-event-category {
+                font-size: 0.82rem;
+                font-weight: 500;
+                margin-top: 0.2rem;
+                color: var(--p-text-color);
+                i {
+                    color: var(--p-primary-color);
+                    margin-right: 0.2rem;
+                    font-size: 0.78rem;
                 }
             }
+
+            & .p-timeline-event-content {
+                padding-left: 0.75rem !important;
+                margin-top: 0 !important;
+                display: flex !important;
+                flex-direction: row;
+                align-items: flex-start;
+                gap: 0.6rem;
+                margin-bottom: 0 !important;
+
+                & onconova-user-badge {
+                    flex-shrink: 0;
+                    scale: 0.88;
+                    transform-origin: left top;
+                    margin-top: 0.05rem;
+                }
+            }
+
             & .p-timeline-event-opposite {
                 display: none !important;
+            }
+        }
+    }
+
+    // ── Footer actions ───────────────────────────────────────────
+    & .p-drawer-footer {
+        padding: 1rem 1.25rem;
+
+        .drawer-footer-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            width: 100%;
+
+            // Full-width solid Edit split button
+            .p-splitbutton {
+                width: 100%;
+                display: flex;
+
+                .p-splitbutton-button {
+                    flex: 1;
+                    justify-content: center;
+                    font-size: 0.95rem;
+                    font-weight: 600;
+                    padding-block: 0.75rem !important;
+                }
+            }
+
+            // Full-width secondary Close button
+            p-button .p-button {
+                width: 100%;
+                justify-content: center;
             }
         }
     }

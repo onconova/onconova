@@ -69,6 +69,7 @@
     [data]="drawerData" 
     [historyService]="service().history" 
     [icon]="icon()"
+    [resourceType]="title() || 'Unknown category'"
     [editable]="!isCompleted() && !anonymized()"
     [exportable]="canExportData() && anonymized()"
     (delete)="deleteEntry($event)"
