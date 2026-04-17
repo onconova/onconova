@@ -27,6 +27,15 @@ const TourDriverConfig: Config = {
             side: "bottom", align: 'center', 
             title: 'Data Management Mode',
             description: 'By default cases cannot be edited. To enable/disable data management mode and remove the anonymization of the data, click on this button. This may require either an elevated role or permission from your project leader(s).', 
+            onNextClick: (el, step, {config, state, driver}) => {
+                const element = document.querySelector('#case-manager-data-management-button') as HTMLElement;
+                if (element) {
+                    element.click();
+                }
+                setTimeout(() => {
+                        driver.moveNext();
+                }, 250);
+            }
         }},
         { element: 'onconova-case-manager-panel:nth-of-type(1)', popover: { 
             side: "right", align: 'center', 
