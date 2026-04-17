@@ -132,7 +132,6 @@
             font-weight: 400;
             font-size: 0.9rem;
             margin-top: 0.1rem;
-            margin-bottom: 0.6rem;
 
             &:last-child {
                 margin-bottom: 0;
@@ -424,7 +423,9 @@ onconova-case-manager-panel {
               onconova-tumor-marker-event,
               onconova-therapy-line-event,
               onconova-multiline-event,
-              onconova-neoplastic-entity-event {
+              onconova-neoplastic-entity-event,
+              onconova-genomic-variant-event,
+              onconova-performance-status-event {
                 flex: 1;
                 min-width: 0;
                 width: 100%;
@@ -974,7 +975,7 @@ onconova-tumor-marker-event {
         display: flex;
         flex-direction: column;
         gap: 0.22rem;
-        width: 100%;
+        width: 75%;
     }
 
     & .bar {
@@ -1030,6 +1031,49 @@ onconova-tumor-marker-event {
     }
 }
 
+// ── Systemic Therapy Event ─────────────────────────────────────────────────
+onconova-therapy-line-event {
+    width: 100%;
+
+    .st-event {
+        display: flex;
+        flex-direction: column;
+        gap: 0.2rem;
+        width: 100%;
+    }
+
+    .st-drugs {
+        font-size: 0.85rem;
+        color: var(--p-text-color);
+        line-height: 1.3;
+    }
+
+    .st-meta {
+        display: flex;
+        align-items: center;
+        gap: 0.35rem;
+        flex-wrap: wrap;
+    }
+
+    .st-line-chip.p-chip {
+        font-size: 0.68rem !important;
+        padding: 0.05rem 0.4rem !important;
+        height: auto !important;
+        line-height: 1.5 !important;
+    }
+
+    .st-detail {
+        font-size: 0.72rem;
+        color: var(--p-text-muted-color);
+
+        &::before {
+            content: '·';
+            margin-right: 0.35rem;
+            opacity: 0.5;
+        }
+    }
+}
+
 onconova-genomic-variant-event {
     width: 100%;
 
@@ -1078,5 +1122,64 @@ onconova-genomic-variant-event {
         font-size: 0.7rem;
         color: var(--p-text-muted-color);
         letter-spacing: 0.01em;
+    }
+}
+
+// ── Performance Status ─────────────────────────────────────────────────────
+onconova-performance-status-event {
+    width: 100%;
+
+    .ps-event {
+        display: flex;
+        flex-direction: column;
+        gap: 0.18rem;
+        width: 100%;
+    }
+
+    .ps-row {
+        display: flex;
+        align-items: center;
+        gap: 0.45rem;
+    }
+
+    .ps-label {
+        font-size: 0.68rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--p-text-muted-color);
+        width: 2rem;
+        flex-shrink: 0;
+    }
+
+    // Segmented dot track — score sits inline at the end
+    .ps-track {
+        display: flex;
+        align-items: center;
+        gap: 0.2rem;
+    }
+
+    .ps-dot {
+        width: 0.45rem;
+        height: 0.45rem;
+        border-radius: 50%;
+        flex-shrink: 0;
+        background: color-mix(in srgb, var(--p-primary-500), transparent 80%);
+        border: 1px solid color-mix(in srgb, var(--p-primary-500), transparent 65%);
+        transition: background 0.15s;
+
+        &.active {
+            background: var(--p-primary-color);
+            border-color: var(--p-primary-color);
+            box-shadow: 0 0 0 2px color-mix(in srgb, var(--p-primary-500), transparent 65%);
+        }
+    }
+
+    .ps-score {
+        font-size: 0.82rem;
+        font-weight: 700;
+        color: var(--p-primary-color);
+        margin-left: 0.25rem;
+        flex-shrink: 0;
     }
 }

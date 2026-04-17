@@ -2,27 +2,58 @@ import { Component, computed, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SystemicTherapy, Surgery, Radiotherapy } from 'onconova-api-client';
 import { Chip } from 'primeng/chip';
-/**
- * Custom event component for displaying neoplastic entities in the timeline.
- * Renders the topography, morphology, and relationship information in a compact format.
- */
+
 @Component({
     selector: 'onconova-therapy-line-event',
     template: `
-        <div>
-            <p-chip [label]="therapyLine()" styleClass="tag tag-primary-outline"/>
-            {{ description() }}
-        </div>
+        @if (isSystemicTherapy()) {
+            <div class="st-event">
+                <div class="st-drugs">{{ drugNames() }}</div>
+                <div class="st-meta">
+                    @if (therapyLine()) {
+                        <p-chip [label]="therapyLine()" styleClass="tag tag-primary-outline st-line-chip"/>
+                    }
+                    @if (cycles()) {
+                        <span class="st-detail">{{ cycles() }} cycles</span>
+                    }
+                    @if (adjunctiveRole()) {
+                        <span class="st-detail">{{ adjunctiveRole() }}</span>
+                    }
+                </div>
+            </div>
+        } @else {
+            <div>
+                <p-chip [label]="therapyLine()" styleClass="tag tag-primary-outline"/>
+                {{ fallbackDescription() }}
+            </div>
+        }
     `,
     imports: [CommonModule, Chip]
 })
 export class TherapyLineEventComponent {
 
     event = input<SystemicTherapy | Surgery | Radiotherapy>();
-    therapyLine = computed(() => {
-        return this.event()?.description.split(' - ')[0] || '';
-    })
-    description = computed(() => {
-        return this.event()?.description.split(' - ')[1] || '';
-    })
+
+    isSystemicTherapy = computed(() => 'medications' in (this.event() ?? {}));
+
+    private get asSystemic(): SystemicTherapy {
+        return this.event() as SystemicTherapy;
+    }
+
+    drugNames = computed(() => {
+        const meds = this.asSystemic?.medications;
+        if (!meds?.length) return this.event()?.description ?? '';
+        return meds
+            .map(m => m.drug?.properties?.['label'] || m.drug?.display || m.drug?.code)
+            .filter(Boolean)
+            .join('/');
+    });
+
+    therapyLine = computed(() => this.event()?.description.split(' - ')[0] ?? '');
+
+    cycles = computed(() => this.asSystemic?.cycles ?? null);
+
+    adjunctiveRole = computed(() => this.asSystemic?.adjunctiveRole?.display ?? null);
+
+    fallbackDescription = computed(() => this.event()?.description.split(' - ')[1] ?? '');
 }
