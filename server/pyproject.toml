@@ -56,7 +56,7 @@ factory_boy = "^3.3"
 parameterized = "^0.9"
 coverage = "^7.2"
 # Serve dev-instance via HTTPS
-Werkzeug = "^3.0"
+Werkzeug = "^3.1"
 pyOpenSSL = "^23.2"
 
 
