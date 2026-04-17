@@ -7,7 +7,7 @@ import { ToggleSwitch } from 'primeng/toggleswitch';
 import { Fluid } from 'primeng/fluid';
 import { InputText } from 'primeng/inputtext';
 
-import { CohortCreate, Cohort, CohortsService, ProjectsService, GetProjectsRequestParams } from 'onconova-api-client'
+import { CohortCreate, Cohort, CohortsService, ProjectsService, GetProjectsRequestParams, AccessRoles } from 'onconova-api-client'
 
 import { AbstractFormBase } from '../abstract-form-base.component';
 import { 
@@ -46,7 +46,7 @@ export class CohortFormComponent extends AbstractFormBase {
   readonly #fb = inject(FormBuilder);
 
   #currentUser = computed(() => this.#authService.user());
-  protected invalidUser = computed(() => this.relatedProjects.hasValue() && this.relatedProjects.value().length === 0)
+  protected invalidUser = computed(() => this.relatedProjects.hasValue() && this.relatedProjects.value().length === 0);
   // Create and update service methods for the form data
   public readonly createService = (payload: CohortCreate) => this.#cohortsService.createCohort({cohortCreate: payload});
   public readonly updateService = (id: string, payload: CohortCreate) => this.#cohortsService.updateCohort({cohortId: id, cohortCreate: payload});
@@ -69,7 +69,9 @@ export class CohortFormComponent extends AbstractFormBase {
   }
 
   protected relatedProjects = rxResource({
-    request: () => ({membersUsername: this.#currentUser()?.username, status: 'ongoing'} as GetProjectsRequestParams),
+    request: () => (
+      (this.#currentUser().role !== AccessRoles.PlatformManager && this.#currentUser().role !== AccessRoles.SystemAdministrator) ? {membersUsername: this.#currentUser()?.username, status: 'ongoing'} as GetProjectsRequestParams : {} as GetProjectsRequestParams
+    ),
     loader: ({request}) => this.#projectsService.getProjects(request).pipe(
       map(response => response.items)
     )
