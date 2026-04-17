@@ -22,9 +22,15 @@ import { Chip } from 'primeng/chip';
                 </div>
             </div>
         } @else {
-            <div>
-                <p-chip [label]="therapyLine()" styleClass="tag tag-primary-outline"/>
-                {{ fallbackDescription() }}
+            <div class="st-event">
+                @if (fallbackDescription()) {
+                    <div class="st-drugs">{{ fallbackDescription() }}</div>
+                }
+                @if (therapyLine()) {
+                    <div class="st-meta">
+                        <p-chip [label]="therapyLine()" styleClass="tag tag-primary-outline st-line-chip"/>
+                    </div>
+                }
             </div>
         }
     `,

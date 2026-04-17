@@ -425,7 +425,8 @@ onconova-case-manager-panel {
               onconova-multiline-event,
               onconova-neoplastic-entity-event,
               onconova-genomic-variant-event,
-              onconova-performance-status-event {
+              onconova-performance-status-event,
+              onconova-lifestyle-event {
                 flex: 1;
                 min-width: 0;
                 width: 100%;
@@ -1181,5 +1182,59 @@ onconova-performance-status-event {
         color: var(--p-primary-color);
         margin-left: 0.25rem;
         flex-shrink: 0;
+    }
+}
+
+// ── Neoplastic Entity Event ────────────────────────────────────────────────
+onconova-neoplastic-entity-event {
+    .ne-event {
+        display: flex;
+        flex-direction: column;
+        gap: 0.2rem;
+    }
+
+    .ne-chip.p-chip {
+        font-size: 0.68rem;
+        padding: 0.05rem 0.4rem;
+        height: auto;
+        align-self: flex-start;
+    }
+    .ne-chip.p-chip .p-chip-label {
+        font-size: 0.68rem;
+    }
+}
+
+onconova-lifestyle-event {
+    width: 100%;
+
+    .lifestyle-event {
+        display: flex;
+        flex-direction: column;
+        gap: 0.22rem;
+        width: 100%;
+    }
+
+    .lifestyle-row {
+        display: flex;
+        align-items: baseline;
+        gap: 0.4rem;
+        font-size: 0.82rem;
+        line-height: 1.4;
+    }
+
+    .lifestyle-label {
+        font-size: 0.65rem;
+        font-weight: 400;
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+        color: var(--p-text-muted-color);
+        flex-shrink: 0;
+        min-width: 4rem;
+    }
+
+    .lifestyle-value {
+        font-size: 0.82rem;
+        font-weight: 400;
+        color: var(--p-text-color);
     }
 }

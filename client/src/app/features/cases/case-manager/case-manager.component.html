@@ -122,7 +122,7 @@
                 <small class="text-muted">Cause of death</small>
                 <div class="header-stat-value">
                     @if (case$.value(); as case) {
-                        {{ case.causeOfDeath ? (case.causeOfDeath.display! | replace:'Death by ':'') : '-' }}
+                        {{ case.causeOfDeath ? (case.causeOfDeath.display! | replace:'Death by ':'' | replace:'Death Related to ':'') : '-' }}
                     } @else {
                         <p-skeleton width="8rem" height="1.3rem" />
                     }
@@ -370,7 +370,7 @@
                         (onCompletionChange)="updateCompletion($event)"
                         [formComponent]="LifestyleFormComponent"
                         [service]="lifestyleService"
-                        [customEventComponent]="MultilineEventComponent"
+                        [customEventComponent]="LifestyleEventComponent"
                         [category]="PatientCaseDataCategoryChoices.Lifestyles"/>
                         
                     <p-divider></p-divider>
