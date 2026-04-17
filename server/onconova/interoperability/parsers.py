@@ -345,7 +345,9 @@ class BundleParser:
                     # Collect unresolvable keys for the resource AND all its nested subresources
                     # so that a parent is not imported before its children's FK targets exist.
                     all_unresolvable = self._get_unresolvable_keys(resource)
-                    for nested_resource_details in self.nested_resources.get(list_field, []):
+                    for nested_resource_details in self.nested_resources.get(
+                        list_field, []
+                    ):
                         for nested_resource in getattr(
                             resource, nested_resource_details.schema_related_name, []
                         ):
