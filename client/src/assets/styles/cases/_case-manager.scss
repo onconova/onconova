@@ -318,9 +318,19 @@ onconova-case-manager-panel {
     & .panel-content {
         padding-bottom: 0;
 
-        & .no-entries-text {
-            margin-left: 1rem;
-            color: color-mix(in srgb, var(--p-text-muted-color), transparent 25%);
+        & .no-entries-state {
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+            padding: 0.6rem 1rem 0.75rem;
+            color: color-mix(in srgb, var(--p-muted-color), transparent 20%);
+            font-size: 0.8rem;
+            font-style: italic;
+
+            & .no-entries-icon {
+                flex-shrink: 0;
+                opacity: 0.55;
+            }
         }
     }
 
@@ -426,7 +436,8 @@ onconova-case-manager-panel {
               onconova-neoplastic-entity-event,
               onconova-genomic-variant-event,
               onconova-performance-status-event,
-              onconova-lifestyle-event {
+              onconova-lifestyle-event,
+              onconova-genomic-signature-event {
                 flex: 1;
                 min-width: 0;
                 width: 100%;
@@ -1236,5 +1247,102 @@ onconova-lifestyle-event {
         font-size: 0.82rem;
         font-weight: 400;
         color: var(--p-text-color);
+    }
+}
+
+// ── Genomic Signature Event ────────────────────────────────────────────────
+onconova-genomic-signature-event {
+    width: 100%;
+
+    .gs-event {
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
+        width: 100%;
+    }
+
+    .gs-label {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+    }
+
+    .gs-label-text {
+        font-size: 0.82rem;
+        font-weight: 500;
+        color: var(--p-text-color);
+    }
+
+    .gs-value {
+        font-size: 0.82rem;
+        color: var(--p-primary-color);
+        white-space: nowrap;
+    }
+
+    .gs-fallback {
+        font-size: 0.82rem;
+        color: var(--p-text-color);
+    }
+
+    // ── Bar track ─────────────────────────────────────────────────
+    .gs-bar-container {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+        width: 75%;
+    }
+
+    .gs-bar {
+        position: relative;
+        display: flex;
+        width: 100%;
+        height: 0.42rem;
+        overflow: visible;
+    }
+
+    .gs-bar-segment {
+        height: 100%;
+        &:first-child { border-radius: 999px 0 0 999px; }
+        &:last-child  { border-radius: 0 999px 999px 0; }
+    }
+
+    .gs-good-segment {
+        background: color-mix(in srgb, var(--p-primary-400), transparent 38%);
+    }
+
+    .gs-bad-segment {
+        background: color-mix(in srgb, var(--p-text-muted-color), transparent 62%);
+    }
+
+    .gs-bar-indicator {
+        position: absolute;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 10;
+    }
+
+    .gs-bar-circle {
+        width: 0.78rem;
+        height: 0.78rem;
+        border-radius: 50%;
+        background: var(--p-content-background);
+        border: 2px solid var(--p-primary-color);
+        box-shadow:
+            0 0 0 2px color-mix(in srgb, var(--p-primary-500), transparent 62%),
+            0 1px 4px rgba(0, 0, 0, 0.18);
+    }
+
+    .gs-bar-tick-row {
+        position: relative;
+        height: 0.85rem;
+    }
+
+    .gs-bar-tick {
+        position: absolute;
+        transform: translateX(-50%);
+        font-size: 0.6rem;
+        color: var(--p-text-muted-color);
+        letter-spacing: 0.02em;
+        white-space: nowrap;
     }
 }
