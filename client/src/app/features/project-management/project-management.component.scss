@@ -1,0 +1,126 @@
+/* ===== Page Header Hero ===== */
+.project-page-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    background: var(--p-content-background);
+    border-radius: 1.5rem;
+    padding: 1.5rem 1.75rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid color-mix(in srgb, var(--p-primary-500), transparent 82%);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 4px;
+        background: linear-gradient(180deg, var(--p-primary-400), var(--p-primary-600));
+        z-index: 1;
+    }
+}
+
+.project-page-header-identity {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    flex: 1;
+    min-width: 0;
+}
+
+.project-page-header-info {
+    flex: 1;
+    min-width: 0;
+
+    h1 {
+        margin: 0.1rem 0 0 0;
+        font-size: 1.55rem;
+        line-height: 1.2;
+    }
+
+    .project-description {
+        color: var(--p-text-muted-color);
+        font-size: 0.875rem;
+        margin: 0.5rem 0 0 0;
+    }
+}
+
+.project-id-subtitle {
+    font-family: monospace;
+    font-size: 0.68rem;
+    color: var(--p-text-muted-color);
+    opacity: 0.75;
+    letter-spacing: 0.02em;
+}
+
+.project-page-header-actions {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    flex-shrink: 0;
+    padding-top: 0.25rem;
+}
+
+/* ===== Section Headings ===== */
+.project-section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.25rem;
+    margin-top: 1.75rem;
+
+    h4 {
+        margin: 0;
+    }
+}
+
+/* ===== Overview Info Grid ===== */
+.project-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+    gap: 1.25rem 2rem;
+    padding: 0.25rem 0 0.5rem 0;
+}
+
+.project-info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+
+    .info-label {
+        font-size: 0.73rem;
+        color: var(--p-text-muted-color);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        font-weight: 600;
+    }
+
+    .info-value {
+        font-size: 0.9rem;
+    }
+}
+
+/* ===== Section Count Badge ===== */
+.section-count-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.5rem;
+    height: 1.5rem;
+    padding: 0 0.45rem;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    background: var(--p-chip-background);
+    color: var(--p-chip-color);
+    border: 1px solid color-mix(in srgb, var(--p-chip-color), transparent 65%);
+}
+
+/* ===== Members Table Tweaks ===== */
+.authorization-granter-subtitle {
+    font-size: 0.78rem;
+}

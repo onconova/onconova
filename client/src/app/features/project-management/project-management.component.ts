@@ -7,14 +7,17 @@ import { Button } from "primeng/button";
 import { ConfirmDialog } from "primeng/confirmdialog";
 import { DataView } from "primeng/dataview";
 import { DatePicker } from "primeng/datepicker";
+import { DialogService, DynamicDialogRef } from "primeng/dynamicdialog";
 import { Fluid } from "primeng/fluid";
 import { Menu } from "primeng/menu";
 import { Skeleton } from "primeng/skeleton";
 import { TableModule } from "primeng/table";
 import { TagModule } from "primeng/tag";
 import { ToggleSwitch } from "primeng/toggleswitch";
+import { GraduationCap } from "lucide-angular";
 import { BehaviorSubject, forkJoin, from, map, mergeMap, Observable, toArray } from "rxjs";
 import { UserBadgeComponent } from "src/app/shared/components/user-badge/user-badge.component";
+import { IdenticonComponent } from "src/app/shared/components/identicon/identicon.component";
 import { AccessRoles, Cohort, CohortsService, DatasetsService, Period, ProjectCreate, ProjectDataManagerGrant, ProjectsService, ProjectStatusChoices, User, UsersService } from "onconova-api-client";
 import { CohortSearchItemComponent } from "../cohorts/cohort-search/components/cohort-search-item/cohort-search-item.component";
 import { AuthService } from "src/app/core/auth/services/auth.service";
@@ -24,6 +27,8 @@ import { UserSelectorComponent } from "src/app/shared/components/user-selector/u
 import { Divider } from "primeng/divider";
 import { Card } from "primeng/card";
 import { Chip } from "primeng/chip";
+import { ProjectFormComponent } from "../forms/projects-form/projects-form.component";
+import { ModalFormHeaderComponent } from "src/app/features/forms/modal-form-header.component";
 
 interface ProjectMember extends User {
     authorization: ProjectDataManagerGrant
@@ -32,8 +37,10 @@ interface ProjectMember extends User {
 @Component({
     selector: 'onconova-project-management',
     templateUrl: './project-management.component.html',
+    styleUrl: './project-management.component.scss',
     providers: [
-        ConfirmationService
+        ConfirmationService,
+        DialogService,
     ],
     imports: [
     Fluid,
@@ -41,6 +48,7 @@ interface ProjectMember extends User {
     CommonModule,
     Skeleton,
     UserBadgeComponent,
+    IdenticonComponent,
     Divider,
     Popover,
     Card,
@@ -68,6 +76,10 @@ export class ProjectManagementComponent {
     readonly #confirmationService = inject(ConfirmationService);
     readonly #cohortsService = inject(CohortsService);
     readonly #datasetsService = inject(DatasetsService);
+    readonly #dialogService = inject(DialogService);
+    #modalFormRef: DynamicDialogRef | undefined;
+
+    protected readonly ProjectStatusChoices = ProjectStatusChoices;
 
     public readonly currentUser = computed(() => this.#authService.user())
 
@@ -308,6 +320,30 @@ export class ProjectManagementComponent {
 
     addMember(member: string) {
         this.updateProjectMembers([...(this.project.value()?.members || []), member])
+    }
+
+    openEditProjectDialog() {
+        const project = this.project.value();
+        this.#modalFormRef = this.#dialogService.open(ProjectFormComponent, {
+            inputValues: {
+                initialData: project,
+                resourceId: project?.id,
+            },
+            data: {
+                title: 'Project',
+                subtitle: 'Edit project details',
+                icon: GraduationCap,
+            },
+            templates: { header: ModalFormHeaderComponent },
+            modal: true,
+            closable: true,
+            width: '45vw',
+            styleClass: 'onconova-modal-form',
+            breakpoints: { '1700px': '50vw', '960px': '75vw', '640px': '90vw' },
+        });
+        this.#modalFormRef.onClose.subscribe((data: any) => {
+            if (data?.saved) { this.project.reload(); }
+        });
     }
 
     private updateProjectMembers(members: string[]) {

@@ -1,115 +1,111 @@
 
-<div class="text-sm font-semibold text-muted">
-    Project
-</div>
-<div>
-    @if (project.isLoading()) {
-        <p-skeleton width="100%" height="2rem"/>
-    } @else {
-        <h1 class="my-0 mr-2">{{ project.value()!.title }}</h1>      
-    }
+<!-- ===== Page Hero ===== -->
+<div class="project-page-header">
+    <div class="project-page-header-identity">
+        <div class="project-page-header-info">
+            <div class="flex align-items-center gap-2">
+                <small class="text-muted">Research Project</small>
+                @if (!project.isLoading()) {
+                    <span class="project-id-subtitle">{{ project.value()?.id }}</span>
+                }
+            </div>
+            <div class="flex align-items-center gap-2 mt-1 flex-wrap">
+                @if (project.isLoading()) {
+                    <p-skeleton width="18rem" height="2.2rem"/>
+                } @else {
+                    <h1 class="my-0">{{ project.value()!.title }}</h1>
+                    <p-chip
+                        [label]="parseStatus(project.value()!.status!).value"
+                        [styleClass]="'tag ' + (project.value()!.status === ProjectStatusChoices.Ongoing ? 'tag-primary' : 'tag-secondary-outline')"/>
+                }
+            </div>
+            @if (project.isLoading()) {
+                <p-skeleton width="28rem" height="1rem" class="mt-2"/>
+            } @else {
+                <p class="project-description">{{ project.value()?.summary }}</p>
+            }
+        </div>
+    </div>
+    <div class="project-page-header-actions">
+        <p-button
+            label="Edit Project"
+            icon="pi pi-pencil"
+            severity="secondary"
+            [outlined]="true"
+            [disabled]="!canEditAuthorizations()"
+            (onClick)="openEditProjectDialog()"/>
+    </div>
 </div>
 
 
-<h4 class="mb-1">Summary</h4>
+<!-- ===== Overview Card ===== -->
+<div class="project-section-heading">
+    <h4>Overview</h4>
+</div>
 <p-divider layout="horizontal" class="mt-0"/>
 <p-card>
-    <div class="text-sm text-muted mt-3">
-        Project ID
-    </div>
-    <div>
-        @if (project.isLoading()) {
-            <p-skeleton width="10rem" height="2rem"/>
-        } @else {
-            <span class="text-monospace text-sm">
-                {{ project.value()?.id }}
-            </span> 
-        }
-    </div>
-    <div class="flex gap-4">
-        <div>
-            <div class="text-sm text-muted mt-3">
-                Project Leader
-            </div>
-            <div>
-                @if (project.isLoading()) {
-                    <p-skeleton width="10rem" height="2rem"/>
-                } @else {
-                    <onconova-user-badge [username]="project.value()!.leader" [showName]="true"/>
-                }
-            </div>
+    <div class="project-info-grid">
+
+        <div class="project-info-item">
+            <span class="info-label">Project Leader</span>
+            @if (project.isLoading()) {
+                <p-skeleton width="10rem" height="1.5rem"/>
+            } @else {
+                <onconova-user-badge [username]="project.value()!.leader" [showName]="true"/>
+            }
         </div>
 
-        <div>
-            <div class="text-sm text-muted mt-3 mb-1">
-                Status
-            </div>
-            <div>
-                @if (project.isLoading()) {
-                    <p-skeleton width="10rem" height="2rem"/>
-                } @else {
-                    @let status = parseStatus(project.value()!.status!);
-                    <p-tag [value]="status.value" [severity]="status.severity"/>   
-                }
-            </div>
+        <div class="project-info-item">
+            <span class="info-label">Status</span>
+            @if (project.isLoading()) {
+                <p-skeleton width="6rem" height="1.5rem"/>
+            } @else {
+                <p-chip
+                    [label]="parseStatus(project.value()!.status!).value"
+                    [styleClass]="'tag ' + (project.value()!.status === ProjectStatusChoices.Ongoing ? 'tag-primary' : 'tag-secondary-outline')"/>
+            }
         </div>
-    </div>
 
-    <div class="flex gap-4 mb-2">
-        
-        <div>
-            <div class="text-sm text-muted mt-3 mb-1">
-                Ethic Approval
-            </div>
-            <div>
-                @if (project.isLoading()) {
-                    <p-skeleton width="10rem" height="2rem"/>
-                } @else {                
-                    {{ project.value()!.ethicsApprovalNumber }}
-                }
-            </div>
+        <div class="project-info-item">
+            <span class="info-label">Ethics Approval</span>
+            @if (project.isLoading()) {
+                <p-skeleton width="8rem" height="1.5rem"/>
+            } @else {
+                <span class="info-value">{{ project.value()!.ethicsApprovalNumber || '\u2014' }}</span>
+            }
         </div>
-        <div>
-                <div class="text-sm text-muted mt-3 mb-1">
-                    Created
-                </div>
-                <div>
-                    @if (project.isLoading()) {
-                        <p-skeleton width="10rem" height="2rem"/>
-                    } @else {                
-                        {{ (project.value()!.createdAt | date) ?? '-'  }}
-                    }
-                </div>
-        </div>
-        <div>
-            <div class="text-sm text-muted mt-3 mb-1">
-                Last updated
-            </div>
-            <div>
-                @if (project.isLoading()) {
-                    <p-skeleton width="10rem" height="2rem"/>
-                } @else {                
-                    {{ (project.value()!.updatedAt | date) ?? '-'  }}
-                }
-            </div>
-        </div>
-    </div>
 
-    <div class="text-sm text-muted mt-2">
-        Description
-    </div>
-    <div class="mb-5">
-        @if (project.isLoading()) {
-            <p-skeleton width="100%" height="4rem"/>
-        } @else {
-            <p>{{ project.value()!.summary }}</p>
-        }
+        <div class="project-info-item">
+            <span class="info-label">Created</span>
+            @if (project.isLoading()) {
+                <p-skeleton width="8rem" height="1.5rem"/>
+            } @else {
+                <span class="info-value">{{ (project.value()!.createdAt | date) ?? '\u2014' }}</span>
+            }
+        </div>
+
+        <div class="project-info-item">
+            <span class="info-label">Last Updated</span>
+            @if (project.isLoading()) {
+                <p-skeleton width="8rem" height="1.5rem"/>
+            } @else {
+                <span class="info-value">{{ (project.value()!.updatedAt | date) ?? '\u2014' }}</span>
+            }
+        </div>
+
     </div>
 </p-card>
 
 
 
-<h4 class="mb-1">Members</h4>
+
+<!-- ===== Members Section ===== -->
+<div class="project-section-heading">
+    <div class="flex align-items-center gap-2">
+        <h4>Members</h4>
+        <span class="section-count-badge">{{ project.value()?.members?.length ?? 0 }}</span>
+    </div>
+</div>
 <p-divider layout="horizontal" class="mt-0"/>
 
 <p-card styleClass="pt-1">
@@ -223,7 +219,14 @@
 
 
 
-<h4 class="mb-1">Cohorts</h4>
+
+<!-- ===== Cohorts Section ===== -->
+<div class="project-section-heading">
+    <div class="flex align-items-center gap-2">
+        <h4>Cohorts</h4>
+        <span class="section-count-badge">{{ totalCohorts() }}</span>
+    </div>
+</div>
 <p-divider layout="horizontal" class="mt-0"/>
 <p-card>
     <p-dataView
@@ -265,7 +268,14 @@
     </p-dataView>
 </p-card>
 
-<h4 class="mb-1">Datasets</h4>
+
+<!-- ===== Datasets Section ===== -->
+<div class="project-section-heading">
+    <div class="flex align-items-center gap-2">
+        <h4>Datasets</h4>
+        <span class="section-count-badge">{{ totalDatasets() }}</span>
+    </div>
+</div>
 <p-divider layout="horizontal" class="mt-0"/>
 <p-card>
     <p-dataView
