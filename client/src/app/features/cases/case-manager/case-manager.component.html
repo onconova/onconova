@@ -133,7 +133,7 @@
                 <small class="text-muted">Clinical center</small>
                 <div class="header-stat-value">
                     @if (case$.value(); as case) {
-                        @if (case.clinicalCenter?.includes('*')) {
+                        @if (case.clinicalCenter.includes('*')) {
                             <span class="case-redacted-badge"><i class="pi pi-eye-slash"></i> Redacted</span>
                         } @else {
                             {{ case.clinicalCenter }}
@@ -144,7 +144,7 @@
                 <small class="text-muted">Clinical Identifier</small>
                 <div class="header-stat-value">
                     @if (case$.value(); as case) {
-                        @if (case.clinicalIdentifier?.includes('*')) {
+                        @if (case.clinicalIdentifier.includes('*')) {
                             <span class="case-redacted-badge"><i class="pi pi-eye-slash"></i> Redacted</span>
                         } @else {
                             {{ case.clinicalIdentifier }}

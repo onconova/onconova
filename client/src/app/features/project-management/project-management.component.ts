@@ -48,7 +48,6 @@ interface ProjectMember extends User {
     CommonModule,
     Skeleton,
     UserBadgeComponent,
-    IdenticonComponent,
     Divider,
     Popover,
     Card,

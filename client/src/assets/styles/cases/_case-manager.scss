@@ -71,10 +71,11 @@
 
         & .case-manager-patient-info {
             & h2 {
-                font-size: 1.2rem;
+                font-size: 1.3rem;
                 font-weight: 700;
                 letter-spacing: 0.02em;
                 color: var(--p-primary-color);
+                margin: 0 !important;
             }
             & .case-manager-demographics {
                 font-size: 0.875rem;

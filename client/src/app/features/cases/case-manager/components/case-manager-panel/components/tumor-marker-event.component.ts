@@ -95,7 +95,6 @@ export class TumorMarkerEventComponent {
     categoryValue = computed(() => {
         const marker = this.event();
         if (!marker) return null;
-        console.log(marker)
         // Try to extract category value from various fields
         if (marker.tumorProportionScore) {
             return marker.tumorProportionScore;
