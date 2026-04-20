@@ -21,6 +21,8 @@ import { GenomicVariantEventComponent } from './components/case-manager-panel/co
 import { PerformanceStatusEventComponent } from './components/case-manager-panel/components/performance-status-event.component';
 import { LifestyleEventComponent } from './components/case-manager-panel/components/lifestyle-event.component';
 import { GenomicSignatureEventComponent } from './components/case-manager-panel/components/genomic-signature-event.component';
+import { VitalsEventComponent } from './components/case-manager-panel/components/vitals-event.component';
+import { VitalsTimelineChartComponent } from './components/case-manager-panel/components/vitals-timeline-chart.component';
 
 import { 
     Ribbon, HeartPulse, Tags, TestTubeDiagonal, Dna, 
@@ -270,6 +272,8 @@ export class CaseManagerComponent {
     public TumorBoardFormComponent = TumorBoardFormComponent;
     public AdverseEventFormComponent = AdverseEventFormComponent;
     public TreatmentResponseFormComponent = TreatmentResponseFormComponent;
+    public VitalsEventComponent = VitalsEventComponent;
+    public VitalsTimelineChartComponent = VitalsTimelineChartComponent;
 
     public readonly PatientCaseDataCategoryChoices = PatientCaseDataCategoryChoices; 
 

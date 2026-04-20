@@ -72,6 +72,8 @@ export class CaseManagerPanelComponent {
     public title = input<string>();
     public icon = input.required<LucideIconData>();
     public customEventComponent = input<Type<any>>();
+    public graphChartComponent = input<Type<any>>();
+    public graphViewEnabled = input<boolean>(false);
 
     protected dataCompletionStatus = rxResource({
         request: () => ({caseId: this.caseId(), category: this.category()}),

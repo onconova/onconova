@@ -408,7 +408,9 @@
                         (onCompletionChange)="updateCompletion($event)"
                         [formComponent]="VitalsFormComponent"
                         [service]="vitalsService"
-                        [customEventComponent]="MultilineEventComponent"
+                        [customEventComponent]="VitalsEventComponent"
+                        [graphChartComponent]="VitalsTimelineChartComponent"
+                        [graphViewEnabled]="true"
                         [category]="PatientCaseDataCategoryChoices.Vitals"/> 
                 </p-fieldset>
             </div>
