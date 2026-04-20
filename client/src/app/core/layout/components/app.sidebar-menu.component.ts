@@ -97,6 +97,11 @@ export class AppSidebarMenuComponent {
             {
                 label: 'Documentation',
                 items: [
+                    {
+                        label: 'Terminology Browser',
+                        icon: 'pi pi-fw pi-sitemap',
+                        routerLink: ['/terminologies'],
+                    },
                     { 
                         label: 'API Specification', 
                         icon: 'pi pi-fw pi-book', 

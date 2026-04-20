@@ -56,6 +56,7 @@ const appRoutes: Routes = [
                     { path: ':projectId/management', loadComponent: () => import('./features/project-management/project-management.component').then(m => m.ProjectManagementComponent), title: 'Project management - Onconova' },
                 ]
             },
+            { path: 'terminologies', loadComponent: () => import('./features/terminologies/terminology-browser/terminology-browser.component').then(m => m.TerminologyBrowserComponent), title: 'Terminology Browser - Onconova' },
             { path: 'admin', 
                 loadChildren: () => import('./core/admin/admin.routes').then(m => m.adminRoutes),
             },

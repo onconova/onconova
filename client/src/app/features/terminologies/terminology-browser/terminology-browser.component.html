@@ -1,0 +1,395 @@
+<!-- ═══ Page header ═══════════════════════════════════════════════════════ -->
+<div class="tb-page-header">
+  <div>
+    <div class="tb-page-breadcrumb">Reference Data</div>
+    <h2 class="mb-0 mt-0 font-semibold">Terminology Browser</h2>
+    <div class="text-muted text-sm mt-1">
+      Explore valuesets, coded concepts, synonyms and definitions used across the platform.
+    </div>
+  </div>
+</div>
+
+<!-- ═══ Three-column browser body ════════════════════════════════════════ -->
+<div class="tb-body">
+
+  <!-- ── LEFT: Terminology catalogue ─────────────────────────────────── -->
+  <aside class="tb-sidebar">
+
+    <!-- Sidebar search -->
+    <div class="tb-sidebar-search">
+      <p-iconfield>
+        <p-inputicon styleClass="pi pi-search"/>
+        <input
+          pInputText
+          placeholder="Filter terminologies…"
+          [ngModel]="terminologyFilter()"
+          (ngModelChange)="terminologyFilter.set($event)"
+          class="w-full"/>
+      </p-iconfield>
+    </div>
+
+    <!-- Catalogue group list -->
+    <nav class="tb-catalogue">
+      @for (group of filteredGroups(); track group.label) {
+        <div class="tb-group">
+          <div class="tb-group-header">
+            <i [class]="group.icon + ' tb-group-icon'"></i>
+            {{ group.label }}
+          </div>
+          @for (term of group.items; track term.name) {
+            <button
+              class="tb-term-item"
+              [class.tb-term-item--active]="selectedTerminologyName() === term.name"
+              [title]="term.description ?? term.name"
+              (click)="selectTerminology(term.name)">
+              <span class="tb-term-label">{{ term.label }}</span>
+              @if (selectedTerminologyName() === term.name && conceptTotal() > 0) {
+                <span class="tb-term-badge">{{ conceptTotal() }}</span>
+              }
+            </button>
+          }
+        </div>
+      }
+
+      @if (filteredGroups().length === 0) {
+        <div class="tb-catalogue-empty">
+          <i class="pi pi-filter-slash"></i>
+          No terminologies match your filter.
+        </div>
+      }
+    </nav>
+  </aside>
+
+  <!-- ── CENTER: Concept list ─────────────────────────────────────────── -->
+  <main class="tb-main">
+
+    @if (!selectedTerminologyName()) {
+      <!-- Empty state: no terminology selected -->
+      <div class="tb-empty-state">
+        <div class="tb-empty-icon-wrap">
+          <i class="pi pi-sitemap"></i>
+        </div>
+        <span class="tb-empty-title">Select a terminology</span>
+        <span class="tb-empty-desc">
+          Choose a valueset from the catalogue on the left to browse its coded concepts.
+        </span>
+      </div>
+    } @else {
+
+      <!-- Search + mode toolbar -->
+      <div class="tb-toolbar">
+        @if (viewMode() === 'list') {
+          <p-iconfield class="flex-1">
+            <p-inputicon [styleClass]="'pi ' + (conceptSearchMode() === 'code' ? 'pi-tag' : 'pi-search')"/>
+            <input
+              pInputText
+              class="w-full"
+              [placeholder]="conceptSearchMode() === 'code' ? 'Search by exact code…' : 'Search by name or synonym…'"
+              [(ngModel)]="conceptQueryInput"
+              (ngModelChange)="onConceptQueryInput($event)"/>
+          </p-iconfield>
+
+          <p-selectbutton
+            [options]="searchModeOptions"
+            [ngModel]="conceptSearchMode()"
+            (ngModelChange)="onSearchModeChange($event)"
+            optionLabel="label"
+            optionValue="value"
+            styleClass="tb-search-mode-btn"/>
+
+          @if (conceptQuery()) {
+            <p-button
+              icon="pi pi-times"
+              severity="secondary"
+              [text]="true"
+              title="Clear search"
+              (onClick)="conceptQueryInput = ''; onConceptQueryInput('')"/>
+          }
+        }
+
+        <!-- View mode toggle: List / Tree -->
+        <div class="tb-view-toggle">
+          <button
+            type="button"
+            class="tb-view-btn"
+            [class.active]="viewMode() === 'list'"
+            title="List view"
+            (click)="setViewMode('list')">
+            <i class="pi pi-list"></i>
+            <span>List</span>
+          </button>
+          <button
+            type="button"
+            class="tb-view-btn"
+            [class.active]="viewMode() === 'tree'"
+            title="Tree view"
+            (click)="setViewMode('tree')">
+            <i class="pi pi-sitemap"></i>
+            <span>Tree</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Results header (breadcrumb + count) -->
+      <div class="tb-results-header">
+        <div class="tb-results-breadcrumb">
+          <span class="tb-breadcrumb-root">Terminologies</span>
+          <i class="pi pi-angle-right tb-breadcrumb-sep"></i>
+          <span class="tb-terminology-name">{{ selectedTerminologyInfo()?.label }}</span>
+        </div>
+        @if (!concepts.isLoading()) {
+          <span class="tb-results-count">
+            @if (viewMode() === 'list') {
+              {{ conceptTotal() }} concept{{ conceptTotal() === 1 ? '' : 's' }}
+            } @else {
+              {{ allConceptsForTree.value()?.count ?? 0 }} concept{{ (allConceptsForTree.value()?.count ?? 0) === 1 ? '' : 's' }}
+            }
+          </span>
+        }
+        @if (concepts.isLoading()) {
+          <p-skeleton width="5rem" height="1.2rem"/>
+        }
+      </div>
+
+      @if (viewMode() === 'list') {
+        <!-- Concept table (lazy, server-side pagination) -->
+        <div class="tb-table-wrap">
+        <p-table
+          [value]="concepts.isLoading() ? skeletonRows : conceptItems()"
+          [lazy]="true"
+          [paginator]="true"
+          [rows]="conceptLimit()"
+          [first]="conceptOffset()"
+          [totalRecords]="conceptTotal()"
+          [rowsPerPageOptions]="[25, 50, 100]"
+          [showJumpToPageDropdown]="true"
+            styleClass="tb-concept-table"
+          [rowHover]="true"
+          (onLazyLoad)="onLazyLoad($event)"
+          (onRowSelect)="selectConcept($event.data)"
+          selectionMode="single"
+          [selection]="selectedConcept()">
+
+          <ng-template pTemplate="header">
+            <tr>
+              <th style="width: 8rem">Code</th>
+              <th>Display Name</th>
+              <th style="width: 40%">Synonyms</th>
+            </tr>
+          </ng-template>
+
+          <ng-template pTemplate="body" let-row>
+            @if (concepts.isLoading()) {
+              <tr>
+                <td><p-skeleton width="5rem" height="1.2rem"/></td>
+                <td><p-skeleton height="1.2rem"/></td>
+                <td><p-skeleton height="1.2rem"/></td>
+              </tr>
+            } @else {
+              <tr
+                class="tb-concept-row"
+                [class.tb-concept-row--selected]="selectedConceptCode() === row.code"
+                (click)="selectConcept(row)">
+                <td>
+                  <code class="tb-code-chip">{{ row.code }}</code>
+                </td>
+                <td>
+                  <span class="font-medium">{{ row.display ?? '—' }}</span>
+                </td>
+                <td>
+                  <div class="tb-synonym-list">
+                    @for (syn of (row.synonyms ?? []).slice(0, 3); track syn) {
+                      <span class="tb-synonym-tag">{{ syn }}</span>
+                    }
+                    @if ((row.synonyms?.length ?? 0) > 3) {
+                      <span class="tb-synonym-more">
+                        +{{ (row.synonyms?.length ?? 0) - 3 }} more
+                      </span>
+                    }
+                  </div>
+                </td>
+              </tr>
+            }
+          </ng-template>
+
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="3">
+                <div class="tb-table-empty">
+                  <i class="pi pi-search-minus"></i>
+                  <span>No concepts found{{ conceptQuery() ? ' for "' + conceptQuery() + '"' : '' }}.</span>
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+
+        </p-table>
+        </div>
+      } @else {
+        <!-- Tree view -->
+        <div class="tb-tree-wrap">
+          @if (allConceptsForTree.isLoading()) {
+            <div class="p-3">
+              @for (i of [1,2,3,4,5,6,7,8,9,10]; track i) {
+                <p-skeleton height="2rem" styleClass="mb-2" borderRadius="6px"/>
+              }
+            </div>
+          } @else {
+            <div class="tb-tree-actions">
+              <p-button
+                label="Expand All"
+                icon="pi pi-plus"
+                severity="secondary"
+                [text]="true"
+                size="small"
+                (onClick)="expandAll()"/>
+              <p-button
+                label="Collapse All"
+                icon="pi pi-minus"
+                severity="secondary"
+                [text]="true"
+                size="small"
+                (onClick)="collapseAll()"/>
+            </div>
+            <p-tree
+              [value]="treeNodes()"
+              styleClass="tb-tree"
+              [filter]="true"
+              filterPlaceholder="Filter tree…"
+              selectionMode="single"
+              [selection]="selectedTreeNode()"
+              (onNodeSelect)="onTreeNodeSelect($event)"
+              (onNodeUnselect)="selectedTreeNode.set(null)"
+              (onNodeExpand)="onTreeNodeExpand($event)"
+              (onNodeCollapse)="onTreeNodeCollapse($event)"/>
+          }
+        </div>
+      }
+    }
+  </main>
+
+  <!-- ── RIGHT: Concept detail panel ──────────────────────────────────── -->
+  @if (selectedConceptCode()) {
+    <aside class="tb-detail">
+
+      <!-- Detail header -->
+      <div class="tb-detail-header">
+        <span class="tb-detail-title">Concept Detail</span>
+        <p-button
+          icon="pi pi-times"
+          severity="secondary"
+          [text]="true"
+          size="small"
+          (onClick)="closeConcept()"/>
+      </div>
+
+
+      @if (conceptDetailResource.isLoading() || (selectedConceptCode() && !selectedConcept())) {
+        <!-- Loading skeleton -->
+        <div class="tb-detail-loading">
+          <p-skeleton width="7rem" height="2.25rem" styleClass="mb-3" borderRadius="8px"/>
+          <p-skeleton width="90%" height="1.375rem" styleClass="mb-1"/>
+          <p-skeleton width="65%" height="1.375rem" styleClass="mb-4"/>
+          <p-skeleton width="100%" height="0.785rem" styleClass="mb-2"/>
+          <p-skeleton width="100%" height="0.785rem" styleClass="mb-2"/>
+          <p-skeleton width="55%" height="0.785rem"/>
+        </div>
+      } @else {
+        @if (selectedConcept(); as concept) {
+        <div class="tb-detail-body">
+
+          <!-- Code hero section -->
+          <div class="tb-detail-hero">
+            <div class="tb-detail-code-row">
+              <code class="tb-detail-code">{{ concept.code }}</code>
+              <p-button
+                icon="pi pi-copy"
+                severity="secondary"
+                [text]="true"
+                size="small"
+                pTooltip="Copy code"
+                (onClick)="copyToClipboard(concept.code)"/>
+            </div>
+            <div class="tb-detail-display">{{ concept.display ?? '—' }}</div>
+          </div>
+
+          <!-- Parent concept link -->
+          @if (concept.parent) {
+            <div class="tb-detail-parent">
+              <span class="tb-parent-label">Parent concept</span>
+              <button type="button" class="tb-parent-link" (click)="navigateToParent()">
+                <code class="tb-code-chip tb-code-chip--sm">{{ concept.parent }}</code>
+                @if (parentConceptResource.isLoading()) {
+                  <p-skeleton width="8rem" height="1rem" styleClass="flex-shrink-0"/>
+                } @else if (parentConcept()) {
+                  <span class="tb-parent-display">{{ parentConcept()!.display }}</span>
+                }
+                <i class="pi pi-arrow-circle-right tb-parent-arrow"></i>
+              </button>
+            </div>
+          }
+
+          <!-- Metadata (system, version) -->
+          @if (concept.system || concept.version) {
+            <div class="tb-detail-meta">
+              @if (concept.system) {
+                <div class="tb-meta-item">
+                  <span class="tb-meta-label">System</span>
+                  <span class="tb-meta-value tb-meta-mono">{{ concept.system }}</span>
+                </div>
+              }
+              @if (concept.version) {
+                <div class="tb-meta-item">
+                  <span class="tb-meta-label">Version</span>
+                  <span class="tb-meta-value">{{ concept.version }}</span>
+                </div>
+              }
+            </div>
+          }
+
+          <!-- Synonyms -->
+          @if ((concept.synonyms?.length ?? 0) > 0) {
+            <div class="tb-detail-section">
+              <div class="tb-detail-section-title">
+                <i class="pi pi-replay"></i> Synonyms
+              </div>
+              <div class="tb-synonym-chips">
+                @for (syn of concept.synonyms!; track syn) {
+                  <span class="tb-synonym-chip" (click)="copyToClipboard(syn)" [pTooltip]="'Copy: ' + syn">
+                    {{ syn }}
+                  </span>
+                }
+              </div>
+            </div>
+          }
+
+          <!-- Properties -->
+          @if (selectedConceptProperties().length > 0) {
+            <div class="tb-detail-section">
+              <div class="tb-detail-section-title">
+                <i class="pi pi-list"></i> Properties
+              </div>
+              <div class="tb-props-list">
+                @for (prop of selectedConceptProperties(); track prop.key) {
+                  <div class="tb-prop-row">
+                    <span class="tb-prop-key">{{ prop.key }}</span>
+                    <span class="tb-prop-value">{{ prop.value }}</span>
+                  </div>
+                }
+              </div>
+            </div>
+          }
+
+        </div>
+        } @else {
+          <div class="tb-detail-not-found">
+            <i class="pi pi-exclamation-circle"></i>
+            <span>Concept not found.</span>
+          </div>
+        }
+      }
+
+    </aside>
+  }
+
+</div>
