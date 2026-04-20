@@ -23,6 +23,7 @@ import { LifestyleEventComponent } from './components/case-manager-panel/compone
 import { GenomicSignatureEventComponent } from './components/case-manager-panel/components/genomic-signature-event.component';
 import { VitalsEventComponent } from './components/case-manager-panel/components/vitals-event.component';
 import { VitalsTimelineChartComponent } from './components/case-manager-panel/components/vitals-timeline-chart.component';
+import { AdverseEventEventComponent } from './components/case-manager-panel/components/adverse-event-event.component';
 
 import { 
     Ribbon, HeartPulse, Tags, TestTubeDiagonal, Dna, 
@@ -274,6 +275,7 @@ export class CaseManagerComponent {
     public TreatmentResponseFormComponent = TreatmentResponseFormComponent;
     public VitalsEventComponent = VitalsEventComponent;
     public VitalsTimelineChartComponent = VitalsTimelineChartComponent;
+    public AdverseEventEventComponent = AdverseEventEventComponent;
 
     public readonly PatientCaseDataCategoryChoices = PatientCaseDataCategoryChoices; 
 

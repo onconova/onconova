@@ -439,7 +439,8 @@ onconova-case-manager-panel {
               onconova-performance-status-event,
               onconova-lifestyle-event,
               onconova-genomic-signature-event,
-              onconova-vitals-event {
+              onconova-vitals-event,
+              onconova-adverse-event-event {
                 flex: 1;
                 min-width: 0;
                 width: 100%;
@@ -1556,5 +1557,30 @@ onconova-genomic-signature-event {
         color: var(--p-text-muted-color);
         letter-spacing: 0.02em;
         white-space: nowrap;
+    }
+}
+
+// ── Adverse Event ─────────────────────────────────────────────────────────
+onconova-adverse-event-event {
+    width: 100%;
+
+    .ae-event {
+        display: flex;
+        flex-direction: column;
+        gap: 0.15rem;
+        width: 100%;
+    }
+
+    .ae-event-type {
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: var(--p-text-color);
+        line-height: 1.3;
+    }
+
+    .ae-event-sub {
+        font-size: 0.75rem;
+        color: var(--p-text-muted-color);
+        line-height: 1.4;
     }
 }
