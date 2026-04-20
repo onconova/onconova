@@ -19,7 +19,7 @@
             <div class="flex flex-column ml-auto">
                 <div class="project-search-item-chip text-md mt-2">
                     @let status = parseStatus(project().status!);
-                    <p-tag [value]="status.value" [severity]="status.severity"/>    
+                    <p-tag [value]="status.value" [styleClass]="status.styleClass"/>    
                 </div>
             </div>
         </div>
@@ -133,7 +133,7 @@
 <ng-template #StatusBadge>
     @let status = parseStatus(project().status!);
     <div>
-        <p-tag [value]="status.value" [severity]="status.severity"/>    
+        <p-tag [value]="status.value" [styleClass]="status.styleClass"/>    
     </div>
 </ng-template>
 

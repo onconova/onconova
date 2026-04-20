@@ -1,7 +1,6 @@
-
-<div class="flex">
+<div class="app-page-header">
     <div>
-        <h6 class="mb-0">Research Management</h6>
+        <div class="app-page-breadcrumb">Research Management</div>
         <h2 class="mb-0 mt-0 font-semibold">
             @if (isPersonalPage()) {
                 Your Projects
@@ -9,19 +8,18 @@
                 Projects
             }
         </h2>
-        <div class="text-muted">
+        <div class="text-muted text-sm mt-1">
             @if (isPersonalPage()) {
                 Welcome to your personalized projects search page. You can find all projects of which you are a member.
             } @else {
                 Welcome to the projects search page. You can find all present and past projects here.
             }
-        </div>    
-    </div>    
+        </div>
+    </div>
     <p-button
         icon="pi pi-question-circle"
-        label="Tutorial" 
+        label="Tutorial"
         [outlined]="true"
-        class="ml-auto"
         (onClick)="startTour()"/>
 </div>
 

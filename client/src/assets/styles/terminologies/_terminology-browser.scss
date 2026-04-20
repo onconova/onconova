@@ -14,8 +14,8 @@ $tb-detail-width: 380px;
     margin-bottom: 1.25rem;
     border-radius: 16px;
     background: light-dark(
-        linear-gradient(135deg, color-mix(in srgb, var(--p-primary-500) 10%, #fff) 0%, color-mix(in srgb, var(--p-primary-200) 4%, #f8fafd) 100%),
-        linear-gradient(135deg, color-mix(in srgb, var(--p-primary-600) 22%, #0a1220) 0%, #0a1220 100%)
+        linear-gradient(to right, color-mix(in srgb, var(--p-primary-500) 10%, #fff) 0%, color-mix(in srgb, var(--p-primary-200) 4%, #f8fafd) 100%),
+        linear-gradient(to right, color-mix(in srgb, var(--p-primary-600) 22%, #0a1220) 0%, #0a1220 100%)
     );
     box-shadow:
         0 1px 3px rgba(0, 0, 0, 0.05),
@@ -784,14 +784,10 @@ $tb-detail-width: 380px;
     align-items: center;
     gap: 0.125rem;
     flex-shrink: 0;
-    background: var(--p-surface-100);
+    background: light-dark(var(--p-surface-100), var(--p-surface-800));
     border: 1px solid var(--p-content-border-color);
     border-radius: 6px;
     padding: 0.1875rem;
-}
-
-:root .p-dark .tb-view-toggle {
-    background: var(--p-surface-800);
 }
 
 .tb-view-btn {

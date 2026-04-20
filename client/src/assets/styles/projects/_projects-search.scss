@@ -56,4 +56,18 @@
 
 }
 
+.status-tag--primary.p-tag {
+    background: transparent;
+    border: 1.5px solid var(--p-primary-color);
+    color: var(--p-primary-color);
+    font-weight: 600;
+}
+
+.status-tag--neutral.p-tag {
+    background: transparent;
+    border: 1.5px solid color-mix(in srgb, var(--p-text-color) 35%, transparent);
+    color: var(--p-text-color);
+    opacity: 0.75;
+}
+
 

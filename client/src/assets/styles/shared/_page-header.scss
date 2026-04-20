@@ -1,0 +1,78 @@
+// ── Shared gradient page header ───────────────────────────────────────────────
+// Reusable header block used across browser / search list pages.
+// Usage:
+//   <div class="app-page-header">
+//     <div>
+//       <div class="app-page-breadcrumb">Section</div>
+//       <h2>Page Title</h2>
+//       <div class="text-muted text-sm mt-1">Description…</div>
+//     </div>
+//     <!-- optional right-side slot, e.g. a Tutorial button -->
+//   </div>
+
+.app-page-header {
+    display: flex;
+    align-items: center;
+    gap: 1.125rem;
+    padding: 1.125rem 1.5rem;
+    margin-bottom: 1.25rem;
+    border-radius: 16px;
+    //background: linear-gradient(150deg,var(--p-primary-500-transparent) 0%, rgba(0,0,0,0) 15%);
+    box-shadow:
+        0 1px 3px rgba(0, 0, 0, 0.05),
+        0 4px 16px rgba(0, 0, 0, 0.04),
+        inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    position: relative;
+    overflow: hidden;
+
+    // Inner text block stretches; right-side slot pushes to the end
+    > :first-child {
+        flex: 1;
+        min-width: 0;
+        position: relative;
+        z-index: 1;
+    }
+
+    // Right-side slot (e.g. Tutorial button)
+    > :not(:first-child) {
+        flex-shrink: 0;
+        position: relative;
+        z-index: 1;
+    }
+
+    &::after {
+        content: '';
+        position: absolute;
+        top: -40px;
+        right: -40px;
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        pointer-events: none;
+    }
+
+    h2 {
+        font-size: 1.4375rem;
+        font-weight: 700;
+        line-height: 1.2;
+        position: relative;
+        z-index: 1;
+    }
+
+    .text-muted {
+        position: relative;
+        z-index: 1;
+    }
+}
+
+.app-page-breadcrumb {
+    font-size: 0.625rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--p-primary-color);
+    opacity: 0.7;
+    margin-bottom: 0.1875rem;
+    position: relative;
+    z-index: 1;
+}

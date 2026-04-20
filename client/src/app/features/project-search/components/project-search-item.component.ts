@@ -96,16 +96,16 @@ export class ProjectSearchItemComponent {
         this.#router.navigate(['projects/',this.project().id, 'management'])
     }
 
-    parseStatus(status: ProjectStatusChoices): {value: string, icon: string, severity: string} {
+    parseStatus(status: ProjectStatusChoices): {value: string, icon: string, styleClass: string} {
         switch (status) {
             case ProjectStatusChoices.Planned:
-                return {value: 'Planned', icon: 'pi pi-info', severity: 'secondary'}
+                return {value: 'Planned', icon: 'pi pi-info', styleClass: 'status-tag--neutral'}
             case ProjectStatusChoices.Ongoing:
-                return {value: 'Ongoing', icon: 'pi pi-info', severity: 'info'}
+                return {value: 'Ongoing', icon: 'pi pi-info', styleClass: 'status-tag--primary'}
             case ProjectStatusChoices.Completed:
-                return {value: 'Completed', icon: 'pi pi-check', severity: 'success'}
+                return {value: 'Completed', icon: 'pi pi-check', styleClass: 'status-tag--neutral'}
             case ProjectStatusChoices.Aborted:
-                return {value: 'Aborted', icon: 'pi pi-times', severity: 'danger'}
+                return {value: 'Aborted', icon: 'pi pi-times', styleClass: 'status-tag--neutral'}
             default: 
                 throw new Error(`Unknown status: ${status}`);
         }

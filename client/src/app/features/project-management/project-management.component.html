@@ -19,11 +19,6 @@
                         [styleClass]="'tag ' + (project.value()!.status === ProjectStatusChoices.Ongoing ? 'tag-primary' : 'tag-secondary-outline')"/>
                 }
             </div>
-            @if (project.isLoading()) {
-                <p-skeleton width="28rem" height="1rem" class="mt-2"/>
-            } @else {
-                <p class="project-description">{{ project.value()?.summary }}</p>
-            }
         </div>
     </div>
     <div class="project-page-header-actions">
@@ -93,6 +88,15 @@
             }
         </div>
 
+    </div>
+    
+    <div class="project-info-item mt-2">
+        <span class="info-label">Summary</span>
+        @if (project.isLoading()) {
+            <p-skeleton width="28rem" height="1rem" class="mt-2"/>
+        } @else {
+            <p class="project-description">{{ project.value()?.summary }}</p>
+        }
     </div>
 </p-card>
 
