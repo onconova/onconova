@@ -63,6 +63,7 @@ class TerminologyDigestor:
     CANONICAL_URL: str
     OTHER_URLS: list[str] = []
     LABEL: str
+    VERSION: str
 
     def __init__(self, verbose: bool = True) -> None:
         """
@@ -114,6 +115,13 @@ class TerminologyDigestor:
                 shutil.move(
                     rel_files[0], os.path.join(self.PATH, "snomedct_relations.tsv")
                 )
+
+            # Extract version from release_package_information.json
+            info_pattern = os.path.join(temp_dir, "release_package_information.json")
+            if os.path.isfile(info_pattern):
+                with open(info_pattern) as info_file:
+                    info_data = json.load(info_file)
+                    self.VERSION = info_data.get("effectiveTime", "")
 
             # Remove TEMP_DIR and extracted SnomedCT_* directories
             print("• Clean-up unnecessary files...")
@@ -181,9 +189,14 @@ class NCITDigestor(TerminologyDigestor):
         FILENAME (str): Expected filename containing NCIT data ("ncit.tsv").
         CANONICAL_URL (str): The canonical URL for the NCIT ontology.
     """
+
     LABEL = "ncit"
     FILENAME = "ncit.tsv"
     CANONICAL_URL = "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl"
+    VERSION = "24.09e"
+
+    def get_version(self):
+        return self.VERSION
 
     def _digest_concept_row(self, row):
         """
@@ -223,6 +236,7 @@ class NCITDigestor(TerminologyDigestor):
             parent=parents,
             synonyms=[synonym for synonym in synonyms[1:] if synonym],
             system=self.CANONICAL_URL,
+            version=self.get_version(),
         )
 
 
@@ -238,6 +252,7 @@ class SNOMEDCTDigestor(TerminologyDigestor):
         SNOMED_IS_A (str): SNOMED CT relationship type ID for "is a" relationships.
         SNOMED_DESIGNATION_USES (dict): Mapping of SNOMED CT designation type IDs to usage labels.
     """
+
     LABEL = "snomedct"
     FILENAME = "snomedct.tsv"
     CANONICAL_URL = "http://snomed.info/sct"
@@ -247,6 +262,10 @@ class SNOMEDCTDigestor(TerminologyDigestor):
         "900000000000013009": "SYNONYM",
         "900000000000003001": "FULL",
     }
+
+    def get_version(self):
+        sctid = "900000000000207008"
+        return f"http://snomed.info/sct/{sctid}/version/{self.VERSION}"
 
     def digest(self):
         """
@@ -342,6 +361,7 @@ class LOINCDigestor(TerminologyDigestor):
         CANONICAL_URL (str): Canonical URL for the LOINC system.
         LOINC_PROPERTIES (list): List of LOINC property fields to extract.
     """
+
     FILENAME = "loinc.csv"
     LABEL = "loinc"
     CANONICAL_URL = "http://loinc.org"
@@ -399,6 +419,7 @@ class LOINCDigestor(TerminologyDigestor):
                 else []
             ),
             system=self.CANONICAL_URL,
+            version=row.get("VersionLastChanged", None),
         )
 
     def _digest_part_codes(self):
@@ -438,7 +459,7 @@ class LOINCDigestor(TerminologyDigestor):
         Processes the `loinc_answer_lists.csv` file to extract and store coded concepts for answer lists and their corresponding answers.
 
         This method reads the CSV file containing answer lists and their associated answers, then iterates through each row to:
-        
+
         - Extract the answer list code and display name.
         - Extract the answer code and display text.
         - Add unique answer list concepts to `self.concepts`.
@@ -494,9 +515,11 @@ class ICD10Digestor(TerminologyDigestor):
         FILENAME (str): Name of the file containing ICD-10 data ("icd10.tsv").
         CANONICAL_URL (str): Canonical URL for the ICD-10 code system.
     """
+
     LABEL = "icd10"
     FILENAME = "icd10.tsv"
     CANONICAL_URL = "http://hl7.org/fhir/sid/icd-10"
+    VERSION = "2019"
 
     def _digest_concept_row(self, row):
         """
@@ -521,7 +544,6 @@ class ICD10Digestor(TerminologyDigestor):
         )
 
 
-
 class ICDO3DifferentiationDigestor(TerminologyDigestor):
     """
     ICDO3DifferentiationDigestor is a specialized TerminologyDigestor for processing ICD-O-3 differentiation concepts.
@@ -531,9 +553,11 @@ class ICDO3DifferentiationDigestor(TerminologyDigestor):
         FILENAME (str): Name of the TSV file containing differentiation concepts.
         CANONICAL_URL (str): URL of the HL7 ICD-O-3 differentiation code system.
     """
+
     LABEL = "icdo3diff"
     FILENAME = "icdo3diff.tsv"
     CANONICAL_URL = "http://terminology.hl7.org/CodeSystem/icd-o-3-differentiation"
+    VERSION = "3.2"
 
     def _digest_concept_row(self, row):
         """
@@ -548,6 +572,7 @@ class ICDO3DifferentiationDigestor(TerminologyDigestor):
             code=code,
             display=display,
             system=self.CANONICAL_URL,
+            version=self.VERSION,
         )
 
 
@@ -559,10 +584,13 @@ class ICDO3MorphologyDigestor(TerminologyDigestor):
         LABEL (str): Identifier label for this digestor.
         FILENAME (str): Name of the TSV file containing ICD-O-3 Morphology data.
         CANONICAL_URL (str): Canonical URL for the ICD-O-3 Morphology code system.
+        VERSION (str): Version of the ICD-O-3 Morphology code system.
     """
+
     LABEL = "icdo3morph"
     FILENAME = "icdo3morph.tsv"
     CANONICAL_URL = "http://terminology.hl7.org/CodeSystem/icd-o-3-morphology"
+    VERSION = "3.2"
 
     def digest(self):
         """
@@ -571,7 +599,7 @@ class ICDO3MorphologyDigestor(TerminologyDigestor):
         super().digest()
         self._digest_matrix()
         return self.concepts
-    
+
     def _digest_concept_row(self, row):
         """
         Processes a single concept row and updates the internal concepts dictionary.
@@ -592,6 +620,7 @@ class ICDO3MorphologyDigestor(TerminologyDigestor):
                 code=code,
                 display=display,
                 system=self.CANONICAL_URL,
+                version=self.VERSION,
             )
         if row["Struct"] == "title":
             self.concepts[code].display = display
@@ -600,45 +629,48 @@ class ICDO3MorphologyDigestor(TerminologyDigestor):
 
     def _digest_matrix(self):
         BEHAVIORS = {
-            '0': 'benign',
-            '1': 'uncertain malignancy',
-            '2': 'in situ',
-            '3': 'maglignant',
-            '6': 'metastatic',
+            "0": "benign",
+            "1": "uncertain malignancy",
+            "2": "in situ",
+            "3": "maglignant",
+            "6": "metastatic",
         }
 
         def clean_display(display: str):
             new_display = display
-            new_display = new_display.replace(', beningn','')
-            new_display = new_display.replace('in situ','')
-            new_display = new_display.replace(', metastatic','')
-            new_display = new_display.replace(', malignant','')
-            new_display = new_display.replace(', uncertain whether benign or malignant','')
+            new_display = new_display.replace(", beningn", "")
+            new_display = new_display.replace("in situ", "")
+            new_display = new_display.replace(", metastatic", "")
+            new_display = new_display.replace(", malignant", "")
+            new_display = new_display.replace(
+                ", uncertain whether benign or malignant", ""
+            )
             return new_display
 
         codes = list(self.concepts.keys())
         for code in codes:
             concept = self.concepts[code]
-            code_base = code.split('/')[0]
+            code_base = code.split("/")[0]
             for behavior_code, qualifier in BEHAVIORS.items():
                 query_code = f"{code_base}/{behavior_code}"
-                if query_code not in self.concepts:     
-                    if behavior_code == '1':
-                        concept = self.concepts.get(f"{code_base}/3", concept)      
-                    elif behavior_code == '3':
-                        concept = self.concepts.get(f"{code_base}/1", concept)    
-                    elif behavior_code == '6':
-                        concept = self.concepts.get(f"{code_base}/3", concept)    
-                    elif behavior_code == '2':
-                        concept = self.concepts.get(f"{code_base}/1", concept)           
+                if query_code not in self.concepts:
+                    if behavior_code == "1":
+                        concept = self.concepts.get(f"{code_base}/3", concept)
+                    elif behavior_code == "3":
+                        concept = self.concepts.get(f"{code_base}/1", concept)
+                    elif behavior_code == "6":
+                        concept = self.concepts.get(f"{code_base}/3", concept)
+                    elif behavior_code == "2":
+                        concept = self.concepts.get(f"{code_base}/1", concept)
                     self.concepts[query_code] = CodedConcept(
                         code=query_code,
                         display=f"{clean_display(concept.display)}, {qualifier}",
-                        system=self.CANONICAL_URL,            
-                        synonyms=[f"{clean_display(syn)}, {qualifier}" for syn in concept.synonyms]
+                        system=self.CANONICAL_URL,
+                        synonyms=[
+                            f"{clean_display(syn)}, {qualifier}"
+                            for syn in concept.synonyms
+                        ],
                     )
-            
-            
 
 
 class ICDO3TopographyDigestor(TerminologyDigestor):
@@ -650,9 +682,11 @@ class ICDO3TopographyDigestor(TerminologyDigestor):
         FILENAME (str): Name of the TSV file containing the terminology data.
         CANONICAL_URL (str): Canonical URL for the ICD-O-3 Topography code system.
     """
+
     LABEL = "icdo3topo"
     FILENAME = "icdo3topo.tsv"
     CANONICAL_URL = "http://terminology.hl7.org/CodeSystem/icd-o-3-topography"
+    VERSION = "3.2"
 
     def _digest_concept_row(self, row):
         """
@@ -675,6 +709,7 @@ class ICDO3TopographyDigestor(TerminologyDigestor):
                 display=display,
                 system=self.CANONICAL_URL,
                 parent=code.split(".")[0] if len(code.split(".")) > 1 else None,
+                version=self.VERSION,
             )
         if str(row["Lvl"]) in ["3", "4"]:
             self.concepts[code].display = (
@@ -693,9 +728,11 @@ class HGNCGenesDigestor(TerminologyDigestor):
         FILENAME (str): Expected filename for HGNC data ("hgnc.tsv").
         CANONICAL_URL (str): Base URL for HGNC gene identifiers.
     """
+
     LABEL = "hgnc"
     FILENAME = "hgnc.tsv"
     CANONICAL_URL = "http://www.genenames.org/geneId"
+    VERSION = "2025-08-15"
 
     def _digest_concept_row(self, row):
         """
@@ -737,6 +774,7 @@ class HGNCGenesDigestor(TerminologyDigestor):
             },
             synonyms=synonyms + olds,
             system=self.CANONICAL_URL,
+            version=self.VERSION,
         )
 
 
@@ -749,9 +787,11 @@ class HGNCGroupDigestor(TerminologyDigestor):
         FILENAME (str): Name of the TSV file containing gene group data.
         CANONICAL_URL (str): URL representing the HGNC gene group system.
     """
+
     LABEL = "hgnc-group"
     FILENAME = "hgnc.tsv"
     CANONICAL_URL = "http://www.genenames.org/genegroup"
+    VERSION = "2025-08-15"
 
     def _digest_concept_row(self, row):
         """
@@ -767,6 +807,7 @@ class HGNCGroupDigestor(TerminologyDigestor):
                 code=code,
                 display=display,
                 system=self.CANONICAL_URL,
+                version=self.VERSION,
             )
             if concept.code in self.concepts:
                 continue
@@ -783,6 +824,7 @@ class EnsemblExonsDigestor(TerminologyDigestor):
         FILENAME (str): Expected filename for input data ("ensembl_exons.tsv").
         exons (defaultdict): Stores lists of GeneExon objects keyed by gene name.
     """
+
     LABEL = "ensembl"
     FILENAME = "ensembl_exons.tsv"
 
@@ -797,6 +839,7 @@ class EnsemblExonsDigestor(TerminologyDigestor):
             coding_genomic_start (int | None): The start position of the coding region in genomic coordinates, if available.
             coding_genomic_end (int | None): The end position of the coding region in genomic coordinates, if available.
         """
+
         rank: int
         coding_dna_start: int | None = None
         coding_dna_end: int | None = None
@@ -884,10 +927,26 @@ class SequenceOntologyDigestor(TerminologyDigestor):
         CANONICAL_URL (str): Canonical URL for the Sequence Ontology.
         OTHER_URLS (list): Alternative URLs for the Sequence Ontology.
     """
+
     LABEL = "so"
     FILENAME = "so.obo"
     CANONICAL_URL = "http://www.sequenceontology.org"
     OTHER_URLS = ["http://sequenceontology.org"]
+
+    def get_version(self):
+        """
+        Reads the Sequence Ontology OBO file and extracts the data-version value.
+
+        Returns:
+            str: The version string from the data-version field in the OBO file.
+        """
+        if not getattr(self, "version", None):
+            with open(self.file_location) as file:
+                for line in file:
+                    if line.startswith("data-version:"):
+                        self.version = line.split(":", 1)[1].strip()
+                        return self.version
+        return self.version
 
     def _digest_concept_row(self, row):
         """
@@ -925,6 +984,7 @@ class SequenceOntologyDigestor(TerminologyDigestor):
         self.concepts[code] = CodedConcept(
             code=code,
             display=display,
+            version=self.get_version(),
             definition=definition,
             parent=(
                 ensure_list(row.get("is_a"))[0].split(" ! ")[0]
@@ -945,9 +1005,11 @@ class CTCAEDigestor(TerminologyDigestor):
         FILENAME (str): Name of the CSV file containing CTCAE data ("ctcae.csv").
         CANONICAL_URL (str): Canonical URL for the terminology system (empty by default).
     """
+
     LABEL = "ctcae"
     FILENAME = "ctcae.csv"
-    CANONICAL_URL = ""
+    CANONICAL_URL = "https://www.meddra.org"
+    VERSION = "20.1"
 
     def _digest_concept_row(self, row):
         """
@@ -976,7 +1038,9 @@ class CTCAEDigestor(TerminologyDigestor):
                 ]
             },
             system=self.CANONICAL_URL,
+            version=self.VERSION,
         )
+
 
 class OncoTreeDigestor(TerminologyDigestor):
     """
@@ -988,6 +1052,7 @@ class OncoTreeDigestor(TerminologyDigestor):
         CANONICAL_URL (str): Canonical URL for the OncoTree CodeSystem.
         VERSION (str): Version string based on the current date.
     """
+
     LABEL = "oncotree"
     FILENAME = "oncotree.json"
     CANONICAL_URL = "http://oncotree.mskcc.org/fhir/CodeSystem/snapshot"
@@ -1011,7 +1076,7 @@ class OncoTreeDigestor(TerminologyDigestor):
 
     def _digest_branch(self, branch):
         """
-        Recursively processes a branch of the oncotree, adding its code and associated metadata 
+        Recursively processes a branch of the oncotree, adding its code and associated metadata
         to the concepts dictionary, and then processes all child branches.
 
         Args:
