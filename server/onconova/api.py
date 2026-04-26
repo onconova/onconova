@@ -52,7 +52,7 @@ and clinical research data management."""
 
 api = NinjaExtraAPI(
     title="Onconova API",
-    version="1.3.0",
+    version="1.4.0",
     urls_namespace="onconova",
     servers=[
         dict(
