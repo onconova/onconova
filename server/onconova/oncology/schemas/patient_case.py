@@ -1,5 +1,5 @@
 from datetime import date, datetime
-from typing import Literal, Union
+from typing import Any, Literal, Union
 
 from ninja import Schema
 from pydantic import Field, field_validator, model_validator
@@ -208,4 +208,47 @@ class PatientCaseDataCompletionStatus(Schema):
         default=None,
         title="Timestamp",
         description="Username of the person who marked the category as completed",
+    )
+
+
+class MatchCountRequest(Schema):
+    caseExample: dict[str, Any] | str = Field(
+        ...,
+        title="Case example",
+        description=(
+            "Either a JSON object (`{ \"caseExample\": { ... } }` as produced by aitb-dashboard, "
+            "or the inner partial bundle alone with panel keys at the top level), **or** a JSON "
+            "**string** that parses to one of those objects (same shape as the former GET query "
+            "parameter). Panel keys use camelCase (e.g. `neoplasticEntities`)."
+        ),
+    )
+
+
+class MatchCountResult(Schema):
+    patientCaseCount: int = Field(
+        title="Patient case count",
+        description=(
+            "Number of patient cases in the database that satisfy every coded constraint "
+            "in the payload: each list row adds an independent existence requirement "
+            "(logical AND across rows and across panels). Within one neoplastic row, "
+            "relationship, topography, morphology, and topography group must match one "
+            "neoplastic entity. For staging-style rows where the same field names exist on "
+            "several staging subtypes (for example only a stage code), matching uses OR "
+            "across those subtypes so at least one subtype matches that row. Therapy line "
+            "rows match on ``label``, ``intent``, and/or ``ordinal`` (persisted line "
+            "identity), not on coded concepts. Systemic therapy rows match only on "
+            "antineoplastic ``medications[].drug`` codes (AND across listed drugs). "
+            "Radiotherapy rows match on intent, sessions, therapy line id, termination "
+            "code where present, and nested dosage or setting codes from the case example."
+        ),
+    )
+    patientCountSql: Nullable[str] = Field(
+        default=None,
+        title="Patient count filter SQL",
+        description=(
+            "Interpolated SQL for the PatientCase queryset filter used to compute "
+            "patientCaseCount (PostgreSQL: parameters inlined via mogrify; other backends "
+            "include a params appendix). Diagnostic only; the ORM wraps this filter in "
+            "COUNT for the actual count query."
+        ),
     )

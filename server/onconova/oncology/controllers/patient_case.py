@@ -5,6 +5,7 @@ from django.conf import settings
 from django.db.models import Exists, OuterRef, Q
 from django.shortcuts import get_object_or_404
 from ninja import Field, Query
+from ninja.errors import HttpError
 from ninja_extra import ControllerBase, api_controller, route
 from ninja_extra.ordering import ordering
 from ninja_extra.pagination import paginate
@@ -20,6 +21,11 @@ from onconova.core.utils import COMMON_HTTP_ERRORS
 from onconova.oncology import (
     models as orm,
     schemas as scm,
+)
+from onconova.oncology.match_count import (
+    interpolated_sql_for_case_example_filter,
+    parse_case_example_query_param,
+    patient_cases_queryset_for_case_example,
 )
 
 
@@ -74,6 +80,45 @@ class PatientCaseFilters(scm.PatientCaseFilters):
     tags=["Patient Cases"],
 )
 class PatientCaseController(ControllerBase):
+    # Declare the match-count route before ``GET /{caseId}`` so the literal path is not
+    # treated as a case identifier.
+
+    def _match_count_impl(self, body: scm.MatchCountRequest) -> scm.MatchCountResult:
+        raw = body.caseExample
+        if isinstance(raw, str):
+            if not raw.strip():
+                raise HttpError(
+                    400,
+                    "caseExample must be a non-empty JSON string when sent as a string.",
+                )
+            try:
+                payload = parse_case_example_query_param(raw.strip())
+            except ValueError as e:
+                raise HttpError(400, str(e)) from e
+        else:
+            payload = raw
+        try:
+            qs = patient_cases_queryset_for_case_example(payload)
+            sql = interpolated_sql_for_case_example_filter(qs)
+            n = qs.count()
+        except ValueError as e:
+            raise HttpError(400, str(e)) from e
+        return scm.MatchCountResult(
+            patientCaseCount=n,
+            patientCountSql=sql,
+        )
+
+    @route.post(
+        path="/match-count",
+        response={200: scm.MatchCountResult, **COMMON_HTTP_ERRORS},
+        permissions=[perms.CanViewCases],
+        operation_id="matchCount",
+    )
+    def match_count(
+        self,
+        body: scm.MatchCountRequest,
+    ):
+        return self._match_count_impl(body)
 
     @route.get(
         path="",
